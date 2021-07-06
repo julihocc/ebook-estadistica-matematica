@@ -1,0 +1,166 @@
+\section{Análisis combinatorio}
+
+{}
+El \emph{análisis combinatorio} es una manera sofisticada de contar.
+
+
+\subsection{Principio fundamental del conteo y diagramas de árbol}
+
+Si una tarea se puede realizar en $n$ formas diferentes y otra en $m$ formas diferentes, entonces las dos tareas se pueden realizar en $n\times m$ formas diferentes.
+
+
+{}
+\begin{ejemplo}
+	\label{exmp:1.14}
+\end{ejemplo}
+\begin{enumerate}
+	\item Si una persona tiene 2 camisas y 4 corbatas, ?`de cuantas formas puede combinarlas?
+	\item Construya un diagrama de árbol para representar todas estas opciones.
+\end{enumerate}
+
+
+
+\subsection{Permutaciones}
+{}
+Si tenemos $n$ objetos distintos y queremos ordenarlos tendremos
+\begin{align*}
+	n \times (n-1) \times ... 2\times 1
+\end{align*} formas diferentes de hacerlo.
+
+{}
+\begin{defn}[$n$ factorial]
+	\begin{equation}
+		n! = \begin{cases}
+			1 & n=0 \\
+			n\times(n-1)! & n>0
+		\end{cases}
+	\end{equation}
+	
+\end{defn}
+
+
+{}
+Si tenemos $n$ objetos distintos y queremos arreglar $r$ de estos en una linea, entonces tendremos una \emph{permutación} de $n$ en $r$ dada por
+\begin{align}
+	\label{1.25}
+	P^{n}_{r}=n\times(n-1)\times...\left( n-r+1 \right)
+\end{align} 
+o de manera equivalente
+\begin{align}
+	\label{1.27}
+	P^{n}_{r}=\dfrac{n!}{(n-r)!}
+\end{align}
+
+
+{}
+\begin{ejemplo}
+	\label{exmp:1.16}
+	?`Cuantas permutaciones de longitud 3 se pueden formar con las letras $A,B,C,D,E,F,G$?
+\end{ejemplo}
+
+
+{}
+\begin{ejemplo}
+	\label{exmp:1.17}
+	Encuentre el número de permutaciones diferentes de las 11 letras de la palabra \emph{MISSISSIPPI}.
+\end{ejemplo}
+
+
+\subsection{Combinaciones}
+{}
+En una \emph{permutación}, uno está interesado en el orden de los objetos. Así $abc$ y $bca$ son permutaciones diferentes.  Pero en algunos problemas, uno está interesado sólo en elegir objetos sin importar su orden.  Tales selecciones se llaman \emph{combinaciones}.  Por ejemplo, $abc$ y $bca$ representan la misma combinación.
+
+
+
+El número de combinación $ C^{n}_{r} $ al elegir $r$ objetos de una colección de $n$ diferentes está dada por el \emph{número combinatorio}
+\begin{align}
+	\label{1.29}
+	C^{n}_{r} = \comb{n}{r}=\dfrac{n!}{r!\left( n-r \right)!}
+\end{align}
+
+
+
+{Algunas fórmulas combinatorias}
+\begin{align}
+	\label{1.30}
+	\comb{n}{r}&=\dfrac{P(n,r)}{r!} \\
+	\label{1.31}
+	\comb{n}{r}&=\comb{n}{n-r}\\
+	\comb{n}{r}&=\comb{n-1}{r-1}+\comb{n-1}{r}
+\end{align}
+
+
+{}
+\begin{ejemplo}
+	\label{exmp:1.18}
+	En una baraja inglesa, ?`cuantas formas hay de escoger dos cartas del mismo palo?
+\end{ejemplo}
+
+
+{}
+\begin{thm}[Teorema del binomio]
+	\begin{align}
+		\label{1.32}
+		\left( x+y \right)^{n} = \sum_{r=0}^{n}\comb{n}{r}x^{r}y^{n-r}
+	\end{align}
+	
+\end{thm}
+
+
+{Aproximación de Stirling}
+\begin{align}
+	\label{1.33}
+	n! \approx \sqrt{2\pi n}\left( n^{n}e^{-n} \right)
+\end{align}
+
+
+\subsection{Ejercicios resueltos}
+{}
+\begin{ejemplo}
+	\label{solved:1.22}
+	Se requiere sentar a $5$ hombres y $4$ mujeres en una fila, de manera que estén alternados. ?`Cuantas manera hay de hacer tal arreglo?
+\end{ejemplo}
+
+{}
+\begin{ejemplo}
+	\label{solved:1.29}
+	?`De cuantas manera podemos formar un equipo de 11 personas de un total de 23?
+\end{ejemplo}
+
+{}
+\begin{ejemplo}
+	\label{solved:1.35}
+	Una caja contiene $8$ canicas rojas, $3$ blancas y $9$ azules. Si 3 canicas son obtenidas al azar sin reemplazarse, determine la probabilidad de que
+	\begin{enumerate}
+		\item las tres sean rojas; 
+		\item las tres sean blancas; 
+		\item dos sean rojas y una blanca; 
+		\item al menos una sea blanca; 
+		\item una sea de cada color; 
+		\item sean obtenidas en el siguiente orden: rojo, blanco y azul.
+	\end{enumerate}
+	
+\end{ejemplo}
+
+{}
+\begin{ejemplo}
+	\label{solved:1.36}
+	En un juego de \emph{poker}, 5 cartas se obtienen al azar de una baraja inglesa. Encuentre la probabilidad de que
+	\begin{enumerate}
+		\item 4 sean $A$; 
+		\item 4 sean $A$ y una sea $K$; 
+		\item 3 sean $10$ y dos sean $J$; 
+		\item $9,10,J,Q,K$ en cualquier order; 
+		\item 3 de un palo dado y 2 de otro palo; 
+		\item al menos un $A$ obtenido.
+	\end{enumerate}
+	
+\end{ejemplo}
+
+{}
+\begin{ejemplo}
+	\label{solved:1.37}
+	Determine la probabilidad de obtener tres $6$ en cinco lanzamientos de un dado.
+\end{ejemplo}
+
+%
