@@ -186,7 +186,7 @@ plt.plot(x,yavg)
 plt.title('Actual vs Predicted')
 \end{lstlisting}
 
-[,]{} \tiny
+[,]{} 
 \begin{lstlisting}[language=Python]
    Actual_Output(yact)  Input_Variable(X)  Predicted_Output(ypred)
 0             2.949179           2.678588                 2.803576
@@ -359,7 +359,7 @@ plt.title('Actual vs Predicted vs Model')
 \end{lstlisting}
 
 [,]{}
-\tiny
+
 \begin{lstlisting}[language=Python]
    Actual_Output(yact)  Input_Variable(X)  Predicted_Output(ypred)     betan  \
 0             2.949179           2.678588                 2.803576  0.543137
@@ -643,7 +643,7 @@ print(model1.summary())
 \end{lstlisting}
 De lo cuál obtenemos
 
-[]\tiny
+[]
 \begin{lstlisting}[language=Python]
                             OLS Regression Results
 ==============================================================================
@@ -935,7 +935,7 @@ Utilizando la línea de código
 \end{lstlisting} obtenemos la siguiente tabla que es el resumen del modelo:
 
 
-[,]{} \tiny
+[,]{} 
 \begin{lstlisting}[language=Python]
 
                             OLS Regression Results
@@ -973,7 +973,7 @@ Aunque el estadístico$-F$ decrece, el valor$-p$ asociado también lo hace. Pero
 
 Ahora tratemos de agregar la radio al modelo, en lugar del periódico. El radio tiene la segunda mejor correlación con la variable \texttt{Ventas} en la matriz de correlación que hemos creado anteriormente.  Entonces se espera que existe alguna mejora significativa en el modelo debido a su adición al modelo.  Veamos si esto ocurre o no:
 
-[]{advertisingModel3.py} \tiny
+[]{advertisingModel3.py} 
 \begin{lstlisting}[language=Python]
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
@@ -999,7 +999,7 @@ print(model3.summary())
 \end{lstlisting}
 
 
-[,]{}\tiny
+[,]{}
 \begin{lstlisting}[language=Python]
 #print(model3.params)
 Intercept    2.921100
@@ -1022,7 +1022,7 @@ dtype: float64
 dtype: float64
 \end{lstlisting}
 
-[,]{}\tiny
+[,]{}
 \begin{lstlisting}[language=Python]
 #print(model3.summary())
                             OLS Regression Results
@@ -1044,7 +1044,7 @@ TV             0.0458      0.001     32.909      0.000       0.043       0.048
 Radio          0.1880      0.008     23.382      0.000       0.172       0.204
 ==============================================================================
 Omnibus:                       60.022   Durbin-Watson:                   2.081
-problema(Omnibus):                  0.000   Jarque-Bera (JB):              148.679
+problema(Omnibus):              0.000   Jarque-Bera (JB):              148.679
 Skew:                          -1.323   problema(JB):                     5.19e-33
 Kurtosis:                       6.292   Cond. No.                         425.
 ==============================================================================
@@ -1059,7 +1059,7 @@ Observemos que el valor $R^{2}$ se ha incrementado considerablemente debido a la
 
 El valor \texttt{RSE} puede ser calculado usando el mismo método descrito anteriormente:
 
-[,]{\texttt{advertisingModel3.py }(continuación)} \tiny
+[,]{\texttt{advertisingModel3.py }(continuación)} 
 \begin{lstlisting}[language=Python]
 #RSE
 import numpy as np
@@ -1265,7 +1265,7 @@ print(model5.summary())
 \end{lstlisting}
 
 [,]{\texttt{print(model3.summary())}}
-\tiny
+
 \begin{lstlisting}[language=Python]
                             OLS Regression Results
 ==============================================================================
@@ -1296,7 +1296,7 @@ Warnings:
 \end{lstlisting}
 
 [,]{}
-\tiny
+
 \begin{lstlisting}[language=Python]
                             OLS Regression Results
 ==============================================================================
@@ -1342,7 +1342,7 @@ El modelo puede reescribirse como sigue:
 
 [,]{}
 Ahora, predigamos los valores de las ventas para los valores de prueba:
-\tiny
+
 \begin{lstlisting}[language=Python]
 sales_pred=model5.predict(training[['TV','Radio']])
 sales_pred
@@ -1553,7 +1553,7 @@ print(df.head())
 
 [,]{}
 Deberíamos obtener los siguientes resultados:
-\tiny
+
 \begin{lstlisting}[language=Python]
   Transaction ID  Age    Items   Monthly Income  Transaction Time  Record  \
 0         TXN001    42       10            7313        627.668127       5
@@ -1693,7 +1693,7 @@ variables categóricas y luego agreguémoslas a nuestro marco de datos, como se 
 
 
 [,]{}
-\tiny
+
 \begin{lstlisting}[language=Python]
 dummy_gender=pd.get_dummies(df['Gender'],prefix='Sex')
 dummy_city_tier=pd.get_dummies(df['City Tier'],prefix='City')
@@ -1730,7 +1730,7 @@ marco principal de datos todavía. Vamos a adjuntar estas nuevas variables al ma
 se puede usar en el modelo:
 
 [,]{}
-\tiny
+
 \begin{lstlisting}[language=Python]
   Transaction ID  Age    Items   Monthly Income  Transaction Time  Record  \
 0         TXN001    42       10            7313        627.668127       5
@@ -1771,7 +1771,7 @@ variable de Gasto Total y las variables predictoras: \texttt{Ingreso Mensual} y
 \texttt{Tiempo de transacción}, y ambos conjuntos de variables ficticias:
 
 [,]{}
-\tiny
+
 \begin{lstlisting}[language=Python]
 from sklearn.linear_model import LinearRegression
 feature_cols = ['Monthly Income','Transaction Time','City_Tier 1',\
@@ -1828,7 +1828,7 @@ El modelo se puede escribir de la siguiente manera:
 
 [,]{}
 El RSE se puede calcular de la siguiente manera:
-\tiny
+
 \begin{lstlisting}[language=Python]
 import numpy as np
 df2['total_spend_pred']=3720.72940769 + 0.12*df2['Transaction Time']+ \
@@ -1890,7 +1890,7 @@ print(data.head())
 \end{lstlisting}
 
 [,]{}
-\tiny
+
 \begin{lstlisting}[language=Python]
     mpg  cylinders  displacement  horsepower  weight  acceleration  \
 0  18.0          8         307.0       130.0    3504          12.0
