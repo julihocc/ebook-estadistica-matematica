@@ -1,0 +1,80 @@
+\section{Entendiendo las matemáticas detrás de la regresión lineal}
+
+Supongamos que tenemos una base de datos hipotética que contiene la información acerca del costo (en unidades de $\$10000$) de varias casas y sus respectivos tamaños (en pies cuadrados $ft^{2}$).
+
+
+\begin{center}
+	\begin{tabular}{|l|l|}\hline
+		Tamaño & Costo\\\hline
+		1500 & 45\\\hline
+		1200 & 38\\\hline
+		1700 & 48\\\hline
+		800 & 27\\\hline
+	\end{tabular}
+\end{center}
+
+
+
+En este caso, el costo es la variable de salida, mientras que el tamaño es la variable de entrada. 
+
+La entrada y la salida generalmente se denotan por $X$ y $Y$, respectivamente.
+
+
+En el caso de la regresión lineal, supondremos que el costo $Y$ es una función lineal de tamaño $X$ y para estimar $Y,$ proponemos el modelo \begin{align}
+	Y_{e} = \a + \beta X ,
+\end{align}
+donde $Y_{e}$ es el \emph{valor estimado} de $Y$ con base en nuestra ecuación lineal.
+
+
+\begin{observacion}
+	El propósito de la regresión lineal es encontrar valores $\alpha, \beta$ estadísticamente significativos, que \emph{minimicen} la diferencia entre $Y$ y $Y_{e}.$
+\end{observacion}
+
+
+
+En el caso de nuestro ejemplo, si encontramos los valores de $\a=2$ y $\beta=0.03,$ entonces la ecuación será
+\begin{align}
+	Y_{e}= 2 + 0.03 X.
+\end{align}
+
+
+Usando esta ecuación, podemos estimar el costo una casa de cualquier tamaño.  Por ejemplo, para una casa de $900 ft^{2}$, el costo será
+\begin{align}
+	Y_{e}= 2 + 0.03(900)= 29 .
+\end{align}
+
+
+La siguiente pregunta que nos haremos es como estimar $\a$ y $\beta.$  Para esto usaremos un método llamado suma de  \emph{mínimos cuadrados} para la diferencia entre $Y$ y $Y_{e},$ que representaremos como
+\begin{align}
+	\ep = Y-Y_{e}.
+\end{align}
+
+
+
+Nuestro objetivo es minimizar
+\begin{align}
+	\sum \ep^{2} & = \sum \left( Y-Y_{e} \right)^{2}\\
+	&= \sum \left( Y - \left( \a+\beta X \right) \right)^{2}
+\end{align}
+respecto de los parámetros $\a, \beta.$
+
+
+Utilizando un poco de cálculo, se puede demostrar que los valores de los parámetros que minimizan la suma anterior son
+\begin{align}
+	\label{beta}
+	\beta &= \dfrac{\sum \left( x-\bar{x} \right)\left( y-\bar{y} \right)}{\sum\left( x-\bar{x} \right)^{2}}\\
+	\label{alfa}
+	\a &= \bar{y}-\beta\times \bar{x}
+\end{align}
+
+% \part{NO BORRAR}
+% \section{Recursos}
+% \paragraph{analisisPredictivo}
+% El repositorio con los scripts de \texttt{Python 3} de esta presentación los puede encontrar en \href{https://github.com/julihocc/ulsaPye/tree/master/analisisPredictivo}{https://github.com/julihocc/ulsaPye/tree/master/analisisPredictivo}
+% 
+% [t, ]
+% \frametitle{Referencias}
+% \nocite{*}
+% \betaibliographystyle{amsalpha}
+% \betaibliography{ulsaPye}
+% 

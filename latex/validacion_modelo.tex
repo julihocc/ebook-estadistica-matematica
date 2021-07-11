@@ -1,0 +1,174 @@
+\section{Validación del modelo}
+
+Cualquier modelo predictivo necesita ser validado para observar como es su rendimiento en diferentes conjuntos de datos  y determinar si la precisión del modelo es contante todas fuentes de datos similares o no.
+
+
+Esto nos ayuda a detectar algún \texttt{problemalema del exceso de ajuste (over-fitting)}, en el que el modelo se ajusta
+muy bien en un conjunto de datos, pero no encaja bien en otro conjunto de datos. Un método común es crear un modelo diviendo los datos en categorías de \texttt{entrenamiento/prueba}. Otro método es
+\texttt{validación cruzada de $k$ iteraciones}, sobre la cual aprenderemos más en el capítulo posterior.
+
+\subsection{División entre datos de entrenamiento y prueba}
+
+Idealmente, este paso debería hacerse justo al inicio del proceso de modelado para que
+no haya sesgos de muestreo en el modelo; en otras palabras, el modelo debería funcionar
+bien incluso para un conjunto de datos que tiene las mismas variables de predicción, pero sus medias y
+las varianzas son muy diferentes sobre de las que se ha construido el modelo.
+
+
+Esto puede
+suceder porque el conjunto de datos en el que se basa el modelo (entrenamiento o capacitación) y el de
+que se aplica (prueba) puede provenir de diferentes fuentes. Una forma más robusta de
+hacer esto es un proceso llamado la validación cruzada de $k$ iteraciones, sobre la cual hablaremos en
+detalle en un momento.
+
+
+Veamos cómo podemos dividir el conjunto de datos disponible en el conjunto de datos de entrenamiento y prueba
+y aplicar el modelo al conjunto de datos de prueba para obtener otros resultados:
+
+[,]{\texttt{crossValidation.py}}
+\begin{lstlisting}[language=Python]
+	import pandas as pd
+	import statsmodels.formula.api as smf
+	
+	advert = pd.read_csv("./dataBases/Advertising.csv")
+	model3=smf.ols(formula='Sales~TV+Radio',data=advert).fit()
+	sales_pred=model3.predict(advert[['TV','Radio']])
+	print(sales_pred.head())
+	
+	print(model3.summary())
+	
+	import numpy as np
+	
+	N = len(advert)
+	arr =  np.arange(N)
+	np.random.shuffle(arr)
+	check = arr < 0.8*N
+	training=advert[check].copy()
+	testing=advert[~check].copy()
+\end{lstlisting}
+
+
+Vamos a crear un modelo para entrenar los datos y problemaar el rendimiento del modelo en
+datos de prueba. Creemos el único modelo que funciona mejor (lo hemos encontrado ya),
+el que tiene variables de TV y radio, como variables de predicción:
+
+[,]{}
+\begin{lstlisting}[language=Python]
+	import statsmodels.formula.api as smf
+	model5=smf.ols(formula='Sales~TV+Radio',data=training).fit()
+	print(model5.summary())
+\end{lstlisting}
+
+[,]{\texttt{print(model3.summary())}}
+
+\begin{lstlisting}[language=Python]
+	OLS Regression Results
+	==============================================================================
+	Dep. Variable:                  Sales   R-squared:                       0.897
+	Model:                            OLS   Adj. R-squared:                  0.896
+	Method:                 Least Squares   F-statistic:                     859.6
+	Date:                Sun, 12 Nov 2017   problema (F-statistic):           4.83e-98
+	Time:                        22:40:26   Log-Likelihood:                -386.20
+	No. Observations:                 200   AIC:                             778.4
+	Df Residuals:                     197   BIC:                             788.3
+	Df Model:                           2
+	Covariance Type:            nonrobust
+	==============================================================================
+	coef    std err          t      P>|t|      [0.025      0.975]
+	------------------------------------------------------------------------------
+	Intercept      2.9211      0.294      9.919      0.000       2.340       3.502
+	TV             0.0458      0.001     32.909      0.000       0.043       0.048
+	Radio          0.1880      0.008     23.382      0.000       0.172       0.204
+	==============================================================================
+	Omnibus:                       60.022   Durbin-Watson:                   2.081
+	problema(Omnibus):                  0.000   Jarque-Bera (JB):              148.679
+	Skew:                          -1.323   problema(JB):                     5.19e-33
+	Kurtosis:                       6.292   Cond. No.                         425.
+	==============================================================================
+	
+	Warnings:
+	[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+\end{lstlisting}
+
+[,]{}
+
+\begin{lstlisting}[language=Python]
+	OLS Regression Results
+	==============================================================================
+	Dep. Variable:                  Sales   R-squared:                       0.906
+	Model:                            OLS   Adj. R-squared:                  0.904
+	Method:                 Least Squares   F-statistic:                     753.7
+	Date:                Sun, 12 Nov 2017   problema (F-statistic):           3.22e-81
+	Time:                        22:40:26   Log-Likelihood:                -299.60
+	No. Observations:                 160   AIC:                             605.2
+	Df Residuals:                     157   BIC:                             614.4
+	Df Model:                           2
+	Covariance Type:            nonrobust
+	==============================================================================
+	coef    std err          t      P>|t|      [0.025      0.975]
+	------------------------------------------------------------------------------
+	Intercept      2.8708      0.318      9.035      0.000       2.243       3.498
+	TV             0.0448      0.001     30.797      0.000       0.042       0.048
+	Radio          0.1959      0.009     22.803      0.000       0.179       0.213
+	==============================================================================
+	Omnibus:                       11.888   Durbin-Watson:                   2.158
+	problema(Omnibus):                  0.003   Jarque-Bera (JB):               13.175
+	Skew:                          -0.696   problema(JB):                      0.00138
+	Kurtosis:                       2.807   Cond. No.                         438.
+	==============================================================================
+	
+	Warnings:
+	[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+\end{lstlisting}
+
+
+La mayoría de los parámetros del modelo, como la intercepción, las estimaciones de coeficientes y $R^2$ son
+muy similares.
+
+
+La diferencia en el estadístico$-F$ se puede atribuir a un conjunto de datos más pequeño. Cuanto menor sea el conjunto de datos, mayor será el valor de \texttt{SSD} y menor será el valor de
+el término $(n-p-1)$ en la fórmula del estadístico$-F$; ambos contribuyen a la disminución en el valor estadístico$-F.$
+
+
+El modelo puede reescribirse como sigue:
+\begin{align}
+	\texttt{Ventas} \sim 2.86 + 0.04*\texttt{TV} + 0.17*\texttt{Radio}
+\end{align}
+
+[,]{}
+Ahora, predigamos los valores de las ventas para los valores de prueba:
+
+\begin{lstlisting}[language=Python]
+	sales_pred=model5.predict(training[['TV','Radio']])
+	sales_pred
+\end{lstlisting}
+
+
+El valor \texttt{RSE} para esta predicción en el conjunto de datos de prueba puede ser calculadas usando el siguiente pedazo de código:
+
+[,]{}
+\begin{lstlisting}[language=Python]
+	testing['sales_pred']=2.86 + 0.04*testing['TV'] + 0.17*testing['Radio']
+	n = len(testing)
+	p = 2
+	testing['SSD']=(testing['Sales']-testing['sales_pred'])**2
+	SSD=testing.sum()['SSD']
+	RSE=np.sqrt(SSD/(n-p-1))
+	salesmean=np.mean(testing['Sales'])
+	error=RSE/salesmean
+	print(RSE,salesmean,error)
+	##2.33080393856 14.527500000000003 0.160440814907
+\end{lstlisting}
+
+
+El valor \texttt{RSE} resulta ser $2.54$ sobre una venta promedio (en el conjunto de datos) de $14.80$, lo cual es un error del $17\%$.
+
+
+Podemos ver que el modelo no se generaliza muy bien en el conjunto de datos de prueba, ya que el valor \texttt{RSE} para el mismo modelo es diferente en los dos casos.
+
+
+Implica un cierto grado de exceso de ajuste cuando tratamos de construir el modelo basado en todo el conjunto de datos.
+
+
+El valor \texttt{RSE} con
+la división de pruebas de entrenamiento, aunque un poco mayor, es más confiable y replicable.

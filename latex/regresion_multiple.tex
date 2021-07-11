@@ -1,0 +1,461 @@
+\section{Regresión lineal múltiple}
+
+Cuando la regresión lineal involucra más de un predictor, entonces es llamada \emph{regresión lineal múltiple}.
+
+
+
+La naturaleza del modelo permanece igual, lineal, excepto que puede haber múltiples pendientes $\beta_{i}$ asociadas con cada predictor.
+
+
+
+
+El modelo se representaría como sigue:
+\begin{align}
+	Y = \a + \beta_{1}X_{1}+...+\beta_{n}X_{n}
+\end{align}
+
+
+
+Cada $\beta_{i}$ se estimará usando el mismo método, \emph{mínimos cuadrados}; por tanto, tendríamos un valor$-p$ asociado con las estimación: 
+\begin{enumerate}
+	\item Entre más pequeño sea este, más significativo será la variable para el modelo. 
+	\item En cambio, las variables con valores$-p$ muy grandes deberán ser eliminadas del mismo.
+\end{enumerate}
+
+
+\paragraph{Pros y contras}
+\begin{enumerate}
+	\item Como la regresión lineal múltiple nos da la posibilidad de incluir más variables como predictores, entonces se incrementa la eficiencia del modelo. 
+	
+	\item Sin embargo, también incrementa la complejidad del proceso de construcción del modelo, ya que la selección de las variables significativas puede ser tedioso.
+\end{enumerate}
+
+
+[]{}
+Con una base de datos simples de tres predictores, como en el ejemplo de la publicidad, puede haber varios modelos. Estos son:
+\begin{enumerate}[Modelo 1:]
+	\item \texttt{Ventas$\sim$TV}
+	\item \texttt{Ventas$\sim$periódico}
+	\item \texttt{Ventas$\sim$radio}
+	\item \texttt{Ventas$\sim$TV+radio}
+	\item \texttt{Ventas$\sim$TV+periódico}
+	\item \texttt{Ventas$\sim$Periódico+radio}
+	\item \texttt{Ventas$\sim$TV+radio+periódico}
+\end{enumerate}
+
+
+
+\begin{observacion}
+	Un modelos con $n$ posibles predictores, tendrá $2^{n}-1$ posibles modelos. Por tanto, a medida que los predictores se incrementan, la selección se volverá laboriosa.
+\end{observacion}
+
+
+
+Afortunadamente, tenemos algunos lineamientos para filtrar predictores y escoger los más eficientes:
+\begin{itemize}
+	\item Mantenga las variables con valores$-p$ más bajos y elimine aquellas con valores$-p$ más altos. 
+	\item La inclusión de una variable al modelos idealmente debería incrementar el valor $R^{2}.$  Sin embargo, más adelante \emph{ajustaremos} dicho valor para que sea un indicador más confiable.
+\end{itemize}
+
+
+[]{}
+Con base en lo anterior, hay dos enfoques para seleccionar los predictores que quedarán en el modelo final:
+
+
+\paragraph{Selección progresiva}
+\begin{enumerate}
+	\item En este enfoque, empezamos con modelo vació (sin predictores) y entonces, comenzamos adicionando variables predictoras una por una. 
+	\item La variable cuya adición resulte en el modelo con la menos de la suma residual de cuadrados será adicionada primero al modelo. \item Si el valor$-p$ para la variable es suficientemente pequeña y el valor $R^{2}$ (ajustado) crece, el predictor se incluye en el modelo. 
+	\item En otro caso, no.
+\end{enumerate}
+
+
+\paragraph{Selección regresiva}
+\begin{enumerate}
+	\item En este enfoque, empezamos con un modelo que tiene todas las variables predictoras en el modelo y descartamos algunas de ellas.
+	
+	
+	\item Si el valor$-p$ de una variable predictora es grande y el valor $R^{2}$ (ajustado) decrece, el predictor se descarta del modelo.
+	
+	
+	
+	\item En otro caso, permanece en el.
+\end{enumerate}
+
+
+
+Muchos programas estadísticos, incluyendo Python, dan opciones para seleccionar entre los dos enfoques anteriores cuando se implementa una regresión lineal.
+
+
+Por ahora, agreguemos algunas variables y veamos como cambia el modelo y la eficiencia, de manera que podamos tener un mejor panorama de que está tras el telón cuando estos enfoque se implementan en un programa estadístico.
+
+\subsection{Modelo 2: \texttt{'Sales$\sim$TV+Newspaper'}}
+
+\begin{enumerate}
+	\item Nosotros ya hemos visto un modelo suponiendo una relación lineal entre ventas y costos de publicidad en TV, 
+	\item Podemos ignorar los otros modelos que consisten de una sola variable.
+	%(esto es, el periódico y el radio, ya que tienen coeficientes de correlación pequeños comparados con la TV).
+	
+	\item Ahora tratemos de agregar más variables al modelo que ya tenemos y veamos como los parámetros cambian su eficiencia.
+\end{enumerate}
+
+
+[]{\texttt{advertisingModel2.py}}
+\begin{lstlisting}[language=Python]
+	import pandas as pd
+	import statsmodels.formula.api as smf
+	
+	advert = pd.read_csv("./dataBases/Advertising.csv")
+	model2=smf.ols(formula='Sales~TV+Newspaper',
+	data=advert).fit()
+	print(model2.params)
+	print(model2.pvalues)
+	print(model2.rsquared)
+\end{lstlisting}
+
+
+[,]{}
+\begin{lstlisting}[language=Python]
+	Intercept    5.774948
+	TV           0.046901
+	Newspaper    0.044219
+	dtype: float64
+	Intercept    3.145860e-22
+	TV           5.507584e-44
+	Newspaper    2.217084e-05
+	dtype: float64
+	0.645835493829
+\end{lstlisting}
+
+
+Los valores$-p$ para los coeficientes son muy pequeños, lo que sugiere que todos los estimados son significantes.  La ecuación para este modelo será
+\begin{align}
+	\texttt{Ventas} = 5.77 + 0.046*\texttt{TV} + 0.04*\texttt{Periódico}
+\end{align}
+
+
+El valor $R^{2}$ es $0.6458$, el cuál resulta en una mejora muy pequeña del valor obtenido en el modelo anterior.
+
+[]{}
+Los valores pueden ser predichos usando el siguiente retazo de código:
+\begin{lstlisting}[language=Python]
+	sales_pred=model2.predict(advert[['TV','Newspaper']])
+	print(sales_pred.head())
+\end{lstlisting}
+
+[,]{}
+\begin{lstlisting}[language=Python]
+	0    19.626901
+	1     9.856348
+	2     9.646055
+	3    15.467318
+	4    16.837102
+	dtype: float64
+\end{lstlisting}
+
+[,]{}
+Para calcular el valor \texttt{RSE}, utilizamos las siguientes líneas
+\begin{lstlisting}[language=Python]
+	#RSE
+	import numpy as np
+	advert['sales_pred']= 5.77 + 0.046901*advert['TV'] + \
+	0.044219*advert['Newspaper']
+	advert['SSD'] = (advert['Sales']- \
+	advert['sales_pred'])**2
+	SSD=advert.sum()['SSD']
+	n = len(advert["Sales"])
+	print("n",n)
+	p = 2
+	RSE=np.sqrt(SSD/(n-p-1))
+	print("RSE", RSE)
+	salesmean=np.mean(advert['Sales'])
+	print("salesmean", salesmean)
+	error=RSE/salesmean
+	print("error", error)
+\end{lstlisting}
+
+[,]{}
+\begin{lstlisting}[language=Python]
+	n 200
+	RSE 3.12072391442
+	salesmean 14.022500000000003
+	error 0.222551179492
+\end{lstlisting}
+
+
+El valor $RSE$ resulta ser $3.12 (22\%)$, no muy diferente del modelo sólo con la $TV$. En la fórmula, $p=2$ porque es el número de predictores que estamos utilizando en el modelo.
+
+[]
+Utilizando la línea de código
+\begin{lstlisting}[language=Python]
+	print(model2.summary())
+\end{lstlisting} obtenemos la siguiente tabla que es el resumen del modelo:
+
+
+[,]{} 
+\begin{lstlisting}[language=Python]
+	
+	OLS Regression Results
+	==============================================================================
+	Dep. Variable:                  Sales   R-squared:                       0.646
+	Model:                            OLS   Adj. R-squared:                  0.642
+	Method:                 Least Squares   F-statistic:                     179.6
+	Date:                Fri, 03 Nov 2017   problema (F-statistic):           3.95e-45
+	Time:                        21:57:12   Log-Likelihood:                -509.89
+	No. Observations:                 200   AIC:                             1026.
+	Df Residuals:                     197   BIC:                             1036.
+	Df Model:                           2
+	Covariance Type:            nonrobust
+	==============================================================================
+	coef    std err          t      P>|t|      [0.025      0.975]
+	------------------------------------------------------------------------------
+	Intercept      5.7749      0.525     10.993      0.000       4.739       6.811
+	TV             0.0469      0.003     18.173      0.000       0.042       0.052
+	Newspaper      0.0442      0.010      4.346      0.000       0.024       0.064
+	==============================================================================
+	Omnibus:                        0.658   Durbin-Watson:                   1.969
+	problema(Omnibus):                  0.720   Jarque-Bera (JB):                0.415
+	Skew:                          -0.093   problema(JB):                        0.813
+	Kurtosis:                       3.122   Cond. No.                         410.
+	==============================================================================
+	
+	Warnings:
+	[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+\end{lstlisting}
+
+
+Aunque el estadístico$-F$ decrece, el valor$-p$ asociado también lo hace. Pero es solo una mejora marginal al modelo, como podemos ver en el valor $R^{2}.$ De manera que agregar el periódico no mejora sustantivamente el modelo.
+
+\subsection{Modelo 3: \texttt{'Ventas$\sim$TV+Radio'}}
+
+Ahora tratemos de agregar la radio al modelo, en lugar del periódico. El radio tiene la segunda mejor correlación con la variable \texttt{Ventas} en la matriz de correlación que hemos creado anteriormente.  Entonces se espera que existe alguna mejora significativa en el modelo debido a su adición al modelo.  Veamos si esto ocurre o no:
+
+[]{advertisingModel3.py} 
+\begin{lstlisting}[language=Python]
+	#!/usr/bin/env python3
+	# -*- coding: utf-8 -*-
+	import pandas as pd
+	import statsmodels.formula.api as smf
+	
+	advert = pd.read_csv("./dataBases/Advertising.csv")
+	model3=smf.ols(formula='Sales~TV+Radio',data=advert).fit()
+	print(model3.params)
+	print(model3.pvalues)
+	
+	a = model3.params[0]
+	btv = model3.params[1]
+	bradio = model3.params[2]
+	
+	advert["sales_pred"] = a + btv * advert["TV"] + \
+	bradio * advert["Radio"]
+	
+	sales_pred=model3.predict(advert[['TV','Radio']])
+	print(sales_pred.head())
+	
+	print(model3.summary())
+\end{lstlisting}
+
+
+[,]{}
+\begin{lstlisting}[language=Python]
+	#print(model3.params)
+	Intercept    2.921100
+	TV           0.045755
+	Radio        0.187994
+	dtype: float64
+	
+	#print(model3.pvalues)
+	Intercept    4.565557e-19
+	TV           5.436980e-82
+	Radio        9.776972e-59
+	dtype: float64
+	
+	#print(sales_pred.head())
+	0    20.555465
+	1    12.345362
+	2    12.337018
+	3    17.617116
+	4    13.223908
+	dtype: float64
+\end{lstlisting}
+
+[,]{}
+\begin{lstlisting}[language=Python]
+	#print(model3.summary())
+	OLS Regression Results
+	==============================================================================
+	Dep. Variable:                  Sales   R-squared:                       0.897
+	Model:                            OLS   Adj. R-squared:                  0.896
+	Method:                 Least Squares   F-statistic:                     859.6
+	Date:                Sun, 05 Nov 2017   problema (F-statistic):           4.83e-98
+	Time:                        20:09:44   Log-Likelihood:                -386.20
+	No. Observations:                 200   AIC:                             778.4
+	Df Residuals:                     197   BIC:                             788.3
+	Df Model:                           2
+	Covariance Type:            nonrobust
+	==============================================================================
+	coef    std err          t      P>|t|      [0.025      0.975]
+	------------------------------------------------------------------------------
+	Intercept      2.9211      0.294      9.919      0.000       2.340       3.502
+	TV             0.0458      0.001     32.909      0.000       0.043       0.048
+	Radio          0.1880      0.008     23.382      0.000       0.172       0.204
+	==============================================================================
+	Omnibus:                       60.022   Durbin-Watson:                   2.081
+	problema(Omnibus):              0.000   Jarque-Bera (JB):              148.679
+	Skew:                          -1.323   problema(JB):                     5.19e-33
+	Kurtosis:                       6.292   Cond. No.                         425.
+	==============================================================================
+	
+	Warnings:
+	[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+\end{lstlisting}
+
+
+Observemos que el valor $R^{2}$ se ha incrementado considerablemente debido a la adición de la radio al modelo. De la misma manera, el estadístico$-F$ se incrementado considerablemente del último modelo indicando un modelo altamente eficiente.
+
+
+El valor \texttt{RSE} puede ser calculado usando el mismo método descrito anteriormente:
+
+[,]{\texttt{advertisingModel3.py }(continuación)} 
+\begin{lstlisting}[language=Python]
+	#RSE
+	import numpy as np
+	
+	advert['SSD'] = (advert['Sales']- \
+	advert['sales_pred'])**2
+	SSD=advert.sum()['SSD']
+	n = len(advert["Sales"])
+	print("n",n)
+	p = 2
+	RSE=np.sqrt(SSD/(n-p-1))
+	print("RSE", RSE)
+	salesmean=np.mean(advert['Sales'])
+	print("salesmean", salesmean)
+	error=RSE/salesmean
+	print("error", error)
+\end{lstlisting}
+
+
+[,]{}
+\begin{lstlisting}[language=Python]
+	n 200
+	RSE 1.68136091251
+	salesmean 14.022500000000003
+	error 0.119904504369
+\end{lstlisting}
+
+
+El valor para este modelos es $\approx 1.68 (12\%)$, el cual es mucho mejor que el $22\sim23\%$ de los modelos anteriores.
+
+\subsection{Modelo 3: \texttt{'Ventas$\sim$TV+Radio+Newspaper'}}
+
+\begin{problema}
+	Desarrolle un modelo para
+	\begin{center}
+		\texttt{``Ventas''$\sim$``TV+Radio+Periódico''};
+	\end{center}
+	haga un análisis de los estadísticos asociados.  Con base en estas observaciones, trata de responde porque el modelo resulta poco beneficiado de la incorporación del predictor ``Periódico''.
+\end{problema}
+
+
+\paragraph{Conclusiones sobre el modelo}
+\begin{itemize}
+	\item Existe un coeficiente negativo pequeño para el \texttt{periódico}.  Cuando consideramos sólo \texttt{TV} y \texttt{periódico}, el coeficiente de periódico fue significativamente positivo. 
+	\item Para este modelo, el estadístico$-F$ ha decrecido considerablemente de $859.6$ a $570.3$. 
+	\item Sin embargo, el valor \texttt{RSE} se incremento aunque de manera modesta. 
+\end{itemize}
+Con todas estas consideraciones, concluimos que la incorporación del \texttt{periódico} al modelo es poco eficiente (¿porqué?).
+
+\subsection{Multicolinealidad}
+
+La \emph{multicolinealidad} es la razón para el desempeño subóptimo del modelo cuando el predictor \texttt{periódico} es añadido al modelo final.
+
+La multicolinealidad alude a la correlación entre los propios predictores del modelo.
+
+
+Estas son algunas de las señales de este problemalema común encontrado durante la regresión lineal:  Algunas páginas atrás, cuando creamos la \emph{matriz de correlación} para este conjunto de datos, encontramos que existe una correlación importante de $0.35$ entre el radio y el periódico.
+
+Esto significa que el gasto en periódico esta relacionado con el gasto en radio. La relación entre predictores incrementa la variabilidad de los estimados de los coeficientes de las variables predictoras relacionadas.
+
+
+El estadístico$-t$ para este coeficiente es calculado al dividir el valor promedio por el la \texttt{variabilidad}.  A medida que la variabilidad se incrementa, el valor del estadístico decrementa y entonces el valor$-p$ crece. 
+
+Por lo cual la problemaabilidad de que la hipótesis nula asociada con el estadístico$-F$ sea aceptado se incrementan. Esto reduce la significación del predictor en el modelo.
+
+
+Por tanto, la colinealidad es un problemalema que debe ser tomado en cuenta.  Para predictores altamente correlacionados, necesitamos hacer un análisis más a fondo con estas variables y ver cuales inclusiones en el modelo lo hacen más eficaz.
+
+
+Es una buena práctica identificar parejas de predictores con alta correlación, usando la matriz de correlación y verificar el efecto de la multicolinealidad en el modelo.  Las variables responsables deben de ser removidas del modelo: El \emph{factor de inflación de varianza} ( \texttt{VIF}, por sus siglas en inglés) es un método para abordar este problemalema.
+
+\paragraph{\texttt{VIF} (Variance Inflation Factor)}
+Es un método para cuantificar el aumento de la variabilidad del estimado del coeficiente de una variable particular debido a la alta correlación entre dos o más predictores.
+
+
+El cuantificador \texttt{VIF} necesita ser calculado para cada una de las variables y si el valor es muy alto para una en particular, esta debe ser eliminada del modelo.
+
+[]{}
+El siguiente es el proceso subyacente para calcular el valor \texttt{VIF}:
+\begin{enumerate}
+	\item Calcule $X_{i}$ como una función lineal de otras variables predictoras:
+	\begin{align}
+		X_{i}=\sum_{j\neq i}a_{j}X_{j}
+	\end{align}
+	\item Calcule el valor $R^{2}$ para este modelo y denótelo por $R^{2}_{i}.$ El valor \texttt{VIF} para $X_{i}$ está dado por
+	\begin{align}
+		\texttt{VIF}= \dfrac{1}{1-R_{i}^{2}}
+	\end{align} 
+	\item
+	\begin{itemize}
+		\item $VIF=1$: Los predictores no están correlacionados.
+		\item $1<VIF<5$: Las predictores estás moderadamente correlacionados con otros predictores y pueden seguir siendo parte del modelo.
+		\item $5<VIF$: Los predictores están altamente correlacionados y necesitan ser eliminados del modelo.
+	\end{itemize}
+	
+\end{enumerate}
+
+
+
+Podemos calcular los valores \texttt{VIF} asociados a cada predictor con el siguiente retazo de código:
+
+[,]{\texttt{VIF.py}}
+\begin{lstlisting}[language=Python]
+	modelN = smf.ols(formula = "Newspaper~TV+Radio", data = advert).fit()
+	r2N = modelN.rsquared
+	VIFN = 1/(1-r2N)
+	print("VIF(Newspaper):", VIFN)
+	
+	modelT = smf.ols(formula = "TV~Newspaper+Radio", data = advert).fit()
+	r2T = modelT.rsquared
+	VIFT = 1/(1-r2T)
+	print("VIF(TV):", VIFT)
+	
+	modelR = smf.ols(formula = "Radio~TV+Newspaper", data = advert).fit()
+	r2R = modelR.rsquared
+	VIFR = 1/(1-r2R)
+	print("VIF(Radio):", VIFR)
+\end{lstlisting}
+
+[,]{}
+Del cual obtenemos los siguientes resultados
+\begin{lstlisting}[language=Python]
+	VIF(Newspaper): 1.14518737872
+	VIF(TV): 1.00461078494
+	VIF(Radio): 1.14495191711
+\end{lstlisting}
+
+
+Los predictores \texttt{Newpaper} y \texttt{Radio} tienen prácticamente los mismos valores \texttt{VIF}, indicando que están correlacionados uno con el otro y no así con el predictor \texttt{TV}.
+
+
+En este caso, la radio y el periódico están fuertemente correlacionados. Sin embargo, el modelo con \texttt{TV} y \texttt{Radio} como predictores es mucho mejor que aquel con \texttt{TV} y \texttt{Newspaper} como tales.
+
+
+El modelo con las tres variables como predictores no mejora mucho el modelo. De hecho, incrementa la variabilidad y el estadístico$-F.$
+
+
+Parece adecuado abandonar el predictor \texttt{Newpaper} del modelo y escoger el modelo 3 como el mejor candidato para el modelo final:
+\begin{align}
+	\texttt{Ventas} = 2.92 + 0.45*\texttt{TV} + 0.18*\texttt{Radio}
+\end{align}
+

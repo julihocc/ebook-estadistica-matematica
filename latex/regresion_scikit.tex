@@ -1,0 +1,123 @@
+\section{Regresión lineal con \texttt{scikit-learn}}
+
+Vamos a implementar el modelo de regresión lineal utilizando el paquete \texttt{scikit-learn}. Este método es más elegante ya que tiene más métodos incorporados para realizar
+los procesos regulares asociados con la regresión.
+
+
+Por ejemplo, podrías recordar
+del último capítulo que hay un método separado para dividir el conjunto de datos en
+entrenamiento y prueba de conjuntos de datos:
+
+[,]{\texttt{scikitExample.py}}
+\begin{lstlisting}[language=Python]
+	advert = pd.read_csv("./dataBases/Advertising.csv")
+	feature_cols = ['TV', 'Radio']
+	X = advert[feature_cols]
+	Y = advert['Sales']
+	trainX,testX,trainY,testY = train_test_split(X,Y, test_size = 0.2)
+	lm = LinearRegression()
+	lm.fit(trainX, trainY)
+\end{lstlisting}
+
+[,]{}
+El siguiente código nos devuelve los parámetros
+\begin{lstlisting}[language=Python]
+	print(lm.intercept_)
+	for _ in zip(feature_cols, lm.coef_):
+	print(_)
+\end{lstlisting}
+
+[,]{}
+El valor $R^{2}$ se obtiene de la siguiente manera
+\begin{lstlisting}[language=Python]
+	print("R2 =", lm.score(trainX, trainY))
+\end{lstlisting}
+
+[,]{}
+Un resultado típico de este código sería
+\begin{lstlisting}[language=Python]
+	2.73465274245
+	('TV', 0.046830472078714387)
+	('Radio', 0.18642021416992249)
+	R2 = 0.893905959809
+\end{lstlisting}
+
+
+Los valores de $R^{2}$ resultan alrededor del $89\%,$ muy cercanos al valor obtenido por el método usado anteriormente.
+
+[,]{}
+El modelo puede ser usado para predecir el valor de las ventas usando los predictores \texttt{TV} y \texttt{Radio} del conjunto de datos de prueba, como sigue:
+\begin{lstlisting}[language=Python]
+	lm.predict(testX)
+\end{lstlisting}
+
+
+\subsection{Selección de características con \texttt{scikit-learn}}
+
+Muchas de las herramientas y paquetes estadísticos tienen métodos incorporados para
+llevar a cabo un proceso de selección de variables (selección hacia adelante y selección hacia atrás).
+
+
+Si
+se hace manualmente, consumirá mucho tiempo y seleccionar los más importantes  variables serán una tarea tediosa que compromete la eficiencia del modelo.
+
+
+Una ventaja de usar el paquete \texttt{scikit-learn} para la regresión en Python es
+que tiene este método particular para la selección de características. Esto funciona más o menos como
+selección hacia atrás (no exactamente) y se llama \texttt{eliminación de características recursivas}, (\texttt{RFE}, por sus siglas en inglés).
+Se puede especificar el número de variables que desean en el modelo final.
+
+
+El modelo se ejecuta primero con todas las variables y se asignan ciertos pesos a todos
+las variables. En las iteraciones siguientes, las variables con los pesos más pequeños
+se borran de la lista de variables hasta que se deja el número deseado de variables.
+
+
+Veamos cómo se puede hacer una selección de funciones en \texttt{scikit-learn}:
+
+[,]{\texttt{RFE.py}}
+\begin{lstlisting}[language=Python]
+	import pandas as pd
+	advert = pd.read_csv("./dataBases/Advertising.csv")
+	
+	from sklearn.feature_selection import RFE
+	from sklearn.svm import SVR
+	feature_cols = ['TV', 'Radio','Newspaper']
+	X = advert[feature_cols]
+	Y = advert['Sales']
+	estimator = SVR(kernel="linear")
+	selector = RFE(estimator,2,step=1)
+	selector = selector.fit(X, Y)
+\end{lstlisting}
+
+
+Usamos los métodos denominados \texttt{RFE} y \texttt{SVR} integrados en \texttt{scikit-learn}. Indicamos que
+queremos estimar un modelo lineal y que el número de variables deseadas en el modelo son dos.
+
+[,]{}
+Para obtener la lista de variables seleccionadas, uno puede escribir el siguiente fragmento de código:
+\begin{lstlisting}[language=Python]
+	print(selector.support_)
+	##[ True  True False]
+\end{lstlisting}
+
+
+En nuestro caso, \texttt{X} consta de tres variables: \texttt{TV}, \texttt{Radio} y \texttt{Newpaper}. La matriz anterior sugiere que la TV y la radio se han seleccionado para el modelo, mientras que
+el periódico no ha sido seleccionado. Esto concuerda con la selección de variables que tuvimos hecho manualmente
+
+[]
+Este método también devuelve una clasificación, como se describe en el siguiente ejemplo:
+\begin{lstlisting}[language=Python]
+	print(selector.ranking_)
+	##[1 1 2]
+\end{lstlisting}
+
+
+
+\begin{observacion}
+	Todas las variables seleccionadas tendrán una clasificación de 1 mientras que las siguientes serán
+	clasificadas en orden descendente respecto de su importancia. Una variable con rango 2 será más
+	significativa para el modelo que la que tiene un rango de 3 y así sucesivamente.
+\end{observacion}
+
+
