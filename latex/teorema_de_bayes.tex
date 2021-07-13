@@ -1,0 +1,92 @@
+\section{Teorema de Bayes}
+
+Si tanto $ P(A) $ como $ P(B) $ son diferentes de cero, entonces, a partir de la definición de probabilidad condicional, podemos deducir que 
+\begin{align}
+	P(A \cap B) &=P(A)\cdot P(B|A)\\
+	P(B \cap A) &=P(B)\cdot P(A|B),
+\end{align}
+y como $ P(A\cap B)= P(B\cap A) $, concluimos 
+\begin{align}
+	P(A)\cdot P(B|A) = P(B)\cdot P(A|B)
+\end{align}
+y por tanto 
+\begin{align}
+	P(A|B)=\dfrac{P(A)\cdot P(B|A)}{P(B)}.
+\end{align}
+El resultado es conocido como \emph{teorema de Bayes.}
+
+\subsection{Generalizaciones}
+
+El resultado anterior se puede extender de la siguiente manera: Como 
+\begin{align}
+	\begin{cases}
+		(B\cap A) \cup (B \cap A') &= B\\
+		(B\cap A) \cap (B \cap A') &= \emptyset\\
+	\end{cases},
+\end{align}
+entonces
+\begin{align}
+	P(B) & = P\left( (B\cap A) \cup (B \cap A') \right)\\
+	&= P(B\cap A) + P(B\cap A')\\
+	&= P(B|A)P(A) + P(B|A')P(A'),
+\end{align}
+de manera que 
+\begin{align}
+	P(A|B)=\dfrac{P(A)\cdot P(B|A)}{P(B|A)P(A) + P(B|A')P(A')}.
+\end{align}
+
+Podemos generalizar este concepto usando una partición $ \seq{E_i}{i=0}{N} $ del espacio muestral $ S \supset A, B$. En ese caso
+\begin{align}
+	A = \bigcup_{i=0}^{N}(A\cap E_i)
+\end{align}
+y por tanto
+\begin{align}
+	P(B) &= \sum_{i=0}^{N} P(B\cap E_i)\\
+	&= \sum_{i=0}^{N} P(B|E_i)P(E_i).
+\end{align}
+A este resultado lo llamaremos \emph{regla de la cadena.}
+
+Ahora bien, de manera similar al primer caso del teorema de Bayes, concluímos que 
+\begin{align}
+	P(B|E_j)P(E_j)= P(E_j|B)P(B),
+\end{align}
+de forma que utilizando la regla de la cadena, obtenemos
+\begin{align}
+	P(E_j|B)&= \dfrac{P(B|E_j)P(E_j)}{P(B)}\\
+	&=\dfrac{P(B|E_j)P(E_j)}{\sum_{i=0}^{N} P(B|E_i)P(E_i)}
+\end{align}
+
+\begin{ejemplo}
+	Una planta productora de gelatinas cuenta con tres máquinas empacadoras. Así la distribución de volumen de empaque se realiza de la siguiente manera:
+	\begin{itemize}
+		\item Máquina 1: 38\%
+		\item Máquina 2: 32\%
+		\item Máquina 3: 30\%
+	\end{itemize}
+	
+	De esta manera, la probabilidad de que el empaque salga defectuoso es de 11\%, 15\% y 14\%, respectivamente por cada máquina. 
+	
+	La gerencia de producción de la planta está interesada en conocer cuál es la probabilidad de que si se selecciona una unidad al azar y es defectuoso, esta se haya empacado en la máquina 2. 
+
+	Denotemos por $ M_i $ el evento de que una unidad de gelatina se haya empacado en la $ i $-ésima máquina, mientras que $ D $ es el evento de que la unidad sea defectuosa. 
+	
+	De acuerdo al problema 
+	\begin{align}
+		P(M_1)&=0.38\\
+		P(M_2)&=0.32\\
+		P(M_3)&=0.30\\
+		P(D|M_1)&=0.11\\
+		P(D|M_2)&=0.15\\
+		P(D|M_3)&=0.14
+	\end{align}
+	
+	Entonces 
+	\begin{align}
+		P(M_2|D) &= \dfrac{P(D|M_2)P(M_2)}{	P(D|M_1)P(M_1)+P(D|M_2)P(M_2)+P(D|M_3)P(M_3)
+		}\\
+		&= \dfrac{(0.15)(0.32)}{
+			(0.11)(0.38)+(0.15)(0.32)+(0.14)(0.30)	
+		}\\
+		&=0.3642=36.42\%
+	\end{align}
+\end{ejemplo}
