@@ -1,6 +1,6 @@
 \section{Medidas de tendencia central}
 
-\paragraph{\'Indice y subíndices}
+\subsection{\'Indice y subíndices}
 El símbolo $X_{j}$ representa cualquiera de los  valores $X_{1},X_{2},X_{3},...$ que puede tomar la variable discreta $X.$
 
 
@@ -23,6 +23,11 @@ El símbolo $j$ denota cualquiera de los números naturales $1,2,3,...$ y se le 
 		X_{1}Y_{1}+...+X_{N}Y_{N}$
 		\item $\displaystyle \sum_{i=1}^{N} aX_{i}=
 		aX_{1}+...+aX_{N}=a\sum_{n=1}^{N}X_{n}.$
+		\item 
+		Si $a,b$ son constantes, demuestre que
+		\begin{align}
+			\sum \left( aX+bY \right)=a\sum X + b\sum Y.
+		\end{align}
 	\end{itemize}
 	
 \end{ejemplo}
@@ -34,18 +39,8 @@ El símbolo $j$ denota cualquiera de los números naturales $1,2,3,...$ y se le 
 \end{observacion}
 
 
-\paragraph{Linealidad}
-\begin{problema}
-	Si $a,b$ son constantes, demuestre que
-	\begin{align}
-		\sum \left( aX+bY \right)=a\sum X + b\sum Y.
-	\end{align}
-\end{problema}
-
-\paragraph{Promedio}
-UN \emph{promedio} es un valor representativo de un conjunto de datos que tiende a encontrarse en el centro de dicho conjunto. 
-
-Por esta razón, también se le conoce como \emph{medidas de tendencia central.}
+\subsection{Promedio}
+Un \emph{promedio} es un valor representativo de un conjunto de datos que tiende a encontrarse en el centro de dicho conjunto. Por esta razón, también se le conoce como \emph{medidas de tendencia central.}
 
 
 
@@ -65,6 +60,7 @@ Se pueden definir varios tipo de promedios:
 \end{observacion}
 
 
+\subsection{Media aritmética}
 
 \begin{definicion}[Media aritmética]
 	\begin{align}
@@ -76,9 +72,10 @@ Se pueden definir varios tipo de promedios:
 
 
 \begin{ejemplo}
-	La media aritmética de $8,3,5,12,10$ es...
+	Calcula la media de $8,3,5,12,10$.
 \end{ejemplo}
 
+\lstinputlisting[language=python]{../code/medida-tendencia-central/ejemplo-2-2/ejemplo_2_2.py}
 
 
 Si los números $X_{1},X_{2},...,X_{k}$ se presentan con \emph{frecuencias} $f_{1}, f_{2},...,f_{k}$ respectivamente su media aritmética es
@@ -92,9 +89,8 @@ dónde $N=\sum f$ es la \emph{suma de frecuencias} o \emph{total de casos.}
 \begin{ejemplo}
 	Si $5,8,6,2$ se presentan con frecuencias $3,2,4,1$ respectivamente, su media aritmética es...
 \end{ejemplo}
-
-
-\paragraph{Media aritmética ponderada}
+\lstinputlisting[language=python]{../code/medida-tendencia-central/ejemplo-2-3/ejemplo_2_3.py}
+ 
 Algunas veces, a los números $X_{1},...,X_{k}$ se les asignan ciertos \emph{factores de ponderación} o \emph{pesos} $w_{1},...,w_{k},$ tales que \begin{align}
 	\begin{cases}
 		0\% \leq w_{i}\leq 100\% \\
@@ -123,11 +119,6 @@ Algunas veces, a los números $X_{1},...,X_{k}$ se les asignan ciertos \emph{fac
 	\item Si $w_{i}=\frac{f_{i}}{N},$ obtenemos la fórmula \eqref{3.2}.
 \end{enumerate}
 
-
-
-%%%%%%%%%%%%%%
-\subsection{Datos agrupados}
-
 Cuando los números son muy grandes, se suele utilizar un pivote $P:$ 
 $$
 \bar{X}=P+\dfrac{\sum f_{i}d_{i}}{N},
@@ -148,17 +139,18 @@ de manera que $\bar{d}$ es la \emph{desviación promedio} y $\bar{X}=P+\bar{d}.$
 \end{observacion}
 
 
-\paragraph{La mediana}
+\subsection{La mediana}
 La mediana $\til{X}$ de un conjunto de números acomodados en un orden de magnitud (es decir, en una ordenación) es el valor central o la media de dos valores centrales.
 
 
 \begin{ejemplo}
 	\begin{itemize}
-		\item La mediana de la lista de números $3,4,5,6,8,8,8,10$ es... 
-		\item La mediana de la lista de números $5,5,7,9,11,12,15,18$ es..
-	\end{itemize}
-	
+		\item La mediana de la lista de números $5, 4, 3, 8, 6, 2, 5, 2$ es... 
+		\item La mediana de la lista de números $3, 9, 1, 1, 4, 1, 3, 2, 4$ es..
+	\end{itemize}	
 \end{ejemplo}
+
+\lstinputlisting{../code/medida-tendencia-central/ejemplo-2-5/ejemplo_2_5.py}
 
 
 
@@ -179,7 +171,7 @@ La mediana $\til{X}$ de un conjunto de números acomodados en un orden de magnit
 \end{definicion}
 
 
-\paragraph{Moda}
+\subsection{Moda}
 La moda de una lista de números es un valor que se presenta con la mayor frecuencia $f>1$.  \emph{La moda no es necesariamente existe ni es única.}
 
 
@@ -213,17 +205,10 @@ La moda de una lista de números es un valor que se presenta con la mayor frecue
 %%%%%%%%%%%%%%%%%%5
 %%%%%%%%%%%%%%%%%%%%%5
 
-\subsection{Python}
+\subsection{Paquetes especializados}
 
-\begin{lstlisting}[language=Python]
-	numpy.mean(a, axis=None, dtype=None, out=None,
-	keepdims=<class numpy._globals._NoValue>)
-\end{lstlisting}
+\texttt{Numpy} es el módulo numérico de Python. Nos permite hacer cálculos numéricos con gran velocidad. Con \texttt{Numpy}, es sencillo calcular  la media aritmética sobre los elementos de un arreglo.
 
-Calcula  la media aritmética sobre los elementos de un arreglo. \footnote{\href{https://github.com/numpy/numpy/blob/v1.13.0/numpy/core/fromnumeric.py\#L2806-L2909}{https://github.com/numpy/numpy/blob/v1.13.0/numpy/core/fromnumeric.py\#L2806-L2909}}
-
-
-[]{Ejemplos}
 \begin{lstlisting}[language=Python]
 	a = np.array([[1, 2], [3, 4]])
 	print np.mean(a)
@@ -235,16 +220,7 @@ Calcula  la media aritmética sobre los elementos de un arreglo. \footnote{\href
 \end{lstlisting}
 
 
-[]{numpy.median}
-\begin{lstlisting}[language=Python]
-	numpy.median(a, axis=None, out=None,
-	overwrite_input=False, keepdims=False)
-\end{lstlisting}
-
-Calcula la mediana de los elementos de un arreglo de números.\footnote{\href{https://docs.scipy.org/doc/numpy/reference/generated/numpy.median.html}{https://docs.scipy.org/doc/numpy/reference/generated/numpy.median.html}}
-
-
-[,]{Ejemplos}
+También podemos calcular la mediana.
 \begin{lstlisting}[language=Python]
 	import numpy as np
 	
@@ -275,13 +251,10 @@ Calcula la mediana de los elementos de un arreglo de números.\footnote{\href{ht
 	assert not np.all(a==b)
 \end{lstlisting}
 
+Sin embargo, no hay una forma sencilla de calcular la moda con \texttt{Numpy}. Por lo que usaremos otro módulo llamado \texttt{SciPy} es una biblioteca open source de herramientas y algoritmos matemáticos para Python.
 
-\paragraph{\text{SciPy}}
-SciPy es una biblioteca open source de herramientas y algoritmos matemáticos para Python...
+SciPy contiene módulos para optimización, álgebra lineal, integración, interpolación, funciones especiales, FFT, procesamiento de señales y de imagen, resolución de ODEs y otras tareas para la ciencia e ingeniería. Está dirigida al mismo tipo de usuarios que los de aplicaciones como MATLAB, GNU Octave, y Scilab.\sidenote{\href{https://es.wikipedia.org/wiki/SciPy}{https://es.wikipedia.org/wiki/SciPy}}
 
-SciPy contiene módulos para optimización, álgebra lineal, integración, interpolación, funciones especiales, FFT, procesamiento de señales y de imagen, resolución de ODEs y otras tareas para la ciencia e ingeniería. Está dirigida al mismo tipo de usuarios que los de aplicaciones como MATLAB, GNU Octave, y Scilab.\footnote{\href{https://es.wikipedia.org/wiki/SciPy}{https://es.wikipedia.org/wiki/SciPy}}
-
-[, ]{Moda}
 \begin{lstlisting}[language=Python]
 	import numpy as np
 	from scipy import stats
@@ -290,129 +263,5 @@ SciPy contiene módulos para optimización, álgebra lineal, integración, inter
 	print stats.mode(a)
 	# ModeResult(mode=array([5]), count=array([4]))
 \end{lstlisting}
-
-\begin{lstlisting}[language=Python]
-	b = np.array([[6, 8, 0, 0],
-	[3, 3, 0, 3],
-	[8, 1, 8, 5],
-	[5, 3, 0, 5],
-	[4, 7, 5, 3]])
-	
-	print stats.mode(b)
-	# ModeResult(mode=array([[3, 3, 0, 3]]),
-	count=array([[1, 2, 3, 2]]))
-\end{lstlisting}
-
-\begin{lstlisting}[language=Python]
-	print stats.mode(b, axis=1)
-	# ModeResult(mode=array([[0],[3],[8],[5],[3]]),
-	#           count=array([[2],[3],[2],[2],[1]]))
-	
-	print stats.mode(b, axis=None)
-	# ModeResult(mode=array([3]), count=array([5]))
-\end{lstlisting}
-
-%
-\begin{problema} \label{problema:3.1}
-	Escribir los términos de cada una de las siguientes sumas:
-	\begin{enumerate}
-		\item $\displaystyle\sum_{j=0}^{6}X_{j}=$ 
-		\item $\displaystyle\sum_{k=1}^{4}\left( Y_{k}-3 \right)^{2}=$ 
-		\item $\displaystyle\sum_{k=1}^{N}a=$ 
-		\item $\displaystyle\sum_{n=2}^{5}{f_{n}}X_{n}= $ 
-		\item $\displaystyle\sum_{m=0}^{3}\left( X_{m}-a \right)=$
-	\end{enumerate}
-	%
-	%
-\end{problema}
-%
-
-
-\begin{problema}
-	\label{problema:3.10}
-	De 100 números, 20 fueron 4, 40 fueron 5, 30 fueron 6 y los restantes fueron 7. Encuentre su media aritmética.
-\end{problema}
-
-
-
-
-\begin{problema}
-	\label{problema:3.13}
-	Los pesos medio de cuatro grupos de estudiantes que constan de 15, 20, 10 y 18 individuos son 162, 148, 153 y 140 libras, respectivamente. Encuentre el peso medio de todos los estudiantes.
-\end{problema}
-
-
-
-%
-
-\begin{problema}
-	\label{problema:3.15}
-	
-	Usando la distribución de frecuencias de las estaturas que se presenta en la siguiente tabla, hallar la estatura media de 100 estudiantes de cierta universidad.
-	\begin{figure}
-		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-		%%% You will need to add \usepackage{wrapfig} to your preamble to use textwrapping %%%
-		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-		\centering
-		\includegraphics[width=10cm,keepaspectratio=true]{./images/tab0301.png}
-		% tab0301.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
-		\label{tab:0301}
-	\end{figure}
-\end{problema}
-
-
-
-
-\begin{problema}
-	\label{problema:3.18}
-	Si las desviaciones de $N$ números $X_{1},..,X_{N}$ respecto a un \emph{pivote} $P$ están dada por $d_{i}=X_{i}-P, \; i=1,...,N$ respectivamente, demostrar que
-	\begin{align}
-		\bar{X}=P+\dfrac{\sum d}{N}.
-	\end{align}
-\end{problema}
-
-
-
-\begin{problema}
-	\label{problema:3.16}
-	Demostrar que la suma de las desviaciones $d_{1},d_{2},...,d_{N}$ de $X_{1},X_{2},...,X_{N}$ usando como pivote su media $\bar{X}$ es igual a cero.
-\end{problema}
-
-
-
-\begin{problema}
-	\label{problema:3.17}
-	Si $Z_{i}=X_{i}+Y_{i}, \; i=1,2,...,N,$ demostrar que $\bar{Z}=\bar{X}+\bar{Y}.$
-\end{problema}
-
-
-
-
-\begin{problema}
-	\label{problema:3.19}
-	Halle la media aritmética de los números 5,8,11,9,12,6,14 y 10 eligiendo como \emph{pivote} a) $P=9$ y b) $P=20.$
-\end{problema}
-
-
-
-
-\begin{problema}
-	\label{problema:3.20}
-	Utilice la marca de la clase media como pivote, para calcular la estatura de los estudiantes en la tabla \ref{tab:0301}.
-\end{problema}
-
-
-
-\begin{problema}
-	\label{problema:3.28}
-	Encontrar el peso mediano a partir de la siguiente tabla
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[height=5cm,keepaspectratio=true]{./images/tab0307.png}
-		% tab0307.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
-		\label{tab:0307}
-	\end{figure}
-	
-\end{problema}
 
 
