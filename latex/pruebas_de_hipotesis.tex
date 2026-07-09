@@ -1,37 +1,188 @@
 \section{Pruebas de hipótesis}
-% 
-% El concepto que acabamos de comentar en la sección anterior se utiliza para una
-% técnica en estadística, llamada \emph{prueba de hipótesis}.
-% 
 
-
-En la prueba de hipótesis, asumimos una
-premisa inicial (generalmente relacionada con el valor del estimador) denominada \emph{hipótesis nula}  y
-trataremos de ver si es cierta o no aplicando.
-
-
+En la prueba de hipótesis, asumimos una premisa inicial (generalmente relacionada con el valor del estimador) denominada \emph{hipótesis nula} y trataremos de ver si es cierta o no aplicando técnicas estadísticas.
 
 Tenemos otra premisa llamada \emph{hipótesis alternativa}, la cuál es la negación de la hipótesis nula.
 
-
 \subsection{Hipótesis nula vs. alternativa}
-%  Hay una forma para decidir cuál será la hipótesis nula y cuál será la hipótesis alternativa. 
-%
-% La hipótesis nula es la premisa inicial o algo que
-% podemos suponer que es cierto. 
-%
-% Por el contrario, la hipótesis alternativa es algo de lo que no estamos seguros que podría ser cierto.
-% 
-%
-% 
-Cuando alguien está haciendo una \emph{investigación} cuantitativa para calibrar el valor de un estimador,  el \emph{valor conocido} del parámetro se toma como \emph{hipótesis nula},  mientras que el \emph{nuevo valor} encontrado (de la investigación) se toma como la \emph{hipótesis alternativa}.
 
+Cuando alguien está haciendo una \emph{investigación} cuantitativa para calibrar el valor de un estimador, el \emph{valor conocido} del parámetro se toma como \emph{hipótesis nula}, mientras que el \emph{nuevo valor} encontrado (de la investigación) se toma como la \emph{hipótesis alternativa}.
 
+En nuestro caso (encontrar la edad media de nuestra ciudad), un investigador puede afirmar que la edad es \emph{menor que 35}. Esto puede servir como la \emph{hipótesis nula}.
 
-En nuestro caso (encontrar la edad media de nuestra ciudad), un investigador puede afirmar que la edad
-\emph{menor que 35}. Esto puede servir como la \emph{hipótesis nula}.
+Si una nueva agencia afirma que es \emph{mayor que 35}, entonces se puede denominar como la \emph{hipótesis alternativa}.
 
+\subsection{Notación formal}
 
-Si una nueva agencia afirma
-que es \emph{mayor que 35}, entonces se puede denominar como la \emph{hipótesis alternativa}.
+Denotamos las hipótesis como:
+\begin{itemize}
+	\item $H_0$: Hipótesis nula (afirmación que se asume verdadera inicialmente)
+	\item $H_a$ o $H_1$: Hipótesis alternativa (afirmación que contradice a $H_0$)
+\end{itemize}
 
+\begin{ejemplo}
+	Un fabricante de cereales afirma que el peso promedio de sus cajas es de 500 gramos. Un inspector de calidad sospecha que el peso es menor.
+	
+	\begin{align}
+		H_0: \mu &= 500 \text{ g} \\
+		H_a: \mu &< 500 \text{ g}
+	\end{align}
+\end{ejemplo}
+
+\subsection{Tipos de pruebas de hipótesis}
+
+Dependiendo de la hipótesis alternativa, las pruebas pueden ser:
+
+\begin{enumerate}
+	\item \textbf{Prueba de cola izquierda:}
+	\begin{align}
+		H_0: \mu &= \mu_0 \\
+		H_a: \mu &< \mu_0
+	\end{align}
+	
+	\item \textbf{Prueba de cola derecha:}
+	\begin{align}
+		H_0: \mu &= \mu_0 \\
+		H_a: \mu &> \mu_0
+	\end{align}
+	
+	\item \textbf{Prueba de dos colas:}
+	\begin{align}
+		H_0: \mu &= \mu_0 \\
+		H_a: \mu &\neq \mu_0
+	\end{align}
+\end{enumerate}
+
+\subsection{Errores en pruebas de hipótesis}
+
+Al tomar decisiones basadas en datos muestrales, podemos cometer dos tipos de errores:
+
+\begin{definicion}[Error tipo I]
+	Rechazar la hipótesis nula cuando en realidad es verdadera. La probabilidad de cometer este error se denota como $\alpha$ (nivel de significación):
+	\begin{align}
+		\alpha = P(\text{Rechazar } H_0 | H_0 \text{ es verdadera})
+	\end{align}
+\end{definicion}
+
+\begin{definicion}[Error tipo II]
+	No rechazar la hipótesis nula cuando en realidad es falsa. La probabilidad de cometer este error se denota como $\beta$:
+	\begin{align}
+		\beta = P(\text{No rechazar } H_0 | H_0 \text{ es falsa})
+	\end{align}
+\end{definicion}
+
+\begin{observacion}
+	La \emph{potencia} de una prueba es la probabilidad de rechazar correctamente una hipótesis nula falsa:
+	\begin{align}
+		\text{Potencia} = 1 - \beta = P(\text{Rechazar } H_0 | H_0 \text{ es falsa})
+	\end{align}
+\end{observacion}
+
+\subsection{Nivel de significación}
+
+El \emph{nivel de significación} $\alpha$ es la probabilidad máxima aceptable de cometer un error tipo I. Valores comunes son:
+\begin{itemize}
+	\item $\alpha = 0.10$ (10\%) - Nivel de significación bajo
+	\item $\alpha = 0.05$ (5\%) - Nivel de significación estándar
+	\item $\alpha = 0.01$ (1\%) - Nivel de significación alto
+\end{itemize}
+
+\begin{observacion}
+	La elección de $\alpha$ depende del contexto y de las consecuencias de cometer un error tipo I. En aplicaciones médicas o de seguridad, se suelen usar niveles de significación más estrictos ($\alpha = 0.01$ o menor).
+\end{observacion}
+
+\subsection{Valor p}
+
+El \emph{valor p} (p-valor) es la probabilidad de obtener un resultado al menos tan extremo como el observado, asumiendo que la hipótesis nula es verdadera.
+
+\begin{definicion}[Valor p]
+	El valor p es:
+	\begin{align}
+		p\text{-valor} = P(\text{Estadístico} \geq \text{valor observado} | H_0 \text{ es verdadera})
+	\end{align}
+	para pruebas de cola derecha, o el área correspondiente según el tipo de prueba.
+\end{definicion}
+
+\subsection{Regla de decisión}
+
+La regla de decisión basada en el valor p es:
+
+\begin{itemize}
+	\item Si $p\text{-valor} \leq \alpha$: \textbf{Rechazar} $H_0$
+	\item Si $p\text{-valor} > \alpha$: \textbf{No rechazar} $H_0$
+\end{itemize}
+
+\begin{observacion}
+	``No rechazar $H_0$'' no es lo mismo que ``aceptar $H_0$''. Simplemente significa que no hay suficiente evidencia para rechazarla.
+\end{observacion}
+
+\subsection{Ejemplo completo}
+
+Una empresa afirma que el tiempo promedio de entrega de sus productos es de 3 días. Un cliente sospecha que el tiempo es mayor y toma una muestra de $n = 36$ entregas, obteniendo $\bar{x} = 3.5$ días con $s = 1.2$ días.
+
+\textbf{Paso 1: Formular hipótesis}
+\begin{align}
+	H_0: \mu &= 3 \text{ días} \\
+	H_a: \mu &> 3 \text{ días}
+\end{align}
+
+\textbf{Paso 2: Elegir nivel de significación}
+\begin{align}
+	\alpha = 0.05
+\end{align}
+
+\textbf{Paso 3: Calcular estadístico de prueba}
+
+Como $n = 36 \geq 30$, usamos la prueba Z:
+\begin{align}
+	Z = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} = \frac{3.5 - 3}{1.2/\sqrt{36}} = \frac{0.5}{0.2} = 2.5
+\end{align}
+
+\textbf{Paso 4: Calcular valor p}
+\begin{align}
+	p\text{-valor} = P(Z > 2.5) = 1 - \Phi(2.5) \approx 0.0062
+\end{align}
+
+\textbf{Paso 5: Tomar decisión}
+
+Como $p\text{-valor} = 0.0062 < 0.05 = \alpha$, rechazamos $H_0$.
+
+\textbf{Conclusión:} Hay evidencia estadística suficiente al nivel de significación del 5\% para afirmar que el tiempo promedio de entrega es mayor a 3 días.
+
+\subsection{Interpretación de resultados}
+
+Es crucial interpretar correctamente los resultados:
+
+\begin{itemize}
+	\item \textbf{Rechazar $H_0$:} Hay evidencia estadística suficiente para apoyar la hipótesis alternativa.
+	
+	\item \textbf{No rechazar $H_0$:} No hay evidencia estadística suficiente para apoyar la hipótesis alternativa. Esto no significa que $H_0$ sea verdadera, solo que no pudimos demostrar lo contrario.
+\end{itemize}
+
+\subsection{Consideraciones importantes}
+
+\begin{enumerate}
+	\item \textbf{Tamaño de muestra:} Muestras más grandes proporcionan mayor potencia para detectar diferencias reales.
+	
+	\item \textbf{Significancia estadística vs. práctica:} Un resultado puede ser estadísticamente significativo pero no prácticamente relevante.
+	
+	\item \textbf{Supuestos:} Las pruebas de hipótesis asumen que se cumplen ciertos supuestos (normalidad, independencia, etc.).
+	
+	\item \textbf{Errores múltiples:} Realizar muchas pruebas aumenta la probabilidad de cometer al menos un error tipo I.
+\end{enumerate}
+
+\subsection{Resumen del procedimiento}
+
+El procedimiento general para una prueba de hipótesis es:
+
+\begin{enumerate}
+	\item Formular $H_0$ y $H_a$
+	\item Elegir el nivel de significación $\alpha$
+	\item Seleccionar el estadístico de prueba apropiado
+	\item Calcular el valor del estadístico con los datos muestrales
+	\item Determinar el valor p o la región crítica
+	\item Tomar decisión: rechazar o no rechazar $H_0$
+	\item Interpretar el resultado en el contexto del problema
+\end{enumerate}
+
+En las siguientes secciones estudiaremos pruebas específicas para medias (pruebas Z y t), proporciones, y otras situaciones comunes.

@@ -1,0 +1,225 @@
+\section*{Problemas}
+
+\begin{problema}
+	\label{prob-ic-1}
+	Una muestra aleatoria de 36 estudiantes obtuvo una calificación promedio de 78 puntos en un examen de matemáticas. Suponga que la desviación estándar poblacional es $\sigma = 12$ puntos.
+	
+	\begin{enumerate}
+		\item Construya un intervalo de confianza del 95\% para la media poblacional.
+		\item Construya un intervalo de confianza del 99\% para la media poblacional.
+		\item ¿Qué intervalo es más amplio? ¿Por qué?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Intervalo de confianza del 95\%:
+		
+		Para $\alpha = 0.05$, tenemos $Z_{\alpha/2} = Z_{0.025} = 1.96$.
+		
+		\begin{align}
+			IC_{95\%} &= \bar{x} \pm Z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}} \\
+			&= 78 \pm 1.96 \cdot \frac{12}{\sqrt{36}} \\
+			&= 78 \pm 1.96 \cdot 2 \\
+			&= 78 \pm 3.92 \\
+			&= (74.08, 81.92)
+		\end{align}
+		
+		\textbf{Interpretación:} Tenemos un 95\% de confianza de que la calificación promedio de todos los estudiantes está entre 74.08 y 81.92 puntos.
+		
+		\item Intervalo de confianza del 99\%:
+		
+		Para $\alpha = 0.01$, tenemos $Z_{\alpha/2} = Z_{0.005} = 2.576$.
+		
+		\begin{align}
+			IC_{99\%} &= 78 \pm 2.576 \cdot 2 \\
+			&= 78 \pm 5.152 \\
+			&= (72.85, 83.15)
+		\end{align}
+		
+		\item El intervalo del 99\% es más amplio (10.30 vs 7.84) porque para tener mayor confianza de que el intervalo contenga el verdadero valor de $\mu$, necesitamos un rango más grande.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-ic-2}
+	Un fabricante de focos quiere estimar la vida útil promedio de sus productos. Toma una muestra de 16 focos y encuentra $\bar{x} = 1,200$ horas con $s = 80$ horas.
+	
+	\begin{enumerate}
+		\item ¿Debe usar la distribución Z o t? ¿Por qué?
+		\item Construya un intervalo de confianza del 95\% para la vida útil promedio.
+		\item Interprete el resultado.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Debe usar la \textbf{distribución t de Student} porque:
+		\begin{itemize}
+			\item El tamaño de muestra es pequeño ($n = 16 < 30$)
+			\item La desviación estándar poblacional $\sigma$ es desconocida y usamos $s$
+		\end{itemize}
+		
+		\item Intervalo de confianza del 95\% con $\nu = n - 1 = 15$ grados de libertad:
+		
+		Para $\alpha = 0.05$, $t_{\alpha/2, 15} = t_{0.025, 15} = 2.131$.
+		
+		\begin{align}
+			IC_{95\%} &= \bar{x} \pm t_{\alpha/2, \nu} \cdot \frac{s}{\sqrt{n}} \\
+			&= 1200 \pm 2.131 \cdot \frac{80}{\sqrt{16}} \\
+			&= 1200 \pm 2.131 \cdot 20 \\
+			&= 1200 \pm 42.62 \\
+			&= (1157.38, 1242.62)
+		\end{align}
+		
+		\item \textbf{Interpretación:} Tenemos un 95\% de confianza de que la vida útil promedio de todos los focos producidos por este fabricante está entre 1,157.38 y 1,242.62 horas.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-ic-3}
+	Un investigador quiere estimar el tiempo promedio que los estudiantes universitarios dedican al estudio por semana. Toma una muestra de 25 estudiantes y obtiene $\bar{x} = 15$ horas con $s = 4$ horas.
+	
+	\begin{enumerate}
+		\item Construya un intervalo de confianza del 90\% para la media.
+		\item Construya un intervalo de confianza del 95\% para la media.
+		\item Si el investigador quiere un intervalo más preciso (más angosto) manteniendo el 95\% de confianza, ¿qué debería hacer?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Intervalo de confianza del 90\% con $\nu = 24$:
+		
+		Para $\alpha = 0.10$, $t_{0.05, 24} = 1.711$.
+		
+		\begin{align}
+			IC_{90\%} &= 15 \pm 1.711 \cdot \frac{4}{\sqrt{25}} \\
+			&= 15 \pm 1.711 \cdot 0.8 \\
+			&= 15 \pm 1.369 \\
+			&= (13.63, 16.37)
+		\end{align}
+		
+		\item Intervalo de confianza del 95\% con $\nu = 24$:
+		
+		Para $\alpha = 0.05$, $t_{0.025, 24} = 2.064$.
+		
+		\begin{align}
+			IC_{95\%} &= 15 \pm 2.064 \cdot 0.8 \\
+			&= 15 \pm 1.651 \\
+			&= (13.35, 16.65)
+		\end{align}
+		
+		\item Para obtener un intervalo más preciso (más angosto) manteniendo el 95\% de confianza, el investigador debería:
+		\begin{itemize}
+			\item \textbf{Aumentar el tamaño de muestra:} Al aumentar $n$, el error estándar $s/\sqrt{n}$ disminuye, lo que reduce el margen de error.
+			\item Por ejemplo, si $n = 100$ en lugar de 25, el margen de error se reduciría aproximadamente a la mitad.
+		\end{itemize}
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-ic-4}
+	Una empresa de telecomunicaciones quiere estimar el tiempo promedio de llamada de sus clientes. De una muestra de 100 llamadas, encuentra $\bar{x} = 4.5$ minutos con $s = 2.0$ minutos.
+	
+	\begin{enumerate}
+		\item Construya un intervalo de confianza del 95\% para el tiempo promedio de llamada.
+		\item ¿Cuál es el margen de error?
+		\item Si la empresa quiere reducir el margen de error a 0.2 minutos manteniendo el 95\% de confianza, ¿qué tamaño de muestra necesitaría?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Intervalo de confianza del 95\% (como $n = 100 \geq 30$, usamos Z):
+		
+		\begin{align}
+			IC_{95\%} &= 4.5 \pm 1.96 \cdot \frac{2.0}{\sqrt{100}} \\
+			&= 4.5 \pm 1.96 \cdot 0.2 \\
+			&= 4.5 \pm 0.392 \\
+			&= (4.108, 4.892)
+		\end{align}
+		
+		\item El margen de error es $E = 0.392$ minutos.
+		
+		\item Para reducir el margen de error a $E = 0.2$ minutos con 95\% de confianza:
+		
+		\begin{align}
+			E &= Z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}} \\
+			0.2 &= 1.96 \cdot \frac{2.0}{\sqrt{n}} \\
+			\sqrt{n} &= \frac{1.96 \cdot 2.0}{0.2} = 19.6 \\
+			n &= (19.6)^2 = 384.16
+		\end{align}
+		
+		Redondeando hacia arriba, necesitaría $n = 385$ llamadas.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-ic-5}
+	Un nutricionista quiere estimar la diferencia en el consumo diario promedio de calorías entre hombres y mujeres. Toma muestras independientes:
+	
+	\begin{itemize}
+		\item Hombres: $n_1 = 40$, $\bar{x}_1 = 2,500$ cal, $s_1 = 300$ cal
+		\item Mujeres: $n_2 = 45$, $\bar{x}_2 = 2,100$ cal, $s_2 = 250$ cal
+	\end{itemize}
+	
+	Construya un intervalo de confianza del 95\% para la diferencia de medias $\mu_1 - \mu_2$.
+\end{problema}
+
+\begin{solucion}
+	Para la diferencia de medias con muestras independientes y varianzas desconocidas:
+	
+	\begin{align}
+		(\bar{x}_1 - \bar{x}_2) \pm Z_{\alpha/2} \cdot \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
+	\end{align}
+	
+	(Usamos Z porque ambos tamaños de muestra son $\geq 30$)
+	
+	\begin{align}
+		\bar{x}_1 - \bar{x}_2 &= 2500 - 2100 = 400 \\
+		\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}} &= \sqrt{\frac{300^2}{40} + \frac{250^2}{45}} \\
+		&= \sqrt{2250 + 1388.89} \\
+		&= \sqrt{3638.89} \approx 60.32
+	\end{align}
+	
+	\begin{align}
+		IC_{95\%} &= 400 \pm 1.96 \cdot 60.32 \\
+		&= 400 \pm 118.23 \\
+		&= (281.77, 518.23)
+	\end{align}
+	
+	\textbf{Interpretación:} Tenemos un 95\% de confianza de que los hombres consumen en promedio entre 281.77 y 518.23 calorías más por día que las mujeres. Como el intervalo no contiene el cero, hay evidencia estadística de una diferencia significativa.
+\end{solucion}
+
+\begin{problema}
+	\label{prob-ic-6}
+	Un fabricante de baterías afirma que sus baterías duran en promedio al menos 500 horas. Un consumidor escéptico toma una muestra de 25 baterías y encuentra $\bar{x} = 490$ horas con $s = 30$ horas.
+	
+	\begin{enumerate}
+		\item Construya un intervalo de confianza del 95\% para la duración promedio.
+		\item ¿El intervalo contiene el valor de 500 horas afirmado por el fabricante?
+		\item ¿Qué conclusión puede sacar sobre la afirmación del fabricante?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Intervalo de confianza del 95\% con $\nu = 24$ (usamos t porque $n < 30$ y $\sigma$ es desconocida):
+		
+		Para $\alpha = 0.05$, $t_{0.025, 24} = 2.064$.
+		
+		\begin{align}
+			IC_{95\%} &= 490 \pm 2.064 \cdot \frac{30}{\sqrt{25}} \\
+			&= 490 \pm 2.064 \cdot 6 \\
+			&= 490 \pm 12.384 \\
+			&= (477.62, 502.38)
+		\end{align}
+		
+		\item Sí, el intervalo \textbf{sí contiene} el valor de 500 horas (500 está dentro del rango 477.62 a 502.38).
+		
+		\item \textbf{Conclusión:} Aunque la media muestral (490 horas) es menor que 500 horas, el intervalo de confianza del 95\% incluye el valor de 500 horas. Esto significa que no hay evidencia estadística suficiente al nivel del 5\% para rechazar la afirmación del fabricante. La diferencia observada podría deberse a la variabilidad muestral.
+		
+		\textbf{Nota:} Este ejemplo ilustra la relación entre intervalos de confianza y pruebas de hipótesis. Si el valor hipotético está dentro del intervalo de confianza, no rechazamos la hipótesis nula.
+	\end{enumerate}
+\end{solucion}

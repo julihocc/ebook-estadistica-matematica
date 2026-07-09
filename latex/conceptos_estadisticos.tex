@@ -1,28 +1,130 @@
-\section{Conceptos más importantes}
+\section{Conceptos fundamentales de estadística inferencial}
 
-% []
-% \tableofcontents
+En esta sección presentaremos los conceptos básicos que son esenciales para comprender la estadística inferencial. Estos conceptos nos proporcionarán el lenguaje y las herramientas necesarias para realizar inferencias sobre poblaciones a partir de muestras.
+
+\subsection{Estimadores y sus propiedades}
+
+Un \emph{estimador} es un estadístico que se utiliza para estimar el valor de un parámetro poblacional desconocido. Denotamos un estimador del parámetro $\theta$ como $\hat{\theta}$.
+
+\begin{definicion}[Estimador insesgado]
+	Un estimador $\hat{\theta}$ es \emph{insesgado} para el parámetro $\theta$ si
+	\begin{align}
+		E(\hat{\theta}) = \theta
+	\end{align}
+	
+	Es decir, el valor esperado del estimador es igual al verdadero valor del parámetro.
+\end{definicion}
+
+\begin{ejemplo}
+	La media muestral $\bar{X}$ es un estimador insesgado de la media poblacional $\mu$:
+	\begin{align}
+		E(\bar{X}) = E\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n}\sum_{i=1}^n E(X_i) = \frac{1}{n} \cdot n\mu = \mu
+	\end{align}
+\end{ejemplo}
+
+\begin{observacion}
+	La varianza muestral $S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$ es un estimador insesgado de la varianza poblacional $\sigma^2$. El uso de $n-1$ en lugar de $n$ (conocido como corrección de Bessel) es precisamente lo que hace que el estimador sea insesgado.
+\end{observacion}
+
+\subsection{Distribuciones muestrales}
+
+Cuando tomamos múltiples muestras del mismo tamaño de una población y calculamos un estadístico para cada muestra, la distribución de estos estadísticos se denomina \emph{distribución muestral}.
+
+\begin{definicion}[Distribución muestral]
+	La \emph{distribución muestral} de un estadístico es la distribución de probabilidad de ese estadístico cuando se calcula sobre todas las posibles muestras de tamaño $n$ de una población dada.
+\end{definicion}
+
+\begin{ejemplo}
+	Si $X_1, X_2, \ldots, X_n$ son variables aleatorias independientes e idénticamente distribuidas con media $\mu$ y varianza $\sigma^2$, entonces la media muestral $\bar{X}$ tiene:
+	\begin{align}
+		E(\bar{X}) &= \mu \\
+		\text{Var}(\bar{X}) &= \frac{\sigma^2}{n}
+	\end{align}
+	
+	Esto significa que la variabilidad de la media muestral disminuye a medida que aumenta el tamaño de la muestra.
+\end{ejemplo}
+
+\subsection{Error estándar}
+
+El \emph{error estándar} de un estadístico es la desviación estándar de su distribución muestral. Mide la precisión de la estimación.
+
+\begin{definicion}[Error estándar de la media]
+	El error estándar de la media muestral es:
+	\begin{align}
+		SE(\bar{X}) = \frac{\sigma}{\sqrt{n}}
+	\end{align}
+	
+	Cuando $\sigma$ es desconocida, se estima mediante:
+	\begin{align}
+		SE(\bar{X}) \approx \frac{s}{\sqrt{n}}
+	\end{align}
+	donde $s$ es la desviación estándar muestral.
+\end{definicion}
+
+\subsection{Ley de los grandes números}
+
+La \emph{ley de los grandes números} establece que, bajo ciertas condiciones, el promedio de los resultados obtenidos de un gran número de ensayos debe estar cerca del valor esperado, y tenderá a acercarse más a medida que se realicen más ensayos.
+
+\begin{teorema}[Ley de los grandes números]
+	Si $X_1, X_2, \ldots, X_n$ son variables aleatorias independientes e idénticamente distribuidas con media $\mu$, entonces para cualquier $\epsilon > 0$:
+	\begin{align}
+		\lim_{n \to \infty} P(|\bar{X}_n - \mu| < \epsilon) = 1
+	\end{align}
+	
+	Es decir, la media muestral converge en probabilidad a la media poblacional.
+\end{teorema}
+
+\begin{observacion}
+	La ley de los grandes números justifica el uso de promedios muestrales para estimar medias poblacionales. Nos dice que con muestras suficientemente grandes, nuestra estimación será muy cercana al valor verdadero.
+\end{observacion}
+
+\subsection{Teorema del límite central}
+
+El \emph{teorema del límite central} (TLC) es uno de los resultados más importantes en estadística. Establece que, bajo ciertas condiciones, la distribución de la suma (o promedio) de un gran número de variables aleatorias independientes se aproxima a una distribución normal, independientemente de la distribución de las variables originales.
+
+\begin{teorema}[Teorema del límite central]
+	Si $X_1, X_2, \ldots, X_n$ son variables aleatorias independientes e idénticamente distribuidas con media $\mu$ y varianza $\sigma^2 < \infty$, entonces cuando $n$ es grande:
+	\begin{align}
+		\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1)
+	\end{align}
+	
+	Es decir, la distribución de la media muestral estandarizada se aproxima a una distribución normal estándar.
+\end{teorema}
+
+\begin{observacion}
+	En la práctica, el TLC funciona bien cuando $n \geq 30$, aunque esto depende de la forma de la distribución original. Para distribuciones muy asimétricas o con colas pesadas, puede requerirse un $n$ mayor.
+\end{observacion}
+
+\begin{ejemplo}
+	Supongamos que el tiempo de espera en una fila tiene una distribución exponencial con media $\mu = 5$ minutos. Si tomamos una muestra de $n = 50$ personas, por el TLC, la distribución del tiempo de espera promedio muestral será aproximadamente normal:
+	\begin{align}
+		\bar{X} \sim N\left(5, \frac{5^2}{50}\right) = N(5, 0.5)
+	\end{align}
+\end{ejemplo}
+
+\subsection{Importancia del TLC en inferencia estadística}
+
+El teorema del límite central es fundamental para la inferencia estadística porque:
+
 \begin{enumerate}
-\item Pruebas de hipótesis.
-\item $p-$valores.
-\item Distribución normal.
-\item Correlación.
+	\item Nos permite usar la distribución normal para hacer inferencias sobre medias poblacionales, incluso cuando la población original no es normal.
+	
+	\item Justifica el uso de pruebas Z y t para medias, que estudiaremos en las siguientes secciones.
+	
+	\item Proporciona la base teórica para la construcción de intervalos de confianza.
+	
+	\item Explica por qué muchas variables en la naturaleza siguen distribuciones aproximadamente normales (son el resultado de la suma de muchos efectos pequeños e independientes).
 \end{enumerate}
 
+\subsection{Resumen de conceptos clave}
 
-\subsection{Muestreo aleatorio y teorema del límite central}
-Entender el concepto de \emph{muestreo aleatorio} a través de ejemplos e ilustrar las aplicaciones del \emph{teorema del límite central}. 
+\begin{itemize}
+	\item \textbf{Estimador:} Estadístico utilizado para estimar un parámetro poblacional.
+	\item \textbf{Estimador insesgado:} Estimador cuyo valor esperado es igual al parámetro.
+	\item \textbf{Distribución muestral:} Distribución de un estadístico sobre todas las muestras posibles.
+	\item \textbf{Error estándar:} Desviación estándar de la distribución muestral.
+	\item \textbf{Ley de los grandes números:} La media muestral converge a la media poblacional.
+	\item \textbf{Teorema del límite central:} La distribución de la media muestral se aproxima a la normal.
+\end{itemize}
 
-  Estos dos conceptos son la columna vertebral de las pruebas de hipótesis.
-
-
-\subsection{Pruebas de hipótesis}
-Entender el significado de los términos tales como \emph{hipótesis nula}, \emph{hipótesis alternativa}, \emph{intervalos de confianza}, \emph{$p-$valores}, \emph{nivel de significación}, etc.
-%   Desarrollaremos una guía de la implementación de pruebas de hipótesis, seguidas por un ejemplo.
-
-\subsection{Pruebas $\chi-$cuadrada}
-Calcularemos el estadístico $\chi$-cuadrada y describiremos el uso de pruebas $\chi$-cuadrada con un par de ejemplos.
-
- \subsection{Correlación}
-  Entenderemos el significado y la significación de la correlación entre dos variables, de los coeficientes de correlación y calcularemos y visualizaremos la correlación entre variables de una base de datos.
- 
+Estos conceptos forman la base sobre la cual construiremos las técnicas de estimación y pruebas de hipótesis en las siguientes secciones.

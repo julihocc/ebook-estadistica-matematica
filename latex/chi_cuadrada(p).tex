@@ -1,0 +1,247 @@
+\section*{Problemas}
+
+\begin{problema}
+	\label{prob-chi2-1}
+	Se lanza un dado 120 veces y se obtienen los siguientes resultados:
+	
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|c|c|}\hline
+			Cara & 1 & 2 & 3 & 4 & 5 & 6 \\\hline
+			Frecuencia observada & 18 & 22 & 20 & 19 & 23 & 18 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	\begin{enumerate}
+		\item Formule las hipótesis nula y alternativa para probar si el dado es justo.
+		\item Calcule las frecuencias esperadas bajo $H_0$.
+		\item Calcule el estadístico $\chi^2$.
+		\item Determine los grados de libertad.
+		\item ¿Se debe rechazar $H_0$ al nivel $\alpha = 0.05$? (El valor crítico es $\chi^2_{0.05, 5} = 11.07$)
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Hipótesis:
+		\begin{align}
+			H_0&: \text{El dado es justo } (p_1 = p_2 = \cdots = p_6 = 1/6) \\
+			H_a&: \text{El dado no es justo}
+		\end{align}
+		
+		\item Frecuencias esperadas (bajo $H_0$, cada cara debe aparecer $120 \times \frac{1}{6} = 20$ veces):
+		\begin{align}
+			E_1 = E_2 = E_3 = E_4 = E_5 = E_6 = 20
+		\end{align}
+		
+		\item Estadístico $\chi^2$:
+		\begin{align}
+			\chi^2 &= \sum_{i=1}^6 \frac{(O_i - E_i)^2}{E_i} \\
+			&= \frac{(18-20)^2}{20} + \frac{(22-20)^2}{20} + \frac{(20-20)^2}{20} + \frac{(19-20)^2}{20} + \frac{(23-20)^2}{20} + \frac{(18-20)^2}{20} \\
+			&= \frac{4}{20} + \frac{4}{20} + \frac{0}{20} + \frac{1}{20} + \frac{9}{20} + \frac{4}{20} \\
+			&= 0.2 + 0.2 + 0 + 0.05 + 0.45 + 0.2 = 1.1
+		\end{align}
+		
+		\item Grados de libertad: $\nu = k - 1 = 6 - 1 = 5$
+		
+		\item Como $\chi^2 = 1.1 < 11.07 = \chi^2_{0.05, 5}$, \textbf{no rechazamos} $H_0$.
+		
+		\textbf{Conclusión:} No hay evidencia estadística al nivel del 5\% para afirmar que el dado no es justo. Las desviaciones observadas son compatibles con la variabilidad aleatoria.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-chi2-2}
+	Una encuesta a 200 personas sobre su preferencia de color favorito arrojó los siguientes resultados:
+	
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|c|}\hline
+			Color & Rojo & Azul & Verde & Amarillo & Otro \\\hline
+			Frecuencia & 55 & 48 & 42 & 35 & 20 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	Pruebe la hipótesis de que todos los colores son igualmente preferidos al nivel de significación $\alpha = 0.05$.
+\end{problema}
+
+\begin{solucion}
+	\textbf{Hipótesis:}
+	\begin{align}
+		H_0&: p_{\text{rojo}} = p_{\text{azul}} = p_{\text{verde}} = p_{\text{amarillo}} = p_{\text{otro}} = 0.2 \\
+		H_a&: \text{Al menos una preferencia es diferente}
+	\end{align}
+	
+	\textbf{Frecuencias esperadas:} $E_i = 200 \times 0.2 = 40$ para todos los colores.
+	
+	\textbf{Estadístico $\chi^2$:}
+	\begin{align}
+		\chi^2 &= \frac{(55-40)^2}{40} + \frac{(48-40)^2}{40} + \frac{(42-40)^2}{40} + \frac{(35-40)^2}{40} + \frac{(20-40)^2}{40} \\
+		&= \frac{225}{40} + \frac{64}{40} + \frac{4}{40} + \frac{25}{40} + \frac{400}{40} \\
+		&= 5.625 + 1.6 + 0.1 + 0.625 + 10 = 17.95
+	\end{align}
+	
+	\textbf{Grados de libertad:} $\nu = 5 - 1 = 4$
+	
+	\textbf{Valor crítico:} $\chi^2_{0.05, 4} = 9.49$
+	
+	\textbf{Decisión:} Como $\chi^2 = 17.95 > 9.49$, \textbf{rechazamos} $H_0$.
+	
+	\textbf{Conclusión:} Hay evidencia estadística muy fuerte al nivel del 5\% para afirmar que las preferencias de color no son uniformes. El rojo es significativamente más preferido y "otro" significativamente menos preferido de lo esperado bajo uniformidad.
+\end{solucion}
+
+\begin{problema}
+	\label{prob-chi2-3}
+	Se quiere probar si el tipo de vehículo es independiente del día de la semana en que ocurren accidentes de tráfico. Se recopilaron datos de 300 accidentes:
+	
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|}\hline
+			Tipo de vehículo & Lunes & Miércoles & Viernes & Total \\\hline
+			Automóvil & 30 & 25 & 45 & 100 \\\hline
+			Camioneta & 20 & 30 & 30 & 80 \\\hline
+			Motocicleta & 25 & 20 & 35 & 80 \\\hline
+			Camión & 15 & 15 & 10 & 40 \\\hline
+			Total & 90 & 90 & 120 & 300 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	\begin{enumerate}
+		\item Calcule las frecuencias esperadas bajo la hipótesis de independencia.
+		\item Calcule el estadístico $\chi^2$.
+		\item Determine los grados de libertad.
+		\item ¿Se debe rechazar la hipótesis de independencia al nivel $\alpha = 0.05$? ($\chi^2_{0.05, 6} = 12.59$)
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Frecuencias esperadas $E_{ij} = \frac{(\text{Total fila}_i)(\text{Total columna}_j)}{\text{Total general}}$:
+		
+		\begin{center}
+			\begin{tabular}{|l|c|c|c|}\hline
+				Tipo & Lunes & Miércoles & Viernes \\\hline
+				Automóvil & 30 & 30 & 40 \\\hline
+				Camioneta & 24 & 24 & 32 \\\hline
+				Motocicleta & 24 & 24 & 32 \\\hline
+				Camión & 12 & 12 & 16 \\\hline
+			\end{tabular}
+		\end{center}
+		
+		\item Estadístico $\chi^2$:
+		\begin{align}
+			\chi^2 &= \frac{(30-30)^2}{30} + \frac{(25-30)^2}{30} + \frac{(45-40)^2}{40} \\
+			&\quad + \frac{(20-24)^2}{24} + \frac{(30-24)^2}{24} + \frac{(30-32)^2}{32} \\
+			&\quad + \frac{(25-24)^2}{24} + \frac{(20-24)^2}{24} + \frac{(35-32)^2}{32} \\
+			&\quad + \frac{(15-12)^2}{12} + \frac{(15-12)^2}{12} + \frac{(10-16)^2}{16} \\
+			&= 0 + 0.833 + 0.625 + 0.667 + 1.5 + 0.125 + 0.042 + 0.667 + 0.281 + 0.75 + 0.75 + 2.25 \\
+			&= 8.49
+		\end{align}
+		
+		\item Grados de libertad: $\nu = (r-1)(c-1) = (4-1)(3-1) = 3 \times 2 = 6$
+		
+		\item Como $\chi^2 = 8.49 < 12.59 = \chi^2_{0.05, 6}$, \textbf{no rechazamos} $H_0$.
+		
+		\textbf{Conclusión:} No hay evidencia estadística suficiente al nivel del 5\% para afirmar que el tipo de vehículo y el día de la semana están relacionados en los accidentes de tráfico.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-chi2-4}
+	Un investigador quiere probar si la distribución de grupos sanguíneos en una población sigue las proporciones teóricas: 45\% tipo A, 40\% tipo B, 10\% tipo AB, y 5\% tipo O. En una muestra de 200 personas, se observaron:
+	
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|}\hline
+			Tipo sanguíneo & A & B & AB & O \\\hline
+			Frecuencia observada & 95 & 75 & 18 & 12 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	Pruebe la hipótesis al nivel de significación $\alpha = 0.05$.
+\end{problema}
+
+\begin{solucion}
+	\textbf{Hipótesis:}
+	\begin{align}
+		H_0&: p_A = 0.45, p_B = 0.40, p_{AB} = 0.10, p_O = 0.05 \\
+		H_a&: \text{Al menos una proporción es diferente}
+	\end{align}
+	
+	\textbf{Frecuencias esperadas:}
+	\begin{align}
+		E_A &= 200 \times 0.45 = 90 \\
+		E_B &= 200 \times 0.40 = 80 \\
+		E_{AB} &= 200 \times 0.10 = 20 \\
+		E_O &= 200 \times 0.05 = 10
+	\end{align}
+	
+	\textbf{Estadístico $\chi^2$:}
+	\begin{align}
+		\chi^2 &= \frac{(95-90)^2}{90} + \frac{(75-80)^2}{80} + \frac{(18-20)^2}{20} + \frac{(12-10)^2}{10} \\
+		&= \frac{25}{90} + \frac{25}{80} + \frac{4}{20} + \frac{4}{10} \\
+		&= 0.278 + 0.313 + 0.2 + 0.4 = 1.191
+	\end{align}
+	
+	\textbf{Grados de libertad:} $\nu = 4 - 1 = 3$
+	
+	\textbf{Valor crítico:} $\chi^2_{0.05, 3} = 7.81$
+	
+	\textbf{Decisión:} Como $\chi^2 = 1.191 < 7.81$, \textbf{no rechazamos} $H_0$.
+	
+	\textbf{Conclusión:} No hay evidencia estadística al nivel del 5\% para rechazar que la distribución de grupos sanguíneos sigue las proporciones teóricas propuestas.
+\end{solucion}
+
+\begin{problema}
+	\label{prob-chi2-5}
+	Una empresa quiere probar si la satisfacción laboral es independiente del departamento. Se encuesta a 250 empleados:
+	
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|}\hline
+			Departamento & Muy satisfecho & Satisfecho & Insatisfecho & Total \\\hline
+			Ventas & 20 & 35 & 15 & 70 \\\hline
+			Producción & 25 & 40 & 25 & 90 \\\hline
+			Administración & 30 & 25 & 5 & 60 \\\hline
+			Recursos Humanos & 15 & 10 & 5 & 30 \\\hline
+			Total & 90 & 110 & 50 & 250 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	\begin{enumerate}
+		\item Calcule las frecuencias esperadas.
+		\item Calcule el estadístico $\chi^2$.
+		\item Determine los grados de libertad y el valor crítico ($\chi^2_{0.05, 6} = 12.59$).
+		\item ¿Cuál es la conclusión?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Frecuencias esperadas:
+		
+		\begin{center}
+			\begin{tabular}{|l|c|c|c|}\hline
+				Departamento & Muy sat. & Satisfecho & Insatisfecho \\\hline
+				Ventas & 25.2 & 30.8 & 14.0 \\\hline
+				Producción & 32.4 & 39.6 & 18.0 \\\hline
+				Administración & 21.6 & 26.4 & 12.0 \\\hline
+				Recursos Humanos & 10.8 & 13.2 & 6.0 \\\hline
+			\end{tabular}
+		\end{center}
+		
+		\item Estadístico $\chi^2$:
+		\begin{align}
+			\chi^2 &= \frac{(20-25.2)^2}{25.2} + \frac{(35-30.8)^2}{30.8} + \frac{(15-14)^2}{14} \\
+			&\quad + \frac{(25-32.4)^2}{32.4} + \frac{(40-39.6)^2}{39.6} + \frac{(25-18)^2}{18} \\
+			&\quad + \frac{(30-21.6)^2}{21.6} + \frac{(25-26.4)^2}{26.4} + \frac{(5-12)^2}{12} \\
+			&\quad + \frac{(15-10.8)^2}{10.8} + \frac{(10-13.2)^2}{13.2} + \frac{(5-6)^2}{6} \\
+			&= 1.075 + 0.571 + 0.071 + 1.684 + 0.004 + 2.722 \\
+			&\quad + 3.267 + 0.074 + 4.083 + 1.633 + 0.776 + 0.167 \\
+			&= 16.127
+		\end{align}
+		
+		\item Grados de libertad: $\nu = (4-1)(3-1) = 3 \times 2 = 6$
+		
+		Valor crítico: $\chi^2_{0.05, 6} = 12.59$
+		
+		\item Como $\chi^2 = 16.127 > 12.59$, \textbf{rechazamos} $H_0$.
+		
+		\textbf{Conclusión:} Hay evidencia estadística al nivel del 5\% para afirmar que la satisfacción laboral depende del departamento. En particular, Administración tiene más empleados "muy satisfechos" y Producción tiene más "insatisfechos" de lo esperado bajo independencia.
+	\end{enumerate}
+\end{solucion}

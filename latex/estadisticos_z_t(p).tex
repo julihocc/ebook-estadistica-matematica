@@ -1,0 +1,240 @@
+\section*{Problemas}
+
+\begin{problema}
+	\label{prob-z-1}
+	Una fábrica de baterías afirma que la duración promedio de sus baterías es de 500 horas con una desviación estándar de 40 horas. Un inspector de calidad toma una muestra aleatoria de 64 baterías y encuentra una duración promedio de 490 horas.
+	
+	\begin{enumerate}
+		\item Formule las hipótesis nula y alternativa para probar si la duración promedio es menor a 500 horas.
+		\item Calcule el estadístico Z.
+		\item Determine el valor p.
+		\item ¿Se debe rechazar la hipótesis nula al nivel de significación $\alpha = 0.05$?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Hipótesis:
+		\begin{align}
+			H_0: \mu &= 500 \text{ horas} \\
+			H_a: \mu &< 500 \text{ horas}
+		\end{align}
+		
+		\item Estadístico Z:
+		\begin{align}
+			Z = \frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}} = \frac{490 - 500}{40/\sqrt{64}} = \frac{-10}{5} = -2.0
+		\end{align}
+		
+		\item Valor p (prueba de cola izquierda):
+		\begin{align}
+			p\text{-valor} = P(Z < -2.0) = \Phi(-2.0) \approx 0.0228
+		\end{align}
+		
+		\item Como $p\text{-valor} = 0.0228 < 0.05 = \alpha$, \textbf{rechazamos} $H_0$.
+		
+		\textbf{Conclusión:} Hay evidencia estadística suficiente al nivel de significación del 5\% para afirmar que la duración promedio de las baterías es menor a 500 horas.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-z-2}
+	Un investigador afirma que el coeficiente intelectual (CI) promedio de los estudiantes de una universidad es diferente de 100 (el promedio nacional). Toma una muestra de 100 estudiantes y encuentra $\bar{x} = 105$. Suponga que $\sigma = 15$.
+	
+	\begin{enumerate}
+		\item Formule las hipótesis para una prueba de dos colas.
+		\item Calcule el estadístico Z.
+		\item Determine el valor p.
+		\item ¿Se debe rechazar $H_0$ al nivel $\alpha = 0.01$?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Hipótesis:
+		\begin{align}
+			H_0: \mu &= 100 \\
+			H_a: \mu &\neq 100
+		\end{align}
+		
+		\item Estadístico Z:
+		\begin{align}
+			Z = \frac{105 - 100}{15/\sqrt{100}} = \frac{5}{1.5} = 3.33
+		\end{align}
+		
+		\item Valor p (prueba de dos colas):
+		\begin{align}
+			p\text{-valor} = 2 \times P(Z > 3.33) = 2 \times (1 - \Phi(3.33)) \approx 2 \times 0.0004 = 0.0008
+		\end{align}
+		
+		\item Como $p\text{-valor} = 0.0008 < 0.01 = \alpha$, \textbf{rechazamos} $H_0$.
+		
+		\textbf{Conclusión:} Hay evidencia estadística muy fuerte para afirmar que el CI promedio de los estudiantes de esta universidad es diferente de 100.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-t-1}
+	Un fabricante de neumáticos afirma que sus llantas duran en promedio 50,000 km. Un consumidor toma una muestra de 16 llantas y encuentra $\bar{x} = 48,500$ km con $s = 3,000$ km.
+	
+	\begin{enumerate}
+		\item ¿Qué distribución debe usar para la prueba (Z o t)? ¿Por qué?
+		\item Formule las hipótesis para probar si la duración es menor a 50,000 km.
+		\item Calcule el estadístico t.
+		\item Determine el valor p aproximado usando $\nu = 15$ grados de libertad.
+		\item ¿Se debe rechazar $H_0$ al nivel $\alpha = 0.05$?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Debemos usar la \textbf{distribución t de Student} porque:
+		\begin{itemize}
+			\item El tamaño de muestra es pequeño ($n = 16 < 30$)
+			\item La desviación estándar poblacional $\sigma$ es desconocida y usamos la desviación estándar muestral $s$
+		\end{itemize}
+		
+		\item Hipótesis:
+		\begin{align}
+			H_0: \mu &= 50,000 \text{ km} \\
+			H_a: \mu &< 50,000 \text{ km}
+		\end{align}
+		
+		\item Estadístico t:
+		\begin{align}
+			t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} = \frac{48,500 - 50,000}{3,000/\sqrt{16}} = \frac{-1,500}{750} = -2.0
+		\end{align}
+		
+		\item Valor p (prueba de cola izquierda con $\nu = 15$):
+		\begin{align}
+			p\text{-valor} = P(t_{15} < -2.0) \approx 0.032
+		\end{align}
+		
+		\item Como $p\text{-valor} \approx 0.032 < 0.05 = \alpha$, \textbf{rechazamos} $H_0$.
+		
+		\textbf{Conclusión:} Hay evidencia estadística al nivel del 5\% para afirmar que la duración promedio de las llantas es menor a 50,000 km.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-t-2}
+	Un nutricionista quiere probar si una nueva dieta aumenta el peso promedio de las personas. Toma una muestra de 25 personas que siguen la dieta durante 3 meses y encuentra que el aumento de peso promedio es $\bar{x} = 2.5$ kg con $s = 4.0$ kg.
+	
+	\begin{enumerate}
+		\item Formule las hipótesis para probar si la dieta aumenta el peso (prueba de cola derecha).
+		\item Calcule el estadístico t.
+		\item Determine el valor p con $\nu = 24$ grados de libertad.
+		\item ¿Se debe rechazar $H_0$ al nivel $\alpha = 0.10$?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Hipótesis:
+		\begin{align}
+			H_0: \mu &= 0 \text{ kg (sin cambio)} \\
+			H_a: \mu &> 0 \text{ kg (aumento de peso)}
+		\end{align}
+		
+		\item Estadístico t:
+		\begin{align}
+			t = \frac{2.5 - 0}{4.0/\sqrt{25}} = \frac{2.5}{0.8} = 3.125
+		\end{align}
+		
+		\item Valor p (prueba de cola derecha con $\nu = 24$):
+		\begin{align}
+			p\text{-valor} = P(t_{24} > 3.125) \approx 0.0023
+		\end{align}
+		
+		\item Como $p\text{-valor} \approx 0.0023 < 0.10 = \alpha$, \textbf{rechazamos} $H_0$.
+		
+		\textbf{Conclusión:} Hay evidencia estadística muy fuerte al nivel del 10\% para afirmar que la dieta produce un aumento de peso promedio significativo.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-t-3}
+	Un fabricante de cables eléctricos afirma que la resistencia promedio de sus cables es de 100 ohmios. Un ingeniero toma una muestra de 9 cables y obtiene los siguientes valores de resistencia (en ohmios):
+	
+	\begin{center}
+		98, 102, 99, 101, 97, 103, 100, 98, 102
+	\end{center}
+	
+	\begin{enumerate}
+		\item Calcule la media y desviación estándar muestrales.
+		\item Formule las hipótesis para una prueba de dos colas.
+		\item Calcule el estadístico t.
+		\item Determine el valor p con $\nu = 8$ grados de libertad.
+		\item ¿Se debe rechazar $H_0$ al nivel $\alpha = 0.05$?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Cálculos muestrales:
+		\begin{align}
+			\bar{x} &= \frac{98 + 102 + 99 + 101 + 97 + 103 + 100 + 98 + 102}{9} = \frac{900}{9} = 100 \\
+			s^2 &= \frac{\sum(x_i - \bar{x})^2}{n-1} = \frac{4 + 4 + 1 + 1 + 9 + 9 + 0 + 4 + 4}{8} = \frac{36}{8} = 4.5 \\
+			s &= \sqrt{4.5} \approx 2.12
+		\end{align}
+		
+		\item Hipótesis:
+		\begin{align}
+			H_0: \mu &= 100 \text{ ohmios} \\
+			H_a: \mu &\neq 100 \text{ ohmios}
+		\end{align}
+		
+		\item Estadístico t:
+		\begin{align}
+			t = \frac{100 - 100}{2.12/\sqrt{9}} = \frac{0}{0.707} = 0
+		\end{align}
+		
+		\item Valor p (prueba de dos colas con $\nu = 8$):
+		\begin{align}
+			p\text{-valor} = 2 \times P(t_8 > 0) = 2 \times 0.5 = 1.0
+		\end{align}
+		
+		\item Como $p\text{-valor} = 1.0 > 0.05 = \alpha$, \textbf{no rechazamos} $H_0$.
+		
+		\textbf{Conclusión:} No hay evidencia estadística para rechazar la afirmación del fabricante. La media muestral es exactamente igual al valor afirmado.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-z-3}
+	Una empresa de telecomunicaciones afirma que el tiempo promedio de espera en su servicio al cliente es de 8 minutos con $\sigma = 2$ minutos. Un estudio independiente toma una muestra de 49 llamadas y encuentra $\bar{x} = 8.5$ minutos.
+	
+	\begin{enumerate}
+		\item Calcule el estadístico Z para probar si el tiempo de espera es mayor a 8 minutos.
+		\item Determine el valor p.
+		\item ¿Cuál es la conclusión al nivel $\alpha = 0.05$?
+		\item ¿Y al nivel $\alpha = 0.01$?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Estadístico Z (prueba de cola derecha):
+		\begin{align}
+			Z = \frac{8.5 - 8}{2/\sqrt{49}} = \frac{0.5}{2/7} = \frac{0.5}{0.286} \approx 1.75
+		\end{align}
+		
+		\item Valor p:
+		\begin{align}
+			p\text{-valor} = P(Z > 1.75) = 1 - \Phi(1.75) \approx 0.0401
+		\end{align}
+		
+		\item Al nivel $\alpha = 0.05$:
+		\begin{itemize}
+			\item Como $p\text{-valor} = 0.0401 < 0.05$, \textbf{rechazamos} $H_0$.
+			\item Hay evidencia al nivel del 5\% para afirmar que el tiempo de espera es mayor a 8 minutos.
+		\end{itemize}
+		
+		\item Al nivel $\alpha = 0.01$:
+		\begin{itemize}
+			\item Como $p\text{-valor} = 0.0401 > 0.01$, \textbf{no rechazamos} $H_0$.
+			\item No hay evidencia suficiente al nivel del 1\% para afirmar que el tiempo de espera es mayor a 8 minutos.
+		\end{itemize}
+		
+		\textbf{Observación:} Este ejemplo ilustra cómo la conclusión puede depender del nivel de significación elegido.
+	\end{enumerate}
+\end{solucion}

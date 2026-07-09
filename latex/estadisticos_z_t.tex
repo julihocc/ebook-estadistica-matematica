@@ -127,8 +127,23 @@ Si una variable aleatoria $X$ tiene distribución $t$ con $\nu$ grados de libert
 		\includegraphics[height=3cm,,keepaspectratio=true]{./images/tExample.png}
 		% tExample.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
 	\end{figure}
-	
 \end{ejemplo}
+
+\begin{solucion}
+	Buscamos el valor $t$ tal que el área a la derecha sea $0.05$. Esto significa que el área a la izquierda es $1 - 0.05 = 0.95$.
+	
+	Usando la función de percentil (ppf) de la distribución $t$ con $\nu=9$ grados de libertad:
+	\begin{align}
+		t_{0.05, 9} = t_{0.95} \approx 1.833
+	\end{align}
+	
+	Por simetría de la distribución $t$, el valor que deja un área de $0.05$ a la izquierda es $-1.833$.
+	
+	El área total sin sombrear (entre $-1.833$ y $1.833$) es:
+	\begin{align}
+		P(-1.833 < T < 1.833) = 0.95 - 0.05 = 0.90
+	\end{align}
+\end{solucion}
 
 
 []{tExample.py}
@@ -138,11 +153,11 @@ Si una variable aleatoria $X$ tiene distribución $t$ con $\nu$ grados de libert
 	import matplotlib.pyplot as plt
 	
 	def tp(x, nu):
-	return stats.t.ppf(x, df=nu)
+		return stats.t.ppf(x, df=nu)
 	
-	print tp(0.05, 9)
+	print(tp(0.05, 9))
 	##-1.83311293265
-	print tp(1-0.05, 9)
+	print(tp(1-0.05, 9))
 	##1.83311293265
 \end{lstlisting}
 

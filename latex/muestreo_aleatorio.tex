@@ -1,13 +1,14 @@
 \section{Muestreo aleatorio y teorema del límite central}
 
-\subsection{Ejemplo}
+\subsection{Motivación: Estimación de parámetros poblacionales}
+
 Supongamos que tratamos de encontrar la edad promedio en una ciudad, digamos Oaxaca. Una manera de hacerlo sería por \emph{fuerza bruta}, es decir, recolectando esta información persona por persona. Pero este método sería muy costoso en términos de infraestructura y tiempo.
 
-
-En estadística, este es un problemalema común, cuya solución está en el \emph{muestreo aleatorio}:  Tomemos un grupo de 1000 individuos (o 10,000 dependiendo de tu capacidad, obviamente entre más, es mejor) y calculemos la edad promedio en este grupo, a la que denotaremos por $A_{1}.$ 
-
+En estadística, este es un problema común, cuya solución está en el \emph{muestreo aleatorio}: Tomemos un grupo de 1000 individuos (o 10,000 dependiendo de tu capacidad, obviamente entre más, es mejor) y calculemos la edad promedio en este grupo, a la que denotaremos por $A_{1}.$
 
 Repitamos este procedimiento, digamos 100 veces, y denotaremos por $A_{1}, A_{2},...,A_{100}$ el promedio de edades obtenido en cada respectivo intento.
+
+\subsection{Ley de los grandes números}
 
 De acuerdo a la \emph{ley de los grandes números}, la cantidad
 \begin{align}
@@ -15,21 +16,132 @@ De acuerdo a la \emph{ley de los grandes números}, la cantidad
 \end{align}
 es una aproximación muy cercana al promedio real de la edad de los pobladores de la ciudad.
 
-
-De acuerdo al \emph{teorema del límite central}, si el número de tales muestras es suficientemente grande,
-$A_{1},A_{2},...,A_{100}$ estarán distribuidos de manera normal.
-
-
 \begin{observacion}
-	No estamos más interesados en obtener el valor exacto de la edad promedio, si no establecer un \emph{estimador} para la misma. 
-	
-	En tal caso,
-	tenemos que conformarnos con la definición de un \emph{rango de valores} en el que el valor real podría estar.
+	No estamos más interesados en obtener el valor exacto de la edad promedio, sino establecer un \emph{estimador} para la misma. En tal caso, tenemos que conformarnos con la definición de un \emph{rango de valores} en el que el valor real podría estar.
 \end{observacion}
 
+\subsection{Teorema del límite central}
 
-% 
-% Dado que hemos supuesto una \emph{distribución normal} para los valores de edad media de estos
-% grupos, podemos \emph{aplicar todas las propiedades} de una distribución normal para
-% posibilidades de que la edad \emph{promedio} este en algún \emph{intervalo}.
-% 
+De acuerdo al \emph{teorema del límite central}, si el número de tales muestras es suficientemente grande, $A_{1},A_{2},...,A_{100}$ estarán distribuidos de manera normal.
+
+\begin{teorema}[Teorema del límite central]
+	Si $X_1, X_2, \ldots, X_n$ son variables aleatorias independientes e idénticamente distribuidas con media $\mu$ y varianza $\sigma^2$, entonces cuando $n$ es suficientemente grande:
+	\begin{align}
+		\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1)
+	\end{align}
+	
+	Es decir, la distribución de la media muestral estandarizada se aproxima a una distribución normal estándar.
+\end{teorema}
+
+\subsection{Implicaciones prácticas del TLC}
+
+El teorema del límite central tiene profundas implicaciones para la inferencia estadística:
+
+\begin{enumerate}
+	\item \textbf{Independencia de la distribución original:} No importa si la población original sigue una distribución normal, exponencial, uniforme o cualquier otra. La distribución de la media muestral será aproximadamente normal para muestras grandes.
+	
+	\item \textbf{Tamaño de muestra:} En la práctica, $n \geq 30$ suele ser suficiente para que la aproximación normal sea buena, aunque esto depende de la forma de la distribución original.
+	
+	\item \textbf{Parámetros de la distribución muestral:}
+	\begin{align}
+		E(\bar{X}) &= \mu \\
+		\text{Var}(\bar{X}) &= \frac{\sigma^2}{n} \\
+		\text{DE}(\bar{X}) &= \frac{\sigma}{\sqrt{n}}
+	\end{align}
+\end{enumerate}
+
+\subsection{Ejemplo ilustrativo}
+
+Consideremos el lanzamiento de un dado justo. La distribución de un solo lanzamiento es uniforme discreta en $\{1, 2, 3, 4, 5, 6\}$ con:
+\begin{align}
+	\mu &= \frac{1+2+3+4+5+6}{6} = 3.5 \\
+	\sigma^2 &= \frac{(1-3.5)^2 + (2-3.5)^2 + \cdots + (6-3.5)^2}{6} = \frac{35}{12} \approx 2.917
+\end{align}
+
+Si lanzamos el dado $n = 36$ veces y calculamos el promedio $\bar{X}$, por el TLC:
+\begin{align}
+	\bar{X} \sim N\left(3.5, \frac{2.917}{36}\right) = N(3.5, 0.081)
+\end{align}
+
+Esto significa que:
+\begin{align}
+	P(3.0 < \bar{X} < 4.0) &= P\left(\frac{3.0-3.5}{\sqrt{0.081}} < Z < \frac{4.0-3.5}{\sqrt{0.081}}\right) \\
+	&= P(-1.76 < Z < 1.76) \\
+	&\approx 0.921
+\end{align}
+
+Hay aproximadamente un 92.1\% de probabilidad de que el promedio de 36 lanzamientos esté entre 3.0 y 4.0.
+
+\subsection{Simulación del TLC con Python}
+
+Podemos verificar el teorema del límite central mediante simulación:
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parámetros
+n = 30  # tamaño de muestra
+num_simulaciones = 10000
+
+# Simulación: promedio de n valores de una distribución exponencial
+medias_muestrales = []
+for _ in range(num_simulaciones):
+    muestra = np.random.exponential(scale=2.0, size=n)
+    medias_muestrales.append(np.mean(muestra))
+
+# Graficar histograma
+plt.hist(medias_muestrales, bins=50, density=True, alpha=0.7)
+
+# Superponer curva normal teórica
+mu = 2.0  # media de la exponencial
+sigma = 2.0  # desviación estándar de la exponencial
+x = np.linspace(mu - 4*sigma/np.sqrt(n), mu + 4*sigma/np.sqrt(n), 100)
+y = (1/(sigma/np.sqrt(n) * np.sqrt(2*np.pi))) * np.exp(-0.5*((x-mu)/(sigma/np.sqrt(n)))**2)
+plt.plot(x, y, 'r-', linewidth=2)
+
+plt.xlabel('Media muestral')
+plt.ylabel('Densidad')
+plt.title(f'Distribución de medias muestrales (n={n})')
+plt.show()
+\end{lstlisting}
+
+\subsection{Aplicaciones del TLC}
+
+El teorema del límite central es fundamental en muchas áreas:
+
+\begin{itemize}
+	\item \textbf{Control de calidad:} Las medias de mediciones de calidad siguen distribuciones normales, permitiendo el uso de gráficos de control.
+	
+	\item \textbf{Encuestas y sondeos:} Las proporciones muestrales (que son promedios de variables binarias) siguen distribuciones normales aproximadas.
+	
+	\item \textbf{Finanzas:} Los rendimientos promedio de carteras de inversión se modelan como normales.
+	
+	\item \textbf{Ciencias naturales:} Muchas mediciones biológicas y físicas son el resultado de muchos factores pequeños e independientes, por lo que siguen distribuciones normales.
+\end{itemize}
+
+\subsection{Limitaciones y consideraciones}
+
+Aunque el TLC es muy poderoso, es importante recordar:
+
+\begin{enumerate}
+	\item \textbf{Tamaño de muestra:} Para distribuciones muy asimétricas o con colas pesadas, puede requerirse $n > 30$ para una buena aproximación.
+	
+	\item \textbf{Independencia:} Las observaciones deben ser independientes. Si hay correlación entre observaciones, el TLC puede no aplicarse.
+	
+	\item \textbf{Varianza finita:} El TLC requiere que la varianza poblacional sea finita. Para distribuciones con varianza infinita (como la distribución de Cauchy), el TLC no se aplica.
+\end{enumerate}
+
+\subsection{Resumen}
+
+El muestreo aleatorio y el teorema del límite central son la columna vertebral de la inferencia estadística:
+
+\begin{itemize}
+	\item El \textbf{muestreo aleatorio} nos permite hacer inferencias sobre poblaciones grandes a partir de muestras pequeñas.
+	
+	\item La \textbf{ley de los grandes números} garantiza que nuestras estimaciones convergen a los valores verdaderos.
+	
+	\item El \textbf{teorema del límite central} nos permite usar la distribución normal para hacer inferencias, incluso cuando la población original no es normal.
+\end{itemize}
+
+Estos resultados teóricos justifican las técnicas de estimación y pruebas de hipótesis que estudiaremos en las siguientes secciones.
