@@ -27,22 +27,145 @@
 	\end{enumerate}
 \end{problema}
 
-%\begin{problema}
-%	%wackerly ejemplo 2.23
-%	Un fusible electrónico es producido por cinco líneas de producción en una operación de manufactura. Los fusibles son costosos, sumamente confiables y se envían a proveedores en lotes de 100 unidades. 
-%	
-%	Como la prueba es destructiva, la mayoría de los compradores de fusibles prueban solo un número pequeño de ellos antes de decidirse a aceptar o rechazar lotes de fusibles que lleguen.
-%	
-%	Las cinco líneas de producción producen fusibles al mismo ritmo y normalmente producen solo 2\% de fusibles defectuosos, que se dispersan al azar en la producción. 
-%	
-%	Desafortunadamente, la línea 1 de producción sufrió problemas mecánicos y produjo 5\% de piezas defectuosas durante el mes de marzo. 
-%	
-%	Esta situación llegó al conocimiento del fabricante después de que los fusibles ya habían sido enviados. Un cliente recibió un lote producido en marzo y probó tres fusibles. Uno falló. 
-%	
-%	\begin{enumerate}
-%		\item 
-%		¿Cuál es la probabilidad de que el lote se haya producido en la línea 1? 
-%		\item ¿Cuál es la
-%		probabilidad de que el lote haya provenido de una de las otras cuatro líneas?
-%	\end{enumerate}
-%\end{problema}
+
+\begin{problema}
+	\label{bayes-pro-3}
+	Un test médico para detectar una enfermedad tiene las siguientes características:
+	\begin{itemize}
+		\item Si la persona tiene la enfermedad, el test da positivo con probabilidad 0.95 (sensibilidad)
+		\item Si la persona no tiene la enfermedad, el test da negativo con probabilidad 0.90 (especificidad)
+	\end{itemize}
+	
+	Si el 2\% de la población tiene la enfermedad, calcula:
+	\begin{enumerate}
+		\item La probabilidad de que una persona elegida al azar dé positivo
+		\item La probabilidad de que una persona que dio positivo realmente tenga la enfermedad
+		\item La probabilidad de que una persona que dio negativo realmente no tenga la enfermedad
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	Sea $E$ = ``tiene la enfermedad'', $+$ = ``test positivo'', $-$ = ``test negativo''.
+	
+	Datos: $P(E) = 0.02$, $P(+|E) = 0.95$, $P(-|E') = 0.90$.
+	
+	\begin{enumerate}
+		\item Por la regla de la probabilidad total:
+		\begin{align}
+			P(+) &= P(+|E)P(E) + P(+|E')P(E') \\
+			&= 0.95 \times 0.02 + 0.10 \times 0.98 \\
+			&= 0.019 + 0.098 = 0.117
+		\end{align}
+		
+		\item Por el teorema de Bayes:
+		\begin{align}
+			P(E|+) &= \frac{P(+|E)P(E)}{P(+)} \\
+			&= \frac{0.95 \times 0.02}{0.117} = \frac{0.019}{0.117} \approx 0.162
+		\end{align}
+		
+		\item Por el teorema de Bayes:
+		\begin{align}
+			P(E'|-) &= \frac{P(-|E')P(E')}{P(-)} \\
+			&= \frac{0.90 \times 0.98}{1 - 0.117} = \frac{0.882}{0.883} \approx 0.999
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+
+\begin{problema}
+	\label{bayes-pro-4}
+	Tres máquinas $M_1, M_2, M_3$ producen el 50\%, 30\% y 20\% de la producción total de una fábrica, respectivamente. Las tasas de defectos son 3\%, 5\% y 7\% para cada máquina.
+	\begin{enumerate}
+		\item Si se elige una pieza al azar y resulta defectuosa, ¿cuál es la probabilidad de que provenga de cada máquina?
+		\item ¿Cuál máquina es más probable que haya producido la pieza defectuosa?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	Sea $D$ = ``pieza defectuosa'', $M_i$ = ``proviene de la máquina $i$''.
+	
+	\begin{enumerate}
+		\item Primero calculamos $P(D)$:
+		\begin{align}
+			P(D) &= P(D|M_1)P(M_1) + P(D|M_2)P(M_2) + P(D|M_3)P(M_3) \\
+			&= 0.03 \times 0.50 + 0.05 \times 0.30 + 0.07 \times 0.20 \\
+			&= 0.015 + 0.015 + 0.014 = 0.044
+		\end{align}
+		
+		Ahora aplicamos Bayes para cada máquina:
+		\begin{align}
+			P(M_1|D) &= \frac{0.03 \times 0.50}{0.044} = \frac{0.015}{0.044} \approx 0.341 \\
+			P(M_2|D) &= \frac{0.05 \times 0.30}{0.044} = \frac{0.015}{0.044} \approx 0.341 \\
+			P(M_3|D) &= \frac{0.07 \times 0.20}{0.044} = \frac{0.014}{0.044} \approx 0.318
+		\end{align}
+		
+		\item Las máquinas $M_1$ y $M_2$ tienen la misma probabilidad (34.1\%), mientras que $M_3$ tiene 31.8\%. Por lo tanto, es igualmente probable que provenga de $M_1$ o $M_2$.
+	\end{enumerate}
+\end{solucion}
+
+
+\begin{problema}
+	\label{bayes-pro-5}
+	Un estudiante está estudiando para un examen. Si estudia, la probabilidad de aprobar es 0.9. Si no estudia, la probabilidad de aprobar es 0.3. El estudiante estudia con probabilidad 0.7.
+	\begin{enumerate}
+		\item ¿Cuál es la probabilidad de que el estudiante apruebe el examen?
+		\item Si el estudiante aprobó, ¿cuál es la probabilidad de que haya estudiado?
+		\item Si el estudiante no aprobó, ¿cuál es la probabilidad de que no haya estudiado?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	Sea $A$ = ``aprueba'', $E$ = ``estudia'', $E'$ = ``no estudia''.
+	
+	\begin{enumerate}
+		\item Por la regla de la probabilidad total:
+		\begin{align}
+			P(A) &= P(A|E)P(E) + P(A|E')P(E') \\
+			&= 0.9 \times 0.7 + 0.3 \times 0.3 \\
+			&= 0.63 + 0.09 = 0.72
+		\end{align}
+		
+		\item Por el teorema de Bayes:
+		\begin{align}
+			P(E|A) &= \frac{P(A|E)P(E)}{P(A)} \\
+			&= \frac{0.9 \times 0.7}{0.72} = \frac{0.63}{0.72} = 0.875
+		\end{align}
+		
+		\item Por el teorema de Bayes:
+		\begin{align}
+			P(E'|A') &= \frac{P(A'|E')P(E')}{P(A')} \\
+			&= \frac{0.7 \times 0.3}{1 - 0.72} = \frac{0.21}{0.28} = 0.75
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+
+\begin{problema}
+	\label{bayes-pro-6}
+	Un sistema de comunicación transmite bits (0 o 1). La probabilidad de que un 0 se reciba como 1 es 0.02, y la probabilidad de que un 1 se reciba como 0 es 0.03. Si el 60\% de los bits transmitidos son 0:
+	\begin{enumerate}
+		\item ¿Cuál es la probabilidad de que un bit recibido sea 1?
+		\item Si se recibe un 1, ¿cuál es la probabilidad de que realmente se haya transmitido un 1?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	Sea $T_0, T_1$ = ``se transmite 0, 1'', $R_0, R_1$ = ``se recibe 0, 1''.
+	
+	Datos: $P(T_0) = 0.6$, $P(T_1) = 0.4$, $P(R_1|T_0) = 0.02$, $P(R_0|T_1) = 0.03$.
+	
+	\begin{enumerate}
+		\item Por la regla de la probabilidad total:
+		\begin{align}
+			P(R_1) &= P(R_1|T_0)P(T_0) + P(R_1|T_1)P(T_1) \\
+			&= 0.02 \times 0.6 + 0.97 \times 0.4 \\
+			&= 0.012 + 0.388 = 0.400
+		\end{align}
+		
+		\item Por el teorema de Bayes:
+		\begin{align}
+			P(T_1|R_1) &= \frac{P(R_1|T_1)P(T_1)}{P(R_1)} \\
+			&= \frac{0.97 \times 0.4}{0.400} = \frac{0.388}{0.400} = 0.97
+		\end{align}
+	\end{enumerate}
+\end{solucion}

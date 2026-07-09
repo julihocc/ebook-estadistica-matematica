@@ -1,3 +1,175 @@
 \section*{Problemas}
 
+\begin{problema}
+	\label{prob-cond-1}
+	Se lanzan dos dados. Sea $A$ el evento de que la suma sea al menos 9, y sea $B$ el evento de que el primer dado muestre un número par.
+	\begin{enumerate}
+		\item Calcula $P(A)$
+		\item Calcula $P(B)$
+		\item Calcula $P(A|B)$
+		\item ¿Son $A$ y $B$ independientes?
+	\end{enumerate}
+\end{problema}
 
+\begin{solucion}
+	El espacio muestral tiene $6 \times 6 = 36$ resultados.
+	
+	\begin{enumerate}
+		\item $A = \{(3,6), (4,5), (4,6), (5,4), (5,5), (5,6), (6,3), (6,4), (6,5), (6,6)\}$, entonces $\card{A} = 10$ y $P(A) = \frac{10}{36} = \frac{5}{18}$.
+		
+		\item $B$ = primer dado es par = $\{2,4,6\} \times \{1,2,3,4,5,6\}$, entonces $\card{B} = 18$ y $P(B) = \frac{18}{36} = \frac{1}{2}$.
+		
+		\item $A \cap B = \{(4,5), (4,6), (6,3), (6,4), (6,5), (6,6)\}$, entonces $\card{A \cap B} = 6$ y
+		\begin{align}
+			P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{6/36}{18/36} = \frac{6}{18} = \frac{1}{3}
+		\end{align}
+		
+		\item Como $P(A|B) = \frac{1}{3} \neq \frac{5}{18} = P(A)$, los eventos \textbf{no son independientes}.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-cond-2}
+	Una urna contiene 5 bolas rojas y 3 bolas azules. Se extraen dos bolas sucesivamente sin reemplazo. Sea $A$ = ``la primera bola es roja'' y $B$ = ``la segunda bola es roja''.
+	\begin{enumerate}
+		\item Calcula $P(A)$
+		\item Calcula $P(B|A)$
+		\item Calcula $P(B|A')$
+		\item Calcula $P(B)$ usando la regla de la probabilidad total
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item $P(A) = \frac{5}{8}$
+		
+		\item Si la primera es roja, quedan 4 rojas y 3 azules (7 bolas en total):
+		\begin{align}
+			P(B|A) = \frac{4}{7}
+		\end{align}
+		
+		\item Si la primera es azul, quedan 5 rojas y 2 azules (7 bolas en total):
+		\begin{align}
+			P(B|A') = \frac{5}{7}
+		\end{align}
+		
+		\item Por la regla de la probabilidad total:
+		\begin{align}
+			P(B) &= P(B|A)P(A) + P(B|A')P(A') \\
+			&= \frac{4}{7} \cdot \frac{5}{8} + \frac{5}{7} \cdot \frac{3}{8} \\
+			&= \frac{20}{56} + \frac{15}{56} = \frac{35}{56} = \frac{5}{8}
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-cond-3}
+	En una fábrica, el 70\% de las piezas son producidas por la máquina A y el 30\% por la máquina B. La máquina A tiene una tasa de defectos del 5\%, mientras que la máquina B tiene una tasa de defectos del 10\%. Si se elige una pieza al azar:
+	\begin{enumerate}
+		\item ¿Cuál es la probabilidad de que la pieza sea defectuosa?
+		\item Si la pieza es defectuosa, ¿cuál es la probabilidad de que provenga de la máquina A?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	Sea $D$ = ``la pieza es defectuosa'', $A$ = ``proviene de la máquina A'', $B$ = ``proviene de la máquina B''.
+	
+	\begin{enumerate}
+		\item Por la regla de la probabilidad total:
+		\begin{align}
+			P(D) &= P(D|A)P(A) + P(D|B)P(B) \\
+			&= 0.05 \times 0.70 + 0.10 \times 0.30 \\
+			&= 0.035 + 0.03 = 0.065
+		\end{align}
+		
+		\item Por el teorema de Bayes:
+		\begin{align}
+			P(A|D) &= \frac{P(D|A)P(A)}{P(D)} \\
+			&= \frac{0.05 \times 0.70}{0.065} = \frac{0.035}{0.065} \approx 0.538
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-cond-4}
+	Se sabe que el 80\% de los estudiantes de una universidad aprueban el examen de cálculo. De los que aprueban, el 90\% asistió a clases regularmente. De los que no aprueban, solo el 40\% asistió regularmente.
+	\begin{enumerate}
+		\item Si un estudiante aprobó el examen, ¿cuál es la probabilidad de que haya asistido regularmente?
+		\item Si un estudiante no asistió regularmente, ¿cuál es la probabilidad de que haya aprobado?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	Sea $A$ = ``aprobó'', $R$ = ``asistió regularmente'', $A'$ = ``no aprobó''.
+	
+	\begin{enumerate}
+		\item Por la regla de la probabilidad total:
+		\begin{align}
+			P(R|A) &= \frac{P(A|R)P(R)}{P(A)}
+		\end{align}
+		
+		Necesitamos calcular $P(A)$:
+		\begin{align}
+			P(A) &= P(A|R)P(R) + P(A|R')P(R') \\
+			&= 0.90 \times 0.80 + 0.40 \times 0.20 \\
+			&= 0.72 + 0.08 = 0.80
+		\end{align}
+		
+		Entonces:
+		\begin{align}
+			P(R|A) &= \frac{0.90 \times 0.80}{0.80} = \frac{0.72}{0.80} = 0.90
+		\end{align}
+		
+		\item Si no asistió regularmente ($A'$), entonces $R'$:
+		\begin{align}
+			P(A) &= P(A|R')P(R') + P(A|R)P(R) \\
+			&= 0.40 \times 0.20 + 0.90 \times 0.80 \\
+			&= 0.08 + 0.72 = 0.80
+		\end{align}
+		
+		Y por Bayes:
+		\begin{align}
+			P(R|A') &= \frac{P(A|R')P(R')}{P(A)} \\
+			&= \frac{0.40 \times 0.20}{0.80} = \frac{0.08}{0.80} = 0.10
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-cond-5}
+	Un fabricante produce dos tipos de piezas: tipo A con probabilidad 0.6 y tipo B con probabilidad 0.4. Las piezas tipo A tienen una tasa de defectos del 2\%, mientras que las tipo B tienen una tasa de defectos del 5\%. Si se selecciona una pieza al azar y resulta defectuosa, ¿cuál es la probabilidad de que sea tipo A?
+\end{problema}
+
+\begin{solucion}
+	Sea $D$ = ``pieza defectuosa'', $A$ = ``tipo A'', $B$ = ``tipo B''.
+	
+	\begin{enumerate}
+		\item Por la regla de la probabilidad total:
+		\begin{align}
+			P(D) &= P(D|A)P(A) + P(D|B)P(B) \\
+			&= 0.02 \times 0.6 + 0.05 \times 0.4 \\
+			&= 0.012 + 0.020 = 0.032
+		\end{align}
+		
+		\item Por el teorema de Bayes:
+		\begin{align}
+			P(A|D) &= \frac{P(D|A)P(A)}{P(D)} \\
+			&= \frac{0.02 \times 0.6}{0.032} = \frac{0.012}{0.032} = 0.375
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob-cond-6}
+	Demuestra que si $P(B|A) = P(B)$, entonces $A$ y $B$ son independientes.
+\end{problema}
+
+\begin{solucion}
+	Si $P(B|A) = P(B)$, por definición de probabilidad condicional:
+	\begin{align}
+		P(B|A) &= \frac{P(A \cap B)}{P(A)} = P(B) \\
+		\Rightarrow P(A \cap B) &= P(A)P(B)
+	\end{align}
+	
+	que es precisamente la definición de independencia.
+\end{solucion}
