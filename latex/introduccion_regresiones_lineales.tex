@@ -1,0 +1,133 @@
+\section{Introducción a la regresión lineal}
+
+La \emph{regresión lineal} es una de las técnicas más fundamentales y ampliamente utilizadas en estadística y aprendizaje automático. Permite modelar la relación entre una variable de respuesta (o variable dependiente) y una o más variables predictoras (o variables independientes) mediante una función lineal.
+
+\subsection{Breve historia}
+
+El término ``regresión'' fue acuñado por Sir Francis Galton en la década de 1880 mientras estudiaba la herencia de características físicas. Galton observó que las alturas de los hijos tendían a ``regresar'' hacia la media poblacional, incluso cuando sus padres eran excepcionalmente altos o bajos. Este fenómeno, conocido como \emph{regresión hacia la media}, sentó las bases para el desarrollo de técnicas estadísticas modernas.
+
+Karl Pearson, contemporáneo de Galton, formalizó matemáticamente el concepto de correlación y desarrolló métodos para estimar los parámetros de modelos de regresión. Posteriormente, Ronald Fisher contribuyó significativamente al desarrollo de la teoría estadística subyacente, incluyendo pruebas de hipótesis y análisis de varianza.
+
+\subsection{Aplicaciones de la regresión lineal}
+
+La regresión lineal tiene aplicaciones en prácticamente todos los campos del conocimiento:
+
+\begin{itemize}
+	\item \textbf{Economía y finanzas:} Predicción de precios de acciones, análisis de demanda, estimación de costos, modelado del crecimiento económico.
+	
+	\item \textbf{Medicina y salud pública:} Relación entre dosis de medicamentos y respuesta, predicción de esperanza de vida, análisis de factores de riesgo.
+	
+	\item \textbf{Ingeniería:} Control de calidad, predicción de fallas, optimización de procesos, modelado de sistemas.
+	
+	\item \textbf{Ciencias sociales:} Estudio de relaciones entre variables socioeconómicas, análisis de encuestas, predicción de comportamiento.
+	
+	\item \textbf{Marketing:} Predicción de ventas, análisis de efectividad de campañas publicitarias, segmentación de clientes.
+	
+	\item \textbf{Ciencias ambientales:} Modelado de cambio climático, predicción de contaminación, análisis de tendencias ecológicas.
+\end{itemize}
+
+\subsection{Conceptos fundamentales}
+
+Antes de profundizar en la teoría y práctica de la regresión lineal, es importante entender algunos conceptos clave:
+
+\begin{definicion}[Variable de respuesta y variables predictoras]
+	\begin{itemize}
+		\item \textbf{Variable de respuesta} (también llamada variable dependiente, variable objetivo o simplemente $Y$): Es la variable que queremos predecir o explicar.
+		\item \textbf{Variables predictoras} (también llamadas variables independientes, características o $X_1, X_2, \ldots, X_p$): Son las variables que usamos para predecir o explicar la variable de respuesta.
+	\end{itemize}
+\end{definicion}
+
+\begin{definicion}[Modelo de regresión lineal simple]
+	Cuando tenemos una sola variable predictora, el modelo de regresión lineal simple tiene la forma:
+	\begin{align}
+		Y = \beta_0 + \beta_1 X + \epsilon
+	\end{align}
+	donde:
+	\begin{itemize}
+		\item $\beta_0$ es la \emph{ordenada al origen} o \emph{intercepto}: el valor de $Y$ cuando $X = 0$.
+		\item $\beta_1$ es la \emph{pendiente}: el cambio esperado en $Y$ por cada unidad de cambio en $X$.
+		\item $\epsilon$ es el \emph{término de error} o \emph{residuo}: la diferencia entre el valor observado de $Y$ y el valor predicho por el modelo.
+	\end{itemize}
+\end{definicion}
+
+\begin{definicion}[Modelo de regresión lineal múltiple]
+	Cuando tenemos múltiples variables predictoras, el modelo se generaliza a:
+	\begin{align}
+		Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \epsilon
+	\end{align}
+	donde cada $\beta_i$ representa el efecto de la variable $X_i$ sobre $Y$, manteniendo constantes las demás variables.
+\end{definicion}
+
+\subsection{Relación entre correlación y regresión}
+
+Es importante distinguir entre \emph{correlación} y \emph{regresión}, aunque están relacionadas:
+
+\begin{itemize}
+	\item \textbf{Correlación:} Mide la fuerza y dirección de la relación lineal entre dos variables. Es simétrica (la correlación entre $X$ y $Y$ es la misma que entre $Y$ y $X$) y no implica causalidad.
+	
+	\item \textbf{Regresión:} Modela la relación funcional entre variables, permitiendo predecir valores de una variable a partir de otras. No es simétrica (la regresión de $Y$ sobre $X$ es diferente de la regresión de $X$ sobre $Y$) y tampoco implica causalidad por sí sola.
+\end{itemize}
+
+\begin{observacion}
+	Una alta correlación entre dos variables sugiere que una regresión lineal podría ser apropiada, pero no garantiza que el modelo sea útil o significativo. Es fundamental realizar un análisis completo que incluya validación del modelo, análisis de residuos y verificación de supuestos.
+\end{observacion}
+
+\subsection{El proceso de modelado con regresión lineal}
+
+El proceso típico de construir un modelo de regresión lineal incluye los siguientes pasos:
+
+\begin{enumerate}
+	\item \textbf{Definición del problema:} Identificar claramente la variable de respuesta y las variables predictoras potenciales.
+	
+	\item \textbf{Exploración de datos:} Analizar las variables individualmente y sus relaciones mediante estadísticos descriptivos y visualizaciones (diagramas de dispersión, matrices de correlación).
+	
+	\item \textbf{Especificación del modelo:} Decidir qué variables incluir en el modelo y qué forma funcional usar (lineal, polinomial, etc.).
+	
+	\item \textbf{Estimación de parámetros:} Usar métodos como mínimos cuadrados para estimar los coeficientes del modelo.
+	
+	\item \textbf{Evaluación del modelo:} Analizar la calidad del ajuste mediante métricas como $R^2$, pruebas de hipótesis sobre los coeficientes, y análisis de residuos.
+	
+	\item \textbf{Validación:} Probar el modelo en datos no utilizados durante el entrenamiento para evaluar su capacidad de generalización.
+	
+	\item \textbf{Interpretación y uso:} Interpretar los resultados en el contexto del problema y usar el modelo para predicción o inferencia.
+\end{enumerate}
+
+\subsection{Supuestos del modelo de regresión lineal}
+
+Para que las inferencias basadas en un modelo de regresión lineal sean válidas, deben cumplirse ciertos supuestos:
+
+\begin{enumerate}
+	\item \textbf{Linealidad:} La relación entre las variables predictoras y la variable de respuesta es lineal.
+	
+	\item \textbf{Independencia:} Las observaciones son independientes entre sí.
+	
+	\item \textbf{Homocedasticidad:} La varianza de los errores es constante para todos los valores de las variables predictoras.
+	
+	\item \textbf{Normalidad:} Los errores siguen una distribución normal (especialmente importante para muestras pequeñas).
+	
+	\item \textbf{No multicolinealidad:} Las variables predictoras no están altamente correlacionadas entre sí (en regresión múltiple).
+\end{enumerate}
+
+En secciones posteriores discutiremos cómo verificar estos supuestos y qué hacer cuando no se cumplen.
+
+\subsection{Estructura del capítulo}
+
+En este capítulo estudiaremos:
+
+\begin{enumerate}
+	\item \textbf{Fundamentos matemáticos:} Las matemáticas detrás de la regresión lineal, incluyendo el método de mínimos cuadrados.
+	
+	\item \textbf{Regresión lineal simple:} Modelos con una sola variable predictora, incluyendo simulación, estimación de parámetros y evaluación.
+	
+	\item \textbf{Regresión lineal múltiple:} Modelos con múltiples variables predictoras, selección de variables y multicolinealidad.
+	
+	\item \textbf{Validación del modelo:} Técnicas para evaluar la capacidad de generalización del modelo.
+	
+	\item \textbf{Implementación en Python:} Uso de \texttt{statsmodels} y \texttt{scikit-learn} para construir modelos de regresión.
+	
+	\item \textbf{Supuestos y diagnóstico:} Verificación de supuestos y análisis de residuos.
+	
+	\item \textbf{Extensiones:} Variables categóricas y transformaciones no lineales.
+\end{enumerate}
+
+A lo largo del capítulo utilizaremos ejemplos prácticos y código en Python para ilustrar los conceptos y técnicas presentadas.

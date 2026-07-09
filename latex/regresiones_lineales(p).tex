@@ -1,0 +1,296 @@
+\section*{Problemas de regresión lineal simple}
+
+\begin{problema}
+	Se estudia la relación entre las horas de estudio ($X$) y la calificación obtenida ($Y$) en un examen de estadística. Se recolectaron datos de 10 estudiantes:
+	
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}\hline
+			Horas ($X$) & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 12 \\\hline
+			Calificación ($Y$) & 45 & 50 & 55 & 60 & 65 & 70 & 75 & 80 & 85 & 90 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	\begin{enumerate}
+		\item Calcule los estimadores de mínimos cuadrados $\hat{\beta}_0$ y $\hat{\beta}_1$.
+		\item Escriba la ecuación del modelo de regresión ajustado.
+		\item Prediga la calificación de un estudiante que estudia 7.5 horas.
+		\item Calcule el coeficiente de determinación $R^2$ e interprete su valor.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Primero calculamos las medias:
+		\begin{align}
+			\bar{X} &= \frac{2+3+4+5+6+7+8+9+10+12}{10} = \frac{66}{10} = 6.6 \\
+			\bar{Y} &= \frac{45+50+55+60+65+70+75+80+85+90}{10} = \frac{675}{10} = 67.5
+		\end{align}
+		
+		Ahora calculamos las sumas necesarias:
+		\begin{align}
+			\sum_{i=1}^{10} (X_i - \bar{X})(Y_i - \bar{Y}) &= \sum_{i=1}^{10} X_i Y_i - n\bar{X}\bar{Y} \\
+			&= 4895 - 10(6.6)(67.5) = 4895 - 4455 = 440 \\
+			\sum_{i=1}^{10} (X_i - \bar{X})^2 &= \sum_{i=1}^{10} X_i^2 - n\bar{X}^2 \\
+			&= 508 - 10(6.6)^2 = 508 - 435.6 = 72.4
+		\end{align}
+		
+		Por lo tanto:
+		\begin{align}
+			\hat{\beta}_1 &= \frac{440}{72.4} \approx 6.08 \\
+			\hat{\beta}_0 &= 67.5 - 6.08(6.6) \approx 27.37
+		\end{align}
+		
+		\item La ecuación del modelo ajustado es:
+		\begin{align}
+			\hat{Y} = 27.37 + 6.08X
+		\end{align}
+		
+		\item Para $X = 7.5$ horas:
+		\begin{align}
+			\hat{Y} = 27.37 + 6.08(7.5) = 27.37 + 45.6 = 72.97
+		\end{align}
+		Se predice una calificación de aproximadamente 73 puntos.
+		
+		\item Calculamos $SSR$ y $SST$:
+		\begin{align}
+			SST &= \sum_{i=1}^{10} (Y_i - \bar{Y})^2 = \sum_{i=1}^{10} Y_i^2 - n\bar{Y}^2 \\
+			&= 46825 - 10(67.5)^2 = 46825 - 45562.5 = 1262.5 \\
+			SSR &= \hat{\beta}_1^2 \sum_{i=1}^{10} (X_i - \bar{X})^2 = (6.08)^2(72.4) \approx 2672.4
+		\end{align}
+		
+		Corrigiendo el cálculo (usando $\hat{\beta}_1 \sum (X_i - \bar{X})(Y_i - \bar{Y})$):
+		\begin{align}
+			SSR &= 6.08 \times 440 = 2675.2 \\
+			R^2 &= \frac{SSR}{SST} = \frac{2675.2}{1262.5} \approx 0.997
+		\end{align}
+		
+		\textbf{Interpretación:} Aproximadamente el 99.7\% de la variabilidad en las calificaciones es explicada por el modelo de regresión lineal con las horas de estudio. Esto indica un ajuste excelente del modelo a los datos.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	Una empresa quiere predecir las ventas mensuales ($Y$, en miles de dólares) basándose en el gasto en publicidad ($X$, en miles de dólares). Se tienen los siguientes datos de 8 meses:
+	
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|}\hline
+			Publicidad ($X$) & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\\hline
+			Ventas ($Y$) & 10 & 15 & 18 & 22 & 25 & 28 & 32 & 35 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	\begin{enumerate}
+		\item Ajuste un modelo de regresión lineal simple.
+		\item Interprete el coeficiente $\hat{\beta}_1$ en el contexto del problema.
+		\item ¿Cuánto gastaría la empresa en publicidad si quiere alcanzar ventas de 40 mil dólares?
+		\item Calcule el error estándar de estimación.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Calculamos las medias y sumas:
+		\begin{align}
+			\bar{X} &= 4.5, \quad \bar{Y} = 23.125 \\
+			\sum (X_i - \bar{X})(Y_i - \bar{Y}) &= 122.5 \\
+			\sum (X_i - \bar{X})^2 &= 42
+		\end{align}
+		
+		\begin{align}
+			\hat{\beta}_1 &= \frac{122.5}{42} \approx 2.92 \\
+			\hat{\beta}_0 &= 23.125 - 2.92(4.5) \approx 10.0
+		\end{align}
+		
+		Modelo ajustado: $\hat{Y} = 10.0 + 2.92X$
+		
+		\item \textbf{Interpretación de $\hat{\beta}_1$:} Por cada mil dólares adicionales gastados en publicidad, las ventas mensuales aumentan en promedio 2.92 mil dólares (2,920 dólares).
+		
+		\item Para $Y = 40$:
+		\begin{align}
+			40 &= 10.0 + 2.92X \\
+			X &= \frac{30}{2.92} \approx 10.27
+		\end{align}
+		La empresa debería gastar aproximadamente 10,270 dólares en publicidad.
+		
+		\item Error estándar de estimación:
+		\begin{align}
+			SSD &= \sum (Y_i - \hat{Y}_i)^2 = 12.5 \\
+			RSE &= \sqrt{\frac{SSD}{n-2}} = \sqrt{\frac{12.5}{6}} \approx 1.44
+		\end{align}
+		El error estándar de estimación es aproximadamente 1.44 mil dólares.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	Se investiga la relación entre la edad de un automóvil ($X$, en años) y su precio de venta ($Y$, en miles de dólares). Los datos de 12 automóviles son:
+	
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
+			Edad ($X$) & 1 & 2 & 2 & 3 & 4 & 5 & 5 & 6 & 7 & 8 & 9 & 10 \\\hline
+			Precio ($Y$) & 25 & 22 & 20 & 18 & 16 & 14 & 13 & 12 & 10 & 8 & 7 & 5 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	\begin{enumerate}
+		\item Ajuste el modelo de regresión lineal.
+		\item Interprete los coeficientes.
+		\item Calcule $R^2$ y determine si el modelo es adecuado.
+		\item Prediga el precio de un automóvil de 6.5 años.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Cálculos:
+		\begin{align}
+			\bar{X} &= 5.17, \quad \bar{Y} = 14.17 \\
+			\hat{\beta}_1 &= \frac{\sum (X_i - \bar{X})(Y_i - \bar{Y})}{\sum (X_i - \bar{X})^2} = \frac{-156.33}{74.67} \approx -2.09 \\
+			\hat{\beta}_0 &= 14.17 - (-2.09)(5.17) \approx 24.98
+		\end{align}
+		
+		Modelo: $\hat{Y} = 24.98 - 2.09X$
+		
+		\item \textbf{Interpretación:}
+		\begin{itemize}
+			\item $\hat{\beta}_0 = 24.98$: Un automóvil nuevo (0 años) tendría un precio estimado de 24,980 dólares.
+			\item $\hat{\beta}_1 = -2.09$: Por cada año adicional de edad, el precio disminuye en promedio 2,090 dólares.
+		\end{itemize}
+		
+		\item $R^2 \approx 0.98$, lo que indica que el 98\% de la variabilidad en los precios es explicada por la edad del automóvil. El modelo es muy adecuado.
+		
+		\item Para $X = 6.5$:
+		\begin{align}
+			\hat{Y} = 24.98 - 2.09(6.5) \approx 11.4
+		\end{align}
+		El precio predicho es aproximadamente 11,400 dólares.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	Un investigador estudia la relación entre la temperatura ambiente ($X$, en °C) y el consumo de energía eléctrica ($Y$, en kWh) en una ciudad. Se tienen datos de 15 días:
+	
+	\begin{align}
+		\bar{X} = 25, \quad \bar{Y} = 450, \quad \sum (X_i - \bar{X})^2 = 500, \quad \sum (X_i - \bar{X})(Y_i - \bar{Y}) = 2000
+	\end{align}
+	
+	\begin{enumerate}
+		\item Calcule los estimadores de mínimos cuadrados.
+		\item Si $SST = 10000$, calcule $R^2$.
+		\item Realice una prueba de hipótesis para $\beta_1 = 0$ vs $\beta_1 \neq 0$ con $\alpha = 0.05$, dado que el error estándar de $\hat{\beta}_1$ es 0.5.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Estimadores:
+		\begin{align}
+			\hat{\beta}_1 &= \frac{2000}{500} = 4 \\
+			\hat{\beta}_0 &= 450 - 4(25) = 350
+		\end{align}
+		
+		Modelo: $\hat{Y} = 350 + 4X$
+		
+		\item Coeficiente de determinación:
+		\begin{align}
+			SSR &= \hat{\beta}_1 \sum (X_i - \bar{X})(Y_i - \bar{Y}) = 4(2000) = 8000 \\
+			R^2 &= \frac{8000}{10000} = 0.80
+		\end{align}
+		El 80\% de la variabilidad en el consumo de energía es explicada por la temperatura.
+		
+		\item Prueba de hipótesis:
+		\begin{align}
+			H_0: \beta_1 = 0 \quad \text{vs} \quad H_1: \beta_1 \neq 0
+		\end{align}
+		
+		Estadístico de prueba:
+		\begin{align}
+			t &= \frac{\hat{\beta}_1 - 0}{SE(\hat{\beta}_1)} = \frac{4}{0.5} = 8
+		\end{align}
+		
+		Valor crítico: $t_{0.025, 13} \approx 2.16$
+		
+		Como $|t| = 8 > 2.16$, rechazamos $H_0$. Hay evidencia suficiente para concluir que $\beta_1 \neq 0$ al nivel de significancia $\alpha = 0.05$. La temperatura tiene un efecto significativo sobre el consumo de energía.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	Se quiere estudiar la relación entre el peso de un paquete ($X$, en kg) y el costo de envío ($Y$, en dólares). Se obtuvieron los siguientes resultados de un análisis de regresión:
+	
+	\begin{align}
+		\hat{Y} = 5 + 2.5X, \quad R^2 = 0.85, \quad n = 20, \quad \bar{X} = 10
+	\end{align}
+	
+	\begin{enumerate}
+		\item Interprete los coeficientes del modelo.
+		\item Prediga el costo de envío para un paquete de 15 kg.
+		\item Si $SST = 200$, calcule $SSR$ y $SSD$.
+		\item Calcule el error estándar de estimación.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Interpretación:}
+		\begin{itemize}
+			\item $\hat{\beta}_0 = 5$: El costo base de envío (para un paquete de peso teórico cero) es de 5 dólares.
+			\item $\hat{\beta}_1 = 2.5$: Por cada kilogramo adicional de peso, el costo de envío aumenta en promedio 2.5 dólares.
+		\end{itemize}
+		
+		\item Para $X = 15$ kg:
+		\begin{align}
+			\hat{Y} = 5 + 2.5(15) = 5 + 37.5 = 42.5
+		\end{align}
+		El costo predicho es 42.5 dólares.
+		
+		\item Cálculo de sumas de cuadrados:
+		\begin{align}
+			SSR &= R^2 \times SST = 0.85 \times 200 = 170 \\
+			SSD &= SST - SSR = 200 - 170 = 30
+		\end{align}
+		
+		\item Error estándar de estimación:
+		\begin{align}
+			RSE &= \sqrt{\frac{SSD}{n-2}} = \sqrt{\frac{30}{18}} \approx 1.29
+		\end{align}
+		El error estándar de estimación es aproximadamente 1.29 dólares.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	Un fabricante de baterías quiere predecir la vida útil ($Y$, en meses) basándose en la temperatura de almacenamiento ($X$, en °C). Se ajustó un modelo de regresión lineal con $n = 25$ observaciones y se obtuvieron los siguientes resultados:
+	
+	\begin{align}
+		\hat{Y} = 60 - 0.8X, \quad R^2 = 0.72, \quad \sum (X_i - \bar{X})^2 = 800
+	\end{align}
+	
+	\begin{enumerate}
+		\item Interprete el coeficiente $\hat{\beta}_1$.
+		\item Calcule el error estándar de $\hat{\beta}_1$.
+		\item Construya un intervalo de confianza del 95\% para $\beta_1$.
+		\item ¿Qué temperatura de almacenamiento maximizaría la vida útil de la batería según este modelo?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Interpretación de $\hat{\beta}_1$:} Por cada grado Celsius adicional en la temperatura de almacenamiento, la vida útil de la batería disminuye en promedio 0.8 meses.
+		
+		\item Error estándar de $\hat{\beta}_1$:
+		\begin{align}
+			SST &= \frac{SSR}{R^2} = \frac{\hat{\beta}_1^2 \sum (X_i - \bar{X})^2}{R^2} = \frac{(-0.8)^2(800)}{0.72} = \frac{512}{0.72} \approx 711.1 \\
+			SSD &= SST(1 - R^2) = 711.1(1 - 0.72) = 199.1 \\
+			\hat{\sigma}^2 &= \frac{SSD}{n-2} = \frac{199.1}{23} \approx 8.66 \\
+			SE(\hat{\beta}_1) &= \sqrt{\frac{\hat{\sigma}^2}{\sum (X_i - \bar{X})^2}} = \sqrt{\frac{8.66}{800}} \approx 0.104
+		\end{align}
+		
+		\item Intervalo de confianza del 95\% para $\beta_1$:
+		\begin{align}
+			\hat{\beta}_1 \pm t_{0.025, 23} \times SE(\hat{\beta}_1) &= -0.8 \pm 2.069(0.104) \\
+			&= -0.8 \pm 0.215 \\
+			&= (-1.015, -0.585)
+		\end{align}
+		
+		Con 95\% de confianza, el verdadero valor de $\beta_1$ está entre -1.015 y -0.585.
+		
+		\item Según el modelo, la vida útil se maximiza cuando la temperatura es lo más baja posible. Sin embargo, el modelo es lineal y no tiene un mínimo matemático. En la práctica, habría que considerar límites físicos (por ejemplo, no almacenar por debajo de 0°C si las baterías se dañan con la congelación).
+	\end{enumerate}
+\end{solucion}

@@ -2,8 +2,20 @@
 
 En esta unidad, trataremos con una técnica básica de modelación predictiva llamada \emph{regresión lineal}, la cuál permite crear un modelo a partir de una base de datos histórica.
 
-
 Nuestro propósito es entender las matemáticas detrás de la regresión lineal e ilustrar sus resultado a través de su implementación en varias bases de datos.
+
+\subsection{Contexto e importancia}
+
+La regresión lineal es una de las técnicas más fundamentales y ampliamente utilizadas en estadística y ciencia de datos. Desarrollada en el siglo XIX por Francis Galton y formalizada matemáticamente por Karl Pearson y Ronald Fisher, la regresión lineal continúa siendo una herramienta esencial en:
+
+\begin{itemize}
+	\item \textbf{Predicción:} Estimar valores futuros basándose en datos históricos (ventas, precios, demanda).
+	\item \textbf{Inferencia:} Comprender las relaciones entre variables y cuantificar su impacto.
+	\item \textbf{Control de procesos:} Optimizar sistemas industriales y de negocio.
+	\item \textbf{Investigación científica:} Probar hipótesis sobre relaciones causales.
+\end{itemize}
+
+A pesar de su simplicidad, la regresión lineal sirve como base para técnicas más avanzadas como regresión polinomial, modelos lineales generalizados, y métodos de aprendizaje automático.
 
 \subsection{Mapa de ruta}
 \begin{itemize}
@@ -11,12 +23,20 @@ Nuestro propósito es entender las matemáticas detrás de la regresión lineal 
 	\item Implementación de la regresión lineal con Python.
 	\item Interpretación de los parámetros resultantes.
 	\item Validación del modelo.
-	\item Manejo de Problemas relacionados con regresión lineal.
+	\item Manejo de problemas relacionados con regresión lineal.
 \end{itemize}
 
 
 \subsection{Modelos matemáticos}
 Un \emph{modelo matemático/estadístico/predictivo} es una ecuación matemática que consiste en \emph{entradas} que producen \emph{salidas} cuando el valor de las variables entrantes se introduce en el modelo.
+
+Los modelos pueden clasificarse en:
+\begin{itemize}
+	\item \textbf{Determinísticos:} Producen siempre el mismo resultado para las mismas entradas (ej: $F = ma$).
+	\item \textbf{Estocásticos:} Incorporan incertidumbre y variabilidad aleatoria (ej: modelos de regresión).
+\end{itemize}
+
+La regresión lineal es un modelo estocástico porque reconoce que las observaciones reales no siguen perfectamente una relación lineal, sino que incluyen un componente de error aleatorio.
 
 \subsection{Ejemplo}
 Por ejemplo, supongamos que el precio $P$ de una casa es \emph{linealmente dependiente} en su tamaño $S$, comodidades $A$ y disponibilidad de transporte $T$.
@@ -25,9 +45,10 @@ Por ejemplo, supongamos que el precio $P$ de una casa es \emph{linealmente depen
 
 La ecuación correspondiente sería
 \begin{align}
-	P = a_{1}\times S+ a_{2} \times A + a_{3} \times T
+	P = a_{1}\times S+ a_{2} \times A + a_{3} \times T + \epsilon
 \end{align}
 
+donde $\epsilon$ representa el error aleatorio (factores no considerados en el modelo).
 
 
 Esta ecuación es llamado el \emph{modelo} y los coeficientes $a_{1},a_{2},a_{3}$ son sus parámetros.
@@ -40,5 +61,56 @@ La variable $P$ es resultado predicho, mientras que $S,A,T$ con las variables de
 Sin embargo, los parámetros $a_{i}$ deben ser estimados a partir de los datos históricos.
 
 
-Una vez que estos parámetros son determinados, el modelo está listo para ser problemaado.
+Una vez que estos parámetros son determinados, el modelo está listo para ser evaluado.
+
+\subsection{Relación con la correlación}
+
+Es importante distinguir entre \emph{correlación} y \emph{regresión}:
+
+\begin{itemize}
+	\item \textbf{Correlación:} Mide la fuerza y dirección de la relación lineal entre dos variables. Es simétrica ($corr(X,Y) = corr(Y,X)$) y adimensional (varía entre -1 y 1).
+	
+	\item \textbf{Regresión:} Modela la relación funcional entre variables, permitiendo predecir valores de una variable a partir de otras. No es simétrica y los coeficientes tienen unidades.
+\end{itemize}
+
+Una alta correlación entre variables sugiere que una regresión lineal podría ser apropiada, pero la correlación por sí sola no implica causalidad ni proporciona un modelo predictivo.
+
+\subsection{Supuestos del modelo}
+
+Para que un modelo de regresión lineal sea válido y sus inferencias confiables, deben cumplirse ciertos supuestos:
+
+\begin{enumerate}
+	\item \textbf{Linealidad:} La relación entre las variables predictoras y la respuesta es lineal.
+	\item \textbf{Independencia:} Las observaciones son independientes entre sí.
+	\item \textbf{Homocedasticidad:} La varianza de los errores es constante.
+	\item \textbf{Normalidad:} Los errores siguen una distribución normal (especialmente importante para muestras pequeñas).
+	\item \textbf{No multicolinealidad:} Los predictores no están altamente correlacionados entre sí.
+\end{enumerate}
+
+En secciones posteriores discutiremos cómo verificar estos supuestos y qué hacer cuando no se cumplen.
+
+\subsection{Tipos de regresión lineal}
+
+Dependiendo del número de variables predictoras, distinguimos:
+
+\begin{itemize}
+	\item \textbf{Regresión lineal simple:} Una sola variable predictora ($Y = \beta_0 + \beta_1 X + \epsilon$).
+	\item \textbf{Regresión lineal múltiple:} Dos o más variables predictoras ($Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \epsilon$).
+\end{itemize}
+
+Ambos tipos utilizan el mismo principio fundamental: el método de mínimos cuadrados para estimar los parámetros que minimizan la suma de los errores cuadráticos.
+
+\subsection{Aplicaciones prácticas}
+
+Algunos ejemplos de aplicaciones de regresión lineal incluyen:
+
+\begin{itemize}
+	\item \textbf{Finanzas:} Predecir precios de acciones, evaluar riesgo crediticio, estimar retornos de inversión.
+	\item \textbf{Marketing:} Modelar el impacto de la publicidad en ventas, analizar efectividad de campañas.
+	\item \textbf{Medicina:} Relacionar dosis de medicamentos con respuestas, predecir progresión de enfermedades.
+	\item \textbf{Ingeniería:} Control de calidad, predicción de fallas, optimización de procesos.
+	\item \textbf{Ciencias sociales:} Estudiar relaciones entre variables socioeconómicas, educativas, políticas.
+\end{itemize}
+
+En las siguientes secciones desarrollaremos la teoría matemática y mostraremos cómo implementar y validar modelos de regresión lineal usando Python.
 

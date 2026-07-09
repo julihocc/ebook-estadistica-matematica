@@ -1,0 +1,311 @@
+\section{Supuestos del modelo de regresión lineal}
+
+Para que las inferencias basadas en un modelo de regresión lineal sean válidas (intervalos de confianza, pruebas de hipótesis, predicciones), deben cumplirse ciertos supuestos sobre los errores del modelo. En esta sección discutiremos estos supuestos, cómo verificarlos y qué hacer cuando no se cumplen.
+
+\subsection{Los supuestos clásicos}
+
+Recordemos que el modelo de regresión lineal tiene la forma:
+\begin{align}
+	Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \epsilon
+\end{align}
+
+Los supuestos clásicos se refieren principalmente al término de error $\epsilon$:
+
+\begin{enumerate}
+	\item \textbf{Linealidad:} La relación entre los predictores y la variable respuesta es lineal.
+	\item \textbf{Independencia:} Los errores $\epsilon_i$ son independientes entre sí.
+	\item \textbf{Homocedasticidad:} Los errores tienen varianza constante: $Var(\epsilon_i) = \sigma^2$ para todo $i$.
+	\item \textbf{Normalidad:} Los errores siguen una distribución normal: $\epsilon_i \sim N(0, \sigma^2)$.
+	\item \textbf{Media cero:} $E(\epsilon_i) = 0$ para todo $i$.
+\end{enumerate}
+
+\begin{observacion}
+	El supuesto de media cero se cumple automáticamente cuando el modelo incluye un intercepto $\beta_0$. Los supuestos de independencia, homocedasticidad y normalidad son los más importantes para verificar.
+\end{observacion}
+
+\subsection{Análisis de residuos}
+
+Los \emph{residuos} son las diferencias entre los valores observados y los valores predichos por el modelo:
+\begin{align}
+	e_i = Y_i - \hat{Y}_i
+\end{align}
+
+El análisis de residuos es la principal herramienta para verificar los supuestos del modelo. A continuación presentamos las gráficas de diagnóstico más importantes.
+
+\subsection{Gráfica de residuos vs valores ajustados}
+
+Esta gráfica muestra los residuos $e_i$ en el eje vertical contra los valores ajustados $\hat{Y}_i$ en el eje horizontal.
+
+\textbf{Patrón ideal:} Los puntos deben distribuirse aleatoriamente alrededor de la línea horizontal $e = 0$, sin patrones discernibles.
+
+\textbf{Patrones problemáticos:}
+\begin{itemize}
+	\item \textbf{Forma de U o curva:} Indica no linealidad. El modelo lineal no captura la verdadera relación.
+	\item \textbf{Forma de embudo:} Indica heterocedasticidad (varianza no constante).
+	\item \textbf{Puntos aislados extremos:} Posibles valores atípicos (outliers).
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+
+# Ajustar modelo
+model = sm.OLS(Y, X).fit()
+
+# Gráfica de residuos vs ajustados
+fig, ax = plt.subplots(figsize=(8, 6))
+ax.scatter(model.fittedvalues, model.resid, alpha=0.6)
+ax.axhline(y=0, color='r', linestyle='--')
+ax.set_xlabel('Valores ajustados')
+ax.set_ylabel('Residuos')
+ax.set_title('Residuos vs Valores Ajustados')
+plt.show()
+\end{lstlisting}
+
+\subsection{Gráfica Q-Q (Quantile-Quantile)}
+
+La gráfica Q-Q compara los cuantiles de los residuos estandarizados con los cuantiles de una distribución normal teórica.
+
+\textbf{Patrón ideal:} Los puntos deben seguir aproximadamente una línea recta diagonal.
+
+\textbf{Desviaciones comunes:}
+\begin{itemize}
+	\item \textbf{Curva en forma de S:} Distribución con colas pesadas (más outliers de lo esperado).
+	\item \textbf{Curva invertida:} Distribución con colas ligeras.
+	\item \textbf{Desviación en un extremo:} Asimetría en la distribución.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+import scipy.stats as stats
+
+# Gráfica Q-Q
+fig = sm.qqplot(model.resid, line='s')
+plt.title('Gráfica Q-Q de los Residuos')
+plt.show()
+
+# Prueba de normalidad de Shapiro-Wilk
+stat, p_value = stats.shapiro(model.resid)
+print(f'Shapiro-Wilk: estadístico={stat:.4f}, p-valor={p_value:.4f}')
+\end{lstlisting}
+
+\subsection{Gráfica de escala (Scale-Location)}
+
+Esta gráfica muestra la raíz cuadrada del valor absoluto de los residuos estandarizados contra los valores ajustados. Es útil para detectar heterocedasticidad.
+
+\textbf{Patrón ideal:} Una línea horizontal aproximada, indicando varianza constante.
+
+\textbf{Patrón problemático:} Una tendencia creciente o decreciente indica que la varianza cambia con el nivel de predicción.
+
+\begin{lstlisting}[language=Python]
+# Gráfica de escala
+fig, ax = plt.subplots(figsize=(8, 6))
+std_resid = model.resid / np.std(model.resid)
+ax.scatter(model.fittedvalues, np.abs(std_resid), alpha=0.6)
+ax.axhline(y=1, color='r', linestyle='--')
+ax.set_xlabel('Valores ajustados')
+ax.set_ylabel('|Residuos estandarizados|')
+ax.set_title('Gráfica de Escala')
+plt.show()
+\end{lstlisting}
+
+\subsection{Pruebas formales para los supuestos}
+
+Además de las gráficas, existen pruebas estadísticas formales:
+
+\subsubsection{Prueba de Durbin-Watson (independencia)}
+
+Detecta autocorrelación en los residuos (común en series de tiempo):
+\begin{align}
+	DW = \frac{\sum_{i=2}^{n} (e_i - e_{i-1})^2}{\sum_{i=1}^{n} e_i^2}
+\end{align}
+
+\begin{itemize}
+	\item $DW \approx 2$: No hay autocorrelación
+	\item $DW < 2$: Autocorrelación positiva
+	\item $DW > 2$: Autocorrelación negativa
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+from statsmodels.stats.stattools import durbin_watson
+
+dw_stat = durbin_watson(model.resid)
+print(f'Durbin-Watson: {dw_stat:.4f}')
+\end{lstlisting}
+
+\subsubsection{Prueba de Breusch-Pagan (homocedasticidad)}
+
+Prueba si la varianza de los errores es constante:
+\begin{itemize}
+	\item $H_0$: Homocedasticidad (varianza constante)
+	\item $H_1$: Heterocedasticidad (varianza no constante)
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+from statsmodels.stats.diagnostic import het_breuschpagan
+
+_, p_value, _, _ = het_breuschpagan(model.resid, model.model.exog)
+print(f'Breusch-Pagan: p-valor={p_value:.4f}')
+
+if p_value < 0.05:
+    print('Se rechaza H0: hay heterocedasticidad')
+else:
+    print('No se rechaza H0: homocedasticidad')
+\end{lstlisting}
+
+\subsection{Consecuencias de violar los supuestos}
+
+\begin{itemize}
+	\item \textbf{No linealidad:}
+	\begin{itemize}
+		\item Sesgo en las estimaciones
+		\item Predicciones pobres
+		\item \textbf{Solución:} Transformar variables, usar regresión polinomial o no lineal
+	\end{itemize}
+	
+	\item \textbf{No independencia:}
+	\begin{itemize}
+		\item Errores estándar subestimados
+		\item Pruebas de hipótesis inválidas
+		\item \textbf{Solución:} Modelos de series de tiempo, errores estándar robustos
+	\end{itemize}
+	
+	\item \textbf{Heterocedasticidad:}
+	\begin{itemize}
+		\item Estimadores aún insesgados pero no eficientes
+		\item Errores estándar incorrectos
+		\item \textbf{Solución:} Errores estándar robustos (Huber-White), transformar $Y$ (ej: $\log(Y)$)
+	\end{itemize}
+	
+	\item \textbf{No normalidad:}
+	\begin{itemize}
+		\item Problemas con intervalos de confianza y pruebas (especialmente con $n$ pequeño)
+		\item Con $n$ grande, el Teorema del Límite Central ayuda
+		\item \textbf{Solución:} Transformar $Y$, usar métodos no paramétricos, bootstrap
+	\end{itemize}
+\end{itemize}
+
+\subsection{Transformaciones comunes}
+
+Cuando los supuestos no se cumplen, las transformaciones pueden ayudar:
+
+\begin{center}
+	\begin{tabular}{|l|l|l|}\hline
+		\textbf{Problema} & \textbf{Transformación} & \textbf{Cuándo usar} \\\hline
+		Heterocedasticidad & $\log(Y)$ & Varianza proporcional a la media \\\hline
+		Heterocedasticidad & $\sqrt{Y}$ & Datos de conteo \\\hline
+		No linealidad & $\log(X)$ & Relación logarítmica \\\hline
+		No linealidad & $X^2$ & Relación cuadrática \\\hline
+		No normalidad & $\log(Y)$ & Distribución sesgada a la derecha \\\hline
+		No normalidad & $1/Y$ & Distribución muy sesgada \\\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Detección de valores atípicos e influyentes}
+
+Los \emph{outliers} son observaciones con residuos inusualmente grandes. Las observaciones \emph{influyentes} son aquellas que tienen un impacto desproporcionado en los coeficientes del modelo.
+
+\begin{lstlisting}[language=Python]
+# Influencia de cada observación
+influence = model.get_influence()
+
+# Distancia de Cook (observaciones influyentes)
+cooks_d = influence.cooks_distance[0]
+threshold = 4 / len(Y)
+
+print('Observaciones influyentes (Cook\'s D > umbral):')
+for i, d in enumerate(cooks_d):
+    if d > threshold:
+        print(f'  Observación {i}: Cook\'s D = {d:.4f}')
+
+# Residuos estandarizados (outliers)
+std_resid = influence.resid_studentized_internal
+outliers = np.abs(std_resid) > 3
+
+print(f'Número de outliers (|residuo| > 3): {np.sum(outliers)}')
+\end{lstlisting}
+
+\begin{observacion}
+	La distancia de Cook mide cuánto cambian los coeficientes del modelo al eliminar una observación. Valores mayores a $4/n$ sugieren observaciones influyentes que merecen investigación adicional.
+\end{observacion}
+
+\subsection{Ejemplo completo de diagnóstico}
+
+\begin{lstlisting}[language=Python]
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+from statsmodels.stats.stattools import durbin_watson
+from statsmodels.stats.diagnostic import het_breuschpagan
+
+# Cargar datos
+data = pd.read_csv('datos.csv')
+X = sm.add_constant(data[['X1', 'X2']])
+Y = data['Y']
+
+# Ajustar modelo
+model = sm.OLS(Y, X).fit()
+print(model.summary())
+
+# Diagnóstico completo
+fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+
+# 1. Residuos vs ajustados
+axes[0, 0].scatter(model.fittedvalues, model.resid, alpha=0.6)
+axes[0, 0].axhline(y=0, color='r', linestyle='--')
+axes[0, 0].set_xlabel('Valores ajustados')
+axes[0, 0].set_ylabel('Residuos')
+axes[0, 0].set_title('Residuos vs Ajustados')
+
+# 2. Q-Q plot
+sm.qqplot(model.resid, line='s', ax=axes[0, 1])
+axes[0, 1].set_title('Q-Q Plot')
+
+# 3. Escala
+std_resid = model.resid / np.std(model.resid)
+axes[1, 0].scatter(model.fittedvalues, np.abs(std_resid), alpha=0.6)
+axes[1, 0].axhline(y=1, color='r', linestyle='--')
+axes[1, 0].set_xlabel('Valores ajustados')
+axes[1, 0].set_ylabel('|Residuos estandarizados|')
+axes[1, 0].set_title('Gráfica de Escala')
+
+# 4. Histograma de residuos
+axes[1, 1].hist(model.resid, bins=20, density=True, alpha=0.7)
+x = np.linspace(model.resid.min(), model.resid.max(), 100)
+axes[1, 1].plot(x, stats.norm.pdf(x, 0, model.resid.std()), 'r-', lw=2)
+axes[1, 1].set_xlabel('Residuos')
+axes[1, 1].set_ylabel('Densidad')
+axes[1, 1].set_title('Distribución de Residuos')
+
+plt.tight_layout()
+plt.show()
+
+# Pruebas formales
+print('\n=== Pruebas de Diagnóstico ===')
+print(f'Durbin-Watson: {durbin_watson(model.resid):.4f}')
+
+_, p_bp, _, _ = het_breuschpagan(model.resid, X)
+print(f'Breusch-Pagan (homocedasticidad): p-valor = {p_bp:.4f}')
+
+_, p_sw = stats.shapiro(model.resid)
+print(f'Shapiro-Wilk (normalidad): p-valor = {p_sw:.4f}')
+\end{lstlisting}
+
+\subsection{Resumen del proceso de diagnóstico}
+
+El proceso recomendado para verificar los supuestos del modelo es:
+
+\begin{enumerate}
+	\item \textbf{Ajustar el modelo} de regresión lineal.
+	\item \textbf{Graficar residuos vs ajustados} para verificar linealidad y homocedasticidad.
+	\item \textbf{Graficar Q-Q} para verificar normalidad.
+	\item \textbf{Realizar pruebas formales} (Durbin-Watson, Breusch-Pagan, Shapiro-Wilk).
+	\item \textbf{Identificar outliers e influyentes} usando distancia de Cook y residuos estandarizados.
+	\item \textbf{Aplicar correcciones} si es necesario (transformaciones, errores robustos, etc.).
+	\item \textbf{Re-ajustar el modelo} con las correcciones y repetir el diagnóstico.
+\end{enumerate}
+
+\begin{observacion}
+	El diagnóstico del modelo es un proceso iterativo. Es común necesitar varios ciclos de ajuste-diagnóstico-corrección antes de obtener un modelo satisfactorio.
+\end{observacion}

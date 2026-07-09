@@ -67,6 +67,121 @@ Utilizando un poco de cálculo, se puede demostrar que los valores de los parám
 	\a &= \bar{y}-\beta\times \bar{x}
 \end{align}
 
+\subsection{Demostración de las fórmulas de mínimos cuadrados}
+
+Para encontrar los valores de $\a$ y $\beta$ que minimizan la suma de cuadrados de los errores, definimos la función objetivo:
+\begin{align}
+	S(\a, \beta) = \sum_{i=1}^{n} \left( Y_i - (\a + \beta X_i) \right)^2
+\end{align}
+
+Para minimizar $S$, calculamos las derivadas parciales respecto a $\a$ y $\beta$ e igualamos a cero:
+
+\textbf{Derivada respecto a $\a$:}
+\begin{align}
+	\frac{\partial S}{\partial \a} &= -2 \sum_{i=1}^{n} \left( Y_i - \a - \beta X_i \right) = 0 \\
+	\sum_{i=1}^{n} Y_i - n\a - \beta \sum_{i=1}^{n} X_i &= 0 \\
+	n\a &= \sum_{i=1}^{n} Y_i - \beta \sum_{i=1}^{n} X_i \\
+	\a &= \bar{Y} - \beta \bar{X}
+\end{align}
+
+\textbf{Derivada respecto a $\beta$:}
+\begin{align}
+	\frac{\partial S}{\partial \beta} &= -2 \sum_{i=1}^{n} X_i \left( Y_i - \a - \beta X_i \right) = 0 \\
+	\sum_{i=1}^{n} X_i Y_i - \a \sum_{i=1}^{n} X_i - \beta \sum_{i=1}^{n} X_i^2 &= 0
+\end{align}
+
+Sustituyendo $\a = \bar{Y} - \beta \bar{X}$:
+\begin{align}
+	\sum_{i=1}^{n} X_i Y_i - (\bar{Y} - \beta \bar{X}) \sum_{i=1}^{n} X_i - \beta \sum_{i=1}^{n} X_i^2 &= 0 \\
+	\sum_{i=1}^{n} X_i Y_i - \bar{Y} \sum_{i=1}^{n} X_i + \beta \bar{X} \sum_{i=1}^{n} X_i - \beta \sum_{i=1}^{n} X_i^2 &= 0 \\
+	\sum_{i=1}^{n} X_i Y_i - n\bar{X}\bar{Y} &= \beta \left( \sum_{i=1}^{n} X_i^2 - n\bar{X}^2 \right) \\
+	\beta &= \frac{\sum_{i=1}^{n} X_i Y_i - n\bar{X}\bar{Y}}{\sum_{i=1}^{n} X_i^2 - n\bar{X}^2}
+\end{align}
+
+Esta expresión es equivalente a:
+\begin{align}
+	\beta &= \frac{\sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^{n} (X_i - \bar{X})^2}
+\end{align}
+
+\subsection{Descomposición de la suma de cuadrados: SST = SSR + SSD}
+
+Definimos tres cantidades fundamentales:
+
+\begin{itemize}
+	\item \textbf{Suma total de cuadrados (SST):}
+	\begin{align}
+		SST = \sum_{i=1}^{n} (Y_i - \bar{Y})^2
+	\end{align}
+	Mide la variabilidad total de $Y$.
+	
+	\item \textbf{Suma de cuadrados de la regresión (SSR):}
+	\begin{align}
+		SSR = \sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})^2
+	\end{align}
+	Mide la variabilidad explicada por el modelo.
+	
+	\item \textbf{Suma de cuadrados de los errores (SSD):}
+	\begin{align}
+		SSD = \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2
+	\end{align}
+	Mide la variabilidad no explicada por el modelo.
+\end{itemize}
+
+\begin{teorema}
+	$SST = SSR + SSD$
+\end{teorema}
+
+\begin{proof}
+	Partimos de la identidad:
+	\begin{align}
+		Y_i - \bar{Y} = (\hat{Y}_i - \bar{Y}) + (Y_i - \hat{Y}_i)
+	\end{align}
+	
+	Elevando al cuadrado y sumando:
+	\begin{align}
+		\sum_{i=1}^{n} (Y_i - \bar{Y})^2 &= \sum_{i=1}^{n} \left[ (\hat{Y}_i - \bar{Y}) + (Y_i - \hat{Y}_i) \right]^2 \\
+		&= \sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})^2 + \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2 + 2\sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})(Y_i - \hat{Y}_i)
+	\end{align}
+	
+	El término cruzado es cero porque:
+	\begin{align}
+		\sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})(Y_i - \hat{Y}_i) &= \sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})e_i \\
+		&= \sum_{i=1}^{n} \hat{Y}_i e_i - \bar{Y} \sum_{i=1}^{n} e_i
+	\end{align}
+	
+	Por las ecuaciones normales de mínimos cuadrados, sabemos que $\sum_{i=1}^{n} e_i = 0$ y $\sum_{i=1}^{n} X_i e_i = 0$, lo que implica $\sum_{i=1}^{n} \hat{Y}_i e_i = 0$.
+	
+	Por lo tanto:
+	\begin{align}
+		SST = SSR + SSD
+	\end{align}
+\end{proof}
+
+\subsection{Propiedades del coeficiente de determinación $R^2$}
+
+El coeficiente de determinación se define como:
+\begin{align}
+	R^2 = \frac{SSR}{SST} = 1 - \frac{SSD}{SST}
+\end{align}
+
+\begin{observacion}[Propiedades de $R^2$]
+	\begin{enumerate}
+		\item $0 \leq R^2 \leq 1$
+		\item $R^2 = 1$ si y solo si $SSD = 0$, es decir, el modelo explica perfectamente todos los datos.
+		\item $R^2 = 0$ si y solo si $SSR = 0$, es decir, el modelo no explica nada de la variabilidad de $Y$.
+		\item $R^2$ nunca disminuye al agregar más predictores al modelo (aunque esto no significa que el modelo mejore).
+		\item Para regresión lineal simple, $R^2 = r^2$, donde $r$ es el coeficiente de correlación de Pearson entre $X$ y $Y$.
+	\end{enumerate}
+\end{observacion}
+
+\begin{observacion}[R² ajustado]
+	Para compensar el hecho de que $R^2$ siempre aumenta al agregar predictores, se define el $R^2$ ajustado:
+	\begin{align}
+		R^2_{adj} = 1 - \frac{SSD/(n-p-1)}{SST/(n-1)} = 1 - \frac{n-1}{n-p-1}(1 - R^2)
+	\end{align}
+	donde $p$ es el número de predictores. El $R^2$ ajustado puede disminuir si se agrega un predictor que no mejora suficientemente el modelo.
+\end{observacion}
+
 % \part{NO BORRAR}
 % \section{Recursos}
 % \subsection{analisisPredictivo}

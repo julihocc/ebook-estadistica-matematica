@@ -1,0 +1,294 @@
+\section*{Problemas de validación de modelos}
+
+\begin{problema}
+	Se ajustó un modelo de regresión lineal para predecir el precio de viviendas ($Y$) usando área ($X_1$) y antigüedad ($X_2$) con $n = 200$ observaciones. El modelo completo tiene $R^2 = 0.75$ y $RSE = 25$ (en miles de dólares).
+	
+	Se dividió el conjunto de datos en 80\% entrenamiento ($n_{train} = 160$) y 20\% prueba ($n_{test} = 40$). Los resultados son:
+	
+	\textbf{Conjunto de entrenamiento:} $R^2_{train} = 0.76$, $RSE_{train} = 24.5$
+	
+	\textbf{Conjunto de prueba:} $R^2_{test} = 0.72$, $RSE_{test} = 27.8$
+	
+	\begin{enumerate}
+		\item ¿Hay evidencia de sobreajuste (overfitting)? Justifique su respuesta.
+		\item Calcule el porcentaje de error en el conjunto de prueba si el precio promedio es 250 mil dólares.
+		\item ¿Qué recomendaría para mejorar la validación del modelo?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Análisis de sobreajuste:} Hay evidencia leve de sobreajuste porque:
+		\begin{itemize}
+			\item $R^2$ disminuye de 0.76 a 0.72 (diferencia de 0.04)
+			\item $RSE$ aumenta de 24.5 a 27.8 (incremento de 13.5\%)
+		\end{itemize}
+		
+		Sin embargo, la diferencia no es dramática, lo que sugiere que el sobreajuste es moderado y el modelo generaliza razonablemente bien.
+		
+		\item Porcentaje de error en el conjunto de prueba:
+		\begin{align}
+			\text{Error \%} = \frac{RSE_{test}}{\bar{Y}} \times 100 = \frac{27.8}{250} \times 100 = 11.12\%
+		\end{align}
+		
+		El modelo tiene un error promedio del 11.12\% en predicciones del conjunto de prueba.
+		
+		\item \textbf{Recomendaciones:}
+		\begin{itemize}
+			\item Usar validación cruzada $k$-fold (con $k = 5$ o $k = 10$) para obtener estimaciones más robustas
+			\item Repetir la división entrenamiento/prueba múltiples veces con diferentes particiones aleatorias
+			\item Considerar técnicas de regularización si el sobreajuste es problemático
+		\end{itemize}
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	Se quiere validar un modelo de regresión usando validación cruzada de 5 iteraciones ($k$-fold con $k = 5$). Con $n = 100$ observaciones, se obtuvieron los siguientes valores de $R^2$ en cada fold:
+	
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|c|c|}\hline
+			Fold & 1 & 2 & 3 & 4 & 5 \\\hline
+			$R^2$ & 0.68 & 0.72 & 0.65 & 0.70 & 0.69 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	\begin{enumerate}
+		\item Calcule el $R^2$ promedio y su desviación estándar.
+		\item Construya un intervalo de confianza aproximado del 95\% para el verdadero $R^2$.
+		\item ¿Qué indica la variabilidad entre los folds?
+		\item ¿Cómo interpretaría estos resultados en términos de la capacidad de generalización del modelo?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Estadísticos descriptivos:
+		\begin{align}
+			\bar{R}^2 &= \frac{0.68 + 0.72 + 0.65 + 0.70 + 0.69}{5} = \frac{3.44}{5} = 0.688 \\
+			s_{R^2} &= \sqrt{\frac{\sum (R^2_i - \bar{R}^2)^2}{k-1}} = \sqrt{\frac{0.00248}{4}} = \sqrt{0.00062} \approx 0.0249
+		\end{align}
+		
+		\item Intervalo de confianza del 95\% (usando distribución $t$ con $k-1 = 4$ grados de libertad):
+		\begin{align}
+			\bar{R}^2 \pm t_{0.025, 4} \times \frac{s_{R^2}}{\sqrt{k}} &= 0.688 \pm 2.776 \times \frac{0.0249}{\sqrt{5}} \\
+			&= 0.688 \pm 2.776 \times 0.0111 \\
+			&= 0.688 \pm 0.0308 \\
+			&= (0.657, 0.719)
+		\end{align}
+		
+		\item \textbf{Interpretación de la variabilidad:} La desviación estándar de 0.0249 indica baja variabilidad entre los folds (coeficiente de variación $\approx 3.6\%$). Esto sugiere que:
+		\begin{itemize}
+			\item El modelo es estable y consistente
+			\item Los datos están bien distribuidos entre los folds
+			\item No hay dependencia fuerte de particiones específicas
+		\end{itemize}
+		
+		\item \textbf{Capacidad de generalización:} El modelo tiene buena capacidad de generalización porque:
+		\begin{itemize}
+			\item El $R^2$ promedio de 0.688 es razonablemente alto
+			\item La baja variabilidad indica robustez
+			\item El intervalo de confianza es relativamente estrecho
+			\item El modelo debería funcionar bien con datos nuevos similares
+		\end{itemize}
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	Se comparan dos modelos de regresión para predecir ventas usando validación cruzada de 10 iteraciones:
+	
+	\textbf{Modelo A} (3 predictores): $R^2_{CV} = 0.78 \pm 0.04$ (media $\pm$ desviación estándar)
+	
+	\textbf{Modelo B} (5 predictores): $R^2_{CV} = 0.80 \pm 0.06$ (media $\pm$ desviación estándar)
+	
+	\begin{enumerate}
+		\item ¿Qué modelo tiene mejor rendimiento promedio?
+		\item ¿Qué modelo es más estable?
+		\item Calcule el $R^2$ ajustado esperado para ambos modelos si $n = 150$.
+		\item ¿Qué modelo recomendaría y por qué?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Rendimiento promedio:} El Modelo B tiene mejor rendimiento promedio ($R^2 = 0.80$ vs $R^2 = 0.78$).
+		
+		\item \textbf{Estabilidad:} El Modelo A es más estable porque tiene menor variabilidad ($\sigma = 0.04$ vs $\sigma = 0.06$). El coeficiente de variación es:
+		\begin{itemize}
+			\item Modelo A: $CV = 0.04/0.78 = 5.1\%$
+			\item Modelo B: $CV = 0.06/0.80 = 7.5\%$
+		\end{itemize}
+		
+		\item $R^2$ ajustado esperado:
+		
+		Modelo A ($p = 3$):
+		\begin{align}
+			R^2_{adj} = 1 - \frac{150-1}{150-3-1}(1 - 0.78) = 1 - \frac{149}{146}(0.22) = 1 - 0.2245 = 0.7755
+		\end{align}
+		
+		Modelo B ($p = 5$):
+		\begin{align}
+			R^2_{adj} = 1 - \frac{150-1}{150-5-1}(1 - 0.80) = 1 - \frac{149}{144}(0.20) = 1 - 0.2069 = 0.7931
+		\end{align}
+		
+		\item \textbf{Recomendación:} Depende del contexto, pero en general:
+		\begin{itemize}
+			\item \textbf{Modelo A} si se prioriza: simplicidad, interpretabilidad, estabilidad, menor riesgo de sobreajuste
+			\item \textbf{Modelo B} si se prioriza: máximo poder predictivo, y la mayor variabilidad es aceptable
+		\end{itemize}
+		
+		\textbf{Recomendación práctica:} El Modelo A, porque la mejora marginal en $R^2$ (0.02) no justifica la mayor complejidad y variabilidad del Modelo B. Además, el $R^2_{adj}$ del Modelo B (0.793) es solo ligeramente superior al del Modelo A (0.776).
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	Se ajustó un modelo de regresión con $n = 120$ observaciones y se obtuvieron los siguientes resultados en diferentes conjuntos:
+	
+	\begin{center}
+		\begin{tabular}{|l|c|c|}\hline
+			\textbf{Métrica} & \textbf{Entrenamiento} & \textbf{Prueba} \\\hline
+			$R^2$ & 0.85 & 0.62 \\\hline
+			$RSE$ & 15.2 & 28.7 \\\hline
+			$MAE$ & 12.1 & 22.5 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	donde $MAE$ es el error absoluto medio.
+	
+	\begin{enumerate}
+		\item ¿Qué indican estas métricas sobre el modelo?
+		\item Calcule el ratio $RSE_{test}/RSE_{train}$ y $R^2_{test}/R^2_{train}$.
+		\item ¿Qué estrategias propondría para mejorar el modelo?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Análisis de métricas:}
+		\begin{itemize}
+			\item \textbf{$R^2$:} Disminuye drásticamente de 0.85 a 0.62 (reducción del 27\%), lo que indica \textbf{fuerte sobreajuste}.
+			\item \textbf{$RSE$:} Aumenta de 15.2 a 28.7 (incremento del 89\%), confirmando el sobreajuste.
+			\item \textbf{$MAE$:} Aumenta de 12.1 a 22.5 (incremento del 86\%), consistente con el sobreajuste.
+		\end{itemize}
+		
+		El modelo se ajusta muy bien a los datos de entrenamiento pero generaliza pobremente a datos nuevos.
+		
+		\item Ratios:
+		\begin{align}
+			\frac{RSE_{test}}{RSE_{train}} &= \frac{28.7}{15.2} \approx 1.89 \\
+			\frac{R^2_{test}}{R^2_{train}} &= \frac{0.62}{0.85} \approx 0.73
+		\end{align}
+		
+		Un ratio $RSE > 1.5$ y $R^2 < 0.8$ son señales claras de sobreajuste.
+		
+		\item \textbf{Estrategias de mejora:}
+		\begin{itemize}
+			\item \textbf{Regularización:} Usar Ridge o Lasso para penalizar coeficientes grandes
+			\item \textbf{Reducción de complejidad:} Eliminar predictores menos importantes
+			\item \textbf{Más datos:} Aumentar el tamaño de muestra si es posible
+			\item \textbf{Validación cruzada:} Usar CV para seleccionar hiperparámetros
+			\item \textbf{Transformaciones:} Considerar transformaciones de variables
+			\item \textbf{Detección de outliers:} Identificar y manejar valores atípicos
+			\item \textbf{Feature engineering:} Crear nuevas variables más informativas
+		\end{itemize}
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	Se quiere implementar validación cruzada leave-one-out (LOOCV) en un conjunto de datos con $n = 50$ observaciones.
+	
+	\begin{enumerate}
+		\item ¿Cuántos modelos se deben ajustar en LOOCV?
+		\item ¿Cuántas observaciones hay en el conjunto de entrenamiento y prueba en cada iteración?
+		\item Si el $MSE$ (error cuadrático medio) promedio en LOOCV es 25, ¿cuál es el $RSE$ estimado?
+		\item Compare LOOCV con validación cruzada de 5 folds en términos de: sesgo, varianza y costo computacional.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Número de modelos:} En LOOCV se ajustan $n = 50$ modelos, uno por cada observación dejada fuera.
+		
+		\item \textbf{Tamaños de conjuntos:}
+		\begin{itemize}
+			\item Entrenamiento: $n - 1 = 49$ observaciones
+			\item Prueba: $1$ observación
+		\end{itemize}
+		
+		\item $RSE$ estimado:
+		\begin{align}
+			RSE = \sqrt{MSE} = \sqrt{25} = 5
+		\end{align}
+		
+		\item \textbf{Comparación LOOCV vs 5-fold CV:}
+		
+		\begin{center}
+			\begin{tabular}{|l|c|c|}\hline
+				\textbf{Característica} & \textbf{LOOCV} & \textbf{5-fold CV} \\\hline
+				Sesgo & Bajo (casi insesgado) & Ligeramente mayor \\\hline
+				Varianza & Alta (correlación entre folds) & Menor \\\hline
+				Costo computacional & Muy alto ($n$ modelos) & Bajo (5 modelos) \\\hline
+				Tamaño entrenamiento & $n-1$ & $0.8n$ \\\hline
+				Estabilidad & Menor (más variable) & Mayor \\\hline
+			\end{tabular}
+		\end{center}
+		
+		\textbf{Recomendación:} Para $n = 50$, LOOCV es factible pero 5-fold o 10-fold CV suelen ser preferibles por su mejor balance sesgo-varianza y menor costo computacional.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	Se ajustaron tres modelos de regresión y se validaron con validación cruzada de 10 folds. Los resultados son:
+	
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|}\hline
+			\textbf{Modelo} & \textbf{$R^2_{CV}$} & \textbf{$RSE_{CV}$} & \textbf{Predictores} \\\hline
+			A & 0.72 & 18.5 & 3 \\\hline
+			B & 0.74 & 17.8 & 5 \\\hline
+			C & 0.73 & 18.2 & 4 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	\begin{enumerate}
+		\item Ordene los modelos según cada métrica.
+		\item Calcule la mejora relativa de B sobre A en términos de $RSE$.
+		\item Si el principio de parsimonia (navaja de Ockham) es importante, ¿qué modelo elegiría?
+		\item ¿Qué análisis adicional realizaría antes de tomar una decisión final?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Ordenamiento:}
+		
+		Según $R^2_{CV}$ (mayor es mejor): B (0.74) > C (0.73) > A (0.72)
+		
+		Según $RSE_{CV}$ (menor es mejor): B (17.8) < C (18.2) < A (18.5)
+		
+		Según parsimonia (menos predictores): A (3) < C (4) < B (5)
+		
+		\item Mejora relativa de B sobre A en $RSE$:
+		\begin{align}
+			\text{Mejora} = \frac{RSE_A - RSE_B}{RSE_A} \times 100 = \frac{18.5 - 17.8}{18.5} \times 100 = 3.78\%
+		\end{align}
+		
+		El Modelo B reduce el error en 3.78\% comparado con A.
+		
+		\item \textbf{Elección con principio de parsimonia:} El Modelo A, porque:
+		\begin{itemize}
+			\item Tiene el menor número de predictores (3)
+			\item La diferencia en rendimiento con B es pequeña ($\Delta R^2 = 0.02$, $\Delta RSE = 0.7$)
+			\item Es más simple, interpretable y menos propenso a sobreajuste
+			\item La mejora marginal de B no justifica la mayor complejidad
+		\end{itemize}
+		
+		\item \textbf{Análisis adicional:}
+		\begin{itemize}
+			\item \textbf{Significancia estadística:} Pruebas para comparar modelos (ej: prueba F, test de Diebold-Mariano)
+			\item \textbf{Análisis de residuos:} Verificar supuestos (normalidad, homocedasticidad, independencia)
+			\item \textbf{Interpretabilidad:} Evaluar si los coeficientes tienen sentido en el contexto del problema
+			\item \textbf{Costo de recolección:} Considerar el costo de obtener datos para predictores adicionales
+			\item \textbf{Validación externa:} Probar los modelos en un conjunto de datos completamente independiente
+			\item \textbf{Análisis de sensibilidad:} Evaluar robustez ante cambios en los datos
+		\end{itemize}
+	\end{enumerate}
+\end{solucion}
