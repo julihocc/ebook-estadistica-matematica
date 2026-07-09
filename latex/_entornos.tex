@@ -2,56 +2,68 @@
 \setcounter{tocdepth}{1}
 \setcounter{secnumdepth}{1}
 
+% Helper: format numbers as chapter.section.item
+\newcommand{\fmtnum}[1]{\arabic{chapter}.\arabic{section}.\arabic{#1}}
+
+% Shared counters for grouped environments
+\newcounter{thm}
+\newcounter{def}
+
 \theoremstyle{theorem}
-\newtheorem{teorema}{Teorema}[section]
-\newtheorem{lema}{Lema}[section]
-\newtheorem{proposicion}{Proposición}[section]
-\newtheorem*{corolario}{Corolario}%[section]
-%\newtheorem*{algoritmo}{Algoritmo}%[section]
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{lema}{Lema}[chapter]
+\newtheorem{proposicion}{Proposición}[chapter]
+\newtheorem*{corolario}{Corolario}
+\renewcommand{\theteorema}{\fmtnum{thm}}
+\renewcommand{\thelema}{\fmtnum{thm}}
+\renewcommand{\theproposicion}{\fmtnum{thm}}
 
 \theoremstyle{definition}
-\newtheorem{problema}{Problema}[section]
-\newtheorem{ejemplo}{Ejemplo}[section]
-\newtheorem*{definicion}{Definición}%[section]
-\newtheorem*{axioma}{Axioma}%[section]
-\newtheorem*{propiedad}{Propiedad}%[section]
-%\newtheorem{ejemplo}{Ejemplo}[section]
+\newtheorem{problema}{Problema}[chapter]
+\newtheorem{ejemplo}{Ejemplo}[chapter]
+\newtheorem{definicion}{Definición}[chapter]
+\newtheorem{axioma}{Axioma}[chapter]
+\newtheorem{propiedad}{Propiedad}[chapter]
+\renewcommand{\theproblema}{\fmtnum{def}}
+\renewcommand{\theejemplo}{\fmtnum{def}}
+\renewcommand{\thedefinicion}{\fmtnum{def}}
+\renewcommand{\theaxioma}{\fmtnum{def}}
+\renewcommand{\thepropiedad}{\fmtnum{def}}
 
 \theoremstyle{remark}
-\newtheorem*{observacion}{Observación}%[section]
+\newtheorem{observacion}{Observación}[chapter]
 \newtheorem*{sugerencia}{Sugerencia}
+\renewcommand{\theobservacion}{\fmtnum{def}}
 
-\newenvironment{solucion}{
+% Numbered solucion environment
+\newcounter{sol}
+\renewcommand{\thesol}{\fmtnum{sol}}
+\newenvironment{solucion}[1][]{
 	\medskip
-	%\begin{framed}
+	\refstepcounter{sol}%
+	\ifx&#1&\else\label{sol:#1}\fi
 		\bgroup\color{Maroon}
-		{\textbf{Solución.}}
-	}{
+		{\textbf{Solución \thesol.}}
+	}{%
 		\egroup
-	%\end{framed}
 	\medskip
 	}
 
-%\newenvironment{ejemplo}{
-%	\medskip
-%	%\begin{framed}
-%	\bgroup\color{RedOrange}
-%	{\textbf{Ejemplo.}}
-%}{
-%	\egroup
-%	%\end{framed}
-%	\medskip
-%}
-
 \newenvironment{algoritmo}[1]{
 	\medskip
-	%\begin{framed}
 	\bgroup
 	\color{RedViolet}
 	{\textbf{Algoritmo. (#1)}}
 	\ttfamily
 }{
 	\egroup
-	%\end{framed}
 	\medskip
 }
+
+% Number equations and figures by chapter.section
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+\renewcommand{\theequation}{\arabic{chapter}.\arabic{section}.\arabic{equation}}
+\renewcommand{\thefigure}{\arabic{chapter}.\arabic{section}.\arabic{figure}}
+\renewcommand{\thetable}{\arabic{chapter}.\arabic{section}.\arabic{table}}
