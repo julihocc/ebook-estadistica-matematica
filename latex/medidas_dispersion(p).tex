@@ -1,0 +1,249 @@
+\section*{Problemas}
+
+\begin{problema}
+	\label{problema:4.3}
+	Encontrar el rango y las desviaciones media y estándar de los arreglos 
+	\begin{enumerate}
+		\item $12,6,7,3,15,10,18,5$ 
+		\item $9,3,8,8,9,8,9,18.$
+	\end{enumerate}
+	
+	Compruebe sus resultados con \texttt{Python.}
+\end{problema}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Para $12,6,7,3,15,10,18,5$:
+		\begin{itemize}
+			\item \textbf{Rango:} $\max - \min = 18 - 3 = 15$
+			\item \textbf{Media:} $\bar{X} = \frac{12+6+7+3+15+10+18+5}{8} = \frac{76}{8} = 9.5$
+			\item \textbf{Desviación media:}
+			\begin{align}
+				DM &= \frac{|12-9.5| + |6-9.5| + |7-9.5| + |3-9.5| + |15-9.5| + |10-9.5| + |18-9.5| + |5-9.5|}{8} \\
+				&= \frac{2.5 + 3.5 + 2.5 + 6.5 + 5.5 + 0.5 + 8.5 + 4.5}{8} = \frac{34}{8} = 4.25
+			\end{align}
+			\item \textbf{Desviación estándar:}
+			\begin{align}
+				s &= \sqrt{\frac{(12-9.5)^2 + (6-9.5)^2 + (7-9.5)^2 + (3-9.5)^2 + (15-9.5)^2 + (10-9.5)^2 + (18-9.5)^2 + (5-9.5)^2}{8}} \\
+				&= \sqrt{\frac{6.25 + 12.25 + 6.25 + 42.25 + 30.25 + 0.25 + 72.25 + 20.25}{8}} \\
+				&= \sqrt{\frac{190}{8}} = \sqrt{23.75} \approx 4.87
+			\end{align}
+		\end{itemize}
+		
+		\item Para $9,3,8,8,9,8,9,18$:
+		\begin{itemize}
+			\item \textbf{Rango:} $18 - 3 = 15$
+			\item \textbf{Media:} $\bar{X} = \frac{9+3+8+8+9+8+9+18}{8} = \frac{72}{8} = 9$
+			\item \textbf{Desviación media:}
+			\begin{align}
+				DM &= \frac{|9-9| + |3-9| + |8-9| + |8-9| + |9-9| + |8-9| + |9-9| + |18-9|}{8} \\
+				&= \frac{0 + 6 + 1 + 1 + 0 + 1 + 0 + 9}{8} = \frac{18}{8} = 2.25
+			\end{align}
+			\item \textbf{Desviación estándar:}
+			\begin{align}
+				s &= \sqrt{\frac{0^2 + (-6)^2 + (-1)^2 + (-1)^2 + 0^2 + (-1)^2 + 0^2 + 9^2}{8}} \\
+				&= \sqrt{\frac{0 + 36 + 1 + 1 + 0 + 1 + 0 + 81}{8}} = \sqrt{\frac{120}{8}} = \sqrt{15} \approx 3.87
+			\end{align}
+		\end{itemize}
+	\end{enumerate}
+\end{solucion}
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+# Conjunto 1
+data1 = np.array([12, 6, 7, 3, 15, 10, 18, 5])
+print("Conjunto 1:")
+print(f"Rango: {np.ptp(data1)}")
+print(f"Media: {np.mean(data1)}")
+print(f"Desviación media: {np.mean(np.abs(data1 - np.mean(data1)))}")
+print(f"Desviación estándar: {np.std(data1)}")
+
+# Conjunto 2
+data2 = np.array([9, 3, 8, 8, 9, 8, 9, 18])
+print("\nConjunto 2:")
+print(f"Rango: {np.ptp(data2)}")
+print(f"Media: {np.mean(data2)}")
+print(f"Desviación media: {np.mean(np.abs(data2 - np.mean(data2)))}")
+print(f"Desviación estándar: {np.std(data2)}")
+\end{lstlisting}
+
+
+
+\begin{problema}
+	\label{problema:4.4}
+	Encontrar las desviaciones media y estándar de las estaturas de 100 estudiantes de la siguiente tabla:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=10cm,keepaspectratio=true]{./images/tab0302.png}
+		\label{tab:0302}
+	\end{figure}
+\end{problema}
+
+
+
+\begin{problema}
+	\label{problema:4.11}
+	Encontrar las desviaciones media y estándar de las estaturas de 100 estudiantes de la siguiente tabla:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[height=5cm,keepaspectratio=true]{./images/tab0201.png}
+		\label{tab:0201}
+	\end{figure}
+\end{problema}
+
+
+
+\begin{problema}
+	\label{problema:4.12}
+	Demostrar que
+	\begin{align}
+		s &= \sqrt{\dfrac{\sum X^{2}}{N}-\left( \dfrac{\sum X}{N} \right)^{2}}&=
+		\sqrt{\overline{X^{2}}-\overline{X}^{2}}\\
+		s &= \sqrt{\dfrac{\sum fX^{2}}{N}-\left( \dfrac{\sum fX}{N} \right)^{2}}&=
+		\sqrt{\overline{X^{2}}-\overline{X}^{2}}
+	\end{align}
+\end{problema}
+
+\begin{solucion}
+	Partimos de la definición de desviación estándar:
+	\begin{align}
+		s^2 &= \frac{\sum (X_j - \bar{X})^2}{N} \\
+		&= \frac{\sum (X_j^2 - 2X_j\bar{X} + \bar{X}^2)}{N} \\
+		&= \frac{\sum X_j^2 - 2\bar{X}\sum X_j + N\bar{X}^2}{N} \\
+		&= \frac{\sum X_j^2}{N} - 2\bar{X}\frac{\sum X_j}{N} + \bar{X}^2 \\
+		&= \frac{\sum X_j^2}{N} - 2\bar{X}\cdot\bar{X} + \bar{X}^2 \\
+		&= \frac{\sum X_j^2}{N} - \bar{X}^2 \\
+		&= \overline{X^2} - \overline{X}^2
+	\end{align}
+	
+	Para datos con frecuencias, el mismo razonamiento aplica reemplazando $\sum X_j^2$ por $\sum f_j X_j^2$ y $\sum X_j$ por $\sum f_j X_j$.
+\end{solucion}
+
+
+
+\begin{problema}
+	\label{problema:4.14}
+	Utilizando las fórmulas anteriores, encuentre la desviación estándar de los datos en la tabla \ref{tab:0201}:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[height=5cm,keepaspectratio=true]{./images/tab0201.png}
+	\end{figure}
+\end{problema}
+
+
+
+\begin{problema}
+	\label{problema:4.15}
+	Si $d=X-P$ son desviaciones de $X$ respecto a un pivote $P,$ demostrar que
+	\begin{align}
+		s=\sqrt{\dfrac{\sum fd^{2}}{N}-\left( \dfrac{\sum fd}{N} \right)^{2}}.
+	\end{align}
+\end{problema}
+
+\begin{solucion}
+	Si $d_j = X_j - P$, entonces $X_j = d_j + P$.
+	
+	La media de $X$ es:
+	\begin{align}
+		\bar{X} = \frac{\sum f_j X_j}{N} = \frac{\sum f_j (d_j + P)}{N} = \frac{\sum f_j d_j}{N} + P = \bar{d} + P
+	\end{align}
+	
+	La desviación de $X$ respecto a su media es:
+	\begin{align}
+		X_j - \bar{X} = (d_j + P) - (\bar{d} + P) = d_j - \bar{d}
+	\end{align}
+	
+	Por lo tanto:
+	\begin{align}
+		s^2 &= \frac{\sum f_j (X_j - \bar{X})^2}{N} = \frac{\sum f_j (d_j - \bar{d})^2}{N} \\
+		&= \frac{\sum f_j (d_j^2 - 2d_j\bar{d} + \bar{d}^2)}{N} \\
+		&= \frac{\sum f_j d_j^2}{N} - 2\bar{d}\frac{\sum f_j d_j}{N} + \bar{d}^2 \\
+		&= \frac{\sum f_j d_j^2}{N} - 2\bar{d}^2 + \bar{d}^2 \\
+		&= \frac{\sum f_j d_j^2}{N} - \bar{d}^2 \\
+		&= \frac{\sum f_j d_j^2}{N} - \left(\frac{\sum f_j d_j}{N}\right)^2
+	\end{align}
+\end{solucion}
+
+
+
+\begin{problema}
+	\label{problema:4.17}
+	Utilizando las fórmulas anteriores, encuentre la desviación estándar de los datos en la tabla \ref{tab:0201}:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[height=5cm,keepaspectratio=true]{./images/tab0201.png}
+	\end{figure}
+\end{problema}
+
+
+
+\begin{problema}
+	\label{problema:4.18}
+	Encuentre la media aritmética y  la desviación estándar de los siguientes datos:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[height=5cm]{./images/tab0205.png}
+		\label{tab:0205}
+	\end{figure}
+\end{problema}
+
+
+
+\begin{problema}
+	\label{problema:4.20}
+	Dos grupos de estudiantes tienen las siguientes características:
+	\begin{itemize}
+		\item Grupo A: $n_1 = 30$ estudiantes, $\bar{X}_1 = 75$ puntos, $s_1 = 8$ puntos
+		\item Grupo B: $n_2 = 20$ estudiantes, $\bar{X}_2 = 75$ puntos, $s_2 = 12$ puntos
+	\end{itemize}
+	
+	Encuentre la desviación estándar del grupo combinado.
+\end{problema}
+
+\begin{solucion}
+	Como ambos grupos tienen la misma media ($\bar{X}_1 = \bar{X}_2 = 75$), podemos usar la fórmula para la varianza combinada:
+	\begin{align}
+		s^2 &= \frac{n_1 s_1^2 + n_2 s_2^2}{n_1 + n_2} \\
+		&= \frac{30 \cdot 8^2 + 20 \cdot 12^2}{30 + 20} \\
+		&= \frac{30 \cdot 64 + 20 \cdot 144}{50} \\
+		&= \frac{1920 + 2880}{50} \\
+		&= \frac{4800}{50} = 96
+	\end{align}
+	
+	Por lo tanto, $s = \sqrt{96} \approx 9.80$ puntos.
+\end{solucion}
+
+
+
+\begin{problema}
+	\label{problema:4.21}
+	El coeficiente de variación se define como:
+	\begin{align}
+		CV = \frac{s}{\bar{X}} \times 100\%
+	\end{align}
+	
+	Compare la variabilidad relativa de:
+	\begin{itemize}
+		\item Los salarios de dos empresas: Empresa A tiene $\bar{X}_A = \$45,000$ y $s_A = \$8,000$; Empresa B tiene $\bar{X}_B = \$38,000$ y $s_B = \$6,500$.
+		\item Las estaturas y pesos de un grupo de personas: estatura media $170$ cm con $s = 8$ cm; peso medio $70$ kg con $s = 10$ kg.
+	\end{itemize}
+\end{problema}
+
+\begin{solucion}
+	\begin{itemize}
+		\item \textbf{Salarios:}
+		\begin{align}
+			CV_A &= \frac{8000}{45000} \times 100\% \approx 17.78\% \\
+			CV_B &= \frac{6500}{38000} \times 100\% \approx 17.11\%
+		\end{align}
+		La Empresa A tiene ligeramente mayor variabilidad relativa en salarios.
+		
+		\item \textbf{Estaturas vs pesos:}
+		\begin{align}
+			CV_{\text{estatura}} &= \frac{8}{170} \times 100\% \approx 4.71\% \\
+			CV_{\text{peso}} &= \frac{10}{70} \times 100\% \approx 14.29\%
+		\end{align}
+		El peso tiene mucha mayor variabilidad relativa que la estatura.
+	\end{itemize}
+\end{solucion}

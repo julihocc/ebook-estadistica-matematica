@@ -75,6 +75,12 @@ Se pueden definir varios tipo de promedios:
 	Calcula la media de $8,3,5,12,10$.
 \end{ejemplo}
 
+\begin{solucion}
+	\begin{align}
+		\bar{X} = \frac{8+3+5+12+10}{5} = \frac{38}{5} = 7.6
+	\end{align}
+\end{solucion}
+
 \lstinputlisting[language=python]{../code/medida-tendencia-central/ejemplo-2-2/ejemplo_2_2.py}
 
 
@@ -83,12 +89,20 @@ Si los números $X_{1},X_{2},...,X_{k}$ se presentan con \emph{frecuencias} $f_{
 	\label{3.2}
 	\bar{X}=\dfrac{f_{1}X_{1}+...+f_{k}X_{k}}{f_{1}+...+f_{k}}=\dfrac{\sum fX}{\sum f}=\dfrac{\sum fX}{N}.
 \end{align}
-dónde $N=\sum f$ es la \emph{suma de frecuencias} o \emph{total de casos.}
+donde $N=\sum f$ es la \emph{suma de frecuencias} o \emph{total de casos.}
 
 
 \begin{ejemplo}
 	Si $5,8,6,2$ se presentan con frecuencias $3,2,4,1$ respectivamente, su media aritmética es...
 \end{ejemplo}
+
+\begin{solucion}
+	\begin{align}
+		\bar{X} &= \dfrac{5(3) + 8(2) + 6(4) + 2(1)}{3 + 2 + 4 + 1} \\
+		&= \dfrac{15 + 16 + 24 + 2}{10} = \dfrac{57}{10} = 5.7
+	\end{align}
+\end{solucion}
+
 \lstinputlisting[language=python]{../code/medida-tendencia-central/ejemplo-2-3/ejemplo_2_3.py}
  
 Algunas veces, a los números $X_{1},...,X_{k}$ se les asignan ciertos \emph{factores de ponderación} o \emph{pesos} $w_{1},...,w_{k},$ tales que \begin{align}
@@ -111,6 +125,14 @@ Algunas veces, a los números $X_{1},...,X_{k}$ se les asignan ciertos \emph{fac
 \begin{ejemplo}
 	Si en una clase, al examen final se le da el triple del valor que a los exámenes parciales y un estudiante obtiene 85 en el final y 70 y 90 en los dos exámenes parciales, obtener su media ponderada.
 \end{ejemplo}
+
+\begin{solucion}
+	Los pesos son: $w_1 = w_2 = \frac{1}{5}$ para cada parcial y $w_3 = \frac{3}{5}$ para el final.
+	\begin{align}
+		\bar{X} &= \frac{1}{5}(70) + \frac{1}{5}(90) + \frac{3}{5}(85) \\
+		&= 14 + 18 + 51 = 83
+	\end{align}
+\end{solucion}
 
 
 
@@ -146,9 +168,16 @@ La mediana $\til{X}$ de un conjunto de números acomodados en un orden de magnit
 \begin{ejemplo}
 	\begin{itemize}
 		\item La mediana de la lista de números $5, 4, 3, 8, 6, 2, 5, 2$ es... 
-		\item La mediana de la lista de números $3, 9, 1, 1, 4, 1, 3, 2, 4$ es..
+		\item La mediana de la lista de números $3, 9, 1, 1, 4, 1, 3, 2, 4$ es...
 	\end{itemize}	
 \end{ejemplo}
+
+\begin{solucion}
+	\begin{itemize}
+		\item Ordenando: $2, 2, 3, 4, 5, 5, 6, 8$. Como $N=8$ (par), la mediana es el promedio de los dos valores centrales: $\tilde{X} = \frac{4+5}{2} = 4.5$.
+		\item Ordenando: $1, 1, 1, 2, 3, 3, 4, 4, 9$. Como $N=9$ (impar), la mediana es el valor central: $\tilde{X} = 3$.
+	\end{itemize}
+\end{solucion}
 
 \lstinputlisting{../code/medida-tendencia-central/ejemplo-2-5/ejemplo_2_5.py}
 
@@ -156,9 +185,9 @@ La mediana $\til{X}$ de un conjunto de números acomodados en un orden de magnit
 
 \begin{definicion}[Mediana para datos agrupados]
 	\begin{align}
-		\texttt{Mediana}=L+\left(
+		\tilde{X}=L+\left(
 		\dfrac{ \dfrac{N}{2}-\sum_{{C<C_{M}}}f}{f_{C_{M}}}
-		\right)
+		\right)c
 	\end{align}
 	donde 
 	\begin{itemize}
@@ -172,14 +201,14 @@ La mediana $\til{X}$ de un conjunto de números acomodados en un orden de magnit
 
 
 \subsection{Moda}
-La moda de una lista de números es un valor que se presenta con la mayor frecuencia $f>1$.  \emph{La moda no es necesariamente existe ni es única.}
+La moda de una lista de números es un valor que se presenta con la mayor frecuencia $f>1$.  \emph{La moda no necesariamente existe ni es única.}
 
 
 \begin{ejemplo}
 	\begin{itemize}
-		\item La moda de la lista $2,2,5,7,9,9,9,10,10,11,12,18$ es...  En este caso, diremos que la lista es \emph{unimodal.}
-		\item ?`Cuál es la moda de la lista $3,5,8,0,12,15,16$? 
-		\item ?`Cuál es la moda de la lista $3,8,8,8,15,15,15$?  En este caso diremos que la lista es \emph{bimodal.}
+		\item La moda de la lista $2,2,5,7,9,9,9,10,10,11,12,18$ es $9$. En este caso, diremos que la lista es \emph{unimodal.}
+		\item ¿Cuál es la moda de la lista $3,5,8,0,12,15,16$? No existe moda, ya que todos los valores aparecen una sola vez.
+		\item ¿Cuál es la moda de la lista $3,8,8,8,15,15,15$? Las modas son $8$ y $15$. En este caso diremos que la lista es \emph{bimodal.}
 	\end{itemize}
 	
 \end{ejemplo}
@@ -188,7 +217,7 @@ La moda de una lista de números es un valor que se presenta con la mayor frecue
 
 \begin{definicion}[Moda para datos agrupados]
 	\begin{align}
-		\texttt{Moda}=
+		Mo=
 		L + \left( \dfrac{\Del_{1}}{\Del_{1}+\Del_{2}} \right)c
 	\end{align}
 	donde 
@@ -210,12 +239,14 @@ La moda de una lista de números es un valor que se presenta con la mayor frecue
 \texttt{Numpy} es el módulo numérico de Python. Nos permite hacer cálculos numéricos con gran velocidad. Con \texttt{Numpy}, es sencillo calcular  la media aritmética sobre los elementos de un arreglo.
 
 \begin{lstlisting}[language=Python]
+	import numpy as np
+	
 	a = np.array([[1, 2], [3, 4]])
-	print np.mean(a)
+	print(np.mean(a))
 	#2.5
-	print np.mean(a, axis=0)
+	print(np.mean(a, axis=0))
 	#array([ 2.,  3.])
-	print np.mean(a, axis=1)
+	print(np.mean(a, axis=1))
 	#array([ 1.5,  3.5])
 \end{lstlisting}
 
@@ -225,28 +256,29 @@ También podemos calcular la mediana.
 	import numpy as np
 	
 	a = np.array([[10, 7, 4], [3, 2, 1]])
-	print a
-	#array([[10,  7,  4],6[ 3,  2,  1]])
-	print np.median(a)
+	print(a)
+	#array([[10,  7,  4],
+	#       [ 3,  2,  1]])
+	print(np.median(a))
 	#3.5
-	print np.median(a, axis=0)
+	print(np.median(a, axis=0))
 	#array([ 6.5,  4.5,  2.5])
-	print np.median(a, axis=1)
+	print(np.median(a, axis=1))
 	#array([ 7.,  2.])
 	
 	m = np.median(a, axis=0)
 	out = np.zeros_like(m)
-	print np.median(a, axis=0, out=m)
+	print(np.median(a, axis=0, out=m))
 	#array([ 6.5,  4.5,  2.5])
-	print m
+	print(m)
 	#array([ 6.5,  4.5,  2.5])
 	b = a.copy()
-	print np.median(b, axis=1, overwrite_input=True)
+	print(np.median(b, axis=1, overwrite_input=True))
 	#array([ 7.,  2.])
 	
 	assert not np.all(a==b)
 	b = a.copy()
-	print np.median(b, axis=None, overwrite_input=True)
+	print(np.median(b, axis=None, overwrite_input=True))
 	#3.5
 	assert not np.all(a==b)
 \end{lstlisting}
@@ -260,7 +292,7 @@ SciPy contiene módulos para optimización, álgebra lineal, integración, inter
 	from scipy import stats
 	
 	a = np.array([3,5,6,5,6,5,6,6,3,1,5])
-	print stats.mode(a)
+	print(stats.mode(a))
 	# ModeResult(mode=array([5]), count=array([4]))
 \end{lstlisting}
 

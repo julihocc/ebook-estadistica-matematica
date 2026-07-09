@@ -1,5 +1,5 @@
 """
-La mediana de la lista de n'umeros 5, 4, 3, 8, 6, 2, 5, 2 es..
+La mediana de la lista de números 5, 4, 3, 8, 6, 2, 5, 2 es...
 """
 data = [5, 4, 3, 8, 6, 2, 5, 2]
 #ordenamos los datos
@@ -13,7 +13,7 @@ mediana = (data[m]+data[m+1])/2
 print(mediana) # 4.5
 
 """
-La mediana de la lista de n'umeros 3, 9, 1, 1, 4, 1, 3, 2, 4 es..
+La mediana de la lista de números 3, 9, 1, 1, 4, 1, 3, 2, 4 es...
 """
 data = [3, 9, 1, 1, 4, 1, 3, 2, 4]
 #ordenamos los datos

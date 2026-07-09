@@ -1,7 +1,7 @@
 ﻿"""
-La media aritm'etica de 8,3,5,12,10 es...
+La media aritmética de 8,3,5,12,10 es...
 """
-data = [8,3,5,12,19]
+data = [8,3,5,12,10]
 n = len(data)
 media_aritmetica = sum(data)/n
-print(media_aritmetica) ## 9.4
+print(media_aritmetica) ## 7.6
