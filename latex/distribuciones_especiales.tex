@@ -706,3 +706,361 @@ print(1-stats.poisson(N*p).cdf(2))
  \end{verbatim}
 
 
+
+\subsection{La Distribución Geométrica}
+
+La distribución geométrica modela el número de ensayos Bernoulli independientes necesarios para obtener el primer éxito. Si cada ensayo tiene probabilidad de éxito $p$ y de fracaso $q=1-p$, entonces la variable aleatoria $X$ que cuenta el número de ensayos hasta obtener el primer éxito (incluyendo el éxito) tiene función de probabilidad
+\begin{align}
+ \label{eq:7.7}
+ f(k) = P(X=k) = (1-p)^{k-1}p, \quad k=1,2,3,\dots
+\end{align}
+
+Una propiedad fundamental de la distribución geométrica es la \emph{pérdida de memoria}: la probabilidad de obtener un éxito en los siguientes $k$ ensayos no depende del número de fracasos previos. Esto es, si $m,n\geq 1$,
+\begin{align}
+ P(X > m+n \mid X > m) = P(X > n).
+\end{align}
+
+{Propiedades de la distribución geométrica} Si $X$ tiene distribución geométrica con parámetro $p$, entonces
+\begin{align}
+ \mu_{X} &= \dfrac{1}{p} \\
+ \s_{X}^{2} &= \dfrac{1-p}{p^{2}}.
+\end{align}
+
+\begin{ejemplo}
+ \label{exmp:7.8}
+ Un vendedor sabe que la probabilidad de cerrar una venta en cada llamada telefónica es $p=0.2$. ¿Cuál es la probabilidad de que necesite realizar exactamente $5$ llamadas para realizar la primera venta? ¿Cuántas llamadas se espera que necesite en promedio?
+\end{ejemplo}
+
+\begin{solucion}
+	Usando la distribución geométrica con $p=0.2$:
+	\begin{align}
+		P(X=5) &= (1-0.2)^{5-1}(0.2) = (0.8)^{4}(0.2) \\
+		&= 0.4096 \times 0.2 = 0.08192
+	\end{align}
+	
+	El número esperado de llamadas es
+	\begin{align}
+		\mu = \dfrac{1}{p} = \dfrac{1}{0.2} = 5.
+	\end{align}
+\end{solucion}
+
+\begin{ejemplo}
+ \label{exmp:7.9}
+ En un proceso de control de calidad, la probabilidad de que una pieza sea defectuosa es $p=0.1$. ¿Cuál es la probabilidad de que la primera pieza defectuosa aparezca en la tercera inspección?
+\end{ejemplo}
+
+[fragile, allowframebreaks]{distGeom.py}
+ \begin{verbatim}
+from scipy import stats
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Distribución geométrica: ensayos hasta el primer éxito
+p = 0.2
+geomDist = stats.geom(p)
+
+#Probabilidad de necesitar exactamente 5 ensayos
+print(geomDist.pmf(5))
+##0.08192000000000001
+
+#Probabilidad de necesitar a lo más 5 ensayos
+print(geomDist.cdf(5))
+##0.67232
+
+#Probabilidad de necesitar más de 5 ensayos
+print(1-geomDist.cdf(5))
+##0.32768
+
+#Media y varianza
+print(geomDist.mean())
+##5.0
+print(geomDist.var())
+##20.0
+
+#Verificación de la propiedad de pérdida de memoria
+print(1 - geomDist.cdf(3+2))
+##0.3276800000000001
+print((1-geomDist.cdf(3)) * (1-geomDist.cdf(2)))
+##0.3276800000000001
+
+#Simulación
+np.random.seed(0)
+muestras = np.random.geom(p, size=1000)
+print(np.mean(muestras))
+##4.984
+ \end{verbatim}
+
+\begin{figure}
+ \centering
+ \includegraphics[height=7cm,keepaspectratio=true]{./pe/distGeom.png}
+ % distGeom.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
+ \caption{Distribución geométrica con $p=0.2$}
+ \label{fig:distGeom}
+\end{figure}
+
+
+
+\subsection{La Distribución Binomial Negativa}
+
+La distribución binomial negativa generaliza la geométrica: modela el número de fracasos observados antes de obtener un número predeterminado $r$ de éxitos en una secuencia de ensayos Bernoulli independientes. Su función de probabilidad está dada por
+\begin{align}
+ \label{eq:7.8}
+ f(k) = P(X=k) = \binom{k+r-1}{r-1}p^{r}(1-p)^{k}, \quad k=0,1,2,\dots
+\end{align}
+
+Observe que cuando $r=1$, la binomial negativa se reduce a la distribución geométrica (contando fracasos antes del primer éxito).
+
+{Propiedades de la distribución binomial negativa} Si $X$ tiene distribución binomial negativa con parámetros $r$ y $p$, entonces
+\begin{align}
+ \mu_{X} &= \dfrac{r(1-p)}{p} \\
+ \s_{X}^{2} &= \dfrac{r(1-p)}{p^{2}}.
+\end{align}
+
+\begin{ejemplo}
+ \label{exmp:7.10}
+ Un examen de certificación tiene una tasa de aprobación del $30\%$. ¿Cuál es la probabilidad de que un estudiante repruebe $4$ veces antes de aprobar por tercera vez?
+\end{ejemplo}
+
+\begin{solucion}
+	En este caso, $r=3$ (número de éxitos) y $p=0.3$. La variable $X$ cuenta el número de fracasos antes del tercer éxito.
+	\begin{align}
+		P(X=4) &= \binom{4+3-1}{3-1}(0.3)^{3}(0.7)^{4} \\
+		&= \binom{6}{2}(0.027)(0.2401) \\
+		&= 15 \times 0.027 \times 0.2401 \\
+		&\approx 0.0972
+	\end{align}
+\end{solucion}
+
+[fragile, allowframebreaks]{distNegBinom.py}
+ \begin{verbatim}
+from scipy import stats
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Distribución binomial negativa: fracasos antes del r-ésimo éxito
+r = 3
+p = 0.3
+nbDist = stats.nbinom(r, p)
+
+#Probabilidad de 4 fracasos antes del tercer éxito
+print(nbDist.pmf(4))
+##0.0972405
+
+#Media y varianza
+print(nbDist.mean())
+##r*(1-p)/p = 7.0
+print(nbDist.var())
+##r*(1-p)/p^2 = 23.333...
+
+#Distribución geométrica como caso particular
+geomDist = stats.geom(p)
+print(geomDist.pmf(5))  # P(X=5) para geométrica
+##0.08192000000000001
+print(stats.nbinom(1, p).pmf(4))  # P(X=4) para binom neg con r=1
+##0.08192000000000002
+
+#Simulación
+np.random.seed(0)
+muestras = np.random.negative_binomial(r, p, size=1000)
+print(np.mean(muestras))
+##6.9...
+ \end{verbatim}
+
+\begin{figure}
+ \centering
+ \includegraphics[height=7cm,keepaspectratio=true]{./pe/distNegBinom.png}
+ % distNegBinom.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
+ \caption{Distribución binomial negativa con $r=3$, $p=0.3$}
+ \label{fig:distNegBinom}
+\end{figure}
+
+
+
+\subsection{La Distribución Hipergeométrica}
+
+La distribución hipergeométrica modela el número de éxitos en $n$ extracciones \emph{sin reemplazo} de una población finita de tamaño $N$ que contiene $K$ éxitos y $N-K$ fracasos. Su función de probabilidad es
+\begin{align}
+ \label{eq:7.9}
+ f(k) = P(X=k) = \dfrac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}}, \quad \max(0, n-(N-K)) \leq k \leq \min(n, K).
+\end{align}
+
+A diferencia de las distribuciones anteriores, los ensayos aquí \emph{no son independientes} porque el muestreo sin reemplazo altera las probabilidades en cada extracción.
+
+{Propiedades de la distribución hipergeométrica} Si $X$ tiene distribución hipergeométrica con parámetros $N$, $K$ y $n$, entonces
+\begin{align}
+ \mu_{X} &= n\dfrac{K}{N} \\
+ \s_{X}^{2} &= n\dfrac{K}{N}\dfrac{N-K}{N}\dfrac{N-n}{N-1}.
+\end{align}
+
+El factor $\dfrac{N-n}{N-1}$ se conoce como \emph{factor de corrección por población finita}. Cuando $n \ll N$, este factor tiende a $1$ y la distribución hipergeométrica se aproxima a la binomial con parámetros $n$ y $p=K/N$.
+
+\begin{ejemplo}
+ \label{exmp:7.11}
+ Un lote contiene $20$ piezas, de las cuales $5$ son defectuosas. Si se eligen $4$ piezas al azar sin reemplazo, ¿cuál es la probabilidad de encontrar exactamente $2$ defectuosas?
+\end{ejemplo}
+
+\begin{solucion}
+	Aquí $N=20$, $K=5$, $n=4$, $k=2$.
+	\begin{align}
+		P(X=2) &= \dfrac{\binom{5}{2}\binom{15}{2}}{\binom{20}{4}} \\
+		&= \dfrac{10 \times 105}{4845} \\
+		&= \dfrac{1050}{4845} \approx 0.2167
+	\end{align}
+\end{solucion}
+
+\begin{ejemplo}
+ \label{exmp:7.12}
+ En una mano de póker de $5$ cartas de una baraja de $52$, ¿cuál es la probabilidad de obtener exactamente $3$ reyes?
+\end{ejemplo}
+
+\begin{solucion}
+	Aquí $N=52$ (total de cartas), $K=4$ (reyes), $n=5$ (cartas en la mano), $k=3$.
+	\begin{align}
+		P(X=3) &= \dfrac{\binom{4}{3}\binom{48}{2}}{\binom{52}{5}} \\
+		&= \dfrac{4 \times 1128}{2598960} \\
+		&= \dfrac{4512}{2598960} \approx 0.00174
+	\end{align}
+\end{solucion}
+
+[fragile, allowframebreaks]{distHyper.py}
+ \begin{verbatim}
+from scipy import stats
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Distribución hipergeométrica
+N = 20  # tamaño de la población
+K = 5   # número de éxitos en la población
+n = 4   # número de extracciones
+
+hyperDist = stats.hypergeom(N, K, n)
+
+#Probabilidad de obtener exactamente 2 defectuosas
+print(hyperDist.pmf(2))
+##0.21674922760096778
+
+#Media y varianza
+print(hyperDist.mean())
+##n*K/N = 1.0
+print(hyperDist.var())
+##n*(K/N)*((N-K)/N)*((N-n)/(N-1)) = 0.631578947368421
+
+#Comparación con la aproximación binomial
+binomDist = stats.binom(n, K/N)
+print(binomDist.pmf(2))
+##0.2153125
+
+#Ejemplo: póker - 3 reyes en 5 cartas
+poker = stats.hypergeom(52, 4, 5)
+print(poker.pmf(3))
+##0.0017361536111111111
+
+#Simulación
+np.random.seed(0)
+poblacion = np.array([1]*K + [0]*(N-K))
+muestras = np.array([np.sum(np.random.choice(poblacion, n, replace=False)) for _ in range(1000)])
+print(np.mean(muestras))
+##~1.0
+ \end{verbatim}
+
+\begin{figure}
+ \centering
+ \includegraphics[height=7cm,keepaspectratio=true]{./pe/distHyper.png}
+ % distHyper.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
+ \caption{Distribución hipergeométrica con $N=20$, $K=5$, $n=4$}
+ \label{fig:distHyper}
+\end{figure}
+
+\begin{observacion}
+	La distribución hipergeométrica se reduce a la binomial cuando el muestreo es con reemplazo (o equivalentemente, cuando $N \to \infty$). En la práctica, si $\frac{n}{N} < 0.05$, la aproximación binomial es razonablemente precisa.
+\end{observacion}
+
+
+
+\subsection{Distribuciones discretas y su relación con ciencia de datos}
+
+Las distribuciones discretas estudiadas en este capítulo no son solo objetos teóricos: son herramientas fundamentales en el análisis y modelado de datos. A continuación se resumen sus aplicaciones más comunes en ciencia de datos.
+
+\begin{itemize}
+ \item \textbf{Distribución binomial:} Se utiliza en pruebas A/B para determinar si existe una diferencia estadísticamente significativa entre dos tasas de conversión. También es la base de muchos modelos de clasificación binaria.
+ 
+ \item \textbf{Distribución de Poisson:} Modela la frecuencia de eventos raros en un intervalo fijo, como el número de visitas a una página web por minuto, las llamadas a un centro de atención por hora, o los defectos por unidad de producción. Es ampliamente usada en análisis de tráfico y detección de anomalías.
+ 
+ \item \textbf{Distribución geométrica:} Modela el número de ensayos hasta el primer éxito. En ciencia de datos se aplica en análisis de supervivencia (tiempo hasta la primera conversión), modelado de churn y en el diseño de estrategias de retención.
+ 
+ \item \textbf{Distribución binomial negativa:} Es una extensión de Poisson que permite modelar datos de conteo con \emph{sobredispersión} (varianza mayor que la media). Es frecuente en datos reales donde la variabilidad excede la predicha por Poisson, por ejemplo en el número de transacciones por cliente o el número de clics por usuario.
+ 
+ \item \textbf{Distribución hipergeométrica:} Se emplea cuando se trabaja con muestras sin reemplazo de poblaciones finitas, como en auditorías de calidad, muestreo de encuestas, o en pruebas estadísticas exactas como la prueba exacta de Fisher.
+\end{itemize}
+
+\begin{ejemplo}
+ \label{exmp:7.13}
+ Se quiere analizar el número de clicks que reciben $100$ anuncios publicitarios en una hora. Los datos observados tienen media $\bar{x}=4.2$ y varianza $s^{2}=8.7$. ¿Es razonable modelar estos datos con una distribución de Poisson?
+\end{ejemplo}
+
+\begin{solucion}
+	En una distribución de Poisson, la media y la varianza son iguales: $\mu = \sigma^{2} = \lambda$. Como en este caso $s^{2} = 8.7 \gg \bar{x} = 4.2$, los datos presentan \emph{sobredispersión}. Por lo tanto, una distribución de Poisson \emph{no} es adecuada. En su lugar, se recomienda usar una distribución binomial negativa, que permite modelar esta variabilidad adicional.
+\end{solucion}
+
+[fragile, allowframebreaks]{distDataScience.py}
+ \begin{verbatim}
+from scipy import stats
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Simulación: ¿Poisson o Binomial Negativa?
+np.random.seed(0)
+
+#Datos con sobredispersión
+datos = np.random.negative_binomial(n=5, p=0.5, size=1000) + np.random.poisson(2, 1000)
+print(f"Media: {np.mean(datos):.2f}, Varianza: {np.var(datos):.2f}")
+##Media: ~7.0, Varianza: ~9.0
+
+#Ajuste de Poisson (forzando media=var=lam)
+lam = np.mean(datos)
+poisson_fit = stats.poisson(lam)
+print(f"Log-likelihood Poisson: {np.sum(poisson_fit.logpmf(datos)):.2f}")
+
+#Ajuste de Binomial Negativa (estimando parámetros)
+from scipy.optimize import minimize
+
+def neg_log_lik_nbinom(params, data):
+    r, p = params
+    if r <= 0 or p <= 0 or p >= 1:
+        return 1e10
+    return -np.sum(stats.nbinom.logpmf(data, r, p))
+
+result = minimize(neg_log_lik_nbinom, x0=[2, 0.5], args=(datos,))
+r_opt, p_opt = result.x
+print(f"Parámetros NB ajustados: r={r_opt:.2f}, p={p_opt:.2f}")
+nbinom_fit = stats.nbinom(r_opt, p_opt)
+print(f"Log-likelihood Binomial Negativa: {np.sum(nbinom_fit.logpmf(datos)):.2f}")
+
+#Si log-likelihood de NB es mayor (menos negativo), el ajuste es mejor
+
+#Visualización
+fig, ax = plt.subplots(1, 1, figsize=(8, 5))
+ax.hist(datos, bins=range(0, 20), density=True, alpha=0.5, label="Datos")
+x = np.arange(0, 20)
+ax.plot(x, poisson_fit.pmf(x), 'ro-', label="Poisson", markersize=6)
+ax.plot(x, nbinom_fit.pmf(x), 'b^--', label="Binomial Negativa", markersize=6)
+ax.legend()
+ax.set_xlabel("Número de eventos")
+ax.set_ylabel("Probabilidad")
+plt.show()
+ \end{verbatim}
+
+\begin{figure}
+ \centering
+ \includegraphics[height=7cm,keepaspectratio=true]{./pe/distDataScience.png}
+ % distDataScience.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
+ \caption{Comparación de ajuste de Poisson vs. Binomial Negativa para datos con sobredispersión}
+ \label{fig:distDataScience}
+\end{figure}
+
+\begin{observacion}
+	En la práctica, la elección de la distribución depende tanto de la naturaleza del fenómeno modelado como de las propiedades estadísticas de los datos observados. Herramientas como la función de verosimilitud, el criterio de información de Akaike (AIC) o validación cruzada permiten comparar distintos modelos y elegir el más apropiado.
+\end{observacion}
+
+
+
