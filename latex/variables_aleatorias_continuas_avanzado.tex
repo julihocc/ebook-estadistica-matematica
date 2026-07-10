@@ -68,55 +68,7 @@ El tiempo de espera esperado es
 \end{align}
 \end{solucion}
 
-[fragile, allowframebreaks]{distUniforme.py}
- \begin{verbatim}
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Distribuci\'on uniforme continua en [a, b]
-a, b = 0, 15
-uniformDist = stats.uniform(loc=a, scale=b-a)
-
-# P(X < 5)
-print(uniformDist.cdf(5))
-##0.3333333333333333
-
-# Media y varianza
-print(uniformDist.mean())   # 7.5
-##7.5
-print(uniformDist.var())    # 18.75
-##18.75
-
-# Simulaci\'on
-np.random.seed(0)
-muestras = np.random.uniform(a, b, size=10000)
-print(f"Media muestral: {np.mean(muestras):.2f}")  # ~7.5
-##Media muestral: 7.51
-print(f"Var muestral: {np.var(muestras):.2f}")      # ~18.75
-##Var muestral: 18.71
-
-# Gr\'afica: densidad y CDF
-fig, axes = plt.subplots(1, 2, figsize=(12, 4))
-x = np.linspace(a-2, b+2, 200)
-
-axes[0].plot(x, uniformDist.pdf(x), 'b-', lw=2)
-axes[0].fill_between(x, uniformDist.pdf(x), where=(x>=a)&(x<=b), alpha=0.3)
-axes[0].set_xlabel('x')
-axes[0].set_ylabel('f(x)')
-axes[0].set_title('Densidad U(0,15)')
-axes[0].grid(True, alpha=0.3)
-
-axes[1].plot(x, uniformDist.cdf(x), 'r-', lw=2)
-axes[1].set_xlabel('x')
-axes[1].set_ylabel('F(x)')
-axes[1].set_title('CDF U(0,15)')
-axes[1].grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.savefig('pe/distUniforme.png', dpi=100, bbox_inches='tight')
-plt.show()
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-continuas-avanzadas/distUniforme.py}
 
 \begin{figure}
  \centering
@@ -196,47 +148,7 @@ Por la regla emp\'irica, este valor es aproximadamente $0.6827 = 68.27\%$.
 Usando tablas o software, el valor exacto es $\Phi(1) - \Phi(-1) = 0.8413 - 0.1587 = 0.6827$.
 \end{solucion}
 
-[fragile, allowframebreaks]{distNormalContinua.py}
- \begin{verbatim}
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Distribuci\'on normal
-mu, sigma = 70, 10
-normalDist = stats.norm(mu, sigma)
-
-# P(60 <= X <= 80)
-p = normalDist.cdf(80) - normalDist.cdf(60)
-print(f"P(60 <= X <= 80) = {p:.4f}")
-##P(60 <= X <= 80) = 0.6827
-
-# Cuantiles
-print(f"Percentil 95: {normalDist.ppf(0.95):.2f}")  # ~86.45
-##Percentil 95: 86.45
-
-# Gr\'afica de la densidad con regiones sombreadas
-fig, ax = plt.subplots(figsize=(10, 5))
-x = np.linspace(mu - 4*sigma, mu + 4*sigma, 500)
-ax.plot(x, normalDist.pdf(x), 'b-', lw=2, label=f'N({mu},{sigma**2})')
-
-# Sombrear regi\'on [\mu-\sigma, \mu+\sigma]
-x_fill = np.linspace(mu-sigma, mu+sigma, 100)
-ax.fill_between(x_fill, normalDist.pdf(x_fill), alpha=0.3, color='blue',
-                label='~68.27%')
-ax.fill_between(x, normalDist.pdf(x),
-                where=((x>=mu-2*sigma)&(x<=mu+2*sigma))&~((x>=mu-sigma)&(x<=mu+sigma)),
-                alpha=0.2, color='green', label='~95.45% total')
-
-ax.set_xlabel('x')
-ax.set_ylabel('f(x)')
-ax.set_title('Distribuci\'on N(70, 100) con regla 68-95-99.7')
-ax.legend(loc='upper right')
-ax.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.savefig('pe/distNormalContinua.png', dpi=100, bbox_inches='tight')
-plt.show()
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-continuas-avanzadas/distNormalContinua.py}
 
 \begin{figure}
  \centering
@@ -381,61 +293,7 @@ Num\'ericamente: $3 \cdot 1.5 = 4.5$, por lo que
 \end{align}
 \end{solucion}
 
-[fragile, allowframebreaks]{distGamma.py}
- \begin{verbatim}
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Distribuci\'on gamma con varios par\'ametros
-fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-
-# Panel izquierdo: variando alpha (beta=1 fijo)
-x = np.linspace(0, 15, 500)
-alphas = [1, 2, 3, 5]
-for a in alphas:
-    g = stats.gamma(a=a, scale=1.0)
-    axes[0].plot(x, g.pdf(x), lw=2, label=f'alpha={a}, beta=1')
-
-axes[0].set_xlabel('x')
-axes[0].set_ylabel('f(x)')
-axes[0].set_title('Familia gamma (variando alpha)')
-axes[0].legend()
-axes[0].grid(True, alpha=0.3)
-
-# Panel derecho: distribuciones exponencial y chi-cuadrada como casos particulares
-x2 = np.linspace(0, 10, 500)
-exp_dist = stats.expon(scale=1.0)              # Gamma(alpha=1, beta=1)
-chi2_3 = stats.chi2(df=3)                      # Gamma(alpha=1.5, beta=2)
-chi2_5 = stats.chi2(df=5)                      # Gamma(alpha=2.5, beta=2)
-
-axes[1].plot(x2, exp_dist.pdf(x2), 'b-', lw=2, label='Exp(1) = Gamma(1,1)')
-axes[1].plot(x2, chi2_3.pdf(x2), 'r-', lw=2, label='chi^2_3 = Gamma(1.5,2)')
-axes[1].plot(x2, chi2_5.pdf(x2), 'g-', lw=2, label='chi^2_5 = Gamma(2.5,2)')
-axes[1].set_xlabel('x')
-axes[1].set_ylabel('f(x)')
-axes[1].set_title('Exponencial y chi-cuadrada como casos de gamma')
-axes[1].legend()
-axes[1].grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.savefig('pe/distGamma.png', dpi=100, bbox_inches='tight')
-plt.show()
-
-# Ejemplo: tiempo hasta la tercera llamada
-# Erlang(k, lambda) = Gamma(k, 1/lambda)
-lam = 3
-k = 3
-T = stats.gamma(a=k, scale=1/lam)
-print(f"P(T > 1.5) = {1 - T.cdf(1.5):.4f}")
-##P(T > 1.5) = 0.1739
-
-# Simulaci\'on
-np.random.seed(0)
-muestras = np.random.gamma(shape=k, scale=1/lam, size=10000)
-print(f"Media muestral: {np.mean(muestras):.4f}")  # Esperado: 1
-##Media muestral: 1.0036
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-continuas-avanzadas/distGamma.py}
 
 \begin{figure}
  \centering
@@ -584,70 +442,7 @@ Los momentos se obtienen por derivaci\'on:
 En particular, $E[X] = 1/\lambda$ y $\text{Var}(X) = 1/\lambda^2$.
 \end{solucion}
 
-[fragile, allowframebreaks]{fgmDistribuciones.py}
- \begin{verbatim}
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy import stats
-
-fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-
-# Panel izquierdo: FGM de varias distribuciones
-t = np.linspace(-1.5, 1.5, 200)
-
-# Bernoulli(0.5)
-M_bernoulli = lambda t: 0.5 + 0.5*np.exp(t)
-axes[0].plot(t, M_bernoulli(t), label='Bernoulli(0.5)', lw=2)
-
-# Normal(0,1)
-M_normal = lambda t: np.exp(t**2 / 2)
-axes[0].plot(t, M_normal(t), label='N(0,1)', lw=2)
-
-# Exponencial(lambda=1)
-lam = 1
-M_exp = lambda t: lam / (lam - t)
-mask = t < lam - 0.01
-axes[0].plot(t[mask], M_exp(t[mask]), label='Exp(1)', lw=2)
-
-# Gamma(2, 1) = Erlang(2, 1)
-# M(t) = (1 - t)^(-alpha) para beta=1
-M_gamma = lambda t: (1 - t)**(-2)
-mask_g = t < 0.99
-axes[0].plot(t[mask_g], M_gamma(t[mask_g]), label='Gamma(2,1)', lw=2)
-
-axes[0].set_xlabel('t')
-axes[0].set_ylabel('M_X(t)')
-axes[0].set_title('Funciones generadoras de momentos')
-axes[0].set_ylim(-1, 8)
-axes[0].legend()
-axes[0].grid(True, alpha=0.3)
-axes[0].axhline(y=0, color='k', lw=0.5)
-axes[0].axvline(x=0, color='k', lw=0.5)
-
-# Panel derecho: verificaci\'on de momentos de N(0,1)
-X = np.random.normal(0, 1, 100000)
-momentos_empiricos = [np.mean(X**k) for k in range(1, 6)]
-print("Momentos emp\'iricos de N(0,1):", momentos_empiricos)
-# Esperado: 0, 1, 0, 3, 0  (solo momentos pares son no cero)
-##Momentos emp\'iricos de N(0,1): [0.001, 0.998, -0.001, 2.978, -0.011]
-
-# FGM: suma de gamma independientes
-# Si X_i ~ Gamma(1, 1) iid, entonces sum = Gamma(n, 1)
-n_sumas = [1, 2, 5, 10]
-x = np.linspace(0, 20, 200)
-for n in n_sumas:
-    g = stats.gamma(a=n, scale=1.0)
-    axes[1].plot(x, g.pdf(x), lw=2, label=f'suma de {n} Exp(1)')
-axes[1].set_xlabel('x')
-axes[1].set_ylabel('f(x)')
-axes[1].set_title('Suma de exponenciales = Erlang(Gamma)')
-axes[1].legend()
-axes[1].grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.savefig('pe/fgmDistribuciones.png', dpi=100, bbox_inches='tight')
-plt.show()
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-continuas-avanzadas/fgmDistribuciones.py}
 
 \begin{figure}
  \centering

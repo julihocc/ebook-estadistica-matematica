@@ -15,13 +15,7 @@ Los siguientes dos métodos implementan regresiones lineales en \texttt{Python}:
 Implementemos una regresión lineal simple usando el primer método y después construyamos sobre un modelo de regresión lineal múltiple. Después también nos fijaremos como es que el segundo método es usado para hacer lo mismo.
 
 \subsection{Regresiones lineales usando \texttt{statsmodel}}
-[]{statsModelExample.py}
-Primero importemos los datos desde \texttt{Advertising.csv}:
-\begin{lstlisting}[language=Python]
-	import pandas as pd
-	advert=pd.read_csv('./dataBases/Advertising.csv')
-	print(advert.head())
-\end{lstlisting}
+\lstinputlisting[language=Python]{../code/regresion/statsModelExample.py}
 
 
 
@@ -30,7 +24,6 @@ Recordemos que esta base de satos contiene información de presupuestos de publi
 
 Esperamos una correlación positiva entre tales costos de publicidad y las ventas. Ya hemos visto que existe una buena correlación entre costos de publicidad en TV y ventas.
 
-[]{}
 Ahora averigüemos como es esta relación con el siguiente código
 \begin{lstlisting}[language=Python]
 	import statsmodels.formula.api as smf
@@ -58,7 +51,6 @@ y la ecuación de nuestro modelo será
 
 Si recuerdas, hemos aprendido que los valores de estos parámetros son estimados y existirán valores$-p$ asociados a estos. \emph{Si los valores$-p$ son muy pequeños, podemos aceptar que tales parámetros tienen un valor diferente de cero y son estadísticamente significativos en el modelo.}
 
-[]
 Miremos estos valores $p$ para dichos parámetros
 \begin{lstlisting}[language=Python]
 	print(model1.pvalues)
@@ -70,7 +62,6 @@ Miremos estos valores $p$ para dichos parámetros
 
 Como puede apreciarse, los valores$-p$ son muy pequeños; por tanto, los parámetros son significativos.
 
-[]{}
 Revisemos ahora otro indicador importante de la eficacia del modelo, $R^{2}.$ Aunque nosotros lo implementamos manualmente, podemos obtenerlos con la siguiente línea de código:
 \begin{lstlisting}[language=Python]
 	print(model1.rsquared)
@@ -79,14 +70,12 @@ Revisemos ahora otro indicador importante de la eficacia del modelo, $R^{2}.$ Au
 \end{lstlisting}
 
 
-[]{}
 Si requerimos todos los parámetros del modelo en un sólo paso, podemos ocupar la siguiente línea de código
 \begin{lstlisting}[language=Python]
 	print(model1.summary())
 \end{lstlisting}
 De lo cuál obtenemos
 
-[]
 \begin{lstlisting}[language=Python]
 	OLS Regression Results
 	==============================================================================
@@ -115,7 +104,6 @@ De lo cuál obtenemos
 
 Como podemos ver, el estadístico$-F$ para este modelo es muy alto y el respectivo valor$-p$ es despreciable, lo cual sugiere que los estimados del parámetro para este modelo son todos significativos y no nulos.
 
-[]{}
 Ahora predigamos el valor de las ventas basados en la ecuación que acabamos de encontrar. Esto podemos hacer de la siguiente manera
 \begin{lstlisting}[language=Python]
 	sales_pred=model1.predict(pd.DataFrame(advert['TV']))
@@ -133,7 +121,6 @@ Ahora predigamos el valor de las ventas basados en la ecuación que acabamos de 
 
 Esta ecuación básicamente calcula el valor de las ventas predichas para cada fila basada en la ecuación del modelo usando los costos de \texttt{TV}.
 
-[]{}
 Podemos trazar \texttt{sales\_pred} contra el costo de publicidad en \texttt{TV} para encontrar la línea que mejor ajusta:
 \begin{lstlisting}[language=Python]
 	import matplotlib.pyplot as plt
@@ -150,7 +137,6 @@ Podemos trazar \texttt{sales\_pred} contra el costo de publicidad en \texttt{TV}
 \end{center}
 
 
-[]
 Ahora calculemos el valor \texttt{RSE}
 \begin{lstlisting}[language=Python]
 	advert['sales_pred']=0.047537*advert['TV']+7.03

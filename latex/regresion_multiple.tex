@@ -31,7 +31,6 @@ Cada $\beta_{i}$ se estimará usando el mismo método, \emph{mínimos cuadrados}
 \end{enumerate}
 
 
-[]{}
 Con una base de datos simples de tres predictores, como en el ejemplo de la publicidad, puede haber varios modelos. Estos son:
 \begin{enumerate}[Modelo 1:]
 	\item \texttt{Ventas$\sim$TV}
@@ -58,7 +57,6 @@ Afortunadamente, tenemos algunos lineamientos para filtrar predictores y escoger
 \end{itemize}
 
 
-[]{}
 Con base en lo anterior, hay dos enfoques para seleccionar los predictores que quedarán en el modelo final:
 
 
@@ -136,7 +134,6 @@ Los valores$-p$ para los coeficientes son muy pequeños, lo que sugiere que todo
 
 El valor $R^{2}$ es $0.6458$, el cuál resulta en una mejora muy pequeña del valor obtenido en el modelo anterior.
 
-[]{}
 Los valores pueden ser predichos usando el siguiente retazo de código:
 \begin{lstlisting}[language=Python]
 	sales_pred=model2.predict(advert[['TV','Newspaper']])
@@ -185,7 +182,6 @@ Para calcular el valor \texttt{RSE}, utilizamos las siguientes líneas
 
 El valor $RSE$ resulta ser $3.12 (22\%)$, no muy diferente del modelo sólo con la $TV$. En la fórmula, $p=2$ porque es el número de predictores que estamos utilizando en el modelo.
 
-[]
 Utilizando la línea de código
 \begin{lstlisting}[language=Python]
 	print(model2.summary())
@@ -230,7 +226,6 @@ Aunque el estadístico$-F$ decrece, el valor$-p$ asociado también lo hace. Pero
 
 Ahora tratemos de agregar la radio al modelo, en lugar del periódico. El radio tiene la segunda mejor correlación con la variable \texttt{Ventas} en la matriz de correlación que hemos creado anteriormente.  Entonces se espera que existe alguna mejora significativa en el modelo debido a su adición al modelo.  Veamos si esto ocurre o no:
 
-[]{advertisingModel3.py} 
 \begin{lstlisting}[language=Python]
 	#!/usr/bin/env python3
 	# -*- coding: utf-8 -*-
@@ -394,7 +389,6 @@ Es un método para cuantificar el aumento de la variabilidad del estimado del co
 
 El cuantificador \texttt{VIF} necesita ser calculado para cada una de las variables y si el valor es muy alto para una en particular, esta debe ser eliminada del modelo.
 
-[]{}
 El siguiente es el proceso subyacente para calcular el valor \texttt{VIF}:
 \begin{enumerate}
 	\item Calcule $X_{i}$ como una función lineal de otras variables predictoras:

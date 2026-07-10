@@ -48,23 +48,7 @@ empleando \eqref{eq:2.10.1} con $N=6, x=2, p=q=\frac{1}{2}.$
  \end{itemize}
 
 
-[fragile, allowframebreaks]{statsBinom.py}
-\begin{verbatim}
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-
-#Consideremos 6 experimentos con p de éxito 1/2
-p=0.5
-N=6
-binDist = stats.binom(N,p)
-#probabilidad de obtener dos éxitos
-print(binDist.pmf(2))
-##0.234375
-#probabilidad de obtener al menos 4 éxitos
-print(sum(binDist.pmf(np.arange(4,6+1))))
-##0.34375
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/statsBinom.py}
 
 
  \begin{ejemplo}
@@ -73,20 +57,7 @@ print(sum(binDist.pmf(np.arange(4,6+1))))
  \end{ejemplo}
 
 
-[fragile, allowframebreaks]{coefBinom.py}
-\begin{verbatim}
-
-from scipy import stats
-import numpy as np
-
-#coeficientes de (p+q)^4
-p=.5
-N=4
-binomDist = stats.binom(N,p)
-binDistExmp = binomDist.pmf(np.arange(5))
-print(binDistExmp*2**N)
-##[ 1.  4.  6.  4.  1.]
-\end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/coefBinom.py}
 
 
 {Propiedades de la distribución binomial} Supongamos que realizamos $N$ experimentos con probabilidad éxito $p$ y de fracaso $q=1-p.$
@@ -98,26 +69,7 @@ print(binDistExmp*2**N)
 \end{align}
 
 
-[fragile,allowframebreaks]{histBinom.py}
- \begin{verbatim}
-import numpy as np
-import matplotlib.pyplot as plt
-
-#Ejemplo de distribución binomial
-N,p=100, 0.5
-s = np.random.binomial(N,p,1000)
-
-miHist = np.histogram(s, bins = np.arange(100+1))
-print(miHist[0])
-print(miHist[1])
-print(np.mean(s))
-print(N*p)
-print(np.var(s))
-print(N*p*(1-p))
-
-plt.hist(s, bins = np.arange(100+1))
-plt.show()
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/histBinom.py}
 
 
 
@@ -175,51 +127,9 @@ donde $a,b$ son parámetros específicos para cada v.a. $X.$
 En este caso, diremos que $Z$ está \emph{normalmente distribuida.}
 
 
-[fragile, allowframebreaks]{distribucionNormal.py}
- \begin{verbatim}
-import scipy.integrate as integrate
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.patches import Polygon
-
-def fn(x,m=0,s=1):
-    return np.exp(-(x-m)**2/(2*s**2))/(s*np.sqrt(2*np.pi))
-x1 = np.arange(-4,4,0.1)
-plt.plot(x1, fn(x1))
-plt.show()
-
-for s in np.arange(1,4+1):
-    result = integrate.quad(lambda x:fn(x),-s,s)
-    print(result)
-
-for s in np.arange(1,4+1):
-    result = integrate.quad(lambda x:fn(x),-s,s)
-
-    a, b = -s, s  # integral limits
-    x = np.arange(-4,4,0.01)
-    y = fn(x)
-
-    fig, ax = plt.subplots()
-    plt.plot(x, y, 'r', linewidth=2)
-    plt.ylim(ymin=0)
-
-    # Make the shaded region
-    ix = np.linspace(a, b)
-    iy = fn(ix)
-    verts = [(a, 0)] + list(zip(ix, iy)) + [(b, 0)]
-    poly = Polygon(verts, facecolor='0.9', edgecolor='0.5')
-    ax.add_patch(poly)
-
-    ax.set_xticks((a, b))
-    ax.set_xticklabels(('$-\sigma$', '$\sigma$'))
-    ax.set_yticks([])
-
-    plt.show()
-    print(result)
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/distribucionNormal.py}
 
 
-[fragile]
  \begin{figure}
  \centering
  \includegraphics[height=5cm,keepaspectratio=true]{./pe/norm1.png}
@@ -231,7 +141,6 @@ for s in np.arange(1,4+1):
 \end{verbatim}
 
 
-[fragile]
  \begin{figure}
  \centering
  \includegraphics[height=5cm,keepaspectratio=true]{./pe/norm2.png}
@@ -243,7 +152,6 @@ for s in np.arange(1,4+1):
 \end{verbatim}
 
 
-[fragile]
  \begin{figure}
  \centering
  \includegraphics[height=5cm,keepaspectratio=true]{./pe/norm3.png}
@@ -255,7 +163,6 @@ for s in np.arange(1,4+1):
 \end{verbatim}
 
 
-[fragile]
  \begin{figure}
  \centering
  \includegraphics[height=5cm,keepaspectratio=true]{./pe/norm4.png}
@@ -267,31 +174,7 @@ for s in np.arange(1,4+1):
 \end{verbatim}
 
 
-[fragile, allowframebreaks]{normalCDF.py}
- \begin{verbatim}
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-
-mu = 3.5
-sigma = 0.76
-nd = stats.norm(mu, sigma)
-
-x = np.arange(mu - 4*sigma,mu + 4*sigma,0.01)
-y = nd.cdf(x)
-
-fig, ax = plt.subplots()
-plt.plot(x, y, 'r', linewidth=2)
-plt.ylim(ymin=0)
-
-for k in range(1,5):
-    print(nd.cdf(mu+k*sigma)-nd.cdf(mu-k*sigma))
-
-#0.682689492137
-#0.954499736104
-#0.997300203937
-#0.999936657516
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/normalCDF.py}
 \begin{center}
  \includegraphics[height=5cm,keepaspectratio=true]{./pe/normCDF.png}
  % normCDF.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
@@ -314,29 +197,7 @@ for k in range(1,5):
  \end{ejemplo}
 
 
-[fragile, allowframebreaks]{relBinomNormal.py}
- \begin{verbatim}
-import numpy as np
-import matplotlib.pyplot as plt
-
-def fn(x,m=0,s=1):
-    C = 1/(s*np.sqrt(2*np.pi))
-    return C*np.exp(-(x-m)**2/(2*s**2))
-
-N,p=30, 0.5
-R = 1000000
-q=1-p
-mB = N*p
-sB = np.sqrt(N*p*q)
-X = np.random.binomial(N,p,R)
-myBins = np.arange(-0.5,N+0.5,1)
-plt.hist(X, bins = myBins)
-x = np.arange(mB-4*sB,mB+4*sB+0.1,0.1)
-y = R*fn(x, m=mB, s=sB)
-plt.plot(x,y,lw=2)
-plt.ylim(ymin=0)
-plt.show()
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/relBinomNormal.py}
 \begin{center}
  \includegraphics[height=5cm]{./pe/relBinNorm.png}
  % relBinNorm.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
@@ -389,49 +250,7 @@ En este caso, $\mu_{X}=\s^{2}=\lam.$
 
 
 
-[fragile, allowframebreaks]{distPoisson.py}
- \begin{verbatim}
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-
-def f(x, mu=1):
-    return stats.poisson.pmf(x, mu)
-
-def F(x, mu=1):
-    return stats.poisson.cdf(x, mu)
-
-x1 = np.arange(0,100+1)
-plt.plot(x1, f(x1, mu=5), 'bo')
-plt.show()
-
-s = np.random.poisson(5,365)
-M = np.max(s)
-myBins = np.arange(0,M+1)
-plt.hist(s, bins = myBins)
-plt.show()
-
-print(F(3, mu=5))
-print(1 - F(7, mu=5))
-
-for k in range(12+1):
-    print(k, F(k, 5))
-"""
-0 0.00673794699909
-1 0.0404276819945
-2 0.124652019483
-3 0.265025915297
-4 0.440493285065
-5 0.615960654833
-6 0.762183462973
-7 0.86662832593
-8 0.931906365278
-9 0.968171942694
-10 0.986304731402
-11 0.994546908087
-12 0.997981148373
-"""
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/distPoisson.py}
 
 
 
@@ -461,33 +280,7 @@ for k in range(12+1):
 
  En este caso, la distribución Binomial con parámetros $N,p$ se aproxima a una Poisson con parámetro $\lam = Np.$
 
-[fragile, allowframebreaks]{relBinomPoisson.py}
- \begin{verbatim}
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-
-mpl.style.use("ggplot")
-
-fig, ax = plt.subplots(1, 1)
-
-def fP(x, mu=1):
-    return stats.poisson.pmf(x, mu)
-
-def fB(x, N=30, p=0.5):
-    return stats.binom(N,p).pmf(x)
-
-N_=50
-p_=5./N_
-mu_ = N_*p_
-x1 = np.arange(0,20+1)
-ax.plot(x1, fP(x1, mu=mu_), 'bo', label="Poisson")
-ax.plot(x1, fB(x1, N=N_, p=p_), 'ro', label="Binomial")
-legend = ax.legend(loc='upper center', shadow=True)
-plt.show()
-
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/relBinomPoisson.py}
 
 
 
@@ -553,14 +346,7 @@ Si un dado se lanza 12 veces, encontrar la probabilidad de obtener cada uno de l
  \end{ejemplo}
 
 
-[fragile, allowframebreaks]{combinaciones.py}
- \begin{verbatim}
-import math
-import scipy.special
-
-print(math.factorial(5))
-print(scipy.special.binom(8,3))
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/combinaciones.py}
 
 
 
@@ -579,34 +365,7 @@ print(scipy.special.binom(8,3))
  \end{ejemplo}
 
 
-[fragile, allowframebreaks]{solvedBinom.py}
- \begin{verbatim}
-from scipy import stats
-
-#7.2 N=50, p=15%
-def f(x):
-    return stats.binom(50,.15).pmf(x)
-def F(x):
-    return stats.binom(50,.15).cdf(x)
-#(a) P(X<=10)
-print(sum([f(x) for x in range(0,10+1)]))
-##0.8800826828
-print(F(10))
-##0.8800826828
-#(b) P(X>=5)
-print(1-sum([f(x) for x in range(0,4+1)]))
-##0.887894791945
-print(1-F(4))
-##0.887894791945
-#(c) P(3<=X<=6)
-print(sum([f(x) for x in range(3,6+1)]))
-##0.3471108697
-print(F(6)-F(2))
-##0.3471108697
-#(d) P(X=5)
-print(f(5))
-##0.3471108697
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/solvedBinom.py}
 
 
 
@@ -648,31 +407,7 @@ print(f(5))
  \end{ejemplo}
 
 
-[fragile, allowframebreaks]{solvedNorm.py}
- \begin{verbatim}
-from scipy import stats
-
-mu = 1500
-sigma = 350
-nd = stats.norm(mu, sigma)
-
-def F(x):
-    return nd.cdf(x)
-
-#a
-print(F(750))
-##0.3471108697
-
-#b
-print(1-F(2000))
-##0.0765637255098
-
-def inverseF(x):
-    return nd.ppf(x)
-#c
-print(inverseF(.90))
-##1948.54304794
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/solvedNorm.py}
 
 
 {Eventos raros}
@@ -687,23 +422,7 @@ sufran una reacción adversa.
 \end{ejemplo}
 
 
-[fragile, allowframebreaks]{eventosRaros.py}
- \begin{verbatim}
-from scipy import stats
-#7.28
-#a
-N = 2000
-p = 0.001
-print(stats.binom(N,p).pmf(3))
-##0.180537328032
-print(stats.poisson(N*p).pmf(3))
-##0.180447044315
-#(b)
-print(1-stats.binom(N,p).cdf(2))
-##0.32332356124
-print(1-stats.poisson(N*p).cdf(2))
-##0.323323583817
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/eventosRaros.py}
 
 
 
@@ -749,46 +468,7 @@ Una propiedad fundamental de la distribución geométrica es la \emph{pérdida d
  En un proceso de control de calidad, la probabilidad de que una pieza sea defectuosa es $p=0.1$. ¿Cuál es la probabilidad de que la primera pieza defectuosa aparezca en la tercera inspección?
 \end{ejemplo}
 
-[fragile, allowframebreaks]{distGeom.py}
- \begin{verbatim}
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-
-#Distribución geométrica: ensayos hasta el primer éxito
-p = 0.2
-geomDist = stats.geom(p)
-
-#Probabilidad de necesitar exactamente 5 ensayos
-print(geomDist.pmf(5))
-##0.08192000000000001
-
-#Probabilidad de necesitar a lo más 5 ensayos
-print(geomDist.cdf(5))
-##0.67232
-
-#Probabilidad de necesitar más de 5 ensayos
-print(1-geomDist.cdf(5))
-##0.32768
-
-#Media y varianza
-print(geomDist.mean())
-##5.0
-print(geomDist.var())
-##20.0
-
-#Verificación de la propiedad de pérdida de memoria
-print(1 - geomDist.cdf(3+2))
-##0.3276800000000001
-print((1-geomDist.cdf(3)) * (1-geomDist.cdf(2)))
-##0.3276800000000001
-
-#Simulación
-np.random.seed(0)
-muestras = np.random.geom(p, size=1000)
-print(np.mean(muestras))
-##4.984
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/distGeom.py}
 
 \begin{figure}
  \centering
@@ -831,40 +511,7 @@ Observe que cuando $r=1$, la binomial negativa se reduce a la distribución geom
 	\end{align}
 \end{solucion}
 
-[fragile, allowframebreaks]{distNegBinom.py}
- \begin{verbatim}
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-
-#Distribución binomial negativa: fracasos antes del r-ésimo éxito
-r = 3
-p = 0.3
-nbDist = stats.nbinom(r, p)
-
-#Probabilidad de 4 fracasos antes del tercer éxito
-print(nbDist.pmf(4))
-##0.0972405
-
-#Media y varianza
-print(nbDist.mean())
-##r*(1-p)/p = 7.0
-print(nbDist.var())
-##r*(1-p)/p^2 = 23.333...
-
-#Distribución geométrica como caso particular
-geomDist = stats.geom(p)
-print(geomDist.pmf(5))  # P(X=5) para geométrica
-##0.08192000000000001
-print(stats.nbinom(1, p).pmf(4))  # P(X=4) para binom neg con r=1
-##0.08192000000000002
-
-#Simulación
-np.random.seed(0)
-muestras = np.random.negative_binomial(r, p, size=1000)
-print(np.mean(muestras))
-##6.9...
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/distNegBinom.py}
 
 \begin{figure}
  \centering
@@ -922,46 +569,7 @@ El factor $\dfrac{N-n}{N-1}$ se conoce como \emph{factor de corrección por pobl
 	\end{align}
 \end{solucion}
 
-[fragile, allowframebreaks]{distHyper.py}
- \begin{verbatim}
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-
-#Distribución hipergeométrica
-N = 20  # tamaño de la población
-K = 5   # número de éxitos en la población
-n = 4   # número de extracciones
-
-hyperDist = stats.hypergeom(N, K, n)
-
-#Probabilidad de obtener exactamente 2 defectuosas
-print(hyperDist.pmf(2))
-##0.21674922760096778
-
-#Media y varianza
-print(hyperDist.mean())
-##n*K/N = 1.0
-print(hyperDist.var())
-##n*(K/N)*((N-K)/N)*((N-n)/(N-1)) = 0.631578947368421
-
-#Comparación con la aproximación binomial
-binomDist = stats.binom(n, K/N)
-print(binomDist.pmf(2))
-##0.2153125
-
-#Ejemplo: póker - 3 reyes en 5 cartas
-poker = stats.hypergeom(52, 4, 5)
-print(poker.pmf(3))
-##0.0017361536111111111
-
-#Simulación
-np.random.seed(0)
-poblacion = np.array([1]*K + [0]*(N-K))
-muestras = np.array([np.sum(np.random.choice(poblacion, n, replace=False)) for _ in range(1000)])
-print(np.mean(muestras))
-##~1.0
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/distHyper.py}
 
 \begin{figure}
  \centering
@@ -1002,53 +610,7 @@ Las distribuciones discretas estudiadas en este capítulo no son solo objetos te
 	En una distribución de Poisson, la media y la varianza son iguales: $\mu = \sigma^{2} = \lambda$. Como en este caso $s^{2} = 8.7 \gg \bar{x} = 4.2$, los datos presentan \emph{sobredispersión}. Por lo tanto, una distribución de Poisson \emph{no} es adecuada. En su lugar, se recomienda usar una distribución binomial negativa, que permite modelar esta variabilidad adicional.
 \end{solucion}
 
-[fragile, allowframebreaks]{distDataScience.py}
- \begin{verbatim}
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-
-#Simulación: ¿Poisson o Binomial Negativa?
-np.random.seed(0)
-
-#Datos con sobredispersión
-datos = np.random.negative_binomial(n=5, p=0.5, size=1000) + np.random.poisson(2, 1000)
-print(f"Media: {np.mean(datos):.2f}, Varianza: {np.var(datos):.2f}")
-##Media: ~7.0, Varianza: ~9.0
-
-#Ajuste de Poisson (forzando media=var=lam)
-lam = np.mean(datos)
-poisson_fit = stats.poisson(lam)
-print(f"Log-likelihood Poisson: {np.sum(poisson_fit.logpmf(datos)):.2f}")
-
-#Ajuste de Binomial Negativa (estimando parámetros)
-from scipy.optimize import minimize
-
-def neg_log_lik_nbinom(params, data):
-    r, p = params
-    if r <= 0 or p <= 0 or p >= 1:
-        return 1e10
-    return -np.sum(stats.nbinom.logpmf(data, r, p))
-
-result = minimize(neg_log_lik_nbinom, x0=[2, 0.5], args=(datos,))
-r_opt, p_opt = result.x
-print(f"Parámetros NB ajustados: r={r_opt:.2f}, p={p_opt:.2f}")
-nbinom_fit = stats.nbinom(r_opt, p_opt)
-print(f"Log-likelihood Binomial Negativa: {np.sum(nbinom_fit.logpmf(datos)):.2f}")
-
-#Si log-likelihood de NB es mayor (menos negativo), el ajuste es mejor
-
-#Visualización
-fig, ax = plt.subplots(1, 1, figsize=(8, 5))
-ax.hist(datos, bins=range(0, 20), density=True, alpha=0.5, label="Datos")
-x = np.arange(0, 20)
-ax.plot(x, poisson_fit.pmf(x), 'ro-', label="Poisson", markersize=6)
-ax.plot(x, nbinom_fit.pmf(x), 'b^--', label="Binomial Negativa", markersize=6)
-ax.legend()
-ax.set_xlabel("Número de eventos")
-ax.set_ylabel("Probabilidad")
-plt.show()
- \end{verbatim}
+\lstinputlisting[language=Python]{../code/distribuciones-especiales/distDataScience.py}
 
 \begin{figure}
  \centering
