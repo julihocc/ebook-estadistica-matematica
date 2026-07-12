@@ -1,5 +1,7 @@
 \section*{Problemas de validación de modelos}
 
+\subsection{Enunciados de los problemas}
+
 \begin{problema}
 	Se ajustó un modelo de regresión lineal para predecir el precio de viviendas ($Y$) usando área ($X_1$) y antigüedad ($X_2$) con $n = 200$ observaciones. El modelo completo tiene $R^2 = 0.75$ y $RSE = 25$ (en miles de dólares).
 	
@@ -15,6 +17,94 @@
 		\item ¿Qué recomendaría para mejorar la validación del modelo?
 	\end{enumerate}
 \end{problema}
+
+\begin{problema}
+	Se quiere validar un modelo de regresión usando validación cruzada de 5 iteraciones ($k$-fold con $k = 5$). Con $n = 100$ observaciones, se obtuvieron los siguientes valores de $R^2$ en cada fold:
+	
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|c|c|}\hline
+			Fold & 1 & 2 & 3 & 4 & 5 \\\hline
+			$R^2$ & 0.68 & 0.72 & 0.65 & 0.70 & 0.69 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	\begin{enumerate}
+		\item Calcule el $R^2$ promedio y su desviación estándar.
+		\item Construya un intervalo de confianza aproximado del 95\% para el verdadero $R^2$.
+		\item ¿Qué indica la variabilidad entre los folds?
+		\item ¿Cómo interpretaría estos resultados en términos de la capacidad de generalización del modelo?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	Se comparan dos modelos de regresión para predecir ventas usando validación cruzada de 10 iteraciones:
+	
+	\textbf{Modelo A} (3 predictores): $R^2_{CV} = 0.78 \pm 0.04$ (media $\pm$ desviación estándar)
+	
+	\textbf{Modelo B} (5 predictores): $R^2_{CV} = 0.80 \pm 0.06$ (media $\pm$ desviación estándar)
+	
+	\begin{enumerate}
+		\item ¿Qué modelo tiene mejor rendimiento promedio?
+		\item ¿Qué modelo es más estable?
+		\item Calcule el $R^2$ ajustado esperado para ambos modelos si $n = 150$.
+		\item ¿Qué modelo recomendaría y por qué?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	Se ajustó un modelo de regresión con $n = 120$ observaciones y se obtuvieron los siguientes resultados en diferentes conjuntos:
+	
+	\begin{center}
+		\begin{tabular}{|l|c|c|}\hline
+			\textbf{Métrica} & \textbf{Entrenamiento} & \textbf{Prueba} \\\hline
+			$R^2$ & 0.85 & 0.62 \\\hline
+			$RSE$ & 15.2 & 28.7 \\\hline
+			$MAE$ & 12.1 & 22.5 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	donde $MAE$ es el error absoluto medio.
+	
+	\begin{enumerate}
+		\item ¿Qué indican estas métricas sobre el modelo?
+		\item Calcule el ratio $RSE_{test}/RSE_{train}$ y $R^2_{test}/R^2_{train}$.
+		\item ¿Qué estrategias propondría para mejorar el modelo?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	Se quiere implementar validación cruzada leave-one-out (LOOCV) en un conjunto de datos con $n = 50$ observaciones.
+	
+	\begin{enumerate}
+		\item ¿Cuántos modelos se deben ajustar en LOOCV?
+		\item ¿Cuántas observaciones hay en el conjunto de entrenamiento y prueba en cada iteración?
+		\item Si el $MSE$ (error cuadrático medio) promedio en LOOCV es 25, ¿cuál es el $RSE$ estimado?
+		\item Compare LOOCV con validación cruzada de 5 folds en términos de: sesgo, varianza y costo computacional.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	Se ajustaron tres modelos de regresión y se validaron con validación cruzada de 10 folds. Los resultados son:
+	
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|}\hline
+			\textbf{Modelo} & \textbf{$R^2_{CV}$} & \textbf{$RSE_{CV}$} & \textbf{Predictores} \\\hline
+			A & 0.72 & 18.5 & 3 \\\hline
+			B & 0.74 & 17.8 & 5 \\\hline
+			C & 0.73 & 18.2 & 4 \\\hline
+		\end{tabular}
+	\end{center}
+	
+	\begin{enumerate}
+		\item Ordene los modelos según cada métrica.
+		\item Calcule la mejora relativa de B sobre A en términos de $RSE$.
+		\item Si el principio de parsimonia (navaja de Ockham) es importante, ¿qué modelo elegiría?
+		\item ¿Qué análisis adicional realizaría antes de tomar una decisión final?
+	\end{enumerate}
+\end{problema}
+
+
+\subsection{Soluciones detalladas}
 
 \begin{solucion}
 	\begin{enumerate}
@@ -41,24 +131,6 @@
 		\end{itemize}
 	\end{enumerate}
 \end{solucion}
-
-\begin{problema}
-	Se quiere validar un modelo de regresión usando validación cruzada de 5 iteraciones ($k$-fold con $k = 5$). Con $n = 100$ observaciones, se obtuvieron los siguientes valores de $R^2$ en cada fold:
-	
-	\begin{center}
-		\begin{tabular}{|c|c|c|c|c|c|}\hline
-			Fold & 1 & 2 & 3 & 4 & 5 \\\hline
-			$R^2$ & 0.68 & 0.72 & 0.65 & 0.70 & 0.69 \\\hline
-		\end{tabular}
-	\end{center}
-	
-	\begin{enumerate}
-		\item Calcule el $R^2$ promedio y su desviación estándar.
-		\item Construya un intervalo de confianza aproximado del 95\% para el verdadero $R^2$.
-		\item ¿Qué indica la variabilidad entre los folds?
-		\item ¿Cómo interpretaría estos resultados en términos de la capacidad de generalización del modelo?
-	\end{enumerate}
-\end{problema}
 
 \begin{solucion}
 	\begin{enumerate}
@@ -93,21 +165,6 @@
 	\end{enumerate}
 \end{solucion}
 
-\begin{problema}
-	Se comparan dos modelos de regresión para predecir ventas usando validación cruzada de 10 iteraciones:
-	
-	\textbf{Modelo A} (3 predictores): $R^2_{CV} = 0.78 \pm 0.04$ (media $\pm$ desviación estándar)
-	
-	\textbf{Modelo B} (5 predictores): $R^2_{CV} = 0.80 \pm 0.06$ (media $\pm$ desviación estándar)
-	
-	\begin{enumerate}
-		\item ¿Qué modelo tiene mejor rendimiento promedio?
-		\item ¿Qué modelo es más estable?
-		\item Calcule el $R^2$ ajustado esperado para ambos modelos si $n = 150$.
-		\item ¿Qué modelo recomendaría y por qué?
-	\end{enumerate}
-\end{problema}
-
 \begin{solucion}
 	\begin{enumerate}
 		\item \textbf{Rendimiento promedio:} El Modelo B tiene mejor rendimiento promedio ($R^2 = 0.80$ vs $R^2 = 0.78$).
@@ -139,27 +196,6 @@
 		\textbf{Recomendación práctica:} El Modelo A, porque la mejora marginal en $R^2$ (0.02) no justifica la mayor complejidad y variabilidad del Modelo B. Además, el $R^2_{adj}$ del Modelo B (0.793) es solo ligeramente superior al del Modelo A (0.776).
 	\end{enumerate}
 \end{solucion}
-
-\begin{problema}
-	Se ajustó un modelo de regresión con $n = 120$ observaciones y se obtuvieron los siguientes resultados en diferentes conjuntos:
-	
-	\begin{center}
-		\begin{tabular}{|l|c|c|}\hline
-			\textbf{Métrica} & \textbf{Entrenamiento} & \textbf{Prueba} \\\hline
-			$R^2$ & 0.85 & 0.62 \\\hline
-			$RSE$ & 15.2 & 28.7 \\\hline
-			$MAE$ & 12.1 & 22.5 \\\hline
-		\end{tabular}
-	\end{center}
-	
-	donde $MAE$ es el error absoluto medio.
-	
-	\begin{enumerate}
-		\item ¿Qué indican estas métricas sobre el modelo?
-		\item Calcule el ratio $RSE_{test}/RSE_{train}$ y $R^2_{test}/R^2_{train}$.
-		\item ¿Qué estrategias propondría para mejorar el modelo?
-	\end{enumerate}
-\end{problema}
 
 \begin{solucion}
 	\begin{enumerate}
@@ -193,17 +229,6 @@
 	\end{enumerate}
 \end{solucion}
 
-\begin{problema}
-	Se quiere implementar validación cruzada leave-one-out (LOOCV) en un conjunto de datos con $n = 50$ observaciones.
-	
-	\begin{enumerate}
-		\item ¿Cuántos modelos se deben ajustar en LOOCV?
-		\item ¿Cuántas observaciones hay en el conjunto de entrenamiento y prueba en cada iteración?
-		\item Si el $MSE$ (error cuadrático medio) promedio en LOOCV es 25, ¿cuál es el $RSE$ estimado?
-		\item Compare LOOCV con validación cruzada de 5 folds en términos de: sesgo, varianza y costo computacional.
-	\end{enumerate}
-\end{problema}
-
 \begin{solucion}
 	\begin{enumerate}
 		\item \textbf{Número de modelos:} En LOOCV se ajustan $n = 50$ modelos, uno por cada observación dejada fuera.
@@ -235,26 +260,6 @@
 		\textbf{Recomendación:} Para $n = 50$, LOOCV es factible pero 5-fold o 10-fold CV suelen ser preferibles por su mejor balance sesgo-varianza y menor costo computacional.
 	\end{enumerate}
 \end{solucion}
-
-\begin{problema}
-	Se ajustaron tres modelos de regresión y se validaron con validación cruzada de 10 folds. Los resultados son:
-	
-	\begin{center}
-		\begin{tabular}{|l|c|c|c|}\hline
-			\textbf{Modelo} & \textbf{$R^2_{CV}$} & \textbf{$RSE_{CV}$} & \textbf{Predictores} \\\hline
-			A & 0.72 & 18.5 & 3 \\\hline
-			B & 0.74 & 17.8 & 5 \\\hline
-			C & 0.73 & 18.2 & 4 \\\hline
-		\end{tabular}
-	\end{center}
-	
-	\begin{enumerate}
-		\item Ordene los modelos según cada métrica.
-		\item Calcule la mejora relativa de B sobre A en términos de $RSE$.
-		\item Si el principio de parsimonia (navaja de Ockham) es importante, ¿qué modelo elegiría?
-		\item ¿Qué análisis adicional realizaría antes de tomar una decisión final?
-	\end{enumerate}
-\end{problema}
 
 \begin{solucion}
 	\begin{enumerate}
@@ -292,3 +297,4 @@
 		\end{itemize}
 	\end{enumerate}
 \end{solucion}
+

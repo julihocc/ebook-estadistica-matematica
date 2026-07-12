@@ -1,5 +1,7 @@
 \section*{Problemas}
 
+\subsection{Enunciados de los problemas}
+
 \begin{problema}
 	\label{prob:1.4.1}
 	Encontrar el rango y las desviaciones media y estándar de los arreglos 
@@ -10,6 +12,101 @@
 	
 	Compruebe sus resultados con \texttt{Python.}
 \end{problema}
+
+\begin{problema}
+	\label{prob:1.4.2}
+	Encontrar las desviaciones media y estándar de las estaturas de 100 estudiantes de la siguiente tabla:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=10cm,keepaspectratio=true]{./images/tab0302.png}
+		\label{tab:1.4.1}
+	\end{figure}
+\end{problema}
+
+\begin{problema}
+	\label{prob:1.4.3}
+	Encontrar las desviaciones media y estándar de las estaturas de 100 estudiantes de la siguiente tabla:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[height=5cm,keepaspectratio=true]{./images/tab0201.png}
+		\label{tab:1.4.2}
+	\end{figure}
+\end{problema}
+
+\begin{problema}
+	\label{prob:1.4.4}
+	Demostrar que
+	\begin{align}
+		s &= \sqrt{\dfrac{\sum X^{2}}{N}-\left( \dfrac{\sum X}{N} \right)^{2}}&=
+		\sqrt{\overline{X^{2}}-\overline{X}^{2}}\\
+		s &= \sqrt{\dfrac{\sum fX^{2}}{N}-\left( \dfrac{\sum fX}{N} \right)^{2}}&=
+		\sqrt{\overline{X^{2}}-\overline{X}^{2}}
+	\end{align}
+\end{problema}
+
+\begin{problema}
+	\label{prob:1.4.5}
+	Utilizando las fórmulas anteriores, encuentre la desviación estándar de los datos en la tabla \ref{tab:1.4.2}:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[height=5cm,keepaspectratio=true]{./images/tab0201.png}
+	\end{figure}
+\end{problema}
+
+\begin{problema}
+	\label{prob:1.4.6}
+	Si $d=X-P$ son desviaciones de $X$ respecto a un pivote $P,$ demostrar que
+	\begin{align}
+		s=\sqrt{\dfrac{\sum fd^{2}}{N}-\left( \dfrac{\sum fd}{N} \right)^{2}}.
+	\end{align}
+\end{problema}
+
+\begin{problema}
+	\label{prob:1.4.7}
+	Utilizando las fórmulas anteriores, encuentre la desviación estándar de los datos en la tabla \ref{tab:1.4.2}:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[height=5cm,keepaspectratio=true]{./images/tab0201.png}
+	\end{figure}
+\end{problema}
+
+\begin{problema}
+	\label{prob:1.4.8}
+	Encuentre la media aritmética y  la desviación estándar de los siguientes datos:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[height=5cm]{./images/tab0205.png}
+		\label{tab:1.4.3}
+	\end{figure}
+\end{problema}
+
+\begin{problema}
+	\label{prob:1.4.9}
+	Dos grupos de estudiantes tienen las siguientes características:
+	\begin{itemize}
+		\item Grupo A: $n_1 = 30$ estudiantes, $\bar{X}_1 = 75$ puntos, $s_1 = 8$ puntos
+		\item Grupo B: $n_2 = 20$ estudiantes, $\bar{X}_2 = 75$ puntos, $s_2 = 12$ puntos
+	\end{itemize}
+	
+	Encuentre la desviación estándar del grupo combinado.
+\end{problema}
+
+\begin{problema}
+	\label{prob:1.4.10}
+	El coeficiente de variación se define como:
+	\begin{align}
+		CV = \frac{s}{\bar{X}} \times 100\%
+	\end{align}
+	
+	Compare la variabilidad relativa de:
+	\begin{itemize}
+		\item Los salarios de dos empresas: Empresa A tiene $\bar{X}_A = \$45,000$ y $s_A = \$8,000$; Empresa B tiene $\bar{X}_B = \$38,000$ y $s_B = \$6,500$.
+		\item Las estaturas y pesos de un grupo de personas: estatura media $170$ cm con $s = 8$ cm; peso medio $70$ kg con $s = 10$ kg.
+	\end{itemize}
+\end{problema}
+
+
+\subsection{Soluciones detalladas}
 
 \begin{solucion}
 	\begin{enumerate}
@@ -47,10 +144,8 @@
 		\end{itemize}
 	\end{enumerate}
 \end{solucion}
-
 \begin{lstlisting}[language=Python]
 import numpy as np
-
 # Conjunto 1
 data1 = np.array([12, 6, 7, 3, 15, 10, 18, 5])
 print("Conjunto 1:")
@@ -58,7 +153,6 @@ print(f"Rango: {np.ptp(data1)}")
 print(f"Media: {np.mean(data1)}")
 print(f"Desviación media: {np.mean(np.abs(data1 - np.mean(data1)))}")
 print(f"Desviación estándar: {np.std(data1)}")
-
 # Conjunto 2
 data2 = np.array([9, 3, 8, 8, 9, 8, 9, 18])
 print("\nConjunto 2:")
@@ -67,43 +161,6 @@ print(f"Media: {np.mean(data2)}")
 print(f"Desviación media: {np.mean(np.abs(data2 - np.mean(data2)))}")
 print(f"Desviación estándar: {np.std(data2)}")
 \end{lstlisting}
-
-
-
-\begin{problema}
-	\label{prob:1.4.2}
-	Encontrar las desviaciones media y estándar de las estaturas de 100 estudiantes de la siguiente tabla:
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[width=10cm,keepaspectratio=true]{./images/tab0302.png}
-		\label{tab:1.4.1}
-	\end{figure}
-\end{problema}
-
-
-
-\begin{problema}
-	\label{prob:1.4.3}
-	Encontrar las desviaciones media y estándar de las estaturas de 100 estudiantes de la siguiente tabla:
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[height=5cm,keepaspectratio=true]{./images/tab0201.png}
-		\label{tab:1.4.2}
-	\end{figure}
-\end{problema}
-
-
-
-\begin{problema}
-	\label{prob:1.4.4}
-	Demostrar que
-	\begin{align}
-		s &= \sqrt{\dfrac{\sum X^{2}}{N}-\left( \dfrac{\sum X}{N} \right)^{2}}&=
-		\sqrt{\overline{X^{2}}-\overline{X}^{2}}\\
-		s &= \sqrt{\dfrac{\sum fX^{2}}{N}-\left( \dfrac{\sum fX}{N} \right)^{2}}&=
-		\sqrt{\overline{X^{2}}-\overline{X}^{2}}
-	\end{align}
-\end{problema}
 
 \begin{solucion}
 	Partimos de la definición de desviación estándar:
@@ -119,27 +176,6 @@ print(f"Desviación estándar: {np.std(data2)}")
 	
 	Para datos con frecuencias, el mismo razonamiento aplica reemplazando $\sum X_j^2$ por $\sum f_j X_j^2$ y $\sum X_j$ por $\sum f_j X_j$.
 \end{solucion}
-
-
-
-\begin{problema}
-	\label{prob:1.4.5}
-	Utilizando las fórmulas anteriores, encuentre la desviación estándar de los datos en la tabla \ref{tab:1.4.2}:
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[height=5cm,keepaspectratio=true]{./images/tab0201.png}
-	\end{figure}
-\end{problema}
-
-
-
-\begin{problema}
-	\label{prob:1.4.6}
-	Si $d=X-P$ son desviaciones de $X$ respecto a un pivote $P,$ demostrar que
-	\begin{align}
-		s=\sqrt{\dfrac{\sum fd^{2}}{N}-\left( \dfrac{\sum fd}{N} \right)^{2}}.
-	\end{align}
-\end{problema}
 
 \begin{solucion}
 	Si $d_j = X_j - P$, entonces $X_j = d_j + P$.
@@ -165,42 +201,6 @@ print(f"Desviación estándar: {np.std(data2)}")
 	\end{align}
 \end{solucion}
 
-
-
-\begin{problema}
-	\label{prob:1.4.7}
-	Utilizando las fórmulas anteriores, encuentre la desviación estándar de los datos en la tabla \ref{tab:1.4.2}:
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[height=5cm,keepaspectratio=true]{./images/tab0201.png}
-	\end{figure}
-\end{problema}
-
-
-
-\begin{problema}
-	\label{prob:1.4.8}
-	Encuentre la media aritmética y  la desviación estándar de los siguientes datos:
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[height=5cm]{./images/tab0205.png}
-		\label{tab:1.4.3}
-	\end{figure}
-\end{problema}
-
-
-
-\begin{problema}
-	\label{prob:1.4.9}
-	Dos grupos de estudiantes tienen las siguientes características:
-	\begin{itemize}
-		\item Grupo A: $n_1 = 30$ estudiantes, $\bar{X}_1 = 75$ puntos, $s_1 = 8$ puntos
-		\item Grupo B: $n_2 = 20$ estudiantes, $\bar{X}_2 = 75$ puntos, $s_2 = 12$ puntos
-	\end{itemize}
-	
-	Encuentre la desviación estándar del grupo combinado.
-\end{problema}
-
 \begin{solucion}
 	Como ambos grupos tienen la misma media ($\bar{X}_1 = \bar{X}_2 = 75$), podemos usar la fórmula para la varianza combinada:
 	\begin{align}
@@ -213,22 +213,6 @@ print(f"Desviación estándar: {np.std(data2)}")
 	
 	Por lo tanto, $s = \sqrt{96} \approx 9.80$ puntos.
 \end{solucion}
-
-
-
-\begin{problema}
-	\label{prob:1.4.10}
-	El coeficiente de variación se define como:
-	\begin{align}
-		CV = \frac{s}{\bar{X}} \times 100\%
-	\end{align}
-	
-	Compare la variabilidad relativa de:
-	\begin{itemize}
-		\item Los salarios de dos empresas: Empresa A tiene $\bar{X}_A = \$45,000$ y $s_A = \$8,000$; Empresa B tiene $\bar{X}_B = \$38,000$ y $s_B = \$6,500$.
-		\item Las estaturas y pesos de un grupo de personas: estatura media $170$ cm con $s = 8$ cm; peso medio $70$ kg con $s = 10$ kg.
-	\end{itemize}
-\end{problema}
 
 \begin{solucion}
 	\begin{itemize}
@@ -247,3 +231,4 @@ print(f"Desviación estándar: {np.std(data2)}")
 		El peso tiene mucha mayor variabilidad relativa que la estatura.
 	\end{itemize}
 \end{solucion}
+

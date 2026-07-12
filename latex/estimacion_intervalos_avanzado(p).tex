@@ -1,5 +1,7 @@
 \section{Problemas resueltos de estimación por intervalos y tamaño muestral}
 
+\subsection{Enunciados de los problemas}
+
 \begin{problema}
 	\label{prob:dif_medias_indep_iguales}
 	Un ingeniero de ciencia de datos evalúa el tiempo de latencia (en milisegundos) de dos arquitecturas de bases de datos en la nube (Arquitectura A y Arquitectura B) bajo cargas de trabajo similares. Extrae dos muestras aleatorias independientes con los siguientes resultados:
@@ -9,6 +11,61 @@
 	\end{itemize}
 	Asumiendo que las poblaciones son normales y poseen varianzas iguales ($\sigma_1^2 = \sigma_2^2$), construya un intervalo de confianza del $95\%$ para la verdadera diferencia de latencias medias $\mu_1 - \mu_2$.
 \end{problema}
+
+\begin{problema}
+	\label{prob:dif_medias_welch}
+	En un estudio sobre el rendimiento de dos algoritmos de optimización (Algoritmo 1 y Algoritmo 2) aplicados a redes neuronales convolucionales, se midió el tiempo de convergencia en segundos. Como la variabilidad de uno de ellos parece mucho mayor, se no se asumen varianzas iguales ($\sigma_1^2 \neq \sigma_2^2$). Los datos obtenidos son:
+	\begin{itemize}
+		\item \textbf{Algoritmo 1:} $n_1 = 10$, $\bar{X}_1 = 120.4$ s, $S_1 = 18.5$ s.
+		\item \textbf{Algoritmo 2:} $n_2 = 14$, $\bar{X}_2 = 105.2$ s, $S_2 = 7.3$ s.
+	\end{itemize}
+	Construya un intervalo de confianza del $99\%$ para $\mu_1 - \mu_2$ utilizando la aproximación de Welch.
+\end{problema}
+
+\begin{problema}
+	\label{prob:dif_proporciones_ab}
+	En una prueba A/B para un sitio web de comercio electrónico, se muestran al azar dos versiones de un formulario de pago a los visitantes. De $n_1 = 800$ usuarios expuestos a la Versión A (diseño clásico), $X_1 = 144$ completaron la compra. De $n_2 = 850$ usuarios expuestos a la Versión B (diseño minimalista de un solo paso), $X_2 = 187$ completaron la compra.
+	\begin{enumerate}
+		\item Construya un intervalo de confianza del $95\%$ para la verdadera diferencia entre las tasas de conversión poblacionales $p_1 - p_2$.
+		\item ¿Justifican los datos la decisión de adoptar definitivamente la Versión B?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:ic_varianza}
+	Un equipo de analítica financiera monitorea la volatilidad diaria de un índice bursátil de tecnología. Durante un mes bursátil de $n = 21$ días hábiles, los rendimientos logarítmicos muestran una desviación estándar muestral de $S = 1.45\%$. Asumiendo que los rendimientos diarios siguen una distribución normal, construya un intervalo de confianza del $90\%$ para la verdadera varianza poblacional $\sigma^2$ y para la desviación estándar $\sigma$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:ic_razon_varianzas}
+	Para verificar si dos sensores IoT de temperatura industrial fabricados por distintos proveedores tienen exactamente la misma varianza y precisión en sus mediciones, se toman dos muestras independientes:
+	\begin{itemize}
+		\item \textbf{Proveedor 1:} $n_1 = 16$ mediciones, con varianza muestral $S_1^2 = 0.36$ $^\circ$C$^2$.
+		\item \textbf{Proveedor 2:} $n_2 = 13$ mediciones, con varianza muestral $S_2^2 = 0.12$ $^\circ$C$^2$.
+	\end{itemize}
+	Construya un intervalo de confianza del $98\%$ para la razón de varianzas poblacionales $\frac{\sigma_1^2}{\sigma_2^2}$. ¿Existe evidencia estadística para afirmar que un proveedor tiene mayor varianza que el otro?
+\end{problema}
+
+\begin{problema}
+	\label{prob:n_media}
+	Un equipo de investigación desea estimar el tiempo promedio en que un usuario permanece interactuando en una plataforma educativa virtual antes de cerrar sesión. Por datos preliminares en plataformas análogas, se sabe que la desviación estándar de la duración de las sesiones ronda los $\sigma = 18$ minutos.
+	\begin{enumerate}
+		\item ¿Qué tamaño de muestra se requiere para estimar la media poblacional $\mu$ con un margen de error máximo tolerable de $E = 2$ minutos al nivel de confianza del $95\%$?
+		\item Si el presupuesto solo permite monitorear un máximo de $n = 150$ sesiones, ¿cuál sería el margen de error real alcanzado con el $95\%$ de confianza?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:n_proporcion}
+	Una firma analítica proyecta realizar una encuesta nacional para determinar la proporción $p$ de hogares urbanos que utilizan servicios de inteligencia artificial generativa en su vida cotidiana.
+	\begin{enumerate}
+		\item Calcule el tamaño de muestra mínimo requerido para que la estimación tenga un margen de error no mayor a $3\%$ ($E = 0.03$) con un nivel de confianza del $99\%$, asumiendo que no se dispone de ninguna encuesta previa (escenario más conservador).
+		\item Suponga que un estudio piloto anterior sugirió que dicha proporción se sitúa en torno al $20\%$ ($\hat{p}^* = 0.20$). ¿Cuántas encuestas se requerirían bajo este nuevo escenario con el mismo nivel de precisión y confianza? ¿Qué porcentaje de ahorro en el tamaño muestral representa contar con esta información previa?
+	\end{enumerate}
+\end{problema}
+
+
+\subsection{Soluciones detalladas}
 
 \begin{solucion}
 	\textbf{Paso 1: Cálculo de la varianza muestral combinada ($S_p^2$).}
@@ -42,16 +99,6 @@
 	
 	\textbf{Interpretación:} Con un $95\%$ de confianza, la verdadera diferencia de latencias medias entre la Arquitectura A y la B se encuentra entre $-10.11$ ms y $-0.49$ ms. Dado que todo el intervalo es estrictamente negativo y no incluye el cero, tenemos evidencia estadística significativa de que la Arquitectura A es más rápida (tiene menor latencia media) que la Arquitectura B.
 \end{solucion}
-
-\begin{problema}
-	\label{prob:dif_medias_welch}
-	En un estudio sobre el rendimiento de dos algoritmos de optimización (Algoritmo 1 y Algoritmo 2) aplicados a redes neuronales convolucionales, se midió el tiempo de convergencia en segundos. Como la variabilidad de uno de ellos parece mucho mayor, se no se asumen varianzas iguales ($\sigma_1^2 \neq \sigma_2^2$). Los datos obtenidos son:
-	\begin{itemize}
-		\item \textbf{Algoritmo 1:} $n_1 = 10$, $\bar{X}_1 = 120.4$ s, $S_1 = 18.5$ s.
-		\item \textbf{Algoritmo 2:} $n_2 = 14$, $\bar{X}_2 = 105.2$ s, $S_2 = 7.3$ s.
-	\end{itemize}
-	Construya un intervalo de confianza del $99\%$ para $\mu_1 - \mu_2$ utilizando la aproximación de Welch.
-\end{problema}
 
 \begin{solucion}
 	\textbf{Paso 1: Cálculo de los grados de libertad de Welch-Satterthwaite ($\nu$).}
@@ -88,15 +135,6 @@
 	\textbf{Interpretación:} Como el intervalo contiene al cero (va desde valores negativos hasta positivos), con un $99\%$ de confianza no podemos concluir que exista una diferencia estadísticamente significativa entre el tiempo de convergencia medio de ambos algoritmos.
 \end{solucion}
 
-\begin{problema}
-	\label{prob:dif_proporciones_ab}
-	En una prueba A/B para un sitio web de comercio electrónico, se muestran al azar dos versiones de un formulario de pago a los visitantes. De $n_1 = 800$ usuarios expuestos a la Versión A (diseño clásico), $X_1 = 144$ completaron la compra. De $n_2 = 850$ usuarios expuestos a la Versión B (diseño minimalista de un solo paso), $X_2 = 187$ completaron la compra.
-	\begin{enumerate}
-		\item Construya un intervalo de confianza del $95\%$ para la verdadera diferencia entre las tasas de conversión poblacionales $p_1 - p_2$.
-		\item ¿Justifican los datos la decisión de adoptar definitivamente la Versión B?
-	\end{enumerate}
-\end{problema}
-
 \begin{solucion}
 	\textbf{Parte 1: Cálculo de las proporciones muestrales y errores estándares.}
 	Las proporciones empíricas de conversión son:
@@ -128,11 +166,6 @@
 	El intervalo de confianza para $p_1 - p_2$ es $[-7.85\%, -0.15\%]$. Dado que el límite superior del intervalo es estrictamente negativo (es decir, el intervalo excluye al cero), se demuestra que la tasa de conversión poblacional $p_2$ es significativamente superior a $p_1$ al nivel del $95\%$ de confianza. Por lo tanto, los datos justifican fehacientemente la adopción de la Versión B.
 \end{solucion}
 
-\begin{problema}
-	\label{prob:ic_varianza}
-	Un equipo de analítica financiera monitorea la volatilidad diaria de un índice bursátil de tecnología. Durante un mes bursátil de $n = 21$ días hábiles, los rendimientos logarítmicos muestran una desviación estándar muestral de $S = 1.45\%$. Asumiendo que los rendimientos diarios siguen una distribución normal, construya un intervalo de confianza del $90\%$ para la verdadera varianza poblacional $\sigma^2$ y para la desviación estándar $\sigma$.
-\end{problema}
-
 \begin{solucion}
 	\textbf{Paso 1: Grados de libertad y cuantiles chi-cuadrada.}
 	Los grados de libertad asociados al estadístico muestral son $\nu = n - 1 = 21 - 1 = 20$.
@@ -162,16 +195,6 @@
 	\textbf{Interpretación:} Con un $90\%$ de confianza, la verdadera volatilidad diaria del índice bursátil de tecnología se sitúa entre $1.16\%$ y $1.97\%$.
 \end{solucion}
 
-\begin{problema}
-	\label{prob:ic_razon_varianzas}
-	Para verificar si dos sensores IoT de temperatura industrial fabricados por distintos proveedores tienen exactamente la misma varianza y precisión en sus mediciones, se toman dos muestras independientes:
-	\begin{itemize}
-		\item \textbf{Proveedor 1:} $n_1 = 16$ mediciones, con varianza muestral $S_1^2 = 0.36$ $^\circ$C$^2$.
-		\item \textbf{Proveedor 2:} $n_2 = 13$ mediciones, con varianza muestral $S_2^2 = 0.12$ $^\circ$C$^2$.
-	\end{itemize}
-	Construya un intervalo de confianza del $98\%$ para la razón de varianzas poblacionales $\frac{\sigma_1^2}{\sigma_2^2}$. ¿Existe evidencia estadística para afirmar que un proveedor tiene mayor varianza que el otro?
-\end{problema}
-
 \begin{solucion}
 	\textbf{Paso 1: Grados de libertad y puntos críticos $F$.}
 	Los grados de libertad son $\nu_1 = n_1 - 1 = 15$ (numerador) y $\nu_2 = n_2 - 1 = 12$ (denominador).
@@ -198,15 +221,6 @@
 	\textbf{Interpretación y conclusión:} El intervalo de confianza del $98\%$ para la razón de varianzas va desde $0.758$ hasta $11.009$. Dado que el intervalo contiene explícitamente el valor $1.0$ (que correspondería al escenario en el que $\sigma_1^2 = \sigma_2^2$), no existe evidencia estadística al nivel del $98\%$ para afirmar que el Proveedor 1 tenga una variabilidad poblacional diferente o superior a la del Proveedor 2.
 \end{solucion}
 
-\begin{problema}
-	\label{prob:n_media}
-	Un equipo de investigación desea estimar el tiempo promedio en que un usuario permanece interactuando en una plataforma educativa virtual antes de cerrar sesión. Por datos preliminares en plataformas análogas, se sabe que la desviación estándar de la duración de las sesiones ronda los $\sigma = 18$ minutos.
-	\begin{enumerate}
-		\item ¿Qué tamaño de muestra se requiere para estimar la media poblacional $\mu$ con un margen de error máximo tolerable de $E = 2$ minutos al nivel de confianza del $95\%$?
-		\item Si el presupuesto solo permite monitorear un máximo de $n = 150$ sesiones, ¿cuál sería el margen de error real alcanzado con el $95\%$ de confianza?
-	\end{enumerate}
-\end{problema}
-
 \begin{solucion}
 	\textbf{Parte 1: Tamaño de muestra requerido ($n$).}
 	Para un nivel del $95\%$ de confianza, el valor normal estandarizado es $Z_{0.025} = 1.96$. La dispersión estimada es $\sigma = 18$ min y el margen de error máximo es $E = 2$ min.
@@ -227,15 +241,6 @@
 	\end{align}
 	Por tanto, con un presupuesto limitado a $150$ observaciones, el margen de error del estudio aumentaría a $2.88$ minutos al mismo $95\%$ de confianza.
 \end{solucion}
-
-\begin{problema}
-	\label{prob:n_proporcion}
-	Una firma analítica proyecta realizar una encuesta nacional para determinar la proporción $p$ de hogares urbanos que utilizan servicios de inteligencia artificial generativa en su vida cotidiana.
-	\begin{enumerate}
-		\item Calcule el tamaño de muestra mínimo requerido para que la estimación tenga un margen de error no mayor a $3\%$ ($E = 0.03$) con un nivel de confianza del $99\%$, asumiendo que no se dispone de ninguna encuesta previa (escenario más conservador).
-		\item Suponga que un estudio piloto anterior sugirió que dicha proporción se sitúa en torno al $20\%$ ($\hat{p}^* = 0.20$). ¿Cuántas encuestas se requerirían bajo este nuevo escenario con el mismo nivel de precisión y confianza? ¿Qué porcentaje de ahorro en el tamaño muestral representa contar con esta información previa?
-	\end{enumerate}
-\end{problema}
 
 \begin{solucion}
 	\textbf{Parte 1: Escenario conservador ($\hat{p}^* = 0.5$).}
@@ -259,3 +264,4 @@
 	\end{align}
 	Contar con un estudio piloto o conocimiento experto que acote la proporción lejos de $0.5$ reduce los costos de recolección de datos en más de un $36\%$.
 \end{solucion}
+

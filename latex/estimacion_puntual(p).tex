@@ -1,5 +1,7 @@
 \section{Problemas resueltos de estimación puntual}
 
+\subsection{Enunciados de los problemas}
+
 \begin{problema}
 	\label{prob:mle_poisson}
 	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria independiente de tamaño $n$ extraída de una distribución de Poisson con parámetro desconocido $\lambda > 0$. 
@@ -9,6 +11,47 @@
 		\item Calcule la varianza del estimador y verifique si alcanza la cota inferior de Cramér-Rao para estimadores insesgados.
 	\end{enumerate}
 \end{problema}
+
+\begin{problema}
+	\label{prob:mom_exponencial}
+	El tiempo entre fallas de los servidores de un centro de datos en la nube se modela mediante una variable aleatoria continua $X$ con distribución Exponencial de parámetro $\lambda > 0$, cuya función de densidad es:
+	\begin{align}
+		f(x \mid \lambda) = \lambda e^{-\lambda x}, \quad x > 0.
+	\end{align}
+	\begin{enumerate}
+		\item Obtenga el estimador del parámetro $\lambda$ utilizando el Método de Momentos ($\hat{\lambda}_{MoM}$).
+		\item Obtenga el estimador de máxima verosimilitud $\hat{\lambda}_{MLE}$. ¿Coinciden ambos métodos para este modelo?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:mle_uniforme}
+	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria de una variable con distribución Uniforme en el intervalo $[0, \theta]$, donde $\theta > 0$ es un parámetro desconocido. La densidad de cada observación es:
+	\begin{align}
+		f(x \mid \theta) = 
+		\begin{cases}
+			\frac{1}{\theta} & \text{si } 0 \leq x \leq \theta, \\
+			0 & \text{en otro caso.}
+		\end{cases}
+	\end{align}
+	\begin{enumerate}
+		\item Encuentre el estimador del Método de Momentos $\hat{\theta}_{MoM}$.
+		\item Demuestre por qué la técnica habitual de derivar la log-verosimilitud e igualar a cero falla para encontrar el estimador de máxima verosimilitud en este caso, y obtenga formalmente $\hat{\theta}_{MLE}$.
+		\item Compare el sesgo de $\hat{\theta}_{MoM}$ y $\hat{\theta}_{MLE}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:mle_invariancia}
+	En una investigación epidemiológica en ciencia de datos de salud, se modela el radio medio de propagación de un patógeno mediante una variable normal con media $\mu$ y varianza $\sigma^2$ estimadas por máxima verosimilitud como $\hat{\mu}_{MLE} = 12.4$ km y $\hat{\sigma}^2_{MLE} = 4.0$ km$^2$. 
+	\begin{enumerate}
+		\item Utilizando la propiedad de invariancia de los estimadores de máxima verosimilitud, obtenga la estimación MLE del área media del círculo de propagación en una observación, dada por $\theta = E(\pi X^2)$.
+		\item Calcule el valor del estimador MLE para el coeficiente de variación poblacional, definido como $\text{CV} = \frac{\sigma}{\mu}$.
+	\end{enumerate}
+\end{problema}
+
+
+\subsection{Soluciones detalladas}
 
 \begin{solucion}
 	\textbf{Parte 1: Estimador de máxima verosimilitud.}
@@ -69,18 +112,6 @@
 	Dado que $\text{Var}(\hat{\lambda}_{MLE}) = \frac{\lambda}{n} = \text{CRLB}$, el estimador de máxima verosimilitud alcanza la cota mínima teórica posible y es un estimador de mínima varianza insesgado uniformly de varianza mínima (UMVUE).
 \end{solucion}
 
-\begin{problema}
-	\label{prob:mom_exponencial}
-	El tiempo entre fallas de los servidores de un centro de datos en la nube se modela mediante una variable aleatoria continua $X$ con distribución Exponencial de parámetro $\lambda > 0$, cuya función de densidad es:
-	\begin{align}
-		f(x \mid \lambda) = \lambda e^{-\lambda x}, \quad x > 0.
-	\end{align}
-	\begin{enumerate}
-		\item Obtenga el estimador del parámetro $\lambda$ utilizando el Método de Momentos ($\hat{\lambda}_{MoM}$).
-		\item Obtenga el estimador de máxima verosimilitud $\hat{\lambda}_{MLE}$. ¿Coinciden ambos métodos para este modelo?
-	\end{enumerate}
-\end{problema}
-
 \begin{solucion}
 	\textbf{Parte 1: Estimación por el Método de Momentos.}
 	Para una variable aleatoria exponencial con densidad $\lambda e^{-\lambda x}$, el primer momento poblacional respecto al origen (su esperanza matemática) se calcula mediante integración por partes o consultando tablas conocidas:
@@ -116,23 +147,6 @@
 	
 	Por lo tanto, para la distribución exponencial de un solo parámetro, el Método de Momentos y el Método de Máxima Verosimilitud producen exactamente el mismo estimador: $\hat{\lambda}_{MoM} = \hat{\lambda}_{MLE} = 1/\bar{X}$.
 \end{solucion}
-
-\begin{problema}
-	\label{prob:mle_uniforme}
-	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria de una variable con distribución Uniforme en el intervalo $[0, \theta]$, donde $\theta > 0$ es un parámetro desconocido. La densidad de cada observación es:
-	\begin{align}
-		f(x \mid \theta) = 
-		\begin{cases}
-			\frac{1}{\theta} & \text{si } 0 \leq x \leq \theta, \\
-			0 & \text{en otro caso.}
-		\end{cases}
-	\end{align}
-	\begin{enumerate}
-		\item Encuentre el estimador del Método de Momentos $\hat{\theta}_{MoM}$.
-		\item Demuestre por qué la técnica habitual de derivar la log-verosimilitud e igualar a cero falla para encontrar el estimador de máxima verosimilitud en este caso, y obtenga formalmente $\hat{\theta}_{MLE}$.
-		\item Compare el sesgo de $\hat{\theta}_{MoM}$ y $\hat{\theta}_{MLE}$.
-	\end{enumerate}
-\end{problema}
 
 \begin{solucion}
 	\textbf{Parte 1: Método de Momentos.}
@@ -195,15 +209,6 @@
 	\end{align}
 \end{solucion}
 
-\begin{problema}
-	\label{prob:mle_invariancia}
-	En una investigación epidemiológica en ciencia de datos de salud, se modela el radio medio de propagación de un patógeno mediante una variable normal con media $\mu$ y varianza $\sigma^2$ estimadas por máxima verosimilitud como $\hat{\mu}_{MLE} = 12.4$ km y $\hat{\sigma}^2_{MLE} = 4.0$ km$^2$. 
-	\begin{enumerate}
-		\item Utilizando la propiedad de invariancia de los estimadores de máxima verosimilitud, obtenga la estimación MLE del área media del círculo de propagación en una observación, dada por $\theta = E(\pi X^2)$.
-		\item Calcule el valor del estimador MLE para el coeficiente de variación poblacional, definido como $\text{CV} = \frac{\sigma}{\mu}$.
-	\end{enumerate}
-\end{problema}
-
 \begin{solucion}
 	\textbf{Parte 1: Estimación MLE para el área media.}
 	Sabemos que para una variable aleatoria $X \sim N(\mu, \sigma^2)$, el segundo momento se relaciona con la varianza y la media mediante:
@@ -234,3 +239,4 @@
 		\widehat{\text{CV}}_{MLE} = \frac{\sqrt{\hat{\sigma}^2_{MLE}}}{\hat{\mu}_{MLE}} = \frac{\sqrt{4.0}}{12.4} = \frac{2.0}{12.4} \approx 0.1613 \quad (16.13\%).
 	\end{align}
 \end{solucion}
+

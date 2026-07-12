@@ -1,5 +1,7 @@
 \section{Problemas resueltos de diseño de experimentos y ANOVA}
 
+\subsection{Enunciados de los problemas}
+
 \begin{problema}
 	\label{prob:anova_un_factor_ml}
 	Un científico de datos desea comparar el rendimiento general (medido a través de la métrica $F_1$-score porcentual) de cuatro arquitecturas de clasificación de aprendizaje automático: Bosques Aleatorios (\emph{Random Forest}, Tratamiento 1), Máquinas de Vectores de Soporte (\emph{SVM}, Tratamiento 2), \emph{XGBoost} (Tratamiento 3) y Redes Neuronales Profundas (\emph{DNN}, Tratamiento 4).
@@ -13,6 +15,65 @@
 	\end{itemize}
 	Asumiendo normalidad y homoscedasticidad, construya la tabla completa de Análisis de Varianza de un factor al nivel de significancia $\alpha = 0.05$. ¿Existe evidencia estadística para afirmar que al menos uno de los algoritmos difiere en su $F_1$-score promedio?
 \end{problema}
+
+\begin{problema}
+	\label{prob:posthoc_tukey_ml}
+	Dado que el ANOVA global del Problema \ref{prob:anova_un_factor_ml} resultó altamente significativo, aplique el **procedimiento post-hoc HSD de Tukey** con una significancia global por familia de $\alpha = 0.05$ para comparar simultáneamente las seis parejas posibles de algoritmos e identificar exactamente cuáles modelos difieren entre sí en su rendimiento medio.
+\end{problema}
+
+\begin{problema}
+	\label{prob:bonferroni_lsd}
+	Una firma de ingeniería en la nube compara la latencia media de transferencia de datos en milisegundos bajo $k = 5$ protocolos de enrutamiento distintos. El ANOVA arrojó un Cuadrado Medio del Error $\text{CME} = 18.0$ $\text{ms}^2$ con $\nu_E = 25$ grados de libertad en el residual, y cada protocolo fue evaluado con $n = 6$ réplicas.
+	\begin{enumerate}
+		\item Calcule la Diferencia Mínima Significativa (**LSD de Fisher**) al nivel $\alpha = 0.05$.
+		\item Calcule el margen crítico de diferencia por el método de la **Corrección de Bonferroni** para mantener una tasa de error global máxima de $\alpha = 0.05$.
+		\item Compare cuantitativamente ambos umbrales y explique qué implicaciones tiene la diferencia en la sensibilidad de detección en un proyecto de ciencia de datos.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:dbca_servidores}
+	Para evaluar el tiempo de procesamiento de consultas complejas SQL en segundos (métrica donde menor es mejor) en $k = 3$ motores de optimización en bases de datos relacionales (Motor A, Motor B y Motor C), un ingeniero advierte que el hardware de los servidores de la empresa es muy heterogéneo y no puede mezclarse sin control. 
+	
+	Por tanto, diseña un **Diseño en Bloques Completos al Azar (DBCA)** utilizando como factor de bloqueo las generaciones físicas del hardware de $b = 4$ servidores corporativos distintos (Servidor 1: Última Gen, Servidor 2: Gen Media, Servidor 3: Gen Antigua, Servidor 4: Gen Legacy virtualizada). Cada motor es evaluado exactamente una vez dentro de cada servidor, obteniéndose los datos de la Tabla \ref{tab:dbca_datos}.
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{lccccc}
+			\hline
+			\textbf{Motor (Tratamiento $i$)} & \textbf{Serv. 1 ($j=1$)} & \textbf{Serv. 2 ($j=2$)} & \textbf{Serv. 3 ($j=3$)} & \textbf{Serv. 4 ($j=4$)} & \textbf{Media Trat. ($\bar{Y}_{i.}$)} \\ \hline
+			Motor A ($i=1$) & 12.0 & 15.5 & 22.0 & 28.5 & \textbf{19.50} \\
+			Motor B ($i=2$) & 8.5 & 11.0 & 16.5 & 22.0 & \textbf{14.50} \\
+			Motor C ($i=3$) & 9.5 & 12.5 & 18.5 & 23.5 & \textbf{16.00} \\ \hline
+			\textbf{Media Bloque ($\bar{Y}_{.j}$)} & \textbf{10.00} & \textbf{13.00} & \textbf{19.00} & \textbf{24.67} & $\bar{Y}_{..} = \textbf{16.67}$ \\ \hline
+		\end{tabular}
+		\caption{Tiempos de ejecución en segundos bajo un DBCA con 3 motores y 4 servidores.}
+		\label{tab:dbca_datos}
+	\end{table}
+	
+	\begin{enumerate}
+		\item Construya la tabla completa de ANOVA para el Diseño en Bloques Completos al Azar con $\alpha = 0.05$.
+		\item ¿Existe una diferencia significativa entre los tres motores de optimización?
+		\item ¿Fue útil y efectivo desde el punto de vista de eficiencia estadística haber incorporado a los servidores como un factor de bloqueo en el diseño?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:verificacion_supuestos_anova}
+	Al auditar un ANOVA de un factor con $k = 3$ configuraciones de memoria caché y tamaños muestrales pequeños ($n_1=6, n_2=6, n_3=6$), las varianzas muestrales calculadas son $S_1^2 = 1.2$, $S_2^2 = 1.5$ y $S_3^2 = 8.9$.
+	
+	Un analista joven propone proceder con el ANOVA estándar aduciendo que "el ANOVA es robusto a violaciones en las varianzas si los tamaños grupales son iguales". ¿Es correcta esta afirmación ante estos datos? Explique qué procedimiento de verificación debe realizarse cuantitativamente y qué alternativa metodológica procedería si el supuesto falla.
+\end{problema}
+
+\begin{problema}
+	\label{prob:potencia_tamano_anova}
+	Un equipo de ciencia de datos planea un nuevo experimento (ANOVA de un factor) para comparar la velocidad de ejecución en peticiones de API en $k = 4$ lenguajes de backend nativos. Por estudios históricos del sistema, se estima que la varianza residual intrínseca de las peticiones es de $\sigma^2 = 16$ $\text{ms}^2$ ($\sigma = 4$ ms).
+	
+	El equipo desea determinar el tamaño de muestra de réplicas $n$ por lenguaje para que el ANOVA tenga una **potencia estadística del $80\%$ ($1 - \beta = 0.80$)** para detectar al nivel nominal de $\alpha = 0.05$ una diferencia máxima de al menos $\Delta = \mu_{\text{máx}} - \mu_{\text{mín}} = 5$ ms entre el lenguaje más rápido y el más lento del estudio. Utilice la aproximación de la variabilidad máxima mediante el parámetro $\Phi$ de las tablas de potencia de Pearson-Hartley o la fórmula del efecto estandarizado de Cohen $f$.
+\end{problema}
+
+
+\subsection{Soluciones detalladas}
 
 \begin{solucion}
 	\textbf{Paso 1: Planteamiento formal de hipótesis.}
@@ -84,11 +145,6 @@
 	Dado que nuestro estadístico calculado $F = 6.843 \gg 3.239$ ($p-\text{valor} \approx 0.0035$), **rechazamos categóricamente la hipótesis nula $H_0$**. Demostramos con más del $99.6\%$ de confianza que existe una diferencia altamente significativa en la precisión media ($F_1$-score) de al menos uno de los cuatro algoritmos de aprendizaje automático sobre los conjuntos de datos evaluados.
 \end{solucion}
 
-\begin{problema}
-	\label{prob:posthoc_tukey_ml}
-	Dado que el ANOVA global del Problema \ref{prob:anova_un_factor_ml} resultó altamente significativo, aplique el **procedimiento post-hoc HSD de Tukey** con una significancia global por familia de $\alpha = 0.05$ para comparar simultáneamente las seis parejas posibles de algoritmos e identificar exactamente cuáles modelos difieren entre sí en su rendimiento medio.
-\end{problema}
-
 \begin{solucion}
 	\textbf{Paso 1: Obtención del cuantil del rango estandarizado ($q$).}
 	De la tabla ANOVA del Problema \ref{prob:anova_un_factor_ml}, tenemos que el Cuadrado Medio del Error es $\text{CME} = 10.315$ con $\nu_E = 16$ grados de libertad, y contamos con $k = 4$ tratamientos. Todos con igual número de réplicas $n = 5$.
@@ -127,16 +183,6 @@
 	\textbf{Conclusión técnica del análisis post-hoc:} El procedimiento de Tukey HSD revela y aisla con precisión la causa de significancia del ANOVA: **tanto XGBoost ($88.6\%$) como las Redes Neuronales Profundas ($86.4\%$) superan de manera estadísticamente significativa a SVM ($79.8\%$)** en el $F_1$-score. Entre XGBoost, Redes Neuronales y Bosques Aleatorios no existen diferencias estadísticamente probadas para el tamaño de muestra actual ($n=5$).
 \end{solucion}
 
-\begin{problema}
-	\label{prob:bonferroni_lsd}
-	Una firma de ingeniería en la nube compara la latencia media de transferencia de datos en milisegundos bajo $k = 5$ protocolos de enrutamiento distintos. El ANOVA arrojó un Cuadrado Medio del Error $\text{CME} = 18.0$ $\text{ms}^2$ con $\nu_E = 25$ grados de libertad en el residual, y cada protocolo fue evaluado con $n = 6$ réplicas.
-	\begin{enumerate}
-		\item Calcule la Diferencia Mínima Significativa (**LSD de Fisher**) al nivel $\alpha = 0.05$.
-		\item Calcule el margen crítico de diferencia por el método de la **Corrección de Bonferroni** para mantener una tasa de error global máxima de $\alpha = 0.05$.
-		\item Compare cuantitativamente ambos umbrales y explique qué implicaciones tiene la diferencia en la sensibilidad de detección en un proyecto de ciencia de datos.
-	\end{enumerate}
-\end{problema}
-
 \begin{solucion}
 	\textbf{Parte 1: Cálculo del LSD de Fisher.}
 	Para $k = 5$ tratamientos, el número total de comparaciones por pares es $m = \binom{5}{2} = \frac{5 \times 4}{2} = 10$.
@@ -171,33 +217,6 @@
 		\item **Bonferroni** garantiza una especificidad férrea ($\text{FWER} \leq 5\%$), impidiendo falsas alarmas. Sin embargo, su rigidez cobra un precio en potencia estadística (elevado error Tipo II): diferencias reales y operativamente valiosas entre $5.1$ ms y $7.5$ ms pasarán inadvertidas como no significativas. En analítica computacional, cuando $k \geq 5$, se prefiere el término medio equilibrado que ofrece HSD de Tukey.
 	\end{itemize}
 \end{solucion}
-
-\begin{problema}
-	\label{prob:dbca_servidores}
-	Para evaluar el tiempo de procesamiento de consultas complejas SQL en segundos (métrica donde menor es mejor) en $k = 3$ motores de optimización en bases de datos relacionales (Motor A, Motor B y Motor C), un ingeniero advierte que el hardware de los servidores de la empresa es muy heterogéneo y no puede mezclarse sin control. 
-	
-	Por tanto, diseña un **Diseño en Bloques Completos al Azar (DBCA)** utilizando como factor de bloqueo las generaciones físicas del hardware de $b = 4$ servidores corporativos distintos (Servidor 1: Última Gen, Servidor 2: Gen Media, Servidor 3: Gen Antigua, Servidor 4: Gen Legacy virtualizada). Cada motor es evaluado exactamente una vez dentro de cada servidor, obteniéndose los datos de la Tabla \ref{tab:dbca_datos}.
-	
-	\begin{table}[h!]
-		\centering
-		\begin{tabular}{lccccc}
-			\hline
-			\textbf{Motor (Tratamiento $i$)} & \textbf{Serv. 1 ($j=1$)} & \textbf{Serv. 2 ($j=2$)} & \textbf{Serv. 3 ($j=3$)} & \textbf{Serv. 4 ($j=4$)} & \textbf{Media Trat. ($\bar{Y}_{i.}$)} \\ \hline
-			Motor A ($i=1$) & 12.0 & 15.5 & 22.0 & 28.5 & \textbf{19.50} \\
-			Motor B ($i=2$) & 8.5 & 11.0 & 16.5 & 22.0 & \textbf{14.50} \\
-			Motor C ($i=3$) & 9.5 & 12.5 & 18.5 & 23.5 & \textbf{16.00} \\ \hline
-			\textbf{Media Bloque ($\bar{Y}_{.j}$)} & \textbf{10.00} & \textbf{13.00} & \textbf{19.00} & \textbf{24.67} & $\bar{Y}_{..} = \textbf{16.67}$ \\ \hline
-		\end{tabular}
-		\caption{Tiempos de ejecución en segundos bajo un DBCA con 3 motores y 4 servidores.}
-		\label{tab:dbca_datos}
-	\end{table}
-	
-	\begin{enumerate}
-		\item Construya la tabla completa de ANOVA para el Diseño en Bloques Completos al Azar con $\alpha = 0.05$.
-		\item ¿Existe una diferencia significativa entre los tres motores de optimización?
-		\item ¿Fue útil y efectivo desde el punto de vista de eficiencia estadística haber incorporado a los servidores como un factor de bloqueo en el diseño?
-	\end{enumerate}
-\end{problema}
 
 \begin{solucion}
 	\textbf{Parte 1: Partición de Sumas de Cuadrados y Tabla ANOVA DBCA.}
@@ -282,13 +301,6 @@
 	El bloqueo **rescató por completo el experimento de un falso negativo masivo (error Tipo II)** al purgar el ruido del hardware.
 \end{solucion}
 
-\begin{problema}
-	\label{prob:verificacion_supuestos_anova}
-	Al auditar un ANOVA de un factor con $k = 3$ configuraciones de memoria caché y tamaños muestrales pequeños ($n_1=6, n_2=6, n_3=6$), las varianzas muestrales calculadas son $S_1^2 = 1.2$, $S_2^2 = 1.5$ y $S_3^2 = 8.9$.
-	
-	Un analista joven propone proceder con el ANOVA estándar aduciendo que "el ANOVA es robusto a violaciones en las varianzas si los tamaños grupales son iguales". ¿Es correcta esta afirmación ante estos datos? Explique qué procedimiento de verificación debe realizarse cuantitativamente y qué alternativa metodológica procedería si el supuesto falla.
-\end{problema}
-
 \begin{solucion}
 	La afirmación del analista es **peligrosamente incompleta en el escenario analizado**. Es un hecho matemático que el ANOVA goza de robustez estructural frente a desviaciones leves a moderadas de homoscedasticidad cuando las muestras están balanceadas ($n_1 = n_2 = n_3$). Sin embargo, dicha robustez **no soporta disparidades extremas** en las varianzas grupales.
 	
@@ -301,13 +313,6 @@
 		\item **Alternativa analítica adecuada:** Dado el fallo confirmado de homoscedasticidad, el analista debe desestimar el estadístico $F$ convencional y emplear el **ANOVA de Welch (o prueba $F$ de Welch)**, que pondera inversamente los cuadrados medios grupales por las varianzas individuales $S_i^2/n_i$ y ajusta los grados de libertad del denominador, o bien aplicar una transformación logarítmica ($\log Y_{ij}$) si los datos son positivos y asimétricos a la derecha.
 	\end{enumerate}
 \end{solucion}
-
-\begin{problema}
-	\label{prob:potencia_tamano_anova}
-	Un equipo de ciencia de datos planea un nuevo experimento (ANOVA de un factor) para comparar la velocidad de ejecución en peticiones de API en $k = 4$ lenguajes de backend nativos. Por estudios históricos del sistema, se estima que la varianza residual intrínseca de las peticiones es de $\sigma^2 = 16$ $\text{ms}^2$ ($\sigma = 4$ ms).
-	
-	El equipo desea determinar el tamaño de muestra de réplicas $n$ por lenguaje para que el ANOVA tenga una **potencia estadística del $80\%$ ($1 - \beta = 0.80$)** para detectar al nivel nominal de $\alpha = 0.05$ una diferencia máxima de al menos $\Delta = \mu_{\text{máx}} - \mu_{\text{mín}} = 5$ ms entre el lenguaje más rápido y el más lento del estudio. Utilice la aproximación de la variabilidad máxima mediante el parámetro $\Phi$ de las tablas de potencia de Pearson-Hartley o la fórmula del efecto estandarizado de Cohen $f$.
-\end{problema}
 
 \begin{solucion}
 	\textbf{Paso 1: Estimación del tamaño del efecto bajo la configuración más adversa.}
@@ -337,3 +342,4 @@
 	
 	\textbf{Conclusión de diseño experimental:} Redondeando al entero superior inmediato para garantizar el cumplimiento estricto del poder deseado, se requiere asignar un tamaño de muestra de **$n = 14$ réplicas por cada lenguaje de backend**, lo que implica un tamaño total de experimento de **$N = k \times n = 4 \times 14 = 56$ peticiones de API auditadas**.
 \end{solucion}
+

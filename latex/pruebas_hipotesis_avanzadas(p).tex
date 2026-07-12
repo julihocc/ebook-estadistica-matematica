@@ -1,5 +1,7 @@
 \section{Problemas resueltos de docimasia avanzada}
 
+\subsection{Enunciados de los problemas}
+
 \begin{problema}
 	\label{prob:doc_dos_medias_iguales}
 	Una empresa de telemedicina evalúa si el tiempo medio de respuesta en consultas de medicina general difiere entre dos plataformas digitales (Plataforma 1 vs Plataforma 2). Se obtienen dos muestras aleatorias independientes de tiempos (en minutos):
@@ -9,6 +11,68 @@
 	\end{itemize}
 	Asumiendo que las poblaciones son normales y las varianzas son iguales ($\sigma_1^2 = \sigma_2^2$), realice una prueba de hipótesis al nivel de significancia del $5\%$ ($\alpha = 0.05$) para determinar si existe una diferencia real en los tiempos medios de respuesta.
 \end{problema}
+
+\begin{problema}
+	\label{prob:doc_pareadas}
+	En una investigación sobre el rendimiento físico de deportistas tras someterse a un programa de entrenamiento en altitud, se midió el consumo máximo de oxígeno ($\text{VO}_2$ máx en ml/kg/min) en una muestra de $n = 12$ atletas \emph{antes} ($X_1$) y \emph{después} ($X_2$) del programa de 8 semanas. Las diferencias individuales $D_i = X_{2i} - X_{1i}$ arrojaron una media muestral de incremento $\bar{D} = 3.8$ ml/kg/min y una desviación estándar de las diferencias $S_D = 2.1$ ml/kg/min.
+	
+	¿Aportan los datos evidencia suficiente al nivel $\alpha = 0.01$ para afirmar que el programa de entrenamiento en altitud **aumenta** significativamente el consumo máximo de oxígeno?
+\end{problema}
+
+\begin{problema}
+	\label{prob:doc_dos_proporciones}
+	Una compañía de ciberseguridad compara la efectividad del filtro antispam clásico frente a un nuevo modelo con inteligencia artificial basada en transformadores. Al procesar dos muestras independientes de correos electrónicos entrantes verificados:
+	\begin{itemize}
+		\item \textbf{Filtro Clásico:} Se detectaron correctamente como spam $X_1 = 340$ de $n_1 = 400$ correos maliciosos.
+		\item \textbf{Modelo IA:} Se detectaron correctamente como spam $X_2 = 465$ de $n_2 = 500$ correos maliciosos.
+	\end{itemize}
+	¿Existe evidencia al nivel $\alpha = 0.02$ para afirmar que el Modelo de IA tiene una **tasa de detección significativamente superior** a la del Filtro Clásico?
+\end{problema}
+
+\begin{problema}
+	\label{prob:doc_dos_varianzas}
+	Antes de realizar una prueba $t$ agrupada de comparación de medias de dos sensores analógicos, se debe comprobar si se cumple el supuesto de homoscedasticidad ($H_0: \sigma_1^2 = \sigma_2^2$). Se toman dos muestras aleatorias independientes con varianzas muestrales $S_1^2 = 14.8$ ($n_1 = 16$) y $S_2^2 = 5.2$ ($n_2 = 11$).
+	Realice una prueba $F$ de dos colas al nivel $\alpha = 0.10$ para contrastar la hipótesis de igualdad de varianzas. ¿Es legítimo asumir homoscedasticidad?
+\end{problema}
+
+\begin{problema}
+	\label{prob:homogeneidad_contingencia}
+	Una firma de investigación de mercados analiza las preferencias de tres cohortes generacionales de usuarios de software (Generación Z, Millennials y Generación X) respecto al modelo de monetización preferido en herramientas digitales: Subscripción mensual, Pago único (licencia perpetua) o Freemium con publicidad. Se seleccionan tres muestras independientes de tamaños fijos $n_1 = 200$, $n_2 = 250$ y $n_3 = 150$, obteniéndose las frecuencias observadas en la Tabla \ref{tab:homog_obs}.
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			\textbf{Modelo Preferido} & \textbf{Gen Z ($j=1$)} & \textbf{Millennials ($j=2$)} & \textbf{Gen X ($j=3$)} & \textbf{Total Fila ($R_i$)} \\ \hline
+			Subscripción ($i=1$) & 80 & 120 & 45 & \textbf{245} \\
+			Pago Único ($i=2$) & 30 & 65 & 70 & \textbf{165} \\
+			Freemium ($i=3$) & 90 & 65 & 35 & \textbf{190} \\ \hline
+			\textbf{Total Columna ($C_j$)} & \textbf{200} & \textbf{250} & \textbf{150} & \textbf{600} \\ \hline
+		\end{tabular}
+		\caption{Frecuencias observadas ($O_{ij}$) por modelo de monetización en tres cohortes generacionales.}
+		\label{tab:homog_obs}
+	\end{table}
+	
+	Realice una prueba de homogeneidad de proporciones al nivel $\alpha = 0.01$ para determinar si la distribución de preferencias de monetización es idéntica en las tres generaciones.
+\end{problema}
+
+\begin{problema}
+	\label{prob:doc_k_proporciones_marascuilo}
+	Para evaluar el nivel de adherencia a estándares éticos sobre sesgo algorítmico, una entidad fiscalizadora examina muestras de modelos de aprendizaje automático desplegados por $k = 4$ empresas corporativas de tecnología (Empresas A, B, C y D). Se verifica si el modelo cumple con los criterios de imparcialidad (Éxito = Cumple, Fracaso = No cumple):
+	\begin{itemize}
+		\item \textbf{Empresa A:} $X_1 = 82$ cumplen, de $n_1 = 100$ modelos ($\hat{p}_1 = 0.820$).
+		\item \textbf{Empresa B:} $X_2 = 64$ cumplen, de $n_2 = 100$ modelos ($\hat{p}_2 = 0.640$).
+		\item \textbf{Empresa C:} $X_3 = 90$ cumplen, de $n_3 = 120$ modelos ($\hat{p}_3 = 0.750$).
+		\item \textbf{Empresa D:} $X_4 = 44$ cumplen, de $n_4 = 80$ modelos ($\hat{p}_4 = 0.550$).
+	\end{itemize}
+	\begin{enumerate}
+		\item Realice una prueba global $\chi^2$ de igualdad de proporciones ($H_0: p_1=p_2=p_3=p_4$) al nivel $\alpha = 0.05$.
+		\item Si se rechaza la hipótesis nula global, aplique el **procedimiento de comparación post-hoc de Marascuilo** para determinar cuáles parejas de empresas difieren significativamente entre sí al nivel familiar de $\alpha = 0.05$.
+	\end{enumerate}
+\end{problema}
+
+
+\subsection{Soluciones detalladas}
 
 \begin{solucion}
 	\textbf{Paso 1: Planteamiento de hipótesis.}
@@ -38,13 +102,6 @@
 	Como el estadístico calculado $t = -3.017$ cae claramente en la región de rechazo de la cola izquierda ($-3.017 < -2.037$), **rechazamos $H_0$**. Concluimos al nivel del $5\%$ que existe una diferencia estadísticamente significativa en los tiempos medios de respuesta entre ambas plataformas, siendo la Plataforma 1 significativamente más rápida.
 \end{solucion}
 
-\begin{problema}
-	\label{prob:doc_pareadas}
-	En una investigación sobre el rendimiento físico de deportistas tras someterse a un programa de entrenamiento en altitud, se midió el consumo máximo de oxígeno ($\text{VO}_2$ máx en ml/kg/min) en una muestra de $n = 12$ atletas \emph{antes} ($X_1$) y \emph{después} ($X_2$) del programa de 8 semanas. Las diferencias individuales $D_i = X_{2i} - X_{1i}$ arrojaron una media muestral de incremento $\bar{D} = 3.8$ ml/kg/min y una desviación estándar de las diferencias $S_D = 2.1$ ml/kg/min.
-	
-	¿Aportan los datos evidencia suficiente al nivel $\alpha = 0.01$ para afirmar que el programa de entrenamiento en altitud **aumenta** significativamente el consumo máximo de oxígeno?
-\end{problema}
-
 \begin{solucion}
 	\textbf{Paso 1: Planteamiento de hipótesis de una cola (pareadas).}
 	Como evaluamos si el programa incrementa el valor después respecto al valor antes ($X_2 > X_1 \implies D > 0$), formulamos una prueba de cola derecha sobre la media poblacional de las diferencias $\mu_D$:
@@ -66,16 +123,6 @@
 	\end{align}
 	La región de rechazo es $t > 2.718$. Dado que nuestro valor observado $t = 6.268 \gg 2.718$, **rechazamos categóricamente $H_0$**. Existe evidencia estadística abrumadora al nivel del $1\%$ para afirmar que el programa de entrenamiento en altitud produce un incremento real en el $\text{VO}_2$ máximo de los atletas.
 \end{solucion}
-
-\begin{problema}
-	\label{prob:doc_dos_proporciones}
-	Una compañía de ciberseguridad compara la efectividad del filtro antispam clásico frente a un nuevo modelo con inteligencia artificial basada en transformadores. Al procesar dos muestras independientes de correos electrónicos entrantes verificados:
-	\begin{itemize}
-		\item \textbf{Filtro Clásico:} Se detectaron correctamente como spam $X_1 = 340$ de $n_1 = 400$ correos maliciosos.
-		\item \textbf{Modelo IA:} Se detectaron correctamente como spam $X_2 = 465$ de $n_2 = 500$ correos maliciosos.
-	\end{itemize}
-	¿Existe evidencia al nivel $\alpha = 0.02$ para afirmar que el Modelo de IA tiene una **tasa de detección significativamente superior** a la del Filtro Clásico?
-\end{problema}
 
 \begin{solucion}
 	\textbf{Paso 1: Planteamiento de hipótesis.}
@@ -111,12 +158,6 @@
 	Como el estadístico observado $Z = -3.881$ cae en la zona de rechazo ($Z < -2.054$, con un valor-$p < 0.0001$), **rechazamos $H_0$**. Demostramos con una significancia del $2\%$ (y de más del $99.99\%$) que el nuevo Modelo de IA es significativamente superior en la detección de correos maliciosos.
 \end{solucion}
 
-\begin{problema}
-	\label{prob:doc_dos_varianzas}
-	Antes de realizar una prueba $t$ agrupada de comparación de medias de dos sensores analógicos, se debe comprobar si se cumple el supuesto de homoscedasticidad ($H_0: \sigma_1^2 = \sigma_2^2$). Se toman dos muestras aleatorias independientes con varianzas muestrales $S_1^2 = 14.8$ ($n_1 = 16$) y $S_2^2 = 5.2$ ($n_2 = 11$).
-	Realice una prueba $F$ de dos colas al nivel $\alpha = 0.10$ para contrastar la hipótesis de igualdad de varianzas. ¿Es legítimo asumir homoscedasticidad?
-\end{problema}
-
 \begin{solucion}
 	\textbf{Paso 1: Planteamiento de hipótesis bidireccional.}
 	\begin{align}
@@ -141,27 +182,6 @@
 	\textbf{Paso 4: Conclusión técnica.}
 	Nuestro estadístico observado $F = 2.846$ está justo en el límite inferior del cuantil superior de rechazo ($2.846 \approx 2.85$). En sentido estricto al cuarto decimal ($2.846 < 2.85$), no se rechaza formalmente $H_0$ al $10\%$. Sin embargo, al estar tan cercanamente en el borde del rechazo, un científico de datos cauteloso evitaría asumir homoscedasticidad estricta para la prueba de medias posterior y optaría por la prueba $t$ de Welch-Satterthwaite para proteger la robustez del análisis.
 \end{solucion}
-
-\begin{problema}
-	\label{prob:homogeneidad_contingencia}
-	Una firma de investigación de mercados analiza las preferencias de tres cohortes generacionales de usuarios de software (Generación Z, Millennials y Generación X) respecto al modelo de monetización preferido en herramientas digitales: Subscripción mensual, Pago único (licencia perpetua) o Freemium con publicidad. Se seleccionan tres muestras independientes de tamaños fijos $n_1 = 200$, $n_2 = 250$ y $n_3 = 150$, obteniéndose las frecuencias observadas en la Tabla \ref{tab:homog_obs}.
-	
-	\begin{table}[h!]
-		\centering
-		\begin{tabular}{lcccc}
-			\hline
-			\textbf{Modelo Preferido} & \textbf{Gen Z ($j=1$)} & \textbf{Millennials ($j=2$)} & \textbf{Gen X ($j=3$)} & \textbf{Total Fila ($R_i$)} \\ \hline
-			Subscripción ($i=1$) & 80 & 120 & 45 & \textbf{245} \\
-			Pago Único ($i=2$) & 30 & 65 & 70 & \textbf{165} \\
-			Freemium ($i=3$) & 90 & 65 & 35 & \textbf{190} \\ \hline
-			\textbf{Total Columna ($C_j$)} & \textbf{200} & \textbf{250} & \textbf{150} & \textbf{600} \\ \hline
-		\end{tabular}
-		\caption{Frecuencias observadas ($O_{ij}$) por modelo de monetización en tres cohortes generacionales.}
-		\label{tab:homog_obs}
-	\end{table}
-	
-	Realice una prueba de homogeneidad de proporciones al nivel $\alpha = 0.01$ para determinar si la distribución de preferencias de monetización es idéntica en las tres generaciones.
-\end{problema}
 
 \begin{solucion}
 	\textbf{Paso 1: Planteamiento de hipótesis.}
@@ -197,21 +217,6 @@
 	\end{align}
 	Dado que $\chi^2 = 56.147 \gg 13.277$ ($p-\text{valor} < 0.00001$), **rechazamos $H_0$**. Existe una falta de homogeneidad abrumadora en las preferencias: en particular, podemos notar que la Generación X prefiere fuertemente el pago único (observado 70 vs esperado 41.25), mientras que la Gen Z se inclina notablemente al modelo Freemium (observado 90 vs esperado 63.33).
 \end{solucion}
-
-\begin{problema}
-	\label{prob:doc_k_proporciones_marascuilo}
-	Para evaluar el nivel de adherencia a estándares éticos sobre sesgo algorítmico, una entidad fiscalizadora examina muestras de modelos de aprendizaje automático desplegados por $k = 4$ empresas corporativas de tecnología (Empresas A, B, C y D). Se verifica si el modelo cumple con los criterios de imparcialidad (Éxito = Cumple, Fracaso = No cumple):
-	\begin{itemize}
-		\item \textbf{Empresa A:} $X_1 = 82$ cumplen, de $n_1 = 100$ modelos ($\hat{p}_1 = 0.820$).
-		\item \textbf{Empresa B:} $X_2 = 64$ cumplen, de $n_2 = 100$ modelos ($\hat{p}_2 = 0.640$).
-		\item \textbf{Empresa C:} $X_3 = 90$ cumplen, de $n_3 = 120$ modelos ($\hat{p}_3 = 0.750$).
-		\item \textbf{Empresa D:} $X_4 = 44$ cumplen, de $n_4 = 80$ modelos ($\hat{p}_4 = 0.550$).
-	\end{itemize}
-	\begin{enumerate}
-		\item Realice una prueba global $\chi^2$ de igualdad de proporciones ($H_0: p_1=p_2=p_3=p_4$) al nivel $\alpha = 0.05$.
-		\item Si se rechaza la hipótesis nula global, aplique el **procedimiento de comparación post-hoc de Marascuilo** para determinar cuáles parejas de empresas difieren significativamente entre sí al nivel familiar de $\alpha = 0.05$.
-	\end{enumerate}
-\end{problema}
 
 \begin{solucion}
 	\textbf{Parte 1: Prueba global $\chi^2$ de igualdad de 4 proporciones.}
@@ -281,3 +286,4 @@
 	
 	\textbf{Conclusión de Marascuilo:} El análisis post-hoc demuestra que las parejas de empresas que difieren de manera estadísticamente significativa en cumplimiento ético son: **Empresa A supera a Empresa B ($82\%$ vs $64\%$)**, **Empresa A supera a Empresa D ($82\%$ vs $55\%$)** y **Empresa C supera a Empresa D ($75\%$ vs $55\%$)**.
 \end{solucion}
+

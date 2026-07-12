@@ -1,5 +1,7 @@
 \section*{Problemas de regresión lineal múltiple}
 
+\subsection{Enunciados de los problemas}
+
 \begin{problema}
 	Se estudia el rendimiento de combustible ($Y$, en km/l) de automóviles en función de dos variables predictoras: el peso del vehículo ($X_1$, en toneladas) y la cilindrada del motor ($X_2$, en litros). Se ajustó un modelo de regresión múltiple con $n = 30$ observaciones y se obtuvieron los siguientes resultados:
 	
@@ -16,6 +18,91 @@
 		\item ¿Qué variable predictora tiene mayor impacto en el rendimiento?
 	\end{enumerate}
 \end{problema}
+
+\begin{problema}
+	Una empresa quiere predecir las ventas trimestrales ($Y$, en miles de dólares) usando tres predictores: gasto en publicidad en TV ($X_1$), gasto en publicidad en radio ($X_2$) y número de vendedores ($X_3$). Con $n = 40$ trimestres, se obtuvieron dos modelos:
+	
+	\textbf{Modelo 1:} $\hat{Y} = 50 + 2.5X_1 + 1.8X_2$, con $R^2 = 0.75$
+	
+	\textbf{Modelo 2:} $\hat{Y} = 45 + 2.3X_1 + 1.6X_2 + 0.8X_3$, con $R^2 = 0.78$
+	
+	\begin{enumerate}
+		\item Calcule el $R^2$ ajustado para ambos modelos.
+		\item Realice una prueba F parcial para determinar si agregar $X_3$ mejora significativamente el modelo.
+		\item ¿Qué modelo recomendaría y por qué?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	Se ajustó un modelo de regresión múltiple para predecir el precio de viviendas ($Y$, en miles de dólares) usando: área ($X_1$, en m²), número de habitaciones ($X_2$), antigüedad ($X_3$, en años) y distancia al centro ($X_4$, en km). Con $n = 50$ observaciones:
+	
+	\begin{align}
+		\hat{Y} = 50 + 0.8X_1 + 15X_2 - 2X_3 - 5X_4
+	\end{align}
+	
+	Los valores VIF son: $VIF(X_1) = 4.2$, $VIF(X_2) = 3.8$, $VIF(X_3) = 1.5$, $VIF(X_4) = 1.2$.
+	
+	\begin{enumerate}
+		\item Interprete los coeficientes de $X_1$ y $X_3$.
+		\item ¿Hay evidencia de multicolinealidad? ¿Qué variables están involucradas?
+		\item Prediga el precio de una casa con 120 m², 3 habitaciones, 10 años de antigüedad y a 8 km del centro.
+		\item ¿Qué acción tomaría respecto a la multicolinealidad?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	Un investigador estudia el salario ($Y$, en miles de dólares) en función de años de experiencia ($X_1$) y nivel educativo ($X_2$, codificado como: 1=bachillerato, 2=licenciatura, 3=maestría, 4=doctorado). Con $n = 100$ empleados:
+	
+	\begin{align}
+		\hat{Y} = 20 + 2X_1 + 8X_2, \quad R^2 = 0.65
+	\end{align}
+	
+	Errores estándar: $SE(\hat{\beta}_1) = 0.3$, $SE(\hat{\beta}_2) = 1.5$
+	
+	\begin{enumerate}
+		\item Interprete el coeficiente $\hat{\beta}_2$.
+		\item ¿Es apropiado tratar $X_2$ como variable cuantitativa? ¿Qué alternativa propondría?
+		\item Prediga el salario de alguien con 10 años de experiencia y maestría.
+		\item Construya un intervalo de confianza del 95\% para $\beta_1$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	Se quiere predecir el tiempo de entrega ($Y$, en días) usando: distancia ($X_1$, en km), peso del paquete ($X_2$, en kg) y tipo de servicio ($X_3$, donde 1=express, 0=estándar). Con $n = 60$ entregas:
+	
+	\textbf{Modelo completo:} $\hat{Y} = 2 + 0.01X_1 + 0.5X_2 - 3X_3$, con $R^2 = 0.82$, $SSD = 45$
+	
+	\textbf{Modelo reducido (sin $X_3$):} $\hat{Y} = 3.5 + 0.012X_1 + 0.55X_2$, con $R^2 = 0.68$, $SSD = 78$
+	
+	\begin{enumerate}
+		\item Interprete el coeficiente de $X_3$ en el modelo completo.
+		\item Realice una prueba F parcial para determinar si $X_3$ es significativo.
+		\item Calcule el $R^2$ ajustado para ambos modelos.
+		\item ¿Vale la pena incluir el tipo de servicio en el modelo?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	Se ajusta un modelo para predecir el rendimiento académico ($Y$, promedio de 0 a 10) usando horas de estudio semanales ($X_1$), asistencia a clase ($X_2$, porcentaje de 0 a 100) y uso de recursos en línea ($X_3$, horas semanales). Con $n = 80$ estudiantes:
+	
+	\begin{align}
+		\hat{Y} = 4 + 0.15X_1 + 0.03X_2 + 0.1X_3
+	\end{align}
+	
+	Estadísticos: $R^2 = 0.58$, $F = 35.2$ (con $p$-valor $< 0.001$)
+	
+	Valores $p$ individuales: $p_1 < 0.001$, $p_2 = 0.023$, $p_3 = 0.145$
+	
+	\begin{enumerate}
+		\item ¿Es significativo el modelo global?
+		\item ¿Qué variables son significativas individualmente con $\alpha = 0.05$?
+		\item ¿Qué acción tomaría respecto a $X_3$?
+		\item Si elimina $X_3$, ¿qué esperaría que suceda con $R^2$ y $R^2_{adj}$?
+	\end{enumerate}
+\end{problema}
+
+
+\subsection{Soluciones detalladas}
 
 \begin{solucion}
 	\begin{enumerate}
@@ -50,20 +137,6 @@
 	\end{enumerate}
 \end{solucion}
 
-\begin{problema}
-	Una empresa quiere predecir las ventas trimestrales ($Y$, en miles de dólares) usando tres predictores: gasto en publicidad en TV ($X_1$), gasto en publicidad en radio ($X_2$) y número de vendedores ($X_3$). Con $n = 40$ trimestres, se obtuvieron dos modelos:
-	
-	\textbf{Modelo 1:} $\hat{Y} = 50 + 2.5X_1 + 1.8X_2$, con $R^2 = 0.75$
-	
-	\textbf{Modelo 2:} $\hat{Y} = 45 + 2.3X_1 + 1.6X_2 + 0.8X_3$, con $R^2 = 0.78$
-	
-	\begin{enumerate}
-		\item Calcule el $R^2$ ajustado para ambos modelos.
-		\item Realice una prueba F parcial para determinar si agregar $X_3$ mejora significativamente el modelo.
-		\item ¿Qué modelo recomendaría y por qué?
-	\end{enumerate}
-\end{problema}
-
 \begin{solucion}
 	\begin{enumerate}
 		\item $R^2$ ajustado:
@@ -96,23 +169,6 @@
 		\end{itemize}
 	\end{enumerate}
 \end{solucion}
-
-\begin{problema}
-	Se ajustó un modelo de regresión múltiple para predecir el precio de viviendas ($Y$, en miles de dólares) usando: área ($X_1$, en m²), número de habitaciones ($X_2$), antigüedad ($X_3$, en años) y distancia al centro ($X_4$, en km). Con $n = 50$ observaciones:
-	
-	\begin{align}
-		\hat{Y} = 50 + 0.8X_1 + 15X_2 - 2X_3 - 5X_4
-	\end{align}
-	
-	Los valores VIF son: $VIF(X_1) = 4.2$, $VIF(X_2) = 3.8$, $VIF(X_3) = 1.5$, $VIF(X_4) = 1.2$.
-	
-	\begin{enumerate}
-		\item Interprete los coeficientes de $X_1$ y $X_3$.
-		\item ¿Hay evidencia de multicolinealidad? ¿Qué variables están involucradas?
-		\item Prediga el precio de una casa con 120 m², 3 habitaciones, 10 años de antigüedad y a 8 km del centro.
-		\item ¿Qué acción tomaría respecto a la multicolinealidad?
-	\end{enumerate}
-\end{problema}
 
 \begin{solucion}
 	\begin{enumerate}
@@ -149,23 +205,6 @@
 	\end{enumerate}
 \end{solucion}
 
-\begin{problema}
-	Un investigador estudia el salario ($Y$, en miles de dólares) en función de años de experiencia ($X_1$) y nivel educativo ($X_2$, codificado como: 1=bachillerato, 2=licenciatura, 3=maestría, 4=doctorado). Con $n = 100$ empleados:
-	
-	\begin{align}
-		\hat{Y} = 20 + 2X_1 + 8X_2, \quad R^2 = 0.65
-	\end{align}
-	
-	Errores estándar: $SE(\hat{\beta}_1) = 0.3$, $SE(\hat{\beta}_2) = 1.5$
-	
-	\begin{enumerate}
-		\item Interprete el coeficiente $\hat{\beta}_2$.
-		\item ¿Es apropiado tratar $X_2$ como variable cuantitativa? ¿Qué alternativa propondría?
-		\item Prediga el salario de alguien con 10 años de experiencia y maestría.
-		\item Construya un intervalo de confianza del 95\% para $\beta_1$.
-	\end{enumerate}
-\end{problema}
-
 \begin{solucion}
 	\begin{enumerate}
 		\item \textbf{Interpretación de $\hat{\beta}_2$:} Manteniendo constantes los años de experiencia, por cada nivel educativo superior, el salario aumenta en promedio 8,000 dólares. Sin embargo, esta interpretación asume que la diferencia entre niveles es constante, lo cual puede no ser realista.
@@ -194,21 +233,6 @@
 		Con 95\% de confianza, por cada año adicional de experiencia, el salario aumenta entre 1,405 y 2,596 dólares, manteniendo constante el nivel educativo.
 	\end{enumerate}
 \end{solucion}
-
-\begin{problema}
-	Se quiere predecir el tiempo de entrega ($Y$, en días) usando: distancia ($X_1$, en km), peso del paquete ($X_2$, en kg) y tipo de servicio ($X_3$, donde 1=express, 0=estándar). Con $n = 60$ entregas:
-	
-	\textbf{Modelo completo:} $\hat{Y} = 2 + 0.01X_1 + 0.5X_2 - 3X_3$, con $R^2 = 0.82$, $SSD = 45$
-	
-	\textbf{Modelo reducido (sin $X_3$):} $\hat{Y} = 3.5 + 0.012X_1 + 0.55X_2$, con $R^2 = 0.68$, $SSD = 78$
-	
-	\begin{enumerate}
-		\item Interprete el coeficiente de $X_3$ en el modelo completo.
-		\item Realice una prueba F parcial para determinar si $X_3$ es significativo.
-		\item Calcule el $R^2$ ajustado para ambos modelos.
-		\item ¿Vale la pena incluir el tipo de servicio en el modelo?
-	\end{enumerate}
-\end{problema}
 
 \begin{solucion}
 	\begin{enumerate}
@@ -246,25 +270,6 @@
 	\end{enumerate}
 \end{solucion}
 
-\begin{problema}
-	Se ajusta un modelo para predecir el rendimiento académico ($Y$, promedio de 0 a 10) usando horas de estudio semanales ($X_1$), asistencia a clase ($X_2$, porcentaje de 0 a 100) y uso de recursos en línea ($X_3$, horas semanales). Con $n = 80$ estudiantes:
-	
-	\begin{align}
-		\hat{Y} = 4 + 0.15X_1 + 0.03X_2 + 0.1X_3
-	\end{align}
-	
-	Estadísticos: $R^2 = 0.58$, $F = 35.2$ (con $p$-valor $< 0.001$)
-	
-	Valores $p$ individuales: $p_1 < 0.001$, $p_2 = 0.023$, $p_3 = 0.145$
-	
-	\begin{enumerate}
-		\item ¿Es significativo el modelo global?
-		\item ¿Qué variables son significativas individualmente con $\alpha = 0.05$?
-		\item ¿Qué acción tomaría respecto a $X_3$?
-		\item Si elimina $X_3$, ¿qué esperaría que suceda con $R^2$ y $R^2_{adj}$?
-	\end{enumerate}
-\end{problema}
-
 \begin{solucion}
 	\begin{enumerate}
 		\item \textbf{Significancia global:} Sí, el modelo es globalmente significativo. El estadístico $F = 35.2$ con $p < 0.001$ indica que al menos uno de los predictores tiene una relación significativa con el rendimiento académico.
@@ -294,3 +299,4 @@
 		Esto confirmaría que eliminar $X_3$ mejora el modelo ajustado.
 	\end{enumerate}
 \end{solucion}
+
