@@ -1,16 +1,34 @@
-\section{Problemas resueltos de estimación puntual}
+\section*{Problemas}
 
 \subsection{Enunciados de los problemas}
 
+\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
+
 \begin{problema}
-	\label{prob:mle_poisson}
-	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria independiente de tamaño $n$ extraída de una distribución de Poisson con parámetro desconocido $\lambda > 0$. 
+	\label{prob:estim-fund-1}
+	Sea $X_1, X_2, \dots, X_n$ una muestra aleatoria independiente extraída de una población cuya variable aleatoria satisface $E[X^2] = \theta$, donde $\theta > 0$ es el segundo momento poblacional respecto al origen. Se propone el estadístico muestral:
+	\begin{align}
+		\hat{\theta} = \frac{1}{n} \sum_{i=1}^n X_i^2.
+	\end{align}
+	Demuestre analíticamente mediante linealidad del operador esperanza que $\hat{\theta}$ es un estimador estrictamente insesgado para $\theta$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:estim-fund-2}
+	Considere una muestra aleatoria $X_1, X_2, \dots, X_n$ proveniente de una distribución normal $N(\mu, \sigma^2)$, donde ambos parámetros son desconocidos. Sus primeros dos momentos poblacionales son $\mu_1 = \mu$ y $\mu_2 = E[X^2] = \mu^2 + \sigma^2$.
+	Utilizando el Método de Momentos (MoM), igualando los momentos poblacionales $\mu_k$ con los momentos muestrales $m_k = \frac{1}{n}\sum_{i=1}^n X_i^k$, deduzca explícitamente las expresiones algebraicas para los estimadores $\hat{\mu}_{MoM}$ y $\hat{\sigma}^2_{MoM}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:mle_invariancia}
+	En una investigación epidemiológica en ciencia de datos de salud, se modela el radio medio de propagación de un patógeno mediante una variable normal con media $\mu$ y varianza $\sigma^2$ estimadas por máxima verosimilitud como $\hat{\mu}_{MLE} = 12.4$ km y $\hat{\sigma}^2_{MLE} = 4.0$ km$^2$. 
 	\begin{enumerate}
-		\item Encuentre el estimador de máxima verosimilitud $\hat{\lambda}_{MLE}$.
-		\item Demuestre que $\hat{\lambda}_{MLE}$ es un estimador insesgado de $\lambda$.
-		\item Calcule la varianza del estimador y verifique si alcanza la cota inferior de Cramér-Rao para estimadores insesgados.
+		\item Utilizando la propiedad de invariancia funcional de los estimadores de máxima verosimilitud, obtenga la estimación MLE del área media del círculo de propagación en una observación, dada por $\theta = E(\pi X^2)$.
+		\item Calcule el valor del estimador MLE para el coeficiente de variación poblacional, definido como $\text{CV} = \dfrac{\sigma}{\mu}$.
 	\end{enumerate}
 \end{problema}
+
+\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
 
 \begin{problema}
 	\label{prob:mom_exponencial}
@@ -20,7 +38,38 @@
 	\end{align}
 	\begin{enumerate}
 		\item Obtenga el estimador del parámetro $\lambda$ utilizando el Método de Momentos ($\hat{\lambda}_{MoM}$).
-		\item Obtenga el estimador de máxima verosimilitud $\hat{\lambda}_{MLE}$. ¿Coinciden ambos métodos para este modelo?
+		\item Obtenga el estimador de máxima verosimilitud $\hat{\lambda}_{MLE}$. ¿Coinciden ambos métodos en este modelo y cuál es su fórmula?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:mle_poisson_op}
+	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria independiente de tamaño $n$ extraída de una distribución de Poisson con parámetro de tasa desconocido $\lambda > 0$.
+	\begin{enumerate}
+		\item Construya la función de log-verosimilitud $\ell(\lambda)$.
+		\item Derivando $\ell(\lambda)$ respecto a $\lambda$ e igualando a cero, demuestre que el estimador de máxima verosimilitud es la media muestral $\hat{\lambda}_{MLE} = \bar{X}$, verificando la condición de segundo orden.
+		\item Demuestre que este estimador es absolutamente insesgado ($E[\hat{\lambda}_{MLE}] = \lambda$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:mle_bernoulli}
+	En una campaña publicitaria en redes sociales, el resultado de hacer clic en un anuncio por parte del $i$-ésimo usuario se modela mediante una variable aleatoria Bernoulli $X_i \sim \text{Bernoulli}(p)$, donde $p \in (0,1)$ es la verdadera tasa de clics (CTR) desconocida y $n$ es el número total de impresiones independientes.
+	\begin{enumerate}
+		\item Deduzca el estimador de máxima verosimilitud $\hat{p}_{MLE}$ a partir de la función de verosimilitud de ensayos binarios.
+		\item Calcule la varianza exacta $\Var(\hat{p}_{MLE})$ en función de $p$ y $n$, e indique la expresión del error estándar estimado $\text{SE}(\hat{p}_{MLE})$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
+
+\begin{problema}
+	\label{prob:mle_poisson_crlb}
+	\textbf{Eficiencia absoluta y Cota Inferior de Cramér-Rao (CRLB):} Retomando el modelo de la distribución Poisson con tasa $\lambda > 0$ del Problema \ref{prob:mle_poisson_op}:
+	\begin{enumerate}
+		\item Calcule la Información de Fisher $I(\lambda)$ contenida en una sola observación $X \sim \text{Poisson}(\lambda)$ derivando el logaritmo de su densidad y calculando su segunda derivada esperada.
+		\item Determine la Cota Inferior de Cramér-Rao para la varianza de cualquier estimador insesgado de $\lambda$ basado en una muestra de tamaño $n$.
+		\item Demuestre que el estimador $\hat{\lambda}_{MLE} = \bar{X}$ alcanza exactamente dicha cota, concluyendo que es el Estimador Insesgado de Mínima Varianza Uniformemente (UMVUE).
 	\end{enumerate}
 \end{problema}
 
@@ -36,207 +85,438 @@
 	\end{align}
 	\begin{enumerate}
 		\item Encuentre el estimador del Método de Momentos $\hat{\theta}_{MoM}$.
-		\item Demuestre por qué la técnica habitual de derivar la log-verosimilitud e igualar a cero falla para encontrar el estimador de máxima verosimilitud en este caso, y obtenga formalmente $\hat{\theta}_{MLE}$.
-		\item Compare el sesgo de $\hat{\theta}_{MoM}$ y $\hat{\theta}_{MLE}$.
+		\item Demuestre rigurosamente por qué la técnica habitual de derivar la log-verosimilitud e igualar a cero falla al encontrar el estimador de máxima verosimilitud en este caso, y obtenga formalmente $\hat{\theta}_{MLE}$.
+		\item Compare el sesgo de $\hat{\theta}_{MoM}$ y $\hat{\theta}_{MLE}$, y construya a partir de este último un estimador modificado $\hat{\theta}^*$ que sea 100\% insesgado.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
+
+\begin{problema}
+	\label{prob:estim-desaf-consistencia}
+	\textbf{Insesgadez asintótica y consistencia en estimadores de varianza:}
+	Sea $X_1, X_2, \dots, X_n$ una muestra aleatoria simple de una población con media $\mu$ y varianza $\sigma^2$ finitas. El estimador por máxima verosimilitud bajo normalidad para la varianza es:
+	\begin{align}
+		S_n^2 = \frac{1}{n} \sum_{i=1}^n (X_i - \bar{X})^2.
+	\end{align}
+	\begin{enumerate}
+		\item Demuestre mediante la descomposición algebraica formal $(X_i - \mu) = (X_i - \bar{X}) + (\bar{X} - \mu)$ que la esperanza exacta del estimador es $E[S_n^2] = \dfrac{n-1}{n}\sigma^2$, confirmando que $S_n^2$ es sesgado para muestras finitas.
+		\item Calcule la expresión del sesgo exacto $\text{Sesgo}(S_n^2) = E[S_n^2] - \sigma^2$ y demuestre matemáticamente que $\lim_{n \to \infty} \text{Sesgo}(S_n^2) = 0$ (insesgadez asintótica).
+		\item Suponiendo que el cuarto momento poblacional $\mu_4 = E[(X-\mu)^4]$ es finito, demuestre por definición de convergencia en probabilidad o invocando la Desigualdad de Chebyshev que $S_n^2$ es un estimador débil y asintóticamente consistente de $\sigma^2$ (es decir, $S_n^2 \xrightarrow{P} \sigma^2$ cuando $n \to \infty$).
 	\end{enumerate}
 \end{problema}
 
 \begin{problema}
-	\label{prob:mle_invariancia}
-	En una investigación epidemiológica en ciencia de datos de salud, se modela el radio medio de propagación de un patógeno mediante una variable normal con media $\mu$ y varianza $\sigma^2$ estimadas por máxima verosimilitud como $\hat{\mu}_{MLE} = 12.4$ km y $\hat{\sigma}^2_{MLE} = 4.0$ km$^2$. 
+	\label{prob:estim-desaf-rao-blackwell}
+	\textbf{El Teorema de Rao-Blackwell y suficiencia en la reducción de varianza:}
+	Sea $X_1, X_2, \dots, X_n$ una muestra de una distribución Poisson con parámetro de tasa $\lambda$. Consideremos el estimador ingenuo pero insesgado basado únicamente en la primera observación: $T_1 = X_1$, el cual tiene esperanza $E[T_1] = \lambda$ y varianza $\Var(T_1) = \lambda$.
+	
+	Sabemos que la suma de observaciones $S = \sum_{i=1}^n X_i \sim \text{Poisson}(n\lambda)$ es un estadístico suficiente para $\lambda$.
 	\begin{enumerate}
-		\item Utilizando la propiedad de invariancia de los estimadores de máxima verosimilitud, obtenga la estimación MLE del área media del círculo de propagación en una observación, dada por $\theta = E(\pi X^2)$.
-		\item Calcule el valor del estimador MLE para el coeficiente de variación poblacional, definido como $\text{CV} = \frac{\sigma}{\mu}$.
+		\item Aplicando el Teorema de Rao-Blackwell, construya el estimador mejorado condicional $T^* = E[T_1 \mid S = s]$. Para ello, deduzca la ley de probabilidad condicional de la primera observación dado el total $P(X_1 = x_1 \mid S = s)$ y demuestre analíticamente que:
+		\begin{align}
+			T^* = \frac{S}{n} = \bar{X}.
+		\end{align}
+		\item Demuestre, haciendo uso explícito del Teorema de la Varianza Total $\Var(T_1) = E[\Var(T_1 \mid S)] + \Var(E[T_1 \mid S])$, la razón teórica por la cual la varianza del estimador de Rao-Blackwell satisface estrictamente $\Var(T^*) \le \Var(T_1)$, verificando con exactitud la magnitud en que se reduce la varianza.
 	\end{enumerate}
 \end{problema}
 
 
 \subsection{Soluciones detalladas}
 
+\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
+
 \begin{solucion}
-	\textbf{Parte 1: Estimador de máxima verosimilitud.}
-	La función de masa de probabilidad de cada observación de Poisson es:
-	\begin{align}
-		f(x_i \mid \lambda) = \frac{\lambda^{x_i} e^{-\lambda}}{x_i!}, \quad x_i = 0, 1, 2, \ldots
-	\end{align}
+	Por definición, un estimador $\hat{\theta}$ es insesgado para el parámetro poblacional $\theta$ si y sólo si su esperanza matemática es exactamente igual a dicho parámetro: $E[\hat{\theta}] = \theta$.
 	
-	La función de verosimilitud conjunta de la muestra es:
+	Aplicamos el operador de esperanza al estadístico propuesto:
 	\begin{align}
-		L(\lambda) = \prod_{i=1}^n \frac{\lambda^{x_i} e^{-\lambda}}{x_i!} = \frac{\lambda^{\sum_{i=1}^n x_i} e^{-n\lambda}}{\prod_{i=1}^n x_i!}.
+		E[\hat{\theta}] = E\left[ \frac{1}{n} \sum_{i=1}^n X_i^2 \right].
 	\end{align}
-	
-	Tomando el logaritmo natural para obtener la función de log-verosimilitud:
+	Por la propiedad de linealidad de la esperanza matemática (la esperanza de una suma lineal es la suma de las esperanzas), podemos extraer el factor constante $\frac{1}{n}$ e introducir el operador dentro de la sumatoria:
 	\begin{align}
-		\ell(\lambda) = \ln L(\lambda) = \left( \sum_{i=1}^n x_i \right) \ln \lambda - n\lambda - \sum_{i=1}^n \ln(x_i!).
+		E[\hat{\theta}] = \frac{1}{n} \sum_{i=1}^n E\left[ X_i^2 \right].
 	\end{align}
-	
-	Derivando respecto a $\lambda$ e igualando a cero:
+	Dado que todas las variables de la muestra son idénticamente distribuidas (i.i.d.), comparten el mismo segundo momento respecto al origen del modelo poblacional: $E[X_i^2] = \theta$ para todo $i \in \{1, 2, \dots, n\}$. Sustituyendo:
 	\begin{align}
-		\frac{d}{d\lambda} \ell(\lambda) = \frac{1}{\lambda} \sum_{i=1}^n x_i - n = 0 \implies \sum_{i=1}^n x_i = n\lambda \implies \hat{\lambda}_{MLE} = \frac{1}{n}\sum_{i=1}^n X_i = \bar{X}.
+		E[\hat{\theta}] = \frac{1}{n} \sum_{i=1}^n \theta = \frac{1}{n} (n \theta) = \theta.
 	\end{align}
-	Para verificar la condición de segundo orden, calculamos la segunda derivada:
-	\begin{align}
-		\frac{d^2}{d\lambda^2} \ell(\lambda) = -\frac{1}{\lambda^2}\sum_{i=1}^n x_i < 0 \quad \text{dado que } x_i \geq 0 \text{ y } \lambda > 0.
-	\end{align}
-	Por tanto, $\hat{\lambda}_{MLE} = \bar{X}$ maximiza la verosimilitud.
-	
-	\textbf{Parte 2: Insesgadez.}
-	Calculamos el valor esperado de $\hat{\lambda}_{MLE}$:
-	\begin{align}
-		E(\hat{\lambda}_{MLE}) = E(\bar{X}) = E\left( \frac{1}{n} \sum_{i=1}^n X_i \right) = \frac{1}{n} \sum_{i=1}^n E(X_i).
-	\end{align}
-	Como cada $X_i \sim \text{Poisson}(\lambda)$, sabemos que $E(X_i) = \lambda$. Por lo tanto:
-	\begin{align}
-		E(\hat{\lambda}_{MLE}) = \frac{1}{n} (n\lambda) = \lambda.
-	\end{align}
-	En consecuencia, $\hat{\lambda}_{MLE} = \bar{X}$ es un estimador insesgado para $\lambda$.
-	
-	\textbf{Parte 3: Eficiencia y cota inferior de Cramér-Rao.}
-	La varianza de la media muestral de observaciones de Poisson es:
-	\begin{align}
-		\text{Var}(\hat{\lambda}_{MLE}) = \text{Var}(\bar{X}) = \frac{\text{Var}(X_i)}{n} = \frac{\lambda}{n}.
-	\end{align}
-	Ahora evaluamos la cota inferior de Cramér-Rao (CRLB). Para una observación de Poisson, la segunda derivada del logaritmo de su densidad respecto al parámetro es:
-	\begin{align}
-		\ln f(x \mid \lambda) &= x \ln \lambda - \lambda - \ln(x!) \\
-		\frac{\partial^2}{\partial \lambda^2} \ln f(x \mid \lambda) &= -\frac{x}{\lambda^2}.
-	\end{align}
-	La información de Fisher de una sola observación es:
-	\begin{align}
-		I(\lambda) = -E\left[ \frac{\partial^2}{\partial \lambda^2} \ln f(X \mid \lambda) \right] = -E\left( -\frac{X}{\lambda^2} \right) = \frac{E(X)}{\lambda^2} = \frac{\lambda}{\lambda^2} = \frac{1}{\lambda}.
-	\end{align}
-	Por lo tanto, la cota inferior de Cramér-Rao para cualquier estimador insesgado basado en una muestra de tamaño $n$ es:
-	\begin{align}
-		\text{CRLB} = \frac{1}{n I(\lambda)} = \frac{1}{n (1/\lambda)} = \frac{\lambda}{n}.
-	\end{align}
-	Dado que $\text{Var}(\hat{\lambda}_{MLE}) = \frac{\lambda}{n} = \text{CRLB}$, el estimador de máxima verosimilitud alcanza la cota mínima teórica posible y es un estimador de mínima varianza insesgado uniformly de varianza mínima (UMVUE).
+	Como $E[\hat{\theta}] = \theta$, queda comprobado rigurosamente que el estimador es 100\% insesgado.
 \end{solucion}
 
 \begin{solucion}
-	\textbf{Parte 1: Estimación por el Método de Momentos.}
-	Para una variable aleatoria exponencial con densidad $\lambda e^{-\lambda x}$, el primer momento poblacional respecto al origen (su esperanza matemática) se calcula mediante integración por partes o consultando tablas conocidas:
+	El Método de Momentos establece un sistema algebraico igualando el orden de cada momento poblacional $\mu_k$ al momento empírico de la muestra $m_k = \frac{1}{n}\sum X_i^k$:
 	\begin{align}
-		\mu_1 = E(X) = \int_0^\infty x \lambda e^{-\lambda x} \, dx = \frac{1}{\lambda}.
+		\mu_1 &= m_1 \implies \mu = \frac{1}{n} \sum_{i=1}^n X_i = \bar{X}. \\
+		\mu_2 &= m_2 \implies E[X^2] = \frac{1}{n} \sum_{i=1}^n X_i^2.
 	\end{align}
-	
-	El primer momento muestral es la media aritmética de los datos observados:
+	Sabemos que la varianza teórica de la normal cumple:
 	\begin{align}
-		m_1 = \bar{X} = \frac{1}{n} \sum_{i=1}^n X_i.
+		\sigma^2 = E[X^2] - (E[X])^2 = \mu_2 - \mu_1^2 \implies \mu_2 = \mu^2 + \sigma^2.
 	\end{align}
-	
-	Aplicando el procedimiento del Método de Momentos, igualamos el primer momento poblacional al primer momento muestral ($\mu_1 = m_1$):
+	Sustituyendo $\mu_2$ y $\mu_1$ en las ecuaciones de momentos muestrales:
 	\begin{align}
-		\frac{1}{\lambda} = \bar{X} \implies \hat{\lambda}_{MoM} = \frac{1}{\bar{X}}.
+		\hat{\mu}_{MoM}^2 + \hat{\sigma}^2_{MoM} &= \frac{1}{n} \sum_{i=1}^n X_i^2. \\
+		\hat{\sigma}^2_{MoM} &= \frac{1}{n} \sum_{i=1}^n X_i^2 - \hat{\mu}_{MoM}^2 = \frac{1}{n} \sum_{i=1}^n X_i^2 - \bar{X}^2.
 	\end{align}
-	
-	\textbf{Parte 2: Estimación por Máxima Verosimilitud.}
-	La función de verosimilitud para la muestra de tamaño $n$ es el producto de las densidades exponenciales:
+	Por la identidad algebraica fundamental de suma de cuadrados centrada $\sum (X_i - \bar{X})^2 = \sum X_i^2 - n\bar{X}^2$, dividiendo entre $n$ obtenemos:
 	\begin{align}
-		L(\lambda) = \prod_{i=1}^n \lambda e^{-\lambda x_i} = \lambda^n e^{-\lambda \sum_{i=1}^n x_i}.
+		\hat{\sigma}^2_{MoM} = \frac{1}{n} \sum_{i=1}^n (X_i - \bar{X})^2.
 	\end{align}
-	
-	Tomando logaritmo natural obtenemos la log-verosimilitud:
-	\begin{align}
-		\ell(\lambda) = n \ln \lambda - \lambda \sum_{i=1}^n x_i.
-	\end{align}
-	
-	Derivando respecto a $\lambda$ e igualando a cero:
-	\begin{align}
-		\frac{d}{d\lambda} \ell(\lambda) = \frac{n}{\lambda} - \sum_{i=1}^n x_i = 0 \implies \frac{n}{\lambda} = n\bar{X} \implies \hat{\lambda}_{MLE} = \frac{1}{\bar{X}}.
-	\end{align}
-	
-	Por lo tanto, para la distribución exponencial de un solo parámetro, el Método de Momentos y el Método de Máxima Verosimilitud producen exactamente el mismo estimador: $\hat{\lambda}_{MoM} = \hat{\lambda}_{MLE} = 1/\bar{X}$.
+	Así, los estimadores por método de momentos para la normal son $\hat{\mu}_{MoM} = \bar{X}$ y la varianza muestral sin corregir $\hat{\sigma}^2_{MoM} = \frac{1}{n}\sum(X_i-\bar{X})^2$.
 \end{solucion}
 
 \begin{solucion}
-	\textbf{Parte 1: Método de Momentos.}
-	La media poblacional de una distribución Uniforme en $[0, \theta]$ es el punto medio del intervalo:
-	\begin{align}
-		\mu_1 = E(X) = \frac{0 + \theta}{2} = \frac{\theta}{2}.
-	\end{align}
-	Igualando este primer momento teórico con la media muestral $m_1 = \bar{X}$:
-	\begin{align}
-		\frac{\theta}{2} = \bar{X} \implies \hat{\theta}_{MoM} = 2\bar{X}.
-	\end{align}
-	
-	\textbf{Parte 2: Máxima Verosimilitud.}
-	La función de verosimilitud de la muestra uniforme es:
-	\begin{align}
-		L(\theta) = \prod_{i=1}^n f(x_i \mid \theta) = 
-		\begin{cases}
-			\left(\frac{1}{\theta}\right)^n & \text{si } 0 \leq x_i \leq \theta \text{ para todo } i = 1, \ldots, n, \\
-			0 & \text{si algún } x_i > \theta.
-		\end{cases}
-	\end{align}
-	
-	La condición de que todas las observaciones cumplan $x_i \leq \theta$ es equivalente a exigir que el máximo muestral, denotado por el estadístico de orden máximo $X_{(n)} = \max(X_1, \ldots, X_n)$, sea menor o igual a $\theta$. Por lo tanto, podemos reescribir $L(\theta)$ de forma compacta como:
-	\begin{align}
-		L(\theta) = 
-		\begin{cases}
-			\theta^{-n} & \text{para } \theta \geq X_{(n)}, \\
-			0 & \text{para } \theta < X_{(n)}.
-		\end{cases}
-	\end{align}
-	
-	Si intentáramos derivar $\ell(\theta) = -n \ln \theta$ e igualar a cero obtendríamos $-n/\theta = 0$, lo cual no tiene solución para ningún $\theta > 0$. Esto ocurre porque el dominio donde la densidad es estrictamente positiva depende explícitamente del parámetro $\theta$ (no se cumplen las condiciones de regularidad para derivar bajo el signo integral).
-	
-	Para maximizar $L(\theta)$, notamos que para cualquier valor $\theta \geq X_{(n)}$, la función $\theta^{-n}$ es una función estrictamente decreciente en $\theta$. Por lo tanto, el valor más grande posible de $L(\theta)$ se obtiene tomando el valor de $\theta$ permisible lo más pequeño posible, es decir, el límite inferior del dominio donde $L(\theta) > 0$. Así:
-	\begin{align}
-		\hat{\theta}_{MLE} = X_{(n)} = \max(X_1, X_2, \ldots, X_n).
-	\end{align}
-	
-	\textbf{Parte 3: Análisis de sesgo.}
-	El estimador del método de momentos es insesgado:
-	\begin{align}
-		E(\hat{\theta}_{MoM}) = E(2\bar{X}) = 2 E(\bar{X}) = 2 \left(\frac{\theta}{2}\right) = \theta.
-	\end{align}
-	
-	Para analizar el estimador $\hat{\theta}_{MLE} = X_{(n)}$, primero debemos recordar su función de distribución acumulada (CDF):
-	\begin{align}
-		F_{X_{(n)}}(y) = P(X_{(n)} \leq y) = P(X_1 \leq y, \ldots, X_n \leq y) = [F_X(y)]^n = \left(\frac{y}{\theta}\right)^n, \quad 0 \leq y \leq \theta.
-	\end{align}
-	La densidad del estadístico máximo es su derivada:
-	\begin{align}
-		f_{X_{(n)}}(y) = \frac{n y^{n-1}}{\theta^n}, \quad 0 \leq y \leq \theta.
-	\end{align}
-	El valor esperado de $\hat{\theta}_{MLE}$ es:
-	\begin{align}
-		E(\hat{\theta}_{MLE}) = E(X_{(n)}) = \int_0^\theta y \frac{n y^{n-1}}{\theta^n} \, dy = \frac{n}{\theta^n} \int_0^\theta y^n \, dy = \frac{n}{\theta^n} \left[ \frac{\theta^{n+1}}{n+1} \right] = \frac{n}{n+1}\theta.
-	\end{align}
-	Vemos que $\hat{\theta}_{MLE}$ es un estimador sesgado (subestima sistemáticamente a $\theta$ ya que el máximo de una muestra finita casi siempre será algo menor que el extremo superior absoluto $\theta$). Sin embargo, podemos construir un estimador insesgado modificado multiplicándolo por el factor de corrección:
-	\begin{align}
-		\hat{\theta}^* = \frac{n+1}{n} X_{(n)}.
-	\end{align}
+	\begin{enumerate}
+		\item \textbf{Estimación MLE para el área media:}
+		Para una variable normal $X \sim N(\mu, \sigma^2)$, el segundo momento se relaciona con la media y la varianza por la identidad $E(X^2) = \mu^2 + \sigma^2$. Por lo tanto, el área media del círculo de propagación se define por la función parametrizada:
+		\begin{align}
+			\theta = g(\mu, \sigma^2) = \pi E(X^2) = \pi(\mu^2 + \sigma^2).
+		\end{align}
+		Por el Principio de Invariancia Funcional del estimador MLE, si $\hat{\mu}_{MLE}$ y $\hat{\sigma}^2_{MLE}$ maximizan la verosimilitud de la normal, el estimador MLE para cualquier función unívoca de los parámetros se obtiene sustituyendo directamente las estimaciones individuales:
+		\begin{align}
+			\hat{\theta}_{MLE} = g(\hat{\mu}_{MLE}, \hat{\sigma}^2_{MLE}) = \pi\left( \hat{\mu}_{MLE}^2 + \hat{\sigma}^2_{MLE} \right).
+		\end{align}
+		Evaluando numéricamente con $\hat{\mu}_{MLE} = 12.4$ km y $\hat{\sigma}^2_{MLE} = 4.0$ km$^2$:
+		\begin{align}
+			\hat{\theta}_{MLE} = \pi \left( 12.4^2 + 4.0 \right) = \pi (153.76 + 4.0) = 157.76\pi \approx 495.62 \text{ km}^2.
+		\end{align}
+		
+		\item \textbf{Estimación MLE para el coeficiente de variación:}
+		De forma idéntica, el coeficiente de variación es la relación paramétrica $h(\mu, \sigma^2) = \dfrac{\sqrt{\sigma^2}}{\mu}$. Aplicando el teorema de invariancia MLE:
+		\begin{align}
+			\widehat{\text{CV}}_{MLE} = h(\hat{\mu}_{MLE}, \hat{\sigma}^2_{MLE}) = \frac{\sqrt{\hat{\sigma}^2_{MLE}}}{\hat{\mu}_{MLE}} = \frac{\sqrt{4.0}}{12.4} = \frac{2.0}{12.4} \approx 0.1613 \text{ (o 16.13\%).}
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Estimación por el Método de Momentos:}
+		El primer momento teórico (la esperanza) de una distribución exponencial con densidad $\lambda e^{-\lambda x}$ se obtiene por integración por partes de $\int_0^\infty x\lambda e^{-\lambda x}dx$:
+		\begin{align}
+			\mu_1 = E[X] = \frac{1}{\lambda}.
+		\end{align}
+		Igualando este momento poblacional con el primer momento muestral $m_1 = \bar{X}$:
+		\begin{align}
+			\frac{1}{\lambda} = \bar{X} \implies \hat{\lambda}_{MoM} = \frac{1}{\bar{X}}.
+		\end{align}
+		
+		\item \textbf{Estimación por Máxima Verosimilitud:}
+		La función de verosimilitud conjunta para una muestra $X_1, \dots, X_n$ es el producto continuo:
+		\begin{align}
+			L(\lambda) = \prod_{i=1}^n \lambda e^{-\lambda x_i} = \lambda^n e^{-\lambda \sum_{i=1}^n x_i}.
+		\end{align}
+		Tomando el logaritmo natural, obtenemos la log-verosimilitud:
+		\begin{align}
+			\ell(\lambda) = \ln L(\lambda) = n \ln \lambda - \lambda \sum_{i=1}^n x_i.
+		\end{align}
+		Derivando respecto al parámetro $\lambda$ e igualando a cero:
+		\begin{align}
+			\frac{d}{d\lambda} \ell(\lambda) = \frac{n}{\lambda} - \sum_{i=1}^n x_i = 0 \implies \frac{n}{\lambda} = n\bar{X} \implies \hat{\lambda}_{MLE} = \frac{1}{\bar{X}}.
+		\end{align}
+		
+		\textbf{Conclusión:} Sí, ambos métodos coinciden plenamente en la distribución exponencial con un solo parámetro, resultando en el recíproco del promedio muestral ($\hat{\lambda}_{MoM} = \hat{\lambda}_{MLE} = 1/\bar{X}$).
+	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
-	\textbf{Parte 1: Estimación MLE para el área media.}
-	Sabemos que para una variable aleatoria $X \sim N(\mu, \sigma^2)$, el segundo momento se relaciona con la varianza y la media mediante:
-	\begin{align}
-		\sigma^2 = E(X^2) - [E(X)]^2 = E(X^2) - \mu^2 \implies E(X^2) = \mu^2 + \sigma^2.
-	\end{align}
-	Por lo tanto, el parámetro objetivo $\theta$, que representa el área media esperada $\pi E(X^2)$, es una función explícita de $\mu$ y $\sigma^2$:
-	\begin{align}
-		\theta = g(\mu, \sigma^2) = \pi(\mu^2 + \sigma^2).
-	\end{align}
-	
-	Por la propiedad de invariancia funcional del estimador de máxima verosimilitud, si $\hat{\mu}_{MLE}$ y $\hat{\sigma}^2_{MLE}$ son los MLEs para $\mu$ y $\sigma^2$, entonces el MLE para cualquier función $g(\mu, \sigma^2)$ es simplemente evaluar dicha función en las estimaciones individuales:
-	\begin{align}
-		\hat{\theta}_{MLE} = g(\hat{\mu}_{MLE}, \hat{\sigma}^2_{MLE}) = \pi\left( \hat{\mu}_{MLE}^2 + \hat{\sigma}^2_{MLE} \right).
-	\end{align}
-	Sustituyendo los datos del problema ($\hat{\mu}_{MLE} = 12.4$ y $\hat{\sigma}^2_{MLE} = 4.0$):
-	\begin{align}
-		\hat{\theta}_{MLE} = \pi \left( 12.4^2 + 4.0 \right) = \pi (153.76 + 4.0) = 157.76\pi \approx 495.62 \text{ km}^2.
-	\end{align}
-	
-	\textbf{Parte 2: Coeficiente de variación MLE.}
-	El coeficiente de variación es otra función de los parámetros del modelo normal:
-	\begin{align}
-		\text{CV} = h(\mu, \sigma^2) = \frac{\sqrt{\sigma^2}}{\mu}.
-	\end{align}
-	Aplicando nuevamente la propiedad de invariancia funcional:
-	\begin{align}
-		\widehat{\text{CV}}_{MLE} = \frac{\sqrt{\hat{\sigma}^2_{MLE}}}{\hat{\mu}_{MLE}} = \frac{\sqrt{4.0}}{12.4} = \frac{2.0}{12.4} \approx 0.1613 \quad (16.13\%).
-	\end{align}
+	\begin{enumerate}
+		\item \textbf{Construcción de la log-verosimilitud:}
+		La función de masa de probabilidad conjunta para $n$ datos independientes de Poisson($\lambda$) es:
+		\begin{align}
+			L(\lambda) = \prod_{i=1}^n \frac{\lambda^{x_i} e^{-\lambda}}{x_i!} = \frac{\lambda^{\sum x_i} e^{-n\lambda}}{\prod x_i!}.
+		\end{align}
+		Tomando logaritmo natural obtenemos la función de log-verosimilitud $\ell(\lambda)$:
+		\begin{align}
+			\ell(\lambda) = \left( \sum_{i=1}^n x_i \right) \ln \lambda - n\lambda - \sum_{i=1}^n \ln(x_i!).
+		\end{align}
+		
+		\item \textbf{Maximización:}
+		Derivamos $\ell(\lambda)$ respecto a $\lambda$ e igualamos a cero para encontrar el punto crítico:
+		\begin{align}
+			\frac{d}{d\lambda} \ell(\lambda) = \frac{1}{\lambda} \sum_{i=1}^n x_i - n = 0 \implies \sum_{i=1}^n x_i = n\lambda \implies \hat{\lambda}_{MLE} = \frac{1}{n} \sum_{i=1}^n X_i = \bar{X}.
+		\end{align}
+		Comprobamos la concavidad mediante la segunda derivada:
+		\begin{align}
+			\frac{d^2}{d\lambda^2} \ell(\lambda) = -\frac{1}{\lambda^2} \sum_{i=1}^n x_i < 0, \quad \text{para todo } \sum x_i > 0 \text{ y } \lambda > 0.
+		\end{align}
+		Al ser la segunda derivada negativa en todo el dominio de interés, se confirma formalmente que $\bar{X}$ es un máximo global único.
+		
+		\item \textbf{Insesgadez:}
+		Calculamos la esperanza del estimador:
+		\begin{align}
+			E[\hat{\lambda}_{MLE}] = E[\bar{X}] = E\left[ \frac{1}{n} \sum_{i=1}^n X_i \right] = \frac{1}{n} \sum_{i=1}^n E[X_i].
+		\end{align}
+		Como cada variable individual $X_i \sim \text{Poisson}(\lambda)$ tiene esperanza poblacional $E[X_i] = \lambda$:
+		\begin{align}
+			E[\hat{\lambda}_{MLE}] = \frac{1}{n} (n\lambda) = \lambda.
+		\end{align}
+		Se concluye que el estimador de máxima verosimilitud de Poisson es insesgado.
+	\end{enumerate}
 \end{solucion}
 
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Derivación de $\hat{p}_{MLE}$ en Bernoulli:}
+		La función de probabilidad del $i$-ésimo usuario binario se escribe mediante el indicador canónico: $f(x_i \mid p) = p^{x_i} (1-p)^{1-x_i}$ para $x_i \in \{0, 1\}$.
+		La función de verosimilitud global es:
+		\begin{align}
+			L(p) = \prod_{i=1}^n p^{x_i} (1-p)^{1-x_i} = p^{\sum x_i} (1-p)^{n - \sum x_i}.
+		\end{align}
+		Tomando el logaritmo natural:
+		\begin{align}
+			\ell(p) = \left( \sum_{i=1}^n x_i \right) \ln p + \left( n - \sum_{i=1}^n x_i \right) \ln(1-p).
+		\end{align}
+		Derivamos respecto a $p$ e igualamos a cero:
+		\begin{align}
+			\frac{d}{dp}\ell(p) = \frac{\sum x_i}{p} - \frac{n - \sum x_i}{1 - p} = 0.
+		\end{align}
+		Multiplicando por el común denominador $p(1-p)$:
+		\begin{align}
+			(1-p)\sum_{i=1}^n x_i - p\left(n - \sum_{i=1}^n x_i\right) = 0 \implies \sum_{i=1}^n x_i - p\sum x_i - np + p\sum x_i = 0.
+		\end{align}
+		Despejando $p$ obtenemos la proporción de éxito muestral:
+		\begin{align}
+			np = \sum_{i=1}^n x_i \implies \hat{p}_{MLE} = \frac{1}{n} \sum_{i=1}^n X_i = \bar{X}.
+		\end{align}
+		
+		\item \textbf{Varianza y Error Estándar:}
+		La varianza teórica de una variable Bernoulli independiente es $\Var(X_i) = p(1-p)$. Por las propiedades de la varianza del promedio con observaciones i.i.d.:
+		\begin{align}
+			\Var(\hat{p}_{MLE}) = \Var(\bar{X}) = \frac{\Var(X_i)}{n} = \frac{p(1-p)}{n}.
+		\end{align}
+		Como el verdadero parámetro poblacional $p$ es desconocido en la práctica, el Error Estándar estimado de la proporción reemplaza $p$ por su estimador consistente $\hat{p}$:
+		\begin{align}
+			\text{SE}(\hat{p}_{MLE}) = \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}.
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Cálculo de la Información de Fisher univariada:}
+		El logaritmo natural de la densidad de probabilidad para una observación Poisson $X \sim \text{Poisson}(\lambda)$ es:
+		\begin{align}
+			\ln f(X \mid \lambda) = X \ln \lambda - \lambda - \ln(X!).
+		\end{align}
+		Derivando dos veces consecutivas respecto al parámetro $\lambda$:
+		\begin{align}
+			\frac{\partial}{\partial \lambda} \ln f(X \mid \lambda) &= \frac{X}{\lambda} - 1. \\
+			\frac{\partial^2}{\partial \lambda^2} \ln f(X \mid \lambda) &= -\frac{X}{\lambda^2}.
+		\end{align}
+		La Información de Fisher para una observación se define como el negativo del valor esperado de la segunda derivada del log-verosimilitud:
+		\begin{align}
+			I(\lambda) = -E\left[ \frac{\partial^2}{\partial \lambda^2} \ln f(X \mid \lambda) \right] = -E\left[ -\frac{X}{\lambda^2} \right] = \frac{E[X]}{\lambda^2}.
+		\end{align}
+		Sabiendo que para Poisson el primer momento es $E[X] = \lambda$:
+		\begin{align}
+			I(\lambda) = \frac{\lambda}{\lambda^2} = \frac{1}{\lambda}.
+		\end{align}
+		
+		\item \textbf{Determinación de la Cota Inferior de Cramér-Rao (CRLB):}
+		Para cualquier estimador insesgado $T(X_1, \dots, X_n)$ del parámetro $\lambda$, la cota inferior teórica de su varianza cuando se recolectan $n$ observaciones independientes es la información de Fisher total de la muestra $n I(\lambda)$ en el denominador:
+		\begin{align}
+			\text{CRLB} = \frac{1}{n I(\lambda)} = \frac{1}{n (1/\lambda)} = \frac{\lambda}{n}.
+		\end{align}
+		
+		\item \textbf{Demostración de eficiencia y propiedad UMVUE:}
+		Calculamos explícitamente la varianza de la media muestral $\hat{\lambda}_{MLE} = \bar{X}$ de observaciones Poisson:
+		\begin{align}
+			\Var(\hat{\lambda}_{MLE}) = \Var(\bar{X}) = \frac{\Var(X_i)}{n} = \frac{\lambda}{n}.
+		\end{align}
+		Comparando ambos resultados algebraicos:
+		\begin{align}
+			\Var(\hat{\lambda}_{MLE}) = \frac{\lambda}{n} \equiv \text{CRLB}.
+		\end{align}
+		Dado que $\hat{\lambda}_{MLE}$ es insesgado (demostrado en Problema \ref{prob:mle_poisson_op}) y alcanza exactamente el límite inferior absoluto de varianza dictado por la desigualdad de Cramér-Rao para cualquier tamaño $n$, se demuestra que la media muestral de observaciones de Poisson es el Estimador Insesgado de Varianza Mínima Uniformemente (UMVUE).
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Método de Momentos:}
+		La esperanza matemática del soporte uniforme en $[0, \theta]$ es el punto medio $\mu_1 = \dfrac{\theta}{2}$. Igualando al promedio de los datos:
+		\begin{align}
+			\frac{\theta}{2} = \bar{X} \implies \hat{\theta}_{MoM} = 2\bar{X}.
+		\end{align}
+		
+		\item \textbf{Fallo del método diferencial en soporte paramétrico y deducción MLE:}
+		La verosimilitud para una muestra uniforme se escribe en términos de la función indicadora de dominio:
+		\begin{align}
+			L(\theta) = \prod_{i=1}^n \frac{1}{\theta} I_{(0 \le x_i \le \theta)} = 
+			\begin{cases}
+				\theta^{-n} & \text{si } \theta \ge \max(X_1, \dots, X_n), \\
+				0 & \text{si } \theta < \max(X_1, \dots, X_n).
+			\end{cases}
+		\end{align}
+		La razón fundamental por la cual derivar e igualar a cero falla es que **las condiciones de regularidad para derivar bajo el signo integral se violan** cuando el soporte de la densidad depende explícitamente de $\theta$. Si intentamos derivar $\ell(\theta) = -n\ln \theta$, obtenemos $-\dfrac{n}{\theta} = 0$, lo que implicaría absurdamente un parámetro infinito o sin solución crítica interior.
+		
+		Para maximizar $L(\theta)$ en su dominio válido, observamos que para todo $\theta \ge X_{(n)} \equiv \max(X_1, \dots, X_n)$, la función $\theta^{-n}$ es **estrictamente decreciente**. Por consiguiente, para hacer la verosimilitud lo más grande posible sin que colapse a cero, debemos elegir el valor permitido de $\theta$ lo más pequeño posible dentro de su región admisible:
+		\begin{align}
+			\hat{\theta}_{MLE} = X_{(n)} = \max(X_1, X_2, \dots, X_n).
+		\end{align}
+		
+		\item \textbf{Análisis comparativo de sesgos y corrección insesgada:}
+		El estimador de momentos es trivialmente insesgado:
+		\begin{align}
+			E[\hat{\theta}_{MoM}] = E[2\bar{X}] = 2E[\bar{X}] = 2\left(\frac{\theta}{2}\right) = \theta \implies \text{Sesgo}(\hat{\theta}_{MoM}) = 0.
+		\end{align}
+		Para obtener el sesgo del MLE, determinamos la CDF del estadístico de orden máximo $X_{(n)}$:
+		\begin{align}
+			F_{X_{(n)}}(y) = P(X_{(n)} \le y) = \prod_{i=1}^n P(X_i \le y) = \left( \frac{y}{\theta} \right)^n, \quad 0 \le y \le \theta.
+		\end{align}
+		Diferenciando respecto a $y$, la función de densidad de máxima probabilidad observada es:
+		\begin{align}
+			f_{X_{(n)}}(y) = \frac{n y^{n-1}}{\theta^n}, \quad 0 \le y \le \theta.
+		\end{align}
+		La esperanza matemática del MLE es por tanto:
+		\begin{align}
+			E[\hat{\theta}_{MLE}] = \int_0^\theta y \frac{n y^{n-1}}{\theta^n} dy = \frac{n}{\theta^n} \int_0^\theta y^n dy = \frac{n}{\theta^n} \left[ \frac{\theta^{n+1}}{n+1} \right] = \frac{n}{n+1} \theta.
+		\end{align}
+		El sesgo de $\hat{\theta}_{MLE}$ es sistemáticamente subestimador por un factor de borde:
+		\begin{align}
+			\text{Sesgo}(\hat{\theta}_{MLE}) = E[\hat{\theta}_{MLE}] - \theta = \frac{n}{n+1}\theta - \theta = -\frac{1}{n+1}\theta.
+		\end{align}
+		Para construir un estimador modificado absolutamente insesgado $\hat{\theta}^*$, multiplicamos el estimador sesgado por el recíproco exacto de su factor de distorsión $\dfrac{n+1}{n}$:
+		\begin{align}
+			\hat{\theta}^* = \frac{n+1}{n} X_{(n)}.
+		\end{align}
+		Así se verifica con inmediatez que $E[\hat{\theta}^*] = \dfrac{n+1}{n} \left( \dfrac{n}{n+1}\theta \right) = \theta$.
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Demostración rigurosa del sesgo finito en la varianza MLE:}
+		Descomponemos la desviación respecto al promedio en términos de la media verdadera poblacional $\mu$:
+		\begin{align}
+			X_i - \bar{X} = (X_i - \mu) - (\bar{X} - \mu).
+		\end{align}
+		Elevamos al cuadrado ambos lados de la expresión e introducimos el sumador sobre las $n$ observaciones:
+		\begin{align}
+			\sum_{i=1}^n (X_i - \bar{X})^2 = \sum_{i=1}^n \left[ (X_i - \mu) - (\bar{X} - \mu) \right]^2 = \sum_{i=1}^n (X_i - \mu)^2 - 2(\bar{X} - \mu)\sum_{i=1}^n (X_i - \mu) + \sum_{i=1}^n (\bar{X} - \mu)^2.
+		\end{align}
+		Notemos que por definición de media muestral, la suma centrada en $\mu$ es exactamente $n(\bar{X} - \mu)$:
+		\begin{align}
+			\sum_{i=1}^n (X_i - \mu) = n\bar{X} - n\mu = n(\bar{X} - \mu).
+		\end{align}
+		Sustituyendo esto en el término intermedio:
+		\begin{align}
+			\sum_{i=1}^n (X_i - \bar{X})^2 = \sum_{i=1}^n (X_i - \mu)^2 - 2n(\bar{X} - \mu)^2 + n(\bar{X} - \mu)^2 = \sum_{i=1}^n (X_i - \mu)^2 - n(\bar{X} - \mu)^2.
+		\end{align}
+		Aplicamos el operador esperanza matemática a la suma de cuadrados de los errores muestrales dividiendo entre $n$:
+		\begin{align}
+			E[S_n^2] = E\left[ \frac{1}{n} \sum_{i=1}^n (X_i - \bar{X})^2 \right] = \frac{1}{n} \sum_{i=1}^n E\left[ (X_i - \mu)^2 \right] - E\left[ (\bar{X} - \mu)^2 \right].
+		\end{align}
+		Por las definiciones teóricas de varianza de observaciones i.i.d., sabemos que $E[(X_i - \mu)^2] = \Var(X_i) = \sigma^2$ y que la varianza de la media muestral satisface $E[(\bar{X} - \mu)^2] = \Var(\bar{X}) = \dfrac{\sigma^2}{n}$. Sustituyendo:
+		\begin{align}
+			E[S_n^2] = \frac{1}{n}(n \sigma^2) - \frac{\sigma^2}{n} = \sigma^2 - \frac{\sigma^2}{n} = \left( \frac{n - 1}{n} \right) \sigma^2.
+		\end{align}
+		Esto demuestra que el estimador por máxima verosimilitud de la varianza subestima sistemáticamente la verdadera dispersión por un factor $\dfrac{n-1}{n}$.
+		
+		\item \textbf{Insesgadez asintótica:}
+		El sesgo exacto del estimador está dado por la diferencia:
+		\begin{align}
+			\text{Sesgo}(S_n^2) = E[S_n^2] - \sigma^2 = \left( \frac{n - 1}{n} \right)\sigma^2 - \sigma^2 = -\frac{\sigma^2}{n}.
+		\end{align}
+		Tomando el límite cuando el tamaño de la muestra crece sin límite:
+		\begin{align}
+			\lim_{n \to \infty} \text{Sesgo}(S_n^2) = \lim_{n \to \infty} \left( -\frac{\sigma^2}{n} \right) = 0.
+		\end{align}
+		Por ende, aunque para muestras finitas $S_n^2$ tiene un sesgo negativo, este sesgo se desvanece por completo asintóticamente.
+		
+		\item \textbf{Consistencia de la varianza muestral mediante la Desigualdad de Chebyshev:}
+		Un estimador es consistente ($S_n^2 \xrightarrow{P} \sigma^2$) si para todo $\epsilon > 0$, la probabilidad de desviarse del parámetro poblacional tiende a cero cuando $n \to \infty$:
+		\begin{align}
+			\lim_{n \to \infty} P(|S_n^2 - \sigma^2| \ge \epsilon) = 0.
+		\end{align}
+		Invocamos la Desigualdad generalizada de Chebyshev respecto al objetivo $\sigma^2$:
+		\begin{align}
+			P(|S_n^2 - \sigma^2| \ge \epsilon) \le \frac{E[(S_n^2 - \sigma^2)^2]}{\epsilon^2}.
+		\end{align}
+		El término del numerador en el límite derecho es el Error Cuadrático Medio (MSE) de $S_n^2$, el cual se descompone teóricamente como la varianza del estimador más el cuadrado de su sesgo:
+		\begin{align}
+			E[(S_n^2 - \sigma^2)^2] = \Var(S_n^2) + [\text{Sesgo}(S_n^2)]^2.
+		\end{align}
+		Sabemos que $[\text{Sesgo}(S_n^2)]^2 = \left(-\dfrac{\sigma^2}{n}\right)^2 = \dfrac{\sigma^4}{n^2} \to 0$. Por su parte, cuando el cuarto momento central $\mu_4$ es finito, la varianza del estimador $S_n^2$ cumple con la fórmula exacta clásica:
+		\begin{align}
+			\Var(S_n^2) = \frac{(n-1)^2}{n^3} \mu_4 - \frac{(n-1)(n-3)}{n^3} \sigma^4 = O\left(\frac{1}{n}\right).
+		\end{align}
+		Como $\lim_{n \to \infty} \Var(S_n^2) = 0$ y $\lim_{n \to \infty} [\text{Sesgo}(S_n^2)]^2 = 0$, resulta que:
+		\begin{align}
+			\lim_{n \to \infty} E[(S_n^2 - \sigma^2)^2] = 0 \implies \lim_{n \to \infty} P(|S_n^2 - \sigma^2| \ge \epsilon) = 0.
+		\end{align}
+		Se concluye formalmente que $S_n^2$ es un estimador en probabilidad 100\% consistente para $\sigma^2$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Aplicación del Teorema de Rao-Blackwell y deducción de la distribución condicional:}
+		El Teorema de Rao-Blackwell establece que si $T_1$ es un estimador insesgado de $\lambda$ y $S$ es un estadístico suficiente para $\lambda$, entonces la proyección condicional $T^* = E[T_1 \mid S]$ es un nuevo estimador que no depende de $\lambda$, permanece insesgado y su varianza es menor o igual a la del estimador original.
+		
+		Para calcular explícitamente $T^* = E[X_1 \mid S = s]$, debemos deduzca primero la función de probabilidad condicional de $X_1 = x_1$ dado que la suma total sobre los $n$ elementos es $S = \sum_{i=1}^n X_i = s$. Por definición de probabilidad condicional:
+		\begin{align}
+			P(X_1 = x_1 \mid S = s) = \frac{P(X_1 = x_1 \text{ y } S = s)}{P(S = s)}.
+		\end{align}
+		Observamos que el evento conjunto $\{X_1 = x_1 \text{ y } \sum_{i=1}^n X_i = s\}$ es perfectamente equivalente a que la primera observación tome el valor $x_1$ y, simultáneamente, la suma de las $(n-1)$ observaciones restantes sea $(s - x_1)$. Es decir:
+		\begin{align}
+			P(X_1 = x_1 \text{ y } S = s) = P\left( X_1 = x_1 \text{ y } \sum_{i=2}^n X_i = s - x_1 \right).
+		\end{align}
+		Por la independencia del muestreo aleatorio, la primera variable es independiente del bloque de las otras $(n-1)$ observaciones. Además, por la propiedad de reproducitividad de la distribución de Poisson, sabemos que la suma parcial del resto satisface $\sum_{i=2}^n X_i \sim \text{Poisson}((n-1)\lambda)$ y el estadístico suma total satisface $S \sim \text{Poisson}(n\lambda)$. Factorizando las probabilidades de Poisson en numerador y denominador:
+		\begin{align}
+			P(X_1 = x_1 \mid S = s) &= \frac{P(X_1 = x_1) P\left( \sum_{i=2}^n X_i = s - x_1 \right)}{P(S = s)} \\
+			&= \frac{\left( \dfrac{\lambda^{x_1} e^{-\lambda}}{x_1!} \right) \left( \dfrac{[(n-1)\lambda]^{s - x_1} e^{-(n-1)\lambda}}{(s - x_1)!} \right)}{\dfrac{(n\lambda)^s e^{-n\lambda}}{s!}}.
+		\end{align}
+		Observamos cómo las tasas exponenciales se cancelan por completo: $e^{-\lambda} e^{-(n-1)\lambda} = e^{-n\lambda}$, simplificando también las potencias del parámetro de escala $\lambda^{x_1} \lambda^{s-x_1} / \lambda^s = \lambda^s / \lambda^s = 1$. Reacomodando los coeficientes factoriales y términos constantes de tamaño $n$:
+		\begin{align}
+			P(X_1 = x_1 \mid S = s) = \frac{s!}{x_1! (s - x_1)!} \frac{(n-1)^{s - x_1}}{n^s} = \binom{s}{x_1} \left( \frac{1}{n} \right)^{x_1} \left( 1 - \frac{1}{n} \right)^{s - x_1}.
+		\end{align}
+		Esta es con precisión la función de masa de una **distribución Binomial** donde el número de ensayos es $s$ y la probabilidad de éxito es $\p = \dfrac{1}{n}$:
+		\begin{align}
+			(X_1 \mid S = s) \sim \text{Binomial}\left( s, \, p = \frac{1}{n} \right).
+		\end{align}
+		En consecuencia, la esperanza matemática condicional de una distribución binomial es el producto del número de ensayos por la probabilidad de éxito:
+		\begin{align}
+			T^* = E[X_1 \mid S = s] = s \cdot \left( \frac{1}{n} \right) = \frac{s}{n}.
+		\end{align}
+		Reemplazando la variable aleatoria $S = \sum X_i$, se demuestra que el estimador proyectado por Rao-Blackwell coincide formalmente con el promedio muestral:
+		\begin{align}
+			T^* = E[X_1 \mid S] = \frac{1}{n} \sum_{i=1}^n X_i = \bar{X}.
+		\end{align}
+		
+		\item \textbf{Demostración de la reducción de varianza por el Teorema de la Varianza Total:}
+		El Teorema de la Descomposición de la Varianza Total o Ley de Varianza Condicional relaciona la varianza marginal del estimador inicial $T_1$ con la varianza de su proyección en $S$:
+		\begin{align}
+			\Var(T_1) = E\left[ \Var(T_1 \mid S) \right] + \Var\left( E[T_1 \mid S] \right).
+		\end{align}
+		Como hemos deducido que $E[T_1 \mid S] = T^*$, sustituimos dicho término en el segundo sumando:
+		\begin{align}
+			\Var(T_1) = E\left[ \Var(T_1 \mid S) \right] + \Var(T^*).
+		\end{align}
+		Dado que la varianza condicional $\Var(T_1 \mid S)$ de cualquier variable aleatoria no degenerada respecto al condicionamiento es un estadístico estrictamente no negativo en cada punto del espacio ($ \Var(T_1 \mid S = s) \ge 0 $), la esperanza matemática de este término siempre satisface $E[\Var(T_1 \mid S)] \ge 0$. Despejando:
+		\begin{align}
+			\Var(T^*) = \Var(T_1) - E\left[ \Var(T_1 \mid S) \right] \implies \Var(T^*) \le \Var(T_1).
+		\end{align}
+		Para verificar numéricamente la ganancia cuantitativa, calculamos la varianza condicional del modelo Binomial $(s, 1/n)$ obtenido previamente:
+		\begin{align}
+			\Var(T_1 \mid S = s) = s \left( \frac{1}{n} \right) \left( 1 - \frac{1}{n} \right) = \frac{s(n-1)}{n^2}.
+		\end{align}
+		Tomando la esperanza sobre la variable aleatoria $S \sim \text{Poisson}(n\lambda)$ cuyo momento central es $E[S] = n\lambda$:
+		\begin{align}
+			E\left[ \Var(T_1 \mid S) \right] = E\left[ \frac{S(n-1)}{n^2} \right] = \frac{n-1}{n^2} E[S] = \frac{n-1}{n^2}(n\lambda) = \frac{n-1}{n}\lambda.
+		\end{align}
+		Sustituyendo esto en la ecuación de descomposición de varianza de Rao-Blackwell:
+		\begin{align}
+			\Var(T^*) = \Var(T_1) - \frac{n-1}{n}\lambda = \lambda - \left( \lambda - \frac{\lambda}{n} \right) = \frac{\lambda}{n} = \Var(\bar{X}).
+		\end{align}
+		Se demuestra concluyentemente que condicionar en el estadístico suficiente reduce drásticamente la varianza del estimador ingenuo desde $\lambda$ hasta $\dfrac{\lambda}{n}$ (un factor de mejora exacto de $n$ veces), produciendo el estimador insesgado de mínima varianza posible.
+	\end{enumerate}
+\end{solucion}
