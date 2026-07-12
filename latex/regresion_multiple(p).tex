@@ -1,302 +1,663 @@
-\section*{Problemas de regresión lineal múltiple}
+\section{Problemas resueltos de regresión lineal múltiple}
 
 \subsection{Enunciados de los problemas}
 
+\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
+
 \begin{problema}
-	Se estudia el rendimiento de combustible ($Y$, en km/l) de automóviles en función de dos variables predictoras: el peso del vehículo ($X_1$, en toneladas) y la cilindrada del motor ($X_2$, en litros). Se ajustó un modelo de regresión múltiple con $n = 30$ observaciones y se obtuvieron los siguientes resultados:
-	
+	\label{prob:reg_mult_combustible}
+	Se estudia el rendimiento medio de combustible ($Y$, en km/l) de automóviles urbanos en función de dos variables predictoras continuas: el peso bruto del vehículo ($X_1$, en toneladas) y la cilindrada de su motor ($X_2$, en litros de capacidad). Tras recopilar una muestra aleatoria de $n = 30$ automóviles en condiciones de prueba estandarizadas, se ajusta el siguiente modelo de regresión lineal múltiple por mínimos cuadrados ordinarios:
 	\begin{align}
-		\hat{Y} = 25 - 3X_1 - 1.5X_2, \quad R^2 = 0.78, \quad R^2_{adj} = 0.76
+		\hat{Y} = 25.0 - 3.0X_1 - 1.5X_2, \quad R^2 = 0.780, \quad R_{\text{adj}}^2 = 0.763.
 	\end{align}
-	
-	Los errores estándar de los coeficientes son: $SE(\hat{\beta}_0) = 2.5$, $SE(\hat{\beta}_1) = 0.8$, $SE(\hat{\beta}_2) = 0.6$.
-	
 	\begin{enumerate}
-		\item Interprete los coeficientes $\hat{\beta}_1$ y $\hat{\beta}_2$.
-		\item Prediga el rendimiento de un automóvil que pesa 1.5 toneladas y tiene motor de 2.0 litros.
-		\item Realice pruebas de hipótesis individuales para cada coeficiente con $\alpha = 0.05$.
-		\item ¿Qué variable predictora tiene mayor impacto en el rendimiento?
+		\item Interprete el significado físico y geométrico de los coeficientes parciales de regresión $\hat{\beta}_1 = -3.0$ y $\hat{\beta}_2 = -1.5$, especificando explícitamente la condición \emph{ceteris paribus}.
+		\item Calcule la predicción puntual del rendimiento esperable para un sedán compacto con peso de $1.5$ toneladas y un motor de $2.0$ litros.
+		\item Si la varianza muestral total de los rendimientos observados en los 30 vehículos fue $S_Y^2 = 12.0$, calcule la Suma de Cuadrados de la Regresión ($\text{SCR}$) y la Suma de Cuadrados Residual ($\text{SCE}$).
 	\end{enumerate}
 \end{problema}
 
 \begin{problema}
-	Una empresa quiere predecir las ventas trimestrales ($Y$, en miles de dólares) usando tres predictores: gasto en publicidad en TV ($X_1$), gasto en publicidad en radio ($X_2$) y número de vendedores ($X_3$). Con $n = 40$ trimestres, se obtuvieron dos modelos:
-	
-	\textbf{Modelo 1:} $\hat{Y} = 50 + 2.5X_1 + 1.8X_2$, con $R^2 = 0.75$
-	
-	\textbf{Modelo 2:} $\hat{Y} = 45 + 2.3X_1 + 1.6X_2 + 0.8X_3$, con $R^2 = 0.78$
-	
-	\begin{enumerate}
-		\item Calcule el $R^2$ ajustado para ambos modelos.
-		\item Realice una prueba F parcial para determinar si agregar $X_3$ mejora significativamente el modelo.
-		\item ¿Qué modelo recomendaría y por qué?
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	Se ajustó un modelo de regresión múltiple para predecir el precio de viviendas ($Y$, en miles de dólares) usando: área ($X_1$, en m²), número de habitaciones ($X_2$), antigüedad ($X_3$, en años) y distancia al centro ($X_4$, en km). Con $n = 50$ observaciones:
-	
+	\label{prob:reg_mult_pruebas_t}
+	En el modelo del Problema \ref{prob:reg_mult_combustible} sobre el rendimiento vehicular con $n = 30$ observaciones ($p = 2$ regresores y 1 intercepto), el software analítico reporta que los errores estándar estimados para cada parámetro de regresión son:
 	\begin{align}
-		\hat{Y} = 50 + 0.8X_1 + 15X_2 - 2X_3 - 5X_4
+		SE(\hat{\beta}_0) = 2.50, \quad SE(\hat{\beta}_1) = 0.80, \quad SE(\hat{\beta}_2) = 0.60.
 	\end{align}
-	
-	Los valores VIF son: $VIF(X_1) = 4.2$, $VIF(X_2) = 3.8$, $VIF(X_3) = 1.5$, $VIF(X_4) = 1.2$.
-	
 	\begin{enumerate}
-		\item Interprete los coeficientes de $X_1$ y $X_3$.
-		\item ¿Hay evidencia de multicolinealidad? ¿Qué variables están involucradas?
-		\item Prediga el precio de una casa con 120 m², 3 habitaciones, 10 años de antigüedad y a 8 km del centro.
-		\item ¿Qué acción tomaría respecto a la multicolinealidad?
+		\item Formule formalmente el juego de hipótesis nula y alternativa para someter a prueba docimásica individual al peso del vehículo ($X_1$) y a la cilindrada ($X_2$).
+		\item Calcule el estadístico de prueba $t$ de Student para cada coeficiente parcial ($t_j = \dfrac{\hat{\beta}_j}{SE(\hat{\beta}_j)}$).
+		\item Al nivel de significancia bilateral $\alpha = 0.05$ (con cuantil crítico $t_{0.025, \, 27} = 2.052$), determine si ambos predictores contribuyen de forma individual y estadísticamente probada al modelo.
 	\end{enumerate}
 \end{problema}
 
 \begin{problema}
-	Un investigador estudia el salario ($Y$, en miles de dólares) en función de años de experiencia ($X_1$) y nivel educativo ($X_2$, codificado como: 1=bachillerato, 2=licenciatura, 3=maestría, 4=doctorado). Con $n = 100$ empleados:
-	
+	\label{prob:reg_mult_r2_adj_basico}
+	Una firma de consultoría en marketing analiza el impacto de la diversificación de canales publicitarios sobre las ventas mensuales de corporaciones ($Y$, en miles de dólares). En una muestra histórica de $n = 40$ trimestres evaluados con un modelo de tres variables independientes ($p = 3$: gasto en TV $X_1$, gasto en radio $X_2$ y número de ejecutivos de venta $X_3$), la varianza explicada arrojó un coeficiente nominal de determinación de $R^2 = 0.780$.
+	\begin{enumerate}
+		\item Calcule algebraicamente el Coeficiente de Determinación Ajustado ($R_{\text{adj}}^2$) mediante la fórmula de corrección por grados de libertad:
+		\begin{align}
+			R_{\text{adj}}^2 = 1 - \left[ \frac{n - 1}{n - p - 1} (1 - R^2) \right].
+		\end{align}
+		\item Explique por qué en análisis multivariable el indicador $R_{\text{adj}}^2$ es estrictamente menor al $R^2$ nominal ($R_{\text{adj}}^2 < R^2$) siempre que se incorporan dos o más predictores ($p \geq 2$).
+		\item Si un analista principiante propone añadir al modelo un cuarto predictor $X_4$ que resulta ser el código postal numérico de la sede del corporativo (con una correlación marginal nula respecto a las ventas, de modo que el $R^2$ apenas sube de $0.780$ a $0.781$), determine cuantitativamente qué le ocurriría al nuevo $R_{\text{adj}}^2$ del modelo con $p = 4$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
+
+\begin{problema}
+	\label{prob:reg_mult_ventas_anidados}
+	Para optimizar las proyecciones de ventas trimestrales ($Y$, en miles de dólares) del Problema \ref{prob:reg_mult_r2_adj_basico} ($n = 40$), la dirección de la empresa contrasta dos especificaciones de modelos de regresión anidados:
+	\begin{itemize}
+		\item \textbf{Modelo 1 (Restringido, $p_1 = 2$):} $\hat{Y} = 50.0 + 2.5X_1 + 1.8X_2$, con $R_1^2 = 0.750$.
+		\item \textbf{Modelo 2 (Completo, $p_2 = 3$):} $\hat{Y} = 45.0 + 2.3X_1 + 1.6X_2 + 0.80X_3$, con $R_2^2 = 0.780$.
+	\end{itemize}
+	\begin{enumerate}
+		\item Calcule los respectivos $R_{\text{adj}}^2$ del Modelo 1 y del Modelo 2.
+		\item Realice una **Prueba $F$ Parcial o Incremental** ($H_0: \beta_3 = 0$) al nivel $\alpha = 0.05$ para evaluar con rigor formal si la adición del número de vendedores ($X_3$) mejora significativamente el ajuste del modelo, calculando el estadístico:
+		\begin{align}
+			F_{\text{parcial}} = \frac{(R_2^2 - R_1^2) / (p_2 - p_1)}{(1 - R_2^2) / (n - p_2 - 1)},
+		\end{align}
+		y comparándolo contra el cuantil crítico tabulado de Fisher $F_{0.05, \, 1, \, 36} = 4.113$.
+		\item Argumente integralmente qué modelo es técnica y gerencialmente recomendable.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:reg_mult_vif_viviendas}
+	Se calibra un modelo de regresión múltiple para predecir el valor de tasación de viviendas residenciales ($Y$, en miles de dólares) en función de $p = 4$ características estructurales y de localización: área construida ($X_1$, en $\text{m}^2$), número de habitaciones ($X_2$), antigüedad construida ($X_3$, en años) y distancia radial al centro urbano ($X_4$, en km). En una muestra de $n = 50$ propiedades se obtuvo:
 	\begin{align}
-		\hat{Y} = 20 + 2X_1 + 8X_2, \quad R^2 = 0.65
+		\hat{Y} = 50.0 + 0.80X_1 + 15.0X_2 - 2.0X_3 - 5.0X_4,
 	\end{align}
-	
-	Errores estándar: $SE(\hat{\beta}_1) = 0.3$, $SE(\hat{\beta}_2) = 1.5$
-	
-	\begin{enumerate}
-		\item Interprete el coeficiente $\hat{\beta}_2$.
-		\item ¿Es apropiado tratar $X_2$ como variable cuantitativa? ¿Qué alternativa propondría?
-		\item Prediga el salario de alguien con 10 años de experiencia y maestría.
-		\item Construya un intervalo de confianza del 95\% para $\beta_1$.
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	Se quiere predecir el tiempo de entrega ($Y$, en días) usando: distancia ($X_1$, en km), peso del paquete ($X_2$, en kg) y tipo de servicio ($X_3$, donde 1=express, 0=estándar). Con $n = 60$ entregas:
-	
-	\textbf{Modelo completo:} $\hat{Y} = 2 + 0.01X_1 + 0.5X_2 - 3X_3$, con $R^2 = 0.82$, $SSD = 45$
-	
-	\textbf{Modelo reducido (sin $X_3$):} $\hat{Y} = 3.5 + 0.012X_1 + 0.55X_2$, con $R^2 = 0.68$, $SSD = 78$
-	
-	\begin{enumerate}
-		\item Interprete el coeficiente de $X_3$ en el modelo completo.
-		\item Realice una prueba F parcial para determinar si $X_3$ es significativo.
-		\item Calcule el $R^2$ ajustado para ambos modelos.
-		\item ¿Vale la pena incluir el tipo de servicio en el modelo?
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	Se ajusta un modelo para predecir el rendimiento académico ($Y$, promedio de 0 a 10) usando horas de estudio semanales ($X_1$), asistencia a clase ($X_2$, porcentaje de 0 a 100) y uso de recursos en línea ($X_3$, horas semanales). Con $n = 80$ estudiantes:
-	
+	y los Factores de Inflación de Varianza ($\text{VIF}_j = \dfrac{1}{1 - R_j^2}$, donde $R_j^2$ es la correlación múltiple de regredir la variable $X_j$ contra los otros $p-1$ predictores) son:
 	\begin{align}
-		\hat{Y} = 4 + 0.15X_1 + 0.03X_2 + 0.1X_3
+		\text{VIF}(X_1) = 4.2, \quad \text{VIF}(X_2) = 3.8, \quad \text{VIF}(X_3) = 1.5, \quad \text{VIF}(X_4) = 1.2.
 	\end{align}
-	
-	Estadísticos: $R^2 = 0.58$, $F = 35.2$ (con $p$-valor $< 0.001$)
-	
-	Valores $p$ individuales: $p_1 < 0.001$, $p_2 = 0.023$, $p_3 = 0.145$
-	
 	\begin{enumerate}
-		\item ¿Es significativo el modelo global?
-		\item ¿Qué variables son significativas individualmente con $\alpha = 0.05$?
-		\item ¿Qué acción tomaría respecto a $X_3$?
-		\item Si elimina $X_3$, ¿qué esperaría que suceda con $R^2$ y $R^2_{adj}$?
+		\item Interprete en términos económicos el significado de los coeficientes de área ($\hat{\beta}_1 = 0.80$) y distancia ($X_4$ con $\hat{\beta}_4 = -5.0$).
+		\item Evalúe los diagnósticos de colinealidad mediante las magnitudes de los $\text{VIF}_j$. ¿Existe un problema severo de multicolinealidad que anule el modelo o es un grado moderado admisible?
+		\item Calcule el valor proyectado de tasación de una residencia con $120$ $\text{m}^2$, $3$ habitaciones, $10$ años de antigüedad y situada exactamente a $8$ km del centro comercial de la ciudad.
+		\item ¿Qué estrategia de modelación (por ejemplo, reducción de dimensionalidad, estandarización o selección de variables) aplicaría si el $\text{VIF}(X_1)$ superara el umbral crítico de 10?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:reg_mult_dummy_salarios}
+	Un científico de datos en un departamento de capital humano modela la remuneración salarial anual ($Y$, en miles de dólares) en función de los años de experiencia profesional ($X_1$) y del nivel educativo. En lugar de cometer el error de codificar el nivel educativo como una variable ordinal falsa ($1, 2, 3$), crea un sistema de **variables indicadoras o mudas (*dummy variables*)**, utilizando a los profesionales con *Bachillerato / Educación Media* como el grupo o nivel de referencia base ($D_1 = D_2 = 0$). Se definen:
+	\begin{align}
+		D_1 = \begin{cases} 1 & \text{si tiene Licenciatura / Grado Universitario} \\ 0 & \text{en otro caso} \end{cases}, \qquad D_2 = \begin{cases} 1 & \text{si tiene Maestría / Posgrado Avanzado} \\ 0 & \text{en otro caso} \end{cases}.
+	\end{align}
+	Con una muestra aleatoria de $n = 100$ empleados, se ajusta el modelo lineal paramétrico:
+	\begin{align}
+		\hat{Y} = 22.0 + 2.5X_1 + 12.0D_1 + 25.0D_2, \quad R^2 = 0.760.
+	\end{align}
+	\begin{enumerate}
+		\item Interprete el valor numérico del intercepto $\hat{\beta}_0 = 22.0$ y de los coeficientes categóricos $\hat{\beta}_2 = 12.0$ y $\hat{\beta}_3 = 25.0$ sobre los salarios de la empresa.
+		\item Escriba las rectas de regresión de salario en función de la experiencia ($X_1$) separadas explícitamente para cada uno de los tres subgrupos educativos (Bachillerato, Licenciatura y Maestría).
+		\item Prediga el salario esperado para un gerente con $8$ años de experiencia que posee un título de Maestría.
+		\item Explique con rigor en qué consiste la **Trampa de la Variable Muda (*Dummy Variable Trap*)** en álgebra matricial lineal y por qué habría sido fatal si el analista hubiera incluido una tercera variable muda $D_0 = 1$ para el grupo de Bachillerato junto con el intercepto $\beta_0$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
+
+\begin{problema}
+	\label{prob:reg_mult_matricial_exacto}
+	En un estudio econométrico con $n = 5$ observaciones temporales sobre la rentabilidad porcentual del capital ($Y$) en función de dos índices predictivos ($X_1$: índice de liquidez, $X_2$: apalancamiento financiero), se especifica el modelo en notación matricial general de mínimos cuadrados ordinarios:
+	\begin{align}
+		\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}.
+	\end{align}
+	Tras el procesamiento de los datos brutos, se calculan con exactitud las matrices de productos cruzados $\mathbf{X}^T \mathbf{X}$ y el vector proyectivo $\mathbf{X}^T \mathbf{Y}$:
+	\begin{align}
+		\mathbf{X}^T \mathbf{X} = \begin{pmatrix} 5 & 10 & 20 \\ 10 & 30 & 40 \\ 20 & 40 & 90 \end{pmatrix}, \qquad \mathbf{X}^T \mathbf{Y} = \begin{pmatrix} 50 \\ 120 \\ 230 \end{pmatrix}.
+	\end{align}
+	(La primera columna de $\mathbf{X}$ es el vector de unos $\mathbf{1}_5$ correspondiente al intercepto $\beta_0$).
+	\begin{enumerate}
+		\item Sabiendo que la inversa de la matriz normal simétrica es:
+		\begin{align}
+			(\mathbf{X}^T \mathbf{X})^{-1} = \frac{1}{50} \begin{pmatrix} 110 & -10 & -20 \\ -10 & 5 & 0 \\ -20 & 0 & 5 \end{pmatrix} = \begin{pmatrix} 2.2 & -0.2 & -0.4 \\ -0.2 & 0.1 & 0.0 \\ -0.4 & 0.0 & 0.1 \end{pmatrix},
+		\end{align}
+		calcule el vector solución exacto de estimadores de mínimos cuadrados $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} = (\hat{\beta}_0, \hat{\beta}_1, \hat{\beta}_2)^T$.
+		\item Escriba la ecuación escalar del modelo predictivo resultante.
+		\item Defina formalmente la **Matriz Proyectora o Matriz Sombrero (*Hat Matrix*)** $\mathbf{H} = \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T$ y demuestre algebraicamente sus dos propiedades axiomáticas: simetría ($\mathbf{H}^T = \mathbf{H}$) e idempotencia ($\mathbf{H}^2 = \mathbf{H}$). Explique cómo el operador $\mathbf{H}$ transforma el vector de respuestas brutas $\mathbf{Y}$ en el vector de valores predichos $\hat{\mathbf{Y}}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:reg_mult_varianzas_ic_global}
+	Para el modelo econométrico del Problema \ref{prob:reg_mult_matricial_exacto} ($n = 5, p = 2$), suponga que una muestra extendida de $n = 25$ empresas operando con la misma estructura simétrica normalizada de covarianzas $(\mathbf{X}^T \mathbf{X})^{-1}$ arrojó una Suma de Cuadrados Residual $\text{SCE} = 44.0$ y un vector de coeficientes estimado idéntico $\hat{\boldsymbol{\beta}} = (1.2, \; 2.6, \; 1.8)^T$.
+	\begin{enumerate}
+		\item Calcule la varianza residual insesgada del sistema multivariable $\hat{\sigma}^2 = \text{CME} = \dfrac{\text{SCE}}{n - p - 1}$.
+		\item Calcule la **Matriz de Varianzas y Covarianzas Estimada de los Parámetros** $\widehat{\text{Cov}}(\hat{\boldsymbol{\beta}}) = \hat{\sigma}^2 (\mathbf{X}^T \mathbf{X})^{-1}$ y extraiga los errores estándar $SE(\hat{\beta}_0)$, $SE(\hat{\beta}_1)$ y $SE(\hat{\beta}_2)$.
+		\item Construya el intervalo de confianza del $95\%$ para el parámetro real del índice de liquidez $\beta_1$ ($t_{0.025, \, 22} = 2.074$).
+		\item Si la Suma de Cuadrados Total de rentabilidades en esa muestra fue $\text{SCT} = 264.0$, efectúe una **Prueba $F$ Global de Significancia de la Regresión** ($H_0: \beta_1 = \beta_2 = 0$ vs $H_a$: al menos un $\beta_j \neq 0$) con $\alpha = 0.05$ ($F_{0.05, \, 2, \, 22} = 3.443$), calculando la tabla ANOVA del modelo múltiple.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
+
+\begin{problema}
+	\label{prob:reg_mult_deduccion_matricial_mco}
+	\textbf{Deducción analítica de MCO vectorial-matricial e insesgo poblacional en el modelo general de $p$ regresores:}
+	Considere el modelo de regresión lineal múltiple en el espacio vectorial $\mathbb{R}^n$:
+	\begin{align}
+		\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon},
+	\end{align}
+	donde $\mathbf{Y}$ es el vector de respuestas de dimensión $n \times 1$, $\mathbf{X}$ es la matriz de diseño no aleatoria de dimensión $n \times (p+1)$ con rango completo columna ($\text{rango}(\mathbf{X}) = p+1 \leq n$), $\boldsymbol{\beta}$ es el vector de parámetros poblacionales de dimensión $(p+1) \times 1$, y $\boldsymbol{\varepsilon}$ es el vector de errores con $E[\boldsymbol{\varepsilon}] = \mathbf{0}$ y $\text{Var}(\boldsymbol{\varepsilon}) = E[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^T] = \sigma^2 \mathbf{I}_n$.
+	\begin{enumerate}
+		\item Partiendo de la forma cuadrática escalar del error de suma de cuadrados $S(\boldsymbol{\beta}) = \boldsymbol{\varepsilon}^T \boldsymbol{\varepsilon} = (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})^T (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})$, aplique las reglas de derivación vectorial matricial sobre formas cuadráticas respecto al vector $\boldsymbol{\beta}$ para deducir de forma rigurosa las ecuaciones normales $\mathbf{X}^T \mathbf{X} \hat{\boldsymbol{\beta}} = \mathbf{X}^T \mathbf{Y}$ y justifique la unicidad de la solución analítica $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$.
+		\item Demuestre que el vector de residuos empíricos $\hat{\boldsymbol{\varepsilon}} = \mathbf{Y} - \hat{\mathbf{Y}} = (\mathbf{I}_n - \mathbf{H})\mathbf{Y}$ es ortogonal al espacio columna completo generado por la matriz de diseño $\mathbf{X}$ ($\mathbf{X}^T \hat{\boldsymbol{\varepsilon}} = \mathbf{0}$) y pruebe que la suma de productos cruzados entre las predicciones y los residuos se anula idénticamente ($\hat{\mathbf{Y}}^T \hat{\boldsymbol{\varepsilon}} = 0$).
+		\item Demuestre aplicando el operador esperanza $E[\cdot]$ que el vector $\hat{\boldsymbol{\beta}}$ es un estimador multivariable **insesgado** ($E[\hat{\boldsymbol{\beta}}] = \boldsymbol{\beta}$) y que su matriz teórica de covarianzas equivale exactamente a $\text{Var}(\hat{\boldsymbol{\beta}}) = \sigma^2 (\mathbf{X}^T \mathbf{X})^{-1}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:reg_mult_gauss_markov_meli}
+	\textbf{Demostración del Teorema de Gauss-Markov (Teorema MELI/BLUE - \emph{Best Linear Unbiased Estimator}) y penalización del $R_{\text{adj}}^2$:}
+	En el marco del modelo lineal matricial $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$ con los supuestos de Gauss-Markov verificados ($E[\boldsymbol{\varepsilon}] = \mathbf{0}$, $\text{Var}(\boldsymbol{\varepsilon}) = \sigma^2 \mathbf{I}_n$):
+	\begin{enumerate}
+		\item Sea $\tilde{\boldsymbol{\beta}} = \mathbf{C}\mathbf{Y}$ un estimador lineal competidor arbitrario que se exige que sea insesgado para el vector $\boldsymbol{\beta}$ ($E[\tilde{\boldsymbol{\beta}}] = \boldsymbol{\beta}$ para todo $\boldsymbol{\beta}$). Expresemos la matriz de ponderación como una perturbación de MCO: $\mathbf{C} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D}$. Demuestre paso a paso que para que $\tilde{\boldsymbol{\beta}}$ sea insesgado, la matriz perturbadora debe satisfacer obligatoriamente la ortogonalidad $\mathbf{D}\mathbf{X} = \mathbf{0}$.
+		\item Con la condición de insesgo comprobada, demuestre algebraicamente que la matriz de varianzas-covarianzas de $\tilde{\boldsymbol{\beta}}$ se descompone aditivamente de forma exacta en:
+		\begin{align}
+			\text{Var}(\tilde{\boldsymbol{\beta}}) = \text{Var}(\hat{\boldsymbol{\beta}}) + \sigma^2 \mathbf{D}\mathbf{D}^T.
+		\end{align}
+		Concluya a partir de la semidefinición positiva de la matriz cuadrática $\mathbf{D}\mathbf{D}^T \succeq \mathbf{0}$ que el estimador MCO posee varianza mínima en el sentido matricial de Loewner ($\text{Var}(\tilde{\boldsymbol{\beta}}) - \text{Var}(\hat{\boldsymbol{\beta}}) \succeq \mathbf{0}$), probando el Teorema de Gauss-Markov.
+		\item Demuestre que si en un modelo que contiene $p$ variables explicativas reales se decide incorporar un predictor adicional ($X_{p+1}$) cuya pendiente verdadera en la población es nula ($\beta_{p+1} = 0$), el coeficiente nominal muestral $R^2$ cumple la relación de dominancia empírica $R_{p+1}^2 \geq R_p^2$, mientras que el Coeficiente de Determinación Ajustado $R_{\text{adj}, p+1}^2$ es estrictamente inferior al previo $R_{\text{adj}, p}^2$ a menos que el estadístico $t$ de Student de ese nuevo regresor cumpla con el umbral de magnitud $|t_{p+1}| > 1$.
 	\end{enumerate}
 \end{problema}
 
 
 \subsection{Soluciones detalladas}
 
+\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
+
 \begin{solucion}
 	\begin{enumerate}
-		\item \textbf{Interpretación:}
+		\item **Interpretación física de los coeficientes parciales:**
+		En regresión múltiple, cada parámetro representa la tasa de cambio del valor esperado de $Y$ respecto a una variable, *manteniendo fijas todas las demás explicativas* (condición \emph{ceteris paribus}):
 		\begin{itemize}
-			\item $\hat{\beta}_1 = -3$: Manteniendo constante la cilindrada, por cada tonelada adicional de peso, el rendimiento disminuye en promedio 3 km/l.
-			\item $\hat{\beta}_2 = -1.5$: Manteniendo constante el peso, por cada litro adicional de cilindrada, el rendimiento disminuye en promedio 1.5 km/l.
+			\item $\hat{\beta}_1 = -3.0$: Para automóviles que poseen la **misma cilindrada de motor** ($X_2$ constante), por cada tonelada adicional en el peso bruto del vehículo ($X_1$), el rendimiento de combustible se reduce en promedio en $3.0$ km/l.
+			\item $\hat{\beta}_2 = -1.5$: Para automóviles con un **peso vehicular idéntico** ($X_1$ constante), por cada litro adicional de capacidad o cilindrada del motor ($X_2$), el rendimiento promedio de combustible disminuye en $1.5$ km/l.
 		\end{itemize}
 		
-		\item Predicción para $X_1 = 1.5$, $X_2 = 2.0$:
+		\item Cálculo del rendimiento proyectado para un automóvil con $X_1 = 1.5$ toneladas y $X_2 = 2.0$ litros:
 		\begin{align}
-			\hat{Y} = 25 - 3(1.5) - 1.5(2.0) = 25 - 4.5 - 3.0 = 17.5 \text{ km/l}
+			\hat{Y} = 25.0 - 3.0(1.5) - 1.5(2.0) = 25.0 - 4.5 - 3.0 = 17.5 \text{ km/l}.
 		\end{align}
+		Se estima un rendimiento en condiciones urbanas de $17.5$ kilómetros por litro.
 		
-		\item Pruebas de hipótesis ($H_0: \beta_i = 0$ vs $H_1: \beta_i \neq 0$):
-		
-		Para $\beta_1$:
+		\item Con $n = 30$ observaciones totales y una varianza muestral observada $S_Y^2 = 12.0$, la Suma de Cuadrados Total del rendimiento resulta:
 		\begin{align}
-			t_1 = \frac{-3}{0.8} = -3.75, \quad |t_1| = 3.75
+			\text{SCT} = (n - 1) S_Y^2 = (30 - 1)(12.0) = 29 \times 12.0 = 348.0 \text{ (km/l)}^2.
 		\end{align}
-		
-		Para $\beta_2$:
+		Con el coeficiente de determinación nominal $R^2 = 0.780$, obtenemos la Suma de Cuadrados de la Regresión ($\text{SCR}$):
 		\begin{align}
-			t_2 = \frac{-1.5}{0.6} = -2.5, \quad |t_2| = 2.5
+			\text{SCR} = R^2 \times \text{SCT} = (0.780)(348.0) = 271.44 \text{ (km/l)}^2.
 		\end{align}
-		
-		Valor crítico: $t_{0.025, 27} \approx 2.052$
-		
-		Ambos estadísticos exceden el valor crítico, por lo que rechazamos $H_0$ para ambos coeficientes. Tanto el peso como la cilindrada son predictores significativos al nivel $\alpha = 0.05$.
-		
-		\item Para comparar el impacto relativo, usamos coeficientes estandarizados. El peso tiene un impacto mayor (coeficiente absoluto de 3 vs 1.5), aunque esto también depende de las escalas de las variables.
+		Por el principio algebraico de partición ortogonal del error en MCO, la variabilidad no explicada es:
+		\begin{align}
+			\text{SCE} = \text{SCT} - \text{SCR} = 348.0 - 271.44 = 76.56 \text{ (km/l)}^2.
+		\end{align}
 	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
 	\begin{enumerate}
-		\item $R^2$ ajustado:
-		
-		Modelo 1 ($p = 2$):
-		\begin{align}
-			R^2_{adj,1} = 1 - \frac{40-1}{40-2-1}(1 - 0.75) = 1 - \frac{39}{37}(0.25) = 1 - 0.264 = 0.736
-		\end{align}
-		
-		Modelo 2 ($p = 3$):
-		\begin{align}
-			R^2_{adj,2} = 1 - \frac{40-1}{40-3-1}(1 - 0.78) = 1 - \frac{39}{36}(0.22) = 1 - 0.238 = 0.762
-		\end{align}
-		
-		\item Prueba F parcial para $X_3$:
-		\begin{align}
-			F &= \frac{(R^2_2 - R^2_1)/(p_2 - p_1)}{(1 - R^2_2)/(n - p_2 - 1)} = \frac{(0.78 - 0.75)/1}{(1 - 0.78)/(40 - 3 - 1)} \\
-			&= \frac{0.03}{0.22/36} = \frac{0.03}{0.00611} \approx 4.91
-		\end{align}
-		
-		Valor crítico: $F_{0.05, 1, 36} \approx 4.11$
-		
-		Como $F = 4.91 > 4.11$, rechazamos $H_0$. Agregar $X_3$ mejora significativamente el modelo al nivel $\alpha = 0.05$.
-		
-		\item \textbf{Recomendación:} El Modelo 2 es preferible porque:
+		\item **Formulación formal de hipótesis docimásicas parciales:**
+		Para evaluar si cada variable explicativa aporta información predictiva estadísticamente no redundante al modelo (dada la presencia de la otra):
 		\begin{itemize}
-			\item Tiene mayor $R^2$ ajustado (0.762 vs 0.736)
-			\item La variable $X_3$ es estadísticamente significativa
-			\item La mejora en $R^2$ es significativa según la prueba F parcial
-		\end{itemize}
-	\end{enumerate}
-\end{solucion}
-
-\begin{solucion}
-	\begin{enumerate}
-		\item \textbf{Interpretación:}
-		\begin{itemize}
-			\item $\hat{\beta}_1 = 0.8$: Manteniendo constantes las demás variables, por cada m² adicional de área, el precio aumenta en promedio 800 dólares.
-			\item $\hat{\beta}_3 = -2$: Manteniendo constantes las demás variables, por cada año adicional de antigüedad, el precio disminuye en promedio 2,000 dólares.
+			\item Para el peso del vehículo ($X_1$):
+			\begin{align}
+				H_{0,1}: \beta_1 = 0 \quad (\text{El peso no aporta significancia predictiva al rendimiento una vez controlada la cilindrada}). \\
+				H_{a,1}: \beta_1 \neq 0 \quad (\text{El peso del vehículo influye significativamente en el rendimiento}).
+			\end{align}
+			\item Para la cilindrada del motor ($X_2$):
+			\begin{align}
+				H_{0,2}: \beta_2 = 0 \quad (\text{La cilindrada es irrelevante para predecir el consumo, controlado el peso del auto}). \\
+				H_{a,2}: \beta_2 \neq 0 \quad (\text{La cilindrada tiene un impacto significativo y directo sobre el rendimiento}).
+			\end{align}
 		\end{itemize}
 		
-		\item \textbf{Análisis de multicolinealidad:}
-		\begin{itemize}
-			\item $VIF(X_1) = 4.2$: Moderada (cercano al umbral de 5)
-			\item $VIF(X_2) = 3.8$: Moderada
-			\item $VIF(X_3) = 1.5$: Baja
-			\item $VIF(X_4) = 1.2$: Baja
-		\end{itemize}
-		
-		Hay evidencia de multicolinealidad moderada entre $X_1$ (área) y $X_2$ (habitaciones), lo cual es lógico: casas más grandes tienden a tener más habitaciones.
-		
-		\item Predicción para $X_1 = 120$, $X_2 = 3$, $X_3 = 10$, $X_4 = 8$:
+		\item Cálculo del estadístico $t$ de Student individual bajo las hipótesis nulas ($H_{0,j}: \beta_j = 0$):
+		Los grados de libertad residuales del modelo con $n=30$ y $p=2$ predictores son $\nu_E = n - p - 1 = 30 - 2 - 1 = 27$.
 		\begin{align}
-			\hat{Y} &= 50 + 0.8(120) + 15(3) - 2(10) - 5(8) \\
-			&= 50 + 96 + 45 - 20 - 40 = 131
+			t_1 &= \frac{\hat{\beta}_1}{SE(\hat{\beta}_1)} = \frac{-3.0}{0.80} = -3.750, \\
+			t_2 &= \frac{\hat{\beta}_2}{SE(\hat{\beta}_2)} = \frac{-1.5}{0.60} = -2.500.
 		\end{align}
-		El precio predicho es 131,000 dólares.
 		
-		\item \textbf{Acciones recomendadas:}
+		\item Regla de decisión y conclusión:
+		El cuantil crítico en la distribución $t$ de Student bilateral con $\nu_E = 27$ al $\alpha = 0.05$ arrojó el valor absoluto de corte $t_{0.025, \, 27} = 2.052$.
 		\begin{itemize}
-			\item Monitorear los errores estándar de $\hat{\beta}_1$ y $\hat{\beta}_2$
-			\item Considerar eliminar una de las dos variables si los errores estándar son muy grandes
-			\item Alternativamente, crear una variable compuesta (ej: área por habitación)
-			\item Si el modelo tiene buen poder predictivo, la multicolinealidad moderada puede ser aceptable
+			\item Para el peso ($X_1$): Como $|t_1| = 3.750 > 2.052$ ($p$-valor $\approx 0.0008$), **se rechaza $H_{0,1}$**. El peso neto es un determinante probada y de alta robustez de la economía de combustible.
+			\item Para la cilindrada ($X_2$): Como $|t_2| = 2.500 > 2.052$ ($p$-valor $\approx 0.0188$), **se rechaza $H_{0,2}$**. La capacidad volumétrica del motor contribuye significativamente a la predicción del consumo, más allá y por encima del peso físico del automóvil.
 		\end{itemize}
 	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
 	\begin{enumerate}
-		\item \textbf{Interpretación de $\hat{\beta}_2$:} Manteniendo constantes los años de experiencia, por cada nivel educativo superior, el salario aumenta en promedio 8,000 dólares. Sin embargo, esta interpretación asume que la diferencia entre niveles es constante, lo cual puede no ser realista.
+		\item Cálculo riguroso del Coeficiente de Determinación Ajustado ($R_{\text{adj}}^2$):
+		Para $n = 40$ trimestres, $p = 3$ predictores en el modelo y un coeficiente no ajustado de $R^2 = 0.780$:
+		\begin{align}
+			R_{\text{adj}}^2 &= 1 - \left[ \frac{n - 1}{n - p - 1} (1 - R^2) \right] = 1 - \left[ \frac{40 - 1}{40 - 3 - 1} (1 - 0.780) \right] \\
+			&= 1 - \left[ \frac{39}{36} (0.220) \right] = 1 - \left[ (1.08333)(0.220) \right] = 1 - 0.23833 \approx 0.7617 \quad (76.17\%).
+		\end{align}
 		
-		\item \textbf{Apropiación del tratamiento:} No es completamente apropiado tratar $X_2$ como cuantitativa porque:
+		\item **Justificación teórica y penalización dimensional:** En cualquier ajuste de regresión por mínimos cuadrados ordinarios, la adición de una nueva variable predictora (incluso si se tratara de secuencias de números aleatorios puros sin ninguna relación geométrica con las ventas) invariablemente reduce la Suma de Cuadrados Residual o, en el peor de los casos, la mantiene idéntica ($\text{SCE}_{p+1} \leq \text{SCE}_p$). En consecuencia, el **$R^2$ nominal nunca puede disminuir** al agregar variables, lo cual crea un peligroso espejismo analítico que incita a sobreajustar modelos complejos con ruido (*overfitting*).
+		
+		El **$R_{\text{adj}}^2$ corrige matemáticamente este sesgo optimista** al sustituir las sumas de cuadrados por sus respectivos *cuadrados medios o varianzas muestrales*:
+		\begin{align}
+			R_{\text{adj}}^2 = 1 - \frac{\text{CME}}{\text{CMT}} = 1 - \frac{\text{SCE} / (n - p - 1)}{\text{SCT} / (n - 1)}.
+		\end{align}
+		Cada vez que añadimos un predictor al modelo ($p \to p+1$), el término $(n - p - 1)$ en el denominador de la varianza del error *disminuye exactamente en una unidad*, lo cual penaliza al indicador al hacer crecer el cociente $\text{CME}/\text{CMT}$. Para que el $R_{\text{adj}}^2$ neto logre subir, la variable recién ingresada debe absorber una cantidad de varianza verdadera lo suficientemente grande para superar y compensar la pérdida de ese grado de libertad en el error.
+		
+		\item Cálculo del impacto numérico al añadir el código postal esporádico ($X_4$) con $R_{\text{nuevo}}^2 = 0.781$ y $p = 4$:
+		\begin{align}
+			R_{\text{adj, nuevo}}^2 &= 1 - \left[ \frac{40 - 1}{40 - 4 - 1} (1 - 0.781) \right] = 1 - \left[ \frac{39}{35} (0.219) \right] \\
+			&= 1 - \left[ (1.11429)(0.219) \right] = 1 - 0.24403 \approx 0.7560 \quad (75.60\%).
+		\end{align}
+		A pesar de que el coeficiente nominal $R^2$ aumentó superficialmente de $0.780$ a $0.781$, **el Coeficiente de Determinación Ajustado sufrió una caída sustancial de $0.7617$ a $0.7560$**. El diagnóstico de $R_{\text{adj}}^2$ castiga con severidad y descarta el uso del código postal en la predicción del éxito corporativo.
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Cálculo comparativo del Coeficiente de Determinación Ajustado:
 		\begin{itemize}
-			\item Los niveles no están equiespaciados (la diferencia entre bachillerato y licenciatura no es necesariamente igual a la diferencia entre maestría y doctorado)
-			\item Se asume una relación lineal que puede no existir
+			\item Para el **Modelo 1 (Restringido, $p_1 = 2, R_1^2 = 0.750, n=40$)**:
+			\begin{align}
+				R_{\text{adj, 1}}^2 = 1 - \left[ \frac{39}{40 - 2 - 1} (1 - 0.750) \right] = 1 - \left[ \frac{39}{37} (0.250) \right] = 1 - 0.26351 \approx 0.7365 \quad (73.65\%).
+			\end{align}
+			\item Para el **Modelo 2 (Completo, $p_2 = 3, R_2^2 = 0.780, n=40$)**:
+			Como ya fue demostrado en el Problema \ref{prob:reg_mult_r2_adj_basico}:
+			\begin{align}
+				R_{\text{adj, 2}}^2 = 1 - \left[ \frac{39}{36} (0.220) \right] \approx 0.7617 \quad (76.17\%).
+			\end{align}
 		\end{itemize}
 		
-		\textbf{Alternativa:} Usar variables dummy (categóricas) para cada nivel educativo, tomando uno como referencia (ej: bachillerato).
-		
-		\item Predicción para $X_1 = 10$, $X_2 = 3$ (maestría):
+		\item **Prueba $F$ Parcial o de Incremento de Suma de Cuadrados Explicada:**
+		Esta prueba evalúa con rigor inferencial si la ganancia marginal en el ajuste que produce incluir al grupo de vendedores ($X_3$) es superior al ruido aleatorio muestral. Planteamos el juego docimásica:
 		\begin{align}
-			\hat{Y} = 20 + 2(10) + 8(3) = 20 + 20 + 24 = 64
+			H_0: \beta_3 = 0 \quad (\text{El modelo restringido de dos predictores es estadísticamente suficiente}). \\
+			H_a: \beta_3 \neq 0 \quad (\text{El número de vendedores contribuye significativamente al pronóstico}).
 		\end{align}
-		El salario predicho es 64,000 dólares.
-		
-		\item Intervalo de confianza del 95\% para $\beta_1$:
+		La fórmula incremental basada en proporciones de $R^2$ arrojó:
 		\begin{align}
-			\hat{\beta}_1 \pm t_{0.025, 97} \times SE(\hat{\beta}_1) &= 2 \pm 1.985(0.3) \\
-			&= 2 \pm 0.5955 \\
-			&= (1.4045, 2.5955)
+			F_{\text{parcial}} &= \frac{(R_2^2 - R_1^2) / (p_2 - p_1)}{(1 - R_2^2) / (n - p_2 - 1)} = \frac{(0.780 - 0.750) / (3 - 2)}{(1 - 0.780) / (40 - 3 - 1)} \\
+			&= \frac{0.030 / 1}{0.220 / 36} = \frac{0.030}{0.006111} \approx 4.9091.
 		\end{align}
+		Para el nivel nominal de significancia $\alpha = 0.05$, con $\nu_1 = p_2 - p_1 = 1$ y $\nu_2 = n - p_2 - 1 = 36$ grados de libertad, el valor crítico en la tabla de distribución Fisher-Snedecor resulta:
+		\begin{align}
+			F_{0.05, \, 1, \, 36} = 4.113.
+		\end{align}
+		Como el estadístico calculado del incremento es netamente superior a la frontera crítica ($F_{\text{parcial}} = 4.909 > 4.113$, con $p$-valor $\approx 0.033$), **rechazamos formalmente la hipótesis nula $H_0$**.
 		
-		Con 95\% de confianza, por cada año adicional de experiencia, el salario aumenta entre 1,405 y 2,596 dólares, manteniendo constante el nivel educativo.
+		\item **Conclusión y recomendación estratégica:** El **Modelo 2 (con los 3 predictores)** se consolida indiscutiblemente como el modelo óptimo. La incorporación del número de ejecutivos de venta ($X_3$) incrementa de manera estadísticamente significativa la variabilidad explicada de las ventas, superando el escrutinio de la prueba $F$ incremental y produciendo un incremento neto sustancial y virtuoso de $+2.52$ puntos porcentuales en la bondad de ajuste ajustada ($R_{\text{adj}}^2$ pasa del $73.65\%$ al $76.17\%$).
 	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
 	\begin{enumerate}
-		\item \textbf{Interpretación de $\hat{\beta}_3 = -3$:} Manteniendo constantes la distancia y el peso, el servicio express reduce el tiempo de entrega en promedio 3 días comparado con el servicio estándar.
-		
-		\item Prueba F parcial para $X_3$:
-		\begin{align}
-			F &= \frac{(SSD_{reducido} - SSD_{completo})/(p_{completo} - p_{reducido})}{SSD_{completo}/(n - p_{completo} - 1)} \\
-			&= \frac{(78 - 45)/(3 - 2)}{45/(60 - 3 - 1)} = \frac{33/1}{45/56} = \frac{33}{0.8036} \approx 41.07
-		\end{align}
-		
-		Valor crítico: $F_{0.05, 1, 56} \approx 4.01$
-		
-		Como $F = 41.07 \gg 4.01$, rechazamos $H_0$. La variable $X_3$ es altamente significativa.
-		
-		\item $R^2$ ajustado:
-		
-		Modelo completo ($p = 3$):
-		\begin{align}
-			R^2_{adj} = 1 - \frac{60-1}{60-3-1}(1 - 0.82) = 1 - \frac{59}{56}(0.18) = 1 - 0.1896 = 0.8104
-		\end{align}
-		
-		Modelo reducido ($p = 2$):
-		\begin{align}
-			R^2_{adj} = 1 - \frac{60-1}{60-2-1}(1 - 0.68) = 1 - \frac{59}{57}(0.32) = 1 - 0.3312 = 0.6688
-		\end{align}
-		
-		\item \textbf{Conclusión:} Sí, definitivamente vale la pena incluir el tipo de servicio porque:
+		\item **Interpretación económica e inmobiliaria de los coeficientes parciales:**
 		\begin{itemize}
-			\item La prueba F parcial es altamente significativa ($p < 0.001$)
-			\item El $R^2$ ajustado mejora sustancialmente (0.810 vs 0.669)
-			\item El coeficiente de $X_3$ tiene una interpretación práctica clara y relevante
-			\item Reduce significativamente el error del modelo ($SSD$ pasa de 78 a 45)
+			\item $\hat{\beta}_1 = 0.80$: Manteniendo invariables el número de recámaras, la antigüedad constructiva y la distancia céntrica, por cada metro cuadrado de área habitable adicional ($\text{m}^2$), el valor estimado del inmueble se incrementa en $\$800$ dólares ($0.80$ miles).
+			\item $\hat{\beta}_4 = -5.0$: Controlando por área, habitaciones y edad constructiva de la vivienda, por cada kilómetro adicional que aleja a la residencia del centro urbano, su precio de cotización sufre una penalización media o depreciación locativa de $\$5,000$ dólares ($5.0$ miles).
 		\end{itemize}
+		
+		\item **Auditoría de multicolinealidad mediante Factores de Inflación de Varianza ($\text{VIF}_j$):**
+		El $\text{VIF}_j$ mide cuantitativamente qué tantas veces se multiplica la varianza del estimador $\hat{\beta}_j$ debido al solapamiento lineal o colinealidad existente entre el predictor $X_j$ y las demás variables explicativas del sistema:
+		\begin{align}
+			\text{VIF}_j = \frac{1}{1 - R_j^2} \implies \text{Var}(\hat{\beta}_j) = \sigma^2 \left( \frac{1}{S_{jj}} \right) \times \text{VIF}_j.
+		\end{align}
+		Las magnitudes observadas en el estudio son: $\text{VIF}(X_1) = 4.2$, $\text{VIF}(X_2) = 3.8$, $\text{VIF}(X_3) = 1.5$ y $\text{VIF}(X_4) = 1.2$.
+		En estadística econométrica aplicada, se utiliza la siguiente escala diagnóstica de severidad:
+		\begin{itemize}
+			\item $\text{VIF} < 5.0$: Colinealidad **baja o moderada adscrita al funcionamiento normal** del sistema. No requiere acciones correctivas.
+			\item $5.0 \leq \text{VIF} < 10.0$: Multicolinealidad **elevada y preocupante**. Debe ser auditada para evitar la inestabilidad en los errores estándar de los coeficientes.
+			\item $\text{VIF} \geq 10.0$: Multicolinealidad **severa / patológica** ($R_j^2 \geq 0.90$). Destruye la precisión de la estimación por mínimos cuadrados.
+		\end{itemize}
+		Dado que nuestro mayor indicador es $\text{VIF}(X_1) = 4.2 < 5.0$, concluimos que **no existe una patología de colinealidad severa** en este modelo inmobiliario. El solapamiento moderado entre el área en metros cuadrados ($X_1$) y la cantidad de habitaciones ($X_2$) refleja la correlación geométrica natural entre el tamaño y la división de un inmueble, pero los datos contienen suficiente variabilidad ortogonal pura para estimar ambos efectos con precisión y estabilidad paramétrica.
+		
+		\item Tasación proyectada para una residencia con $X_1 = 120$ $\text{m}^2$, $X_2 = 3$ hab., $X_3 = 10$ años y $X_4 = 8$ km:
+		\begin{align}
+			\hat{Y} &= 50.0 + 0.80(120.0) + 15.0(3.0) - 2.0(10.0) - 5.0(8.0) \\
+			&= 50.0 + 96.0 + 45.0 - 20.0 - 40.0 = 131.0 \text{ miles de dólares}.
+		\end{align}
+		El precio justo proyectado de mercado es de $\$131,000$ dólares.
+		
+		\item **Estrategias metodológicas de corrección ante multicolinealidad patológica ($\text{VIF} \geq 10$):**
+		Si el factor de inflación del área constructiva o de las recámaras superara el umbral crítico de 10, el analista debería ejecutar alguna de las siguientes acciones de mitigación analítica:
+		\begin{enumerate}
+			\item **Reducción funcional o creación de índices sintéticos:** Fusionar las dos variables altamente colineales en una única métrica con sentido estructural (por ejemplo, definir la relación de *área media por habitación*, $Z = X_1 / X_2$, o construir el área social vs. privada).
+			\item **Eliminación sistemática de variables redundantes:** Suprimir la variable que tenga la correlación parcial o el estadístico $t$ de Student menos significativo de la pareja colineal, preservando la que aporte el mayor sentido económico de tasación al cliente.
+			\item **Regresión en componentes principales (PCR):** Realizar una transformación ortogonal de la matriz de diseño $\mathbf{X}$ en factores ortogonales y proyectar la respuesta sobre los componentes con mayor varianza espectral.
+			\item **Regresión Ridge o por penalización $L_2$:** Introducir un pequeño parámetro de regularización sesgada $\lambda > 0$ en la diagonal de la matriz normal ($\hat{\boldsymbol{\beta}}_{\text{Ridge}} = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{Y}$) para estabilizar la inversión matricial y abatir dramáticamente la varianza de los estimadores a cambio de asumir un sesgo mínimo controlado.
+		\end{enumerate}
 	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
 	\begin{enumerate}
-		\item \textbf{Significancia global:} Sí, el modelo es globalmente significativo. El estadístico $F = 35.2$ con $p < 0.001$ indica que al menos uno de los predictores tiene una relación significativa con el rendimiento académico.
-		
-		\item \textbf{Significancia individual} (con $\alpha = 0.05$):
+		\item **Interpretación cuantitativa de coeficientes con variables mudas o indicadoras:**
+		En un modelo con variables categóricas cualitativas con $g = 3$ niveles (Bachillerato, Licenciatura, Maestría), se requieren exactamente $g - 1 = 2$ variables mudas binarias ($D_1$ y $D_2$). El grupo que no recibe variable binaria (Bachillerato) opera como el **grupo de referencia base** ($D_1=0, D_2=0$):
 		\begin{itemize}
-			\item $X_1$ (horas de estudio): $p < 0.001 < 0.05$ → \textbf{Significativa}
-			\item $X_2$ (asistencia): $p = 0.023 < 0.05$ → \textbf{Significativa}
-			\item $X_3$ (recursos en línea): $p = 0.145 > 0.05$ → \textbf{No significativa}
+			\item $\hat{\beta}_0 = 22.0$: Es el salario medio estimado en la corporación ($\$22,000$ dólares anuales) para un trabajador del **grupo base (Bachillerato / Educación Media)** en el momento justo de ser contratado (para $X_1 = 0$ años de experiencia).
+			\item $\hat{\beta}_2 = 12.0$: Manteniendo constante y al mismo nivel los años de experiencia laboral ($X_1$), un profesional con **Licenciatura ($D_1=1$)** percibe un salario anual que supera en promedio en $\$12,000$ dólares a la retribución de un compañero cuyo nivel máximo es el Bachillerato.
+			\item $\hat{\beta}_3 = 25.0$: Controlando a idéntica experiencia, contar con una **Maestría o Posgrado ($D_2=1$)** incrementa el salario en $\$25,000$ dólares anuales por encima de lo que percibe un empleado con Bachillerato (y $\$13,000$ dólares por encima del profesional con Licenciatura).
 		\end{itemize}
 		
-		\item \textbf{Acción respecto a $X_3$:} Considerar eliminar $X_3$ del modelo porque:
+		\item Desglose de las tres ecuaciones rectas de salario vs. experiencia ($X_1$) por subgrupo educativo:
 		\begin{itemize}
-			\item No es estadísticamente significativa
-			\item No contribuye significativamente al poder predictivo del modelo
-			\item Simplificaría el modelo sin perder información importante
+			\item **Para el grupo de Bachillerato ($D_1 = 0, D_2 = 0$):**
+			\begin{align}
+				\hat{Y}_{\text{Bachillerato}} = 22.0 + 2.5X_1 + 12.0(0) + 25.0(0) \implies \hat{Y}_{\text{Bachillerato}} = 22.0 + 2.5X_1.
+			\end{align}
+			\item **Para el grupo de Licenciatura ($D_1 = 1, D_2 = 0$):**
+			\begin{align}
+				\hat{Y}_{\text{Licenciatura}} = 22.0 + 2.5X_1 + 12.0(1) + 25.0(0) \implies \hat{Y}_{\text{Licenciatura}} = 34.0 + 2.5X_1.
+			\end{align}
+			\item **Para el grupo de Maestría ($D_1 = 0, D_2 = 1$):**
+			\begin{align}
+				\hat{Y}_{\text{Maestría}} = 22.0 + 2.5X_1 + 12.0(0) + 25.0(1) \implies \hat{Y}_{\text{Maestría}} = 47.0 + 2.5X_1.
+			\end{align}
 		\end{itemize}
+		Se obtienen tres rectas con pendientes idénticas ($2.5$ miles por año de antigüedad) pero con interceptos progresivamente desplazados hacia arriba por el premio o retorno económico al nivel educativo.
 		
-		Sin embargo, antes de eliminarla, verificar si hay multicolinealidad con otras variables.
+		\item Estimación salarial para un gerente con $X_1 = 8$ años de experiencia y Maestría ($D_1=0, D_2=1$):
+		\begin{align}
+			\hat{Y} = 47.0 + 2.5(8.0) = 47.0 + 20.0 = 67.0 \text{ miles de dólares}.
+		\end{align}
+		Se proyecta una remuneración salarial de $\$67,000$ dólares.
 		
-		\item \textbf{Efecto de eliminar $X_3$:}
-		\begin{itemize}
-			\item $R^2$: Disminuirá ligeramente (siempre disminuye al eliminar variables)
-			\item $R^2_{adj}$: Probablemente aumentará, porque $X_3$ no contribuye significativamente y el $R^2_{adj}$ penaliza la inclusión de variables innecesarias
-		\end{itemize}
-		
-		Esto confirmaría que eliminar $X_3$ mejora el modelo ajustado.
+		\item **La Trampa de la Variable Muda (\emph{Dummy Variable Trap}) en álgebra matricial:**
+		Si una variable categórica posee $g$ categorías mutuamente excluyentes y exhaustivas en la muestra, la suma aritmética elemental de los $g$ indicadores binarios en cualquier fila $i$ del diseño es igual a la unidad de forma rigurosamente constante:
+		\begin{align}
+			D_{0,i} + D_{1,i} + \dots + D_{g-1, i} = 1 \quad \forall i=1,\dots,n.
+		\end{align}
+		Si un analista inexperto decidiera incluir en la matriz de diseño $\mathbf{X}$ a las tres variables mudas ($D_0, D_1, D_2$) junto con la columna inicial de unos del intercepto base ($\mathbf{X}_0 = \mathbf{1}_n$), la suma vectorial lineal de las columnas categóricas igualaría de manera exacta y perfecta al vector de intercepto:
+		\begin{align}
+			\mathbf{D}_0 + \mathbf{D}_1 + \mathbf{D}_2 = \mathbf{1}_n = \mathbf{X}_0.
+		\end{align}
+		Esto produce que las columnas de $\mathbf{X}$ sean **linealmente dependientes**, lo cual causa un colapso en el rango de la matriz de diseño ($\text{rango}(\mathbf{X}) < p+1$). En consecuencia, el determinante de la matriz normal de productos cruzados se hace absolutamente nulo:
+		\begin{align}
+			\det(\mathbf{X}^T \mathbf{X}) = 0.
+		\end{align}
+		La matriz $\mathbf{X}^T \mathbf{X}$ se vuelve **singular y no invertible**, imposibilitando el cálculo del vector de estimadores de mínimos cuadrados ordinarios $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$. Para prevenir este colapso algebraico, es un axioma de regresión excluir siempre una categoría binaria, convirtiéndola en el ancla o referencia basal del intercepto.
 	\end{enumerate}
 \end{solucion}
 
+\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Cálculo del vector de estimación MCO matricial ($\hat{\boldsymbol{\beta}}$):**
+		Por el principio algebraico matricial de mínimos cuadrados, la solución se obtiene pre-multiplicando el vector proyectivo de productos de la respuesta $\mathbf{X}^T \mathbf{Y}$ por la matriz inversa normal $(\mathbf{X}^T \mathbf{X})^{-1}$:
+		\begin{align}
+			\hat{\boldsymbol{\beta}} &= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} \\
+			&= \frac{1}{50} \begin{pmatrix} 110 & -10 & -20 \\ -10 & 5 & 0 \\ -20 & 0 & 5 \end{pmatrix} \begin{pmatrix} 50 \\ 120 \\ 230 \end{pmatrix}.
+		\end{align}
+		Realizamos el producto fila por columna para los tres componentes del vector de parámetros:
+		\begin{itemize}
+			\item Para el intercepto ($\hat{\beta}_0$):
+			\begin{align}
+				\hat{\beta}_0 = \frac{1}{50} [ 110(50) + (-10)(120) + (-20)(230) ] = \frac{1}{50} [ 5500 - 1200 - 4600 ] = \frac{-300}{50} = -6.00.
+			\end{align}
+			\item Para el índice de liquidez ($\hat{\beta}_1$):
+			\begin{align}
+				\hat{\beta}_1 = \frac{1}{50} [ -10(50) + 5(120) + 0(230) ] = \frac{1}{50} [ -500 + 600 + 0 ] = \frac{100}{50} = 2.00.
+			\end{align}
+			\item Para el apalancamiento financiero ($\hat{\beta}_2$):
+			\begin{align}
+				\hat{\beta}_2 = \frac{1}{50} [ -20(50) + 0(120) + 5(230) ] = \frac{1}{50} [ -1000 + 0 + 1150 ] = \frac{150}{50} = 3.00.
+			\end{align}
+		\end{itemize}
+		El vector de coeficientes de mínimos cuadrados es $\hat{\boldsymbol{\beta}} = \begin{pmatrix} -6.0, \; 2.0, \; 3.0 \end{pmatrix}^T$.
+		
+		\item La ecuación escalar econométrica del modelo ajustado es:
+		\begin{align}
+			\hat{Y} = -6.00 + 2.00X_1 + 3.00X_2.
+		\end{align}
+		
+		\item **Definición y demostración algebraica de las propiedades de la Matriz Sombrero ($\mathbf{H}$):**
+		La matriz $\mathbf{H} = \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T$, de dimensión $n \times n$, se denomina **Matriz Proyectora o \emph{Hat Matrix}** porque actúa como el operador lineal que le ``coloca el sombrero'' (la estimación $\hat{\cdot}$) al vector de observaciones respuesta brutas $\mathbf{Y}$, proyectándolo ortogonalmente sobre el subespacio columna de la matriz $\mathbf{X}$:
+		\begin{align}
+			\hat{\mathbf{Y}} = \mathbf{X}\hat{\boldsymbol{\beta}} = \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{Y} = \mathbf{H}\mathbf{Y}.
+		\end{align}
+		
+		Demostración de sus dos propiedades estructurales fundamentales:
+		\begin{itemize}
+			\item **Simetría ($\mathbf{H}^T = \mathbf{H}$):** Puesto que la traspuesta de una multiplicación de matrices invierte el orden de los factores, y dado que la matriz normal de productos cruzados $\mathbf{X}^T \mathbf{X}$ (y por ende su matriz inversa $(\mathbf{X}^T \mathbf{X})^{-1}$) es simétrica por construcción:
+			\begin{align}
+				\mathbf{H}^T &= \left[ \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \right]^T = \left(\mathbf{X}^T\right)^T \left[ (\mathbf{X}^T \mathbf{X})^{-1} \right]^T \mathbf{X}^T \\
+				&= \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T = \mathbf{H}. \quad (\text{Q.E.D.})
+			\end{align}
+			\item **Idempotencia ($\mathbf{H}^2 = \mathbf{H}$):** Al elevar al cuadrado el operador proyectivo y asociar las matrices intermedias:
+			\begin{align}
+				\mathbf{H}^2 = \mathbf{H} \cdot \mathbf{H} &= \left[ \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \right] \left[ \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \right] \\
+				&= \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \left[ \mathbf{X}^T \mathbf{X} \right] (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T.
+			\end{align}
+			El producto de la matriz de productos cruzados por su propia inversa se colapsa en la matriz identidad de dimensión $(p+1) \times (p+1)$ ($\mathbf{X}^T \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} = \mathbf{I}_{p+1}$):
+			\begin{align}
+				\mathbf{H}^2 = \mathbf{X} \cdot \mathbf{I}_{p+1} \cdot (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T = \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T = \mathbf{H}. \quad (\text{Q.E.D.})
+			\end{align}
+		\end{itemize}
+		La idempotencia garantiza físicamente que proyectar dos veces consecutivas los datos sobre el plano de regresión no altera las estimaciones ($\mathbf{H}\hat{\mathbf{Y}} = \hat{\mathbf{Y}}$), pues los valores ajustados ya viven dentro del espacio explicado del modelo.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Para una muestra extendida con $n = 25$ empresas, $p = 2$ predictores y una Suma de Cuadrados del Error de $\text{SCE} = 44.0$, los grados de libertad en el denominador del error son $\nu_E = n - p - 1 = 25 - 2 - 1 = 22$.
+		La varianza muestral insesgada del error o Cuadrado Medio del Error resulta:
+		\begin{align}
+			\hat{\sigma}^2 = \text{CME} = \frac{\text{SCE}}{n - p - 1} = \frac{44.0}{22} = 2.00 \text{ (\%}^2\text{)}.
+		\end{align}
+		
+		\item **Cálculo de la Matriz de Varianzas y Covarianzas Estimada ($\widehat{\text{Cov}}(\hat{\boldsymbol{\beta}})$):**
+		Pre-multiplicamos la inversa normal simétrica por el escalar escalar de la varianza residual estimada $\hat{\sigma}^2 = 2.00$:
+		\begin{align}
+			\widehat{\text{Cov}}(\hat{\boldsymbol{\beta}}) &= \hat{\sigma}^2 (\mathbf{X}^T \mathbf{X})^{-1} = 2.00 \times \begin{pmatrix} 2.2 & -0.2 & -0.4 \\ -0.2 & 0.1 & 0.0 \\ -0.4 & 0.0 & 0.1 \end{pmatrix} \\
+			&= \begin{pmatrix} 4.40 & -0.40 & -0.80 \\ -0.40 & 0.20 & 0.00 \\ -0.80 & 0.00 & 0.20 \end{pmatrix}.
+		\end{align}
+		Las varianzas individuales de cada parámetro son los elementos diagonales del tensor ($V(\hat{\beta}_j) = \widehat{\text{Cov}}_{jj}$). Los errores estándar correspondientes se extraen aplicando la raíz cuadrada:
+		\begin{align}
+			SE(\hat{\beta}_0) &= \sqrt{4.40} \approx 2.0976, \\
+			SE(\hat{\beta}_1) &= \sqrt{0.20} \approx 0.4472, \\
+			SE(\hat{\beta}_2) &= \sqrt{0.20} \approx 0.4472.
+		\end{align}
+		
+		\item Construcción del intervalo de confianza del $95\%$ para el parámetro real poblacional de liquidez $\beta_1$ ($\hat{\beta}_1 = 2.60$):
+		Para $\nu_E = 22$, el cuantil de Student con $95\%$ de confianza de dos colas es $t_{0.025, \, 22} = 2.074$.
+		\begin{align}
+			IC_{95\%}(\beta_1) &= \hat{\beta}_1 \pm t_{\alpha/2, \, \nu_E} \cdot SE(\hat{\beta}_1) = 2.60 \pm (2.074)(0.4472) \\
+			&= 2.60 \pm 0.9275 = \left[ 1.6725, \; 3.5275 \right].
+		\end{align}
+		Con el $95\%$ de confiabilidad econométrica, por cada punto que aumente el índice de liquidez de una empresa, su rentabilidad sobre el capital aumentará entre $1.67\%$ y $3.53\%$.
+		
+		\item **Prueba $F$ Global de Significancia de la Regresión y Tabla ANOVA multivariable:**
+		Sometemos a escrutinio docimásica general el poder explicativo conjunto del sistema:
+		\begin{align}
+			H_0: \beta_1 = \beta_2 = 0 \quad (\text{El plano de regresión es totalmente plano; ningún predictor explica la rentabilidad}). \\
+			H_a: \text{Al menos un } \beta_j \neq 0 \quad (\text{El modelo es globalmente significativo y el ajuste es relevante}).
+		\end{align}
+		Con $\text{SCT} = 264.0$ y $\text{SCE} = 44.0$, la Suma de Cuadrados Explicada por la Regresión asciende a:
+		\begin{align}
+			\text{SCR} = \text{SCT} - \text{SCE} = 264.0 - 44.0 = 220.0 \text{ (\%}^2\text{)}.
+		\end{align}
+		El Coeficiente de Determinación global del estudio es $R^2 = \dfrac{220.0}{264.0} \approx 0.8333$ ($83.33\%$).
+		Los grados de libertad del tratamiento o regresión son $\nu_{\text{Reg}} = p = 2$, por lo que el Cuadrado Medio de la Regresión es:
+		\begin{align}
+			\text{CMR} = \frac{\text{SCR}}{p} = \frac{220.0}{2} = 110.00 \text{ (\%}^2\text{)}.
+		\end{align}
+		Calculamos el estadístico de prueba $F$ global como la razón del Cuadrado Medio del Modelo sobre el Cuadrado Medio del Error ($\text{CME} = 2.00$):
+		\begin{align}
+			F = \frac{\text{CMR}}{\text{CME}} = \frac{110.00}{2.00} = 55.000.
+		\end{align}
+		Sintetizamos toda la partición en la Tabla \ref{tab:anova_reg_mult_sol}.
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{lcccc}
+				\hline
+				\textbf{Fuente de Variación} & \textbf{SC} & \textbf{g.l. ($\nu$)} & \textbf{CM} & \textbf{Estadístico $F$} \\ \hline
+				Regresión múltiple ($X_1, X_2$) & 220.0 & 2 & 110.00 & \textbf{55.000} \\
+				Error residual ($\boldsymbol{\varepsilon}$) & 44.0 & 22 & 2.00 & \\ \hline
+				\textbf{Total} & 264.0 & 24 & & \\ \hline
+			\end{tabular}
+			\caption{Tabla ANOVA de la regresión lineal múltiple para la rentabilidad de capital.}
+			\label{tab:anova_reg_mult_sol}
+		\end{table}
+		
+		Al nivel nominal $\alpha = 0.05$ con $\nu_1 = 2$ y $\nu_2 = 22$, el cuantil tabulado en la distribución de Fisher es $F_{0.05, \, 2, \, 22} = 3.443$.
+		Dado que nuestro estadístico experimental aplasta a la frontera crítica ($F = 55.00 \gg 3.443$, con un $p$-valor minúsculo $< 0.00001$), **rechazamos categóricamente la hipótesis nula conjunta $H_0$**. Demostramos con rigor matricial y de análisis de varianza que el modelo de regresión lineal múltiple posee una significancia explicativa global sobresaliente y altamente confiable.
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Deducción analítica de MCO matricial:**
+		Sea la función objetivo de suma de cuadrados de los errores expresada mediante el producto interno vectorial euclidiano:
+		\begin{align}
+			S(\boldsymbol{\beta}) &= (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})^T (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta}) \\
+			&= (\mathbf{Y}^T - \boldsymbol{\beta}^T \mathbf{X}^T)(\mathbf{Y} - \mathbf{X}\boldsymbol{\beta}) = \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T \mathbf{X}\boldsymbol{\beta} - \boldsymbol{\beta}^T \mathbf{X}^T \mathbf{Y} + \boldsymbol{\beta}^T \mathbf{X}^T \mathbf{X}\boldsymbol{\beta}.
+		\end{align}
+		Puesto que el término intermedio $\mathbf{Y}^T \mathbf{X}\boldsymbol{\beta}$ es un escalar ($1 \times 1$), coincide con su propia traspuesta matricial ($\mathbf{Y}^T \mathbf{X}\boldsymbol{\beta} = (\mathbf{Y}^T \mathbf{X}\boldsymbol{\beta})^T = \boldsymbol{\beta}^T \mathbf{X}^T \mathbf{Y}$). Podemos simplificar la función a:
+		\begin{align}
+			S(\boldsymbol{\beta}) = \mathbf{Y}^T \mathbf{Y} - 2\boldsymbol{\beta}^T \mathbf{X}^T \mathbf{Y} + \boldsymbol{\beta}^T \mathbf{X}^T \mathbf{X}\boldsymbol{\beta}.
+		\end{align}
+		Para hallar el mínimo vectorial, aplicamos el gradiente con respecto al vector de incógnitas $\boldsymbol{\beta}$, utilizando las identidades de cálculo matricial diferencial $\dfrac{\partial (\boldsymbol{\beta}^T \mathbf{a})}{\partial \boldsymbol{\beta}} = \mathbf{a}$ y $\dfrac{\partial (\boldsymbol{\beta}^T \mathbf{A} \boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = 2\mathbf{A}\boldsymbol{\beta}$ para matrices simétricas:
+		\begin{align}
+			\frac{\partial S(\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = -2\mathbf{X}^T \mathbf{Y} + 2\mathbf{X}^T \mathbf{X}\boldsymbol{\beta} = \mathbf{0}.
+		\end{align}
+		Dividiendo ambos lados de la ecuación vectorial por la constante $+2$, obtenemos el sistema general de **Ecuaciones Normales Matriciales de Gauss**:
+		\begin{align}
+			\mathbf{X}^T \mathbf{X} \hat{\boldsymbol{\beta}} = \mathbf{X}^T \mathbf{Y}.
+		\end{align}
+		Por hipótesis, la matriz de diseño $\mathbf{X}$ tiene rango columna completo ($r(\mathbf{X}) = p+1$), lo cual garantiza por el álgebra lineal real que la matriz cuadrada de productos cruzados $\mathbf{X}^T \mathbf{X}$, de dimensión $(p+1) \times (p+1)$, es **simétrica definida positiva y no singular** ($\det(\mathbf{X}^T \mathbf{X}) > 0$). Por tanto, existe una inversa única $(\mathbf{X}^T \mathbf{X})^{-1}$. Pre-multiplicando el sistema normal por dicha inversa, aislamos con unicidad absoluta al vector de estimadores:
+		\begin{align}
+			(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{X} \hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} \implies \hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}.
+		\end{align}
+		
+		\item **Ortogonalidad matricial entre residuos empíricos y predictores ($\mathbf{X}^T \hat{\boldsymbol{\varepsilon}} = \mathbf{0}$):**
+		El vector de residuos de MCO es $\hat{\boldsymbol{\varepsilon}} = \mathbf{Y} - \hat{\mathbf{Y}} = \mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}$. Sustituyendo $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{Y}$ e incorporando la matriz sombrero $\mathbf{H}$:
+		\begin{align}
+			\hat{\boldsymbol{\varepsilon}} = \mathbf{Y} - \mathbf{H}\mathbf{Y} = (\mathbf{I}_n - \mathbf{H})\mathbf{Y}.
+		\end{align}
+		Para demostrar la ortogonalidad geométrica al espacio columna de $\mathbf{X}$, pre-multiplicamos el vector residual por la traspuesta del diseño:
+		\begin{align}
+			\mathbf{X}^T \hat{\boldsymbol{\varepsilon}} = \mathbf{X}^T (\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}) = \mathbf{X}^T \mathbf{Y} - \mathbf{X}^T \mathbf{X} \hat{\boldsymbol{\beta}}.
+		\end{align}
+		Invocando la identidad exacta de las Ecuaciones Normales ($\mathbf{X}^T \mathbf{X}\hat{\boldsymbol{\beta}} = \mathbf{X}^T \mathbf{Y}$), se demuestra ineludiblemente:
+		\begin{align}
+			\mathbf{X}^T \hat{\boldsymbol{\varepsilon}} = \mathbf{X}^T \mathbf{Y} - \mathbf{X}^T \mathbf{Y} = \mathbf{0}. \quad (\text{Ortogonalidad al subespacio spanned de } \mathbf{X}).
+		\end{align}
+		Como el vector de predicciones $\hat{\mathbf{Y}} = \mathbf{X}\hat{\boldsymbol{\beta}}$ pertenece al espacio columna de $\mathbf{X}$, el producto interno entre predicciones y residuos es idénticamente nulo:
+		\begin{align}
+			\hat{\mathbf{Y}}^T \hat{\boldsymbol{\varepsilon}} = (\mathbf{X}\hat{\boldsymbol{\beta}})^T \hat{\boldsymbol{\varepsilon}} = \hat{\boldsymbol{\beta}}^T (\mathbf{X}^T \hat{\boldsymbol{\varepsilon}}) = \hat{\boldsymbol{\beta}}^T [\mathbf{0}] = 0. \quad (\text{Ortogonalidad empírica completa}).
+		\end{align}
+		
+		\item **Demostración de insesgo y deducción del tensor de varianzas matricial:**
+		Expresamos a $\hat{\boldsymbol{\beta}}$ sustituyendo la respuesta poblacional real $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$:
+		\begin{align}
+			\hat{\boldsymbol{\beta}} &= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T (\mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}) \\
+			&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{X} \boldsymbol{\beta} + (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon} = \boldsymbol{\beta} + (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon}.
+		\end{align}
+		Tomando la esperanza matemática matricial incondicional bajo la no aleatoriedad de $\mathbf{X}$:
+		\begin{align}
+			E[\hat{\boldsymbol{\beta}}] = E\left[ \boldsymbol{\beta} + (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon} \right] = \boldsymbol{\beta} + (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T E[\boldsymbol{\varepsilon}].
+		\end{align}
+		Por el supuesto central probabilístico de Gauss-Markov ($E[\boldsymbol{\varepsilon}] = \mathbf{0}$):
+		\begin{align}
+			E[\hat{\boldsymbol{\beta}}] = \boldsymbol{\beta} + \mathbf{0} = \boldsymbol{\beta}. \quad (\text{Estimador multivariable insesgado}).
+		\end{align}
+		Para derivar la matriz de covarianzas exacta $\text{Var}(\hat{\boldsymbol{\beta}}) = E[(\hat{\boldsymbol{\beta}} - \boldsymbol{\beta})(\hat{\boldsymbol{\beta}} - \boldsymbol{\beta})^T]$, utilizamos que la desviación respecto a la media es $\hat{\boldsymbol{\beta}} - \boldsymbol{\beta} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon}$:
+		\begin{align}
+			\text{Var}(\hat{\boldsymbol{\beta}}) &= E\left[ \left( (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon} \right) \left( (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon} \right)^T \right] \\
+			&= E\left[ (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon} \boldsymbol{\varepsilon}^T \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \right].
+		\end{align}
+		Extrayendo las matrices deterministas fuera del operador de esperanza y reconociendo que por hipótesis de homoscedasticidad no correlacionada $E[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^T] = \sigma^2 \mathbf{I}_n$:
+		\begin{align}
+			\text{Var}(\hat{\boldsymbol{\beta}}) &= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T E[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^T] \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \\
+			&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T (\sigma^2 \mathbf{I}_n) \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} = \sigma^2 (\mathbf{X}^T \mathbf{X})^{-1} \left[ \mathbf{X}^T \mathbf{X} \right] (\mathbf{X}^T \mathbf{X})^{-1}.
+		\end{align}
+		El producto en el centro de la cadena cancela al penúltimo término, colapsando el tensor de manera limpia y rotunda a:
+		\begin{align}
+			\text{Var}(\hat{\boldsymbol{\beta}}) = \sigma^2 (\mathbf{X}^T \mathbf{X})^{-1}. \quad (\text{Q.E.D.})
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Demostración de la condición de insesgo sobre la matriz perturbadora $\mathbf{D}$:**
+		Sea el estimador lineal alternativo $\tilde{\boldsymbol{\beta}} = \mathbf{C}\mathbf{Y}$ donde $\mathbf{C} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D}$.
+		Sustituyendo el modelo poblacional $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$:
+		\begin{align}
+			\tilde{\boldsymbol{\beta}} &= \left[ (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D} \right] (\mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}) \\
+			&= (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{X}\boldsymbol{\beta} + (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \boldsymbol{\varepsilon} + \mathbf{D}\mathbf{X}\boldsymbol{\beta} + \mathbf{D}\boldsymbol{\varepsilon} \\
+			&= \boldsymbol{\beta} + \mathbf{D}\mathbf{X}\boldsymbol{\beta} + \left[ (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D} \right] \boldsymbol{\varepsilon}.
+		\end{align}
+		Tomando la esperanza y aplicando que $E[\boldsymbol{\varepsilon}] = \mathbf{0}$:
+		\begin{align}
+			E[\tilde{\boldsymbol{\beta}}] = \boldsymbol{\beta} + \mathbf{D}\mathbf{X}\boldsymbol{\beta} + \mathbf{0} = \left( \mathbf{I}_{p+1} + \mathbf{D}\mathbf{X} \right) \boldsymbol{\beta}.
+		\end{align}
+		Para que el estimador sea estrictamente insesgado de manera universal ($E[\tilde{\boldsymbol{\beta}}] = \boldsymbol{\beta}$ para cualquier vector concebible de parámetros verdaderos $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$), el término que multiplica a $\boldsymbol{\beta}$ debe ser idéntico a la matriz identidad, lo que impone la condición obligatoria de ortogonalidad del diseño:
+		\begin{align}
+			\mathbf{I}_{p+1} + \mathbf{D}\mathbf{X} = \mathbf{I}_{p+1} \iff \mathbf{D}\mathbf{X} = \mathbf{0}.
+		\end{align}
+		
+		\item **Demostración algebraica de optimalidad y varianza mínima (Teorema MELI/BLUE):**
+		Con la condición $\mathbf{D}\mathbf{X} = \mathbf{0}$ garantizada, la desviación de $\tilde{\boldsymbol{\beta}}$ respecto a la media poblacional se reduce a:
+		\begin{align}
+			\tilde{\boldsymbol{\beta}} - \boldsymbol{\beta} = \left[ (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D} \right] \boldsymbol{\varepsilon} = \mathbf{C}\boldsymbol{\varepsilon}.
+		\end{align}
+		La matriz teórica de varianzas de este estimador general es:
+		\begin{align}
+			\text{Var}(\tilde{\boldsymbol{\beta}}) &= E\left[ (\tilde{\boldsymbol{\beta}} - \boldsymbol{\beta})(\tilde{\boldsymbol{\beta}} - \boldsymbol{\beta})^T \right] = E\left[ \mathbf{C}\boldsymbol{\varepsilon} \boldsymbol{\varepsilon}^T \mathbf{C}^T \right] = \mathbf{C} E[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^T] \mathbf{C}^T = \sigma^2 \mathbf{C}\mathbf{C}^T.
+		\end{align}
+		Sustituyendo $\mathbf{C} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D}$ en el producto cuadrático:
+		\begin{align}
+			\text{Var}(\tilde{\boldsymbol{\beta}}) &= \sigma^2 \left[ (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D} \right] \left[ \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} + \mathbf{D}^T \right] \\
+			&= \sigma^2 \left[ (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} + (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{D}^T + \mathbf{D}\mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} + \mathbf{D}\mathbf{D}^T \right].
+		\end{align}
+		Analicemos los términos cruzados: el tercer término contiene al producto $\mathbf{D}\mathbf{X}$, que por el inciso 1 demostramos que es la matriz nula ($\mathbf{D}\mathbf{X} = \mathbf{0}$). Su traspuesta en el segundo término también se anula en consecuencia ($\mathbf{X}^T \mathbf{D}^T = (\mathbf{D}\mathbf{X})^T = \mathbf{0}^T = \mathbf{0}$).
+		Al cancelarse por completo las interferencias cruzadas, la matriz de varianza del estimador competidor se expresa en forma aditiva pura:
+		\begin{align}
+			\text{Var}(\tilde{\boldsymbol{\beta}}) = \sigma^2 (\mathbf{X}^T \mathbf{X})^{-1} + \sigma^2 \mathbf{D}\mathbf{D}^T = \text{Var}(\hat{\boldsymbol{\beta}}) + \sigma^2 \mathbf{D}\mathbf{D}^T.
+		\end{align}
+		Para cualquier matriz real $\mathbf{D}$, el producto exterior $\mathbf{D}\mathbf{D}^T$ es siempre y bajo toda circunstancia una matriz **semidefinida positiva ($\mathbf{D}\mathbf{D}^T \succeq \mathbf{0}$)**, es decir, para todo vector no nulo $\mathbf{v} \in \mathbb{R}^{p+1}$ se cumple que $\mathbf{v}^T (\mathbf{D}\mathbf{D}^T)\mathbf{v} = \|\mathbf{D}^T \mathbf{v}\|^2 \geq 0$.
+		En conclusión, la diferencia de varianzas entre cualquier estimador lineal insesgado y el estimador por MCO es siempre semidefinida positiva:
+		\begin{align}
+			\text{Var}(\tilde{\boldsymbol{\beta}}) - \text{Var}(\hat{\boldsymbol{\beta}}) = \sigma^2 \mathbf{D}\mathbf{D}^T \succeq \mathbf{0} \implies \text{Var}(\tilde{\beta}_j) \geq \text{Var}(\hat{\beta}_j) \quad \forall j.
+		\end{align}
+		Esto demuestra con elegancia e indiscutible rigor matemático el **Teorema de Gauss-Markov**: el estimador de mínimos cuadrados ordinarios ($\hat{\boldsymbol{\beta}}$) es el Estimador Lineal Insesgado de Varianza Mínima (**MELI / BLUE**).
+		
+		\item **Demostración de la penalización analítica del $R_{\text{adj}}^2$ al añadir predictores superfluos:**
+		Sea $R_p^2$ el coeficiente nominal con $p$ regresores y $R_{p+1}^2$ el coeficiente con $p+1$ regresores tras incluir la variable $X_{p+1}$.
+		Por la teoría del incremento de suma de cuadrados ($\text{SCR}_{p+1} = \text{SCR}_p + \text{SCR}(X_{p+1} | X_1,\dots,X_p)$), como toda suma de cuadrados de una proyección ortogonal real es no negativa ($\text{SCR}_{\text{extra}} \geq 0$), la varianza explicada nominal obedece la ley de monotonia no decreciente:
+		\begin{align}
+			R_{p+1}^2 \geq R_p^2.
+		\end{align}
+		Relacionemos ahora el coeficiente ajustado $R_{\text{adj}, p}^2 = 1 - \dfrac{\text{CME}_p}{\text{CMT}}$ al añadir un regresor: para que el nuevo modelo supere al anterior ($R_{\text{adj}, p+1}^2 > R_{\text{adj}, p}^2$), es condición necesaria y suficiente que el nuevo Cuadrado Medio del Error sea estrictamente inferior al previo ($\text{CME}_{p+1} < \text{CME}_p$).
+		La relación algebraica exacta que vincula las dos varianzas residuales muestrales tras introducir la variable $X_{p+1}$ con un estadístico $t$ de Student parcial ($t_{p+1}$) resulta de la identidad de partición del ANOVA:
+		\begin{align}
+			\text{SCE}_p = \text{SCE}_{p+1} + \frac{\text{SCE}_{p+1}}{n - p - 2} t_{p+1}^2 = \text{SCE}_{p+1} \left( 1 + \frac{t_{p+1}^2}{n - p - 2} \right).
+		\end{align}
+		Dividiendo ambos miembros entre sus respectivos grados de libertad residuales ($\nu_p = n - p - 1$ y $\nu_{p+1} = n - p - 2$):
+		\begin{align}
+			(n - p - 1) \text{CME}_p = (n - p - 2) \text{CME}_{p+1} \left( 1 + \frac{t_{p+1}^2}{n - p - 2} \right).
+		\end{align}
+		Despejando la razón de varianzas residuales:
+		\begin{align}
+			\frac{\text{CME}_p}{\text{CME}_{p+1}} = \frac{n - p - 2 + t_{p+1}^2}{n - p - 1}.
+		\end{align}
+		Para que el nuevo modelo mejore la varianza del error ($\text{CME}_{p+1} < \text{CME}_p \iff \dfrac{\text{CME}_p}{\text{CME}_{p+1}} > 1$), exigimos que el numerador sea estrictamente mayor al denominador:
+		\begin{align}
+			n - p - 2 + t_{p+1}^2 > n - p - 1 \implies t_{p+1}^2 > 1 \iff |t_{p+1}| > 1.
+		\end{align}
+		**Conclusión analítica fundamental:** Si incorporamos al modelo una variable predictora redundante o espuria ($X_{p+1}$) cuyo estadístico de prueba empírico parcial sea menor a la unidad en valor absoluto ($|t_{p+1}| < 1$, lo que en muestras grandes equivale a un $p$-valor mayor a aproximadamente $0.32$), el **Coeficiente de Determinación Ajustado ($R_{\text{adj}}^2$) disminuirá de manera inexorable** ($R_{\text{adj}, p+1}^2 < R_{\text{adj}, p}^2$). Esta penalización matemática intrínseca actúa como una barrera o filtro objetivo de parsimonia que protege al modelo contra el sobreajuste y la inflación artificial de variables no informativas.
+	\end{enumerate}
+\end{solucion}

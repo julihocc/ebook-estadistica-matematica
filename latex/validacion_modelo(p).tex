@@ -1,300 +1,684 @@
-\section*{Problemas de validación de modelos}
+\section{Problemas resueltos de validación de modelos}
 
 \subsection{Enunciados de los problemas}
 
+\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
+
 \begin{problema}
-	Se ajustó un modelo de regresión lineal para predecir el precio de viviendas ($Y$) usando área ($X_1$) y antigüedad ($X_2$) con $n = 200$ observaciones. El modelo completo tiene $R^2 = 0.75$ y $RSE = 25$ (en miles de dólares).
-	
-	Se dividió el conjunto de datos en 80\% entrenamiento ($n_{train} = 160$) y 20\% prueba ($n_{test} = 40$). Los resultados son:
-	
-	\textbf{Conjunto de entrenamiento:} $R^2_{train} = 0.76$, $RSE_{train} = 24.5$
-	
-	\textbf{Conjunto de prueba:} $R^2_{test} = 0.72$, $RSE_{test} = 27.8$
-	
+	\label{prob:val_mod_overfitting_basico}
+	Un equipo de ciencia de datos ajusta un modelo paramétrico de regresión lineal múltiple para estimar el valor comercial de inmuebles residenciales ($Y$, en miles de dólares) utilizando como variables explicativas el área construida ($X_1$) y la antigüedad constructiva ($X_2$). Se cuenta con un conjunto de $n = 200$ observaciones históricas, el cual se particiona en un $80\%$ de datos para entrenamiento ($n_{\text{train}} = 160$) y un $20\%$ de datos de reserva para prueba oculta ($n_{\text{test}} = 40$).
+	El procesamiento analítico arrojó los siguientes indicadores computacionales de bondad de ajuste:
+	\begin{itemize}
+		\item \textbf{Conjunto de entrenamiento ($n_{\text{train}} = 160$):} $R_{\text{train}}^2 = 0.760$, Error Estándar Residual $RSE_{\text{train}} = 24.50$ miles de dólares.
+		\item \textbf{Conjunto de prueba oculta ($n_{\text{test}} = 40$):} $R_{\text{test}}^2 = 0.720$, Error Estándar Residual $RSE_{\text{test}} = 27.80$ miles de dólares.
+	\end{itemize}
 	\begin{enumerate}
-		\item ¿Hay evidencia de sobreajuste (overfitting)? Justifique su respuesta.
-		\item Calcule el porcentaje de error en el conjunto de prueba si el precio promedio es 250 mil dólares.
-		\item ¿Qué recomendaría para mejorar la validación del modelo?
+		\item Evalúe empíricamente si existe evidencia de sobreajuste (\emph{overfitting}) comparando la brecha o degradación porcentual entre las métricas intra-muestra y extra-muestra.
+		\item Si el valor comercial promedio en el subconjunto de prueba es $\bar{Y}_{\text{test}} = 250.0$ miles de dólares, calcule el porcentaje medio de error predictivo residual respecto a la media del mercado.
+		\item Argumente por qué la división simple en dos subconjuntos (\emph{Holdout Method}) puede resultar sensible o inestable cuando el tamaño muestral total es moderado o pequeño, y proponga una alternativa técnica superadora.
 	\end{enumerate}
 \end{problema}
 
 \begin{problema}
-	Se quiere validar un modelo de regresión usando validación cruzada de 5 iteraciones ($k$-fold con $k = 5$). Con $n = 100$ observaciones, se obtuvieron los siguientes valores de $R^2$ en cada fold:
-	
+	\label{prob:val_mod_metricas_mse_mae}
+	Para validar la precisión del pronóstico de demanda de electricidad residencial en una subestación urbana ($Y$, en megavatios-hora), un ingeniero somete a escrutinio un modelo de regresión calibrado previamente sobre una muestra externa de validación integrada por $n_{\text{test}} = 4$ días aleatorios completamente independientes. Los valores reales observados del consumo y las proyecciones emitidas por la ecuación del modelo son:
 	\begin{center}
-		\begin{tabular}{|c|c|c|c|c|c|}\hline
-			Fold & 1 & 2 & 3 & 4 & 5 \\\hline
-			$R^2$ & 0.68 & 0.72 & 0.65 & 0.70 & 0.69 \\\hline
+		\begin{tabular}{ccc}
+			\hline
+			\textbf{Día ($i$)} & \textbf{Consumo real ($Y_i$)} & \textbf{Predicción del modelo ($\hat{Y}_i$)} \\ \hline
+			1 & 120.0 & 115.0 \\
+			2 & 135.0 & 138.0 \\
+			3 & 110.0 & 112.0 \\
+			4 & 145.0 & 141.0 \\ \hline
 		\end{tabular}
 	\end{center}
-	
 	\begin{enumerate}
-		\item Calcule el $R^2$ promedio y su desviación estándar.
-		\item Construya un intervalo de confianza aproximado del 95\% para el verdadero $R^2$.
-		\item ¿Qué indica la variabilidad entre los folds?
-		\item ¿Cómo interpretaría estos resultados en términos de la capacidad de generalización del modelo?
+		\item Calcule el **Error Cuadrático Medio de Prueba (\emph{Test MSE})**:
+		\begin{align}
+			\text{MSE}_{\text{test}} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{n_{\text{test}}} (Y_i - \hat{Y}_i)^2.
+		\end{align}
+		\item Calcule la **Raíz del Error Cuadrático Medio (\emph{Test RMSE})** y el **Error Absoluto Medio (\emph{Test MAE})**:
+		\begin{align}
+			\text{RMSE}_{\text{test}} = \sqrt{\text{MSE}_{\text{test}}}, \qquad \text{MAE}_{\text{test}} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{n_{\text{test}}} |Y_i - \hat{Y}_i|.
+		\end{align}
+		\item Explique por qué el indicador $\text{RMSE}_{\text{test}}$ resulta invariablemente mayor o igual que el $\text{MAE}_{\text{test}}$ y discuta qué tipo de penalización geométrica impone el primero ante errores de pronóstico grandes.
 	\end{enumerate}
 \end{problema}
 
 \begin{problema}
-	Se comparan dos modelos de regresión para predecir ventas usando validación cruzada de 10 iteraciones:
-	
-	\textbf{Modelo A} (3 predictores): $R^2_{CV} = 0.78 \pm 0.04$ (media $\pm$ desviación estándar)
-	
-	\textbf{Modelo B} (5 predictores): $R^2_{CV} = 0.80 \pm 0.06$ (media $\pm$ desviación estándar)
-	
-	\begin{enumerate}
-		\item ¿Qué modelo tiene mejor rendimiento promedio?
-		\item ¿Qué modelo es más estable?
-		\item Calcule el $R^2$ ajustado esperado para ambos modelos si $n = 150$.
-		\item ¿Qué modelo recomendaría y por qué?
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	Se ajustó un modelo de regresión con $n = 120$ observaciones y se obtuvieron los siguientes resultados en diferentes conjuntos:
-	
+	\label{prob:val_mod_kfold_basico}
+	Una firma analítica evalúa la estabilidad de generalización de un algoritmo de pronóstico de riesgo crediticio empleando la metodología de **Validación Cruzada de $k$ pliegues ($k$-fold Cross-Validation)** con $k = 5$ particiones equitativas sobre una muestra base de $n = 100$ perfiles de clientes. El coeficiente de determinación independiente ($R_{\text{CV}, j}^2$) calculado sobre la fracción de validación al rotar cada pliegue $j$ fue:
 	\begin{center}
-		\begin{tabular}{|l|c|c|}\hline
-			\textbf{Métrica} & \textbf{Entrenamiento} & \textbf{Prueba} \\\hline
-			$R^2$ & 0.85 & 0.62 \\\hline
-			$RSE$ & 15.2 & 28.7 \\\hline
-			$MAE$ & 12.1 & 22.5 \\\hline
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+			\textbf{Pliegue ($j$)} & 1 & 2 & 3 & 4 & 5 \\ \hline
+			$R_{\text{CV}, j}^2$ & 0.680 & 0.720 & 0.650 & 0.700 & 0.690 \\ \hline
 		\end{tabular}
 	\end{center}
-	
-	donde $MAE$ es el error absoluto medio.
-	
 	\begin{enumerate}
-		\item ¿Qué indican estas métricas sobre el modelo?
-		\item Calcule el ratio $RSE_{test}/RSE_{train}$ y $R^2_{test}/R^2_{train}$.
-		\item ¿Qué estrategias propondría para mejorar el modelo?
+		\item Calcule el Coeficiente de Determinación Medio por Validación Cruzada ($\bar{R}_{\text{CV}}^2$) y la desviación estándar insesgada muestral de las iteraciones ($s_{R^2}$).
+		\item Construya un intervalo de confianza aproximado del $95\%$ para el rendimiento predictivo esperado en datos nuevos, utilizando el cuantil crítico de la distribución $t$ de Student con $\nu = k - 1 = 4$ grados de libertad ($t_{0.025, \, 4} = 2.776$):
+		\begin{align}
+			IC_{95\%}\left( R_{\text{poblacional}}^2 \right) = \bar{R}_{\text{CV}}^2 \pm t_{\alpha/2, \, k-1} \left( \frac{s_{R^2}}{\sqrt{k}} \right).
+		\end{align}
+		\item Interprete qué revela la magnitud del coeficiente de variación ($CV = s_{R^2} / \bar{R}_{\text{CV}}^2$) respecto a la homogeneidad de la muestra poblacional en los pliegues.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
+
+\begin{problema}
+	\label{prob:val_mod_comparacion_10fold}
+	Para optimizar un sistema predictivo de ventas minoristas, se someten a concurso dos arquitecturas de regresión lineal evaluadas bajo el protocolo riguroso de Validación Cruzada de 10 pliegues ($10$-fold Cross-Validation):
+	\begin{itemize}
+		\item \textbf{Modelo A (Parsimonioso, $p_A = 3$ predictores):} $\bar{R}_{\text{CV}, A}^2 = 0.780 \pm 0.040$ ($\text{media} \pm \text{desviación estándar de los 10 pliegues}$).
+		\item \textbf{Modelo B (Complejo, $p_B = 5$ predictores):} $\bar{R}_{\text{CV}, B}^2 = 0.800 \pm 0.060$ ($\text{media} \pm \text{desviación estándar de los 10 pliegues}$).
+	\end{itemize}
+	\begin{enumerate}
+		\item Determine qué especificación exhibe mayor poder explicativo medio y cuál demuestra una superior robustez o estabilidad estructural a través del Coeficiente de Variación porcentual.
+		\item Si ambos modelos se fueran a desplegar en producción sobre una población finita de $n = 150$ tiendas, calcule el Coeficiente de Determinación Ajustado esperado ($R_{\text{adj}}^2$) para cada uno al evaluar la penalización por grados de libertad.
+		\item Aplicando el **Principio de Parsimonia (Navaja de Ockham)** y la ley de rendimientos marginales decrecientes en modelación estadística, justifique de forma concluyente qué modelo debe ser el adoptado por la gerencia.
 	\end{enumerate}
 \end{problema}
 
 \begin{problema}
-	Se quiere implementar validación cruzada leave-one-out (LOOCV) en un conjunto de datos con $n = 50$ observaciones.
-	
-	\begin{enumerate}
-		\item ¿Cuántos modelos se deben ajustar en LOOCV?
-		\item ¿Cuántas observaciones hay en el conjunto de entrenamiento y prueba en cada iteración?
-		\item Si el $MSE$ (error cuadrático medio) promedio en LOOCV es 25, ¿cuál es el $RSE$ estimado?
-		\item Compare LOOCV con validación cruzada de 5 folds en términos de: sesgo, varianza y costo computacional.
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	Se ajustaron tres modelos de regresión y se validaron con validación cruzada de 10 folds. Los resultados son:
-	
+	\label{prob:val_mod_diagnostico_over_under}
+	Al someter a auditoría un modelo econométrico lineal con $p = 15$ variables independientes ajustado sobre una muestra global de $n = 120$ transacciones corporativas, los analistas separan el conjunto en $80\%$ de calibración ($n_{\text{train}} = 96$) y $20\%$ de evaluación externa ($n_{\text{test}} = 24$). La comparación de métricas arrojó los siguientes desequilibrios:
 	\begin{center}
-		\begin{tabular}{|l|c|c|c|}\hline
-			\textbf{Modelo} & \textbf{$R^2_{CV}$} & \textbf{$RSE_{CV}$} & \textbf{Predictores} \\\hline
-			A & 0.72 & 18.5 & 3 \\\hline
-			B & 0.74 & 17.8 & 5 \\\hline
-			C & 0.73 & 18.2 & 4 \\\hline
+		\begin{tabular}{|l|c|c|}
+			\hline
+			\textbf{Métrica predictiva} & \textbf{Muestra de Calibración (Train)} & \textbf{Muestra de Evaluación (Test)} \\ \hline
+			Coeficiente de Determinación ($R^2$) & 0.850 & 0.620 \\
+			Error Estándar Residual ($RSE$) & 15.20 & 28.70 \\
+			Error Absoluto Medio ($MAE$) & 12.10 & 22.50 \\ \hline
 		\end{tabular}
 	\end{center}
-	
 	\begin{enumerate}
-		\item Ordene los modelos según cada métrica.
-		\item Calcule la mejora relativa de B sobre A en términos de $RSE$.
-		\item Si el principio de parsimonia (navaja de Ockham) es importante, ¿qué modelo elegiría?
-		\item ¿Qué análisis adicional realizaría antes de tomar una decisión final?
+		\item Calcule las razones de degradación predictiva extra-muestra $RSE_{\text{test}} / RSE_{\text{train}}$ y $R_{\text{test}}^2 / R_{\text{train}}^2$.
+		\item Realice el diagnóstico diferencial formal: ¿presenta el modelo una patología de **sobreajuste extremo (\emph{Severe Overfitting} o alta varianza)** o de **subajuste (\emph{Underfitting} o alto sesgo)**? Justifique en función de los umbrales estándar de la industria.
+		\item Elabore un plan estratégico de rectificación metodológica detallando al menos cuatro intervenciones técnicas precisas (tales como regularización paramétrica, selección algorítmica de variables o validación cruzada anidada) para subsanar este fallo.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:val_mod_loocv_contabilidad}
+	Un investigador biomédico analiza un conjunto clínico altamente especializado de tamaño muestral reducido, integrado por exactamente $n = 50$ pacientes con una patología rara. Para evitar el sesgo de las particiones aleatorias simples en muestras pequeñas, decide validar la ecuación del tratamiento de regresión implementando el esquema **Validación Cruzada Dejando Uno Fuera (\emph{Leave-One-Out Cross-Validation} -- LOOCV)**.
+	\begin{enumerate}
+		\item Determine el número total y exacto de regresiones lineales independientes que el motor computacional debe estimar para completar una ejecución de LOOCV. ¿Cuántas observaciones integran la sub-muestra de estimación y cuántas la de prueba en cada iteración individual?
+		\item Si tras consolidar los $n = 50$ residuos predictivos puntuales ($\hat{\varepsilon}_{(-i)} = Y_i - \hat{Y}_{(-i)}$), el Error Cuadrático Medio poblacional consolidado de LOOCV resultó ser $\text{MSE}_{\text{LOOCV}} = 25.00$, calcule la estimación general del Error Estándar de Predicción ($RSE_{\text{est}}$).
+		\item Efectúe un contraste analítico sistemático entre LOOCV y una Validación Cruzada $5$-fold ($k=5$), completando una tabla comparativa respecto a tres dimensiones estructurales:
+		\begin{itemize}
+			\item Nivel de sesgo en la estimación del error verdadero de prueba.
+			\item Varianza estadística muestral entre los modelos entrenados.
+			\item Complejidad y costo algorítmico computacional ($O(\cdot)$).
+		\end{itemize}
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
+
+\begin{problema}
+	\label{prob:val_mod_aic_bic_teoria}
+	Para modelar la elasticidad precio-demanda del transporte público en un estudio metropolitano con $n = 100$ trayectos evaluados, se calibraron tres modelos multivariables candidatos con diferente nivel de complejidad estructural ($p$ es el número total de parámetros estimados, incluyendo el intercepto $\beta_0$ y la varianza del error $\sigma^2$).
+	Para evitar el sesgo optimista del $R^2$ sin recurrir a particiones que reduzcan la muestra útil, los teóricos de la información propusieron el **Criterio de Información de Akaike (AIC)** y el **Criterio de Información Bayesiano o de Schwarz (BIC)**:
+	\begin{align}
+		\text{AIC} = n \ln\left( \frac{\text{SCE}}{n} \right) + 2p, \qquad \text{BIC} = n \ln\left( \frac{\text{SCE}}{n} \right) + p \ln(n),
+	\end{align}
+	donde $\text{SCE} = \sum e_i^2$ es la Suma de Cuadrados Residual del ajuste de MCO.
+	Los resultados obtenidos por el motor de optimización fueron:
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|}
+			\hline
+			\textbf{Modelo Candidato} & \textbf{Parámetros ($p$)} & \textbf{SCE ($\sum e_i^2$)} & \textbf{$\text{SCE}/n$} \\ \hline
+			Modelo A (Básico) & 3 & 450.00 & 4.500 \\
+			Modelo B (Intermedio) & 5 & 380.00 & 3.800 \\
+			Modelo C (Saturado) & 8 & 350.00 & 3.500 \\ \hline
+		\end{tabular}
+	\end{center}
+	\begin{enumerate}
+		\item Calcule manualmente, paso a paso y con exactitud logarítmica ($\ln(4.50) = 1.5041, \ln(3.80) = 1.3350, \ln(3.50) = 1.2528, \ln(100) = 4.6052$), los valores numéricos de los criterios $\text{AIC}$ y $\text{BIC}$ para los tres modelos.
+		\item Determine qué modelo resulta indiscutiblemente seleccionado como óptimo bajo el criterio $\text{AIC}$ y cuál bajo el criterio $\text{BIC}$.
+		\item Explique teóricamente por qué el criterio $\text{BIC}$ aplica una **penalización asintótica mucho más severa** sobre la complejidad ($p$) que el $\text{AIC}$ siempre que el tamaño muestral cumple $n \geq 8$, y discuta las implicaciones que esto tiene para la selección de modelos parsimoniosos en grandes bases de datos (*Big Data*).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:val_mod_cp_mallows_press}
+	En una investigación econométrica laboral ($n = 30$ empresas del sector manufacturero), se pretende seleccionar el mejor subconjunto de variables para predecir la productividad por hora ($Y$). Se postula un modelo maestro o completo con $p_{\text{max}} = 6$ parámetros (cuyo ajuste no sesgado arrojó una varianza residual insesgada de $\hat{\sigma}^2 = \text{CME}_{\text{completo}} = 4.00$).
+	Se somete a evaluación un modelo sub-candidato parsimonioso que retiene únicamente $p = 3$ parámetros y que alcanza una Suma de Cuadrados Residual observada de $\text{SCE}_p = 13.00$.
+	\begin{enumerate}
+		\item Calcule el **Estadístico $C_p$ de Mallows** para el sub-modelo de $p=3$ parámetros mediante la fórmula:
+		\begin{align}
+			C_p = \frac{\text{SCE}_p}{\hat{\sigma}^2} - n + 2p.
+		\end{align}
+		Interprete si el modelo evaluado sufre de un sesgo por omisión de variables informativas al comparar el valor de $C_p$ contra la frontera teórica de insesgo ($C_p \approx p$).
+		\item Si al ejecutar la técnica de validación cruzada dejando uno fuera sobre dicho sub-modelo, la suma cuadrática de residuos de pronóstico resultó ser $\text{PRESS} = \sum_{i=1}^n (Y_i - \hat{Y}_{(-i)})^2 = 18.00$, y la Suma de Cuadrados Total muestral fue $\text{SCT} = 150.00$, calcule el **Coeficiente de Validación Cruzada Predictiva ($Q^2$ o $R_{\text{pred}}^2$)**:
+		\begin{align}
+			Q^2 = 1 - \frac{\text{PRESS}}{\text{SCT}}.
+		\end{align}
+		\item Demuestre numéricamente por qué en presencia de puntos u observaciones con alta influencia geométrica en el diseño (puntos de alto apalancamiento donde la diagonal de la matriz sombrero $H_{ii}$ se acerca a la unidad), el residuo de pronóstico del pliegue eliminado excede de forma violenta al residuo intra-muestra ($|Y_i - \hat{Y}_{(-i)}| \gg |Y_i - \hat{Y}_i|$), causando que el indicador $Q^2$ sea drásticamente inferior al $R^2$ ordinario ($Q^2 \ll R^2$).
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
+
+\begin{problema}
+	\label{prob:val_mod_deduccion_press_allen}
+	\textbf{Deducción analítica rigurosa de la identidad cerrada de Allen-PRESS en LOOCV matricial:}
+	Considere el modelo de regresión lineal general en forma matricial $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$, donde $\mathbf{X}$ es la matriz de diseño no singular de $n \times (p+1)$. Sea $\hat{\boldsymbol{\beta}}$ el vector de estimadores MCO con todas las $n$ observaciones, y sea $\hat{\boldsymbol{\beta}}_{(-i)}$ el vector de estimadores calculado tras eliminar o dejar fuera la $i$-ésima observación $(\mathbf{x}_i^T, Y_i)$ del sistema de ecuaciones normales.
+	\begin{enumerate}
+		\item Sabiendo que la matriz de productos cruzados sin la $i$-ésima observación obedece la actualización de rango 1 por sustracción diádica:
+		\begin{align}
+			\mathbf{X}_{(-i)}^T \mathbf{X}_{(-i)} = \mathbf{X}^T \mathbf{X} - \mathbf{x}_i \mathbf{x}_i^T,
+		\end{align}
+		aplique la fórmula matricial de inversión de Sherman-Morrison-Woodbury:
+		\begin{align}
+			\left(\mathbf{A} - \mathbf{u}\mathbf{v}^T\right)^{-1} = \mathbf{A}^{-1} + \frac{\mathbf{A}^{-1}\mathbf{u}\mathbf{v}^T \mathbf{A}^{-1}}{1 - \mathbf{v}^T \mathbf{A}^{-1}\mathbf{u}},
+		\end{align}
+		para demostrar analíticamente que la inversa del diseño incompleto se expresa como:
+		\begin{align}
+			\left(\mathbf{X}_{(-i)}^T \mathbf{X}_{(-i)}\right)^{-1} = (\mathbf{X}^T \mathbf{X})^{-1} + \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i \mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}}{1 - H_{ii}},
+		\end{align}
+		donde $H_{ii} = \mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i$ es el $i$-ésimo elemento sobre la diagonal principal de la matriz sombrero $\mathbf{H}$.
+		\item Partiendo de la relación proyectiva $\mathbf{X}_{(-i)}^T \mathbf{Y}_{(-i)} = \mathbf{X}^T \mathbf{Y} - \mathbf{x}_i Y_i$, pre-multiplique dicha expresión por la inversa de Sherman-Morrison deducida en el inciso previo para demostrar algebraicamente que el estimador privado de la observación $i$ satisface la identidad vectorial:
+		\begin{align}
+			\hat{\boldsymbol{\beta}}_{(-i)} = \hat{\boldsymbol{\beta}} - \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i e_i}{1 - H_{ii}},
+		\end{align}
+		donde $e_i = Y_i - \mathbf{x}_i^T \hat{\boldsymbol{\beta}}$ es el residuo de mínimos cuadrados ordinarios del modelo completo.
+		\item Multiplicando interiormente el vector de la diferencia por $\mathbf{x}_i^T$, demuestre el **Teorema de Allen-PRESS**: el residuo de validación cruzada dejando la $i$-ésima observación fuera ($\hat{\varepsilon}_{(-i)} = Y_i - \hat{Y}_{(-i)}$) se calcula computacionalmente de manera exacta y sin necesidad de recalcular ninguna regresión auxiliar como:
+		\begin{align}
+			\hat{\varepsilon}_{(-i)} = \frac{e_i}{1 - H_{ii}} \implies \text{PRESS} = \sum_{i=1}^n \left( \frac{e_i}{1 - H_{ii}} \right)^2.
+		\end{align}
+		Explique por qué si un punto de diseño es un extremo geométrico patológico de alto apalancamiento tal que $H_{ii} \to 1$, su contribución al estadístico $\text{PRESS}$ se dispara al infinito, destrozando la generalización predictiva del modelo.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:val_mod_sesgo_varianza_ridge}
+	\textbf{Descomposición teórica exacta del Error Cuadrático Medio Generalizado en Sesgo, Varianza y Ruido Irreductible, y optimización por regularización Ridge:}
+	Sea el proceso estocástico real del universo bi-dimensional generado por la función verdadera paramétrica no observable:
+	\begin{align}
+		Y = f(\mathbf{x}) + \varepsilon,
+	\end{align}
+	donde $\varepsilon$ es el ruido aleatorio poblacional de medición con media nula ($E[\varepsilon] = 0$) y varianza constante $\text{Var}(\varepsilon) = E[\varepsilon^2] = \sigma_{\varepsilon}^2$, independiente de las variables $\mathbf{x}$.
+	Sea $\hat{f}(\mathbf{x})$ un estimador paramétrico de regresión entrenado sobre una muestra aleatoria de datos $\mathcal{D} = \{(\mathbf{x}_i, Y_i)\}_{i=1}^n$ extraída del mismo proceso generador.
+	\begin{enumerate}
+		\item Demuestre analíticamente, paso a paso mediante expansiones algebraicas del operador esperanza matemática incondicional sobre el conjunto de entrenamiento ($E_{\mathcal{D}}[\cdot]$) y sobre la nueva observación de prueba independiente $(\mathbf{x}_0, Y_0)$, que el Error Cuadrático Medio Esperado de Pronóstico en un punto $\mathbf{x}_0$ se descompone de manera ortogonal exacta en la **Trilogía Fundamental del Aprendizaje Estadístico (*Bias-Variance-Noise Decomposition*)**:
+		\begin{align}
+			E_{\mathcal{D}, \, \varepsilon}\left[ \left( Y_0 - \hat{f}(\mathbf{x}_0) \right)^2 \right] = \left( \text{Sesgo}\left[\hat{f}(\mathbf{x}_0)\right] \right)^2 + \text{Var}\left( \hat{f}(\mathbf{x}_0) \right) + \sigma_{\varepsilon}^2,
+		\end{align}
+		donde el Sesgo y la Varianza de la proyección estimada se definen rigurosamente como:
+		\begin{align}
+			\text{Sesgo}\left[\hat{f}(\mathbf{x}_0)\right] &= E_{\mathcal{D}}\left[\hat{f}(\mathbf{x}_0)\right] - f(\mathbf{x}_0), \\
+			\text{Var}\left( \hat{f}(\mathbf{x}_0) \right) &= E_{\mathcal{D}}\left[ \left( \hat{f}(\mathbf{x}_0) - E_{\mathcal{D}}\left[\hat{f}(\mathbf{x}_0)\right] \right)^2 \right].
+		\end{align}
+		\item Considere el modelo lineal múltiple puro $f(\mathbf{x}) = \mathbf{x}^T \boldsymbol{\beta}$. Sabiendo que el estimador por MCO clásico ($\hat{\boldsymbol{\beta}}_{\text{MCO}}$) es estrictamente insesgado ($\text{Sesgo} = 0$), pero que en presencia de multicolinealidad o alta dimensionalidad su tensor de varianza $\sigma^2 (\mathbf{X}^T \mathbf{X})^{-1}$ experimenta una explosión espectral en sus eigenvalores inversos, demuestre cómo el estimador de **Regresión Ridge o de Tikhonov ($\hat{\boldsymbol{\beta}}_{\text{Ridge}} = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}\mathbf{X}^T \mathbf{Y}$)** introduce de forma voluntaria un sesgo paramétrico acotado a cambio de colapsar la varianza de la proyección.
+		Demuestre algebraicamente por qué existe de manera axiomática en el espacio continuo del hiperparámetro de regularización un valor real estricto $\lambda^* > 0$ donde la reducción neta en la varianza muestral supera con creces al cuadrado del sesgo inducido:
+		\begin{align}
+			\frac{\partial}{\partial \lambda} \left[ \text{Var}\left(\hat{Y}_{\text{Ridge}}\right) + \text{Sesgo}^2\left(\hat{Y}_{\text{Ridge}}\right) \right]_{\lambda = 0^+} < 0,
+		\end{align}
+		demostrando cómo la regularización validada por curvas de validación cruzada minimiza el error de generalización en el mundo real.
 	\end{enumerate}
 \end{problema}
 
 
 \subsection{Soluciones detalladas}
 
+\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
+
 \begin{solucion}
 	\begin{enumerate}
-		\item \textbf{Análisis de sobreajuste:} Hay evidencia leve de sobreajuste porque:
+		\item **Diagnóstico empírico de sobreajuste (\emph{Overfitting}):**
+		El sobreajuste ocurre cuando un modelo predictivo aprende con excesiva fidelidad los patrones aleatorios idiosincrásicos o el ``ruido de medición'' presente exclusivamente en la muestra particular de calibración, perdiendo generalidad ante nuevos datos del mismo mercado. Evaluemos las brechas muestrales obtenidas:
 		\begin{itemize}
-			\item $R^2$ disminuye de 0.76 a 0.72 (diferencia de 0.04)
-			\item $RSE$ aumenta de 24.5 a 27.8 (incremento de 13.5\%)
+			\item **Brecha en el Coeficiente de Determinación ($\Delta R^2$):**
+			\begin{align}
+				\Delta R^2 = R_{\text{train}}^2 - R_{\text{test}}^2 = 0.760 - 0.720 = +0.040 \quad (4.0 \text{ puntos porcentuales}).
+			\end{align}
+			El modelo pierde apenas un $4.0\%$ de capacidad explicativa de varianza al pasar a datos extra-muestra.
+			\item **Brecha en el Error Estándar Residual ($\Delta RSE$):**
+			\begin{align}
+				\text{Incremento relativo de error} = \frac{RSE_{\text{test}} - RSE_{\text{train}}}{RSE_{\text{train}}} \times 100 = \frac{27.80 - 24.50}{24.50} \times 100 = \frac{3.30}{24.50} \times 100 \approx +13.47\%.
+			\end{align}
 		\end{itemize}
+		En análisis estadístico de modelos aplicados, se considera la siguiente escala de diagnóstico:
+		\begin{itemize}
+			\item $\Delta R^2 \leq 0.05$ e incremento en $RSE \leq 15\%$: **Sobreajuste leve / admisible**, propio de la fluctuación muestral normal del error en muestras finitas de prueba ($n_{\text{test}} = 40$).
+			\item $\Delta R^2 > 0.15$ o incremento en $RSE > 40\%$: **Sobreajuste severo / patológico**, indicativo de memorización estadística y falta de parsimonia.
+		\end{itemize}
+		Por tanto, concluimos que **no existe un sobreajuste patológico**. El modelo generaliza de manera razonable y consistente al mercado inmobiliario global.
 		
-		Sin embargo, la diferencia no es dramática, lo que sugiere que el sobreajuste es moderado y el modelo generaliza razonablemente bien.
-		
-		\item Porcentaje de error en el conjunto de prueba:
+		\item Cálculo del porcentaje relativo de error predictivo medio en el conjunto de prueba oculta:
+		Para un precio promedio de las residencias de prueba de $\bar{Y}_{\text{test}} = 250.0$ miles de dólares y una dispersión residual de $RSE_{\text{test}} = 27.80$ miles:
 		\begin{align}
-			\text{Error \%} = \frac{RSE_{test}}{\bar{Y}} \times 100 = \frac{27.8}{250} \times 100 = 11.12\%
+			\text{Error de Pronóstico Relativo \%} = \frac{RSE_{\text{test}}}{\bar{Y}_{\text{test}}} \times 100 = \frac{27.80}{250.00} \times 100 = 11.12\%.
 		\end{align}
+		Las proyecciones del modelo sobre viviendas nuevas incurren en una desviación típica media de tan solo un $11.12\%$ del valor real de tasación del inmueble.
 		
-		El modelo tiene un error promedio del 11.12\% en predicciones del conjunto de prueba.
-		
-		\item \textbf{Recomendaciones:}
-		\begin{itemize}
-			\item Usar validación cruzada $k$-fold (con $k = 5$ o $k = 10$) para obtener estimaciones más robustas
-			\item Repetir la división entrenamiento/prueba múltiples veces con diferentes particiones aleatorias
-			\item Considerar técnicas de regularización si el sobreajuste es problemático
-		\end{itemize}
+		\item **Limitaciones estructurales del método \emph{Holdout} (División simple 80/20) y alternativa superadora:**
+		Cuando el tamaño de la muestra es acotado (como en $n = 200$), reservar un único bloque fijo de prueba de $n_{\text{test}} = 40$ genera dos vulnerabilidades graves:
+		\begin{enumerate}
+			\item **Alta varianza o sensibilidad a la partición aleatoria:** La estimación del error extra-muestra dependerá críticamente de si en esos particulares 40 inmuebles elegidos al azar cayeron por azar residencias atípicas, excesivamente caras o muy homogéneas. Otra semilla aleatoria arrojaría métricas de $R_{\text{test}}^2$ notablemente distintas.
+			\item **Pérdida de potencia muestral en estimación:** Al sustraer el $20\%$ de los datos, los parámetros $\boldsymbol{\beta}$ se calibran con menos información ($160$ en vez de $200$), induciendo un sesgo conservador que subestima la verdadera capacidad del modelo si se hubiese entrenado con toda la base disponible.
+		\end{enumerate}
+		**Alternativa superadora:** Implementar un protocolo de **Validación Cruzada de $k$ pliegues ($k$-fold Cross-Validation con $k=5$ o $k=10$)**. Este método rota iterativamente la muestra en 5 o 10 particiones, garantizando que el $100\%$ de los datos originales se emplee exactamente una vez como prueba oculta y que los errores se promedien, estabilizando de forma definitiva la inferencia sobre la capacidad de generalización.
 	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
 	\begin{enumerate}
-		\item Estadísticos descriptivos:
-		\begin{align}
-			\bar{R}^2 &= \frac{0.68 + 0.72 + 0.65 + 0.70 + 0.69}{5} = \frac{3.44}{5} = 0.688 \\
-			s_{R^2} &= \sqrt{\frac{\sum (R^2_i - \bar{R}^2)^2}{k-1}} = \sqrt{\frac{0.00248}{4}} = \sqrt{0.00062} \approx 0.0249
-		\end{align}
-		
-		\item Intervalo de confianza del 95\% (usando distribución $t$ con $k-1 = 4$ grados de libertad):
-		\begin{align}
-			\bar{R}^2 \pm t_{0.025, 4} \times \frac{s_{R^2}}{\sqrt{k}} &= 0.688 \pm 2.776 \times \frac{0.0249}{\sqrt{5}} \\
-			&= 0.688 \pm 2.776 \times 0.0111 \\
-			&= 0.688 \pm 0.0308 \\
-			&= (0.657, 0.719)
-		\end{align}
-		
-		\item \textbf{Interpretación de la variabilidad:} La desviación estándar de 0.0249 indica baja variabilidad entre los folds (coeficiente de variación $\approx 3.6\%$). Esto sugiere que:
-		\begin{itemize}
-			\item El modelo es estable y consistente
-			\item Los datos están bien distribuidos entre los folds
-			\item No hay dependencia fuerte de particiones específicas
-		\end{itemize}
-		
-		\item \textbf{Capacidad de generalización:} El modelo tiene buena capacidad de generalización porque:
-		\begin{itemize}
-			\item El $R^2$ promedio de 0.688 es razonablemente alto
-			\item La baja variabilidad indica robustez
-			\item El intervalo de confianza es relativamente estrecho
-			\item El modelo debería funcionar bien con datos nuevos similares
-		\end{itemize}
-	\end{enumerate}
-\end{solucion}
-
-\begin{solucion}
-	\begin{enumerate}
-		\item \textbf{Rendimiento promedio:} El Modelo B tiene mejor rendimiento promedio ($R^2 = 0.80$ vs $R^2 = 0.78$).
-		
-		\item \textbf{Estabilidad:} El Modelo A es más estable porque tiene menor variabilidad ($\sigma = 0.04$ vs $\sigma = 0.06$). El coeficiente de variación es:
-		\begin{itemize}
-			\item Modelo A: $CV = 0.04/0.78 = 5.1\%$
-			\item Modelo B: $CV = 0.06/0.80 = 7.5\%$
-		\end{itemize}
-		
-		\item $R^2$ ajustado esperado:
-		
-		Modelo A ($p = 3$):
-		\begin{align}
-			R^2_{adj} = 1 - \frac{150-1}{150-3-1}(1 - 0.78) = 1 - \frac{149}{146}(0.22) = 1 - 0.2245 = 0.7755
-		\end{align}
-		
-		Modelo B ($p = 5$):
-		\begin{align}
-			R^2_{adj} = 1 - \frac{150-1}{150-5-1}(1 - 0.80) = 1 - \frac{149}{144}(0.20) = 1 - 0.2069 = 0.7931
-		\end{align}
-		
-		\item \textbf{Recomendación:} Depende del contexto, pero en general:
-		\begin{itemize}
-			\item \textbf{Modelo A} si se prioriza: simplicidad, interpretabilidad, estabilidad, menor riesgo de sobreajuste
-			\item \textbf{Modelo B} si se prioriza: máximo poder predictivo, y la mayor variabilidad es aceptable
-		\end{itemize}
-		
-		\textbf{Recomendación práctica:} El Modelo A, porque la mejora marginal en $R^2$ (0.02) no justifica la mayor complejidad y variabilidad del Modelo B. Además, el $R^2_{adj}$ del Modelo B (0.793) es solo ligeramente superior al del Modelo A (0.776).
-	\end{enumerate}
-\end{solucion}
-
-\begin{solucion}
-	\begin{enumerate}
-		\item \textbf{Análisis de métricas:}
-		\begin{itemize}
-			\item \textbf{$R^2$:} Disminuye drásticamente de 0.85 a 0.62 (reducción del 27\%), lo que indica \textbf{fuerte sobreajuste}.
-			\item \textbf{$RSE$:} Aumenta de 15.2 a 28.7 (incremento del 89\%), confirmando el sobreajuste.
-			\item \textbf{$MAE$:} Aumenta de 12.1 a 22.5 (incremento del 86\%), consistente con el sobreajuste.
-		\end{itemize}
-		
-		El modelo se ajusta muy bien a los datos de entrenamiento pero generaliza pobremente a datos nuevos.
-		
-		\item Ratios:
-		\begin{align}
-			\frac{RSE_{test}}{RSE_{train}} &= \frac{28.7}{15.2} \approx 1.89 \\
-			\frac{R^2_{test}}{R^2_{train}} &= \frac{0.62}{0.85} \approx 0.73
-		\end{align}
-		
-		Un ratio $RSE > 1.5$ y $R^2 < 0.8$ son señales claras de sobreajuste.
-		
-		\item \textbf{Estrategias de mejora:}
-		\begin{itemize}
-			\item \textbf{Regularización:} Usar Ridge o Lasso para penalizar coeficientes grandes
-			\item \textbf{Reducción de complejidad:} Eliminar predictores menos importantes
-			\item \textbf{Más datos:} Aumentar el tamaño de muestra si es posible
-			\item \textbf{Validación cruzada:} Usar CV para seleccionar hiperparámetros
-			\item \textbf{Transformaciones:} Considerar transformaciones de variables
-			\item \textbf{Detección de outliers:} Identificar y manejar valores atípicos
-			\item \textbf{Feature engineering:} Crear nuevas variables más informativas
-		\end{itemize}
-	\end{enumerate}
-\end{solucion}
-
-\begin{solucion}
-	\begin{enumerate}
-		\item \textbf{Número de modelos:} En LOOCV se ajustan $n = 50$ modelos, uno por cada observación dejada fuera.
-		
-		\item \textbf{Tamaños de conjuntos:}
-		\begin{itemize}
-			\item Entrenamiento: $n - 1 = 49$ observaciones
-			\item Prueba: $1$ observación
-		\end{itemize}
-		
-		\item $RSE$ estimado:
-		\begin{align}
-			RSE = \sqrt{MSE} = \sqrt{25} = 5
-		\end{align}
-		
-		\item \textbf{Comparación LOOCV vs 5-fold CV:}
-		
+		\item **Cálculo exacto del Error Cuadrático Medio de Prueba (\emph{Test MSE}):**
+		Tabulamos los errores residuales y sus cuadrados sobre las $n_{\text{test}} = 4$ observaciones de pronóstico:
 		\begin{center}
-			\begin{tabular}{|l|c|c|}\hline
-				\textbf{Característica} & \textbf{LOOCV} & \textbf{5-fold CV} \\\hline
-				Sesgo & Bajo (casi insesgado) & Ligeramente mayor \\\hline
-				Varianza & Alta (correlación entre folds) & Menor \\\hline
-				Costo computacional & Muy alto ($n$ modelos) & Bajo (5 modelos) \\\hline
-				Tamaño entrenamiento & $n-1$ & $0.8n$ \\\hline
-				Estabilidad & Menor (más variable) & Mayor \\\hline
+			\begin{tabular}{ccccc}
+				\hline
+				\textbf{Día ($i$)} & \textbf{Real ($Y_i$)} & \textbf{Predicción ($\hat{Y}_i$)} & \textbf{Residuo ($e_i = Y_i - \hat{Y}_i$)} & \textbf{Residuo Cuadrado ($e_i^2$)} \\ \hline
+				1 & 120.0 & 115.0 & $+5.0$ & $25.00$ \\
+				2 & 135.0 & 138.0 & $-3.0$ & $9.00$ \\
+				3 & 110.0 & 112.0 & $-2.0$ & $4.00$ \\
+				4 & 145.0 & 141.0 & $+4.0$ & $16.00$ \\ \hline
+				\textbf{Suma} & & & & $\sum e_i^2 = \mathbf{54.00}$ \\ \hline
 			\end{tabular}
 		\end{center}
+		Aplicando la definición de promedio del cuadrado del error:
+		\begin{align}
+			\text{MSE}_{\text{test}} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{4} e_i^2 = \frac{54.00}{4} = 13.50 \text{ (MWh)}^2.
+		\end{align}
 		
-		\textbf{Recomendación:} Para $n = 50$, LOOCV es factible pero 5-fold o 10-fold CV suelen ser preferibles por su mejor balance sesgo-varianza y menor costo computacional.
+		\item **Cálculo de la Raíz del Error Cuadrático Medio (\emph{RMSE}) y Error Absoluto Medio (\emph{MAE}):**
+		\begin{itemize}
+			\item Para el $\text{RMSE}_{\text{test}}$ (en las mismas unidades físicas de la variable de respuesta $Y$, megavatios-hora):
+			\begin{align}
+				\text{RMSE}_{\text{test}} = \sqrt{\text{MSE}_{\text{test}}} = \sqrt{13.50} \approx 3.6742 \text{ MWh}.
+			\end{align}
+			\item Para el Error Absoluto Medio ($\text{MAE}_{\text{test}}$), sumamos los valores absolutos de los residuos ($|e_1| = 5, |e_2| = 3, |e_3| = 2, |e_4| = 4 \implies \sum |e_i| = 14.00$):
+			\begin{align}
+				\text{MAE}_{\text{test}} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{4} |e_i| = \frac{14.00}{4} = 3.5000 \text{ MWh}.
+			\end{align}
+		\end{itemize}
+		
+		\item **Dominancia algebraica invariante ($\text{RMSE} \geq \text{MAE}$) y penalización geométrica:**
+		Por la célebre **Desigualdad de Cauchy-Schwarz para medias generalizadas o de norma $L_p$** en espacios vectoriales euclidianos, la norma cuadrática medio-cuadrática ($L_2$) de un conjunto de desviaciones es estrictamente superior a la norma absoluta media ($L_1$), alcanzando la igualdad únicamente en el caso patológico y trivial en que todos los residuos absolutos sean numéricamente constantes ($|e_1| = |e_2| = \dots = |e_n|$):
+		\begin{align}
+			\text{RMSE}_{\text{test}} \geq \text{MAE}_{\text{test}} \quad (3.6742 > 3.5000).
+		\end{align}
+		
+		**Penalización geométrica del RMSE:** Al elevar al cuadrado cada error residual ($e_i^2$) antes de computar el promedio, la métrica $\text{MSE}$ (y en consecuencia el $\text{RMSE}$) otorga una ponderación exponencialmente agresiva y desproporcionada a las **desviaciones predictivas extremas o grandes aberraciones (\emph{outliers})**. Por ejemplo, un único error predictivo de $10$ MWh contribuye con $100$ unidades a la suma de cuadrados (equivalente a la penalización total de cien pequeños errores individuales de $1$ MWh).
+		Por esta razón, el $\text{RMSE}$ se utiliza como estándar de validación en ingeniería y finanzas cuando cometer un error de pronóstico severo genera costos catastróficos para el sistema, mientras que el $\text{MAE}$ se prefiere para evaluar el rendimiento robusto medio ante distribuciones que presentan valores atípicos espurios.
 	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
 	\begin{enumerate}
-		\item \textbf{Ordenamiento:}
-		
-		Según $R^2_{CV}$ (mayor es mejor): B (0.74) > C (0.73) > A (0.72)
-		
-		Según $RSE_{CV}$ (menor es mejor): B (17.8) < C (18.2) < A (18.5)
-		
-		Según parsimonia (menos predictores): A (3) < C (4) < B (5)
-		
-		\item Mejora relativa de B sobre A en $RSE$:
+		\item **Cálculo del Coeficiente de Determinación Medio y su desviación estándar entre pliegues:**
+		Sumamos y promediamos los coeficientes obtenidos a lo largo de las $k = 5$ rotaciones:
 		\begin{align}
-			\text{Mejora} = \frac{RSE_A - RSE_B}{RSE_A} \times 100 = \frac{18.5 - 17.8}{18.5} \times 100 = 3.78\%
+			\bar{R}_{\text{CV}}^2 = \frac{1}{5} \sum_{j=1}^{5} R_{\text{CV}, j}^2 = \frac{0.680 + 0.720 + 0.650 + 0.700 + 0.690}{5} = \frac{3.440}{5} = 0.6880 \quad (68.80\%).
+		\end{align}
+		Calculamos la varianza muestral insesgada y la desviación estándar ($s_{R^2}$) computando las desviaciones cuadráticas respecto a la media de pliegues ($\bar{R}_{\text{CV}}^2 = 0.688$):
+		\begin{align}
+			\sum_{j=1}^{5} \left( R_{\text{CV}, j}^2 - \bar{R}_{\text{CV}}^2 \right)^2 &= (0.680 - 0.688)^2 + (0.720 - 0.688)^2 + (0.650 - 0.688)^2 + \\
+			&\quad (0.700 - 0.688)^2 + (0.690 - 0.688)^2 \\
+			&= (-0.008)^2 + (+0.032)^2 + (-0.038)^2 + (+0.012)^2 + (+0.002)^2 \\
+			&= 0.000064 + 0.001024 + 0.001444 + 0.000144 + 0.000004 = 0.002680.
+		\end{align}
+		Dividiendo por los grados de libertad inter-pliegues ($k - 1 = 4$):
+		\begin{align}
+			s_{R^2}^2 = \frac{0.002680}{4} = 0.000670 \implies s_{R^2} = \sqrt{0.000670} \approx 0.025884.
 		\end{align}
 		
-		El Modelo B reduce el error en 3.78\% comparado con A.
+		\item **Construcción del intervalo de confianza probabilístico del $95\%$ para el $R^2$ de generalización:**
+		Para $\nu = k - 1 = 4$ grados de libertad, el cuantil tabulado de Student al $95\%$ bilateral es $t_{0.025, \, 4} = 2.776$.
+		El error estándar de la estimación media por validación cruzada es:
+		\begin{align}
+			SE\left(\bar{R}_{\text{CV}}^2\right) = \frac{s_{R^2}}{\sqrt{k}} = \frac{0.025884}{\sqrt{5}} \approx \frac{0.025884}{2.236068} \approx 0.011576.
+		\end{align}
+		Sustituyendo en la fórmula inferencial del intervalo de confianza:
+		\begin{align}
+			IC_{95\%}\left( R_{\text{poblacional}}^2 \right) &= \bar{R}_{\text{CV}}^2 \pm t_{0.025, \, 4} \cdot SE\left(\bar{R}_{\text{CV}}^2\right) = 0.6880 \pm (2.776)(0.011576) \\
+			&= 0.6880 \pm 0.0321 = \left[ 0.6559, \; 0.7201 \right].
+		\end{align}
+		Con una certeza del $95\%$, el verdadero poder predictivo del algoritmo crediticio al ser enfrentado a nuevos perfiles poblacionales oscilará de manera estable entre el $65.59\%$ y el $72.01\%$ de varianza explicada.
 		
-		\item \textbf{Elección con principio de parsimonia:} El Modelo A, porque:
-		\begin{itemize}
-			\item Tiene el menor número de predictores (3)
-			\item La diferencia en rendimiento con B es pequeña ($\Delta R^2 = 0.02$, $\Delta RSE = 0.7$)
-			\item Es más simple, interpretable y menos propenso a sobreajuste
-			\item La mejora marginal de B no justifica la mayor complejidad
-		\end{itemize}
-		
-		\item \textbf{Análisis adicional:}
-		\begin{itemize}
-			\item \textbf{Significancia estadística:} Pruebas para comparar modelos (ej: prueba F, test de Diebold-Mariano)
-			\item \textbf{Análisis de residuos:} Verificar supuestos (normalidad, homocedasticidad, independencia)
-			\item \textbf{Interpretabilidad:} Evaluar si los coeficientes tienen sentido en el contexto del problema
-			\item \textbf{Costo de recolección:} Considerar el costo de obtener datos para predictores adicionales
-			\item \textbf{Validación externa:} Probar los modelos en un conjunto de datos completamente independiente
-			\item \textbf{Análisis de sensibilidad:} Evaluar robustez ante cambios en los datos
-		\end{itemize}
+		\item **Auditoría de homogeneidad mediante el Coeficiente de Variación ($CV$):**
+		El coeficiente de variación dimensional arrojó una cifra sumamente pequeña:
+		\begin{align}
+			CV = \frac{s_{R^2}}{\bar{R}_{\text{CV}}^2} \times 100 = \frac{0.025884}{0.6880} \times 100 \approx 3.762\%.
+		\end{align}
+		Un coeficiente de variación inter-pliegues inferior al $5\%$ es garantía de una **sobresaliente estabilidad, robustez estructural y gran homogeneidad muestral**. Demuestra formalmente que el algoritmo no es errático ni depende de combinaciones idiosincrásicas de clientes; los datos están distribuidos armónicamente a través del espacio paramétrico, asegurando que el modelo mantendrá su nivel de exactitud predictiva de manera uniforme en la práctica diaria del banco.
 	\end{enumerate}
 \end{solucion}
 
+\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Comparación de poder explicativo medio y estabilidad por Coeficiente de Variación:**
+		\begin{itemize}
+			\item **Poder explicativo bruto medio:** El **Modelo B ($p_B=5$)** exhibe una superioridad aparente de $2.0$ puntos porcentuales absolutos sobre el Modelo A en el promedio neto de varianza explicada en prueba ($\bar{R}_{\text{CV}, B}^2 = 0.800$ vs. $\bar{R}_{\text{CV}, A}^2 = 0.780$).
+			\item **Auditoría de estabilidad inter-pliegues (Coeficiente de Variación porcentual):**
+			\begin{align}
+				CV_{\text{Modelo A}} &= \frac{\sigma_A}{\bar{R}_{\text{CV}, A}^2} \times 100 = \frac{0.040}{0.780} \times 100 \approx 5.128\%, \\
+				CV_{\text{Modelo B}} &= \frac{\sigma_B}{\bar{R}_{\text{CV}, B}^2} \times 100 = \frac{0.060}{0.800} \times 100 \approx 7.500\%.
+			\end{align}
+		\end{itemize}
+		El **Modelo A demuestra una superior estabilidad y menor varianza de generalización** ($CV$ del $5.13\%$ frente al $7.50\%$ del Modelo B). La variabilidad inter-pliegues del modelo complejo es un $50\%$ más alta ($\sigma_B = 0.06$ vs $\sigma_A = 0.04$), lo que indica que añadir los dos predictores adicionales vuelve al sistema sensible y oscilante ante rotaciones muestrales.
+		
+		\item **Cálculo del Coeficiente de Determinación Ajustado esperado ($R_{\text{adj}}^2$) para $n = 150$ tiendas:**
+		Aplicando la corrección por grados de libertad $R_{\text{adj}}^2 = 1 - \left[ \dfrac{n - 1}{n - p - 1}(1 - \bar{R}_{\text{CV}}^2) \right]$:
+		\begin{itemize}
+			\item Para el **Modelo A ($n = 150, p_A = 3, \bar{R}_{\text{CV}, A}^2 = 0.780$)**:
+			\begin{align}
+				R_{\text{adj, A}}^2 &= 1 - \left[ \frac{150 - 1}{150 - 3 - 1}(1 - 0.780) \right] = 1 - \left[ \frac{149}{146}(0.220) \right] \\
+				&= 1 - \left[ (1.020548)(0.220) \right] = 1 - 0.224520 \approx 0.7755 \quad (77.55\%).
+			\end{align}
+			\item Para el **Modelo B ($n = 150, p_B = 5, \bar{R}_{\text{CV}, B}^2 = 0.800$)**:
+			\begin{align}
+				R_{\text{adj, B}}^2 &= 1 - \left[ \frac{150 - 1}{150 - 5 - 1}(1 - 0.800) \right] = 1 - \left[ \frac{149}{144}(0.200) \right] \\
+				&= 1 - \left[ (1.034722)(0.200) \right] = 1 - 0.206944 \approx 0.7931 \quad (79.31\%).
+			\end{align}
+		\end{itemize}
+		
+		\item **Selección estratégica definitiva bajo el Principio de Parsimonia (Navaja de Ockham):**
+		El célebre postulado metodológico de William de Ockham establece que *``entre hipótesis en competencia que explican los datos con semejante exactitud, debe elegirse siempre la más simple''*. En econometría y ciencia de datos, este principio se traduce en que un modelo más complejo solo se justifica si aporta un incremento estadísticamente abrumador y decisivo en la predicción extra-muestra.
+		
+		Comparemos el balance: al pasar del Modelo A (3 predictores) al Modelo B (5 predictores), la gerencia debe pagar el costo de recolectar, mantener y procesar en producción un $66.7\%$ más de variables de entrada. A cambio de esta complejidad estructural y operacional, la ganancia neta en varianza explicada ajustada es del todo marginal y microscópica: una ínfima ventaja de **apenas $+1.76$ puntos porcentuales** ($R_{\text{adj, B}}^2 = 79.31\%$ vs $R_{\text{adj, A}}^2 = 77.55\%$), con el grave agravante de que el modelo saturado sufre una varianza inestable en su validación cruzada ($CV=7.50\%$).
+		
+		Por tanto, se **recomienda de manera rotunda y unánime adoptar el Modelo A (Parsimonioso)**. Su simplicidad, elegancia, notable estabilidad en todos los pliegues y virtualmente idéntica precisión en pronóstico minorista protegen a la corporación del sobreajuste e incrementan la confiabilidad de la toma de decisiones.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Cálculo de las razones cuantitativas de degradación extra-muestra:**
+		\begin{itemize}
+			\item **Razón de inflación del Error Estándar Residual ($RSE_{\text{test}} / RSE_{\text{train}}$):**
+			\begin{align}
+				\text{Ratio } RSE = \frac{RSE_{\text{test}}}{RSE_{\text{train}}} = \frac{28.70}{15.20} \approx 1.8882 \quad (188.82\%).
+			\end{align}
+			El error de pronóstico residual casi se **duplica (+88.82\%)** tan pronto el modelo se enfrenta a transacciones que no formaron parte de su entrenamiento.
+			\item **Razón de retención de la Varianza Explicada ($R_{\text{test}}^2 / R_{\text{train}}^2$):**
+			\begin{align}
+				\text{Ratio } R^2 = \frac{R_{\text{test}}^2}{R_{\text{train}}^2} = \frac{0.620}{0.850} \approx 0.7294 \quad (72.94\%).
+			\end{align}
+			El modelo experimenta una abrupta caída y pérdida del $27.06\%$ en su capacidad nominal de predicción de variabilidad ($\Delta R^2 = 0.850 - 0.620 = +0.230$).
+		\end{itemize}
+		
+		\item **Diagnóstico diferencial patológico: Sobreajuste Extremo (\emph{Severe Overfitting / Alta Varianza}):**
+		Diferenciemos con rigor teórico los dos fallos estructurales de modelación lineal:
+		\begin{itemize}
+			\item **Subajuste (\emph{Underfitting} o Alto Sesgo):** Se diagnostica cuando el modelo es demasiado rígido o simple para capturar los verdaderos patrones no lineales del fenómeno. Se manifiesta porque el error intra-muestra ya es mediocremente alto y la varianza explicada en calibración es pobre (por ejemplo, $R_{\text{train}}^2 \approx 0.35$ y $R_{\text{test}}^2 \approx 0.33$).
+			\item **Sobreajuste Severo (\emph{Overfitting} o Alta Varianza):** Se diagnostica por la **coexistencia simultánea de un desempeño estelar e artificialmente alto en entrenamiento** ($R_{\text{train}}^2 = 0.850$, bajo $RSE_{\text{train}} = 15.20$) **junto con un colapso dramático en las métricas extra-muestra** ($\text{Ratio } RSE > 1.50$ y pérdida de $R^2 > 0.20$).
+		\end{itemize}
+		Nuestro modelo encaja a la perfección en la patología de **Sobreajuste Extremo de Alta Varianza**. Al forzar la estimación de $p = 15$ predictores sobre una sub-muestra finita de calibración de apenas $n_{\text{train}} = 96$ transacciones (lo que arroja una precaria relación de apenas $6.4$ observaciones por variable candidata, muy por debajo del umbral mínimo de seguridad econométrica de $15$ a $20$ observaciones por parámetro), el algoritmo memorizó el ruido aleatorio y las aberraciones transitorias del conjunto de calibración, perdiendo toda validez predictiva global.
+		
+		\item **Plan estratégico integral de rectificación metodológica:**
+		Para erradicar este sobreajuste severo y construir un modelo robusto que generalice con éxito, se prescriben las siguientes cuatro intervenciones técnicas obligatorias:
+		\begin{enumerate}
+			\item **Implementación de Regularización Paramétrica por Contracción de Normas (Regresión Ridge $L_2$ o Lasso $L_1$):**
+			Sustituir la estimación pura por MCO ($\min \sum e_i^2$) por una función objetivo penalizada $\min \left\{ \sum (Y_i - \hat{Y}_i)^2 + \lambda \sum |\beta_j| \right\}$ (Lasso) o $\min \left\{ \sum (Y_i - \hat{Y}_i)^2 + \lambda \sum \beta_j^2 \right\}$ (Ridge). El término de penalización con hiperparámetro calibrado $\lambda > 0$ contrae los coeficientes de regresión hacia el origen, abatiendo drásticamente la varianza del estimador y obligando a los predictores con señales débiles a anularse exactamente a cero (selección automática intrínseca en Lasso).
+			\item **Selección Algorítmica y Reducción de Dimensionalidad (Eliminación Recursiva de Atributos -- RFE o Regresión en Componentes Principales -- PCR):**
+			Dado que $15$ variables sobreajustan a $96$ filas, se debe reducir el número de regresores activos a un subconjunto parsimonioso de entre $4$ y $6$ variables de alta señal teórica. Mediante Eliminación Recursiva de Atributos con validación cruzada interna (RFECV), se eliminan de forma sistemática los regresores con menores estadísticos $t$ parciales o con factores de inflación de varianza $\text{VIF} > 5.0$.
+			\item **Sustitución de la División Simple por Validación Cruzada Anidada (\emph{Nested $k$-fold Cross-Validation}):**
+			Para evitar sesgos y fuga de información (*Data Leakage*) durante la selección de variables o la búsqueda del hiperparámetro $\lambda$, se debe emplear un bucle **interno** de validación cruzada ($k=5$) para ajustar los hiperparámetros y seleccionar variables, envuelto en un bucle **externo** independiente de validación cruzada ($k=10$) que evalúa pura y exclusivamente el error de generalización en pliegues verdaderamente ciegos.
+			\item **Ingenería del Dominio y Amortiguación de Valores Atípicos (\emph{Robust Regression / Feature Transformations}):**
+			Auditar la normalidad de la variable dependiente de transacciones corporativas ($Y$) mediante transformaciones logarítmicas o de Box-Cox ($\ln Y$), e identificar observaciones con apalancamiento anómalo mediante la distancia de Cook para reajustar con modelos de regresión robusta (como estimadores $M$ de Huber que minimizan el impacto cuadrático de los *outliers*).
+		\end{enumerate}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Contabilidad operacional de la Validación Cruzada Dejando Uno Fuera (LOOCV):**
+		En la metodología LOOCV ejecutada sobre una muestra de tamaño finito $n = 50$:
+		\begin{itemize}
+			\item **Número total exacto de regresiones ajustadas:** Se deben calibrar y resolver numéricamente **exactamente $n = 50$ modelos independientes** de regresión por mínimos cuadrados ordinarios ($\hat{\boldsymbol{\beta}}_{(-1)}, \hat{\boldsymbol{\beta}}_{(-2)}, \dots, \hat{\boldsymbol{\beta}}_{(-50)}$).
+			\item **Tamaño de las sub-muestras en cada iteración $i=1,\dots,50$:**
+			\begin{align}
+				n_{\text{train}, i} = n - 1 = 50 - 1 = \mathbf{49 \text{ observaciones para estimación}}, \\
+				n_{\text{test}, i} = \mathbf{1 \text{ única observación excluida para prueba y pronóstico}}.
+			\end{align}
+		\end{itemize}
+		
+		\item Cálculo del Error Estándar Residual estimado de generalización ($RSE_{\text{est}}$):
+		Sabiendo que el Error Cuadrático Medio por LOOCV fue $\text{MSE}_{\text{LOOCV}} = \dfrac{1}{50} \sum_{i=1}^{50} (Y_i - \hat{Y}_{(-i)})^2 = 25.00$, el Error Estándar de Predicción se obtiene extrayendo directamente la raíz cuadrada del promedio cuadrático predictivo:
+		\begin{align}
+			RSE_{\text{est}} = \sqrt{\text{MSE}_{\text{LOOCV}}} = \sqrt{25.00} = 5.00 \text{ unidades clínicas}.
+		\end{align}
+		
+		\item **Contraste analítico estructural entre LOOCV ($k=n$) y $5$-fold CV ($k=5$):**
+		La Tabla \ref{tab:loocv_vs_kfold_sol} sintetiza las ventajas y costos en las tres dimensiones fundamentales del aprendizaje estadístico.
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{p{3.5cm}p{5.5cm}p{5.5cm}}
+				\hline
+				\textbf{Dimensión Analítica} & \textbf{LOOCV (Dejando Uno Fuera, $k=n$)} & \textbf{Validación Cruzada $5$-fold ($k=5$)} \\ \hline
+				\textbf{1. Sesgo en la estimación del Error de Generalización} & **Extremadamente bajo / Prácticamente insesgado ($\text{Sesgo} \approx 0$).** Cada modelo se entrena con $n-1=49$ datos (el $98\%$ de la muestra original), produciendo estimadores prácticamente idénticos en valor medio al modelo paramétrico completo. & **Sesgo ligeramente conservador ($\text{Sesgo} > 0$).** Al calibrar con $0.8n = 40$ datos por pliegue, la menor muestra sobreestima de forma marginal la tasa real de error del modelo completo. \\ \hline
+				\textbf{2. Varianza inter-modelos y estabilidad predictiva} & **Elevada varianza estadística.** Los 50 conjuntos de estimación de tamaño $n-1$ son virtualmente idénticos entre sí (comparten el $98\%$ de las mismas observaciones en común). Esta altísima correlación lineal inter-muestral infla la varianza del promedio predictivo. & **Varianza notablemente menor / Alta estabilidad.** Los 5 bloques de prueba son completamente independientes y disjuntos, reduciendo la covarianza inter-modelos y logrando un balance Sesgo-Varianza muy superior. \\ \hline
+				\textbf{3. Costo computacional y complejidad algorítmica} & **Costo muy elevado / Prohibitivo en Big Data ($O(n)$ ajustes).** Requiere invertir y solucionar la matriz de diseño $n$ veces sucesivas, inviable para muestras de cientos de miles de filas (salvo mediante la fórmula mágica de la matriz sombrero). & **Costo algorítmico ligero y ultrarrápido ($O(k)$ ajustes, con $k=5$).** Solo requiere invertir y entrenar 5 modelos, siendo el estándar industrial de eficiencia en el balance de precisión inferencial. \\ \hline
+			\end{tabular}
+			\caption{Análisis de dominancia metodológica entre LOOCV y Validación Cruzada $k$-fold.}
+			\label{tab:loocv_vs_kfold_sol}
+		\end{table}
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Cálculo manual riguroso de los Criterios de Información de Akaike ($\text{AIC}$) y Schwarz ($\text{BIC}$):**
+		Aplicamos las definiciones algebraicas $\text{AIC} = n\ln(\text{SCE}/n) + 2p$ y $\text{BIC} = n\ln(\text{SCE}/n) + p\ln(n)$ para la muestra de tamaño $n = 100$ con $\ln(100) = 4.6052$:
+		\begin{itemize}
+			\item **Modelo A ($p=3, \text{SCE}=450.00 \implies \text{SCE}/n = 4.500, \ln(4.500) = 1.5041$):**
+			\begin{align}
+				\text{AIC}_A &= 100(1.5041) + 2(3) = 150.41 + 6.00 = \mathbf{156.41}, \\
+				\text{BIC}_A &= 100(1.5041) + 3(4.6052) = 150.41 + 13.8156 = \mathbf{164.23}.
+			\end{align}
+			\item **Modelo B ($p=5, \text{SCE}=380.00 \implies \text{SCE}/n = 3.800, \ln(3.800) = 1.3350$):**
+			\begin{align}
+				\text{AIC}_B &= 100(1.3350) + 2(5) = 133.50 + 10.00 = \mathbf{143.50}, \\
+				\text{BIC}_B &= 100(1.3350) + 5(4.6052) = 133.50 + 23.0260 = \mathbf{156.53}.
+			\end{align}
+			\item **Modelo C ($p=8, \text{SCE}=350.00 \implies \text{SCE}/n = 3.500, \ln(3.500) = 1.2528$):**
+			\begin{align}
+				\text{AIC}_C &= 100(1.2528) + 2(8) = 125.28 + 16.00 = \mathbf{141.28}, \\
+				\text{BIC}_C &= 100(1.2528) + 8(4.6052) = 125.28 + 36.8416 = \mathbf{162.12}.
+			\end{align}
+		\end{itemize}
+		Consolidamos toda la evaluación en la Tabla \ref{tab:aic_bic_sol}.
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{|l|c|c|c|c|c|}
+				\hline
+				\textbf{Modelo} & \textbf{$p$} & \textbf{$\ln(\text{SCE}/n)$} & \textbf{Log-verosimilitud ($n\ln(\text{SCE}/n)$)} & \textbf{AIC ($+2p$)} & \textbf{BIC ($+p\ln n$)} \\ \hline
+				Modelo A & 3 & 1.5041 & 150.41 & 156.41 & 164.23 \\
+				Modelo B & 5 & 1.3350 & 133.50 & 143.50 & \textbf{156.53 (Óptimo)} \\
+				Modelo C & 8 & 1.2528 & 125.28 & \textbf{141.28 (Óptimo)} & 162.12 \\ \hline
+			\end{tabular}
+			\caption{Evaluación de parsimonia mediante los criterios informacionales AIC y BIC.}
+			\label{tab:aic_bic_sol}
+		\end{table}
+		
+		\item **Selección óptima de modelos por cada criterio:**
+		En la teoría de selección informacional, el modelo superior es siempre aquel que minimiza la pérdida de entropía relativa de Kullback-Leibler respecto a la verdad paramétrica, es decir, **el modelo que alcanza el menor valor numérico absoluto del indicador**:
+		\begin{itemize}
+			\item **Bajo el criterio $\text{AIC}$:** El modelo óptimo seleccionado es el **Modelo C (Saturado con $p=8$)**, con un valor mínimo de $\text{AIC}_C = \mathbf{141.28}$ (frente a los $143.50$ de B y $156.41$ de A).
+			\item **Bajo el criterio $\text{BIC}$:** El modelo óptimo seleccionado es el **Modelo B (Intermedio con $p=5$)**, con un valor mínimo de $\text{BIC}_B = \mathbf{156.53}$ (frente a los $162.12$ de C y $164.23$ de A).
+		\end{itemize}
+		
+		\item **Dominancia de la penalización asintótica de Schwarz y filosofía en \emph{Big Data}:**
+		Analicemos por qué los dos criterios discrepan al penalizar la adición de parámetros:
+		\begin{itemize}
+			\item En el $\text{AIC}$, el costo marginal por incorporar una variable adicional ($\Delta p = 1$) es una constante fija e invariante al tamaño de muestra: $\text{Penalización}_{\text{AIC}} = +2$.
+			\item En el $\text{BIC}$, el costo marginal por parámetro es proporcional al logaritmo natural de la muestra: $\text{Penalización}_{\text{BIC}} = +\ln(n)$.
+		\end{itemize}
+		Tan pronto como el número de observaciones del estudio supera la frontera trivial de $n \geq 8$, el logaritmo natural rebasa el factor constante del AIC ($\ln(8) \approx 2.079 > 2.000$). Para nuestra muestra de $n=100$, el BIC castiga cada variable extra con un recargo de $+4.61$ puntos, más de un **$130\%$ más severo** que los $+2.00$ puntos del AIC.
+		
+		Por esta razón estructural, al evaluar el Modelo C ($p=8$ vs $p=5$, tres parámetros más), el AIC solo impone una multa suave de $+6.00$ puntos que es compensada con creces por la ganancia en suma de cuadrados residual ($125.28 - 133.50 = -8.22$), eligiendo al modelo complejo. En marcado contraste, el BIC impone una multa feroz de $+13.82$ puntos sobre esos tres parámetros superfluos, superando por mucho a la reducción del error residual y descartando sin piedad al Modelo C como un sobreajuste patológico, proclamando al Modelo B ($p=5$) como el rey de la parsimonia.
+		
+		**Implicaciones críticas en \emph{Big Data}:** En bases de datos masivas con $n = 1,000,000$ de filas ($\ln n \approx 13.82$), el AIC tiende de manera crónica e inconsistente a seleccionar modelos mastodónticos llenos de variables redundantes con efectos significativos al centésimo decimal. El **BIC goza de la propiedad de consistencia paramétrica asintótica**: si la probabilidad de seleccionar al modelo verdadero converge a $1$ cuando $n \to \infty$, el BIC es el árbitro supremo de selección en analítica moderna a gran escala.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Cálculo de la validación paramétrica por el Estadístico $C_p$ de Mallows:**
+		Para la muestra de $n = 30$ empresas, con la varianza residual insesgada del modelo maestro completo ($p_{\text{max}} = 6$) siendo $\hat{\sigma}^2 = 4.00$, y la suma residual del sub-modelo evaluado ($p = 3$) siendo $\text{SCE}_p = 13.00$:
+		\begin{align}
+			C_p = \frac{\text{SCE}_p}{\hat{\sigma}^2} - n + 2p = \frac{13.00}{4.00} - 30 + 2(3) = 3.25 - 30 + 6.00 = -20.75 + 6.00 = -20.75 + 6.00 = -20.75 + 6.00 = -20.75.
+		\end{align}
+		*(Nota computacional: Re-evaluemos la fórmula clásica en términos absolutos si la suma $\text{SCE}_p$ estuviera expresada en la escala de varianza total $SCT$; en el cálculo estándar con $p=3$ y $\text{SCE}_3=13$, obtenemos la cifra de $3.25 - 30 + 6 = -20.75$).* Si el sub-modelo de $p=3$ fuera una representación absolutamente insesgada y suficiente de todo el proceso generador ($E[\text{SCE}_p] = (n - p)\sigma^2$), la esperanza matemática teórica del estadístico de Mallows obedece la identidad fundamental:
+		\begin{align}
+			E[C_p] = \frac{(n - p)\sigma^2}{\sigma^2} - n + 2p = n - p - n + 2p = p.
+		\end{align}
+		Un valor experimental de **$C_p \approx p$ (es decir, cercano a $3.00$)** indica ausencia de sesgo por variables omitidas, posicionando al modelo evaluado como una excelente elección parsimoniosa.
+		
+		\item **Cálculo del Coeficiente de Validación Cruzada Predictiva ($Q^2$ o $R_{\text{pred}}^2$):**
+		Con una Suma de Cuadrados Residual por validación dejando uno fuera de $\text{PRESS} = 18.00$ y una varianza total en la muestra de $\text{SCT} = 150.00$:
+		\begin{align}
+			Q^2 = 1 - \frac{\text{PRESS}}{\text{SCT}} = 1 - \frac{18.00}{150.00} = 1 - 0.1200 = 0.8800 \quad (88.00\%).
+		\end{align}
+		El indicador predictivo de Stone-Geisser revela un extraordinario poder de generalización ($88.00\%$ del comportamiento productivo es predecible en pliegues verdaderamente externos). Un $Q^2 > 0.50$ se considera robusto en las ciencias sociales y un $Q^2 > 0.80$ es un estándar estelar en econometría aplicada.
+		
+		\item **Impacto analítico de los puntos con alto apalancamiento sobre el estadístico PRESS y $Q^2$:**
+		Por el Teorema de Allen, el residuo exacto de pronóstico al eliminar la $i$-ésima empresa del ajuste de regresión satisface la relación analítica:
+		\begin{align}
+			Y_i - \hat{Y}_{(-i)} = \frac{Y_i - \hat{Y}_i}{1 - H_{ii}} = \frac{e_i}{1 - H_{ii}},
+		\end{align}
+		donde $H_{ii}$ es el valor en la diagonal de la matriz sombrero ($\mathbf{x}_i^T(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i$), el cual se encuentra acotado en el intervalo real $0 \leq \dfrac{1}{n} \leq H_{ii} \leq 1$.
+		
+		Demostración numérica del colapso: Supongamos que una de las 30 empresas es una corporación tecnológica atípica con un apalancamiento extremadamente alto de **$H_{ii} = 0.90$**, mientras que su residuo ordinario en MCO es apenas $e_i = 1.50$ (dando un falso sentido de un ajuste excelente en el $R^2$ normal).
+		Al eliminar a esa única empresa para evaluar su pronóstico ciego por LOOCV, el residuo predictivo real sufre una amplificación violenta:
+		\begin{align}
+			\hat{\varepsilon}_{(-i)} = \frac{1.50}{1 - 0.90} = \frac{1.50}{0.10} = 15.00.
+		\end{align}
+		¡El residuo de pronóstico **se multiplica exactamente por un factor de 10 ($15.00$ vs $1.50$)**! Al elevar al cuadrado esa única desviación de validación ($15.00^2 = 225.00$), su contribución individual al sumatorio $\text{PRESS}$ aplasta por completo a la suma de cuadrados residual del modelo completo ($\text{SCE} = 13.00 \implies R^2 = 1 - 13/150 = 91.33\%$).
+		Con $\text{PRESS} = 225.00 + \dots > 225.00$, el Coeficiente de Validación Cruzada cae a territorio calamitoso o negativo:
+		\begin{align}
+			Q^2 = 1 - \frac{225.00 + \text{otros}}{150.00} < 1 - 1.50 = -0.50 \quad (-50.0\%).
+		\end{align}
+		Esta demostración prueba incontrovertiblemente por qué el $R^2$ ordinario es altamente vulnerable y ciego ante puntos de gran apalancamiento que secuestran la línea de regresión hacia ellos, mientras que la métrica $Q^2$ basada en el estadístico $\text{PRESS}$ actúa como un implacable detector de inestabilidad geométrica, advirtiendo al analista cuando las predicciones de un modelo dependen peligrosamente de unas pocas observaciones extremas.
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Deducción analítica matricial de la actualización por Sherman-Morrison-Woodbury:**
+		Sea el tensor simétrico incompleto de productos cruzados al sustraer el vector diádico de la $i$-ésima observación $\mathbf{x}_i \mathbf{x}_i^T$:
+		\begin{align}
+			\mathbf{A}_{(-i)} = \mathbf{X}_{(-i)}^T \mathbf{X}_{(-i)} = \mathbf{X}^T \mathbf{X} - \mathbf{x}_i \mathbf{x}_i^T.
+		\end{align}
+		Identificando en el lema exacto de inversión de Sherman-Morrison-Woodbury a la matriz original como $\mathbf{A} = \mathbf{X}^T \mathbf{X}$ y a los vectores de perturbación vectorial como $\mathbf{u} = \mathbf{x}_i$ y $\mathbf{v} = \mathbf{x}_i$:
+		\begin{align}
+			\left(\mathbf{A} - \mathbf{u}\mathbf{v}^T\right)^{-1} = \mathbf{A}^{-1} + \frac{\mathbf{A}^{-1}\mathbf{u}\mathbf{v}^T \mathbf{A}^{-1}}{1 - \mathbf{v}^T \mathbf{A}^{-1}\mathbf{u}}.
+		\end{align}
+		Sustituyendo directamente los términos de diseño:
+		\begin{align}
+			\left(\mathbf{X}_{(-i)}^T \mathbf{X}_{(-i)}\right)^{-1} &= (\mathbf{X}^T \mathbf{X})^{-1} + \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i \mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}}{1 - \mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i}.
+		\end{align}
+		Reconociendo formalmente por definición que la forma cuadrática escalar del denominador es el elemento de la diagonal de la matriz sombrero $H_{ii} = \mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i$, se concluye en un solo paso riguroso:
+		\begin{align}
+			\left(\mathbf{X}_{(-i)}^T \mathbf{X}_{(-i)}\right)^{-1} = (\mathbf{X}^T \mathbf{X})^{-1} + \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i \mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}}{1 - H_{ii}}. \quad (\text{Q.E.D.})
+		\end{align}
+		
+		\item **Demostración vectorial del estimador privado $\hat{\boldsymbol{\beta}}_{(-i)}$:**
+		Pre-multiplicamos la inversa deducida por el vector proyectivo excluido $\mathbf{X}_{(-i)}^T \mathbf{Y}_{(-i)} = \mathbf{X}^T \mathbf{Y} - \mathbf{x}_i Y_i$:
+		\begin{align}
+			\hat{\boldsymbol{\beta}}_{(-i)} &= \left(\mathbf{X}_{(-i)}^T \mathbf{X}_{(-i)}\right)^{-1} \mathbf{X}_{(-i)}^T \mathbf{Y}_{(-i)} \\
+			&= \left[ (\mathbf{X}^T \mathbf{X})^{-1} + \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i \mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}}{1 - H_{ii}} \right] \left( \mathbf{X}^T \mathbf{Y} - \mathbf{x}_i Y_i \right).
+		\end{align}
+		Expandimos algebraicamente los cuatro productos escalares y factorizamos el vector común $(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i$:
+		\begin{align}
+			\hat{\boldsymbol{\beta}}_{(-i)} &= (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{Y} - (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i Y_i + \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i \mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{Y}}{1 - H_{ii}} - \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i \mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i Y_i}{1 - H_{ii}}.
+		\end{align}
+		Reconocemos que el primer término es justamente el estimador MCO de datos completos $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{Y}$. Además, en el tercer término el producto escalar interno es el valor ajustado intra-muestra $\mathbf{x}_i^T \hat{\boldsymbol{\beta}} = \hat{Y}_i$, y en el cuarto término identificamos nuevamente la forma cuadrática $H_{ii}$:
+		\begin{align}
+			\hat{\boldsymbol{\beta}}_{(-i)} = \hat{\boldsymbol{\beta}} - (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i Y_i + \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i \hat{Y}_i}{1 - H_{ii}} - \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i H_{ii} Y_i}{1 - H_{ii}}.
+		\end{align}
+		Agrupando bajo un denominador común $(1 - H_{ii})$ todos los términos que contienen al vector proyectivo $(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i$:
+		\begin{align}
+			\hat{\boldsymbol{\beta}}_{(-i)} &= \hat{\boldsymbol{\beta}} + (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i \left[ -Y_i + \frac{\hat{Y}_i}{1 - H_{ii}} - \frac{H_{ii} Y_i}{1 - H_{ii}} \right] \\
+			&= \hat{\boldsymbol{\beta}} + (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i \left[ \frac{-Y_i(1 - H_{ii}) + \hat{Y}_i - H_{ii} Y_i}{1 - H_{ii}} \right] \\
+			&= \hat{\boldsymbol{\beta}} + (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i \left[ \frac{-Y_i + Y_i H_{ii} + \hat{Y}_i - H_{ii} Y_i}{1 - H_{ii}} \right] = \hat{\boldsymbol{\beta}} - \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i (Y_i - \hat{Y}_i)}{1 - H_{ii}}.
+		\end{align}
+		Como el residuo ordinario es $e_i = Y_i - \hat{Y}_i$, queda demostrada la identidad paramétrica de actualización por exclusión:
+		\begin{align}
+			\hat{\boldsymbol{\beta}}_{(-i)} = \hat{\boldsymbol{\beta}} - \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i e_i}{1 - H_{ii}}. \quad (\text{Q.E.D.})
+		\end{align}
+		
+		\item **Demostración del Teorema de Allen-PRESS:**
+		Para calcular el pronóstico de la observación privada $i$, pre-multiplicamos el estimador privado por su vector de diseño $\mathbf{x}_i^T$:
+		\begin{align}
+			\hat{Y}_{(-i)} = \mathbf{x}_i^T \hat{\boldsymbol{\beta}}_{(-i)} = \mathbf{x}_i^T \hat{\boldsymbol{\beta}} - \frac{\mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i e_i}{1 - H_{ii}} = \hat{Y}_i - \frac{H_{ii} e_i}{1 - H_{ii}}.
+		\end{align}
+		El residuo de pronóstico o de validación cruzada dejando uno fuera se obtiene sustrayendo este valor proyectado de la respuesta real $Y_i$:
+		\begin{align}
+			\hat{\varepsilon}_{(-i)} = Y_i - \hat{Y}_{(-i)} &= Y_i - \left[ \hat{Y}_i - \frac{H_{ii} e_i}{1 - H_{ii}} \right] = (Y_i - \hat{Y}_i) + \frac{H_{ii} e_i}{1 - H_{ii}} \\
+			&= e_i + \frac{H_{ii} e_i}{1 - H_{ii}} = e_i \left( 1 + \frac{H_{ii}}{1 - H_{ii}} \right) = e_i \left( \frac{1 - H_{ii} + H_{ii}}{1 - H_{ii}} \right) = \frac{e_i}{1 - H_{ii}}.
+		\end{align}
+		Elevando al cuadrado y sumando sobre todas las filas $i=1,\dots,n$, coronamos la demostración analítica del estadístico PRESS:
+		\begin{align}
+			\text{PRESS} = \sum_{i=1}^n \hat{\varepsilon}_{(-i)}^2 = \sum_{i=1}^n \left( \frac{e_i}{1 - H_{ii}} \right)^2. \quad (\text{Identidad de Allen demostrada}).
+		\end{align}
+		
+		**Inestabilidad catastrófica por apalancamiento extremo:** Geométricamente, $H_{ii}$ es una distancia de Mahalanobis en el espacio explicativo $\mathbf{X}$ que mide qué tan aislado se encuentra el punto $i$ del centroide multivariable de toda la muestra. Cuando una observación es un extremo hiper-apalancado ($H_{ii} \to 1^-$), el divisor se colapsa a cero ($1 - H_{ii} \to 0^+$).
+		Esto provoca que cualquier residuo elemental no nulo en esa posición ($e_i \neq 0$) se divida por un infinitesimal, inflando el residuo predictivo al infinito ($\hat{\varepsilon}_{(-i)} \to \infty$). Físicamente, como esa única fila anómala es la única responsable de anclar la inclinación de la recta hiperplana en esa región del espacio, al retirarla del ajuste para validación por LOOCV, el plano de regresión se derrumba o gira abruptamente, produciendo un error catastrófico de generalización sobre dicho punto.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Deducción analítica de la Descomposición Sesgo-Varianza-Ruido:**
+		Para un punto concreto del espacio de diseño $\mathbf{x}_0$, sea el valor real del proceso generador $Y_0 = f(\mathbf{x}_0) + \varepsilon_0$, donde $\varepsilon_0$ es el ruido con media $0$ y varianza $\sigma_{\varepsilon}^2$, estadísticamente independiente de la muestra de calibración $\mathcal{D}$.
+		El Error Cuadrático Medio Esperado de la estimación al predecir $Y_0$ evaluado sobre todas las realizaciones del ruido y sobre todos los conjuntos de entrenamiento aleatorios de tamaño $n$ se formula:
+		\begin{align}
+			E_{\mathcal{D}, \, \varepsilon_0}\left[ \left( Y_0 - \hat{f}(\mathbf{x}_0) \right)^2 \right] = E_{\mathcal{D}, \, \varepsilon_0}\left[ \left( f(\mathbf{x}_0) + \varepsilon_0 - \hat{f}(\mathbf{x}_0) \right)^2 \right].
+		\end{align}
+		Sumamos y restamos artificialmente dentro del paréntesis la esperanza matemática de la proyección sobre el conjunto de entrenamiento, $\bar{f}(\mathbf{x}_0) = E_{\mathcal{D}}\left[\hat{f}(\mathbf{x}_0)\right]$:
+		\begin{align}
+			Y_0 - \hat{f}(\mathbf{x}_0) = \left[ f(\mathbf{x}_0) - \bar{f}(\mathbf{x}_0) \right] + \left[ \bar{f}(\mathbf{x}_0) - \hat{f}(\mathbf{x}_0) \right] + \varepsilon_0.
+		\end{align}
+		Elevando el trinomio al cuadrado y expandiendo con el operador lineal de esperanza $E_{\mathcal{D}, \, \varepsilon_0}[\cdot]$, obtenemos la suma de los tres cuadrados puros más los tres términos cruzados o dobles productos de covarianza:
+		\begin{align}
+			E_{\mathcal{D}, \, \varepsilon_0}\left[ \left( Y_0 - \hat{f}(\mathbf{x}_0) \right)^2 \right] &= E_{\mathcal{D}}\left[ \left( \bar{f}(\mathbf{x}_0) - f(\mathbf{x}_0) \right)^2 \right] + E_{\mathcal{D}}\left[ \left( \hat{f}(\mathbf{x}_0) - \bar{f}(\mathbf{x}_0) \right)^2 \right] + E_{\varepsilon_0}[\varepsilon_0^2] + \\
+			&\quad 2\left( \bar{f}(\mathbf{x}_0) - f(\mathbf{x}_0) \right) E_{\mathcal{D}}\left[ \bar{f}(\mathbf{x}_0) - \hat{f}(\mathbf{x}_0) \right] + \\
+			&\quad 2\left( \bar{f}(\mathbf{x}_0) - f(\mathbf{x}_0) \right) E_{\varepsilon_0}[\varepsilon_0] + 2 E_{\mathcal{D}}\left[ \bar{f}(\mathbf{x}_0) - \hat{f}(\mathbf{x}_0) \right] E_{\varepsilon_0}[\varepsilon_0].
+		\end{align}
+		Analicemos con absoluto rigor la cancelación ortogonal de los tres términos cruzados:
+		\begin{itemize}
+			\item Por definición de media condicional, el promedio de las desviaciones de un estimador respecto a su propia esperanza es idénticamente nulo: $E_{\mathcal{D}}\left[ \bar{f}(\mathbf{x}_0) - \hat{f}(\mathbf{x}_0) \right] = \bar{f}(\mathbf{x}_0) - E_{\mathcal{D}}\left[\hat{f}(\mathbf{x}_0)\right] = \bar{f}(\mathbf{x}_0) - \bar{f}(\mathbf{x}_0) = 0$. Por tanto, los dos primeros productos cruzados se anulan por completo.
+			\item Por la hipótesis central del proceso generador, el error aleatorio es insesgado: $E_{\varepsilon_0}[\varepsilon_0] = 0$. Esto cancela el tercer producto cruzado.
+		\end{itemize}
+		Los tres términos cuadráticos sobrevivientes representan con exactitud los componentes canónicos:
+		\begin{align}
+			E_{\mathcal{D}, \, \varepsilon_0}\left[ \left( Y_0 - \hat{f}(\mathbf{x}_0) \right)^2 \right] &= \left[ E_{\mathcal{D}}\left[\hat{f}(\mathbf{x}_0)\right] - f(\mathbf{x}_0) \right]^2 + E_{\mathcal{D}}\left[ \left( \hat{f}(\mathbf{x}_0) - E_{\mathcal{D}}\left[\hat{f}(\mathbf{x}_0)\right] \right)^2 \right] + \sigma_{\varepsilon}^2 \\
+			&= \left( \text{Sesgo}\left[\hat{f}(\mathbf{x}_0)\right] \right)^2 + \text{Var}\left( \hat{f}(\mathbf{x}_0) \right) + \sigma_{\varepsilon}^2. \quad (\text{Q.E.D.})
+		\end{align}
+		
+		\item **Optimización del balance Sesgo-Varianza por Regresión Ridge ($\lambda^* > 0$):**
+		En regresión lineal por MCO, el estimador $\hat{\boldsymbol{\beta}}_{\text{MCO}} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{Y}$ posee $\text{Sesgo} = 0$, por lo que su error predictivo poblacional es puramente su varianza más el ruido. Sin embargo, si la matriz de diseño $\mathbf{X}^T \mathbf{X}$ está mal condicionada (multicolinealidad), sus eigenvalores pequeños ($\gamma_{\min} \to 0^+$) hacen estallar el trazo del tensor de varianza espacial:
+		\begin{align}
+			\text{Var}\left( \hat{Y}_{\text{MCO}}(\mathbf{x}_0) \right) = \sigma^2 \mathbf{x}_0^T (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_0 = \sigma^2 \sum_{j=1}^{p+1} \frac{(\mathbf{x}_0^T \mathbf{v}_j)^2}{\gamma_j} \to \infty.
+		\end{align}
+		El estimador regularizado Ridge introduce una penalización de Tikhonov con peso $\lambda \geq 0$:
+		\begin{align}
+			\hat{\boldsymbol{\beta}}_{\text{Ridge}}(\lambda) = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}\mathbf{X}^T \mathbf{Y}.
+		\end{align}
+		Evaluemos en forma matricial el comportamiento analítico del Sesgo al cuadrado y la Varianza en función del parámetro $\lambda$:
+		\begin{itemize}
+			\item **Varianza decreciente:** La matriz de varianzas del estimador Ridge regularizado es $\text{Var}(\hat{\boldsymbol{\beta}}_{\text{Ridge}}) = \sigma^2 (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{X} (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}$. Su derivada respecto a $\lambda$ evaluada en el origen $\lambda = 0^+$ arroja una pendiente estrictamente negativa proporcional a $-2\sigma^2 (\mathbf{X}^T \mathbf{X})^{-2}$, lo que demuestra que **la varianza cae a una tasa lineal acelerada** con cualquier mínima inyección de $\lambda$.
+			\item **Sesgo cuadrático creciente:** El valor esperado del estimador Ridge es $E[\hat{\boldsymbol{\beta}}_{\text{Ridge}}] = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}\mathbf{X}^T \mathbf{X}\boldsymbol{\beta}$, por lo que el sesgo vectorial es $\text{Sesgo}[\hat{\boldsymbol{\beta}}_{\text{Ridge}}] = -\lambda (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}\boldsymbol{\beta}$. Al evaluar el cuadrado del sesgo en el punto crítico $\lambda = 0^+$, como el sesgo en sí es de orden $O(\lambda)$, su cuadrado es de orden infinitesimal superior $O(\lambda^2)$. En consecuencia, la derivada primera del cuadrado del sesgo respecto a $\lambda$ en el origen es **exactamente nula**:
+			\begin{align}
+				\frac{\partial}{\partial \lambda} \left[ \text{Sesgo}^2\left( \hat{Y}_{\text{Ridge}} \right) \right]_{\lambda = 0^+} = 0.
+			\end{align}
+		\end{itemize}
+		Sumando las dos tasas de variación en la vecindad infinitesimal de $\lambda = 0^+$:
+		\begin{align}
+			\frac{\partial}{\partial \lambda} \left[ \text{Error Cuadrático Esperado} \right]_{\lambda = 0^+} = \frac{\partial \text{Var}}{\partial \lambda}\Bigg|_{0^+} + \frac{\partial \text{Sesgo}^2}{\partial \lambda}\Bigg|_{0^+} = (\text{Valor Estrictamente Negativo}) + 0 < 0.
+		\end{align}
+		Esta demostración prueba de forma incontestable el **Teorema de Existencia del Hiperparámetro Óptimo de Regularización ($\exists \lambda^* > 0$)**: para cualquier modelo lineal imperfectamente ortogonal, introducir un sesgo artificial controlado mediante regularización Ridge siempre reduce en mayor cuantía la varianza muestral que el sesgo añadido, minimizando la función de pérdida del error de generalización. La validación cruzada $k$-fold actúa como la herramienta empírica que explora esta curva convexa de sesgo-varianza hasta localizar con precisión ese valle óptimo $\lambda^*$.
+	\end{enumerate}
+\end{solucion}
