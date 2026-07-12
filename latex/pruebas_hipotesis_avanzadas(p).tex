@@ -2,9 +2,11 @@
 
 \subsection{Enunciados de los problemas}
 
+\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
+
 \begin{problema}
 	\label{prob:doc_dos_medias_iguales}
-	Una empresa de telemedicina evalúa si el tiempo medio de respuesta en consultas de medicina general difiere entre dos plataformas digitales (Plataforma 1 vs Plataforma 2). Se obtienen dos muestras aleatorias independientes de tiempos (en minutos):
+	Una empresa de telemedicina evalúa si el tiempo medio de respuesta en consultas de medicina general difiere entre dos plataformas digitales (Plataforma 1 vs. Plataforma 2). Se obtienen dos muestras aleatorias independientes de tiempos (en minutos):
 	\begin{itemize}
 		\item \textbf{Plataforma 1:} $n_1 = 16$, $\bar{X}_1 = 14.2$ min, $S_1 = 2.4$ min.
 		\item \textbf{Plataforma 2:} $n_2 = 18$, $\bar{X}_2 = 16.8$ min, $S_2 = 2.6$ min.
@@ -16,7 +18,7 @@
 	\label{prob:doc_pareadas}
 	En una investigación sobre el rendimiento físico de deportistas tras someterse a un programa de entrenamiento en altitud, se midió el consumo máximo de oxígeno ($\text{VO}_2$ máx en ml/kg/min) en una muestra de $n = 12$ atletas \emph{antes} ($X_1$) y \emph{después} ($X_2$) del programa de 8 semanas. Las diferencias individuales $D_i = X_{2i} - X_{1i}$ arrojaron una media muestral de incremento $\bar{D} = 3.8$ ml/kg/min y una desviación estándar de las diferencias $S_D = 2.1$ ml/kg/min.
 	
-	¿Aportan los datos evidencia suficiente al nivel $\alpha = 0.01$ para afirmar que el programa de entrenamiento en altitud **aumenta** significativamente el consumo máximo de oxígeno?
+	¿Aportan los datos evidencia suficiente al nivel $\alpha = 0.01$ para afirmar que el programa de entrenamiento en altitud \textbf{aumenta} significativamente el consumo máximo de oxígeno?
 \end{problema}
 
 \begin{problema}
@@ -26,19 +28,21 @@
 		\item \textbf{Filtro Clásico:} Se detectaron correctamente como spam $X_1 = 340$ de $n_1 = 400$ correos maliciosos.
 		\item \textbf{Modelo IA:} Se detectaron correctamente como spam $X_2 = 465$ de $n_2 = 500$ correos maliciosos.
 	\end{itemize}
-	¿Existe evidencia al nivel $\alpha = 0.02$ para afirmar que el Modelo de IA tiene una **tasa de detección significativamente superior** a la del Filtro Clásico?
+	¿Existe evidencia al nivel $\alpha = 0.02$ para afirmar que el Modelo de IA tiene una \textbf{tasa de detección significativamente superior} a la del Filtro Clásico?
 \end{problema}
+
+\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
 
 \begin{problema}
 	\label{prob:doc_dos_varianzas}
 	Antes de realizar una prueba $t$ agrupada de comparación de medias de dos sensores analógicos, se debe comprobar si se cumple el supuesto de homoscedasticidad ($H_0: \sigma_1^2 = \sigma_2^2$). Se toman dos muestras aleatorias independientes con varianzas muestrales $S_1^2 = 14.8$ ($n_1 = 16$) y $S_2^2 = 5.2$ ($n_2 = 11$).
+	
 	Realice una prueba $F$ de dos colas al nivel $\alpha = 0.10$ para contrastar la hipótesis de igualdad de varianzas. ¿Es legítimo asumir homoscedasticidad?
 \end{problema}
 
 \begin{problema}
 	\label{prob:homogeneidad_contingencia}
 	Una firma de investigación de mercados analiza las preferencias de tres cohortes generacionales de usuarios de software (Generación Z, Millennials y Generación X) respecto al modelo de monetización preferido en herramientas digitales: Subscripción mensual, Pago único (licencia perpetua) o Freemium con publicidad. Se seleccionan tres muestras independientes de tamaños fijos $n_1 = 200$, $n_2 = 250$ y $n_3 = 150$, obteniéndose las frecuencias observadas en la Tabla \ref{tab:homog_obs}.
-	
 	\begin{table}[h!]
 		\centering
 		\begin{tabular}{lcccc}
@@ -57,6 +61,21 @@
 \end{problema}
 
 \begin{problema}
+	\label{prob:doc_welch_hetero}
+	Un científico de datos compara los tiempos de ejecución intermedios (en segundos) que consumen dos algoritmos de clústeres dispersos. Dado que la arquitectura de hardware del segundo algoritmo genera mucha más volatilidad, las varianzas poblacionales son explícitamente heterogéneas ($\sigma_1^2 \neq \sigma_2^2$). Se extraen las siguientes mediciones experimentales:
+	\begin{itemize}
+		\item \textbf{Algoritmo 1:} $n_1 = 15$, $\bar{X}_1 = 85.2$ s, $S_1 = 12.4$ s.
+		\item \textbf{Algoritmo 2:} $n_2 = 18$, $\bar{X}_2 = 74.5$ s, $S_2 = 5.2$ s.
+	\end{itemize}
+	\begin{enumerate}
+		\item Calcule los grados de libertad efectivos ($\nu$) mediante la ecuación de Welch-Satterthwaite.
+		\item Ejecute la prueba $t$ de Welch bilateral con $\alpha = 0.05$ para determinar si los tiempos medios de ejecución de ambos algoritmos difieren de manera estadísticamente significativa.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
+
+\begin{problema}
 	\label{prob:doc_k_proporciones_marascuilo}
 	Para evaluar el nivel de adherencia a estándares éticos sobre sesgo algorítmico, una entidad fiscalizadora examina muestras de modelos de aprendizaje automático desplegados por $k = 4$ empresas corporativas de tecnología (Empresas A, B, C y D). Se verifica si el modelo cumple con los criterios de imparcialidad (Éxito = Cumple, Fracaso = No cumple):
 	\begin{itemize}
@@ -67,12 +86,57 @@
 	\end{itemize}
 	\begin{enumerate}
 		\item Realice una prueba global $\chi^2$ de igualdad de proporciones ($H_0: p_1=p_2=p_3=p_4$) al nivel $\alpha = 0.05$.
-		\item Si se rechaza la hipótesis nula global, aplique el **procedimiento de comparación post-hoc de Marascuilo** para determinar cuáles parejas de empresas difieren significativamente entre sí al nivel familiar de $\alpha = 0.05$.
+		\item Si se rechaza la hipótesis nula global, aplique el \textbf{procedimiento de comparación post-hoc de Marascuilo} para determinar cuáles parejas de empresas difieren significativamente entre sí al nivel familiar de $\alpha = 0.05$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:doc_errores_potencia_muestra}
+	\textbf{Análisis integral del Error Tipo I ($\alpha$), Error Tipo II ($\beta$) y Potencia estadística ($1-\beta$):}
+	El tiempo de respuesta del servidor de procesamiento de transacciones de una fintech sigue una distribución normal con desviación estándar poblacional conocida $\sigma = 15$ milisegundos. El estándar operativo exige que la latencia media no supere los $100$ ms ($H_0: \mu \le 100$ vs. $H_a: \mu > 100$). Se monitorea una muestra aleatoria diaria de $n = 25$ transacciones con un nivel de significancia $\alpha = 0.05$.
+	\begin{enumerate}
+		\item Determine la regla de decisión en la escala original del promedio muestral de latencia ($\bar{X}_c = \mu_0 + Z_\alpha \frac{\sigma}{\sqrt{n}}$).
+		\item Suponga que debido a una sobrecarga en la red, la latencia media real de la población aumentó silenciosamente a $\mu_a = 108$ ms. Calcule la probabilidad exacta de cometer un **Error Tipo II ($\beta$)** —no detectar la sobrecarga— y determine el valor exacto de la **Potencia de la prueba ($1-\beta$)**.
+		\item Si el director de ingeniería exige que la prueba mantenga un riesgo $\alpha = 0.05$ pero sea capaz de detectar una sobrecarga real de $\mu_a = 108$ ms con una **Potencia estadística del $90\%$** ($1-\beta = 0.90 \implies Z_\beta = 1.282$), deduzca y calcule exactamente qué tamaño de muestra $n$ debe procesar el sistema en cada auditoría.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
+
+\begin{problema}
+	\label{prob:doc_desaf_lrt_wilks}
+	\textbf{Deducción de la Prueba de Razón de Verosimilitudes (*Likelihood Ratio Test*, LRT) para varianzas e invocación del Teorema de Wilks:}
+	Sean dos muestras aleatorias independientes $X_1, \dots, X_{n_1} \sim N(\mu_1, \sigma_1^2)$ y $Y_1, \dots, Y_{n_2} \sim N(\mu_2, \sigma_2^2)$ donde tanto las medias como las varianzas son completamente desconocidas. Se desea docimar la hipótesis paramétrica de homoscedasticidad $H_0: \sigma_1^2 = \sigma_2^2 = \sigma^2$ frente a $H_a: \sigma_1^2 \neq \sigma_2^2$.
+	\begin{enumerate}
+		\item Deduzca el logaritmo de la función de verosimilitud bivariada conjunta $\ln L(\mu_1, \mu_2, \sigma_1^2, \sigma_2^2)$ bajo el espacio paramétrico total sin restricciones $\Theta$, explicitando los estimadores máximo verosímiles de dispersión $\hat{\sigma}_1^2 = \frac{1}{n_1}\sum (X_i - \bar{X})^2$ y $\hat{\sigma}_2^2 = \frac{1}{n_2}\sum (Y_i - \bar{Y})^2$.
+		\item Deduzca el logaritmo de la verosimilitud bajo el subespacio nulo restringido $\Theta_0$ (donde $\sigma_1^2 = \sigma_2^2 = \sigma_0^2$), demostrando que la estimación combinada de máxima verosimilitud es:
+		\begin{align}
+			\hat{\sigma}_0^2 = \frac{n_1 \hat{\sigma}_1^2 + n_2 \hat{\sigma}_2^2}{n_1 + n_2}.
+		\end{align}
+		\item Demuestre que el estadístico logarítmico de la razón de verosimilitudes $\Lambda = \dfrac{L(\Theta_0)}{L(\Theta)}$ cumple la identidad algebraica exacta:
+		\begin{align}
+			-2 \ln \Lambda = n_1 \ln\left( \frac{\hat{\sigma}_0^2}{\hat{\sigma}_1^2} \right) + n_2 \ln\left( \frac{\hat{\sigma}_0^2}{\hat{\sigma}_2^2} \right).
+		\end{align}
+		\item Explique por qué, bajo la hipótesis nula, la distribución en el muestreo de $-2 \ln \Lambda$ converge asintóticamente al orden de $\chi^2_1$ según el \textbf{Teorema de Samuel S. Wilks}, argumentando el cómputo de la dimensión paramétrica perdida entre $\Theta$ y $\Theta_0$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:doc_desaf_pvalor_teorema}
+	\textbf{Estructura probabilística, dominancia estocástica y geometría analítica del Valor-$p$:}
+	En la literatura de ciencia de datos es habitual confundir el valor-$p$ observado con la probabilidad posterior de la hipótesis nula ($P(H_0 \mid \text{datos})$). Formalice la verdadera naturaleza del valor-$p$ considerándolo una variable aleatoria $P(X)$ sobre el espacio de las muestras observadas:
+	\begin{enumerate}
+		\item Sea una prueba univariada continua cuyo estadístico docimásica $T(X)$ posee una función de distribución estrictamente monótona continua $F_0(t) = P_{H_0}(T \le t)$ y función de supervivencia $S_0(t) = 1 - F_0(t) = P_{H_0}(T \ge t)$ bajo la hipótesis nula. El valor-$p$ aleatorio para pruebas de cola superior se define por $P = S_0(T)$.
+		Demuestre con rigor mediante la diferenciación y el Teorema de la Transformada de Probabilidad Integral (*Probability Integral Transform*) que, **cuando $H_0$ es verdadera, la variable aleatoria p-valor $P$ se distribuye en forma exactamente Uniforme sobre el intervalo unitario $[0, 1]$** ($P \sim U(0,1)$), cumpliendo $P_{H_0}(P \le \alpha) = \alpha$ para todo $\alpha \in (0,1)$.
+		\item Cuando la hipótesis alternativa $H_a$ es verdadera (existe un tamaño de efecto real en la naturaleza), el estadístico adopta una distribución alternativa diferente $F_a(t) = P_{H_a}(T \le t)$. Demuestre algebraicamente que la función de distribución acumulada del p-valor bajo $H_a$, denotada por $G_P(u) = P_{H_a}(P \le u)$ para $u \in (0,1)$, es una función **estrictamente cóncava** que domina estocásticamente a la diagonal uniforme ($G_P(u) > u$).
+		\item Demuestre por qué la densidad diferencial del p-valor en el límite del rechazo absoluto $\lim_{u \to 0^+} g_P(u) = \lim_{u \to 0^+} G_P'(u)$ es directamente proporcional al **cociente de verosimilitudes monótono** $\dfrac{f_a(t)}{f_0(t)}$ en la región extrema $t \to \infty$, justificando por qué ante cualquier efecto real los p-valores experimentales se aglomeran masivamente en la vecindad inmediata del cero.
 	\end{enumerate}
 \end{problema}
 
 
 \subsection{Soluciones detalladas}
+
+\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
 
 \begin{solucion}
 	\textbf{Paso 1: Planteamiento de hipótesis.}
@@ -96,7 +160,7 @@
 	\end{align}
 	
 	\textbf{Paso 4: Regla de decisión y conclusión.}
-	Para una prueba de dos colas con $\alpha = 0.05$ y $\nu = 32$ grados de libertad, el valor crítico en la tabla $t$ (aproximando al más cercano $\nu = 30$ o valor exacto) es $t_{0.025, 32} \approx 2.037$.
+	Para una prueba de dos colas con $\alpha = 0.05$ y $\nu = 32$ grados de libertad, el valor crítico en la tabla $t$ es $t_{0.025, \, 32} \approx 2.037$.
 	La región de rechazo está formada por los valores $t < -2.037$ o $t > 2.037$.
 	
 	Como el estadístico calculado $t = -3.017$ cae claramente en la región de rechazo de la cola izquierda ($-3.017 < -2.037$), **rechazamos $H_0$**. Concluimos al nivel del $5\%$ que existe una diferencia estadísticamente significativa en los tiempos medios de respuesta entre ambas plataformas, siendo la Plataforma 1 significativamente más rápida.
@@ -119,7 +183,7 @@
 	\textbf{Paso 3: Regla de decisión y conclusión.}
 	Para una prueba unilateral superior con $\alpha = 0.01$ y $\nu = 11$, el valor crítico de la distribución $t$ de Student es:
 	\begin{align}
-		t_{0.01, 11} = 2.718.
+		t_{0.01, \, 11} = 2.718.
 	\end{align}
 	La región de rechazo es $t > 2.718$. Dado que nuestro valor observado $t = 6.268 \gg 2.718$, **rechazamos categóricamente $H_0$**. Existe evidencia estadística abrumadora al nivel del $1\%$ para afirmar que el programa de entrenamiento en altitud produce un incremento real en el $\text{VO}_2$ máximo de los atletas.
 \end{solucion}
@@ -132,9 +196,9 @@
 		H_a&: p_1 - p_2 < 0 \quad \text{(prueba de cola izquierda)}.
 	\end{align}
 	
-	\textbf{Paso 2: Cálculo de las proporciones empíricas y de la proporción combinada ($\bar{p}$).}
+	\textbf{Paso 2: Proporciones empíricas y proporción combinada ($\bar{p}$).}
 	Las proporciones individuales son $\hat{p}_1 = 340/400 = 0.850$ ($85\%$) y $\hat{p}_2 = 465/500 = 0.930$ ($93\%$).
-	Bajo la hipótesis nula de que ambas proporciones son iguales, el mejor estimador puntual combinando la información de las dos muestras es:
+	Bajo la hipótesis nula de que ambas proporciones son iguales, el estimador agrupado combinando ambas muestras es:
 	\begin{align}
 		\bar{p} = \frac{X_1 + X_2}{n_1 + n_2} = \frac{340 + 465}{400 + 500} = \frac{805}{900} \approx 0.89444.
 	\end{align}
@@ -145,7 +209,7 @@
 		SE_0 = \sqrt{\bar{p}(1-\bar{p})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)} &= \sqrt{0.89444(0.10556)\left(\frac{1}{400} + \frac{1}{500}\right)} \\
 		&= \sqrt{0.094416 \times 0.0045} = \sqrt{0.00042487} \approx 0.02061.
 	\end{align}
-	El estadístico normal estandarizado resulta:
+	El estadístico normal tipificado resulta:
 	\begin{align}
 		Z = \frac{\hat{p}_1 - \hat{p}_2}{SE_0} = \frac{0.850 - 0.930}{0.02061} = \frac{-0.080}{0.02061} \approx -3.881.
 	\end{align}
@@ -155,8 +219,10 @@
 	\begin{align}
 		-Z_{0.02} = -2.054.
 	\end{align}
-	Como el estadístico observado $Z = -3.881$ cae en la zona de rechazo ($Z < -2.054$, con un valor-$p < 0.0001$), **rechazamos $H_0$**. Demostramos con una significancia del $2\%$ (y de más del $99.99\%$) que el nuevo Modelo de IA es significativamente superior en la detección de correos maliciosos.
+	Como el estadístico observado $Z = -3.881$ cae en la zona de rechazo ($Z < -2.054$, con un p-valor $< 0.0001$), **rechazamos $H_0$**. Demostramos al nivel de significancia del $2\%$ que el nuevo Modelo de IA tiene una tasa de detección superior al Filtro Clásico.
 \end{solucion}
+
+\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
 
 \begin{solucion}
 	\textbf{Paso 1: Planteamiento de hipótesis bidireccional.}
@@ -166,25 +232,25 @@
 	\end{align}
 	
 	\textbf{Paso 2: Cálculo del estadístico $F$.}
-	Colocando la varianza mayor en el numerador para comparar de manera estandarizada contra la cola superior del área crítica:
+	Colocando la varianza mayor en el numerador para comparar contra la cola superior de la tabla de Snedecor:
 	\begin{align}
 		F = \frac{S_1^2}{S_2^2} = \frac{14.8}{5.2} \approx 2.846.
 	\end{align}
 	Los grados de libertad son $\nu_1 = n_1 - 1 = 15$ en el numerador y $\nu_2 = n_2 - 1 = 10$ en el denominador.
 	
-	\textbf{Paso 3: Obtención de los puntos críticos de la distribución de Snedecor.}
+	\textbf{Paso 3: Obtención de los puntos críticos de la distribución de Fisher-Snedecor.}
 	Para una prueba de dos colas al nivel $\alpha = 0.10$, el área en cada cola extrema es $\alpha/2 = 0.05$. Consultando la tabla $F$ para $15$ y $10$ grados de libertad:
 	\begin{align}
-		F_{0.05, 15, 10} = 2.85.
+		F_{0.05, \, 15, \, 10} = 2.85.
 	\end{align}
-	El valor crítico inferior es $F_{0.95, 15, 10} = \frac{1}{F_{0.05, 10, 15}} = \frac{1}{2.54} \approx 0.394$.
+	El valor crítico inferior es $F_{0.95, \, 15, \, 10} = \dfrac{1}{F_{0.05, \, 10, \, 15}} = \dfrac{1}{2.54} \approx 0.394$.
 	
 	\textbf{Paso 4: Conclusión técnica.}
-	Nuestro estadístico observado $F = 2.846$ está justo en el límite inferior del cuantil superior de rechazo ($2.846 \approx 2.85$). En sentido estricto al cuarto decimal ($2.846 < 2.85$), no se rechaza formalmente $H_0$ al $10\%$. Sin embargo, al estar tan cercanamente en el borde del rechazo, un científico de datos cauteloso evitaría asumir homoscedasticidad estricta para la prueba de medias posterior y optaría por la prueba $t$ de Welch-Satterthwaite para proteger la robustez del análisis.
+	Nuestro estadístico observado $F = 2.846$ está justo en el límite inferior del cuantil superior de rechazo ($2.846 \approx 2.85$). En sentido estricto ($2.846 < 2.85$), no se rechaza formalmente $H_0$ al $10\%$. Sin embargo, al hallarse en la zona fronteriza de rechazo, se desaconseja asumir homoscedasticidad pura en pasos posteriores y se recomienda aplicar la prueba $t$ heteroscedástica de Welch.
 \end{solucion}
 
 \begin{solucion}
-	\textbf{Paso 1: Planteamiento de hipótesis.}
+	\textbf{Paso 1: Planteamiento de hipótesis de homogeneidad.}
 	\begin{align}
 		H_0&: \text{La distribución del modelo preferido es homogénea en las tres generaciones } (p_{i1}=p_{i2}=p_{i3} \; \forall i). \\
 		H_a&: \text{Las distribuciones de preferencia difieren en al menos una generación.}
@@ -197,26 +263,49 @@
 		\item $E_{21} = \frac{165 \times 200}{600} = 55.00$, \quad $E_{22} = \frac{165 \times 250}{600} = 68.75$, \quad $E_{23} = \frac{165 \times 150}{600} = 41.25$.
 		\item $E_{31} = \frac{190 \times 200}{600} = 63.33$, \quad $E_{32} = \frac{190 \times 250}{600} = 79.17$, \quad $E_{33} = \frac{190 \times 150}{600} = 47.50$.
 	\end{itemize}
-	Notemos que todos los $E_{ij} \geq 5$, por lo que la aproximación $\chi^2$ es válida.
+	Verificamos que todos los $E_{ij} \geq 5$, por lo que la aproximación asintótica $\chi^2$ es válida.
 	
 	\textbf{Paso 3: Cálculo del estadístico $\chi^2$ de prueba.}
-	Calculamos la aportación $\frac{(O_{ij}-E_{ij})^2}{E_{ij}}$ de cada una de las 9 celdas:
+	Calculamos la aportación $\dfrac{(O_{ij}-E_{ij})^2}{E_{ij}}$ de cada una de las 9 celdas:
 	\begin{align}
-		\chi^2 &= \frac{(80-81.67)^2}{81.67} + \frac{(120-102.08)^2}{102.08} + \frac{(45-61.25)^2}{61.25} \nonumber \\
-		&\quad + \frac{(30-55)^2}{55.00} + \frac{(65-68.75)^2}{68.75} + \frac{(70-41.25)^2}{41.25} \nonumber \\
+		\chi^2 &= \frac{(80-81.67)^2}{81.67} + \frac{(120-102.08)^2}{102.08} + \frac{(45-61.25)^2}{61.25} + \frac{(30-55)^2}{55.00} + \frac{(65-68.75)^2}{68.75} + \frac{(70-41.25)^2}{41.25} \nonumber \\
 		&\quad + \frac{(90-63.33)^2}{63.33} + \frac{(65-79.17)^2}{79.17} + \frac{(35-47.50)^2}{47.50} \\
-		&= 0.034 + 3.146 + 4.311 + 11.364 + 0.205 + 20.030 + 11.231 + 2.536 + 3.290 \nonumber \\
-		&= 56.147.
+		&= 0.034 + 3.146 + 4.311 + 11.364 + 0.205 + 20.030 + 11.231 + 2.536 + 3.290 = 56.147.
 	\end{align}
 	
 	\textbf{Paso 4: Grados de libertad y decisión.}
-	Para una tabla de $r = 3$ filas y $c = 3$ columnas, los grados de libertad son $\nu = (3-1)(3-1) = 4$.
-	El valor crítico a un nivel de significancia $\alpha = 0.01$ en la distribución chi-cuadrada con 4 grados de libertad es:
-	\begin{align}
-		\chi^2_{0.01, 4} = 13.277.
-	\end{align}
-	Dado que $\chi^2 = 56.147 \gg 13.277$ ($p-\text{valor} < 0.00001$), **rechazamos $H_0$**. Existe una falta de homogeneidad abrumadora en las preferencias: en particular, podemos notar que la Generación X prefiere fuertemente el pago único (observado 70 vs esperado 41.25), mientras que la Gen Z se inclina notablemente al modelo Freemium (observado 90 vs esperado 63.33).
+	Para una tabla $3 \times 3$, $\nu = (3-1)(3-1) = 4$. El valor crítico con $\alpha = 0.01$ es $\chi^2_{0.01, \, 4} = 13.277$.
+	Dado que $\chi^2 = 56.147 \gg 13.277$ (p-valor $< 0.00001$), **rechazamos $H_0$**. La distribución de preferencias de monetización no es idéntica; la Generación X prefiere fuertemente el pago único ($70$ vs $41.25$ esperados) mientras que la Gen Z se decanta en forma abrumadora por el modelo Freemium ($90$ vs $63.33$).
 \end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Cálculo de los grados de libertad de Welch ($\nu$):}
+		Los errores cuadrados muestrales de la media son:
+		\begin{align}
+			\frac{S_1^2}{n_1} = \frac{12.4^2}{15} = \frac{153.76}{15} \approx 10.2507, \quad \frac{S_2^2}{n_2} = \frac{5.2^2}{18} = \frac{27.04}{18} \approx 1.5022.
+		\end{align}
+		Aplicando la aproximación analítica de Welch-Satterthwaite:
+		\begin{align}
+			\nu = \frac{\left( \dfrac{S_1^2}{n_1} + \dfrac{S_2^2}{n_2} \right)^2}{\dfrac{(S_1^2 / n_1)^2}{n_1 - 1} + \dfrac{(S_2^2 / n_2)^2}{n_2 - 1}} = \frac{(10.2507 + 1.5022)^2}{\dfrac{10.2507^2}{14} + \dfrac{1.5022^2}{17}} = \frac{(11.7529)^2}{\dfrac{105.0769}{14} + \dfrac{2.2566}{17}} = \frac{138.1307}{7.5055 + 0.1327} \approx 18.08.
+		\end{align}
+		Tomando la parte entera conservadora, fijamos $\nu = 18$ grados de libertad.
+		
+		\item \textbf{Cálculo del estadístico $t$ bilateral al $\alpha = 0.05$:}
+		El error estándar de la diferencia para varianzas heterogéneas es:
+		\begin{align}
+			\text{SE}_W = \sqrt{ \frac{S_1^2}{n_1} + \frac{S_2^2}{n_2} } = \sqrt{ 10.2507 + 1.5022 } = \sqrt{11.7529} \approx 3.4282 \text{ s.}
+		\end{align}
+		La diferencia elemental entre promedios observados es $\bar{X}_1 - \bar{X}_2 = 85.2 - 74.5 = 10.7$ s. El estadístico $t$ tipificado resulta:
+		\begin{align}
+			t = \frac{\bar{X}_1 - \bar{X}_2}{\text{SE}_W} = \frac{10.7}{3.4282} \approx 3.1212.
+		\end{align}
+		Para un contraste de dos colas con $\alpha = 0.05$ y $\nu = 18$, el cuantil de Student es $t_{0.025, \, 18} = 2.101$.
+		Puesto que $t = 3.121 > 2.101$, **rechazamos $H_0$**. Concluimos al 95\% de confianza que el Algoritmo 2 consume un tiempo de ejecución medio significativamente menor que el Algoritmo 1.
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
 
 \begin{solucion}
 	\textbf{Parte 1: Prueba global $\chi^2$ de igualdad de 4 proporciones.}
@@ -228,7 +317,7 @@
 	\begin{align}
 		\chi^2 = \sum_{j=1}^4 \frac{(X_j - n_j \bar{p})^2}{n_j \bar{p}(1-\bar{p})}.
 	\end{align}
-	El término constante del denominador para cada muestra es $n_j \bar{p}(1-\bar{p}) = n_j(0.70)(0.30) = 0.21 n_j$. Evaluamos para cada empresa:
+	El denominador es constante para cada observación según su peso: $n_j \bar{p}(1-\bar{p}) = n_j(0.70)(0.30) = 0.21 n_j$. Evaluamos celda a celda:
 	\begin{itemize}
 		\item \textbf{Empresa A:} $n_1 \bar{p} = 70$. Aportación: $\frac{(82 - 70)^2}{21} = \frac{144}{21} \approx 6.8571$.
 		\item \textbf{Empresa B:} $n_2 \bar{p} = 70$. Aportación: $\frac{(64 - 70)^2}{21} = \frac{36}{21} \approx 1.7143$.
@@ -239,51 +328,201 @@
 	\begin{align}
 		\chi^2 = 6.8571 + 1.7143 + 1.4286 + 8.5714 = 18.5714.
 	\end{align}
-	Los grados de libertad son $\nu = k - 1 = 4 - 1 = 3$. Para $\alpha = 0.05$, el cuantil de rechazo es $\chi^2_{0.05, 3} = 7.815$.
-	Como $\chi^2 = 18.5714 > 7.815$, **rechazamos $H_0$**. Concluimos que las tasas poblacionales de cumplimiento ético difieren entre las cuatro empresas.
+	Los grados de libertad son $\nu = k - 1 = 4 - 1 = 3$. Para $\alpha = 0.05$, el cuantil es $\chi^2_{0.05, \, 3} = 7.815$.
+	Como $\chi^2 = 18.5714 > 7.815$, **rechazamos $H_0$**. Las tasas de cumplimiento ético difieren entre las cuatro empresas.
 	
 	\textbf{Parte 2: Procedimiento post-hoc de Marascuilo.}
-	El valor crítico de Marascuilo utiliza la raíz del estadístico global de rechazo: $\sqrt{\chi^2_{0.05, 3}} = \sqrt{7.815} \approx 2.7955$.
-	Para cada par $(i, j)$, calculamos la diferencia absoluta $|\hat{p}_i - \hat{p}_j|$ y el rango crítico par a par $r_{ij} = 2.7955 \sqrt{\frac{\hat{p}_i(1-\hat{p}_i)}{n_i} + \frac{\hat{p}_j(1-\hat{p}_j)}{n_j}}$:
-	
+	El valor crítico de Marascuilo utiliza la raíz del estadístico global: $\sqrt{\chi^2_{0.05, \, 3}} = \sqrt{7.815} \approx 2.7955$.
+	Para cada par $(i, j)$, evaluamos la diferencia $|\hat{p}_i - \hat{p}_j|$ frente al rango crítico par a par $r_{ij} = 2.7955 \sqrt{\frac{\hat{p}_i(1-\hat{p}_i)}{n_i} + \frac{\hat{p}_j(1-\hat{p}_j)}{n_j}}$:
 	\begin{itemize}
-		\item \textbf{Empresa A vs Empresa B:} $|\hat{p}_1 - \hat{p}_2| = |0.82 - 0.64| = 0.180$.
-		\begin{align}
-			r_{12} = 2.7955 \sqrt{\frac{0.82(0.18)}{100} + \frac{0.64(0.36)}{100}} = 2.7955 \sqrt{0.001476 + 0.002304} = 2.7955 \sqrt{0.00378} \approx 0.1719.
-		\end{align}
-		Como $0.180 > 0.1719$, **la diferencia A vs B es estadísticamente significativa**.
-		
-		\item \textbf{Empresa A vs Empresa C:} $|\hat{p}_1 - \hat{p}_3| = |0.82 - 0.75| = 0.070$.
-		\begin{align}
-			r_{13} = 2.7955 \sqrt{\frac{0.001476}{1} + \frac{0.75(0.25)}{120}} = 2.7955 \sqrt{0.001476 + 0.0015625} \approx 0.1541.
-		\end{align}
-		Como $0.070 \leq 0.1541$, no es significativa al $5\%$.
-		
-		\item \textbf{Empresa A vs Empresa D:} $|\hat{p}_1 - \hat{p}_4| = |0.82 - 0.55| = 0.270$.
-		\begin{align}
-			r_{14} = 2.7955 \sqrt{0.001476 + \frac{0.55(0.45)}{80}} = 2.7955 \sqrt{0.001476 + 0.00309375} \approx 0.1890.
-		\end{align}
-		Como $0.270 > 0.1890$, **la diferencia A vs D es estadísticamente significativa**.
-		
-		\item \textbf{Empresa B vs Empresa C:} $|\hat{p}_2 - \hat{p}_3| = |0.64 - 0.75| = 0.110$.
-		\begin{align}
-			r_{23} = 2.7955 \sqrt{0.002304 + 0.0015625} \approx 0.1738.
-		\end{align}
-		Como $0.110 \leq 0.1738$, no es significativa.
-		
-		\item \textbf{Empresa B vs Empresa D:} $|\hat{p}_2 - \hat{p}_4| = |0.64 - 0.55| = 0.090$.
-		\begin{align}
-			r_{24} = 2.7955 \sqrt{0.002304 + 0.00309375} \approx 0.2054.
-		\end{align}
-		Como $0.090 \leq 0.2054$, no es significativa.
-		
-		\item \textbf{Empresa C vs Empresa D:} $|\hat{p}_3 - \hat{p}_4| = |0.75 - 0.55| = 0.200$.
-		\begin{align}
-			r_{34} = 2.7955 \sqrt{0.0015625 + 0.00309375} = 2.7955 \sqrt{0.00465625} \approx 0.1908.
-		\end{align}
-		Como $0.200 > 0.1908$, **la diferencia C vs D es estadísticamente significativa**.
+		\item \textbf{A vs B:} $|\hat{p}_1 - \hat{p}_2| = |0.82 - 0.64| = 0.180$.
+		$r_{12} = 2.7955 \sqrt{\frac{0.82(0.18)}{100} + \frac{0.64(0.36)}{100}} = 2.7955 \sqrt{0.00378} \approx 0.1719$.
+		Al ser $0.180 > 0.1719$, **la diferencia A vs B es estadísticamente significativa**.
+		\item \textbf{A vs C:} $|\hat{p}_1 - \hat{p}_3| = |0.82 - 0.75| = 0.070$.
+		$r_{13} = 2.7955 \sqrt{0.001476 + \frac{0.75(0.25)}{120}} \approx 0.1541$. ($0.070 \le 0.1541 \implies \text{No significativa}$).
+		\item \textbf{A vs D:} $|\hat{p}_1 - \hat{p}_4| = |0.82 - 0.55| = 0.270$.
+		$r_{14} = 2.7955 \sqrt{0.001476 + \frac{0.55(0.45)}{80}} \approx 0.1890$. ($0.270 > 0.1890 \implies \textbf{Significativa}$).
+		\item \textbf{B vs C:} $|\hat{p}_2 - \hat{p}_3| = |0.64 - 0.75| = 0.110$.
+		$r_{23} \approx 0.1738$. ($0.110 \le 0.1738 \implies \text{No significativa}$).
+		\item \textbf{B vs D:} $|\hat{p}_2 - \hat{p}_4| = |0.64 - 0.55| = 0.090$.
+		$r_{24} \approx 0.2054$. ($0.090 \le 0.2054 \implies \text{No significativa}$).
+		\item \textbf{C vs D:} $|\hat{p}_3 - \hat{p}_4| = |0.75 - 0.55| = 0.200$.
+		$r_{34} = 2.7955 \sqrt{\frac{0.75(0.25)}{120} + \frac{0.55(0.45)}{80}} = 2.7955 \sqrt{0.004656} \approx 0.1908$. ($0.200 > 0.1908 \implies \textbf{Significativa}$).
 	\end{itemize}
-	
-	\textbf{Conclusión de Marascuilo:} El análisis post-hoc demuestra que las parejas de empresas que difieren de manera estadísticamente significativa en cumplimiento ético son: **Empresa A supera a Empresa B ($82\%$ vs $64\%$)**, **Empresa A supera a Empresa D ($82\%$ vs $55\%$)** y **Empresa C supera a Empresa D ($75\%$ vs $55\%$)**.
+	**Conclusión:** Las parejas con diferencias reales comprobadas son **A vs. B** ($82\%$ vs $64\%$), **A vs. D** ($82\%$ vs $55\%$) y **C vs. D** ($75\%$ vs $55\%$).
 \end{solucion}
 
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Regla de decisión y frontera crítica en la escala original ($\bar{X}_c$):}
+		El error estándar de la media poblacional es $\text{SE}(\bar{X}) = \dfrac{\sigma}{\sqrt{n}} = \dfrac{15}{\sqrt{25}} = \dfrac{15}{5} = 3$ ms.
+		Para una prueba unilateral de cola superior al nivel de significancia $\alpha = 0.05$, el cuantil crítico normal es $Z_{0.05} = 1.645$.
+		La frontera de decisión crítica donde se rechaza $H_0$ se obtiene despejando:
+		\begin{align}
+			\bar{X}_c = \mu_0 + Z_{0.05} \cdot \text{SE}(\bar{X}) = 100 + 1.645(3) = 100 + 4.935 = 104.935 \text{ ms.}
+		\end{align}
+		**Regla operativa:** Si en una auditoría diaria el promedio muestral de transacciones supera los $104.935$ ms ($\bar{X} > 104.935$), el sistema rechaza $H_0$ y activa una alerta de sobrecarga en la red.
+		
+		\item \textbf{Cálculo de la probabilidad de Error Tipo II ($\beta$) y Potencia ($1-\beta$) con $\mu_a = 108$ ms:}
+		El **Error Tipo II ($\beta$)** se comete al aceptar erróneamente $H_0$ ($\bar{X} \le \bar{X}_c$) cuando en el mundo real la hipótesis alternativa es verdadera ($\mu = 108$ ms):
+		\begin{align}
+			\beta = P\left(\bar{X} \le 104.935 \mid \mu = 108\right).
+		\end{align}
+		Estandarizamos el punto crítico respecto a la verdadera distribución alternativa que está centrada en $108$:
+		\begin{align}
+			Z_\beta = \frac{\bar{X}_c - \mu_a}{\sigma/\sqrt{n}} = \frac{104.935 - 108}{3} = \frac{-3.065}{3} \approx -1.0217.
+		\end{align}
+		Evaluamos la probabilidad acumulada izquierda en las tablas de la normal tipificada:
+		\begin{align}
+			\beta = \Phi(-1.0217) = 1 - \Phi(1.0217) \approx 1 - 0.8465 = 0.1535 \text{ (15.35\%).}
+		\end{align}
+		La **Potencia estadística ($1-\beta$)** —la probabilidad real de detectar con éxito la sobrecarga— resulta por diferencia directa:
+		\begin{align}
+			\text{Potencia} = 1 - \beta = 1 - 0.1535 = 0.8465 \text{ (84.65\%).}
+		\end{align}
+		
+		\item \textbf{Deducción del tamaño de muestra mínimo $n$ para una potencia objetivo del $90\%$ ($1-\beta = 0.90$):}
+		Para garantizar que la frontera de rechazo separe en forma geométrica el área superior $\alpha = 0.05$ de la curva nula centrado en $\mu_0 = 100$ y el área izquierda $\beta = 0.10$ de la curva alternativa centrada en $\mu_a = 108$ ($Z_\beta = 1.282$), se impone la identidad de distancias normalizadas:
+		\begin{align}
+			\bar{X}_c = \mu_0 + Z_\alpha \frac{\sigma}{\sqrt{n}} = \mu_a - Z_\beta \frac{\sigma}{\sqrt{n}}.
+		\end{align}
+		Reuniendo los términos de error estándar de ambos extremos en un solo miembro:
+		\begin{align}
+			(Z_\alpha + Z_\beta)\frac{\sigma}{\sqrt{n}} = \mu_a - \mu_0 \implies \sqrt{n} = \frac{(Z_\alpha + Z_\beta)\sigma}{\mu_a - \mu_0}.
+		\end{align}
+		Elevando al cuadrado ambos lados obtenemos la fórmula analítica del tamaño muestral para control simultáneo de errores $\alpha$ y $\beta$:
+		\begin{align}
+			n = \left( \frac{(Z_\alpha + Z_\beta)\sigma}{\mu_a - \mu_0} \right)^2.
+		\end{align}
+		Sustituyendo los parámetros numéricos de la fintech ($Z_{0.05} = 1.645, Z_{0.10} = 1.282, \sigma = 15, \Delta = 108 - 100 = 8$):
+		\begin{align}
+			n = \left( \frac{(1.645 + 1.282) \times 15}{8} \right)^2 = \left( \frac{2.927 \times 15}{8} \right)^2 = \left( \frac{43.905}{8} \right)^2 = (5.488125)^2 \approx 30.1195.
+		\end{align}
+		Aplicando el redondeo conservador por función techo:
+		\begin{align}
+			n_{\text{óptimo}} = \lceil 30.12 \rceil = 31 \text{ transacciones diarias.}
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Log-verosimilitud sin restricciones ($\Theta$) y estimadores de máxima verosimilitud (EMV):}
+		Dadas dos muestras independientes normales de tamaños $n_1$ y $n_2$, la función de densidad o verosimilitud conjunta $L(\Theta) = L(\mu_1, \mu_2, \sigma_1^2, \sigma_2^2)$ es el producto de las densidades individuales:
+		\begin{align}
+			L(\Theta) = \left[ (2\pi\sigma_1^2)^{-n_1/2} \exp\left(-\frac{1}{2\sigma_1^2}\sum_{i=1}^{n_1}(X_i - \mu_1)^2\right) \right] \times \left[ (2\pi\sigma_2^2)^{-n_2/2} \exp\left(-\frac{1}{2\sigma_2^2}\sum_{j=1}^{n_2}(Y_j - \mu_2)^2\right) \right].
+		\end{align}
+		Tomando el logaritmo neperiano en toda la expresión de verosimilitud:
+		\begin{align}
+			\ln L(\Theta) = -\frac{n_1}{2}\ln(2\pi) - \frac{n_1}{2}\ln(\sigma_1^2) - \frac{1}{2\sigma_1^2}\sum (X_i - \mu_1)^2 -\frac{n_2}{2}\ln(2\pi) - \frac{n_2}{2}\ln(\sigma_2^2) - \frac{1}{2\sigma_2^2}\sum (Y_j - \mu_2)^2.
+		\end{align}
+		Al derivar respecto a cada parámetro e igualar al punto crítico cero, los estimadores máximo verosímiles en el espacio completo $\Theta$ son: $\hat{\mu}_1 = \bar{X}, \hat{\mu}_2 = \bar{Y}$, y las varianzas de máxima verosimilitud:
+		\begin{align}
+			\hat{\sigma}_1^2 = \frac{1}{n_1}\sum (X_i - \bar{X})^2, \quad \hat{\sigma}_2^2 = \frac{1}{n_2}\sum (Y_j - \bar{Y})^2.
+		\end{align}
+		Al sustituir las identidades $\sum(X_i - \bar{X})^2 = n_1\hat{\sigma}_1^2$ y $\sum(Y_j - \bar{Y})^2 = n_2\hat{\sigma}_2^2$ dentro de $\ln L(\Theta)$, los términos exponenciales se simplifican algebraicamente a escalares exactos ($\frac{n_1\hat{\sigma}_1^2}{2\hat{\sigma}_1^2} = \frac{n_1}{2}$):
+		\begin{align}
+			\ln L(\hat{\Theta}) = -\frac{n_1 + n_2}{2}\ln(2\pi) - \frac{n_1}{2}\ln(\hat{\sigma}_1^2) - \frac{n_2}{2}\ln(\hat{\sigma}_2^2) - \frac{n_1 + n_2}{2}.
+		\end{align}
+		
+		\item \textbf{Log-verosimilitud en el subespacio nulo ($\Theta_0: \sigma_1^2 = \sigma_2^2 = \sigma_0^2$):}
+		Bajo la hipótesis nula de homoscedasticidad, la varianza es un único parámetro común $\sigma_0^2$. El logaritmo de verosimilitud es:
+		\begin{align}
+			\ln L(\Theta_0) = -\frac{n_1 + n_2}{2}\ln(2\pi) - \frac{n_1 + n_2}{2}\ln(\sigma_0^2) - \frac{1}{2\sigma_0^2} \left[ \sum(X_i - \mu_1)^2 + \sum(Y_j - \mu_2)^2 \right].
+		\end{align}
+		Maximizando respecto a $\sigma_0^2$ (con las medias en sus óptimos muestrales $\bar{X}, \bar{Y}$), obtenemos la varianza combinada verosímil:
+		\begin{align}
+			\hat{\sigma}_0^2 = \frac{\sum(X_i - \bar{X})^2 + \sum(Y_j - \bar{Y})^2}{n_1 + n_2} = \frac{n_1 \hat{\sigma}_1^2 + n_2 \hat{\sigma}_2^2}{n_1 + n_2}.
+		\end{align}
+		Evaluando la verosimilitud nula en este punto supremo combinando las exponentes exponenciales:
+		\begin{align}
+			\ln L(\hat{\Theta}_0) = -\frac{n_1 + n_2}{2}\ln(2\pi) - \frac{n_1 + n_2}{2}\ln(\hat{\sigma}_0^2) - \frac{n_1 + n_2}{2}.
+		\end{align}
+		
+		\item \textbf{Deducción del estadístico de razón de verosimilitudes logarítmico ($-2\ln \Lambda$):}
+		La razón de verosimilitudes se define como el cociente de los máximos verosímiles en ambos espacios: $\Lambda = \dfrac{L(\hat{\Theta}_0)}{L(\hat{\Theta})}$. Tomando logaritmos y restando $\ln L(\hat{\Theta}_0) - \ln L(\hat{\Theta})$:
+		\begin{align}
+			\ln \Lambda &= \left[ -\frac{n_1+n_2}{2}\ln(2\pi) - \frac{n_1+n_2}{2}\ln(\hat{\sigma}_0^2) - \frac{n_1+n_2}{2} \right] - \left[ -\frac{n_1+n_2}{2}\ln(2\pi) - \frac{n_1}{2}\ln(\hat{\sigma}_1^2) - \frac{n_2}{2}\ln(\hat{\sigma}_2^2) - \frac{n_1+n_2}{2} \right] \nonumber \\
+			&= -\frac{n_1 + n_2}{2}\ln(\hat{\sigma}_0^2) + \frac{n_1}{2}\ln(\hat{\sigma}_1^2) + \frac{n_2}{2}\ln(\hat{\sigma}_2^2).
+		\end{align}
+		Multiplicando por $(-2)$ en todos los términos para obtener la forma clásica del test:
+		\begin{align}
+			-2 \ln \Lambda &= (n_1 + n_2)\ln(\hat{\sigma}_0^2) - n_1\ln(\hat{\sigma}_1^2) - n_2\ln(\hat{\sigma}_2^2) = n_1\ln(\hat{\sigma}_0^2) - n_1\ln(\hat{\sigma}_1^2) + n_2\ln(\hat{\sigma}_0^2) - n_2\ln(\hat{\sigma}_2^2) \nonumber \\
+			&= n_1 \ln\left( \frac{\hat{\sigma}_0^2}{\hat{\sigma}_1^2} \right) + n_2 \ln\left( \frac{\hat{\sigma}_0^2}{\hat{\sigma}_2^2} \right).
+		\end{align}
+		Queda deducida formalmente la identidad paramétrica de Wilks.
+		
+		\item \textbf{Invocación asintótica del Teorema de Wilks y contraste con la prueba $F$ de Snedecor:}
+		El **Teorema de Samuel S. Wilks** demuestra que en condiciones de regularidad paramétrica (el verdadero parámetro nulo reside en el interior del subespacio $\Theta_0$), el estadístico $-2\ln\Lambda$ converge en distribución, cuando los tamaños muestrales crecen infinitamente ($n_1, n_2 \to \infty$), a una distribución Chi-cuadrada central ($\chi^2_\nu$).
+		Los grados de libertad $\nu$ corresponden exactamente a la **diferencia geométrica en la dimensión de los espacios de parámetros**:
+		\begin{align}
+			\nu = \dim(\Theta) - \dim(\Theta_0) = 4 - 3 = 1 \text{ grado de libertad.}
+		\end{align}
+		(En $\Theta$ los cuatro parámetros libres eran $(\mu_1, \mu_2, \sigma_1^2, \sigma_2^2)$, mientras que en $\Theta_0$ se restringieron a tres: $(\mu_1, \mu_2, \sigma_0^2)$).
+		
+		**Contraste conceptual con $F$ de Snedecor:** Mientras que la prueba de Razón de Verosimilitudes (LRT) invocada vía Wilks es un estadístico **asintótico** válido solo en muestras grandes y extremadamente sensible al supuesto normal, la **prueba $F$ de Snedecor ($F = s_1^2 / s_2^2$) es la prueba exacta para muestras finitas normales** uniformemente más potente (UMP insesgada), siendo por tanto la opción preferida por excelencia para diseños experimentales de tamaño pequeño o mediano en docimasia analítica.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Demostración de la uniformidad estocástica del valor-$p$ bajo $H_0$ ($P \sim U(0,1)$):}
+		En toda prueba de cola superior con estadístico continuo estrictamente creciente $T$, el valor-$p$ observado es la probabilidad probabilística de excedencia bajo el modelo nulo: $P(X) = S_0(T(X)) = 1 - F_0(T(X))$.
+		Evaluamos la función de distribución acumulada de esta nueva variable aleatoria $P$, denotada por $F_P(x) = P_{H_0}(P \le x)$ para cualquier número real fijado $x \in (0,1)$:
+		\begin{align}
+			F_P(x) = P_{H_0}\left( S_0(T) \le x \right) = P_{H_0}\left( 1 - F_0(T) \le x \right) = P_{H_0}\left( F_0(T) \ge 1 - x \right).
+		\end{align}
+		Dado que la función de distribución acumulada nula $F_0(t)$ es continua y monótona creciente en todo el soporte real, posee una función inversa única $F_0^{-1}$. Aplicamos el operador inverso monótono en ambos lados de la inecuación de probabilidad interior sin alterar el sentido de la desigualdad:
+		\begin{align}
+			F_P(x) = P_{H_0}\left( T \ge F_0^{-1}(1 - x) \right).
+		\end{align}
+		Por definición de función de supervivencia bajo la hipótesis nula, $P_{H_0}(T \ge t) = 1 - F_0(t)$. Evaluando en el punto $t = F_0^{-1}(1 - x)$:
+		\begin{align}
+			F_P(x) = 1 - F_0\left( F_0^{-1}(1 - x) \right) = 1 - (1 - x) = x.
+		\end{align}
+		Por tanto, hemos demostrado analíticamente que para todo cuantil real $x \in (0,1)$:
+		\begin{align}
+			P_{H_0}(P \le x) = x.
+		\end{align}
+		Esta es por definición única y exclusiva la función de distribución acumulada de una **variable aleatoria Uniforme Estándar $U(0,1)$**. El teorema demuestra de manera irrefutable que, si la hipótesis nula es verdadera, los p-valores se esparcen en el plano con absoluta planeidad ($f_P(p) = 1$). El p-valor no es una probabilidad del parámetro verdadero ($P(H_0 \mid D)$), sino un cuantil uniforme aleatorio del procedimiento docimásica.
+		
+		\item \textbf{Concavidad rigurosa y dominancia estocástica bajo $H_a$ ($G_P(u) > u$):}
+		Cuando el experimento se realiza bajo una hipótesis alternativa real $H_a$ donde el verdadero parámetro poblacional superó el punto de nulidad ($\mu_a > \mu_0$), la nueva distribución del estadístico $T$ está gobernada por $F_a(t) = P_{H_a}(T \le t)$. Evaluamos la función de distribución de los p-valores en este escenario ($G_P(u) = P_{H_a}(P \le u)$):
+		\begin{align}
+			G_P(u) = P_{H_a}\left( S_0(T) \le u \right) = P_{H_a}\left( T \ge S_0^{-1}(u) \right) = 1 - F_a\left( S_0^{-1}(u) \right).
+		\end{align}
+		Por el supuesto geométrico de alternativa con efecto real superior, la curva de densidad de $T$ bajo $H_a$ está desplazada hacia la derecha respecto a $H_0$. Por dominancia estocástica de primer orden para variables corridas hacia arriba:
+		\begin{align}
+			F_a(t) < F_0(t) \quad \forall t \in \mathbb{R} \implies 1 - F_a(t) > 1 - F_0(t) = S_0(t).
+		\end{align}
+		Evaluando esta desigualdad estocástica superior exactamente en el punto crítico $t = S_0^{-1}(u)$:
+		\begin{align}
+			G_P(u) = 1 - F_a\left( S_0^{-1}(u) \right) > S_0\left( S_0^{-1}(u) \right) = u \implies G_P(u) > u \quad \forall u \in (0,1).
+		\end{align}
+		Además, al derivar dos veces $G_P(u)$ por regla de la cadena respecto al cuantil $u$, se comprueba que la segunda derivada es estrictamente negativa ($G_P''(u) < 0$), demostrando que la curva de acumulación de los p-valores bajo $H_a$ es una función **estrictamente cóncava superior que se alza en el origen dominando de forma estocástica y absoluta al segmento diagonal unitario de la uniformidad nula**.
+		
+		\item \textbf{Densidad diferencial en el límite y cociente monótono de verosimilitudes:}
+		Derivamos la función de distribución del p-valor bajo $H_a$ ($G_P(u) = 1 - F_a(S_0^{-1}(u))$) por la regla de la cadena del cálculo para encontrar la función de densidad marginal real del valor-$p$, $g_P(u) = G_P'(u)$:
+		\begin{align}
+			g_P(u) = \frac{d}{du}\left[ 1 - F_a\left( S_0^{-1}(u) \right) \right] = -f_a\left( S_0^{-1}(u) \right) \cdot \frac{d}{du}\left[ S_0^{-1}(u) \right].
+		\end{align}
+		Por el teorema de la derivada de la función inversa y sabiendo que $S_0(t) = 1 - F_0(t) \implies S_0'(t) = -f_0(t)$:
+		\begin{align}
+			\frac{d}{du}\left[ S_0^{-1}(u) \right] = \frac{1}{S_0'\left( S_0^{-1}(u) \right)} = \frac{1}{-f_0\left( S_0^{-1}(u) \right)}.
+		\end{align}
+		Sustituyendo en la expresión de densidad de los p-valores, los signos negativos se cancelan recíprocamente:
+		\begin{align}
+			g_P(u) = -f_a\left( S_0^{-1}(u) \right) \cdot \left( \frac{-1}{f_0\left( S_0^{-1}(u) \right)} \right) = \frac{f_a\left( S_0^{-1}(u) \right)}{f_0\left( S_0^{-1}(u) \right)}.
+		\end{align}
+		Esta es la identidad exacta: **la densidad en el espacio de p-valores en cualquier punto $u$ es idénticamente el Cociente de Verosimilitud evaluado en el cuantil docimásica correspondiente ($t = S_0^{-1}(u)$)**.
+		Evaluando la densidad en el límite extrema de rechazo donde el p-valor tiende a cero por la derecha ($u \to 0^+$):
+		\begin{align}
+			\lim_{u \to 0^+} g_P(u) = \lim_{t \to \infty} \frac{f_a(t)}{f_0(t)}.
+		\end{align}
+		En pruebas con distribuciones exponenciales de colas normales ($f(t) \propto e^{-(t-\mu)^2/2}$), el cociente de verosimilitudes $\dfrac{f_a(t)}{f_0(t)}$ crece en forma exponencialmente infinita cuando $t \to \infty$ si $\mu_a > \mu_0$.
+		Por consiguiente, $\lim_{u \to 0^+} g_P(u) \to +\infty$.
+		Esto explica matemáticamente por qué, ante la menor disparidad poblacional verdadera ($\mu_a > \mu_0$), si el tamaño de muestra $n$ aumenta lo suficiente, la densidad estadística del p-valor colapsa en un pico asintótico de masa concentrado en $u = 0$, asegurando una potencia estadística de docimasia que converge a la certeza ($1-\beta \to 100\%$).
+	\end{enumerate}
+\end{solucion}
