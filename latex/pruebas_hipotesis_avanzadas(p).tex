@@ -1,0 +1,283 @@
+\section{Problemas resueltos de docimasia avanzada}
+
+\begin{problema}
+	\label{prob:doc_dos_medias_iguales}
+	Una empresa de telemedicina evalúa si el tiempo medio de respuesta en consultas de medicina general difiere entre dos plataformas digitales (Plataforma 1 vs Plataforma 2). Se obtienen dos muestras aleatorias independientes de tiempos (en minutos):
+	\begin{itemize}
+		\item \textbf{Plataforma 1:} $n_1 = 16$, $\bar{X}_1 = 14.2$ min, $S_1 = 2.4$ min.
+		\item \textbf{Plataforma 2:} $n_2 = 18$, $\bar{X}_2 = 16.8$ min, $S_2 = 2.6$ min.
+	\end{itemize}
+	Asumiendo que las poblaciones son normales y las varianzas son iguales ($\sigma_1^2 = \sigma_2^2$), realice una prueba de hipótesis al nivel de significancia del $5\%$ ($\alpha = 0.05$) para determinar si existe una diferencia real en los tiempos medios de respuesta.
+\end{problema}
+
+\begin{solucion}
+	\textbf{Paso 1: Planteamiento de hipótesis.}
+	Queremos contrastar la igualdad de ambas medias contra una diferencia bidireccional:
+	\begin{align}
+		H_0&: \mu_1 - \mu_2 = 0 \\
+		H_a&: \mu_1 - \mu_2 \neq 0
+	\end{align}
+	
+	\textbf{Paso 2: Cálculo de la varianza combinada ($S_p^2$).}
+	Los grados de libertad son $\nu = n_1 + n_2 - 2 = 16 + 18 - 2 = 32$.
+	\begin{align}
+		S_p^2 &= \frac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 - 2} = \frac{(15)(2.4)^2 + (17)(2.6)^2}{32} \\
+		&= \frac{15(5.76) + 17(6.76)}{32} = \frac{86.4 + 114.92}{32} = \frac{201.32}{32} \approx 6.29125 \text{ min}^2.
+	\end{align}
+	La desviación estándar agrupada es $S_p = \sqrt{6.29125} \approx 2.508$ min.
+	
+	\textbf{Paso 3: Cálculo del estadístico $t$ de prueba.}
+	\begin{align}
+		t = \frac{(\bar{X}_1 - \bar{X}_2) - 0}{S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} = \frac{14.2 - 16.8}{2.508 \sqrt{\frac{1}{16} + \frac{1}{18}}} = \frac{-2.6}{2.508 \sqrt{0.0625 + 0.05556}} = \frac{-2.6}{2.508 \times 0.3436} \approx \frac{-2.6}{0.8617} \approx -3.017.
+	\end{align}
+	
+	\textbf{Paso 4: Regla de decisión y conclusión.}
+	Para una prueba de dos colas con $\alpha = 0.05$ y $\nu = 32$ grados de libertad, el valor crítico en la tabla $t$ (aproximando al más cercano $\nu = 30$ o valor exacto) es $t_{0.025, 32} \approx 2.037$.
+	La región de rechazo está formada por los valores $t < -2.037$ o $t > 2.037$.
+	
+	Como el estadístico calculado $t = -3.017$ cae claramente en la región de rechazo de la cola izquierda ($-3.017 < -2.037$), **rechazamos $H_0$**. Concluimos al nivel del $5\%$ que existe una diferencia estadísticamente significativa en los tiempos medios de respuesta entre ambas plataformas, siendo la Plataforma 1 significativamente más rápida.
+\end{solucion}
+
+\begin{problema}
+	\label{prob:doc_pareadas}
+	En una investigación sobre el rendimiento físico de deportistas tras someterse a un programa de entrenamiento en altitud, se midió el consumo máximo de oxígeno ($\text{VO}_2$ máx en ml/kg/min) en una muestra de $n = 12$ atletas \emph{antes} ($X_1$) y \emph{después} ($X_2$) del programa de 8 semanas. Las diferencias individuales $D_i = X_{2i} - X_{1i}$ arrojaron una media muestral de incremento $\bar{D} = 3.8$ ml/kg/min y una desviación estándar de las diferencias $S_D = 2.1$ ml/kg/min.
+	
+	¿Aportan los datos evidencia suficiente al nivel $\alpha = 0.01$ para afirmar que el programa de entrenamiento en altitud **aumenta** significativamente el consumo máximo de oxígeno?
+\end{problema}
+
+\begin{solucion}
+	\textbf{Paso 1: Planteamiento de hipótesis de una cola (pareadas).}
+	Como evaluamos si el programa incrementa el valor después respecto al valor antes ($X_2 > X_1 \implies D > 0$), formulamos una prueba de cola derecha sobre la media poblacional de las diferencias $\mu_D$:
+	\begin{align}
+		H_0&: \mu_D \leq 0 \\
+		H_a&: \mu_D > 0
+	\end{align}
+	
+	\textbf{Paso 2: Cálculo del estadístico $t$ para muestras pareadas.}
+	Los grados de libertad son $\nu = n - 1 = 12 - 1 = 11$.
+	\begin{align}
+		t = \frac{\bar{D} - 0}{S_D / \sqrt{n}} = \frac{3.8}{2.1 / \sqrt{12}} = \frac{3.8}{2.1 / 3.4641} = \frac{3.8}{0.6062} \approx 6.268.
+	\end{align}
+	
+	\textbf{Paso 3: Regla de decisión y conclusión.}
+	Para una prueba unilateral superior con $\alpha = 0.01$ y $\nu = 11$, el valor crítico de la distribución $t$ de Student es:
+	\begin{align}
+		t_{0.01, 11} = 2.718.
+	\end{align}
+	La región de rechazo es $t > 2.718$. Dado que nuestro valor observado $t = 6.268 \gg 2.718$, **rechazamos categóricamente $H_0$**. Existe evidencia estadística abrumadora al nivel del $1\%$ para afirmar que el programa de entrenamiento en altitud produce un incremento real en el $\text{VO}_2$ máximo de los atletas.
+\end{solucion}
+
+\begin{problema}
+	\label{prob:doc_dos_proporciones}
+	Una compañía de ciberseguridad compara la efectividad del filtro antispam clásico frente a un nuevo modelo con inteligencia artificial basada en transformadores. Al procesar dos muestras independientes de correos electrónicos entrantes verificados:
+	\begin{itemize}
+		\item \textbf{Filtro Clásico:} Se detectaron correctamente como spam $X_1 = 340$ de $n_1 = 400$ correos maliciosos.
+		\item \textbf{Modelo IA:} Se detectaron correctamente como spam $X_2 = 465$ de $n_2 = 500$ correos maliciosos.
+	\end{itemize}
+	¿Existe evidencia al nivel $\alpha = 0.02$ para afirmar que el Modelo de IA tiene una **tasa de detección significativamente superior** a la del Filtro Clásico?
+\end{problema}
+
+\begin{solucion}
+	\textbf{Paso 1: Planteamiento de hipótesis.}
+	Denotemos por $p_1$ y $p_2$ las proporciones de detección poblacional del filtro clásico y del modelo IA, respectivamente. Evaluamos si $p_2 > p_1$, es decir, si $p_1 - p_2 < 0$:
+	\begin{align}
+		H_0&: p_1 - p_2 \geq 0 \\
+		H_a&: p_1 - p_2 < 0 \quad \text{(prueba de cola izquierda)}.
+	\end{align}
+	
+	\textbf{Paso 2: Cálculo de las proporciones empíricas y de la proporción combinada ($\bar{p}$).}
+	Las proporciones individuales son $\hat{p}_1 = 340/400 = 0.850$ ($85\%$) y $\hat{p}_2 = 465/500 = 0.930$ ($93\%$).
+	Bajo la hipótesis nula de que ambas proporciones son iguales, el mejor estimador puntual combinando la información de las dos muestras es:
+	\begin{align}
+		\bar{p} = \frac{X_1 + X_2}{n_1 + n_2} = \frac{340 + 465}{400 + 500} = \frac{805}{900} \approx 0.89444.
+	\end{align}
+	
+	\textbf{Paso 3: Cálculo del estadístico $Z$ de prueba.}
+	El error estándar bajo $H_0$ es:
+	\begin{align}
+		SE_0 = \sqrt{\bar{p}(1-\bar{p})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)} &= \sqrt{0.89444(0.10556)\left(\frac{1}{400} + \frac{1}{500}\right)} \\
+		&= \sqrt{0.094416 \times 0.0045} = \sqrt{0.00042487} \approx 0.02061.
+	\end{align}
+	El estadístico normal estandarizado resulta:
+	\begin{align}
+		Z = \frac{\hat{p}_1 - \hat{p}_2}{SE_0} = \frac{0.850 - 0.930}{0.02061} = \frac{-0.080}{0.02061} \approx -3.881.
+	\end{align}
+	
+	\textbf{Paso 4: Decisión y conclusión.}
+	Para una prueba de cola izquierda al nivel del $2\%$ ($\alpha = 0.02$), buscamos el cuantil normal inferior:
+	\begin{align}
+		-Z_{0.02} = -2.054.
+	\end{align}
+	Como el estadístico observado $Z = -3.881$ cae en la zona de rechazo ($Z < -2.054$, con un valor-$p < 0.0001$), **rechazamos $H_0$**. Demostramos con una significancia del $2\%$ (y de más del $99.99\%$) que el nuevo Modelo de IA es significativamente superior en la detección de correos maliciosos.
+\end{solucion}
+
+\begin{problema}
+	\label{prob:doc_dos_varianzas}
+	Antes de realizar una prueba $t$ agrupada de comparación de medias de dos sensores analógicos, se debe comprobar si se cumple el supuesto de homoscedasticidad ($H_0: \sigma_1^2 = \sigma_2^2$). Se toman dos muestras aleatorias independientes con varianzas muestrales $S_1^2 = 14.8$ ($n_1 = 16$) y $S_2^2 = 5.2$ ($n_2 = 11$).
+	Realice una prueba $F$ de dos colas al nivel $\alpha = 0.10$ para contrastar la hipótesis de igualdad de varianzas. ¿Es legítimo asumir homoscedasticidad?
+\end{problema}
+
+\begin{solucion}
+	\textbf{Paso 1: Planteamiento de hipótesis bidireccional.}
+	\begin{align}
+		H_0&: \sigma_1^2 = \sigma_2^2 \\
+		H_a&: \sigma_1^2 \neq \sigma_2^2
+	\end{align}
+	
+	\textbf{Paso 2: Cálculo del estadístico $F$.}
+	Colocando la varianza mayor en el numerador para comparar de manera estandarizada contra la cola superior del área crítica:
+	\begin{align}
+		F = \frac{S_1^2}{S_2^2} = \frac{14.8}{5.2} \approx 2.846.
+	\end{align}
+	Los grados de libertad son $\nu_1 = n_1 - 1 = 15$ en el numerador y $\nu_2 = n_2 - 1 = 10$ en el denominador.
+	
+	\textbf{Paso 3: Obtención de los puntos críticos de la distribución de Snedecor.}
+	Para una prueba de dos colas al nivel $\alpha = 0.10$, el área en cada cola extrema es $\alpha/2 = 0.05$. Consultando la tabla $F$ para $15$ y $10$ grados de libertad:
+	\begin{align}
+		F_{0.05, 15, 10} = 2.85.
+	\end{align}
+	El valor crítico inferior es $F_{0.95, 15, 10} = \frac{1}{F_{0.05, 10, 15}} = \frac{1}{2.54} \approx 0.394$.
+	
+	\textbf{Paso 4: Conclusión técnica.}
+	Nuestro estadístico observado $F = 2.846$ está justo en el límite inferior del cuantil superior de rechazo ($2.846 \approx 2.85$). En sentido estricto al cuarto decimal ($2.846 < 2.85$), no se rechaza formalmente $H_0$ al $10\%$. Sin embargo, al estar tan cercanamente en el borde del rechazo, un científico de datos cauteloso evitaría asumir homoscedasticidad estricta para la prueba de medias posterior y optaría por la prueba $t$ de Welch-Satterthwaite para proteger la robustez del análisis.
+\end{solucion}
+
+\begin{problema}
+	\label{prob:homogeneidad_contingencia}
+	Una firma de investigación de mercados analiza las preferencias de tres cohortes generacionales de usuarios de software (Generación Z, Millennials y Generación X) respecto al modelo de monetización preferido en herramientas digitales: Subscripción mensual, Pago único (licencia perpetua) o Freemium con publicidad. Se seleccionan tres muestras independientes de tamaños fijos $n_1 = 200$, $n_2 = 250$ y $n_3 = 150$, obteniéndose las frecuencias observadas en la Tabla \ref{tab:homog_obs}.
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			\textbf{Modelo Preferido} & \textbf{Gen Z ($j=1$)} & \textbf{Millennials ($j=2$)} & \textbf{Gen X ($j=3$)} & \textbf{Total Fila ($R_i$)} \\ \hline
+			Subscripción ($i=1$) & 80 & 120 & 45 & \textbf{245} \\
+			Pago Único ($i=2$) & 30 & 65 & 70 & \textbf{165} \\
+			Freemium ($i=3$) & 90 & 65 & 35 & \textbf{190} \\ \hline
+			\textbf{Total Columna ($C_j$)} & \textbf{200} & \textbf{250} & \textbf{150} & \textbf{600} \\ \hline
+		\end{tabular}
+		\caption{Frecuencias observadas ($O_{ij}$) por modelo de monetización en tres cohortes generacionales.}
+		\label{tab:homog_obs}
+	\end{table}
+	
+	Realice una prueba de homogeneidad de proporciones al nivel $\alpha = 0.01$ para determinar si la distribución de preferencias de monetización es idéntica en las tres generaciones.
+\end{problema}
+
+\begin{solucion}
+	\textbf{Paso 1: Planteamiento de hipótesis.}
+	\begin{align}
+		H_0&: \text{La distribución del modelo preferido es homogénea en las tres generaciones } (p_{i1}=p_{i2}=p_{i3} \; \forall i). \\
+		H_a&: \text{Las distribuciones de preferencia difieren en al menos una generación.}
+	\end{align}
+	
+	\textbf{Paso 2: Cálculo de las frecuencias esperadas bajo $H_0$ ($E_{ij} = \frac{R_i C_j}{N}$).}
+	El total general es $N = 600$. Calculamos celda por celda:
+	\begin{itemize}
+		\item $E_{11} = \frac{245 \times 200}{600} = 81.67$, \quad $E_{12} = \frac{245 \times 250}{600} = 102.08$, \quad $E_{13} = \frac{245 \times 150}{600} = 61.25$.
+		\item $E_{21} = \frac{165 \times 200}{600} = 55.00$, \quad $E_{22} = \frac{165 \times 250}{600} = 68.75$, \quad $E_{23} = \frac{165 \times 150}{600} = 41.25$.
+		\item $E_{31} = \frac{190 \times 200}{600} = 63.33$, \quad $E_{32} = \frac{190 \times 250}{600} = 79.17$, \quad $E_{33} = \frac{190 \times 150}{600} = 47.50$.
+	\end{itemize}
+	Notemos que todos los $E_{ij} \geq 5$, por lo que la aproximación $\chi^2$ es válida.
+	
+	\textbf{Paso 3: Cálculo del estadístico $\chi^2$ de prueba.}
+	Calculamos la aportación $\frac{(O_{ij}-E_{ij})^2}{E_{ij}}$ de cada una de las 9 celdas:
+	\begin{align}
+		\chi^2 &= \frac{(80-81.67)^2}{81.67} + \frac{(120-102.08)^2}{102.08} + \frac{(45-61.25)^2}{61.25} \nonumber \\
+		&\quad + \frac{(30-55)^2}{55.00} + \frac{(65-68.75)^2}{68.75} + \frac{(70-41.25)^2}{41.25} \nonumber \\
+		&\quad + \frac{(90-63.33)^2}{63.33} + \frac{(65-79.17)^2}{79.17} + \frac{(35-47.50)^2}{47.50} \\
+		&= 0.034 + 3.146 + 4.311 + 11.364 + 0.205 + 20.030 + 11.231 + 2.536 + 3.290 \nonumber \\
+		&= 56.147.
+	\end{align}
+	
+	\textbf{Paso 4: Grados de libertad y decisión.}
+	Para una tabla de $r = 3$ filas y $c = 3$ columnas, los grados de libertad son $\nu = (3-1)(3-1) = 4$.
+	El valor crítico a un nivel de significancia $\alpha = 0.01$ en la distribución chi-cuadrada con 4 grados de libertad es:
+	\begin{align}
+		\chi^2_{0.01, 4} = 13.277.
+	\end{align}
+	Dado que $\chi^2 = 56.147 \gg 13.277$ ($p-\text{valor} < 0.00001$), **rechazamos $H_0$**. Existe una falta de homogeneidad abrumadora en las preferencias: en particular, podemos notar que la Generación X prefiere fuertemente el pago único (observado 70 vs esperado 41.25), mientras que la Gen Z se inclina notablemente al modelo Freemium (observado 90 vs esperado 63.33).
+\end{solucion}
+
+\begin{problema}
+	\label{prob:doc_k_proporciones_marascuilo}
+	Para evaluar el nivel de adherencia a estándares éticos sobre sesgo algorítmico, una entidad fiscalizadora examina muestras de modelos de aprendizaje automático desplegados por $k = 4$ empresas corporativas de tecnología (Empresas A, B, C y D). Se verifica si el modelo cumple con los criterios de imparcialidad (Éxito = Cumple, Fracaso = No cumple):
+	\begin{itemize}
+		\item \textbf{Empresa A:} $X_1 = 82$ cumplen, de $n_1 = 100$ modelos ($\hat{p}_1 = 0.820$).
+		\item \textbf{Empresa B:} $X_2 = 64$ cumplen, de $n_2 = 100$ modelos ($\hat{p}_2 = 0.640$).
+		\item \textbf{Empresa C:} $X_3 = 90$ cumplen, de $n_3 = 120$ modelos ($\hat{p}_3 = 0.750$).
+		\item \textbf{Empresa D:} $X_4 = 44$ cumplen, de $n_4 = 80$ modelos ($\hat{p}_4 = 0.550$).
+	\end{itemize}
+	\begin{enumerate}
+		\item Realice una prueba global $\chi^2$ de igualdad de proporciones ($H_0: p_1=p_2=p_3=p_4$) al nivel $\alpha = 0.05$.
+		\item Si se rechaza la hipótesis nula global, aplique el **procedimiento de comparación post-hoc de Marascuilo** para determinar cuáles parejas de empresas difieren significativamente entre sí al nivel familiar de $\alpha = 0.05$.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\textbf{Parte 1: Prueba global $\chi^2$ de igualdad de 4 proporciones.}
+	El número total de éxitos en las $k=4$ muestras es $\sum X_j = 82 + 64 + 90 + 44 = 280$. El total de observaciones es $\sum n_j = 100 + 100 + 120 + 80 = 400$. La proporción global estimada es:
+	\begin{align}
+		\bar{p} = \frac{280}{400} = 0.70 \quad (70\%).
+	\end{align}
+	Aplicamos la fórmula directa del estadístico $\chi^2$ para varias proporciones:
+	\begin{align}
+		\chi^2 = \sum_{j=1}^4 \frac{(X_j - n_j \bar{p})^2}{n_j \bar{p}(1-\bar{p})}.
+	\end{align}
+	El término constante del denominador para cada muestra es $n_j \bar{p}(1-\bar{p}) = n_j(0.70)(0.30) = 0.21 n_j$. Evaluamos para cada empresa:
+	\begin{itemize}
+		\item \textbf{Empresa A:} $n_1 \bar{p} = 70$. Aportación: $\frac{(82 - 70)^2}{21} = \frac{144}{21} \approx 6.8571$.
+		\item \textbf{Empresa B:} $n_2 \bar{p} = 70$. Aportación: $\frac{(64 - 70)^2}{21} = \frac{36}{21} \approx 1.7143$.
+		\item \textbf{Empresa C:} $n_3 \bar{p} = 84$. Aportación: $\frac{(90 - 84)^2}{120 \times 0.21} = \frac{36}{25.2} \approx 1.4286$.
+		\item \textbf{Empresa D:} $n_4 \bar{p} = 56$. Aportación: $\frac{(44 - 56)^2}{80 \times 0.21} = \frac{144}{16.8} \approx 8.5714$.
+	\end{itemize}
+	Sumando las 4 aportaciones:
+	\begin{align}
+		\chi^2 = 6.8571 + 1.7143 + 1.4286 + 8.5714 = 18.5714.
+	\end{align}
+	Los grados de libertad son $\nu = k - 1 = 4 - 1 = 3$. Para $\alpha = 0.05$, el cuantil de rechazo es $\chi^2_{0.05, 3} = 7.815$.
+	Como $\chi^2 = 18.5714 > 7.815$, **rechazamos $H_0$**. Concluimos que las tasas poblacionales de cumplimiento ético difieren entre las cuatro empresas.
+	
+	\textbf{Parte 2: Procedimiento post-hoc de Marascuilo.}
+	El valor crítico de Marascuilo utiliza la raíz del estadístico global de rechazo: $\sqrt{\chi^2_{0.05, 3}} = \sqrt{7.815} \approx 2.7955$.
+	Para cada par $(i, j)$, calculamos la diferencia absoluta $|\hat{p}_i - \hat{p}_j|$ y el rango crítico par a par $r_{ij} = 2.7955 \sqrt{\frac{\hat{p}_i(1-\hat{p}_i)}{n_i} + \frac{\hat{p}_j(1-\hat{p}_j)}{n_j}}$:
+	
+	\begin{itemize}
+		\item \textbf{Empresa A vs Empresa B:} $|\hat{p}_1 - \hat{p}_2| = |0.82 - 0.64| = 0.180$.
+		\begin{align}
+			r_{12} = 2.7955 \sqrt{\frac{0.82(0.18)}{100} + \frac{0.64(0.36)}{100}} = 2.7955 \sqrt{0.001476 + 0.002304} = 2.7955 \sqrt{0.00378} \approx 0.1719.
+		\end{align}
+		Como $0.180 > 0.1719$, **la diferencia A vs B es estadísticamente significativa**.
+		
+		\item \textbf{Empresa A vs Empresa C:} $|\hat{p}_1 - \hat{p}_3| = |0.82 - 0.75| = 0.070$.
+		\begin{align}
+			r_{13} = 2.7955 \sqrt{\frac{0.001476}{1} + \frac{0.75(0.25)}{120}} = 2.7955 \sqrt{0.001476 + 0.0015625} \approx 0.1541.
+		\end{align}
+		Como $0.070 \leq 0.1541$, no es significativa al $5\%$.
+		
+		\item \textbf{Empresa A vs Empresa D:} $|\hat{p}_1 - \hat{p}_4| = |0.82 - 0.55| = 0.270$.
+		\begin{align}
+			r_{14} = 2.7955 \sqrt{0.001476 + \frac{0.55(0.45)}{80}} = 2.7955 \sqrt{0.001476 + 0.00309375} \approx 0.1890.
+		\end{align}
+		Como $0.270 > 0.1890$, **la diferencia A vs D es estadísticamente significativa**.
+		
+		\item \textbf{Empresa B vs Empresa C:} $|\hat{p}_2 - \hat{p}_3| = |0.64 - 0.75| = 0.110$.
+		\begin{align}
+			r_{23} = 2.7955 \sqrt{0.002304 + 0.0015625} \approx 0.1738.
+		\end{align}
+		Como $0.110 \leq 0.1738$, no es significativa.
+		
+		\item \textbf{Empresa B vs Empresa D:} $|\hat{p}_2 - \hat{p}_4| = |0.64 - 0.55| = 0.090$.
+		\begin{align}
+			r_{24} = 2.7955 \sqrt{0.002304 + 0.00309375} \approx 0.2054.
+		\end{align}
+		Como $0.090 \leq 0.2054$, no es significativa.
+		
+		\item \textbf{Empresa C vs Empresa D:} $|\hat{p}_3 - \hat{p}_4| = |0.75 - 0.55| = 0.200$.
+		\begin{align}
+			r_{34} = 2.7955 \sqrt{0.0015625 + 0.00309375} = 2.7955 \sqrt{0.00465625} \approx 0.1908.
+		\end{align}
+		Como $0.200 > 0.1908$, **la diferencia C vs D es estadísticamente significativa**.
+	\end{itemize}
+	
+	\textbf{Conclusión de Marascuilo:} El análisis post-hoc demuestra que las parejas de empresas que difieren de manera estadísticamente significativa en cumplimiento ético son: **Empresa A supera a Empresa B ($82\%$ vs $64\%$)**, **Empresa A supera a Empresa D ($82\%$ vs $55\%$)** y **Empresa C supera a Empresa D ($75\%$ vs $55\%$)**.
+\end{solucion}

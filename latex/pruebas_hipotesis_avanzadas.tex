@@ -1,0 +1,174 @@
+\section{Pruebas de hipótesis avanzadas: Dos medias, proporciones, varianzas y homogeneidad}
+
+En las secciones precedentes de este capítulo sentamos las bases filosóficas y procedimentales de la docimasia estadística: formulamos la hipótesis nula ($H_0$) y alternativa ($H_a$), analizamos los errores de Tipo I ($\alpha$) y Tipo II ($\beta$), y estudiamos las pruebas clásicas $Z$ y $t$ para una sola media. Asimismo, introdujimos la prueba $\chi^2$ para verificar la bondad de ajuste de una distribución y para contrastar la independencia entre dos variables categóricas en una misma población.
+
+En la práctica empírica de la ciencia de datos, la analítica experimental y el diseño industrial, el investigador se enfrenta continuamente a preguntas comparativas y multidimensionales: ¿Es el algoritmo $A$ significativamente más rápido que el algoritmo $B$? ¿Difiere la tasa de clics o conversión en tres segmentos demográficos distintos? ¿La introducción de un nuevo sensor aumenta la estabilidad (reduce la varianza) del sistema?
+
+En esta sección desarrollamos de manera completa y rigurosa la teoría y metodología para contrastar hipótesis relativas a dos medias, una y dos proporciones, una y dos varianzas, así como las pruebas de homogeneidad y comparación simultánea de múltiples proporciones.
+
+\subsection{Pruebas de hipótesis sobre dos medias ($\mu_1 - \mu_2$)}
+
+Al comparar las medias poblacionales de dos grupos ($\mu_1$ y $\mu_2$), contrastamos una hipótesis nula de la forma:
+\begin{align}
+	H_0: \mu_1 - \mu_2 = \Delta_0,
+\end{align}
+donde $\Delta_0$ es la diferencia hipotética (en la gran mayoría de las investigaciones comparativas se postula que no existe diferencia inicial, es decir, $\Delta_0 = 0 \implies \mu_1 = \mu_2$).
+
+La hipótesis alternativa ($H_a$) puede adoptar tres formas, determinando la estructura de la región de rechazo:
+\begin{itemize}
+	\item \textbf{Prueba de dos colas:} $H_a: \mu_1 - \mu_2 \neq \Delta_0$.
+	\item \textbf{Prueba de cola izquierda:} $H_a: \mu_1 - \mu_2 < \Delta_0$.
+	\item \textbf{Prueba de cola derecha:} $H_a: \mu_1 - \mu_2 > \Delta_0$.
+\end{itemize}
+
+El estadístico de prueba a emplear depende de si las varianzas poblacionales son conocidas o desconocidas y de si las muestras son independientes o pareadas.
+
+\begin{teorema}[Caso 1: Muestras independientes con varianzas poblacionales conocidas]
+	Sean dos muestras aleatorias independientes de tamaños $n_1$ y $n_2$ provenientes de poblaciones normales con medias $\mu_1, \mu_2$ y varianzas conocidas $\sigma_1^2, \sigma_2^2$. (Si $n_1, n_2 \geq 30$, la normalidad poblacional no es estrictamente necesaria por el Teorema del Límite Central). Bajo la hipótesis nula $H_0: \mu_1 - \mu_2 = \Delta_0$, el estadístico estandarizado:
+	\begin{align}
+		Z = \frac{(\bar{X}_1 - \bar{X}_2) - \Delta_0}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}
+	\end{align}
+	sigue exactamente una distribución normal estándar $N(0,1)$. Rechazamos $H_0$ al nivel de significancia $\alpha$ si $|Z| > Z_{\alpha/2}$ (dos colas), $Z < -Z_\alpha$ (cola izquierda) o $Z > Z_\alpha$ (cola derecha).
+\end{teorema}
+
+\begin{teorema}[Caso 2: Muestras independientes con varianzas desconocidas pero iguales (Homoscedasticidad)]
+	Cuando $\sigma_1^2, \sigma_2^2$ son desconocidas pero se puede asumir razonablemente que son iguales ($\sigma_1^2 = \sigma_2^2 = \sigma^2$), estimamos la varianza común mediante la varianza muestral combinada $S_p^2$:
+	\begin{align}
+		S_p^2 = \frac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 - 2}.
+	\end{align}
+	El estadístico de prueba bajo $H_0: \mu_1 - \mu_2 = \Delta_0$ es:
+	\begin{align}
+		t = \frac{(\bar{X}_1 - \bar{X}_2) - \Delta_0}{S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}},
+	\end{align}
+	el cual sigue una distribución $t$ de Student con $\nu = n_1 + n_2 - 2$ grados de libertad.
+\end{teorema}
+
+\begin{teorema}[Caso 3: Muestras independientes con varianzas desconocidas y diferentes (Welch)]
+	Si las varianzas poblacionales son desconocidas y notablemente distintas ($\sigma_1^2 \neq \sigma_2^2$), no podemos combinar las varianzas muestrales. El estadístico de prueba es:
+	\begin{align}
+		t = \frac{(\bar{X}_1 - \bar{X}_2) - \Delta_0}{\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}}},
+	\end{align}
+	cuya distribución muestral se aproxima de manera excelente mediante la distribución $t$ de Student con los grados de libertad de Welch-Satterthwaite:
+	\begin{align}
+		\nu = \frac{\left( \frac{S_1^2}{n_1} + \frac{S_2^2}{n_2} \right)^2}{\frac{\left(S_1^2/n_1\right)^2}{n_1 - 1} + \frac{\left(S_2^2/n_2\right)^2}{n_2 - 1}}.
+	\end{align}
+\end{teorema}
+
+\begin{definicion}[Caso 4: Muestras pareadas o dependientes]
+	Cuando las mediciones de los dos grupos se realizan sobre los mismos sujetos o unidades experimentales apareadas ($X_{1i}, X_{2i}$), se define la variable diferencia $D_i = X_{1i} - X_{2i}$. El contraste sobre $\mu_1 - \mu_2$ se transforma en una prueba $t$ de una sola muestra sobre la media de las diferencias $\mu_D$. Bajo $H_0: \mu_D = \Delta_0$:
+	\begin{align}
+		t = \frac{\bar{D} - \Delta_0}{S_D / \sqrt{n}},
+	\end{align}
+	donde $\bar{D} = \frac{1}{n}\sum D_i$ y $S_D = \sqrt{\frac{1}{n-1}\sum (D_i - \bar{D})^2}$. El estadístico sigue una distribución $t$ de Student con $\nu = n - 1$ grados de libertad.
+\end{definicion}
+
+\subsection{Pruebas relacionadas con proporciones}
+
+En el modelado estadístico y aprendizaje automático, evaluar variables categóricas o binarias (éxito/fracaso) requiere contrastar proporciones poblacionales.
+
+\begin{teorema}[Prueba $Z$ para una proporción poblacional]
+	Sea $X$ el número de éxitos en una muestra aleatoria de tamaño $n$ de una distribución binomial con probabilidad real $p$. Para contrastar la hipótesis nula $H_0: p = p_0$ cuando el tamaño muestral cumple las condiciones de aproximación normal ($n p_0 \geq 5$ y $n(1-p_0) \geq 5$), el estadístico de prueba estandarizado es:
+	\begin{align}
+		Z = \frac{\hat{p} - p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}},
+	\end{align}
+	donde $\hat{p} = X/n$ es la proporción observada. Notemos una diferencia teórica crucial respecto al intervalo de confianza: en el denominador del estadístico $Z$ se utiliza la desviación estándar esperada \emph{bajo la hipótesis nula} ($p_0(1-p_0)$), no la varianza muestral empírica ($\hat{p}(1-\hat{p})$).
+\end{teorema}
+
+\begin{teorema}[Prueba $Z$ para la diferencia de dos proporciones]
+	Para comparar las tasas de éxito de dos poblaciones independientes ($p_1$ y $p_2$), contrastamos la hipótesis nula de igualdad $H_0: p_1 - p_2 = 0$ ($p_1 = p_2 = p$).
+	
+	Dado que bajo la hipótesis nula ambas muestras proceden teóricamente de una misma población que comparte la proporción común $p$, el estimador puntual más eficiente de dicha proporción es el promedio ponderado de éxitos de ambas muestras, conocido como \emph{proporción combinada o agrupada} ($\bar{p}$):
+	\begin{align}
+		\bar{p} = \frac{X_1 + X_2}{n_1 + n_2} = \frac{n_1 \hat{p}_1 + n_2 \hat{p}_2}{n_1 + n_2}.
+		\label{eq:prop_combinada}
+	\end{align}
+	
+	El estadístico de prueba bajo $H_0$ es:
+	\begin{align}
+		Z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\bar{p}(1-\bar{p})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}},
+	\end{align}
+	el cual se distribuye asintóticamente como una normal estándar $N(0,1)$ cuando $n_1 \bar{p}, n_1(1-\bar{p}), n_2 \bar{p}, n_2(1-\bar{p}) \geq 5$.
+\end{teorema}
+
+\subsection{Pruebas relacionadas con varianzas}
+
+La docimasia de varianzas y dispersiones es indispensable no solo para evaluar uniformidad o riesgo, sino para validar los supuestos de homoscedasticidad en modelos paramétricos.
+
+\begin{teorema}[Prueba $\chi^2$ para la varianza de una población normal]
+	Para contrastar si la varianza de una población normal es igual a un valor hipotético $H_0: \sigma^2 = \sigma_0^2$, calculamos la varianza muestral $S^2$ de una muestra de tamaño $n$. El estadístico de prueba es:
+	\begin{align}
+		\chi^2 = \frac{(n-1)S^2}{\sigma_0^2}.
+	\end{align}
+	Bajo $H_0$, este estadístico sigue una distribución chi-cuadrada con $\nu = n - 1$ grados de libertad.
+	Para una prueba de dos colas ($H_a: \sigma^2 \neq \sigma_0^2$), rechazamos $H_0$ al nivel $\alpha$ si $\chi^2 < \chi^2_{1-\alpha/2, n-1}$ o si $\chi^2 > \chi^2_{\alpha/2, n-1}$.
+\end{teorema}
+
+\begin{teorema}[Prueba $F$ para la comparación de dos varianzas poblacionales]
+	Para contrastar la hipótesis de igualdad de varianzas entre dos poblaciones normales independientes ($H_0: \sigma_1^2 = \sigma_2^2$), extraemos muestras de tamaños $n_1$ y $n_2$ y calculamos sus varianzas $S_1^2$ y $S_2^2$. El estadístico de prueba es el cociente de las varianzas muestrales:
+	\begin{align}
+		F = \frac{S_1^2}{S_2^2}.
+	\end{align}
+	Bajo $H_0$, este estadístico sigue una distribución $F$ de Snedecor con $\nu_1 = n_1 - 1$ grados de libertad en el numerador y $\nu_2 = n_2 - 1$ en el denominador.
+	Para una prueba de dos colas ($H_a: \sigma_1^2 \neq \sigma_2^2$), se rechaza $H_0$ si $F > F_{\alpha/2, \nu_1, \nu_2}$ o si $F < F_{1-\alpha/2, \nu_1, \nu_2} = \frac{1}{F_{\alpha/2, \nu_2, \nu_1}}$.
+\end{teorema}
+
+\subsection{Pruebas de homogeneidad vs Pruebas de independencia}
+
+En la sección \ref{sec:3.9} exploramos la aplicación de la distribución chi-cuadrada en tablas de contingencia para evaluar la \emph{independencia} entre dos factores. Existe otra prueba de capital importancia para la comparación multidimensional: la \emph{prueba de homogeneidad}. Aunque la fórmula matemática de cálculo ($\sum \frac{(O-E)^2}{E}$) es exactamente la misma en ambos casos, existe una diferencia conceptual profunda en el diseño experimental y el muestreo.
+
+\begin{definicion}[Diferencia conceptual entre Independencia y Homogeneidad]
+	\begin{itemize}
+		\item \textbf{Prueba de Independencia:} Se extrae \textbf{una sola muestra aleatoria} de tamaño total $N$ de una única población y, a posteriori, se clasifica cruzadamente cada observación según dos variables categóricas $A$ (con $r$ niveles) y $B$ (con $c$ niveles). Ningún total marginal de fila o columna está fijado de antemano por el investigador (salvo el total general $N$). La hipótesis contrastada es $H_0: P(A_i \cap B_j) = P(A_i)P(B_j)$.
+		\item \textbf{Prueba de Homogeneidad:} Se extraen \textbf{$c$ muestras aleatorias independientes} de tamaños preestablecidos ($n_1, n_2, \ldots, n_c$, fijando los totales de columna por el diseño experimental) procedentes de $c$ subgrupos o poblaciones distintas. Para cada subgrupo, se mide la distribución de \textbf{una única variable categórica} con $r$ niveles. La hipótesis contrastada es que las $c$ poblaciones poseen idéntica distribución categórica:
+		\begin{align}
+			H_0: p_{i1} = p_{i2} = \ldots = p_{ic} \quad \text{para cada categoría } i = 1, 2, \ldots, r,
+		\end{align}
+		donde $p_{ij}$ es la probabilidad de que una observación del subgrupo $j$ caiga en la categoría $i$.
+	\end{itemize}
+\end{definicion}
+
+\begin{teorema}[Estadístico chi-cuadrada para homogeneidad]
+	Dada una tabla de datos de $r$ filas (categorías) y $c$ columnas (poblaciones o subgrupos independientes), si $O_{ij}$ es la frecuencia observada en la celda $(i,j)$, la frecuencia esperada bajo la hipótesis nula de homogeneidad es:
+	\begin{align}
+		E_{ij} = \frac{R_i \cdot C_j}{N},
+	\end{align}
+	donde $R_i = \sum_{j=1}^c O_{ij}$ es el total de la fila $i$, $C_j = n_j = \sum_{i=1}^r O_{ij}$ es el tamaño de la muestra de la población $j$, y $N = \sum C_j$ es el total general.
+	
+	El estadístico de prueba:
+	\begin{align}
+		\chi^2 = \sum_{i=1}^r \sum_{j=1}^c \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+	\end{align}
+	se distribuye asintóticamente (cuando todos los $E_{ij} \geq 5$) como una chi-cuadrada con $\nu = (r-1)(c-1)$ grados de libertad.
+\end{teorema}
+
+\subsection{Pruebas de varias proporciones y procedimiento de Marascuilo}
+
+La comparación de varias proporciones binomiales es un caso especial de gran relevancia técnica de la prueba de homogeneidad, donde la variable dependiente es dicotómica ($r=2$: Éxito vs Fracaso) y evaluamos $c = k$ poblaciones independientes.
+
+\begin{definicion}[Contraste de $k$ proporciones]
+	Sean $p_1, p_2, \ldots, p_k$ las proporciones verdaderas de éxito en $k$ poblaciones independientes. La hipótesis nula es:
+	\begin{align}
+		H_0: p_1 = p_2 = \ldots = p_k = p,
+	\end{align}
+	frente a la hipótesis alternativa $H_a$: al menos una de las proporciones difiere de las demás.
+	
+	El estadístico $\chi^2$ de homogeneidad aplicado a la tabla $2 \times k$ tiene $\nu = (2-1)(k-1) = k-1$ grados de libertad. Puede demostrarse algebraicamente que el estadístico se expresa de forma compacta como:
+	\begin{align}
+		\chi^2 = \sum_{j=1}^k \frac{(X_j - n_j \bar{p})^2}{n_j \bar{p}(1-\bar{p})},
+		\label{eq:chi2_k_prop}
+	\end{align}
+	donde $X_j$ es el número de éxitos en la muestra $j$ (de tamaño $n_j$), y $\bar{p} = \frac{\sum X_j}{\sum n_j}$ es la proporción global de éxitos en las $k$ muestras.
+\end{definicion}
+
+Cuando el estadístico $\chi^2$ es significativo y rechazamos $H_0$, sabemos con certeza estadística que las $k$ proporciones no son todas iguales, pero la prueba global no nos dice \emph{cuáles} específicas difieren entre sí. Para identificar los pares significativos sin cometer el error de inflar la probabilidad de error Tipo I global al realizar $\binom{k}{2}$ pruebas individuales de diferencia de proporciones, utilizamos el procedimiento de comparación múltiple de Marascuilo.
+
+\begin{teorema}[Procedimiento de comparación post-hoc de Marascuilo]
+	Si la prueba global $\chi^2$ de $k$ proporciones rechaza $H_0$ al nivel de significancia $\alpha$, las diferencias absolutas observadas entre cada par de proporciones muestrales ($|\hat{p}_i - \hat{p}_j|$ para todo $1 \leq i < j \leq k$) se comparan contra un rango crítico par a par $r_{ij}$ dado por:
+	\begin{align}
+		r_{ij} = \sqrt{\chi^2_{\alpha, \, k-1}} \sqrt{\frac{\hat{p}_i(1-\hat{p}_i)}{n_i} + \frac{\hat{p}_j(1-\hat{p}_j)}{n_j}},
+		\label{eq:marascuilo}
+	\end{align}
+	donde $\chi^2_{\alpha, k-1}$ es el valor crítico superior del estadístico global con $k-1$ grados de libertad. 
+	
+	Declaramos que las proporciones poblacionales $p_i$ y $p_j$ difieren significativamente al nivel familiar de error $\alpha$ si y solo si $|\hat{p}_i - \hat{p}_j| > r_{ij}$.
+\end{teorema}
