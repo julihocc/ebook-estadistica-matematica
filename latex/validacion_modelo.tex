@@ -237,12 +237,12 @@ for fold, (train_idx, test_idx) in enumerate(kf.split(X), 1):
     r2_scores.append(r2)
     rse_scores.append(rse)
     
-    print(f'Fold {fold}: R² = {r2:.4f}, RSE = {rse:.4f}')
+    print(f'Fold {fold}: R^2 = {r2:.4f}, RSE = {rse:.4f}')
 
 # Resultados agregados
 print(f'\n=== Resultados de Validación Cruzada {k}-Fold ===')
-print(f'R² promedio: {np.mean(r2_scores):.4f} ± {np.std(r2_scores):.4f}')
-print(f'RSE promedio: {np.mean(rse_scores):.4f} ± {np.std(rse_scores):.4f}')
+print(f'R^2 promedio: {np.mean(r2_scores):.4f} +/- {np.std(r2_scores):.4f}')
+print(f'RSE promedio: {np.mean(rse_scores):.4f} +/- {np.std(rse_scores):.4f}')
 \end{lstlisting}
 
 \subsubsection{Interpretación de resultados}
@@ -283,10 +283,10 @@ r2_model2 = cross_val_score(LinearRegression(), X2, Y, cv=5, scoring='r2')
 X3 = advert[['TV', 'Radio', 'Newspaper']]
 r2_model3 = cross_val_score(LinearRegression(), X3, Y, cv=5, scoring='r2')
 
-print('Comparación de modelos (R² promedio ± desviación estándar):')
-print(f'Modelo 1 (TV): {np.mean(r2_model1):.4f} ± {np.std(r2_model1):.4f}')
-print(f'Modelo 2 (TV+Radio): {np.mean(r2_model2):.4f} ± {np.std(r2_model2):.4f}')
-print(f'Modelo 3 (TV+Radio+Newspaper): {np.mean(r2_model3):.4f} ± {np.std(r2_model3):.4f}')
+print('Comparación de modelos (R^2 promedio +/- desviación estándar):')
+print(f'Modelo 1 (TV): {np.mean(r2_model1):.4f} +/- {np.std(r2_model1):.4f}')
+print(f'Modelo 2 (TV+Radio): {np.mean(r2_model2):.4f} +/- {np.std(r2_model2):.4f}')
+print(f'Modelo 3 (TV+Radio+Newspaper): {np.mean(r2_model3):.4f} +/- {np.std(r2_model3):.4f}')
 \end{lstlisting}
 
 \subsubsection{Validación cruzada estratificada}
@@ -313,7 +313,7 @@ for train_idx, test_idx in skf.split(X, Y_cuartiles):
     
     r2_stratified.append(r2_score(Y_test, Y_pred))
 
-print(f'R² estratificado: {np.mean(r2_stratified):.4f} ± {np.std(r2_stratified):.4f}')
+print(f'R^2 estratificado: {np.mean(r2_stratified):.4f} +/- {np.std(r2_stratified):.4f}')
 \end{lstlisting}
 
 \subsection{Resumen de técnicas de validación}
