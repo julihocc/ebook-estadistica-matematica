@@ -1,0 +1,204 @@
+\section{Métodos de estimación puntual}
+
+En la sección anterior definimos un \emph{estimador} como una función de la muestra aleatoria $X_1, X_2, \ldots, X_n$ que se utiliza para inferir el valor de un parámetro poblacional desconocido $\theta \in \Theta$. Mientras que la teoría básica nos permite evaluar si un estimador propuesto posee propiedades deseables (como la insesgadez o una baja varianza), en la práctica necesitamos procedimientos matemáticos sistemáticos para \emph{construir} u obtener dichos estimadores a partir de un modelo estadístico.
+
+En esta sección estudiaremos los dos métodos de estimación puntual más fundamentales de la teoría estadística moderna: el \emph{Método de Máxima Verosimilitud} (MLE) y el \emph{Método de Momentos} (MoM). Asimismo, analizaremos su papel en el diseño y entrenamiento de modelos en ciencia de datos y aprendizaje automático.
+
+\subsection{Método de Máxima Verosimilitud (MLE)}
+
+El principio de máxima verosimilitud, desarrollado formalmente por Ronald A. Fisher a principios del siglo XX, sostiene que, dado un conjunto de observaciones muestrales, debemos elegir como estimador aquel valor del parámetro $\theta$ que haga que la muestra observada sea lo más probable posible.
+
+\begin{definicion}[Función de verosimilitud]
+	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria de tamaño $n$ de una población con función de densidad de probabilidad (o función de masa de probabilidad si es discreta) $f(x \mid \theta)$, donde $\theta$ es un parámetro desconocido del espacio paramétrico $\Theta$. 
+	
+	Dado que las observaciones son independientes e idénticamente distribuidas (\emph{iid}), la densidad conjunta de la muestra se puede expresar como el producto de las marginales. Evaluada en los valores observados $x_1, x_2, \ldots, x_n$, esta función vista como función del parámetro $\theta$ se denomina \emph{función de verosimilitud} y se denota por $L(\theta \mid x_1, \ldots, x_n)$ o simplemente $L(\theta)$:
+	\begin{align}
+		L(\theta) = f(x_1, x_2, \ldots, x_n \mid \theta) = \prod_{i=1}^n f(x_i \mid \theta).
+		\label{eq:verosimilitud_def}
+	\end{align}
+\end{definicion}
+
+\begin{observacion}
+	Es fundamental distinguir entre la densidad conjunta y la función de verosimilitud. En la función de densidad conjunta $f(x_1, \ldots, x_n \mid \theta)$, el parámetro $\theta$ se considera fijo y conocido, mientras que las variables $X_i$ son móviles. Por el contrario, en la función de verosimilitud $L(\theta)$, los datos observados $x_1, \ldots, x_n$ son fijos y conocidos, y $\theta$ es la variable libre.
+\end{observacion}
+
+\begin{definicion}[Estimador de Máxima Verosimilitud]
+	El \emph{estimador de máxima verosimilitud} (EMV o MLE, por sus siglas en inglés) del parámetro $\theta$, denotado por $\hat{\theta}_{MLE}$, es el valor en el espacio paramétrico $\Theta$ que maximiza la función de verosimilitud:
+	\begin{align}
+		L(\hat{\theta}_{MLE}) \geq L(\theta) \quad \text{para todo } \theta \in \Theta,
+	\end{align}
+	o equivalentemente:
+	\begin{align}
+		\hat{\theta}_{MLE} = \arg\max_{\theta \in \Theta} L(\theta).
+	\end{align}
+\end{definicion}
+
+Dado que la función logaritmo natural $\ln(\cdot)$ es estrictamente creciente en su dominio positivo, maximizar $L(\theta)$ es matemáticamente equivalente a maximizar su logaritmo. Trabajamos comúnmente con la \emph{función de log-verosimilitud}, denotada por $\ell(\theta)$:
+\begin{align}
+	\ell(\theta) = \ln L(\theta) = \ln \left( \prod_{i=1}^n f(x_i \mid \theta) \right) = \sum_{i=1}^n \ln f(x_i \mid \theta).
+	\label{eq:log_verosimilitud}
+\end{align}
+
+La transformación logarítmica convierte multiplicaciones en sumas, lo cual simplifica enormemente la derivación analítica y previene el desbordamiento numérico (\emph{numerical underflow}) en las implementaciones computacionales.
+
+\begin{teorema}[Condición de primer orden para MLE]
+	Si la función de log-verosimilitud $\ell(\theta)$ es derivable respecto a $\theta$ y el máximo se alcanza en el interior del espacio paramétrico $\Theta$, el estimador de máxima verosimilitud $\hat{\theta}_{MLE}$ satisface la ecuación de verosimilitud (\emph{score equation}):
+	\begin{align}
+		\frac{d}{d\theta} \ell(\theta) = \sum_{i=1}^n \frac{d}{d\theta} \ln f(x_i \mid \theta) = 0.
+		\label{eq:mle_score}
+	\end{align}
+	Para verificar que la solución corresponde a un máximo global y no a un mínimo o punto de inflexión, se debe comprobar que la segunda derivada sea estrictamente negativa en el punto:
+	\begin{align}
+		\left. \frac{d^2}{d\theta^2} \ell(\theta) \right|_{\theta = \hat{\theta}_{MLE}} < 0.
+	\end{align}
+\end{teorema}
+
+\begin{ejemplo}
+	\textbf{MLE para la distribución Bernoulli.} 
+	Supongamos que $X_1, X_2, \ldots, X_n$ es una muestra aleatoria de variables Bernoulli con parámetro $p$, donde $P(X_i = 1) = p$ y $P(X_i = 0) = 1-p$. La función de masa de probabilidad de una observación es:
+	\begin{align}
+		f(x_i \mid p) = p^{x_i}(1-p)^{1-x_i}, \quad x_i \in \{0, 1\}.
+	\end{align}
+	
+	La función de verosimilitud de la muestra es:
+	\begin{align}
+		L(p) = \prod_{i=1}^n p^{x_i}(1-p)^{1-x_i} = p^{\sum x_i}(1-p)^{n - \sum x_i}.
+	\end{align}
+	
+	Tomando logaritmo natural, obtenemos la log-verosimilitud:
+	\begin{align}
+		\ell(p) = \left(\sum_{i=1}^n x_i\right) \ln p + \left(n - \sum_{i=1}^n x_i\right) \ln(1-p).
+	\end{align}
+	
+	Derivando respecto al parámetro $p$ e igualando a cero:
+	\begin{align}
+		\frac{d}{dp} \ell(p) = \frac{\sum x_i}{p} - \frac{n - \sum x_i}{1-p} = 0.
+	\end{align}
+	
+	Multiplicando ambos lados por $p(1-p)$ y simplificando:
+	\begin{align}
+		(1-p)\sum_{i=1}^n x_i - p\left(n - \sum_{i=1}^n x_i\right) &= 0 \\
+		\sum_{i=1}^n x_i - p\sum_{i=1}^n x_i - np + p\sum_{i=1}^n x_i &= 0 \\
+		\sum_{i=1}^n x_i - np &= 0 \implies \hat{p}_{MLE} = \frac{1}{n} \sum_{i=1}^n X_i = \bar{X}.
+	\end{align}
+	
+	Por lo tanto, el estimador de máxima verosimilitud para la probabilidad de éxito $p$ en una distribución Bernoulli (y en una Binomial) es la proporción muestral de éxitos, $\bar{X}$.
+\end{ejemplo}
+
+\begin{ejemplo}
+	\textbf{MLE para los parámetros de la distribución Normal.}
+	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria de una población normal con media $\mu$ y varianza $\sigma^2$ desconocidas. La densidad conjunta es:
+	\begin{align}
+		f(x_i \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x_i - \mu)^2}{2\sigma^2} \right).
+	\end{align}
+	
+	La función de log-verosimilitud, con vector de parámetros $\theta = (\mu, \sigma^2)$, resulta en:
+	\begin{align}
+		\ell(\mu, \sigma^2) &= \sum_{i=1}^n \left[ -\frac{1}{2}\ln(2\pi) - \frac{1}{2}\ln(\sigma^2) - \frac{(x_i - \mu)^2}{2\sigma^2} \right] \\
+		&= -\frac{n}{2}\ln(2\pi) - \frac{n}{2}\ln(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n (x_i - \mu)^2.
+	\end{align}
+	
+	Para encontrar las estimaciones parciales, derivamos con respecto a $\mu$ y $\sigma^2$:
+	\begin{align}
+		\frac{\partial}{\partial \mu} \ell(\mu, \sigma^2) = \frac{1}{\sigma^2}\sum_{i=1}^n (x_i - \mu) = 0 \implies \sum_{i=1}^n x_i - n\mu = 0 \implies \hat{\mu}_{MLE} = \bar{X}.
+	\end{align}
+	
+	Derivando ahora respecto a la varianza $\sigma^2$ (tratando $\sigma^2$ como la variable de derivación):
+	\begin{align}
+		\frac{\partial}{\partial (\sigma^2)} \ell(\mu, \sigma^2) = -\frac{n}{2\sigma^2} + \frac{1}{2(\sigma^2)^2} \sum_{i=1}^n (x_i - \mu)^2 = 0.
+	\end{align}
+	
+	Sustituyendo $\hat{\mu}_{MLE} = \bar{X}$ y multiplicando por $2(\sigma^2)^2$:
+	\begin{align}
+		-n\sigma^2 + \sum_{i=1}^n (x_i - \bar{X})^2 = 0 \implies \hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2.
+	\end{align}
+\end{ejemplo}
+
+\begin{observacion}
+	Notemos que el estimador de máxima verosimilitud para la varianza normal, $\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum (X_i - \bar{X})^2$, divide por $n$ y no por $n-1$. Como se demostró en la sección anterior, esto implica que $\hat{\sigma}^2_{MLE}$ es un estimador ligeramente sesgado hacia la baja ($E(\hat{\sigma}^2_{MLE}) = \frac{n-1}{n}\sigma^2$). Sin embargo, a medida que $n \to \infty$, el sesgo desaparece rápidamente y el estimador es plenamente consistente.
+\end{observacion}
+
+\begin{propiedad}[Propiedades de los estimadores de máxima verosimilitud]
+	Los estimadores de máxima verosimilitud gozan de excelentes propiedades teóricas bajo condiciones de regularidad:
+	\begin{enumerate}
+		\item \textbf{Invariancia funcional:} Si $\hat{\theta}$ es el MLE de $\theta$ y $g(\theta)$ es una función biyectiva (o medible) cualquiera de $\theta$, entonces el MLE de $g(\theta)$ es exactamente $\widehat{g(\theta)} = g(\hat{\theta})$. Por ejemplo, el MLE de la desviación estándar normal es $\hat{\sigma}_{MLE} = \sqrt{\hat{\sigma}^2_{MLE}}$.
+		\item \textbf{Consistencia:} A medida que el tamaño muestral crece, $\hat{\theta}_{MLE}$ converge en probabilidad al verdadero valor del parámetro: $\hat{\theta}_{MLE} \xrightarrow{p} \theta$.
+		\item \textbf{Normalidad asintótica:} Para muestras grandes, la distribución muestral de $\hat{\theta}_{MLE}$ se aproxima a una distribución normal centrada en el valor verdadero $\theta$ con varianza igual al inverso de la información de Fisher.
+		\item \textbf{Eficiencia asintótica:} Entre todos los estimadores consistentes y asintóticamente normales, el MLE alcanza la mínima varianza teórica posible cuando $n \to \infty$ (la cota inferior de Cramér-Rao).
+	\end{enumerate}
+\end{propiedad}
+
+\subsection{Método de Momentos (MoM)}
+
+El \emph{Método de Momentos}, propuesto por Pafnuty Chebyshev y Karl Pearson a fines del siglo XIX, es uno de los procedimientos más intuitivos de la inferencia estadística. Se basa en igualar las características numéricas de la muestra (los momentos muestrales) con los momentos teóricos o esperados de la población.
+
+\begin{definicion}[Momentos poblacionales y muestrales]
+	Sea $X$ una variable aleatoria con función de densidad $f(x \mid \theta)$. El $k$-ésimo \emph{momento poblacional respecto al origen}, denotado por $\mu_k(\theta)$, se define como:
+	\begin{align}
+		\mu_k(\theta) = E(X^k) = \int_{-\infty}^{\infty} x^k f(x \mid \theta) \, dx \quad \text{(caso continuo)}.
+	\end{align}
+	
+	Dada una muestra aleatoria $X_1, X_2, \ldots, X_n$, el $k$-ésimo \emph{momento muestral}, denotado por $m_k$, es el promedio de las potencias $k$-ésimas de los datos:
+	\begin{align}
+		m_k = \frac{1}{n} \sum_{i=1}^n X_i^k.
+	\end{align}
+	En particular, el primer momento muestral es la media aritmética, $m_1 = \bar{X}$, y el segundo momento muestral es $m_2 = \frac{1}{n}\sum X_i^2$.
+\end{definicion}
+
+\begin{teorema}[Procedimiento del Método de Momentos]
+	Supongamos que la distribución poblacional depende de un vector de $r$ parámetros desconocidos, $\theta = (\theta_1, \theta_2, \ldots, \theta_r)$. El procedimiento de estimación por el método de momentos consiste en igualar los primeros $r$ momentos poblacionales a los respectivos $r$ momentos muestrales:
+	\begin{align}
+		\mu_1(\theta_1, \ldots, \theta_r) &= m_1 = \bar{X} \nonumber \\
+		\mu_2(\theta_1, \ldots, \theta_r) &= m_2 = \frac{1}{n}\sum_{i=1}^n X_i^2 \nonumber \\
+		&\vdots \nonumber \\
+		\mu_r(\theta_1, \ldots, \theta_r) &= m_r = \frac{1}{n}\sum_{i=1}^n X_i^r.
+		\label{eq:mom_sistema}
+	\end{align}
+	
+	La solución simultánea de este sistema algebraico de $r$ ecuaciones con $r$ incógnitas produce el vector de estimadores por el método de momentos, denotado por $\hat{\theta}_{MoM} = (\hat{\theta}_{1, MoM}, \ldots, \hat{\theta}_{r, MoM})$.
+\end{teorema}
+
+\begin{ejemplo}
+	\textbf{Método de Momentos para la distribución Gamma.}
+	Una variable aleatoria $X \sim \text{Gamma}(\alpha, \beta)$ tiene por densidad $f(x) = \frac{1}{\beta^\alpha \Gamma(\alpha)} x^{\alpha-1} e^{-x/\beta}$ para $x > 0$. Como sabemos por la unidad de variables continuas, la media y la varianza teóricas de la distribución gamma son:
+	\begin{align}
+		E(X) &= \mu_1 = \alpha\beta, \\
+		\text{Var}(X) &= \alpha\beta^2.
+	\end{align}
+	
+	Dado que $\text{Var}(X) = E(X^2) - [E(X)]^2 = \mu_2 - \mu_1^2$, podemos expresar los dos primeros momentos poblacionales como:
+	\begin{align}
+		\mu_1 &= \alpha\beta, \\
+		\mu_2 &= \text{Var}(X) + \mu_1^2 = \alpha\beta^2 + \alpha^2\beta^2 = \alpha\beta^2(1 + \alpha).
+	\end{align}
+	
+	Igualando con los momentos muestrales $m_1 = \bar{X}$ y podemos trabajar equivalentemente igualando la varianza muestral $S^2$ con la varianza poblacional:
+	\begin{align}
+		\alpha\beta &= \bar{X}, \\
+		\alpha\beta^2 &= S^2 \quad \text{(donde } S^2 = m_2 - m_1^2 \text{)}.
+	\end{align}
+	
+	Dividiendo la segunda ecuación entre la primera obtenemos el estimador para el parámetro de escala $\beta$:
+	\begin{align}
+		\frac{\alpha\beta^2}{\alpha\beta} = \frac{S^2}{\bar{X}} \implies \hat{\beta}_{MoM} = \frac{S^2}{\bar{X}}.
+	\end{align}
+	
+	Sustituyendo $\hat{\beta}_{MoM}$ en la primera ecuación obtenemos el estimador del parámetro de forma $\alpha$:
+	\begin{align}
+		\alpha \left( \frac{S^2}{\bar{X}} \right) = \bar{X} \implies \hat{\alpha}_{MoM} = \frac{\bar{X}^2}{S^2}.
+	\end{align}
+	
+	Este es un resultado de gran utilidad práctica, ya que el sistema de ecuaciones de máxima verosimilitud para la distribución Gamma no posee solución analítica cerrada y requiere métodos numéricos iterativos (como Newton-Raphson), mientras que el método de momentos ofrece fórmulas inmediatas.
+\end{ejemplo}
+
+\subsection{Los métodos de estimación puntual en Ciencia de Datos}
+
+En la ciencia de datos moderna y el aprendizaje automático (\emph{machine learning}), los métodos de estimación puntual constituyen el núcleo matemático de los algoritmos de entrenamiento de modelos:
+
+\begin{enumerate}
+	\item \textbf{Entrenamiento computacional mediante MLE:} Muchos algoritmos de aprendizaje supervisado, como la regresión logística, la regresión de Poisson para conteos, y las redes neuronales profundas, se entrenan maximizando directamente una función de verosimilitud. Por ejemplo, en clasificación binaria o multiclase, minimizar la función de pérdida de \emph{entropía cruzada} (\emph{cross-entropy loss}) es matemáticamente idéntico a calcular el estimador de máxima verosimilitud sobre una distribución multinomial.
+	
+	\item \textbf{Inicialización de pesos con Método de Momentos:} Cuando un modelo estadístico complejo o una mezcla de distribuciones (\emph{Gaussian Mixture Models} - GMM) debe ajustarse por métodos numéricos intensivos como el algoritmo Esperanza-Maximización (EM), las estimaciones por el Método de Momentos se utilizan con frecuencia como los valores iniciales ($\theta^{(0)}$) para acelerar la convergencia y evitar mínimos locales pobres.
+	
+	\item \textbf{Estimación por Método Generalizado de Momentos (GMM):} En econometría y ciencia de datos causales, cuando el número de condiciones de momento supera el número de parámetros a estimar, se emplea el Método Generalizado de Momentos para combinar óptimamente toda la información empírica disponible sin requerir especificaciones distribucionales estrictas.
+\end{enumerate}

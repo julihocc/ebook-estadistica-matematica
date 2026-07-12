@@ -1,0 +1,236 @@
+\section{Problemas resueltos de estimación puntual}
+
+\begin{problema}
+	\label{prob:mle_poisson}
+	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria independiente de tamaño $n$ extraída de una distribución de Poisson con parámetro desconocido $\lambda > 0$. 
+	\begin{enumerate}
+		\item Encuentre el estimador de máxima verosimilitud $\hat{\lambda}_{MLE}$.
+		\item Demuestre que $\hat{\lambda}_{MLE}$ es un estimador insesgado de $\lambda$.
+		\item Calcule la varianza del estimador y verifique si alcanza la cota inferior de Cramér-Rao para estimadores insesgados.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\textbf{Parte 1: Estimador de máxima verosimilitud.}
+	La función de masa de probabilidad de cada observación de Poisson es:
+	\begin{align}
+		f(x_i \mid \lambda) = \frac{\lambda^{x_i} e^{-\lambda}}{x_i!}, \quad x_i = 0, 1, 2, \ldots
+	\end{align}
+	
+	La función de verosimilitud conjunta de la muestra es:
+	\begin{align}
+		L(\lambda) = \prod_{i=1}^n \frac{\lambda^{x_i} e^{-\lambda}}{x_i!} = \frac{\lambda^{\sum_{i=1}^n x_i} e^{-n\lambda}}{\prod_{i=1}^n x_i!}.
+	\end{align}
+	
+	Tomando el logaritmo natural para obtener la función de log-verosimilitud:
+	\begin{align}
+		\ell(\lambda) = \ln L(\lambda) = \left( \sum_{i=1}^n x_i \right) \ln \lambda - n\lambda - \sum_{i=1}^n \ln(x_i!).
+	\end{align}
+	
+	Derivando respecto a $\lambda$ e igualando a cero:
+	\begin{align}
+		\frac{d}{d\lambda} \ell(\lambda) = \frac{1}{\lambda} \sum_{i=1}^n x_i - n = 0 \implies \sum_{i=1}^n x_i = n\lambda \implies \hat{\lambda}_{MLE} = \frac{1}{n}\sum_{i=1}^n X_i = \bar{X}.
+	\end{align}
+	Para verificar la condición de segundo orden, calculamos la segunda derivada:
+	\begin{align}
+		\frac{d^2}{d\lambda^2} \ell(\lambda) = -\frac{1}{\lambda^2}\sum_{i=1}^n x_i < 0 \quad \text{dado que } x_i \geq 0 \text{ y } \lambda > 0.
+	\end{align}
+	Por tanto, $\hat{\lambda}_{MLE} = \bar{X}$ maximiza la verosimilitud.
+	
+	\textbf{Parte 2: Insesgadez.}
+	Calculamos el valor esperado de $\hat{\lambda}_{MLE}$:
+	\begin{align}
+		E(\hat{\lambda}_{MLE}) = E(\bar{X}) = E\left( \frac{1}{n} \sum_{i=1}^n X_i \right) = \frac{1}{n} \sum_{i=1}^n E(X_i).
+	\end{align}
+	Como cada $X_i \sim \text{Poisson}(\lambda)$, sabemos que $E(X_i) = \lambda$. Por lo tanto:
+	\begin{align}
+		E(\hat{\lambda}_{MLE}) = \frac{1}{n} (n\lambda) = \lambda.
+	\end{align}
+	En consecuencia, $\hat{\lambda}_{MLE} = \bar{X}$ es un estimador insesgado para $\lambda$.
+	
+	\textbf{Parte 3: Eficiencia y cota inferior de Cramér-Rao.}
+	La varianza de la media muestral de observaciones de Poisson es:
+	\begin{align}
+		\text{Var}(\hat{\lambda}_{MLE}) = \text{Var}(\bar{X}) = \frac{\text{Var}(X_i)}{n} = \frac{\lambda}{n}.
+	\end{align}
+	Ahora evaluamos la cota inferior de Cramér-Rao (CRLB). Para una observación de Poisson, la segunda derivada del logaritmo de su densidad respecto al parámetro es:
+	\begin{align}
+		\ln f(x \mid \lambda) &= x \ln \lambda - \lambda - \ln(x!) \\
+		\frac{\partial^2}{\partial \lambda^2} \ln f(x \mid \lambda) &= -\frac{x}{\lambda^2}.
+	\end{align}
+	La información de Fisher de una sola observación es:
+	\begin{align}
+		I(\lambda) = -E\left[ \frac{\partial^2}{\partial \lambda^2} \ln f(X \mid \lambda) \right] = -E\left( -\frac{X}{\lambda^2} \right) = \frac{E(X)}{\lambda^2} = \frac{\lambda}{\lambda^2} = \frac{1}{\lambda}.
+	\end{align}
+	Por lo tanto, la cota inferior de Cramér-Rao para cualquier estimador insesgado basado en una muestra de tamaño $n$ es:
+	\begin{align}
+		\text{CRLB} = \frac{1}{n I(\lambda)} = \frac{1}{n (1/\lambda)} = \frac{\lambda}{n}.
+	\end{align}
+	Dado que $\text{Var}(\hat{\lambda}_{MLE}) = \frac{\lambda}{n} = \text{CRLB}$, el estimador de máxima verosimilitud alcanza la cota mínima teórica posible y es un estimador de mínima varianza insesgado uniformly de varianza mínima (UMVUE).
+\end{solucion}
+
+\begin{problema}
+	\label{prob:mom_exponencial}
+	El tiempo entre fallas de los servidores de un centro de datos en la nube se modela mediante una variable aleatoria continua $X$ con distribución Exponencial de parámetro $\lambda > 0$, cuya función de densidad es:
+	\begin{align}
+		f(x \mid \lambda) = \lambda e^{-\lambda x}, \quad x > 0.
+	\end{align}
+	\begin{enumerate}
+		\item Obtenga el estimador del parámetro $\lambda$ utilizando el Método de Momentos ($\hat{\lambda}_{MoM}$).
+		\item Obtenga el estimador de máxima verosimilitud $\hat{\lambda}_{MLE}$. ¿Coinciden ambos métodos para este modelo?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\textbf{Parte 1: Estimación por el Método de Momentos.}
+	Para una variable aleatoria exponencial con densidad $\lambda e^{-\lambda x}$, el primer momento poblacional respecto al origen (su esperanza matemática) se calcula mediante integración por partes o consultando tablas conocidas:
+	\begin{align}
+		\mu_1 = E(X) = \int_0^\infty x \lambda e^{-\lambda x} \, dx = \frac{1}{\lambda}.
+	\end{align}
+	
+	El primer momento muestral es la media aritmética de los datos observados:
+	\begin{align}
+		m_1 = \bar{X} = \frac{1}{n} \sum_{i=1}^n X_i.
+	\end{align}
+	
+	Aplicando el procedimiento del Método de Momentos, igualamos el primer momento poblacional al primer momento muestral ($\mu_1 = m_1$):
+	\begin{align}
+		\frac{1}{\lambda} = \bar{X} \implies \hat{\lambda}_{MoM} = \frac{1}{\bar{X}}.
+	\end{align}
+	
+	\textbf{Parte 2: Estimación por Máxima Verosimilitud.}
+	La función de verosimilitud para la muestra de tamaño $n$ es el producto de las densidades exponenciales:
+	\begin{align}
+		L(\lambda) = \prod_{i=1}^n \lambda e^{-\lambda x_i} = \lambda^n e^{-\lambda \sum_{i=1}^n x_i}.
+	\end{align}
+	
+	Tomando logaritmo natural obtenemos la log-verosimilitud:
+	\begin{align}
+		\ell(\lambda) = n \ln \lambda - \lambda \sum_{i=1}^n x_i.
+	\end{align}
+	
+	Derivando respecto a $\lambda$ e igualando a cero:
+	\begin{align}
+		\frac{d}{d\lambda} \ell(\lambda) = \frac{n}{\lambda} - \sum_{i=1}^n x_i = 0 \implies \frac{n}{\lambda} = n\bar{X} \implies \hat{\lambda}_{MLE} = \frac{1}{\bar{X}}.
+	\end{align}
+	
+	Por lo tanto, para la distribución exponencial de un solo parámetro, el Método de Momentos y el Método de Máxima Verosimilitud producen exactamente el mismo estimador: $\hat{\lambda}_{MoM} = \hat{\lambda}_{MLE} = 1/\bar{X}$.
+\end{solucion}
+
+\begin{problema}
+	\label{prob:mle_uniforme}
+	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria de una variable con distribución Uniforme en el intervalo $[0, \theta]$, donde $\theta > 0$ es un parámetro desconocido. La densidad de cada observación es:
+	\begin{align}
+		f(x \mid \theta) = 
+		\begin{cases}
+			\frac{1}{\theta} & \text{si } 0 \leq x \leq \theta, \\
+			0 & \text{en otro caso.}
+		\end{cases}
+	\end{align}
+	\begin{enumerate}
+		\item Encuentre el estimador del Método de Momentos $\hat{\theta}_{MoM}$.
+		\item Demuestre por qué la técnica habitual de derivar la log-verosimilitud e igualar a cero falla para encontrar el estimador de máxima verosimilitud en este caso, y obtenga formalmente $\hat{\theta}_{MLE}$.
+		\item Compare el sesgo de $\hat{\theta}_{MoM}$ y $\hat{\theta}_{MLE}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\textbf{Parte 1: Método de Momentos.}
+	La media poblacional de una distribución Uniforme en $[0, \theta]$ es el punto medio del intervalo:
+	\begin{align}
+		\mu_1 = E(X) = \frac{0 + \theta}{2} = \frac{\theta}{2}.
+	\end{align}
+	Igualando este primer momento teórico con la media muestral $m_1 = \bar{X}$:
+	\begin{align}
+		\frac{\theta}{2} = \bar{X} \implies \hat{\theta}_{MoM} = 2\bar{X}.
+	\end{align}
+	
+	\textbf{Parte 2: Máxima Verosimilitud.}
+	La función de verosimilitud de la muestra uniforme es:
+	\begin{align}
+		L(\theta) = \prod_{i=1}^n f(x_i \mid \theta) = 
+		\begin{cases}
+			\left(\frac{1}{\theta}\right)^n & \text{si } 0 \leq x_i \leq \theta \text{ para todo } i = 1, \ldots, n, \\
+			0 & \text{si algún } x_i > \theta.
+		\end{cases}
+	\end{align}
+	
+	La condición de que todas las observaciones cumplan $x_i \leq \theta$ es equivalente a exigir que el máximo muestral, denotado por el estadístico de orden máximo $X_{(n)} = \max(X_1, \ldots, X_n)$, sea menor o igual a $\theta$. Por lo tanto, podemos reescribir $L(\theta)$ de forma compacta como:
+	\begin{align}
+		L(\theta) = 
+		\begin{cases}
+			\theta^{-n} & \text{para } \theta \geq X_{(n)}, \\
+			0 & \text{para } \theta < X_{(n)}.
+		\end{cases}
+	\end{align}
+	
+	Si intentáramos derivar $\ell(\theta) = -n \ln \theta$ e igualar a cero obtendríamos $-n/\theta = 0$, lo cual no tiene solución para ningún $\theta > 0$. Esto ocurre porque el dominio donde la densidad es estrictamente positiva depende explícitamente del parámetro $\theta$ (no se cumplen las condiciones de regularidad para derivar bajo el signo integral).
+	
+	Para maximizar $L(\theta)$, notamos que para cualquier valor $\theta \geq X_{(n)}$, la función $\theta^{-n}$ es una función estrictamente decreciente en $\theta$. Por lo tanto, el valor más grande posible de $L(\theta)$ se obtiene tomando el valor de $\theta$ permisible lo más pequeño posible, es decir, el límite inferior del dominio donde $L(\theta) > 0$. Así:
+	\begin{align}
+		\hat{\theta}_{MLE} = X_{(n)} = \max(X_1, X_2, \ldots, X_n).
+	\end{align}
+	
+	\textbf{Parte 3: Análisis de sesgo.}
+	El estimador del método de momentos es insesgado:
+	\begin{align}
+		E(\hat{\theta}_{MoM}) = E(2\bar{X}) = 2 E(\bar{X}) = 2 \left(\frac{\theta}{2}\right) = \theta.
+	\end{align}
+	
+	Para analizar el estimador $\hat{\theta}_{MLE} = X_{(n)}$, primero debemos recordar su función de distribución acumulada (CDF):
+	\begin{align}
+		F_{X_{(n)}}(y) = P(X_{(n)} \leq y) = P(X_1 \leq y, \ldots, X_n \leq y) = [F_X(y)]^n = \left(\frac{y}{\theta}\right)^n, \quad 0 \leq y \leq \theta.
+	\end{align}
+	La densidad del estadístico máximo es su derivada:
+	\begin{align}
+		f_{X_{(n)}}(y) = \frac{n y^{n-1}}{\theta^n}, \quad 0 \leq y \leq \theta.
+	\end{align}
+	El valor esperado de $\hat{\theta}_{MLE}$ es:
+	\begin{align}
+		E(\hat{\theta}_{MLE}) = E(X_{(n)}) = \int_0^\theta y \frac{n y^{n-1}}{\theta^n} \, dy = \frac{n}{\theta^n} \int_0^\theta y^n \, dy = \frac{n}{\theta^n} \left[ \frac{\theta^{n+1}}{n+1} \right] = \frac{n}{n+1}\theta.
+	\end{align}
+	Vemos que $\hat{\theta}_{MLE}$ es un estimador sesgado (subestima sistemáticamente a $\theta$ ya que el máximo de una muestra finita casi siempre será algo menor que el extremo superior absoluto $\theta$). Sin embargo, podemos construir un estimador insesgado modificado multiplicándolo por el factor de corrección:
+	\begin{align}
+		\hat{\theta}^* = \frac{n+1}{n} X_{(n)}.
+	\end{align}
+\end{solucion}
+
+\begin{problema}
+	\label{prob:mle_invariancia}
+	En una investigación epidemiológica en ciencia de datos de salud, se modela el radio medio de propagación de un patógeno mediante una variable normal con media $\mu$ y varianza $\sigma^2$ estimadas por máxima verosimilitud como $\hat{\mu}_{MLE} = 12.4$ km y $\hat{\sigma}^2_{MLE} = 4.0$ km$^2$. 
+	\begin{enumerate}
+		\item Utilizando la propiedad de invariancia de los estimadores de máxima verosimilitud, obtenga la estimación MLE del área media del círculo de propagación en una observación, dada por $\theta = E(\pi X^2)$.
+		\item Calcule el valor del estimador MLE para el coeficiente de variación poblacional, definido como $\text{CV} = \frac{\sigma}{\mu}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\textbf{Parte 1: Estimación MLE para el área media.}
+	Sabemos que para una variable aleatoria $X \sim N(\mu, \sigma^2)$, el segundo momento se relaciona con la varianza y la media mediante:
+	\begin{align}
+		\sigma^2 = E(X^2) - [E(X)]^2 = E(X^2) - \mu^2 \implies E(X^2) = \mu^2 + \sigma^2.
+	\end{align}
+	Por lo tanto, el parámetro objetivo $\theta$, que representa el área media esperada $\pi E(X^2)$, es una función explícita de $\mu$ y $\sigma^2$:
+	\begin{align}
+		\theta = g(\mu, \sigma^2) = \pi(\mu^2 + \sigma^2).
+	\end{align}
+	
+	Por la propiedad de invariancia funcional del estimador de máxima verosimilitud, si $\hat{\mu}_{MLE}$ y $\hat{\sigma}^2_{MLE}$ son los MLEs para $\mu$ y $\sigma^2$, entonces el MLE para cualquier función $g(\mu, \sigma^2)$ es simplemente evaluar dicha función en las estimaciones individuales:
+	\begin{align}
+		\hat{\theta}_{MLE} = g(\hat{\mu}_{MLE}, \hat{\sigma}^2_{MLE}) = \pi\left( \hat{\mu}_{MLE}^2 + \hat{\sigma}^2_{MLE} \right).
+	\end{align}
+	Sustituyendo los datos del problema ($\hat{\mu}_{MLE} = 12.4$ y $\hat{\sigma}^2_{MLE} = 4.0$):
+	\begin{align}
+		\hat{\theta}_{MLE} = \pi \left( 12.4^2 + 4.0 \right) = \pi (153.76 + 4.0) = 157.76\pi \approx 495.62 \text{ km}^2.
+	\end{align}
+	
+	\textbf{Parte 2: Coeficiente de variación MLE.}
+	El coeficiente de variación es otra función de los parámetros del modelo normal:
+	\begin{align}
+		\text{CV} = h(\mu, \sigma^2) = \frac{\sqrt{\sigma^2}}{\mu}.
+	\end{align}
+	Aplicando nuevamente la propiedad de invariancia funcional:
+	\begin{align}
+		\widehat{\text{CV}}_{MLE} = \frac{\sqrt{\hat{\sigma}^2_{MLE}}}{\hat{\mu}_{MLE}} = \frac{\sqrt{4.0}}{12.4} = \frac{2.0}{12.4} \approx 0.1613 \quad (16.13\%).
+	\end{align}
+\end{solucion}
