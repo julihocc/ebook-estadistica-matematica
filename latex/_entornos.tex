@@ -5,38 +5,34 @@
 % Helper: format numbers as chapter.section.item
 \newcommand{\fmtnum}[1]{\arabic{chapter}.\arabic{section}.\arabic{#1}}
 
-% Shared counters for grouped environments
-\newcounter{thm}
-\newcounter{def}
-
 \theoremstyle{theorem}
-\newtheorem{teorema}{Teorema}[chapter]
-\newtheorem{lema}{Lema}[chapter]
-\newtheorem{proposicion}{Proposición}[chapter]
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{lema}{Lema}[section]
+\newtheorem{proposicion}{Proposición}[section]
 \newtheorem*{corolario}{Corolario}
-\renewcommand{\theteorema}{\fmtnum{thm}}
-\renewcommand{\thelema}{\fmtnum{thm}}
-\renewcommand{\theproposicion}{\fmtnum{thm}}
+\renewcommand{\theteorema}{\fmtnum{teorema}}
+\renewcommand{\thelema}{\fmtnum{lema}}
+\renewcommand{\theproposicion}{\fmtnum{proposicion}}
 
 \theoremstyle{definition}
-\newtheorem{problema}{Problema}[chapter]
-\newtheorem{ejemplo}{Ejemplo}[chapter]
-\newtheorem{definicion}{Definición}[chapter]
-\newtheorem{axioma}{Axioma}[chapter]
-\newtheorem{propiedad}{Propiedad}[chapter]
-\renewcommand{\theproblema}{\fmtnum{def}}
-\renewcommand{\theejemplo}{\fmtnum{def}}
-\renewcommand{\thedefinicion}{\fmtnum{def}}
-\renewcommand{\theaxioma}{\fmtnum{def}}
-\renewcommand{\thepropiedad}{\fmtnum{def}}
+\newtheorem{problema}{Problema}[section]
+\newtheorem{ejemplo}{Ejemplo}[section]
+\newtheorem{definicion}{Definición}[section]
+\newtheorem{axioma}{Axioma}[section]
+\newtheorem{propiedad}{Propiedad}[section]
+\renewcommand{\theproblema}{\fmtnum{problema}}
+\renewcommand{\theejemplo}{\fmtnum{ejemplo}}
+\renewcommand{\thedefinicion}{\fmtnum{definicion}}
+\renewcommand{\theaxioma}{\fmtnum{axioma}}
+\renewcommand{\thepropiedad}{\fmtnum{propiedad}}
 
 \theoremstyle{remark}
-\newtheorem{observacion}{Observación}[chapter]
+\newtheorem{observacion}{Observación}[section]
 \newtheorem*{sugerencia}{Sugerencia}
-\renewcommand{\theobservacion}{\fmtnum{def}}
+\renewcommand{\theobservacion}{\fmtnum{observacion}}
 
 % Numbered solucion environment
-\newcounter{sol}
+\newcounter{sol}[section]
 \renewcommand{\thesol}{\fmtnum{sol}}
 \newenvironment{solucion}[1][]{
 	\medskip
