@@ -1,0 +1,339 @@
+\section{Problemas resueltos de diseño de experimentos y ANOVA}
+
+\begin{problema}
+	\label{prob:anova_un_factor_ml}
+	Un científico de datos desea comparar el rendimiento general (medido a través de la métrica $F_1$-score porcentual) de cuatro arquitecturas de clasificación de aprendizaje automático: Bosques Aleatorios (\emph{Random Forest}, Tratamiento 1), Máquinas de Vectores de Soporte (\emph{SVM}, Tratamiento 2), \emph{XGBoost} (Tratamiento 3) y Redes Neuronales Profundas (\emph{DNN}, Tratamiento 4).
+	
+	Para garantizar objetividad, entrena y evalúa los cuatro algoritmos de manera completamente aleatoria sobre 5 conjuntos de datos de referencia independientes y de alta dimensión ($n = 5$ réplicas por algoritmo, para un total de $N = 20$ experimentos). Las medias muestrales y desviaciones estándares de los $F_1$-scores porcentuales obtenidos en las 5 pruebas de cada modelo son:
+	\begin{itemize}
+		\item \textbf{Random Forest ($i=1$):} $\bar{Y}_{1.} = 84.2\%$, $S_1 = 3.1\%$.
+		\item \textbf{SVM ($i=2$):} $\bar{Y}_{2.} = 79.8\%$, $S_2 = 3.4\%$.
+		\item \textbf{XGBoost ($i=3$):} $\bar{Y}_{3.} = 88.6\%$, $S_3 = 2.8\%$.
+		\item \textbf{Redes Neuronales ($i=4$):} $\bar{Y}_{4.} = 86.4\%$, $S_4 = 3.5\%$.
+	\end{itemize}
+	Asumiendo normalidad y homoscedasticidad, construya la tabla completa de Análisis de Varianza de un factor al nivel de significancia $\alpha = 0.05$. ¿Existe evidencia estadística para afirmar que al menos uno de los algoritmos difiere en su $F_1$-score promedio?
+\end{problema}
+
+\begin{solucion}
+	\textbf{Paso 1: Planteamiento formal de hipótesis.}
+	\begin{align}
+		H_0&: \mu_1 = \mu_2 = \mu_3 = \mu_4 \quad (\text{Los cuatro algoritmos tienen idéntico rendimiento medio}). \\
+		H_a&: \mu_i \neq \mu_j \text{ para al menos un par } (i, j).
+	\end{align}
+	
+	\textbf{Paso 2: Cálculo de la gran media general ($\bar{Y}_{..}$).}
+	Como los tamaños muestrales son balanceados ($n_1 = n_2 = n_3 = n_4 = 5$), la media general es el promedio aritmético simple de las 4 medias de tratamiento:
+	\begin{align}
+		\bar{Y}_{..} = \frac{84.2 + 79.8 + 88.6 + 86.4}{4} = \frac{339.0}{4} = 84.75\%.
+	\end{align}
+	
+	\textbf{Paso 3: Cálculo de la Suma de Cuadrados del Tratamiento ($\text{SCTR}$).}
+	La fórmula para $k = 4$ tratamientos es $\text{SCTR} = \sum_{i=1}^4 n (\bar{Y}_{i.} - \bar{Y}_{..})^2$:
+	\begin{align}
+		\text{SCTR} &= 5 \left[ (84.2 - 84.75)^2 + (79.8 - 84.75)^2 + (88.6 - 84.75)^2 + (86.4 - 84.75)^2 \right] \\
+		&= 5 \left[ (-0.55)^2 + (-4.95)^2 + (3.85)^2 + (1.65)^2 \right] \\
+		&= 5 \left[ 0.3025 + 24.5025 + 14.8225 + 2.7225 \right] = 5 \left[ 42.35 \right] = 211.75 \text{ (\%}^2\text{)}.
+	\end{align}
+	
+	\textbf{Paso 4: Cálculo de la Suma de Cuadrados del Error ($\text{SCE}$).}
+	Utilizamos la relación $\text{SCE} = \sum_{i=1}^4 (n_i - 1)S_i^2$. Como $n_i - 1 = 5 - 1 = 4$ en los cuatro casos:
+	\begin{align}
+		\text{SCE} &= 4 \left[ S_1^2 + S_2^2 + S_3^2 + S_4^2 \right] = 4 \left[ (3.1)^2 + (3.4)^2 + (2.8)^2 + (3.5)^2 \right] \\
+		&= 4 \left[ 9.61 + 11.56 + 7.84 + 12.25 \right] = 4 \left[ 41.26 \right] = 165.04 \text{ (\%}^2\text{)}.
+	\end{align}
+	
+	La Suma de Cuadrados Total resulta: $\text{SCT} = \text{SCTR} + \text{SCE} = 211.75 + 165.04 = 376.79$.
+	
+	\textbf{Paso 5: Grados de libertad y Cuadrados Medios ($\text{CM}$).}
+	\begin{itemize}
+		\item Grados de libertad del tratamiento: $\nu_{\text{TR}} = k - 1 = 4 - 1 = 3$.
+		\item Grados de libertad del error: $\nu_E = N - k = 20 - 4 = 16$.
+		\item Grados de libertad totales: $\nu_T = N - 1 = 19$.
+	\end{itemize}
+	Calculamos los cuadrados medios dividiendo:
+	\begin{align}
+		\text{CMTR} &= \frac{\text{SCTR}}{k - 1} = \frac{211.75}{3} \approx 70.5833, \\
+		\text{CME} &= \frac{\text{SCE}}{N - k} = \frac{165.04}{16} = 10.315.
+	\end{align}
+	
+	\textbf{Paso 6: Cálculo del estadístico $F$ observacional.}
+	\begin{align}
+		F = \frac{\text{CMTR}}{\text{CME}} = \frac{70.5833}{10.315} \approx 6.8428.
+	\end{align}
+	
+	Sintetizamos toda la información en la Tabla \ref{tab:anova_sol_1}.
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			\textbf{Fuente de Variación} & \textbf{SC} & \textbf{g.l. ($\nu$)} & \textbf{CM} & \textbf{Estadístico $F$} \\ \hline
+			Tratamientos (Algoritmos) & 211.75 & 3 & 70.583 & \textbf{6.843} \\
+			Error residual & 165.04 & 16 & 10.315 & \\ \hline
+			\textbf{Total} & 376.79 & 19 & & \\ \hline
+		\end{tabular}
+		\caption{Tabla de ANOVA para la comparación de los cuatro algoritmos de clasificación.}
+		\label{tab:anova_sol_1}
+	\end{table}
+	
+	\textbf{Paso 7: Regla de decisión y conclusión.}
+	Para un nivel de significancia $\alpha = 0.05$, consultamos la tabla de la distribución de Fisher-Snedecor con $\nu_1 = 3$ grados de libertad en el numerador y $\nu_2 = 16$ en el denominador:
+	\begin{align}
+		F_{0.05, \, 3, \, 16} = 3.239.
+	\end{align}
+	Dado que nuestro estadístico calculado $F = 6.843 \gg 3.239$ ($p-\text{valor} \approx 0.0035$), **rechazamos categóricamente la hipótesis nula $H_0$**. Demostramos con más del $99.6\%$ de confianza que existe una diferencia altamente significativa en la precisión media ($F_1$-score) de al menos uno de los cuatro algoritmos de aprendizaje automático sobre los conjuntos de datos evaluados.
+\end{solucion}
+
+\begin{problema}
+	\label{prob:posthoc_tukey_ml}
+	Dado que el ANOVA global del Problema \ref{prob:anova_un_factor_ml} resultó altamente significativo, aplique el **procedimiento post-hoc HSD de Tukey** con una significancia global por familia de $\alpha = 0.05$ para comparar simultáneamente las seis parejas posibles de algoritmos e identificar exactamente cuáles modelos difieren entre sí en su rendimiento medio.
+\end{problema}
+
+\begin{solucion}
+	\textbf{Paso 1: Obtención del cuantil del rango estandarizado ($q$).}
+	De la tabla ANOVA del Problema \ref{prob:anova_un_factor_ml}, tenemos que el Cuadrado Medio del Error es $\text{CME} = 10.315$ con $\nu_E = 16$ grados de libertad, y contamos con $k = 4$ tratamientos. Todos con igual número de réplicas $n = 5$.
+	
+	Consultando las tablas estadísticas del rango estandarizado estudiantizado $q_{\alpha, k, \nu_E}$ para $\alpha = 0.05$, $k = 4$ y $\nu_E = 16$:
+	\begin{align}
+		q_{0.05, \, 4, \, 16} = 4.046.
+	\end{align}
+	
+	\textbf{Paso 2: Cálculo de la Diferencia Honestamente Significativa ($\text{HSD}$).}
+	Sustituyendo en la fórmula fundamental de Tukey para muestras balanceadas:
+	\begin{align}
+		\text{HSD} = q_{\alpha, \, k, \, \nu_E} \sqrt{\frac{\text{CME}}{n}} = 4.046 \sqrt{\frac{10.315}{5}} = 4.046 \sqrt{2.063} = 4.046 \times 1.4363 \approx 5.811\%.
+	\end{align}
+	Por consiguiente, **cualquier par de algoritmos cuya media difiera en valor absoluto por más de $5.811\%$ se considerará estadísticamente diferente** con un control estricto del error familiar al $5\%$.
+	
+	\textbf{Paso 3: Matriz ordenada de diferencias de medias grupales.}
+	Ordenemos las medias muestrales de menor a mayor para sistematizar las comparaciones:
+	\begin{itemize}
+		\item $\bar{Y}_{\text{SVM}} = 79.8\%$
+		\item $\bar{Y}_{\text{Random Forest (RF)}} = 84.2\%$
+		\item $\bar{Y}_{\text{Redes Neuronales (DNN)}} = 86.4\%$
+		\item $\bar{Y}_{\text{XGBoost (XGB)}} = 88.6\%$
+	\end{itemize}
+	
+	Evaluamos las 6 diferencias por pares contra el umbral crítico $\text{HSD} = 5.811\%$:
+	\begin{enumerate}
+		\item \textbf{XGBoost vs SVM:} $|\bar{Y}_{\text{XGB}} - \bar{Y}_{\text{SVM}}| = |88.6 - 79.8| = 8.80\% > 5.811\%$ $\implies$ **Significativo ($*$)**.
+		\item \textbf{XGBoost vs Random Forest:} $|\bar{Y}_{\text{XGB}} - \bar{Y}_{\text{RF}}| = |88.6 - 84.2| = 4.40\% \leq 5.811\%$ $\implies$ No significativo.
+		\item \textbf{XGBoost vs Redes Neuronales:} $|\bar{Y}_{\text{XGB}} - \bar{Y}_{\text{DNN}}| = |88.6 - 86.4| = 2.20\% \leq 5.811\%$ $\implies$ No significativo.
+		\item \textbf{Redes Neuronales vs SVM:} $|\bar{Y}_{\text{DNN}} - \bar{Y}_{\text{SVM}}| = |86.4 - 79.8| = 6.60\% > 5.811\%$ $\implies$ **Significativo ($*$)**.
+		\item \textbf{Redes Neuronales vs Random Forest:} $|\bar{Y}_{\text{DNN}} - \bar{Y}_{\text{RF}}| = |86.4 - 84.2| = 2.20\% \leq 5.811\%$ $\implies$ No significativo.
+		\item \textbf{Random Forest vs SVM:} $|\bar{Y}_{\text{RF}} - \bar{Y}_{\text{SVM}}| = |84.2 - 79.8| = 4.40\% \leq 5.811\%$ $\implies$ No significativo.
+	\end{enumerate}
+	
+	\textbf{Conclusión técnica del análisis post-hoc:} El procedimiento de Tukey HSD revela y aisla con precisión la causa de significancia del ANOVA: **tanto XGBoost ($88.6\%$) como las Redes Neuronales Profundas ($86.4\%$) superan de manera estadísticamente significativa a SVM ($79.8\%$)** en el $F_1$-score. Entre XGBoost, Redes Neuronales y Bosques Aleatorios no existen diferencias estadísticamente probadas para el tamaño de muestra actual ($n=5$).
+\end{solucion}
+
+\begin{problema}
+	\label{prob:bonferroni_lsd}
+	Una firma de ingeniería en la nube compara la latencia media de transferencia de datos en milisegundos bajo $k = 5$ protocolos de enrutamiento distintos. El ANOVA arrojó un Cuadrado Medio del Error $\text{CME} = 18.0$ $\text{ms}^2$ con $\nu_E = 25$ grados de libertad en el residual, y cada protocolo fue evaluado con $n = 6$ réplicas.
+	\begin{enumerate}
+		\item Calcule la Diferencia Mínima Significativa (**LSD de Fisher**) al nivel $\alpha = 0.05$.
+		\item Calcule el margen crítico de diferencia por el método de la **Corrección de Bonferroni** para mantener una tasa de error global máxima de $\alpha = 0.05$.
+		\item Compare cuantitativamente ambos umbrales y explique qué implicaciones tiene la diferencia en la sensibilidad de detección en un proyecto de ciencia de datos.
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\textbf{Parte 1: Cálculo del LSD de Fisher.}
+	Para $k = 5$ tratamientos, el número total de comparaciones por pares es $m = \binom{5}{2} = \frac{5 \times 4}{2} = 10$.
+	El cuantil de la distribución $t$ de Student para una prueba individual de dos colas con $\alpha = 0.05$ ($\alpha/2 = 0.025$) y $\nu_E = 25$ grados de libertad es:
+	\begin{align}
+		t_{0.025, \, 25} = 2.060.
+	\end{align}
+	Sustituyendo en la fórmula del LSD:
+	\begin{align}
+		\text{LSD} = t_{0.025, \, 25} \sqrt{\text{CME} \left( \frac{1}{n} + \frac{1}{n} \right)} &= 2.060 \sqrt{18.0 \left( \frac{2}{6} \right)} = 2.060 \sqrt{6.0} \\
+		&= 2.060 \times 2.4495 \approx 5.046 \text{ ms}.
+	\end{align}
+	
+	\textbf{Parte 2: Cálculo con la Corrección de Bonferroni.}
+	Para controlar el error familiar en $10$ comparaciones al nivel de $\alpha = 0.05$, el nivel de significancia individual de cada prueba se ajusta rígidamente a:
+	\begin{align}
+		\alpha^* = \frac{\alpha}{m} = \frac{0.05}{10} = 0.005 \implies \frac{\alpha^*}{2} = 0.0025.
+	\end{align}
+	Consultando las tablas de la distribución $t$ con $\nu_E = 25$ para el cuantil que deja una cola superior de $0.0025$:
+	\begin{align}
+		t_{0.0025, \, 25} = 3.078.
+	\end{align}
+	La diferencia crítica de Bonferroni resulta en:
+	\begin{align}
+		\text{CD}_{\text{Bonferroni}} = t_{0.0025, \, 25} \sqrt{\frac{2 \text{CME}}{n}} = 3.078 \times 2.4495 \approx 7.540 \text{ ms}.
+	\end{align}
+	
+	\textbf{Parte 3: Comparación e implicaciones técnicas.}
+	El umbral de Bonferroni ($7.540$ ms) es **casi un $50\%$ más severo y amplio** que el umbral de Fisher LSD ($5.046$ ms). 
+	\begin{itemize}
+		\item **LSD de Fisher** es una herramienta de alta sensibilidad experimental (bajo error Tipo II): detectará fácilmente diferencias sutiles entre protocolos (como $5.2$ ms), pero al no ajustar por las 10 comparaciones de la familia, su probabilidad real de declarar al menos un falso positivo en todo el experimento asciende a más del $35\%$.
+		\item **Bonferroni** garantiza una especificidad férrea ($\text{FWER} \leq 5\%$), impidiendo falsas alarmas. Sin embargo, su rigidez cobra un precio en potencia estadística (elevado error Tipo II): diferencias reales y operativamente valiosas entre $5.1$ ms y $7.5$ ms pasarán inadvertidas como no significativas. En analítica computacional, cuando $k \geq 5$, se prefiere el término medio equilibrado que ofrece HSD de Tukey.
+	\end{itemize}
+\end{solucion}
+
+\begin{problema}
+	\label{prob:dbca_servidores}
+	Para evaluar el tiempo de procesamiento de consultas complejas SQL en segundos (métrica donde menor es mejor) en $k = 3$ motores de optimización en bases de datos relacionales (Motor A, Motor B y Motor C), un ingeniero advierte que el hardware de los servidores de la empresa es muy heterogéneo y no puede mezclarse sin control. 
+	
+	Por tanto, diseña un **Diseño en Bloques Completos al Azar (DBCA)** utilizando como factor de bloqueo las generaciones físicas del hardware de $b = 4$ servidores corporativos distintos (Servidor 1: Última Gen, Servidor 2: Gen Media, Servidor 3: Gen Antigua, Servidor 4: Gen Legacy virtualizada). Cada motor es evaluado exactamente una vez dentro de cada servidor, obteniéndose los datos de la Tabla \ref{tab:dbca_datos}.
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{lccccc}
+			\hline
+			\textbf{Motor (Tratamiento $i$)} & \textbf{Serv. 1 ($j=1$)} & \textbf{Serv. 2 ($j=2$)} & \textbf{Serv. 3 ($j=3$)} & \textbf{Serv. 4 ($j=4$)} & \textbf{Media Trat. ($\bar{Y}_{i.}$)} \\ \hline
+			Motor A ($i=1$) & 12.0 & 15.5 & 22.0 & 28.5 & \textbf{19.50} \\
+			Motor B ($i=2$) & 8.5 & 11.0 & 16.5 & 22.0 & \textbf{14.50} \\
+			Motor C ($i=3$) & 9.5 & 12.5 & 18.5 & 23.5 & \textbf{16.00} \\ \hline
+			\textbf{Media Bloque ($\bar{Y}_{.j}$)} & \textbf{10.00} & \textbf{13.00} & \textbf{19.00} & \textbf{24.67} & $\bar{Y}_{..} = \textbf{16.67}$ \\ \hline
+		\end{tabular}
+		\caption{Tiempos de ejecución en segundos bajo un DBCA con 3 motores y 4 servidores.}
+		\label{tab:dbca_datos}
+	\end{table}
+	
+	\begin{enumerate}
+		\item Construya la tabla completa de ANOVA para el Diseño en Bloques Completos al Azar con $\alpha = 0.05$.
+		\item ¿Existe una diferencia significativa entre los tres motores de optimización?
+		\item ¿Fue útil y efectivo desde el punto de vista de eficiencia estadística haber incorporado a los servidores como un factor de bloqueo en el diseño?
+	\end{enumerate}
+\end{problema}
+
+\begin{solucion}
+	\textbf{Parte 1: Partición de Sumas de Cuadrados y Tabla ANOVA DBCA.}
+	La media general o gran media es $\bar{Y}_{..} = 16.6667$ s ($N = k \times b = 3 \times 4 = 12$ observaciones).
+	
+	\textbf{Suma de Cuadrados del Tratamiento ($\text{SCTR}$, $k=3$ con $b=4$ réplicas por motor):}
+	\begin{align}
+		\text{SCTR} &= b \sum_{i=1}^3 (\bar{Y}_{i.} - \bar{Y}_{..})^2 = 4 \left[ (19.5 - 16.6667)^2 + (14.5 - 16.6667)^2 + (16.0 - 16.6667)^2 \right] \nonumber \\
+		&= 4 \left[ (2.8333)^2 + (-2.1667)^2 + (-0.6667)^2 \right] = 4 \left[ 8.0278 + 4.6944 + 0.4444 \right] \nonumber \\
+		&= 4 \times 13.1667 = 52.6667 \text{ s}^2.
+	\end{align}
+	
+	\textbf{Suma de Cuadrados de los Bloques ($\text{SCB}$, $b=4$ con $k=3$ réplicas por servidor):}
+	\begin{align}
+		\text{SCB} &= k \sum_{j=1}^4 (\bar{Y}_{.j} - \bar{Y}_{..})^2 \nonumber \\
+		&= 3 \left[ (10.0 - 16.6667)^2 + (13.0 - 16.6667)^2 + (19.0 - 16.6667)^2 + (24.6667 - 16.6667)^2 \right] \nonumber \\
+		&= 3 \left[ (-6.6667)^2 + (-3.6667)^2 + (2.3333)^2 + (8.0000)^2 \right] \nonumber \\
+		&= 3 \left[ 44.4444 + 13.4444 + 5.4444 + 64.0000 \right] = 3 \times 127.3333 = 382.0000 \text{ s}^2.
+	\end{align}
+	
+	\textbf{Suma de Cuadrados Total ($\text{SCT}$):} Sumamos las desviaciones de las 12 celdas respecto a $\bar{Y}_{..} = 16.6667$:
+	\begin{align}
+		\text{SCT} &= \sum_{i=1}^3 \sum_{j=1}^4 (Y_{ij} - 16.6667)^2 = (12-16.6667)^2 + (15.5-16.6667)^2 + \ldots + (23.5-16.6667)^2 \nonumber \\
+		&= 21.78 + 1.36 + 28.44 + 140.03 + 66.70 + 32.11 + 0.03 + 28.44 + 51.36 + 17.36 + 3.36 + 46.70 \nonumber \\
+		&= 437.6667 \text{ s}^2.
+	\end{align}
+	
+	\textbf{Suma de Cuadrados del Error Residual ($\text{SCE}$):}
+	Por diferencia ortogonal exacta:
+	\begin{align}
+		\text{SCE} = \text{SCT} - \text{SCTR} - \text{SCB} = 437.6667 - 52.6667 - 382.0000 = 3.0000 \text{ s}^2.
+	\end{align}
+	
+	\textbf{Grados de libertad y Cuadrados Medios:}
+	\begin{itemize}
+		\item Tratamientos: $\nu_{\text{TR}} = k - 1 = 3 - 1 = 2 \implies \text{CMTR} = \frac{52.6667}{2} = 26.3333$.
+		\item Bloques: $\nu_{\text{B}} = b - 1 = 4 - 1 = 3 \implies \text{CMB} = \frac{382.0000}{3} = 127.3333$.
+		\item Error residual: $\nu_E = (k-1)(b-1) = 2 \times 3 = 6 \implies \text{CME} = \frac{3.0000}{6} = 0.5000$.
+	\end{itemize}
+	
+	\textbf{Estadísticos $F$:}
+	\begin{align}
+		F_{\text{TR}} &= \frac{\text{CMTR}}{\text{CME}} = \frac{26.3333}{0.5000} = 52.667, \\
+		F_{\text{B}} &= \frac{\text{CMB}}{\text{CME}} = \frac{127.3333}{0.5000} = 254.667.
+	\end{align}
+	Sintetizamos en la Tabla \ref{tab:anova_dbca_sol}.
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			\textbf{Fuente de Variación} & \textbf{SC} & \textbf{g.l. ($\nu$)} & \textbf{CM} & \textbf{Estadístico $F$} \\ \hline
+			Tratamientos (Motores SQL) & 52.667 & 2 & 26.333 & \textbf{52.667} \\
+			Bloques (Servidores Hardware) & 382.000 & 3 & 127.333 & \textbf{254.667} \\
+			Error residual & 3.000 & 6 & 0.500 & \\ \hline
+			\textbf{Total} & 437.667 & 11 & & \\ \hline
+		\end{tabular}
+		\caption{Tabla ANOVA para el experimento DBCA de motores SQL e infraestructura de servidores.}
+		\label{tab:anova_dbca_sol}
+	\end{table}
+	
+	\textbf{Parte 2: Prueba sobre los tratamientos ($H_{0,\text{TR}}: \tau_1 = \tau_2 = \tau_3 = 0$).}
+	Para el nivel de $\alpha = 0.05$ y grados de libertad $\nu_1 = 2, \nu_2 = 6$, el cuantil de rechazo es:
+	\begin{align}
+		F_{0.05, \, 2, \, 6} = 5.143.
+	\end{align}
+	Como el estadístico de tratamientos $F_{\text{TR}} = 52.667 \gg 5.143$, **rechazamos $H_{0,\text{TR}}$**. Existe una diferencia extremadamente significativa en el tiempo de procesamiento entre los tres motores SQL (observándose con claridad en las medias que el **Motor B** con $\bar{Y}_{2.} = 14.50$ s es el más rápido de los tres).
+	
+	\textbf{Parte 3: Evaluación de la efectividad del bloqueo ($H_{0,\text{B}}: \beta_1 = \ldots = \beta_4 = 0$).}
+	Para el factor de bloques, consultamos el cuantil de Fisher con $\nu_1 = 3, \nu_2 = 6$:
+	\begin{align}
+		F_{0.05, \, 3, \, 6} = 4.757.
+	\end{align}
+	Dado que $F_{\text{B}} = 254.667 \gg 4.757$, la prueba sobre los bloques es colosalmente significativa. 
+	
+	**Conclusión metodológica sobre el diseño:** Haber incorporado las generaciones de los servidores como bloques fue una decisión metodológica **extraordinariamente exitosa y brillante**. El bloqueo logró absorber y aislar $382.0$ unidades de varianza pura de infraestructura ($\text{SCB}$). Si no hubiéramos bloqueado el diseño y hubiéramos evaluado los datos como un ANOVA de un factor normal, esos $382$ puntos de varianza habrían terminado sumados directamente al error residual ($\text{SCE}_{\text{un factor}} = 382 + 3 = 385$), lo que habría arrojado una nueva varianza residual $\text{CME}_{\text{un factor}} = \frac{385}{12-3} = 42.77$. 
+	
+	Bajo ese fallido análisis de un factor sin bloquear, el estadístico de los motores se habría desplomado a un insignificante:
+	\begin{align}
+		F_{\text{un factor}} = \frac{26.333}{42.77} = 0.615 \quad (\text{que es mucho menor al crítico } F_{0.05, 2, 9} = 4.26).
+	\end{align}
+	El bloqueo **rescató por completo el experimento de un falso negativo masivo (error Tipo II)** al purgar el ruido del hardware.
+\end{solucion}
+
+\begin{problema}
+	\label{prob:verificacion_supuestos_anova}
+	Al auditar un ANOVA de un factor con $k = 3$ configuraciones de memoria caché y tamaños muestrales pequeños ($n_1=6, n_2=6, n_3=6$), las varianzas muestrales calculadas son $S_1^2 = 1.2$, $S_2^2 = 1.5$ y $S_3^2 = 8.9$.
+	
+	Un analista joven propone proceder con el ANOVA estándar aduciendo que "el ANOVA es robusto a violaciones en las varianzas si los tamaños grupales son iguales". ¿Es correcta esta afirmación ante estos datos? Explique qué procedimiento de verificación debe realizarse cuantitativamente y qué alternativa metodológica procedería si el supuesto falla.
+\end{problema}
+
+\begin{solucion}
+	La afirmación del analista es **peligrosamente incompleta en el escenario analizado**. Es un hecho matemático que el ANOVA goza de robustez estructural frente a desviaciones leves a moderadas de homoscedasticidad cuando las muestras están balanceadas ($n_1 = n_2 = n_3$). Sin embargo, dicha robustez **no soporta disparidades extremas** en las varianzas grupales.
+	
+	En nuestro caso, la varianza del Tratamiento 3 ($S_3^2 = 8.9$) es más de **siete veces superior** a la varianza del Tratamiento 1 ($S_1^2 = 1.2$, cociente $8.9 / 1.2 = 7.41$). Esta heterogeneidad severa indica que el Tratamiento 3 opera con una inestabilidad sistémica muy superior o contiene valores atípicos severos.
+	
+	\textbf{Procedimiento de verificación y acción metodológica rigurosa:}
+	\begin{enumerate}
+		\item **Auditoría cualitativa y cuantitativa de residuos:** Se debe construir un gráfico de residuos estudiantizados e inspeccionar si la dispersión adopta forma de embudo o trompeta (indicio clásico de varianza no constante dependiente de la media).
+		\item **Prueba formal de Levene o Brown-Forsythe:** Se debe someter la muestra a la prueba de Levene ($\alpha = 0.05$). Ante una disparidad de razón $7.4:1$, la prueba de Levene rechazará de forma contundente la hipótesis nula $H_0: \sigma_1^2 = \sigma_2^2 = \sigma_3^2$.
+		\item **Alternativa analítica adecuada:** Dado el fallo confirmado de homoscedasticidad, el analista debe desestimar el estadístico $F$ convencional y emplear el **ANOVA de Welch (o prueba $F$ de Welch)**, que pondera inversamente los cuadrados medios grupales por las varianzas individuales $S_i^2/n_i$ y ajusta los grados de libertad del denominador, o bien aplicar una transformación logarítmica ($\log Y_{ij}$) si los datos son positivos y asimétricos a la derecha.
+	\end{enumerate}
+\end{solucion}
+
+\begin{problema}
+	\label{prob:potencia_tamano_anova}
+	Un equipo de ciencia de datos planea un nuevo experimento (ANOVA de un factor) para comparar la velocidad de ejecución en peticiones de API en $k = 4$ lenguajes de backend nativos. Por estudios históricos del sistema, se estima que la varianza residual intrínseca de las peticiones es de $\sigma^2 = 16$ $\text{ms}^2$ ($\sigma = 4$ ms).
+	
+	El equipo desea determinar el tamaño de muestra de réplicas $n$ por lenguaje para que el ANOVA tenga una **potencia estadística del $80\%$ ($1 - \beta = 0.80$)** para detectar al nivel nominal de $\alpha = 0.05$ una diferencia máxima de al menos $\Delta = \mu_{\text{máx}} - \mu_{\text{mín}} = 5$ ms entre el lenguaje más rápido y el más lento del estudio. Utilice la aproximación de la variabilidad máxima mediante el parámetro $\Phi$ de las tablas de potencia de Pearson-Hartley o la fórmula del efecto estandarizado de Cohen $f$.
+\end{problema}
+
+\begin{solucion}
+	\textbf{Paso 1: Estimación del tamaño del efecto bajo la configuración más adversa.}
+	Para un número fijo de tratamientos $k = 4$ con una diferencia máxima especificada $\Delta = 5$ ms y una dispersión de error $\sigma = 4$ ms, la configuración poblacional más difícil de detectar (la que minimiza la suma de cuadrados de los tratamientos $\sum \tau_i^2$) ocurre cuando dos tratamientos están en los extremos distanciados por $\Delta$ y los otros $k-2$ tratamientos se ubican exactamente en el punto medio de ambos.
+	
+	Bajo esta configuración mínima, la varianza poblacional de los tratamientos es:
+	\begin{align}
+		\sigma_{\tau}^2 = \frac{\Delta^2}{2k} = \frac{(5)^2}{2(4)} = \frac{25}{8} = 3.125 \text{ ms}^2.
+	\end{align}
+	
+	\textbf{Paso 2: Cálculo del tamaño del efecto estandarizado $f$ de Cohen.}
+	El efecto global de Cohen para ANOVA se define como:
+	\begin{align}
+		f = \frac{\sigma_{\tau}}{\sigma} = \sqrt{\frac{3.125}{16}} = \sqrt{0.1953} \approx 0.4419.
+	\end{align}
+	Un valor $f = 0.44$ representa un tamaño del efecto de magnitud **grande a mediana** en la escala estandarizada de Cohen ($f=0.10$ pequeño, $0.25$ mediano, $0.40$ grande).
+	
+	\textbf{Paso 3: Cálculo del parámetro de no centralidad del ANOVA ($\lambda$) o uso de aproximación de muestras por grupo.}
+	La relación teórica entre el número de réplicas por grupo $n$, el efecto de Cohen $f$, y el parámetro de no centralidad del estadístico $F$ es $\lambda = n \cdot k \cdot f^2$.
+	
+	Para alcanzar un poder estadístico del $80\%$ ($1 - \beta = 0.80$) con $\alpha = 0.05$ y $\nu_1 = k - 1 = 3$ grados de libertad en el numerador, las tablas de potencia computacional (o el paquete \texttt{statsmodels.stats.power.FTestAnovaPower} en Python) dictan que el parámetro de no centralidad requerido debe rondar el valor $\lambda \approx 10.90$.
+	
+	Despejando $n$ de la relación fundamental de no centralidad:
+	\begin{align}
+		n = \frac{\lambda}{k \cdot f^2} = \frac{10.90}{4 \times (0.4419)^2} = \frac{10.90}{4 \times 0.1953} = \frac{10.90}{0.7812} \approx 13.95 \text{ réplicas por lenguaje}.
+	\end{align}
+	
+	\textbf{Conclusión de diseño experimental:} Redondeando al entero superior inmediato para garantizar el cumplimiento estricto del poder deseado, se requiere asignar un tamaño de muestra de **$n = 14$ réplicas por cada lenguaje de backend**, lo que implica un tamaño total de experimento de **$N = k \times n = 4 \times 14 = 56$ peticiones de API auditadas**.
+\end{solucion}
