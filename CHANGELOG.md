@@ -15,6 +15,28 @@ por fechas e hitos editoriales.
   `algoritmo`) ajustada para acercarse a los colores institucionales del
   Tecnológico de Monterrey.
 
+## 2026-07-12
+
+### Cambiado
+- Estandarización de la estructura de problemas en los 16 archivos `(p).tex`
+  del libro a un esquema de dificultad por niveles ("3-3-2-2"): 3 problemas
+  de Nivel Fundamental, 3 de Nivel Operativo, 2 de Nivel Analítico y 2 de
+  Nivel Desafiante, en cada tema. Aplicado a:
+  - Estadística descriptiva: `medidas_dispersion(p)`,
+    `medidas_tendencia_central(p)`.
+  - Teoría de probabilidad: `conjuntos(p)`, `fundamentos_de_probabilidad(p)`,
+    `probabilidad_condicional(p)`, `teorema_de_bayes(p)`.
+  - Estimación e intervalos: `estadisticos_z_t(p)`,
+    `estimacion_intervalos_avanzado(p)`, `estimacion_puntual(p)`,
+    `intervalos_de_confianza(p)`.
+  - Chi-cuadrada, hipótesis y ANOVA: `chi_cuadrada(p)`,
+    `diseno_experimentos_anova(p)`, `pruebas_hipotesis_avanzadas(p)`.
+  - Regresión lineal, múltiple y validación de modelos:
+    `regresion_multiple(p)`, `regresiones_lineales(p)`,
+    `validacion_modelo(p)`.
+- Actualización de artefactos de compilación con el PDF resultante de 444
+  páginas.
+
 ## 2026-07-10
 
 ### Añadido

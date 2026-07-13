@@ -3,7 +3,7 @@
 ## What this is
 
 A Spanish-language LaTeX ebook (_Modelación Estadística_) using `tufte-book`. CC BY 4.0.
-No CI, no tests, no build system, no `.gitignore`. Build artifacts (`.aux`, `.log`, `.pdf`, `.toc`, `.synctex.gz`) are committed.
+No CI, no tests, no build system. Build artifacts (`.aux`, `.pdf`, `.toc`, `.synctex.gz`) are committed; `.log` files are `.gitignore`d and should not be re-added.
 
 ## Build
 
@@ -39,3 +39,5 @@ soluciones/                          ← solution write-ups (mostly empty)
 - **Custom commands**: See `_comandos.tex`, `_md_comandos.tex`, `_pe_comandos.tex`. Notable: `\Var`, `\cov`, `\comb`, `\s` (sigma), `\corr` (rho), `\card`, `\particion`.
 - **Empty stub files**: `estadistica-descriptiva.tex`, `regresiones-lineales.tex`, `conceptos-estadisticos.tex` are empty — do not add content to these unless they are `\input{}`'d by the master (they are not).
 - **Python scripts** in `code/` are standalone, stdlib or numpy-only. No venv, no `requirements.txt`.
+- **Problem-tier standard ("3-3-2-2")**: every `(p).tex` file organizes its "Enunciados de los problemas" into four `\subsubsection*` tiers, in order: Nivel Fundamental (3 problems), Nivel Operativo (3), Nivel Analítico (2), Nivel Desafiante (2). Apply this same structure to any new topic's problem file.
+- **Syllabus coverage**: the official program (`docs/MA1001B - Analítico.pdf`) defines 7 units, which map 1:1 onto chapters 2–8 of the master file. Chapter 1 (Estadística Descriptiva) and chapter 9 (Regresiones Lineales y Múltiples) are supplementary content beyond the official syllabus — there is no "Unit 8" to fill.
