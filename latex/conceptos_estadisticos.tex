@@ -7,15 +7,17 @@ En esta sección presentaremos los conceptos básicos que son esenciales para co
 Un \emph{estimador} es un estadístico que se utiliza para estimar el valor de un parámetro poblacional desconocido. Denotamos un estimador del parámetro $\theta$ como $\hat{\theta}$.
 
 \begin{definicion}[Estimador insesgado]
+	\label{def:5.1.1}
 	Un estimador $\hat{\theta}$ es \emph{insesgado} para el parámetro $\theta$ si
 	\begin{align}
 		E(\hat{\theta}) = \theta
 	\end{align}
-	
+
 	Es decir, el valor esperado del estimador es igual al verdadero valor del parámetro.
 \end{definicion}
 
 \begin{ejemplo}
+	\label{exmp:5.1.1}
 	La media muestral $\bar{X}$ es un estimador insesgado de la media poblacional $\mu$:
 	\begin{align}
 		E(\bar{X}) = E\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n}\sum_{i=1}^n E(X_i) = \frac{1}{n} \cdot n\mu = \mu
@@ -31,16 +33,18 @@ Un \emph{estimador} es un estadístico que se utiliza para estimar el valor de u
 Cuando tomamos múltiples muestras del mismo tamaño de una población y calculamos un estadístico para cada muestra, la distribución de estos estadísticos se denomina \emph{distribución muestral}.
 
 \begin{definicion}[Distribución muestral]
+	\label{def:5.1.2}
 	La \emph{distribución muestral} de un estadístico es la distribución de probabilidad de ese estadístico cuando se calcula sobre todas las posibles muestras de tamaño $n$ de una población dada.
 \end{definicion}
 
 \begin{ejemplo}
+	\label{exmp:5.1.2}
 	Si $X_1, X_2, \ldots, X_n$ son variables aleatorias independientes e idénticamente distribuidas con media $\mu$ y varianza $\sigma^2$, entonces la media muestral $\bar{X}$ tiene:
 	\begin{align}
 		E(\bar{X}) &= \mu \\
 		\text{Var}(\bar{X}) &= \frac{\sigma^2}{n}
 	\end{align}
-	
+
 	Esto significa que la variabilidad de la media muestral disminuye a medida que aumenta el tamaño de la muestra.
 \end{ejemplo}
 
@@ -49,11 +53,12 @@ Cuando tomamos múltiples muestras del mismo tamaño de una población y calcula
 El \emph{error estándar} de un estadístico es la desviación estándar de su distribución muestral. Mide la precisión de la estimación.
 
 \begin{definicion}[Error estándar de la media]
+	\label{def:5.1.3}
 	El error estándar de la media muestral es:
 	\begin{align}
 		SE(\bar{X}) = \frac{\sigma}{\sqrt{n}}
 	\end{align}
-	
+
 	Cuando $\sigma$ es desconocida, se estima mediante:
 	\begin{align}
 		SE(\bar{X}) \approx \frac{s}{\sqrt{n}}
@@ -66,11 +71,12 @@ El \emph{error estándar} de un estadístico es la desviación estándar de su d
 La \emph{ley de los grandes números} establece que, bajo ciertas condiciones, el promedio de los resultados obtenidos de un gran número de ensayos debe estar cerca del valor esperado, y tenderá a acercarse más a medida que se realicen más ensayos.
 
 \begin{teorema}[Ley de los grandes números]
+	\label{teo:5.1.1}
 	Si $X_1, X_2, \ldots, X_n$ son variables aleatorias independientes e idénticamente distribuidas con media $\mu$, entonces para cualquier $\epsilon > 0$:
 	\begin{align}
 		\lim_{n \to \infty} P(|\bar{X}_n - \mu| < \epsilon) = 1
 	\end{align}
-	
+
 	Es decir, la media muestral converge en probabilidad a la media poblacional.
 \end{teorema}
 
@@ -83,11 +89,12 @@ La \emph{ley de los grandes números} establece que, bajo ciertas condiciones, e
 El \emph{teorema del límite central} (TLC) es uno de los resultados más importantes en estadística. Establece que, bajo ciertas condiciones, la distribución de la suma (o promedio) de un gran número de variables aleatorias independientes se aproxima a una distribución normal, independientemente de la distribución de las variables originales.
 
 \begin{teorema}[Teorema del límite central]
+	\label{teo:5.1.2}
 	Si $X_1, X_2, \ldots, X_n$ son variables aleatorias independientes e idénticamente distribuidas con media $\mu$ y varianza $\sigma^2 < \infty$, entonces cuando $n$ es grande:
 	\begin{align}
 		\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1)
 	\end{align}
-	
+
 	Es decir, la distribución de la media muestral estandarizada se aproxima a una distribución normal estándar.
 \end{teorema}
 
@@ -96,6 +103,7 @@ El \emph{teorema del límite central} (TLC) es uno de los resultados más import
 \end{observacion}
 
 \begin{ejemplo}
+	\label{exmp:5.1.3}
 	Supongamos que el tiempo de espera en una fila tiene una distribución exponencial con media $\mu = 5$ minutos. Si tomamos una muestra de $n = 50$ personas, por el TLC, la distribución del tiempo de espera promedio muestral será aproximadamente normal:
 	\begin{align}
 		\bar{X} \sim N\left(5, \frac{5^2}{50}\right) = N(5, 0.5)
