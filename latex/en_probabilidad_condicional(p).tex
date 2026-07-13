@@ -1,0 +1,322 @@
+\section*{Problems}
+
+\subsection{Problem Statements}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{problem}
+	\label{prob:2.4.1}
+	Two fair dice are rolled simultaneously. Let $A$ be the event that the sum is at least 9, and let $B$ be the event that the first die shows an even number.
+	\begin{enumerate}
+		\item Calculate $P(A)$
+		\item Calculate $P(B)$
+		\item Calculate $P(A|B)$
+		\item Are $A$ and $B$ independent events?
+	\end{enumerate}
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.4.2}
+	An urn contains 5 red balls and 3 blue balls. Two balls are drawn successively without replacement. Let $A$ = \texttt{``the first ball is red''} and $B$ = \texttt{``the second ball is red''}.
+	\begin{enumerate}
+		\item Calculate $P(A)$
+		\item Calculate $P(B|A)$
+		\item Calculate $P(B|A')$
+		\item Calculate $P(B)$ using the law of total probability.
+	\end{enumerate}
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.4.3}
+	Let $A, B \subset S$ be two events such that $P(A) = 0.60$, $P(B) = 0.50$, and their joint probability is $P(A \cap B) = 0.30$. Directly calculate:
+	\begin{enumerate}
+		\item $P(A|B)$ and $P(B|A)$
+		\item $P(A \cap B')$
+		\item $P(A|B')$
+	\end{enumerate}
+\end{problem}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{problem}
+	\label{prob:2.4.4}
+	In an automated manufacturing plant, 70\% of processed parts originate from production line A and 30\% from line B. Line A has a defect rate of 5\%, while line B has a defect rate of 10\%. If the quality control team selects a part at random:
+	\begin{enumerate}
+		\item What is the total probability that the part is defective?
+		\item If the selected part is defective, what is the conditional probability that it originated from line A?
+	\end{enumerate}
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.4.5}
+	A technology hardware supplier distributes microcontrollers from two plants: type A with probability 0.60 and type B with probability 0.40. Type A components fail thermal stress testing with a probability of 2\%, whereas type B components fail with 5\%. If an engineer selects a microcontroller at random and it fails the thermal stress test, what is the probability that it was assembled at plant A?
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.4.6}
+	In a data science team, 60\% of analysis scripts are developed in \texttt{Python}, 30\% in \texttt{R}, and 10\% in \texttt{C++}. The probability that a script passes all integration tests on its first run is 0.85 if written in \texttt{Python}, 0.75 if written in \texttt{R}, and 0.95 if written in \texttt{C++}. If a script is audited at random and is found to have passed integration testing on the first try, what is the probability that it was written in \texttt{Python}?
+\end{problem}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{problem}
+	\label{prob:2.4.7}
+	It is known that 80\% of students in the statistics department pass the general comprehensive examination. Of the students who pass, 90\% regularly attended the preparation seminar. Of those who fail, only 40\% regularly attended the seminar.
+	\begin{enumerate}
+		\item If a student is selected at random and passed the exam, what is the conditional probability that they regularly attended the seminar?
+		\item If a student admits to not having attended regularly, what is the probability that they passed the exam?
+	\end{enumerate}
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.4.8}
+	\begin{enumerate}
+		\item Prove that if $P(B|A) = P(B)$, then the events $A$ and $B$ are statistically independent.
+		\item Prove that if $A$ and $B$ are independent and $0 < P(A) < 1$, then their complementary events $A'$ and $B'$ are also mutually independent.
+	\end{enumerate}
+\end{problem}
+
+\subsubsection*{4. Challenging Level (Expert / Deep Deduction)}
+
+\begin{problem}
+	\label{prob:2.4.9}
+	\begin{enumerate}
+		\item Formally prove the General Chain Rule (or Multiplication Rule) for a finite sequence of $n$ events with $P(A_1 \cap \dots \cap A_{n-1}) > 0$:
+		\begin{align}
+			P(A_1 \cap A_2 \cap \dots \cap A_n) = P(A_1)P(A_2|A_1)P(A_3|A_1 \cap A_2) \cdots P(A_n|A_1 \cap \dots \cap A_{n-1}).
+		\end{align}
+		\item Use this rule to calculate the exact probability that when drawing 4 cards successively without replacement from a standard English deck of 52 cards, all 4 cards belong to different suits.
+	\end{enumerate}
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.4.10}
+	\textbf{The Monty Hall Paradox:} On a game show, a contestant faces three closed doors ($P_1, P_2, P_3$). Behind exactly one door is the grand prize (a car), and behind the other two are goats. The contestant chooses a door at random (assume, without loss of generality, Door 1). The host, who knows with certainty what is behind each door and is obligated by the game rules to always open a goat door distinct from the contestant's choice (if two goat doors are available, the host picks each with probability $0.5$), opens Door 3 to reveal a goat.
+	
+	Using formal conditional probability axioms, mathematically prove why the probability of winning if the contestant switches their choice to Door 2 is exactly $\dfrac{2}{3}$, whereas if they stick with Door 1 the probability is only $\dfrac{1}{3}$.
+\end{problem}
+
+
+\subsection{Detailed Solutions}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{solution}
+	The sample space for rolling two dice contains $36$ points.
+	\begin{enumerate}
+		\item $A = \{(3,6), (4,5), (4,6), (5,4), (5,5), (5,6), (6,3), (6,4), (6,5), (6,6)\}$, so $\card{A} = 10$ and $P(A) = \frac{10}{36} = \frac{5}{18}$.
+		\item $B$ = first die is even = $\{2,4,6\} \times \{1,2,3,4,5,6\}$, thus $\card{B} = 18$ and $P(B) = \frac{18}{36} = \frac{1}{2}$.
+		\item The intersection $A \cap B = \{(4,5), (4,6), (6,3), (6,4), (6,5), (6,6)\}$ has $\card{A \cap B} = 6$. By definition of conditional probability:
+		\begin{align}
+			P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{6/36}{18/36} = \frac{6}{18} = \frac{1}{3}.
+		\end{align}
+		\item Since $P(A|B) = \frac{1}{3} \neq \frac{5}{18} = P(A)$, events $A$ and $B$ \textbf{are not independent}.
+	\end{enumerate}
+\end{solution}
+
+\begin{solution}
+	The urn contains a total of $5 + 3 = 8$ balls.
+	\begin{enumerate}
+		\item The initial probability for the first ball is $P(A) = \frac{5}{8}$.
+		\item If the first ball drawn was red, 4 red and 3 blue balls remain ($7$ total):
+		\begin{align}
+			P(B|A) = \frac{4}{7}.
+		\end{align}
+		\item If the first ball drawn was blue ($A'$), 5 red and 2 blue balls remain ($7$ total):
+		\begin{align}
+			P(B|A') = \frac{5}{7}.
+		\end{align}
+		\item By the law of total probability (partition over $A$ and $A'$):
+		\begin{align}
+			P(B) &= P(B|A)P(A) + P(B|A')P(A') = \left(\frac{4}{7} \cdot \frac{5}{8}\right) + \left(\frac{5}{7} \cdot \frac{3}{8}\right) \\
+			&= \frac{20}{56} + \frac{15}{56} = \frac{35}{56} = \frac{5}{8}.
+		\end{align}
+	\end{enumerate}
+\end{solution}
+
+\begin{solution}
+	Given $P(A)=0.60$, $P(B)=0.50$, and $P(A \cap B)=0.30$:
+	\begin{enumerate}
+		\item Direct conditional probabilities:
+		\begin{align}
+			P(A|B) &= \frac{P(A \cap B)}{P(B)} = \frac{0.30}{0.50} = 0.60 \\
+			P(B|A) &= \frac{P(A \cap B)}{P(A)} = \frac{0.30}{0.60} = 0.50
+		\end{align}
+		(Notice that here $P(A|B)=P(A)$, reflecting independence in this particular exercise).
+		
+		\item The probability of $A$ and not $B$ is:
+		\begin{align}
+			P(A \cap B') = P(A) - P(A \cap B) = 0.60 - 0.30 = 0.30.
+		\end{align}
+		
+		\item Since $P(B') = 1 - P(B) = 1 - 0.50 = 0.50$:
+		\begin{align}
+			P(A|B') = \frac{P(A \cap B')}{P(B')} = \frac{0.30}{0.50} = 0.60.
+		\end{align}
+	\end{enumerate}
+\end{solution}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{solution}
+	Let $D$ be the event of a defective part, $A$ the event of line A, and $B$ that of line B.
+	\begin{enumerate}
+		\item By the law of total probability:
+		\begin{align}
+			P(D) &= P(D|A)P(A) + P(D|B)P(B) = (0.05)(0.70) + (0.10)(0.30) \\
+			&= 0.035 + 0.030 = 0.065 \text{ (or 6.5\%).}
+		\end{align}
+		
+		\item By Bayes' theorem, given that $D$ occurred:
+		\begin{align}
+			P(A|D) = \frac{P(D|A)P(A)}{P(D)} = \frac{0.035}{0.065} = \frac{35}{65} = \frac{7}{13} \approx 0.5385 \text{ (53.85\%).}
+		\end{align}
+	\end{enumerate}
+\end{solution}
+
+\begin{solution}
+	Let $F$ be the event of thermal failure, with $P(A)=0.60$ and $P(B)=0.40$. The failure rates are $P(F|A)=0.02$ and $P(F|B)=0.05$.
+	The total probability that a part fails is:
+	\begin{align}
+		P(F) = P(F|A)P(A) + P(F|B)P(B) = (0.02)(0.60) + (0.05)(0.40) = 0.012 + 0.020 = 0.032.
+	\end{align}
+	Applying Bayes' theorem to find the posterior probability of plant A:
+	\begin{align}
+		P(A|F) = \frac{P(F|A)P(A)}{P(F)} = \frac{0.012}{0.032} = \frac{12}{32} = \frac{3}{8} = 0.375 \text{ (37.5\%).}
+	\end{align}
+\end{solution}
+
+\begin{solution}
+	Let $E$ be test success (passes on first try), and let the languages be $P_y$ (\texttt{Python}), $R$ (\texttt{R}), and $C$ (\texttt{C++}).
+	The prior probabilities are: $P(P_y)=0.60$, $P(R)=0.30$, $P(C)=0.10$.
+	The conditional success probabilities are: $P(E|P_y)=0.85$, $P(E|R)=0.75$, $P(E|C)=0.95$.
+	
+	The total marginal probability that a script passes integration testing is:
+	\begin{align}
+		P(E) &= P(E|P_y)P(P_y) + P(E|R)P(R) + P(E|C)P(C) \\
+		&= (0.85)(0.60) + (0.75)(0.30) + (0.95)(0.10) \\
+		&= 0.510 + 0.225 + 0.095 = 0.830.
+	\end{align}
+	The conditional probability that a successful script was written in \texttt{Python} is:
+	\begin{align}
+		P(P_y|E) = \frac{P(E|P_y)P(P_y)}{P(E)} = \frac{0.510}{0.830} = \frac{51}{83} \approx 0.6145 \text{ (61.45\%).}
+	\end{align}
+\end{solution}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{solution}
+	Let $A$ be the event of passing ($P(A)=0.80$, hence $P(A')=0.20$) and $R$ the event of regular attendance.
+	We know from the problem statement that: $P(R|A)=0.90$ and $P(R|A')=0.40$.
+	
+	\begin{enumerate}
+		\item The first part is directly given by the conditional information in the problem statement:
+		\begin{align}
+			P(R|A) = 0.90 \text{ (90\%).}
+		\end{align}
+		
+		\item For the second part, we need to find $P(A|R')$. We use Bayes' theorem and partition over the non-attendance event $R'$:
+		\begin{align}
+			P(A|R') = \frac{P(R'|A)P(A)}{P(R')}.
+		\end{align}
+		We compute the complementary conditional probabilities of non-attendance:
+		\begin{align}
+			P(R'|A) &= 1 - P(R|A) = 1 - 0.90 = 0.10 \\
+			P(R'|A') &= 1 - P(R|A') = 1 - 0.40 = 0.60
+		\end{align}
+		The total probability of not regularly attending the seminar is:
+		\begin{align}
+			P(R') &= P(R'|A)P(A) + P(R'|A')P(A') = (0.10)(0.80) + (0.60)(0.20) \\
+			&= 0.08 + 0.12 = 0.20.
+		\end{align}
+		Therefore, the probability of having passed given regular non-attendance is:
+		\begin{align}
+			P(A|R') = \frac{(0.10)(0.80)}{0.20} = \frac{0.08}{0.20} = 0.40 \text{ (40\%).}
+		\end{align}
+	\end{enumerate}
+\end{solution}
+
+\begin{solution}
+	\begin{enumerate}
+		\item By definition of conditional probability for $P(A)>0$:
+		\begin{align}
+			P(B|A) = \frac{P(A \cap B)}{P(A)}.
+		\end{align}
+		If this equals $P(B)$, multiplying both sides by $P(A)$ yields:
+		\begin{align}
+			P(A \cap B) = P(A)P(B),
+		\end{align}
+		which is precisely the definition of statistical independence.
+		
+		\item Suppose $A$ and $B$ are independent ($P(A \cap B) = P(A)P(B)$). We want to prove that $P(A' \cap B') = P(A')P(B')$.
+		By De Morgan's Law and the complement rule:
+		\begin{align}
+			P(A' \cap B') &= P((A \cup B)') = 1 - P(A \cup B).
+		\end{align}
+		Substituting the union expansion and the independence property:
+		\begin{align}
+			P(A' \cap B') &= 1 - [P(A) + P(B) - P(A \cap B)] \\
+			&= 1 - P(A) - P(B) + P(A)P(B) \\
+			&= [1 - P(A)] - P(B)[1 - P(A)] \\
+			&= [1 - P(A)][1 - P(B)] = P(A')P(B').
+		\end{align}
+		This proves generally that the complements of independent events preserve structural independence.
+	\end{enumerate}
+\end{solution}
+
+\subsubsection*{4. Challenging Level (Expert / Deep Deduction)}
+
+\begin{solution}
+	\begin{enumerate}
+		\item \textbf{Proof by induction of the Chain Rule:}
+		For $n=2$, the formula reduces to $P(A_1 \cap A_2) = P(A_1)P(A_2|A_1)$, which is exactly the definition of conditional probability.
+		Assume as the inductive hypothesis that the identity holds for $k$ simultaneous events.
+		For $k+1$ events, we group the first $k$ events into a single compound event $E_k = A_1 \cap A_2 \cap \dots \cap A_k$:
+		\begin{align}
+			P(A_1 \cap \dots \cap A_k \cap A_{k+1}) &= P(E_k \cap A_{k+1}) = P(E_k) \cdot P(A_{k+1}|E_k).
+		\end{align}
+		By substituting the inductive hypothesis expansion for $P(E_k)$, we immediately obtain the right-hand product appended with the $(k+1)$-th term, proving the induction for all $n$.
+		
+		\item \textbf{Drawing 4 cards of different suits:}
+		Let $C_i$ be the event that the $i$-th card belongs to a suit distinct from all previous draws ($i=1,2,3,4$).
+		\begin{itemize}
+			\item For $C_1$: the first card can be any of the 52 cards in the deck $\implies P(C_1) = \frac{52}{52} = 1$.
+			\item For $C_2|C_1$: out of the 51 remaining cards, 39 cards belong to the 3 suits not yet chosen $\implies P(C_2|C_1) = \frac{39}{51}$.
+			\item For $C_3|C_1 \cap C_2$: 50 cards remain and 2 unseen suits ($2 \times 13 = 26$ valid cards) $\implies P(C_3|C_1 \cap C_2) = \frac{26}{50}$.
+			\item For $C_4|C_1 \cap C_2 \cap C_3$: 49 cards remain and 1 unseen suit (13 valid cards) $\implies P(C_4|\dots) = \frac{13}{49}$.
+		\end{itemize}
+		By the Chain Rule, the probability of all 4 cards being from different suits is:
+		\begin{align}
+			P(C_1 \cap C_2 \cap C_3 \cap C_4) = 1 \times \frac{39}{51} \times \frac{26}{50} \times \frac{13}{49} = \frac{39 \times 26 \times 13}{51 \times 50 \times 49} = \frac{13182}{124950} \approx 0.1055 \text{ (10.55\%).}
+		\end{align}
+	\end{enumerate}
+\end{solution}
+
+\begin{solution}
+	Let us formalize the conditional probability space of the game. Define the variables:
+	\begin{itemize}
+		\item $C_i$: The prize (car) is behind Door $i$ ($i=1,2,3$), with prior probability $P(C_1)=P(C_2)=P(C_3)=\frac{1}{3}$.
+		\item $A_j$: The host opens Door $j$ revealing a goat ($j=1,2,3$).
+	\end{itemize}
+	Since the contestant chose Door 1, the host never opens Door 1 nor the door containing the car. We evaluate the conditional probabilities of the host's action of opening Door 3 ($A_3$) for each possible location of the car:
+	\begin{align}
+		P(A_3 | C_1) &= \frac{1}{2} \quad \text{(If the car is behind 1, the host chooses randomly between 2 and 3).} \\
+		P(A_3 | C_2) &= 1 \quad \text{(If the car is behind 2, the host must obligatorily open Door 3).} \\
+		P(A_3 | C_3) &= 0 \quad \text{(If the car is behind 3, the host never opens 3 to avoid revealing the prize).}
+	\end{align}
+	By the law of total probability, the marginal probability that the host opens Door 3 is:
+	\begin{align}
+		P(A_3) &= P(A_3|C_1)P(C_1) + P(A_3|C_2)P(C_2) + P(A_3|C_3)P(C_3) \\
+		&= \left(\frac{1}{2} \cdot \frac{1}{3}\right) + \left(1 \cdot \frac{1}{3}\right) + \left(0 \cdot \frac{1}{3}\right) = \frac{1}{6} + \frac{1}{3} + 0 = \frac{3}{6} = \frac{1}{2}.
+	\end{align}
+	
+	Now, applying Bayes' theorem to find the posterior probability that the car is behind Door 1 (if the contestant sticks with their choice):
+	\begin{align}
+		P(C_1 | A_3) = \frac{P(A_3 | C_1)P(C_1)}{P(A_3)} = \frac{(1/2)(1/3)}{1/2} = \frac{1}{3}.
+	\end{align}
+	And the posterior probability that the car is behind Door 2 (the choice obtained by switching):
+	\begin{align}
+		P(C_2 | A_3) = \frac{P(A_3 | C_2)P(C_2)}{P(A_3)} = \frac{(1)(1/3)}{1/2} = \frac{2}{3}.
+	\end{align}
+	\textbf{Formal conclusion:} The host's state-dependent intervention transfers all complementary probability to the remaining unopened door. Switching decision strategy doubles the probability of winning ($2/3$ compared to $1/3$).
+\end{solution}

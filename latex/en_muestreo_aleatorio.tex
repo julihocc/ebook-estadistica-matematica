@@ -1,0 +1,147 @@
+\section{Random Sampling and the Central Limit Theorem}
+
+\subsection{Motivation: Estimating Population Parameters}
+
+Suppose we try to find the average age in a city, say Oaxaca. One way to do this would be by \emph{brute force}—that is, collecting this information person by person. But this method would be very costly in terms of infrastructure and time.
+
+In statistics, this is a common problem whose solution lies in \emph{random sampling}: We take a group of 1,000 individuals (or 10,000 depending on capacity; obviously, the more, the better) and calculate the average age in this group, which we denote by $A_{1}.$
+
+We repeat this procedure, say 100 times, and denote by $A_{1}, A_{2},...,A_{100}$ the average age obtained in each respective attempt.
+
+\subsection{Law of Large Numbers}
+
+According to the \emph{Law of Large Numbers}, the quantity
+\begin{align}
+	\bar{A}_{100}=\dfrac{A_{1}+...+A_{100}}{100}
+\end{align}
+is a very close approximation to the true average age of the inhabitants of the city.
+
+\begin{remark}
+	We are no longer interested in obtaining the exact value of the average age, but rather in establishing an \emph{estimator} for it. In such a case, we must settle for defining a \emph{range of values} in which the true value might lie.
+\end{remark}
+
+\subsection{Central Limit Theorem}
+
+According to the \emph{Central Limit Theorem}, if the number of such samples is sufficiently large, $A_{1},A_{2},...,A_{100}$ will be normally distributed.
+
+\begin{theorem}[Central Limit Theorem]
+	If $X_1, X_2, \ldots, X_n$ are independent and identically distributed random variables with mean $\mu$ and variance $\sigma^2$, then when $n$ is sufficiently large:
+	\begin{align}
+		\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1)
+	\end{align}
+	
+	That is, the distribution of the standardized sample mean approaches a standard normal distribution.
+\end{theorem}
+
+\subsection{Practical Implications of the CLT}
+
+The Central Limit Theorem has profound implications for statistical inference:
+
+\begin{enumerate}
+	\item \textbf{Independence from the original distribution:} It does not matter whether the original population follows a normal, exponential, uniform, or any other distribution. The distribution of the sample mean will be approximately normal for large samples.
+	
+	\item \textbf{Sample size:} In practice, $n \geq 30$ is usually sufficient for the normal approximation to be good, although this depends on the shape of the original distribution.
+	
+	\item \textbf{Parameters of the sampling distribution:}
+	\begin{align}
+		E(\bar{X}) &= \mu \\
+		\text{Var}(\bar{X}) &= \frac{\sigma^2}{n} \\
+		\text{SD}(\bar{X}) &= \frac{\sigma}{\sqrt{n}}
+	\end{align}
+\end{enumerate}
+
+\subsection{Illustrative Example}
+
+Let us consider rolling a fair die. The distribution of a single roll is discrete uniform on $\{1, 2, 3, 4, 5, 6\}$ with:
+\begin{align}
+	\mu &= \frac{1+2+3+4+5+6}{6} = 3.5 \\
+	\sigma^2 &= \frac{(1-3.5)^2 + (2-3.5)^2 + \cdots + (6-3.5)^2}{6} = \frac{35}{12} \approx 2.917
+\end{align}
+
+If we roll the die $n = 36$ times and calculate the average $\bar{X}$, by the CLT:
+\begin{align}
+	\bar{X} \sim N\left(3.5, \frac{2.917}{36}\right) = N(3.5, 0.081)
+\end{align}
+
+This means that:
+\begin{align}
+	P(3.0 < \bar{X} < 4.0) &= P\left(\frac{3.0-3.5}{\sqrt{0.081}} < Z < \frac{4.0-3.5}{\sqrt{0.081}}\right) \\
+	&= P(-1.76 < Z < 1.76) \\
+	&\approx 0.921
+\end{align}
+
+There is approximately a 92.1\% probability that the average of 36 rolls lies between 3.0 and 4.0.
+
+\subsection{CLT Simulation with Python}
+
+We can verify the Central Limit Theorem through simulation:
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+n = 30  # sample size
+num_simulations = 10000
+
+# Simulation: average of n values from an exponential distribution
+sample_means = []
+for _ in range(num_simulations):
+    sample = np.random.exponential(scale=2.0, size=n)
+    sample_means.append(np.mean(sample))
+
+# Plot histogram
+plt.hist(sample_means, bins=50, density=True, alpha=0.7)
+
+# Overlay theoretical normal curve
+mu = 2.0  # mean of the exponential distribution
+sigma = 2.0  # standard deviation of the exponential distribution
+x = np.linspace(mu - 4*sigma/np.sqrt(n), mu + 4*sigma/np.sqrt(n), 100)
+y = (1/(sigma/np.sqrt(n) * np.sqrt(2*np.pi))) * np.exp(-0.5*((x-mu)/(sigma/np.sqrt(n)))**2)
+plt.plot(x, y, 'r-', linewidth=2)
+
+plt.xlabel('Sample Mean')
+plt.ylabel('Density')
+plt.title(f'Distribution of Sample Means (n={n})')
+plt.show()
+\end{lstlisting}
+
+\subsection{Applications of the CLT}
+
+The Central Limit Theorem is fundamental in many areas:
+
+\begin{itemize}
+	\item \textbf{Quality control:} Means of quality measurements follow normal distributions, allowing the use of control charts.
+	
+	\item \textbf{Surveys and polling:} Sample proportions (which are averages of binary variables) follow approximate normal distributions.
+	
+	\item \textbf{Finance:} Average returns on investment portfolios are modeled as normal.
+	
+	\item \textbf{Natural sciences:} Many biological and physical measurements are the result of many small and independent factors, thus following normal distributions.
+\end{itemize}
+
+\subsection{Limitations and Considerations}
+
+Although the CLT is very powerful, it is important to remember:
+
+\begin{enumerate}
+	\item \textbf{Sample size:} For highly skewed or heavy-tailed distributions, $n > 30$ may be required for a good approximation.
+	
+	\item \textbf{Independence:} The observations must be independent. If there is correlation among observations, the CLT may not apply.
+	
+	\item \textbf{Finite variance:} The CLT requires the population variance to be finite. For distributions with infinite variance (such as the Cauchy distribution), the CLT does not apply.
+\end{enumerate}
+
+\subsection{Summary}
+
+Random sampling and the Central Limit Theorem form the backbone of statistical inference:
+
+\begin{itemize}
+	\item \textbf{Random sampling} allows us to make inferences about large populations from small samples.
+	
+	\item The \textbf{Law of Large Numbers} guarantees that our estimates converge to the true values.
+	
+	\item The \textbf{Central Limit Theorem} allows us to use the normal distribution to make inferences, even when the original population is not normal.
+\end{itemize}
+
+These theoretical results justify the estimation techniques and hypothesis tests that we will study in the following sections.

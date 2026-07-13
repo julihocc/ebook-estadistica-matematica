@@ -1,0 +1,297 @@
+\section{Measures of Central Tendency}
+
+\subsection{Index and Subscripts}
+The symbol $X_{j}$ represents any of the values $X_{1},X_{2},X_{3},...$ that the discrete variable $X$ can take.
+
+
+The symbol $j$ denotes any of the natural numbers $1,2,3,...$ and is called the \emph{index} (or sometimes \emph{subscript} or also \emph{counter}).
+
+
+
+
+\begin{definition}[Summation]
+	\begin{align}
+		\sum_{j=1}^{N}X_{j}=X_{1}+...+X_{N}
+	\end{align}
+\end{definition}
+
+
+
+\begin{example}
+	\begin{itemize}
+		\item $\displaystyle \sum_{k=1}^{N}X_{k}Y_{k}=
+		X_{1}Y_{1}+...+X_{N}Y_{N}$
+		\item $\displaystyle \sum_{i=1}^{N} aX_{i}=
+		aX_{1}+...+aX_{N}=a\sum_{n=1}^{N}X_{n}.$
+		\item 
+		If $a,b$ are constants, show that
+		\begin{align}
+			\sum \left( aX+bY \right)=a\sum X + b\sum Y.
+		\end{align}
+	\end{itemize}
+	
+\end{example}
+
+
+
+\begin{remark}
+	When it is \emph{understood} that the counter $j$ \emph{runs} over the numbers $1,2,...,N,$ we write $\sum X_{j}$ or simply $\sum X$ instead of $\sum_{j=1}^{N}.$
+\end{remark}
+
+
+\subsection{Average}
+An \emph{average} is a value representative of a dataset that tends to lie centrally within that set. For this reason, these are also known as \emph{measures of central tendency.}
+
+
+
+Several types of averages can be defined: 
+\begin{itemize}
+	\item Arithmetic mean;
+	\item median;
+	\item mode;
+	\item geometric mean;
+	\item harmonic mean.
+\end{itemize}
+
+
+
+\begin{remark}
+	Each measure of central tendency has advantages and disadvantages depending on the type of data and the intended purpose.
+\end{remark}
+
+
+\subsection{Arithmetic Mean}
+
+\begin{definition}[Arithmetic Mean]
+	\begin{align}
+		\label{eq:1.2.1}
+		\bar{X} =\dfrac{X_{1}+...+X_{N}}{N} = \dfrac{\sum_{j=1}^{N}X_{j}}{N}=\dfrac{\sum X}{N}
+	\end{align}
+\end{definition}
+
+
+
+\begin{example}
+	Calculate the mean of $8,3,5,12,10$.
+\end{example}
+
+\begin{solution}
+	\begin{align}
+		\bar{X} = \frac{8+3+5+12+10}{5} = \frac{38}{5} = 7.6
+	\end{align}
+\end{solution}
+
+\lstinputlisting[language=python]{../code/medida-tendencia-central/ejemplo-2-2/ejemplo_2_2.py}
+
+
+If the numbers $X_{1},X_{2},...,X_{k}$ occur with \emph{frequencies} $f_{1}, f_{2},...,f_{k}$ respectively, their arithmetic mean is
+\begin{align}
+	\label{eq:1.2.2}
+	\bar{X}=\dfrac{f_{1}X_{1}+...+f_{k}X_{k}}{f_{1}+...+f_{k}}=\dfrac{\sum fX}{\sum f}=\dfrac{\sum fX}{N}.
+\end{align}
+where $N=\sum f$ is the \emph{sum of frequencies} or \emph{total number of cases.}
+
+
+\begin{example}
+	If $5,8,6,2$ occur with frequencies $3,2,4,1$ respectively, their arithmetic mean is...
+\end{example}
+
+\begin{solution}
+	\begin{align}
+		\bar{X} &= \dfrac{5(3) + 8(2) + 6(4) + 2(1)}{3 + 2 + 4 + 1} \\
+		&= \dfrac{15 + 16 + 24 + 2}{10} = \dfrac{57}{10} = 5.7
+	\end{align}
+\end{solution}
+
+\lstinputlisting[language=python]{../code/medida-tendencia-central/ejemplo-2-3/ejemplo_2_3.py}
+ 
+Sometimes, the numbers $X_{1},...,X_{k}$ are assigned certain \emph{weighting factors} or \emph{weights} $w_{1},...,w_{k},$ such that \begin{align}
+	\begin{cases}
+		0\% \leq w_{i}\leq 100\% \\
+		\sum w_{i} = 100\%
+	\end{cases}
+\end{align}
+
+
+\begin{definition}[Weighted Mean]
+	If $w_{1},..,w_{k}$ are \emph{weights} such that $0\leq w_{i}\leq 1$ and $\sum w_{i}=1,$ then the corresponding weighted (arithmetic) mean of the numbers $X_{1},...,X_{k}$ is
+	\begin{align}
+		\bar{X}= \dfrac{w_{1}X_{1}+...+w_{k}X_{k}}{w_{1}+...+w_{k}}=\dfrac{\sum wX}{\sum w}=\sum wX.
+	\end{align}
+\end{definition}
+
+
+
+\begin{example}
+	If in a class, the final exam is given triple the weight of the partial exams, and a student obtains 85 on the final and 70 and 90 on the two partial exams, find their weighted mean.
+\end{example}
+
+\begin{solution}
+	The weights are: $w_1 = w_2 = \frac{1}{5}$ for each partial and $w_3 = \frac{3}{5}$ for the final.
+	\begin{align}
+		\bar{X} &= \frac{1}{5}(70) + \frac{1}{5}(90) + \frac{3}{5}(85) \\
+		&= 14 + 18 + 51 = 83
+	\end{align}
+\end{solution}
+
+
+
+\begin{enumerate}
+	\item If $w_{i}=\frac{1}{N},$ we obtain the usual arithmetic mean. 
+	\item If $w_{i}=\frac{f_{i}}{N},$ we obtain formula \eqref{eq:1.2.2}.
+\end{enumerate}
+
+When the numbers are very large, a pivot $P$ is often used: 
+$$
+\bar{X}=P+\dfrac{\sum f_{i}d_{i}}{N},
+$$
+where $d_{i}=X_{i}-P.$
+
+Sometimes, we will use the notation
+\begin{align}
+	\bar{d}=\dfrac{\sum f_{i}d_{i}}{N},
+\end{align}
+so that $\bar{d}$ is the \emph{average deviation} and $\bar{X}=P+\bar{d}.$
+
+
+
+\begin{remark}
+	
+	For grouped data, $X_{i}$ is chosen as the midpoint (class mark) of the $i$-th class.
+\end{remark}
+
+
+\subsection{The Median}
+The median $\tilde{X}$ of a set of numbers arranged in order of magnitude (that is, in an array) is either the middle value or the arithmetic mean of the two middle values.
+
+
+\begin{example}
+	\begin{itemize}
+		\item The median of the list of numbers $5, 4, 3, 8, 6, 2, 5, 2$ is... 
+		\item The median of the list of numbers $3, 9, 1, 1, 4, 1, 3, 2, 4$ is...
+	\end{itemize}	
+\end{example}
+
+\begin{solution}
+	\begin{itemize}
+		\item Sorting: $2, 2, 3, 4, 5, 5, 6, 8$. Since $N=8$ (even), the median is the average of the two central values: $\tilde{X} = \frac{4+5}{2} = 4.5$.
+		\item Sorting: $1, 1, 1, 2, 3, 3, 4, 4, 9$. Since $N=9$ (odd), the median is the central value: $\tilde{X} = 3$.
+	\end{itemize}
+\end{solution}
+
+\lstinputlisting{../code/medida-tendencia-central/ejemplo-2-5/ejemplo_2_5.py}
+
+
+
+\begin{definition}[Median for Grouped Data]
+	\begin{align}
+		\tilde{X}=L+\left(
+		\dfrac{ \dfrac{N}{2}-\sum_{{C<C_{M}}}f}{f_{C_{M}}}
+		\right)c
+	\end{align}
+	where 
+	\begin{itemize}
+		\item $L$ is the lower class boundary of the median class, that is, of the class containing the median;
+		\item $N$ is the total frequency; 
+		\item $\sum_{{C<C_{M}}}f$ is the sum of frequencies of all classes preceding the median class; 
+		\item $f_{C_{M}}$ is the frequency of the median class.
+	\end{itemize}
+	
+\end{definition}
+
+
+\subsection{Mode}
+The mode of a list of numbers is a value that occurs with the highest frequency $f>1$. \emph{The mode does not necessarily exist, nor does it need to be unique.}
+
+
+\begin{example}
+	\begin{itemize}
+		\item The mode of the list $2,2,5,7,9,9,9,10,10,11,12,18$ is $9$. In this case, we say the list is \emph{unimodal.}
+		\item What is the mode of the list $3,5,8,0,12,15,16$? There is no mode, since every value appears only once.
+		\item What is the mode of the list $3,8,8,8,15,15,15$? The modes are $8$ and $15$. In this case we say the list is \emph{bimodal.}
+	\end{itemize}
+	
+\end{example}
+
+
+
+\begin{definition}[Mode for Grouped Data]
+	\begin{align}
+		Mo=
+		L + \left( \dfrac{\Del_{1}}{\Del_{1}+\Del_{2}} \right)c
+	\end{align}
+	where 
+	\begin{enumerate}
+		\item $L:$ Lower class boundary of the modal class, that is, of the class containing the mode.
+		\item $\Del_{1}:$ Excess of modal frequency over frequency of the immediately preceding class. 
+		\item $\Del_{2}:$ Excess of modal frequency over frequency of the immediately succeeding class. 
+		\item $c:$ Class interval width of the modal class.
+	\end{enumerate}
+	
+\end{definition}
+
+
+%%%%%%%%%%%%%%%%%%5
+%%%%%%%%%%%%%%%%%%%%%5
+
+\subsection{Specialized Packages}
+
+\texttt{Numpy} is the numerical module for Python. It allows us to perform numerical calculations at high speed. With \texttt{Numpy}, it is straightforward to calculate the arithmetic mean over the elements of an array.
+
+\begin{lstlisting}[language=Python]
+	import numpy as np
+	
+	a = np.array([[1, 2], [3, 4]])
+	print(np.mean(a))
+	#2.5
+	print(np.mean(a, axis=0))
+	#array([ 2.,  3.])
+	print(np.mean(a, axis=1))
+	#array([ 1.5,  3.5])
+\end{lstlisting}
+
+
+We can also calculate the median.
+\begin{lstlisting}[language=Python]
+	import numpy as np
+	
+	a = np.array([[10, 7, 4], [3, 2, 1]])
+	print(a)
+	#array([[10,  7,  4],
+	#       [ 3,  2,  1]])
+	print(np.median(a))
+	#3.5
+	print(np.median(a, axis=0))
+	#array([ 6.5,  4.5,  2.5])
+	print(np.median(a, axis=1))
+	#array([ 7.,  2.])
+	
+	m = np.median(a, axis=0)
+	out = np.zeros_like(m)
+	print(np.median(a, axis=0, out=m))
+	#array([ 6.5,  4.5,  2.5])
+	print(m)
+	#array([ 6.5,  4.5,  2.5])
+	b = a.copy()
+	print(np.median(b, axis=1, overwrite_input=True))
+	#array([ 7.,  2.])
+	
+	assert not np.all(a==b)
+	b = a.copy()
+	print(np.median(b, axis=None, overwrite_input=True))
+	#3.5
+	assert not np.all(a==b)
+\end{lstlisting}
+
+However, there is no simple way to calculate the mode directly with \texttt{Numpy}. Therefore, we will use another module called \texttt{SciPy}, which is an open-source library of mathematical tools and algorithms for Python.
+
+SciPy contains modules for optimization, linear algebra, integration, interpolation, special functions, FFT, signal and image processing, ODE solving, and other tasks for science and engineering. It is aimed at the same type of users as applications like MATLAB, GNU Octave, and Scilab.\sidenote{\href{https://en.wikipedia.org/wiki/SciPy}{https://en.wikipedia.org/wiki/SciPy}}
+
+\begin{lstlisting}[language=Python]
+	import numpy as np
+	from scipy import stats
+	
+	a = np.array([3,5,6,5,6,5,6,6,3,1,5])
+	print(stats.mode(a))
+	# ModeResult(mode=array([5]), count=array([4]))
+\end{lstlisting}

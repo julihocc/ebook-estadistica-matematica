@@ -1,0 +1,97 @@
+% add numbers to chapters, sections, subsections
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{1}
+
+% Helper: format numbers as chapter.section.item
+\newcommand{\fmtnum}[1]{\arabic{chapter}.\arabic{section}.\arabic{#1}}
+
+\theoremstyle{theorem}
+\newtheorem{teorema}{Theorem}[section]
+\newtheorem{theorem}[teorema]{Theorem}
+\newtheorem{lema}{Lemma}[section]
+\newtheorem{lemma}[lema]{Lemma}
+\newtheorem{proposicion}{Proposition}[section]
+\newtheorem{proposition}[proposicion]{Proposition}
+\newtheorem*{corolario}{Corollary}
+\newtheorem*{corollary}{Corollary}
+\renewcommand{\theteorema}{\fmtnum{teorema}}
+\renewcommand{\thetheorem}{\theteorema}
+\renewcommand{\thelema}{\fmtnum{lema}}
+\renewcommand{\thelemma}{\thelema}
+\renewcommand{\theproposicion}{\fmtnum{proposicion}}
+\renewcommand{\theproposition}{\theproposicion}
+
+\theoremstyle{definition}
+\newtheorem{problema}{Problem}[section]
+\newtheorem{problem}[problema]{Problem}
+\newtheorem{ejemplo}{Example}[section]
+\newtheorem{example}[ejemplo]{Example}
+\newtheorem{definicion}{Definition}[section]
+\newtheorem{definition}[definicion]{Definition}
+\newtheorem{axioma}{Axiom}[section]
+\newtheorem{axiom}[axioma]{Axiom}
+\newtheorem{propiedad}{Property}[section]
+\newtheorem{property}[propiedad]{Property}
+\newtheorem{conj}{Conjecture}[section]
+\newtheorem{conjecture}[conj]{Conjecture}
+\newtheorem*{ax}{Axiom}
+\newtheorem{tdv}{Truth Table}[section]
+
+\renewcommand{\theproblema}{\fmtnum{problema}}
+\renewcommand{\theproblem}{\theproblema}
+\renewcommand{\theejemplo}{\fmtnum{ejemplo}}
+\renewcommand{\theexample}{\theejemplo}
+\renewcommand{\thedefinicion}{\fmtnum{definicion}}
+\renewcommand{\thedefinition}{\thedefinicion}
+\renewcommand{\theaxioma}{\fmtnum{axioma}}
+\renewcommand{\theaxiom}{\theaxioma}
+\renewcommand{\thepropiedad}{\fmtnum{propiedad}}
+\renewcommand{\theproperty}{\thepropiedad}
+\renewcommand{\theconj}{\fmtnum{conj}}
+\renewcommand{\theconjecture}{\theconj}
+
+\theoremstyle{remark}
+\newtheorem{observacion}{Remark}[section]
+\newtheorem{remark}[observacion]{Remark}
+\newtheorem*{sugerencia}{Suggestion}
+\newtheorem*{suggestion}{Suggestion}
+\newtheorem{claim}{Claim}[section]
+\newtheorem{case}{Case}
+\renewcommand{\theobservacion}{\fmtnum{observacion}}
+\renewcommand{\theremark}{\theobservacion}
+\renewcommand{\theclaim}{\fmtnum{claim}}
+
+% Numbered solucion environment
+\newcounter{sol}[section]
+\renewcommand{\thesol}{\fmtnum{sol}}
+\newenvironment{solucion}[1][]{
+	\medskip
+	\refstepcounter{sol}%
+	\ifx&#1&\else\label{sol:#1}\fi
+		\bgroup\color{TecRojo}
+		{\textbf{Solution \thesol.}}
+	}{%
+		\egroup
+	\medskip
+	}
+\newenvironment{solution}[1][]{\begin{solucion}[#1]}{\end{solucion}}
+
+\newenvironment{algoritmo}[1]{
+	\medskip
+	\bgroup
+	\color{TecAzulOscuro}
+	{\textbf{Algorithm. (#1)}}
+	\ttfamily
+}{
+	\egroup
+	\medskip
+}
+\newenvironment{algorithm}[1]{\begin{algoritmo}{#1}}{\end{algoritmo}}
+
+% Number equations and figures by chapter.section
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+\renewcommand{\theequation}{\arabic{chapter}.\arabic{section}.\arabic{equation}}
+\renewcommand{\thefigure}{\arabic{chapter}.\arabic{section}.\arabic{figure}}
+\renewcommand{\thetable}{\arabic{chapter}.\arabic{section}.\arabic{table}}

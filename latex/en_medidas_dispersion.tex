@@ -1,0 +1,242 @@
+\section{Measures of Dispersion}
+
+\subsection{Dispersion or Variation}
+While measures of central tendency tell us around what values a dataset tends to cluster, \emph{measures of dispersion} give us an idea of how spread out the data points are from one another and from the mean.
+
+\begin{remark}
+	Two datasets can have the exact same mean but very different dispersion. For example, the sets $\{49, 50, 51\}$ and $\{0, 50, 100\}$ have the same mean ($\bar{X} = 50$), but clearly the second set is much more dispersed.
+\end{remark}
+
+Below we examine some of the most commonly used measures of dispersion in statistics.
+
+\subsection{Range}
+The \emph{range} of a dataset is the difference between the largest and smallest values in the set.
+
+\begin{example}
+	The range of the set $2,3,3,5,5,5,8,10,12$ is $12-2=10.$
+\end{example}
+
+\begin{remark}
+	The range is the simplest measure of dispersion, but it has the disadvantage of depending solely on the extreme values, ignoring the distribution of intermediate data points.
+\end{remark}
+
+
+\subsection{Mean Deviation}
+The \emph{mean deviation} or \emph{average deviation} of a set of $N$ numbers $X_{1},...,X_{N}$ is defined as
+\begin{align}
+	DM=\dfrac{\sum \abs{X_{j}-\bar{X}}}{N}
+\end{align}
+where $\bar{X}$ is the arithmetic mean of the numbers and $\abs{\cdot}$ denotes absolute value.
+
+\begin{example}
+	Find the mean deviation of the list $2,3,6,8,11.$
+\end{example}
+
+\begin{solution}
+	First, we calculate the mean:
+	\begin{align}
+		\bar{X} = \frac{2+3+6+8+11}{5} = \frac{30}{5} = 6
+	\end{align}
+	
+	Then we calculate the absolute deviations from the mean:
+	\begin{align}
+		DM &= \frac{|2-6| + |3-6| + |6-6| + |8-6| + |11-6|}{5} \\
+		&= \frac{4 + 3 + 0 + 2 + 5}{5} = \frac{14}{5} = 2.8
+	\end{align}
+\end{solution}
+
+
+\subsection{Standard Deviation}
+The \emph{standard deviation} of a set of $N$ numbers $X_{1},...,X_{N}$ is denoted by $s$ and is defined as
+\begin{align}
+	s=\sqrt{\dfrac{\sum\left( X_{j}-\bar{X} \right)^{2}}{N}}=\sqrt{\sum\dfrac{x_{j}^{2}}{N}}
+\end{align} where $x_{j}:=X_{j}-\bar{X}.$
+
+\begin{remark}
+	The standard deviation measures how spread out the data are from the mean. A small standard deviation indicates that data points cluster tightly around the mean, whereas a large standard deviation indicates that data points are widely spread out.
+\end{remark}
+
+If $X_{1},...,X_{N}$ occur with frequencies $f_{1},...,f_{N}$ respectively, the standard deviation can be expressed as
+\begin{align}
+	s=\sqrt{\dfrac{\sum f_{j}\left( X_{j}-\bar{X} \right)^{2}}{N}}=\sqrt{\dfrac{\sum f_{j}x_{j}^{2}}{N}}
+\end{align}
+
+\begin{example}
+	Calculate the standard deviation of the set $2, 4, 4, 4, 5, 5, 7, 9.$
+\end{example}
+
+\begin{solution}
+	First, we calculate the mean:
+	\begin{align}
+		\bar{X} = \frac{2+4+4+4+5+5+7+9}{8} = \frac{40}{8} = 5
+	\end{align}
+	
+	Then we calculate the squared deviations:
+	\begin{align}
+		(2-5)^2 &= 9 \\
+		(4-5)^2 &= 1 \quad (\text{three times}) \\
+		(5-5)^2 &= 0 \quad (\text{two times}) \\
+		(7-5)^2 &= 4 \\
+		(9-5)^2 &= 16
+	\end{align}
+	
+	Therefore:
+	\begin{align}
+		s &= \sqrt{\frac{9 + 3(1) + 2(0) + 4 + 16}{8}} = \sqrt{\frac{32}{8}} = \sqrt{4} = 2
+	\end{align}
+\end{solution}
+
+
+\subsection{Variance}
+The \emph{variance} of a set of numbers is defined as the square $s^{2}$ of the standard deviation $s$.
+
+\begin{remark}
+	In statistics, it is important to distinguish between the standard deviation of a \emph{population} and that of a \emph{sample}. To distinguish them, we use $\sigma$ for the population and continue using $s$ for the sample.
+	
+	When working with a sample and estimating the population variance, we use $N-1$ instead of $N$ in the denominator:
+	\begin{align}
+		s^2 = \frac{\sum (X_j - \bar{X})^2}{N-1}
+	\end{align}
+	
+	This adjustment (called \emph{Bessel's correction}) yields an unbiased estimator of the population variance. For large samples ($N > 30$), the difference between using $N$ and $N-1$ is virtually negligible.
+\end{remark}
+
+
+\subsection{Shortcut Method}
+A computationally more efficient way to calculate the variance is:
+\begin{align}
+	s^{2} &= \overline{X^{2}} - \overline{X}^{2} \\
+	&= \frac{\sum X_j^2}{N} - \left(\frac{\sum X_j}{N}\right)^2
+\end{align}
+
+where $\overline{X^2}$ denotes the mean of the squares and $\overline{X}^2$ denotes the square of the mean.
+
+\begin{remark}
+	This formula is equivalent to the original definition but avoids calculating individual deviations. It is particularly useful for manual calculations or when working with grouped data.
+\end{remark}
+
+
+\subsection{Coefficient of Variation}
+The \emph{coefficient of variation} is a relative measure of dispersion that allows us to compare the variability of datasets measured in different units or scales:
+\begin{align}
+	CV = \frac{s}{\bar{X}} \times 100\%
+\end{align}
+
+\begin{example}
+	Compare the variability of heights and weights in a group of individuals:
+	\begin{itemize}
+		\item Heights: $\bar{X} = 170$ cm, $s = 8$ cm
+		\item Weights: $\bar{X} = 70$ kg, $s = 10$ kg
+	\end{itemize}
+\end{example}
+
+\begin{solution}
+	\begin{align}
+		CV_{\text{height}} &= \frac{8}{170} \times 100\% \approx 4.71\% \\
+		CV_{\text{weight}} &= \frac{10}{70} \times 100\% \approx 14.29\%
+	\end{align}
+	
+	Even though the standard deviation of weight ($10$ kg) is greater than that of height ($8$ cm) in absolute terms, the coefficient of variation reveals that weight exhibits much greater relative variability ($14.29\%$ vs $4.71\%$).
+\end{solution}
+
+
+\subsection{Variance of Combined Sets}
+If two sets of $N_{1}$ and $N_{2}$ observations have variances $s_{1}^{2}$ and $s_{2}^{2}$ respectively but share the same arithmetic mean $\bar{X},$ then the variance of the combined set is
+\begin{align}
+	s^{2}=\dfrac{N_{1}s_{1}^{2}+N_{2}s_{2}^{2}}{N_{1}+N_{2}}.
+\end{align}
+
+
+\subsection{Chebyshev's Theorem}
+
+\begin{theorem}[Chebyshev]
+	For any random variable $X$ with mean $\mu$ and standard deviation $\sigma$, and for any real number $k > 1$,
+	\begin{align}
+		P(|X - \mu| < k\sigma) \geq 1 - \frac{1}{k^2}
+	\end{align}
+	
+	That is, at least $1 - \frac{1}{k^2}$ of the probability distribution of $X$ lies within $k$ standard deviations of the mean.
+\end{theorem}
+
+\begin{proof}
+	We will prove the theorem for the discrete case. Let $f(x)$ be the probability mass function of $X$.
+	
+	The variance is:
+	\begin{align}
+		\sigma^2 = \sum_{x} (x - \mu)^2 f(x)
+	\end{align}
+	
+	We split the summation into two parts: values inside $k\sigma$ from the mean and values outside:
+	\begin{align}
+		\sigma^2 &= \sum_{|x-\mu| < k\sigma} (x-\mu)^2 f(x) + \sum_{|x-\mu| \geq k\sigma} (x-\mu)^2 f(x)
+	\end{align}
+	
+	The first summation is non-negative, hence:
+	\begin{align}
+		\sigma^2 \geq \sum_{|x-\mu| \geq k\sigma} (x-\mu)^2 f(x)
+	\end{align}
+	
+	For terms in the second summation, $(x-\mu)^2 \geq k^2\sigma^2$, so:
+	\begin{align}
+		\sigma^2 &\geq \sum_{|x-\mu| \geq k\sigma} k^2\sigma^2 f(x) = k^2\sigma^2 \sum_{|x-\mu| \geq k\sigma} f(x) \\
+		&= k^2\sigma^2 P(|X-\mu| \geq k\sigma)
+	\end{align}
+	
+	Dividing by $k^2\sigma^2$:
+	\begin{align}
+		P(|X-\mu| \geq k\sigma) \leq \frac{1}{k^2}
+	\end{align}
+	
+	Therefore:
+	\begin{align}
+		P(|X-\mu| < k\sigma) = 1 - P(|X-\mu| \geq k\sigma) \geq 1 - \frac{1}{k^2}
+	\end{align}
+\end{proof}
+
+\begin{remark}
+	For $k=2$, the theorem guarantees that at least $1 - \frac{1}{4} = 75\%$ of the data lie within 2 standard deviations of the mean. For $k=3$, at least $1 - \frac{1}{9} \approx 88.9\%$ lie within 3 standard deviations.
+	
+	In normal distributions, these percentages are significantly higher: $95.45\%$ within $\pm 2\sigma$ and $99.73\%$ within $\pm 3\sigma$.
+\end{remark}
+
+
+\subsection{Python}
+
+\texttt{Numpy} provides functions to calculate all measures of dispersion:
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+data = np.array([2, 4, 4, 4, 5, 5, 7, 9])
+
+# Range
+rango = np.ptp(data)
+print(f"Range: {rango}")  # 7
+
+# Mean deviation
+desv_media = np.mean(np.abs(data - np.mean(data)))
+print(f"Mean deviation: {desv_media}")  # 1.5
+
+# Population standard deviation (ddof=0)
+std_pop = np.std(data, ddof=0)
+print(f"Population standard deviation: {std_pop}")  # 2.0
+
+# Sample standard deviation (ddof=1)
+std_muestra = np.std(data, ddof=1)
+print(f"Sample standard deviation: {std_muestra}")  # 2.138
+
+# Variance
+var_pop = np.var(data, ddof=0)
+print(f"Population variance: {var_pop}")  # 4.0
+
+var_muestra = np.var(data, ddof=1)
+print(f"Sample variance: {var_muestra}")  # 4.571
+
+# Coefficient of variation
+cv = (std_pop / np.mean(data)) * 100
+print(f"Coefficient of variation: {cv:.2f}%")  # 40.00%
+\end{lstlisting}
+
+\begin{remark}
+	The \texttt{ddof} (Delta Degrees of Freedom) parameter controls the denominator: \texttt{ddof=0} divides by $N$ (population) while \texttt{ddof=1} divides by $N-1$ (sample).
+\end{remark}

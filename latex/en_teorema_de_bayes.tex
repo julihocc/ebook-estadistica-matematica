@@ -1,0 +1,97 @@
+\section{Bayes' Theorem}
+
+If both $ P(A) $ and $ P(B) $ are nonzero, then from the definition of conditional probability, we can deduce that 
+\begin{align}
+	P(A \cap B) &=P(A)\cdot P(B|A)\\
+	P(B \cap A) &=P(B)\cdot P(A|B),
+\end{align}
+and since $ P(A\cap B)= P(B\cap A) $, we conclude 
+\begin{align}
+	P(A)\cdot P(B|A) = P(B)\cdot P(A|B)
+\end{align}
+and therefore 
+\begin{align}
+	P(A|B)=\dfrac{P(A)\cdot P(B|A)}{P(B)}.
+\end{align}
+This result is known as \emph{Bayes' Theorem.}
+
+\subsection{Generalizations}
+
+The previous result can be extended in the following manner: Since 
+\begin{align}
+	\begin{cases}
+		(B\cap A) \cup (B \cap A') &= B\\
+		(B\cap A) \cap (B \cap A') &= \emptyset\\
+	\end{cases},
+\end{align}
+then
+\begin{align}
+	P(B) & = P\left( (B\cap A) \cup (B \cap A') \right)\\
+	&= P(B\cap A) + P(B\cap A')\\
+	&= P(B|A)P(A) + P(B|A')P(A'),
+\end{align}
+so that 
+\begin{align}
+	P(A|B)=\dfrac{P(A)\cdot P(B|A)}{P(B|A)P(A) + P(B|A')P(A')}.
+\end{align}
+
+We can generalize this concept using a partition $ \seq{E_i}{i=0}{N} $ of the sample space $ S \supset A, B$. In that case
+\begin{align}
+	A = \bigcup_{i=0}^{N}(A\cap E_i)
+\end{align}
+and therefore
+\begin{align}
+	P(B) &= \sum_{i=0}^{N} P(B\cap E_i)\\
+	&= \sum_{i=0}^{N} P(B|E_i)P(E_i).
+\end{align}
+We call this result the \emph{law of total probability} (or \emph{chain rule}).
+
+Now, similarly to the first case of Bayes' theorem, we conclude that 
+\begin{align}
+	P(B|E_j)P(E_j)= P(E_j|B)P(B),
+\end{align}
+so using the law of total probability, we obtain
+\begin{align}
+	P(E_j|B)&= \dfrac{P(B|E_j)P(E_j)}{P(B)}\\
+	&=\dfrac{P(B|E_j)P(E_j)}{\sum_{i=0}^{N} P(B|E_i)P(E_i)}
+\end{align}
+
+\begin{example}
+	A gelatin manufacturing plant has three packaging machines. The distribution of packaging volume is carried out as follows:
+	\begin{itemize}
+		\item Machine 1: 38\%
+		\item Machine 2: 32\%
+		\item Machine 3: 30\%
+	\end{itemize}
+	
+	Furthermore, the probability that a package comes out defective is 11\%, 15\%, and 14\% for each machine, respectively. 
+	
+	The plant's production management is interested in knowing the probability that if a unit is selected at random and found to be defective, it was packaged by Machine 2. 
+
+	Let $ M_i $ denote the event that a gelatin unit was packaged by the $ i $-th machine, while $ D $ is the event that the unit is defective. 
+	
+	Calculate the probability that a gelatin unit came from the second machine given that it is defective. 
+\end{example}
+	
+\begin{solution}
+	
+	According to the problem:
+	\begin{align}
+		P(M_1)&=0.38\\
+		P(M_2)&=0.32\\
+		P(M_3)&=0.30\\
+		P(D|M_1)&=0.11\\
+		P(D|M_2)&=0.15\\
+		P(D|M_3)&=0.14
+	\end{align}
+	
+	Then 
+	\begin{align}
+		P(M_2|D) &= \dfrac{P(D|M_2)P(M_2)}{	P(D|M_1)P(M_1)+P(D|M_2)P(M_2)+P(D|M_3)P(M_3)
+		}\\
+		&= \dfrac{(0.15)(0.32)}{
+			(0.11)(0.38)+(0.15)(0.32)+(0.14)(0.30)	
+		}\\
+		&=0.3642=36.42\%
+	\end{align}
+\end{solution}

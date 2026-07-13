@@ -1,0 +1,309 @@
+\section*{Problems}
+
+\subsection{Problem Statements}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{problem}
+	\label{prob:2.1.1}
+	In a group of 50 students, 35 play soccer, 25 play basketball, and 15 play both sports. How many students do not play either sport?
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.1.2}
+	From a group of 100 people interviewed at an international conference:
+	\begin{itemize}
+		\item 60 speak English ($I$)
+		\item 45 speak French ($F$)
+		\item 30 speak both languages ($I \cap F$)
+	\end{itemize}
+	Find the following cardinalities:
+	\begin{enumerate}
+		\item $\card{I \cup F}$
+		\item $\card{I \backslash F}$
+		\item $\card{F \backslash I}$
+		\item $\card{(I \cup F)'}$
+	\end{enumerate}
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.1.3}
+	Given a sample space $S$ and two subsets $A, B \subset S$, explicitly list the $2^2 = 4$ disjoint elements that form the fundamental partition $\particion(A,B)$ of the space $S$.
+\end{problem}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{problem}
+	\label{prob:2.1.4}
+	Extend the partition construction to the case of three subsets $A, B, C \subset S$. How many elements does the partition $\particion(A,B,C)$ have, and what are these disjoint elementary subsets explicitly?
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.1.5}
+	In a survey conducted among 200 university students about their preferred subjects, it was found that:
+	\begin{itemize}
+		\item 120 study mathematics
+		\item 90 study physics
+		\item 70 study chemistry
+		\item 40 study mathematics and physics
+		\item 30 study mathematics and chemistry
+		\item 20 study physics and chemistry
+		\item 10 study all three subjects simultaneously
+	\end{itemize}
+	Using formal partition notation, find:
+	\begin{enumerate}
+		\item The number of students who study only mathematics.
+		\item The number of students who do not study any of the three subjects.
+		\item The number of students who study exactly two subjects.
+	\end{enumerate}
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.1.6}
+	In a sports club with 120 registered members, 65 play tennis, 50 practice swimming, and 35 do not practice either of these two sports. Using an algebraic setup over the partition $\particion(T,N)$, determine:
+	\begin{enumerate}
+		\item The number of members who practice both tennis and swimming.
+		\item The number of members who practice exactly one sport.
+	\end{enumerate}
+\end{problem}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{problem}
+	\label{prob:2.1.7}
+	Rigorously prove that for any two sets $A, B \subset S$:
+	\begin{align}
+		\card{A \cup B} = \card{A} + \card{B} - \card{A \cap B}
+	\end{align}
+	\emph{Hint:} Express each of the sets algebraically in terms of the variables of the partition $\particion(A,B)$.
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.1.8}
+	Using the principle of inclusion-exclusion or partition theory, prove the cardinality identity for the union of three sets $A, B, C \subset S$:
+	\begin{align}
+		\card{A \cup B \cup C} = \card{A} + \card{B} + \card{C} - \card{A \cap B} - \card{A \cap C} - \card{B \cap C} + \card{A \cap B \cap C}.
+	\end{align}
+\end{problem}
+
+\subsubsection*{4. Challenging Level (Expert / Deep Deduction)}
+
+\begin{problem}
+	\label{prob:2.1.9}
+	Let $A_1, A_2, \dots, A_n \subset S$ be a finite collection of $n$ subsets.
+	\begin{enumerate}
+		\item Prove by mathematical induction or indicator combinatorics that the maximum number of disjoint elementary subsets in the partition $\particion(A_1, A_2, \dots, A_n)$ is exactly $2^n$.
+		\item Formally justify under what logical conditions one or more elements of this partition could be the empty set ($\emptyset$) when modeling a real-world empirical phenomenon.
+	\end{enumerate}
+\end{problem}
+
+\begin{problem}
+	\label{prob:2.1.10}
+	An analyst team in an epidemiological clinical trial with a total of $\card{S} = 500$ patients evaluated the presence of three symptoms of a new pathology ($S_1, S_2, S_3$). The preliminary report presents the following census statistics:
+	\begin{itemize}
+		\item $\card{S_1} = 300, \quad \card{S_2} = 250, \quad \card{S_3} = 200$
+		\item $\card{S_1 \cap S_2} = 180, \quad \card{S_1 \cap S_3} = 150, \quad \card{S_2 \cap S_3} = 130$
+		\item $\card{S_1 \cap S_2 \cap S_3} = 30$
+	\end{itemize}
+	By algebraically decomposing the 8 elements of the partition $\particion(S_1, S_2, S_3)$, rigorously prove why the report contains an unavoidable logical flaw that makes it impossible for these data to correspond to a real census. Specifically identify which partition element yields a mathematically absurd cardinality.
+\end{problem}
+
+
+\subsection{Detailed Solutions}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{solution}
+	Let $F$ be the set of students who play soccer and $B$ the set of students who play basketball.
+	From the partition of the sample space into four disjoint regions, we define the elementary cardinalities:
+	\begin{align}
+		x_3 &= \card{F \cap B} = 15 \\
+		x_2 &= \card{F \backslash B} = \card{F} - \card{F \cap B} = 35 - 15 = 20 \\
+		x_1 &= \card{B \backslash F} = \card{B} - \card{F \cap B} = 25 - 15 = 10
+	\end{align}
+	The total number of students who play at least one sport is the union $\card{F \cup B} = x_1 + x_2 + x_3 = 10 + 20 + 15 = 45$.
+	
+	By complementation with respect to the 50 students in the group:
+	\begin{align}
+		x_0 &= \card{(F \cup B)'} = \card{S} - \card{F \cup B} = 50 - 45 = 5.
+	\end{align}
+	Exactly 5 students do not play either sport.
+\end{solution}
+
+\begin{solution}
+	Using the variables of the fundamental partition $\particion(I,F)$ where $x_3 = \card{I \cap F}$, $x_2 = \card{I \backslash F}$, $x_1 = \card{F \backslash I}$, and $x_0 = \card{(I \cup F)'}$:
+	\begin{align}
+		x_3 &= \card{I \cap F} = 30 \\
+		x_2 &= \card{I \backslash F} = \card{I} - x_3 = 60 - 30 = 30 \\
+		x_1 &= \card{F \backslash I} = \card{F} - x_3 = 45 - 30 = 15 \\
+		x_0 &= \card{S} - (x_1 + x_2 + x_3) = 100 - (15 + 30 + 30) = 25
+	\end{align}
+	Consequently, we answer each part:
+	\begin{enumerate}
+		\item $\card{I \cup F} = x_1 + x_2 + x_3 = 15 + 30 + 30 = 75$ people.
+		\item $\card{I \backslash F} = x_2 = 30$ people (speak English but not French).
+		\item $\card{F \backslash I} = x_1 = 15$ people (speak French but not English).
+		\item $\card{(I \cup F)'} = x_0 = 25$ people (do not speak either language).
+	\end{enumerate}
+\end{solution}
+
+\begin{solution}
+	For two subsets $A, B \subset S$, each element of the space $S$ can either belong or not belong (complement) to each of the two sets. This generates $2 \times 2 = 4$ mutually disjoint elementary intersections whose union totals the space $S$:
+	\begin{itemize}
+		\item $E_0 = A' \cap B'$ (elements outside both sets)
+		\item $E_1 = A' \cap B$ (elements exclusive to $B$)
+		\item $E_2 = A \cap B'$ (elements exclusive to $A$)
+		\item $E_3 = A \cap B$ (elements in the common intersection of both)
+	\end{itemize}
+	By construction, it is verified that $E_i \cap E_j = \emptyset$ for all $i \neq j$ and that $\bigcup_{k=0}^3 E_k = S$.
+\end{solution}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{solution}
+	For three subsets $A, B, C \subset S$, including dual or binary membership with respect to a third set $C$ or its complement $C'$ doubles the number of regions compared to the two-set case: $2^3 = 8$ disjoint elementary subsets.
+	
+	These 8 subsets, systematically ordered in binary code (where belonging to the set activates a bit and belonging to its complement turns it off), are:
+	\begin{itemize}
+		\item $E_0 = A' \cap B' \cap C'$ (none of the three sets)
+		\item $E_1 = A' \cap B' \cap C$ (only in $C$)
+		\item $E_2 = A' \cap B \cap C'$ (only in $B$)
+		\item $E_3 = A' \cap B \cap C$ (simultaneously in $B$ and $C$, but not in $A$)
+		\item $E_4 = A \cap B' \cap C'$ (only in $A$)
+		\item $E_5 = A \cap B' \cap C$ (simultaneously in $A$ and $C$, but not in $B$)
+		\item $E_6 = A \cap B \cap C'$ (simultaneously in $A$ and $B$, but not in $C$)
+		\item $E_7 = A \cap B \cap C$ (in the simultaneous intersection of all three sets)
+	\end{itemize}
+\end{solution}
+
+\begin{solution}
+	Let the membership variables for the three subjects be: $M$ (mathematics), $F$ (physics), and $Q$ (chemistry). Representing each elementary intersection of the partition $\particion(M,F,Q)$ by its cardinality $x_k = \card{E_k}$ ($k=0,1,\dots,7$):
+	\begin{align}
+		x_7 &= \card{M \cap F \cap Q} = 10 \\
+		x_6 &= \card{M \cap F \cap Q'} = \card{M \cap F} - x_7 = 40 - 10 = 30 \\
+		x_5 &= \card{M \cap F' \cap Q} = \card{M \cap Q} - x_7 = 30 - 10 = 20 \\
+		x_3 &= \card{M' \cap F \cap Q} = \card{F \cap Q} - x_7 = 20 - 10 = 10 \\
+		x_4 &= \card{M \cap F' \cap Q'} = \card{M} - (x_7 + x_6 + x_5) = 120 - (10 + 30 + 20) = 60 \\
+		x_2 &= \card{M' \cap F \cap Q'} = \card{F} - (x_7 + x_6 + x_3) = 90 - (10 + 30 + 10) = 40 \\
+		x_1 &= \card{M' \cap F' \cap Q} = \card{Q} - (x_7 + x_5 + x_3) = 70 - (10 + 20 + 10) = 30 \\
+		x_0 &= \card{S} - \sum_{k=1}^7 x_k = 200 - (60 + 40 + 30 + 30 + 20 + 10 + 10) = 200 - 200 = 0
+	\end{align}
+	Therefore:
+	\begin{enumerate}
+		\item Only study mathematics: $x_4 = 60$ students.
+		\item Do not study any of the three subjects: $x_0 = 0$ students.
+		\item Study exactly two subjects: $x_6 + x_5 + x_3 = 30 + 20 + 10 = 60$ students.
+	\end{enumerate}
+\end{solution}
+
+\begin{solution}
+	Let the sets be $T$ (tennis) and $N$ (swimming), with a total of $\card{S} = 120$ members in the club.
+	We know that $x_0 = \card{(T \cup N)'} = 35$. Thus, the number of members in the union is:
+	\begin{align}
+		\card{T \cup N} = \card{S} - x_0 = 120 - 35 = 85.
+	\end{align}
+	Using the fundamental cardinality relation for two sets:
+	\begin{align}
+		\card{T \cup N} &= \card{T} + \card{N} - \card{T \cap N} \\
+		85 &= 65 + 50 - \card{T \cap N} \implies 85 = 115 - \card{T \cap N} \\
+		\card{T \cap N} &= 115 - 85 = 30.
+	\end{align}
+	The partition variables are then given by:
+	\begin{align}
+		x_3 &= \card{T \cap N} = 30 \\
+		x_2 &= \card{T \backslash N} = 65 - 30 = 35 \\
+		x_1 &= \card{N \backslash T} = 50 - 30 = 20
+	\end{align}
+	\begin{enumerate}
+		\item Practice both tennis and swimming ($x_3$): 30 members.
+		\item Practice exactly one sport ($x_2 + x_1$): $35 + 20 = 55$ members.
+	\end{enumerate}
+\end{solution}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{solution}
+	Consider the cardinalities of the elements in the partition $\particion(A,B)$:
+	\begin{itemize}
+		\item $x_1 = \card{A' \cap B}$
+		\item $x_2 = \card{A \cap B'}$
+		\item $x_3 = \card{A \cap B}$
+	\end{itemize}
+	Since the elementary sets in a partition are mutually disjoint by algebraic construction, the cardinality of any union is the direct arithmetic sum of the cardinalities of its component regions:
+	\begin{align}
+		\card{A} &= x_2 + x_3 \\
+		\card{B} &= x_1 + x_3 \\
+		\card{A \cap B} &= x_3 \\
+		\card{A \cup B} &= x_1 + x_2 + x_3
+	\end{align}
+	Evaluating the right-hand side expression of the identity we want to prove:
+	\begin{align}
+		\card{A} + \card{B} - \card{A \cap B} &= (x_2 + x_3) + (x_1 + x_3) - x_3 \\
+		&= x_1 + x_2 + 2x_3 - x_3 \\
+		&= x_1 + x_2 + x_3 = \card{A \cup B}.
+	\end{align}
+	Which proves the addition theorem exactly and without geometric ambiguity.
+\end{solution}
+
+\begin{solution}
+	For three sets $A, B, C$, we express the union by grouping two terms and applying the theorem proven in Problem \ref{prob:2.1.7}:
+	\begin{align}
+		\card{A \cup B \cup C} &= \card{(A \cup B) \cup C} \\
+		&= \card{A \cup B} + \card{C} - \card{(A \cup B) \cap C}.
+	\end{align}
+	By the distributive law of intersection over union, $(A \cup B) \cap C = (A \cap C) \cup (B \cap C)$. Applying the two-set formula again to this distributed intersection:
+	\begin{align}
+		\card{(A \cup B) \cap C} &= \card{(A \cap C) \cup (B \cap C)} \\
+		&= \card{A \cap C} + \card{B \cap C} - \card{(A \cap C) \cap (B \cap C)} \\
+		&= \card{A \cap C} + \card{B \cap C} - \card{A \cap B \cap C}.
+	\end{align}
+	Substituting this and the expansion $\card{A \cup B} = \card{A} + \card{B} - \card{A \cap B}$ into the main first equation:
+	\begin{align}
+		\card{A \cup B \cup C} &= [\card{A} + \card{B} - \card{A \cap B}] + \card{C} - [\card{A \cap C} + \card{B \cap C} - \card{A \cap B \cap C}] \\
+		&= \card{A} + \card{B} + \card{C} - \card{A \cap B} - \card{A \cap C} - \card{B \cap C} + \card{A \cap B \cap C}.
+	\end{align}
+	This algebraically proves the inclusion-exclusion principle formula for order three.
+\end{solution}
+
+\subsubsection*{4. Challenging Level (Expert / Deep Deduction)}
+
+\begin{solution}
+	\begin{enumerate}
+		\item \textbf{Combinatorial proof:}
+		Each elementary subset of a partition of $n$ sets $A_1, A_2, \dots, A_n$ has the form of a simultaneous intersection:
+		\begin{align}
+			E = X_1 \cap X_2 \cap \dots \cap X_n, \quad \text{where each } X_i \in \{A_i, A_i'\}.
+		\end{align}
+		Since for each index $i = 1, 2, \dots, n$ there exist exactly 2 mutually exclusive options ($A_i$ or its complement $A_i'$), by the fundamental counting principle (product rule), the total number of distinct logical combinations is:
+		\begin{align}
+			\underbrace{2 \times 2 \times \cdots \times 2}_{n \text{ factors}} = 2^n.
+		\end{align}
+		
+		\item \textbf{Empirical justification of empty regions ($\emptyset$):}
+		From a purely formal standpoint, $2^n$ is the combinatorial upper bound on the number of disjoint regions. However, when modeling concrete real-world observational variables, many of these regions turn out to be mathematically empty ($\card{E_k} = 0$) due to structural or deterministic incompatibility.
+		For instance, if in a medical sample $A_1$ is the set of male patients and $A_2$ is the set of pregnant patients, the intersection region $A_1 \cap A_2$ is biologically impossible, making its elementary cell in the partition empty ($\emptyset$).
+	\end{enumerate}
+\end{solution}
+
+\begin{solution}
+	To verify the logical and mathematical consistency of the report, we calculate the variables $x_k = \card{E_k}$ ($k=0,1,\dots,7$) for the partition generated by the three symptoms ($S_1, S_2, S_3$):
+	\begin{align}
+		x_7 &= \card{S_1 \cap S_2 \cap S_3} = 30 \\
+		x_6 &= \card{S_1 \cap S_2 \cap S_3'} = \card{S_1 \cap S_2} - x_7 = 180 - 30 = 150 \\
+		x_5 &= \card{S_1 \cap S_2' \cap S_3} = \card{S_1 \cap S_3} - x_7 = 150 - 30 = 120 \\
+		x_3 &= \card{S_1' \cap S_2 \cap S_3} = \card{S_2 \cap S_3} - x_7 = 130 - 30 = 100
+	\end{align}
+	Now, let's deduce the number of patients who have exclusively the first symptom ($x_4 = \card{S_1 \cap S_2' \cap S_3'}$):
+	\begin{align}
+		\card{S_1} &= x_7 + x_6 + x_5 + x_4 \\
+		300 &= 30 + 150 + 120 + x_4 \\
+		300 &= 300 + x_4 \implies x_4 = 0 \text{ (so far no contradiction).}
+	\end{align}
+	Next, let's deduce the number of patients with exclusively the second symptom ($x_2 = \card{S_1' \cap S_2 \cap S_3'}$):
+	\begin{align}
+		\card{S_2} &= x_7 + x_6 + x_3 + x_2 \\
+		250 &= 30 + 150 + 100 + x_2 \\
+		250 &= 280 + x_2 \implies x_2 = -30.
+	\end{align}
+	\textbf{Conclusion:} The calculation yields a negative cardinality ($x_2 = -30$) for the region of patients exhibiting only symptom $S_2$. Under counting axioms and Kolmogorov's set theory, the cardinality function $\card{\cdot} \ge 0$ cannot take negative values. This proves beyond doubt that the numbers published in the preliminary report are self-inconsistent and reflect an error in census data collection or tabulation.
+\end{solution}
