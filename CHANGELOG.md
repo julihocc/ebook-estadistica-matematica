@@ -4,6 +4,17 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-13
+
+### Cambiado
+- Adscripción del autor en la portada (`\publisher`) actualizada de
+  `www.optimum.mx` a Tecnológico de Monterrey, Escuela de Ingeniería y
+  Ciencias, Campus Ciudad de México, con correo de contacto
+  `julihocc@tec.mx`.
+- Paleta de colores del libro (encabezados, entornos `solucion` y
+  `algoritmo`) ajustada para acercarse a los colores institucionales del
+  Tecnológico de Monterrey.
+
 ## 2026-07-10
 
 ### Añadido
