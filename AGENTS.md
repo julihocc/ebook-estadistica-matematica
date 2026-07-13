@@ -35,7 +35,7 @@ soluciones/                          ← solution write-ups (mostly empty)
 - **`pe-*.tex` files are orphaned**: They use different environment names (`defn`/`thm`/`rem`/`axiom` instead of `definicion`/`teorema`/`observacion`/`axioma`) and are NOT included by the master.
 - **All prose is in Spanish** (babel: `spanish,mexico`).
 - **Code listings**: Use `\begin{lstlisting}[language=Python]` (styled in `_color-listings.tex`) or `\lstinputlisting[language=python]{../code/...}`.
-- **Custom environments** (defined in `_entornos.tex`): `teorema`, `lema`, `proposicion`, `corolario`, `problema`, `ejemplo`, `definicion`, `axioma`, `propiedad`, `observacion`, `sugerencia`, `solucion` (maroon), `algoritmo` (RedViolet). Additional from `_md_entornos.tex`: `conj`, `ax`, `tdv`, `claim`, `case`.
+- **Custom environments** (defined in `_entornos.tex`): `teorema`, `lema`, `proposicion`, `corolario`, `problema`, `ejemplo`, `definicion`, `axioma`, `propiedad`, `observacion`, `sugerencia`, `solucion` (TecRojo), `algoritmo` (TecAzulOscuro) — colores institucionales del Tec de Monterrey definidos en `_paquetes.tex`. Additional from `_md_entornos.tex`: `conj`, `ax`, `tdv`, `claim`, `case`.
 - **Custom commands**: See `_comandos.tex`, `_md_comandos.tex`, `_pe_comandos.tex`. Notable: `\Var`, `\cov`, `\comb`, `\s` (sigma), `\corr` (rho), `\card`, `\particion`.
 - **Empty stub files**: `estadistica-descriptiva.tex`, `regresiones-lineales.tex`, `conceptos-estadisticos.tex` are empty — do not add content to these unless they are `\input{}`'d by the master (they are not).
 - **Python scripts** in `code/` are standalone, stdlib or numpy-only. No venv, no `requirements.txt`.
