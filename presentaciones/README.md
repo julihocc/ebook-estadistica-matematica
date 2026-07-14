@@ -148,10 +148,11 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | **03.01** | [03.01 PMF y Soporte](es/03_variables_aleatorias_discretas/03.01_pmf_y_soporte.tex) ([PDF](es/03_variables_aleatorias_discretas/03.01_pmf_y_soporte.pdf)) | [03.01 PMF and Support](en/03_discrete_random_variables/03.01_pmf_and_support.tex) ([PDF](en/03_discrete_random_variables/03.01_pmf_and_support.pdf)) | `03.01_pmf_and_support.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
 | **03.02** | [03.02 CDF Discreta](es/03_variables_aleatorias_discretas/03.02_cdf_discreta.tex) ([PDF](es/03_variables_aleatorias_discretas/03.02_cdf_discreta.pdf)) | [03.02 Discrete CDF](en/03_discrete_random_variables/03.02_discrete_cdf.tex) ([PDF](en/03_discrete_random_variables/03.02_discrete_cdf.pdf)) | `03.02_discrete_cdf.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
 | **03.03** | [03.03 Esperanza y Varianza](es/03_variables_aleatorias_discretas/03.03_esperanza_y_varianza.tex) ([PDF](es/03_variables_aleatorias_discretas/03.03_esperanza_y_varianza.pdf)) | [03.03 Expectation & Variance](en/03_discrete_random_variables/03.03_expectation_and_variance.tex) ([PDF](en/03_discrete_random_variables/03.03_expectation_and_variance.pdf)) | `03.03_expectation_and_variance.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
+| **03.04** | [03.04 Bernoulli y Binomial](es/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.tex) ([PDF](es/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.pdf)) | [03.04 Bernoulli & Binomial](en/03_discrete_random_variables/03.04_bernoulli_binomial.tex) ([PDF](en/03_discrete_random_variables/03.04_bernoulli_binomial.pdf)) | `03.04_bernoulli_binomial.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 03.04: Distribuciones de Bernoulli y Binomial**), consulta el documento oficial de planificación:
+Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 03.05: Distribuciones Geométrica y Binomial Negativa**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.
