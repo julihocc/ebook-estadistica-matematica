@@ -1,0 +1,319 @@
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Fundamentos y Axiomas]{Sección 2.3: Fundamentos y Axiomas de Probabilidad}
+\subtitle{La Formalización del Azar: Del Conteo Frecuencial a los Axiomas de Kolmogorov}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta e Indicador de Posición
+\begin{frame}{Hoja de Ruta — Capítulo 02: Teoría de Probabilidad}
+  ¿Dónde estamos en nuestro recorrido por la teoría de probabilidad? \pause
+  \begin{itemize}
+    \item \textbf{02.01 Introducción a la probabilidad} \emph{(Completado)} \pause
+    \item \textbf{02.02 Notación de conjuntos y particiones} \emph{(Completado)} \pause
+    \item \color{TecRojo}\textbf{02.03 Fundamentos y axiomas de probabilidad \emph{(Hoy)}}\color{black} \pause
+    \item \textbf{02.04 Probabilidad condicional e independencia} \emph{(Siguiente sesión)} \pause
+    \item \textbf{02.05 Teorema de Bayes} \pause
+    \item \textbf{02.06 Muestreo aleatorio}
+  \end{itemize}
+  \vspace{0.6em}
+  \begin{block}{Objetivo de la Sección 2.3}
+    Establecer los tres axiomas de Kolmogorov como cimiento riguroso para cuantificar la incertidumbre en experimentos discretos y continuos, deduciendo las propiedades fundamentales del cálculo de probabilidades.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{El Problema de la Coherencia Lógica en Ciencia de Datos}
+  \begin{motivacion}[¿Por qué necesitamos axiomas para la incertidumbre?]
+    Si un algoritmo de diagnóstico médico asigna $60\%$ de probabilidad a que un paciente tenga diabetes de tipo 1 y $55\%$ a que tenga diabetes de tipo 2 (siendo excluyentes), la suma resulta en $115\%$. Un modelo sin reglas axiomáticas estrictas generará contradicciones matemáticas e inferencias absurdas.
+  \end{motivacion}
+  
+  \vspace{0.4em}
+  \pause
+  \begin{itemize}
+    \item \textbf{Incertidumbre Cuantificable:} La probabilidad es una función de medida $P: \mathcal{C} \to \mathbb{R}$ que asigna un valor numérico a la plausibilidad de un evento. \pause
+    \item \textbf{Consistencia Universal:} Los axiomas garantizan que sin importar la naturaleza del experimento (monedas, genes, finanzas), el cálculo sea lógicamente infalible.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Experimentos Aleatorios y Espacio Muestral
+\begin{frame}{Experimentos Aleatorios y Espacio Muestral ($S$)}
+  Un \emph{experimento aleatorio} es un proceso cuyo resultado no se puede predecir con certeza antes de realizarse, pero cuyos resultados posibles son perfectamente conocidos. \pause
+
+  \vspace{0.3em}
+  \begin{block}{El Espacio Muestral ($S$)}
+    El conjunto $S$ que consta de todos los posibles resultados de un experimento es llamado \emph{espacio muestral}, y cada resultado individual es un \emph{punto muestral}.
+  \end{block}
+
+  \vspace{0.3em}
+  \pause
+  \begin{itemize}
+    \item \textbf{Lanzar una moneda:} $S = \{T, H\}$ o $\{0, 1\}$. \pause
+    \item \textbf{Lanzar dos monedas:} $S = \{HH, HT, TH, TT\}$. \pause
+    \item \textbf{Control de Calidad (Tornillo):} $S = \{\text{defectuoso}, \text{no defectuoso}\}$. \pause
+    \item \textbf{Vida Útil Continua de un Componente:} $S = \{t \in \mathbb{R} \mid 0 \leq t \leq T\}$, donde $t$ se mide en horas de funcionamiento.
+  \end{itemize}
+\end{frame}
+
+% Slide 5: Tipos de Espacio Muestral
+\begin{frame}{Tipos de Espacio Muestral: Discreto vs Continuo}
+  La naturaleza matemática de $S$ determina las herramientas del cálculo probabilístico: \pause
+
+  \vspace{0.4em}
+  \begin{itemize}
+    \item \textbf{Finito:} Contiene una cantidad exacta de puntos muestrales. Ejemplo: lanzar un dado, $S = \{1, 2, 3, 4, 5, 6\}$. \pause
+    \item \textbf{Infinito Numerable:} Contiene tantos puntos como los números naturales $\mathbb{N}$ (se pueden listar uno a uno). Ejemplo: número de intentos hasta que un servidor responda por primera vez, $S = \{1, 2, 3, \dots\}$. \pause
+    \item \textbf{Infinito No Numerable:} Contiene tantos puntos como un intervalo de la recta real $\mathbb{R}$. Ejemplo: tiempo de respuesta de una API en milisegundos, $S = (0, \infty)$.
+  \end{itemize}
+
+  \vspace{0.4em}
+  \pause
+  \begin{alertblock}{Clasificación Operativa}
+    Si $S$ es finito o infinito numerable, diremos que es un espacio \textbf{discreto}. Si es infinito no numerable, diremos que es \textbf{continuo}.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Eventos y Álgebra de Subconjuntos
+\begin{frame}{Eventos y Álgebra de Subconjuntos}
+  Un \emph{evento} $A$ es cualquier subconjunto del espacio muestral ($A \subset S$). Si el resultado observado del experimento es un elemento de $A$, decimos que \emph{el evento $A$ ha ocurrido}. \pause
+
+  \vspace{0.3em}
+  \begin{itemize}
+    \item \textbf{Evento Simple o Elemental:} Consta de exactamente un punto muestral (ej. $\{HT\}$). \pause
+    \item \textbf{Evento Seguro:} Todo el espacio $S$ ($P(S) = 1$). \pause
+    \item \textbf{Evento Imposible:} El conjunto vacío $\emptyset$ ($P(\emptyset) = 0$).
+  \end{itemize}
+
+  \vspace{0.3em}
+  \pause
+  \begin{block}{Operaciones Lógicas con Eventos}
+    \begin{itemize}
+      \item \textbf{Unión ($A \cup B$):} Ocurre $A$, o ocurre $B$, o ambos.
+      \item \textbf{Intersección ($A \cap B$):} Ocurren $A$ y $B$ simultáneamente.
+      \item \textbf{Complemento ($A'$):} No ocurre $A$ ($S \setminus A$).
+      \item \textbf{Mutuamente Excluyentes (Disjuntos):} $A \cap B = \emptyset$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 7: Los Enfoques Históricos de la Probabilidad
+\begin{frame}{Los Tres Enfoques Clásicos de la Probabilidad}
+  \footnotesize ¿Cómo asignamos el valor numérico $P(A)$ a un evento? \pause
+
+  \vspace{0.1em}
+  \begin{itemize}\itemsep=0.2em
+    \item \textbf{1. Enfoque Clásico (Laplace, 1812):} Para $n$ casos posibles \emph{equiparables} con $h$ casos favorables:
+    $$P(A) = \frac{h}{n}$$ \pause
+    \item \textbf{2. Enfoque Frecuencial / Empírico (von Mises):} Repitiendo el experimento $n$ veces bajo idénticas condiciones:
+    $$P(A) = \lim_{n \to \infty} \frac{h}{n}$$ \pause
+    \item \textbf{3. Enfoque Axiomático (Kolmogorov, 1933):} Define la probabilidad matemáticamente mediante axiomas indiscutibles, eliminando ambigüedades.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Los Axiomas de Kolmogorov
+\begin{frame}{Los Tres Axiomas de Kolmogorov (1933)}
+  \small Sea $S$ un espacio muestral y $\mathcal{C}$ la colección de eventos. Una función $P: \mathcal{C} \to \mathbb{R}$ es una \emph{función de probabilidad} si satisface: \pause
+
+  \vspace{0.2em}
+  \begin{block}{Axioma 1 (No Negatividad)}
+    Para cualquier evento $A \in \mathcal{C}$: $P(A) \geq 0$
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{block}{Axioma 2 (Normalización o Evento Seguro)}
+    La probabilidad del espacio muestral completo $S$ es la unidad: $P(S) = 1$
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{block}{Axioma 3 (Aditividad Numerable)}
+    Para eventos mutuamente excluyentes $A_1, A_2, \dots$ ($A_i \cap A_j = \emptyset$ para $i \neq j$):
+    $$P(A_1 \sqcup A_2 \sqcup \dots) = P(A_1) + P(A_2) + \dots$$
+  \end{block}
+\end{frame}
+
+% Slide 9A: Teoremas Fundamentales Deducidos (Parte 1)
+\begin{frame}{Teoremas Fundamentales Deducidos (1/2)}
+  A partir exclusivamente de los tres axiomas, se demuestra toda el álgebra de probabilidades: \pause
+
+  \vspace{0.4em}
+  \begin{itemize}
+    \item \textbf{Teorema 2.3.3 (Evento Imposible):} $P(\emptyset) = 0$. \pause
+    \vspace{0.3em}
+    \item \textbf{Teorema 2.3.4 (Complemento):} Para todo evento $A$:
+    $$P(A') = 1 - P(A)$$ \pause
+    \vspace{0.3em}
+    \item \textbf{Teorema 2.3.7 (Ley de Probabilidad Total Binaria):} Para cualquier partición binaria de $B$ respecto a $A$:
+    $$P(A) = P(A \cap B) + P(A \cap B')$$
+  \end{itemize}
+\end{frame}
+
+% Slide 9B: Teoremas Fundamentales Deducidos (Parte 2)
+\begin{frame}{Teoremas Fundamentales Deducidos (2/2)}
+  \begin{block}{Teoremas 2.3.1 y 2.3.2 (Monotonía, Diferencia y Cota)}
+    Si $A \subset B$, entonces la probabilidad de su diferencia es exacta:
+    $$P(B \setminus A) = P(B) - P(A)$$
+    Por monotonía, como $P(B \setminus A) \geq 0$, se sigue que:
+    $$P(A) \leq P(B)$$
+    En particular, como $\emptyset \subset A \subset S$, se concluye que toda probabilidad está acotada entre $0\%$ y $100\%$:
+    $$0 \leq P(A) \leq 1$$
+  \end{block}
+\end{frame}
+
+% Slide 10: Regla General de Adición (Inclusión-Exclusión)
+\begin{frame}{Teorema 2.3.6: Regla General de Adición}
+  \small Cuando dos eventos $A$ y $B$ \emph{no} son mutuamente excluyentes ($A \cap B \neq \emptyset$), la suma simple duplicaría la intersección: \pause
+
+  \vspace{0.2em}
+  \begin{block}{Regla de Adición para Dos Eventos}
+    $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+  \end{block}
+
+  \vspace{0.2em}
+  \pause
+  \begin{block}{Regla de Adición para Tres Eventos (Inclusión-Exclusión)}
+    \begin{align*}
+      P(A \cup B \cup C) &= P(A) + P(B) + P(C) - P(A \cap B) \\
+                         &\quad - P(B \cap C) - P(C \cap A) + P(A \cap B \cap C)
+    \end{align*}
+  \end{block}
+\end{frame}
+
+% Slide 11A: Laboratorio Python (Parte 1: Simulación)
+\begin{frame}[fragile]{Laboratorio en Python: Simulación Frecuencial}
+  El script \texttt{02.03\_axiomas\_probabilidad.py} compara empírica vs clásica en $N = 10,000$:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=1, lastline=17]{../../code/02_teoria_probabilidad/02.03_axiomas_probabilidad.py}}
+\end{frame}
+
+% Slide 11B: Laboratorio Python (Parte 2: Axiomas)
+\begin{frame}[fragile]{Laboratorio en Python: Verificación de Axiomas}
+  Validación de normalización y no negatividad en baraja de 52 cartas:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=22, lastline=35]{../../code/02_teoria_probabilidad/02.03_axiomas_probabilidad.py}}
+\end{frame}
+
+% Slide 11C: Laboratorio Python (Parte 3: Adición)
+\begin{frame}[fragile]{Laboratorio en Python: Regla de Adición}
+  Validación de inclusión-exclusión vs conteo directo:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=36, lastline=48]{../../code/02_teoria_probabilidad/02.03_axiomas_probabilidad.py}}
+\end{frame}
+
+% Slide 11D: Laboratorio Python (Salida en Consola)
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  Resultado exacto ejecutado en la consola de Python:
+  \vspace{0.2em}
+  \begin{block}{Salida Estándar en Terminal}
+    \fontsize{6.5pt}{7.5pt}\selectfont
+    \begin{verbatim}
+--- 1. Enfoque Frecuencial vs Clasico (N = 10,000) ---
+Moneda P(Sol):    Empirica = 0.4987 | Clasica = 0.5000
+Dado   P(X=4):    Empirica = 0.1669 | Clasica = 0.1667
+
+--- 2. Axiomas y Regla de Adicion (Baraja Inglesa) ---
+P(Pica):          0.2500 (13/52)
+P(Rey):           0.0769 (4/52)
+P(Rey inter Pica):0.0192 (1/52)
+P(Pica union Rey):0.3077 (16/52 via Inclusio-Exclusion)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12: Ejercicios del Libro — Nivel 1: Fundamental
+\begin{frame}{Ejercicios del Libro — Nivel 1: Fundamental}
+  \small
+  \begin{block}{Problema 2.3.1 (Espacio Muestral de Baraja Inglesa)}
+    Describe formalmente el espacio muestral $S$ de una baraja de $52$ cartas considerando tanto los palos ($\spadesuit, \heartsuit, \diamondsuit, \clubsuit$) como los rangos ($A, 2, \dots, 10, J, Q, K$).
+  \end{block}
+  
+  \vspace{0.2em}
+  \pause
+  \begin{alertblock}{Solución Formal}
+    El espacio muestral es el producto cartesiano de rangos por palos:
+    $$S = \{A, 2, \dots, K\} \times \{\spadesuit, \heartsuit, \diamondsuit, \clubsuit\}$$
+    Su cardinalidad es exactamente $\card{S} = 13 \times 4 = 52$ puntos muestrales elementales equiprobables ($P(e) = 1/52$).
+  \end{alertblock}
+\end{frame}
+
+% Slide 13: Ejercicios del Libro — Nivel 2: Operativo
+\begin{frame}{Ejercicios del Libro — Nivel 2: Operativo}
+  \small
+  \begin{block}{Problema 2.3.3 (Extracción de Ases con y sin Reemplazo)}
+    De una baraja de $52$ cartas se extraen $2$ cartas sucesivamente. Encuentra la probabilidad de que ambas sean ases ($A_1 \cap A_2$):
+  \end{block}
+  
+  \vspace{0.2em}
+  \pause
+  \begin{enumerate}
+    \item \textbf{Con Reemplazo:} La carta regresa antes del segundo intento:
+    $$P(A_1 \cap A_2) = \frac{4}{52} \times \frac{4}{52} = \frac{1}{13} \times \frac{1}{13} = \frac{1}{169} \approx 0.0059$$ \pause
+    \item \textbf{Sin Reemplazo:} La primera carta no se devuelve a la baraja:
+    $$P(A_1 \cap A_2) = \frac{4}{52} \times \frac{3}{51} = \frac{1}{13} \times \frac{1}{17} = \frac{1}{221} \approx 0.0045$$
+  \end{enumerate}
+\end{frame}
+
+% Slide 14: Ejercicios del Libro — Nivel 3: Analítico
+\begin{frame}{Ejercicios del Libro — Nivel 3: Analítico}
+  \small
+  \begin{block}{Problema 2.3.7 (Demostración Axiomática de la Regla de Adición)}
+    A partir exclusivamente de los tres axiomas de Kolmogorov, demuestra que para dos eventos arbitrarios $A, B \subset S$:
+    $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+  \end{block}
+
+  \vspace{0.2em}
+  \pause
+  \begin{alertblock}{Demostración por Partición Disjunta}
+    Descomponemos $A \cup B$ y $B$ en uniones disjuntas:
+    \begin{align*}
+      A \cup B &= A \sqcup (B \setminus A) \implies P(A \cup B) = P(A) + P(B \setminus A) \\
+             B &= (A \cap B) \sqcup (B \setminus A) \implies P(B) = P(A \cap B) + P(B \setminus A)
+    \end{align*}
+    Despejando y sustituyendo se obtiene exactamente la fórmula buscada.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15: Ejercicios del Libro — Nivel 4: Desafiante
+\begin{frame}{Ejercicios del Libro — Nivel 4: Desafiante}
+  \small
+  \begin{block}{Problema 2.3.9 (Cotas de Boole y Bonferroni)}
+    Demuestra las dos desigualdades estructurales del cálculo de probabilidades:
+  \end{block}
+
+  \vspace{0.2em}
+  \pause
+  \begin{enumerate}
+    \item \textbf{Cota de Boole (Subaditividad General):} La probabilidad de la unión de $n$ eventos nunca supera la suma de sus probabilidades individuales:
+    $$P\left( \bigcup_{i=1}^{n} A_i \right) \leq \sum_{i=1}^{n} P(A_i)$$ \pause
+    \item \textbf{Cota de Bonferroni (Intersección):} Por leyes de De Morgan y subaditividad sobre complementos:
+    $$P(A \cap B) \geq P(A) + P(B) - 1$$
+  \end{enumerate}
+\end{frame}
+
+% Slide 16: Reflexión Cierre
+\begin{frame}{Cierre de Sección y Síntesis Axiomática}
+  \begin{reflexion}[El Poder de los Axiomas en Ciencia de Datos]
+    Los tres axiomas de Kolmogorov son una hazaña de síntesis intelectual: con tan solo no negatividad, normalización y aditividad disjunta, se deduce con precisión milimétrica todo el edificio de la teoría de probabilidad, protegiendo a nuestros modelos de inferencias lógicamente inválidas.
+  \end{reflexion}
+
+  \vspace{0.5em}
+  \pause
+  \begin{retoclase}[Para la próxima sesión: Probabilidad Condicional]
+    Si sabemos que un paciente dio positivo en una prueba médica ($B$), ¿cómo actualizamos la probabilidad original de que realmente padezca la enfermedad ($A$)? Introduciremos el concepto de \emph{Probabilidad Condicional} $P(A \mid B)$.
+  \end{retoclase}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,319 @@
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Foundations and Axioms]{Section 2.3: Probability Foundations and Axioms}
+\subtitle{Formalizing Randomness: From Frequentist Counts to Kolmogorov Axioms}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Title Page
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap and Position Indicator
+\begin{frame}{Roadmap — Chapter 02: Probability Theory}
+  Where are we in our exploration of probability theory? \pause
+  \begin{itemize}
+    \item \textbf{02.01 Introduction to probability} \emph{(Completed)} \pause
+    \item \textbf{02.02 Sets and partitions notation} \emph{(Completed)} \pause
+    \item \color{TecRojo}\textbf{02.03 Probability foundations and axioms \emph{(Today)}}\color{black} \pause
+    \item \textbf{02.04 Conditional probability and independence} \emph{(Next session)} \pause
+    \item \textbf{02.05 Bayes' theorem} \pause
+    \item \textbf{02.06 Random sampling}
+  \end{itemize}
+  \vspace{0.6em}
+  \begin{block}{Section 2.3 Objective}
+    Establish the three Kolmogorov axioms as the rigorous mathematical foundation for quantifying uncertainty in discrete and continuous experiments, deriving the fundamental rules of probability calculus.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{The Logical Consistency Problem in Data Science}
+  \begin{motivacion}[Why do we need axioms for uncertainty?]
+    If a medical diagnostic algorithm assigns a $60\%$ probability that a patient has Type 1 diabetes and a $55\%$ probability of Type 2 diabetes (being mutually exclusive), their sum yields $115\%$. An algorithmic model without strict axiomatic rules produces mathematical contradictions and absurd inferences.
+  \end{motivacion}
+  
+  \vspace{0.4em}
+  \pause
+  \begin{itemize}
+    \item \textbf{Quantifiable Uncertainty:} Probability is a measure function $P: \mathcal{C} \to \mathbb{R}$ that assigns a numerical value to the plausibility of an event. \pause
+    \item \textbf{Universal Consistency:} Axioms guarantee that regardless of the experiment's nature (coins, genes, financial markets), the calculus remains logically infallible.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Random Experiments and Sample Space
+\begin{frame}{Random Experiments and Sample Space ($S$)}
+  A \emph{random experiment} is a process whose specific outcome cannot be predicted with certainty in advance, yet whose set of all possible outcomes is completely known. \pause
+
+  \vspace{0.3em}
+  \begin{block}{The Sample Space ($S$)}
+    The set $S$ consisting of all possible outcomes of a random experiment is called the \emph{sample space}, and each individual outcome is called a \emph{sample point}.
+  \end{block}
+
+  \vspace{0.3em}
+  \pause
+  \begin{itemize}
+    \item \textbf{Tossing a coin:} $S = \{T, H\}$ or $\{0, 1\}$. \pause
+    \item \textbf{Tossing two coins:} $S = \{HH, HT, TH, TT\}$. \pause
+    \item \textbf{Quality Control (Bolt manufacturing):} $S = \{\text{defective}, \text{non-defective}\}$. \pause
+    \item \textbf{Continuous Lifetime of a Component:} $S = \{t \in \mathbb{R} \mid 0 \leq t \leq T\}$, where $t$ is measured in operating hours.
+  \end{itemize}
+\end{frame}
+
+% Slide 5: Types of Sample Space
+\begin{frame}{Types of Sample Space: Discrete vs. Continuous}
+  The mathematical structure of $S$ dictates which probabilistic tools must be used: \pause
+
+  \vspace{0.4em}
+  \begin{itemize}
+    \item \textbf{Finite:} Contains a specific, countable number of sample points. Example: rolling a die, $S = \{1, 2, 3, 4, 5, 6\}$. \pause
+    \item \textbf{Countable Infinite:} Contains as many points as the natural numbers $\mathbb{N}$ (can be listed one by one). Example: number of attempts until a server successfully responds, $S = \{1, 2, 3, \dots\}$. \pause
+    \item \textbf{Uncountable Infinite:} Contains as many points as an interval on the real line $\mathbb{R}$. Example: API response latency in milliseconds, $S = (0, \infty)$.
+  \end{itemize}
+
+  \vspace{0.4em}
+  \pause
+  \begin{alertblock}{Operational Classification}
+    If $S$ is finite or countably infinite, we call it a \textbf{discrete} space. If it is uncountably infinite, we call it a \textbf{continuous} space.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Events and Subset Algebra
+\begin{frame}{Events and Subset Algebra}
+  An \emph{event} $A$ is any subset of the sample space ($A \subset S$). If the observed outcome of an experiment is an element of $A$, we say that \emph{event $A$ has occurred}. \pause
+
+  \vspace{0.3em}
+  \begin{itemize}
+    \item \textbf{Simple or Elementary Event:} Consists of exactly one sample point (e.g., $\{HT\}$). \pause
+    \item \textbf{Certain Event:} The entire sample space $S$ ($P(S) = 1$). \pause
+    \item \textbf{Impossible Event:} The empty set $\emptyset$ ($P(\emptyset) = 0$).
+  \end{itemize}
+
+  \vspace{0.3em}
+  \pause
+  \begin{block}{Set Operations on Events}
+    \begin{itemize}
+      \item \textbf{Union ($A \cup B$):} Either $A$ occurs, or $B$ occurs, or both.
+      \item \textbf{Intersection ($A \cap B$):} Both $A$ and $B$ occur simultaneously.
+      \item \textbf{Complement ($A'$):} $A$ does not occur ($S \setminus A$).
+      \item \textbf{Mutually Exclusive (Disjoint):} $A \cap B = \emptyset$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 7: Historical Approaches to Probability
+\begin{frame}{The Three Classical Approaches to Probability}
+  \footnotesize How do we assign the numerical probability value $P(A)$ to an event? \pause
+
+  \vspace{0.1em}
+  \begin{itemize}\itemsep=0.2em
+    \item \textbf{1. Classical Approach (Laplace, 1812):} For $n$ \emph{equally likely} outcomes with $h$ favorable cases:
+    $$P(A) = \frac{h}{n}$$ \pause
+    \item \textbf{2. Frequentist / Empirical Approach (von Mises):} Repeating $n$ times under identical conditions:
+    $$P(A) = \lim_{n \to \infty} \frac{h}{n}$$ \pause
+    \item \textbf{3. Axiomatic Approach (Kolmogorov, 1933):} Defines probability mathematically via indisputable axioms, resolving equiprobability loops.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Kolmogorov Axioms
+\begin{frame}{The Three Kolmogorov Axioms (1933)}
+  \small Let $S$ be a sample space and $\mathcal{C}$ the collection of events. A function $P: \mathcal{C} \to \mathbb{R}$ is a \emph{probability function} if it satisfies: \pause
+
+  \vspace{0.2em}
+  \begin{block}{Axiom 1 (Non-Negativity)}
+    For any event $A \in \mathcal{C}$: $P(A) \geq 0$
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{block}{Axiom 2 (Normalization or Certain Event)}
+    The probability of the entire sample space $S$ is unity: $P(S) = 1$
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{block}{Axiom 3 (Countable Additivity)}
+    For mutually exclusive events $A_1, A_2, \dots$ ($A_i \cap A_j = \emptyset$ for $i \neq j$):
+    $$P(A_1 \sqcup A_2 \sqcup \dots) = P(A_1) + P(A_2) + \dots$$
+  \end{block}
+\end{frame}
+
+% Slide 9A: Fundamental Theorems Derivation (Part 1)
+\begin{frame}{Fundamental Theorems Derived (1/2)}
+  Using only the three axioms, we can rigorously prove all standard rules: \pause
+
+  \vspace{0.4em}
+  \begin{itemize}
+    \item \textbf{Theorem 2.3.3 (Impossible Event):} $P(\emptyset) = 0$. \pause
+    \vspace{0.3em}
+    \item \textbf{Theorem 2.3.4 (Complement Rule):} For any event $A$:
+    $$P(A') = 1 - P(A)$$ \pause
+    \vspace{0.3em}
+    \item \textbf{Theorem 2.3.7 (Binary Law of Total Probability):} For any binary partition of $B$ relative to $A$:
+    $$P(A) = P(A \cap B) + P(A \cap B')$$
+  \end{itemize}
+\end{frame}
+
+% Slide 9B: Fundamental Theorems Derivation (Part 2)
+\begin{frame}{Fundamental Theorems Derived (2/2)}
+  \begin{block}{Theorems 2.3.1 \& 2.3.2 (Monotonically Bounded Differences)}
+    If $A \subset B$, then the probability of their set difference is exact:
+    $$P(B \setminus A) = P(B) - P(A)$$
+    By monotonicity, since $P(B \setminus A) \geq 0$, it follows directly that:
+    $$P(A) \leq P(B)$$
+    In particular, because $\emptyset \subset A \subset S$, every probability is bounded between $0\%$ and $100\%$:
+    $$0 \leq P(A) \leq 1$$
+  \end{block}
+\end{frame}
+
+% Slide 10: General Addition Rule (Inclusion-Exclusion)
+\begin{frame}{Theorem 2.3.6: General Addition Rule}
+  \small When two events $A$ and $B$ are \emph{not} mutually exclusive ($A \cap B \neq \emptyset$), simple addition counts their intersection twice: \pause
+
+  \vspace{0.2em}
+  \begin{block}{Addition Rule for Two Events}
+    $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+  \end{block}
+
+  \vspace{0.2em}
+  \pause
+  \begin{block}{Addition Rule for Three Events (Inclusion-Exclusion)}
+    \begin{align*}
+      P(A \cup B \cup C) &= P(A) + P(B) + P(C) - P(A \cap B) \\
+                         &\quad - P(B \cap C) - P(C \cap A) + P(A \cap B \cap C)
+    \end{align*}
+  \end{block}
+\end{frame}
+
+% Slide 11A: Python Laboratory (Part 1: Simulation)
+\begin{frame}[fragile]{Python Lab: Frequentist vs. Classical}
+  The script \texttt{02.03\_probability\_axioms.py} compares empirical vs. classical ($N = 10,000$):
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=1, lastline=17]{../../code/02_teoria_probabilidad/02.03_probability_axioms.py}}
+\end{frame}
+
+% Slide 11B: Python Laboratory (Part 2: Axioms)
+\begin{frame}[fragile]{Python Lab: Axiom Verification}
+  Normalization and non-negativity validation on a 52-card deck:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=22, lastline=35]{../../code/02_teoria_probabilidad/02.03_probability_axioms.py}}
+\end{frame}
+
+% Slide 11C: Python Laboratory (Part 3: Addition Rule)
+\begin{frame}[fragile]{Python Lab: Addition Rule}
+  Inclusion-exclusion verification against direct counting:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=36, lastline=48]{../../code/02_teoria_probabilidad/02.03_probability_axioms.py}}
+\end{frame}
+
+% Slide 11D: Python Laboratory (Terminal Output)
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  Exact console execution output verifying numerical precision:
+  \vspace{0.2em}
+  \begin{block}{Standard Terminal Output}
+    \fontsize{6.5pt}{7.5pt}\selectfont
+    \begin{verbatim}
+--- 1. Frequentist vs Classical Approach (N = 10,000) ---
+Coin P(Heads):    Empirical = 0.4987 | Classical = 0.5000
+Die  P(X=4):      Empirical = 0.1669 | Classical = 0.1667
+
+--- 2. Axioms & Addition Rule (English Deck) ---
+P(Spade):         0.2500 (13/52)
+P(King):          0.0769 (4/52)
+P(King cap Spade):0.0192 (1/52)
+P(Spade cup King):0.3077 (16/52 via Inclusion-Exclusion)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12: Textbook Exercises — Tier 1: Fundamental
+\begin{frame}{Textbook Exercises — Tier 1: Fundamental}
+  \small
+  \begin{block}{Problem 2.3.1 (English Deck Sample Space)}
+    Formally describe the sample space $S$ of a standard $52$-card deck considering both suits ($\spadesuit, \heartsuit, \diamondsuit, \clubsuit$) and ranks ($A, 2, \dots, 10, J, Q, K$).
+  \end{block}
+  
+  \vspace{0.2em}
+  \pause
+  \begin{alertblock}{Formal Solution}
+    The sample space is the Cartesian product of ranks and suits:
+    $$S = \{A, 2, \dots, K\} \times \{\spadesuit, \heartsuit, \diamondsuit, \clubsuit\}$$
+    Its exact cardinality is $\card{S} = 13 \times 4 = 52$ elementary, equally likely sample points ($P(e) = 1/52$).
+  \end{alertblock}
+\end{frame}
+
+% Slide 13: Textbook Exercises — Tier 2: Operational
+\begin{frame}{Textbook Exercises — Tier 2: Operational}
+  \small
+  \begin{block}{Problem 2.3.3 (Drawing Aces With and Without Replacement)}
+    From a well-shuffled $52$-card deck, $2$ cards are drawn successively. Find the probability that both are aces ($A_1 \cap A_2$):
+  \end{block}
+  
+  \vspace{0.2em}
+  \pause
+  \begin{enumerate}
+    \item \textbf{With Replacement:} The card is returned before the second draw:
+    $$P(A_1 \cap A_2) = \frac{4}{52} \times \frac{4}{52} = \frac{1}{13} \times \frac{1}{13} = \frac{1}{169} \approx 0.0059$$ \pause
+    \item \textbf{Without Replacement:} The first card is not returned:
+    $$P(A_1 \cap A_2) = \frac{4}{52} \times \frac{3}{51} = \frac{1}{13} \times \frac{1}{17} = \frac{1}{221} \approx 0.0045$$
+  \end{enumerate}
+\end{frame}
+
+% Slide 14: Textbook Exercises — Tier 3: Analytical
+\begin{frame}{Textbook Exercises — Tier 3: Analytical}
+  \small
+  \begin{block}{Problem 2.3.7 (Axiomatic Proof of the Addition Rule)}
+    Starting strictly from the three Kolmogorov axioms, prove that for any two arbitrary events $A, B \subset S$:
+    $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+  \end{block}
+
+  \vspace{0.2em}
+  \pause
+  \begin{alertblock}{Disjoint Partition Proof}
+    Decompose $A \cup B$ and $B$ into disjoint unions:
+    \begin{align*}
+      A \cup B &= A \sqcup (B \setminus A) \implies P(A \cup B) = P(A) + P(B \setminus A) \\
+             B &= (A \cap B) \sqcup (B \setminus A) \implies P(B) = P(A \cap B) + P(B \setminus A)
+    \end{align*}
+    Solving and substituting yields the exact addition rule.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15: Textbook Exercises — Tier 4: Challenging
+\begin{frame}{Textbook Exercises — Tier 4: Challenging}
+  \small
+  \begin{block}{Problem 2.3.9 (Boole's and Bonferroni's Bounds)}
+    Prove the two fundamental structural inequalities of probability calculus:
+  \end{block}
+
+  \vspace{0.2em}
+  \pause
+  \begin{enumerate}
+    \item \textbf{Boole's Inequality (Union Subadditivity):} The probability of a union of $n$ events never exceeds the sum of their individual probabilities:
+    $$P\left( \bigcup_{i=1}^{n} A_i \right) \leq \sum_{i=1}^{n} P(A_i)$$ \pause
+    \item \textbf{Bonferroni's Inequality (Intersection):} Using De Morgan's laws and subadditivity on complements yields:
+    $$P(A \cap B) \geq P(A) + P(B) - 1$$
+  \end{enumerate}
+\end{frame}
+
+% Slide 16: Closing Reflection
+\begin{frame}{Section Closing and Axiomatic Synthesis}
+  \begin{reflexion}[The Power of Axioms in Data Science]
+    Kolmogorov's three axioms represent a triumph of mathematical synthesis: requiring only non-negativity, normalization, and disjoint additivity, they precisely derive the entire framework of probability theory, safeguarding algorithmic models against logically contradictory inferences.
+  \end{reflexion}
+
+  \vspace{0.5em}
+  \pause
+  \begin{retoclase}[Next Session: Conditional Probability]
+    If we learn that a patient tested positive on a diagnostic test ($B$), how do we update the prior probability that they actually have the disease ($A$)? Next session, we introduce the formal mechanism of \emph{Conditional Probability} $P(A \mid B)$.
+  \end{retoclase}
+\end{frame}
+
+\end{document}
