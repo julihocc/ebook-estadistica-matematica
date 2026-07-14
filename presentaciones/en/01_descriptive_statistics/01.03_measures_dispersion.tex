@@ -1,4 +1,5 @@
-\input{../../_preambulo_beamer.tex}
+\input{../../_en_preambulo_beamer.tex}
+\input{../../_en_comandos_beamer.tex}
 
 \title{Measures of Dispersion}
 \subtitle{Section 1.3 — Statistical Modeling for Data Science}
@@ -148,45 +149,45 @@
 % Slide 9A: Python Lab (Bessel Correction & Variance)
 \begin{frame}{Python Lab: Variance and Bessel's Correction}
   Computational calculation demonstrating the difference between \texttt{ddof=0} (population) and \texttt{ddof=1} (sample).
-  \\ Script: \texttt{\footnotesize presentations/code/01\_estadistica\_descriptiva/01.03\_medidas\_dispersion.py}
+  \\ Script: \texttt{\footnotesize presentations/code/01\_estadistica\_descriptiva/01.03\_range\_variance\_stdev.py}
   
   \vspace{0.4em}
   {\lstset{basicstyle=\ttfamily\tiny, aboveskip=0.2em, belowskip=0.2em}
-  \lstinputlisting[firstline=4,lastline=21]{../../code/01_estadistica_descriptiva/01.03_medidas_dispersion.py}
+  \lstinputlisting[firstline=4,lastline=23]{../../code/01_estadistica_descriptiva/01.03_range_variance_stdev.py}
   }
 \end{frame}
 
 % Slide 9B: Python Lab (Outliers & IQR Code)
-\begin{frame}{Python Lab: Robustness of IQR vs Deviation $S$}
+\begin{frame}[fragile]{Python Lab: Robustness of IQR vs Deviation $S$}
   Experiment injecting an extreme anomalous latency ($450 \text{ ms}$) into a stable sample.
-  \\ Script: \texttt{\footnotesize presentations/code/01\_estadistica\_descriptiva/01.03\_medidas\_dispersion.py}
+  \\ Script: \texttt{\footnotesize presentations/code/01\_estadistica\_descriptiva/01.03\_range\_variance\_stdev.py}
   
   \vspace{0.4em}
   {\lstset{basicstyle=\ttfamily\tiny, aboveskip=0.2em, belowskip=0.2em}
-  \lstinputlisting[firstline=24,lastline=39]{../../code/01_estadistica_descriptiva/01.03_medidas_dispersion.py}
+  \lstinputlisting[firstline=25,lastline=42]{../../code/01_estadistica_descriptiva/01.03_range_variance_stdev.py}
   }
 \end{frame}
 
 % Slide 9C: Python Lab (Verified Console Output)
 \begin{frame}{Python Lab: Verified Console Output}
-  Empirical results obtained by executing \texttt{01.03\_medidas\_dispersion.py} in the terminal:
+  Empirical results obtained by executing \texttt{01.03\_range\_variance\_stdev.py} in the terminal:
   \vspace{0.6em}
 
   \begin{block}{\footnotesize Console Output — Part 1: Bessel's Correction}
     {\fontsize{6.5pt}{7.5pt}\selectfont
-    \texttt{--- Comparación de Muestras (Media vs Dispersión) ---} \\
-    \texttt{Muestra A: Media = 50.0 ms | Desv. Estándar (S) = 1.58 ms} \\
-    \texttt{Muestra B: Media = 50.0 ms | Desv. Estándar (S) = 31.62 ms}
+    \texttt{--- Sample Comparison (Mean vs. Dispersion) ---} \\
+    \texttt{Sample A: Mean = 50.0 ms | Std Dev (S) = 1.58 ms} \\
+    \texttt{Sample B: Mean = 50.0 ms | Std Dev (S) = 31.62 ms}
     }
   \end{block}
 
   \vspace{0.3em}
   \begin{alertblock}{\footnotesize Console Output — Part 2: Impact of Outliers}
     {\fontsize{6.5pt}{7.5pt}\selectfont
-    \texttt{--- Impacto de Outliers en S vs IQR ---} \\
-    \texttt{Sin outlier:  Desv. Estándar S = 3.45   | IQR = 4.75} \\
-    \texttt{Con outlier:  Desv. Estándar S = 133.29 | IQR = 6.00} \\
-    \texttt{Distorsión S: 38.6x veces mayor | Distorsión IQR: 1.3x (prácticamente estable)}
+    \texttt{--- Outlier Impact on S vs. IQR ---} \\
+    \texttt{Without outlier: Std Dev S = 3.45   | IQR = 4.75} \\
+    \texttt{With outlier:    Std Dev S = 133.29 | IQR = 6.00} \\
+    \texttt{S Distortion: 38.6x greater       | IQR Distortion: 1.3x (virtually stable)}
     }
   \end{alertblock}
 \end{frame}

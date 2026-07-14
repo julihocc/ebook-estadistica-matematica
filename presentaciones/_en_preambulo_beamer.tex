@@ -1,0 +1,83 @@
+% Preámbulo modular y moderno para presentaciones Beamer en inglés (Statistical Modeling)
+% Tema minimalista Metropolis + Diseño y paleta institucional del Tecnológico de Monterrey
+
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{matrix,arrows,decorations.pathmorphing,shapes.geometric,positioning}
+
+% Paleta Institucional Tecnológico de Monterrey
+\definecolor{TecAzul}{HTML}{0039A6}       % Azul TEC: color primario secundario
+\definecolor{TecAzulOscuro}{HTML}{1A2E51} % Azul marino oscuro: color dominante
+\definecolor{TecRojo}{HTML}{EC2661}       % Rojo de acento (paleta miTec)
+\definecolor{TecGris}{HTML}{646464}       % Gris neutro para comentarios y subtítulos
+\definecolor{TecFondoBloque}{HTML}{F4F6F9}% Fondo suave para bloques
+
+% Configuración de Tema Beamer: Metropolis (mtheme) moderno y limpio
+\usetheme[progressbar=frametitle,block=fill]{metropolis}
+
+% Asignación de Paleta Institucional al Tema Metropolis
+\setbeamercolor{normal text}{fg=TecAzulOscuro!92!black, bg=white}
+\setbeamercolor{frametitle}{bg=TecAzulOscuro, fg=white}
+\setbeamercolor{title separator}{fg=TecRojo}
+\setbeamercolor{progress bar}{fg=TecRojo, bg=TecAzulOscuro!40}
+\setbeamercolor{alerted text}{fg=TecRojo}
+
+% Configuración visual de Bloques y Cajas (Máximo 1 por diapositiva para limpieza)
+\setbeamercolor{block title}{bg=TecAzulOscuro, fg=white}
+\setbeamercolor{block body}{bg=TecFondoBloque, fg=black}
+\setbeamercolor{block title alerted}{bg=TecRojo, fg=white}
+\setbeamercolor{block body alerted}{bg=TecRojo!8, fg=black}
+\setbeamercolor{block title example}{bg=TecAzul, fg=white}
+\setbeamercolor{block body example}{bg=TecAzul!8, fg=black}
+
+% Viñetas y Bullets Geométricos Modernos
+\setbeamertemplate{itemize item}{\color{TecRojo}\footnotesize$\blacksquare$}
+\setbeamertemplate{itemize subitem}{\color{TecAzulOscuro}\scriptsize$\blacktriangleright$}
+\setbeamertemplate{itemize subsubitem}{\color{TecAzul}\tiny$\bullet$}
+\setbeamertemplate{navigation symbols}{}
+
+% Cintilla inferior de alto contraste y cero desbordamiento
+\setbeamercolor{footline}{bg=TecAzulOscuro, fg=white}
+\setbeamertemplate{footline}{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.75\paperwidth,ht=2.6ex,dp=1.2ex,left]{footline}%
+    \hspace*{3ex}\scriptsize\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.6ex,dp=1.2ex,right]{footline}%
+    \scriptsize\insertframenumber{} / \inserttotalframenumber\hspace*{3ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% Configuración de Listings de Python para visualización pedagógica y limpia
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\scriptsize,
+    keywordstyle=\color{TecAzulOscuro}\bfseries,
+    stringstyle=\color{TecRojo},
+    commentstyle=\color{TecGris}\itshape,
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines,
+    rulecolor=\color{TecAzulOscuro!30},
+    backgroundcolor=\color{TecFondoBloque},
+    aboveskip=0.4em,
+    belowskip=0.4em,
+    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+             {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+             {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1 {¡}{{!`}}1
+}
+
+% Metadatos institucionales por defecto
+\title[Statistical Modeling]{Statistical Modeling for Data Science and Engineering}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey \\ School of Engineering and Sciences}
+\date{\today}

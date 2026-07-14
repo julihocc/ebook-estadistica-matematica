@@ -2,7 +2,6 @@
 # Demostración en vivo para la presentación de Estadística Descriptiva
 
 import numpy as np
-import pandas as pd
 
 # 1. Simulamos una POBLACION oculta de 100,000 usuarios (ej. tiempo de sesión en minutos)
 np.random.seed(42)  # Para reproducibilidad en clase
