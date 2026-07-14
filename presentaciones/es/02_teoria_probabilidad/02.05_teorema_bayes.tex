@@ -1,0 +1,322 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title{Teoría de la Probabilidad}
+\subtitle{Teorema de Bayes e Inversión Condicional}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta del Capítulo 02}
+  \begin{itemize}
+    \item 02.01 Introducción a la Probabilidad e Historia
+    \item 02.02 Espacios Muestrales, Eventos y Particiones
+    \item 02.03 Axiomas de Kolmogorov y Teoremas Fundamentales
+    \item 02.04 Probabilidad Condicional, Multiplicación e Independencia
+    \item \textbf{\color{TecRojo} 02.05 Teorema de Bayes e Inversión Condicional}
+    \item 02.06 Muestreo Aleatorio (Con y Sin Reemplazo)
+  \end{itemize}
+\end{frame}
+
+% Slide 3: Motivación e Inversión de Condicionales
+\begin{frame}{Motivación: La Inversión de Condicionales}
+  \begin{block}{De la Causa al Efecto vs. del Efecto a la Causa}
+    En la ciencia y la ingeniería usualmente conocemos o modelamos la probabilidad de observar un \textbf{efecto} $B$ dada una \textbf{causa} o hipótesis subyacente $A$:
+    \begin{align*}
+      P(\text{Efecto} \mid \text{Causa}) = P(B \mid A) \quad \text{(Verosimilitud o \emph{Likelihood})}
+    \end{align*}
+    Sin embargo, en el diagnóstico clínico, el aprendizaje automático y la inferencia forense, el problema inverso es el verdaderamente crítico: observamos la evidencia $B$ y necesitamos inferir la probabilidad de la causa $A$:
+    \begin{align*}
+      P(\text{Causa} \mid \text{Efecto}) = P(A \mid B) \quad \text{(Probabilidad a Posteriori)}
+    \end{align*}
+  \end{block}
+  \vspace{0.3em}
+  \footnotesize
+  \emph{Ejemplo clásico:} Sabemos la probabilidad de que un paciente con cierta enfermedad dé positivo en un test ($P(+ \mid E)$). Pero el médico enfrenta el problema inverso: si el test da positivo, ¿cuál es la probabilidad real de que el paciente esté enfermo ($P(E \mid +)$)?
+\end{frame}
+
+% Slide 4: Deducción del Teorema de Bayes (Forma Simple)
+\begin{frame}{Deducción del Teorema de Bayes (Forma Simple)}
+  Si $P(A) > 0$ y $P(B) > 0$, a partir de la definición de probabilidad condicional y la regla de multiplicación, sabemos que la intersección $A \cap B$ es simétrica:
+  \begin{align*}
+    P(A \cap B) &= P(A) \cdot P(B \mid A) \\
+    P(B \cap A) &= P(B) \cdot P(A \mid B)
+  \end{align*}
+  Igualando ambas expresiones ($P(A \cap B) = P(B \cap A)$):
+  \begin{align*}
+    P(B) \cdot P(A \mid B) = P(A) \cdot P(B \mid A)
+  \end{align*}
+  Al despejar $P(A \mid B)$, obtenemos la forma elemental del \textbf{Teorema de Bayes}:
+  \begin{alertblock}{Teorema de Bayes (Dos Hipótesis)}
+    \begin{align*}
+      P(A \mid B) = \frac{P(A) \cdot P(B \mid A)}{P(B)} = \frac{P(A) \cdot P(B \mid A)}{P(B \mid A)P(A) + P(B \mid A')P(A')}
+    \end{align*}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Terminología Bayesiana Formal
+\begin{frame}{Anatomía y Terminología del Teorema de Bayes}
+  En el análisis de datos y la inferencia estadística, cada término de la fórmula posee un significado epistemológico riguroso:
+  \vspace{0.4em}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Probabilidad a Priori (\emph{Prior}) --- $P(A)$}
+        El conocimiento, creencia o prevalencia histórica de la hipótesis $A$ \textbf{antes} de observar la nueva evidencia $B$.
+      \end{block}
+      \begin{block}{Verosimilitud (\emph{Likelihood}) --- $P(B \mid A)$}
+        La probabilidad de que la evidencia $B$ ocurra bajo el supuesto de que la hipótesis $A$ es verdadera.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Evidencia Marginal --- $P(B)$}
+        La probabilidad total de observar la evidencia $B$ bajo todas las hipótesis posibles del sistema (factor de normalización).
+      \end{block}
+      \begin{block}{Probabilidad a Posteriori --- $P(A \mid B)$}
+        La actualización del conocimiento sobre la hipótesis $A$ \textbf{después} de incorporar y procesar la evidencia $B$.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 6: Generalización mediante Particiones (Regla de la Cadena)
+\begin{frame}{Teorema de Bayes Generalizado (Partición Exhaustiva)}
+  \small
+  Sea $\{E_1, E_2, \dots, E_N\}$ una partición exhaustiva ($\bigcup_{i=1}^N E_i = S$) y mutuamente excluyente ($E_i \cap E_j = \emptyset, i \neq j$) del espacio muestral $S$. Para cualquier evento observable $B$ con $P(B) > 0$, la Ley de la Probabilidad Total establece que:
+  \begin{align*}
+    P(B) = \sum_{i=1}^N P(B \cap E_i) = \sum_{i=1}^N P(B \mid E_i)P(E_i)
+  \end{align*}
+  Sustituyendo este denominador en la fórmula de inversión condicional para una celda particular $E_j$:
+  \begin{alertblock}{Teorema de Bayes para $N$ Estados o Hipótesis}
+    \begin{align*}
+      P(E_j \mid B) = \frac{P(B \mid E_j)P(E_j)}{\sum_{i=1}^N P(B \mid E_i)P(E_i)}, \quad \text{para todo } j \in \{1, 2, \dots, N\}
+    \end{align*}
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Ejemplo Aplicado del Libro (Máquinas Empacadoras)
+\begin{frame}{Ejemplo Industrial: Máquinas Empacadoras (Planteamiento)}
+  \footnotesize
+  Una planta productora de gelatinas cuenta con tres máquinas empacadoras cuya cuota de producción y tasa de defectos se distribuyen así:
+  \begin{itemize}
+    \item \textbf{Máquina 1 ($M_1$):} Produce el 38\% del total ($P(M_1)=0.38$) y tiene 11\% de empaques defectuosos ($P(D \mid M_1)=0.11$).
+    \item \textbf{Máquina 2 ($M_2$):} Produce el 32\% del total ($P(M_2)=0.32$) y tiene 15\% de empaques defectuosos ($P(D \mid M_2)=0.15$).
+    \item \textbf{Máquina 3 ($M_3$):} Produce el 30\% del total ($P(M_3)=0.30$) y tiene 14\% de empaques defectuosos ($P(D \mid M_3)=0.14$).
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{block}{Pregunta de Auditoría de Calidad}
+    Si la gerencia selecciona una unidad al azar en el almacén y resulta ser \textbf{defectuosa ($D$)}, ¿cuál es la probabilidad a posteriori de que haya sido empacada en la \textbf{Máquina 2 ($M_2$)}?
+  \end{block}
+\end{frame}
+
+% Slide 8: Ejemplo Aplicado del Libro (Solución y Cálculo)
+\begin{frame}{Ejemplo Industrial: Máquinas Empacadoras (Solución)}
+  \footnotesize
+  Aplicamos el Teorema de Bayes generalizado evaluando la contribución de $M_2$ respecto al total de defectos de la planta:
+  \begin{align*}
+    P(M_2 \mid D) &= \frac{P(D \mid M_2)P(M_2)}{P(D \mid M_1)P(M_1) + P(D \mid M_2)P(M_2) + P(D \mid M_3)P(M_3)} \\[0.6em]
+    &= \frac{(0.15)(0.32)}{(0.11)(0.38) + (0.15)(0.32) + (0.14)(0.30)} \\[0.6em]
+    &= \frac{0.0480}{0.0418 + 0.0480 + 0.0420} = \frac{0.0480}{0.1318} \approx 0.3642 \text{ (36.42\%)}
+  \end{align*}
+  \begin{alertblock}{Interpretación Operativa}
+    Aunque la Máquina 1 produce el mayor volumen (38\%), la Máquina 2 es la principal responsable individual de los productos defectuosos de la planta ($36.42\%$ de las fallas).
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Paradojas y Ciencia de Datos (La Falacia de la Tasa Base)
+\begin{frame}{Ciencia de Datos: La Falacia de la Tasa Base (\emph{Base Rate Fallacy})}
+  \small
+  Un error cognitivo y estadístico común es ignorar la probabilidad a priori ($P(A)$) y centrarse únicamente en la alta sensibilidad o precisión de una prueba ($P(B \mid A)$):
+  \begin{block}{El Fenómeno del Falso Positivo en Pruebas Raras}
+    Si una enfermedad tiene una prevalencia muy baja (ej. $P(E) = 1\%$) y un test tiene $95\%$ de sensibilidad y $90\%$ de especificidad, la gran mayoría de los resultados positivos en la población general serán \textbf{falsos positivos}.
+  \end{block}
+  \vspace{0.3em}
+  \footnotesize
+  \emph{Razón matemática:} El volumen masivo de personas sanas ($99\%$) multiplicado por la tasa de falsos positivos ($10\%$) abruma por completo a los verdaderos positivos procedentes del reducido $1\%$ de enfermos ($0.99 \times 0.10 = 0.099 \gg 0.01 \times 0.95 = 0.0095$).
+\end{frame}
+
+% Slide 10: Actualización Bayesiana Secuencial en Aprendizaje Automático
+\begin{frame}{Actualización Secuencial: El Motor del Aprendizaje Bayesiano}
+  Una propiedad elegante del Teorema de Bayes es su capacidad de actualización dinámica ante un flujo continuo de observaciones ($B_1, B_2, \dots, B_t$):
+  \vspace{0.4em}
+  \begin{alertblock}{El Posterior de Hoy es el Prior de Mañana}
+    \begin{align*}
+      P(A \mid B_1) &= \frac{P(B_1 \mid A)P(A)}{P(B_1)} \\
+      P(A \mid B_1 \cap B_2) &= \frac{P(B_2 \mid A)P(A \mid B_1)}{P(B_2 \mid B_1)}
+    \end{align*}
+  \end{alertblock}
+  \footnotesize
+  Este principio constituye la base teórica de los filtros antispam (\emph{Naïve Bayes}), los filtros de Kalman en robótica, y la inferencia bayesiana moderna en modelos de inteligencia artificial.
+\end{frame}
+
+% Slide 11A: Laboratorio Python (Test Médico e Inversión)
+\begin{frame}[fragile]{Laboratorio en Python: Test Médico e Inversión (1/4)}
+  \footnotesize
+  Cálculo de falsos positivos y Valor Predictivo Positivo (\texttt{02.05\_bayes\_theorem.py}):
+  \vspace{0.2em}
+  {\lstset{basicstyle=\ttfamily\fontsize{6.3pt}{7.3pt}\selectfont, aboveskip=0.1em, belowskip=0.1em}
+  \lstinputlisting[firstline=18, lastline=38]{../../code/02_teoria_probabilidad/02.05_bayes_theorem.py}}
+\end{frame}
+
+% Slide 11B: Laboratorio Python (Filtro Naive Bayes Anti-Spam)
+\begin{frame}[fragile]{Laboratorio en Python: Filtro Naïve Bayes (2/4)}
+  \footnotesize
+  Evaluación exacta de un clasificador de texto bajo independencia condicional:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\ttfamily\fontsize{6.3pt}{7.3pt}\selectfont, aboveskip=0.1em, belowskip=0.1em}
+  \lstinputlisting[firstline=43, lastline=57]{../../code/02_teoria_probabilidad/02.05_bayes_theorem.py}}
+\end{frame}
+
+% Slide 11C: Laboratorio Python (Actualización Secuencial)
+\begin{frame}[fragile]{Laboratorio en Python: Actualización Secuencial (3/4)}
+  \footnotesize
+  Evolución iterativa de creencias a priori $\to$ posteriori ante observaciones sucesivas:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\ttfamily\fontsize{6.3pt}{7.3pt}\selectfont, aboveskip=0.1em, belowskip=0.1em}
+  \lstinputlisting[firstline=66, lastline=86]{../../code/02_teoria_probabilidad/02.05_bayes_theorem.py}}
+\end{frame}
+
+% Slide 11D: Laboratorio Python (Salida en Consola)
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Consola (4/4)}
+  \footnotesize
+  Verificación de resultados y convergencia de las tres simulaciones experimentales:
+  \vspace{0.1em}
+  \begin{block}{Salida Estándar en Terminal}
+    \fontsize{5.7pt}{6.6pt}\selectfont
+    \begin{verbatim}
+--- 1. Medical Diagnostic Test (Base Rate Fallacy) ---
+Total Test Positives:  11,667 / 100,000
+True Positives:        1,891 (True Diseased among Positives)
+Empirical PPV (Sim):   0.1621 (16.21%) | Theoretical PPV: 0.1624 (16.24%)
+
+--- 2. Naive Bayes Spam Filter (Keywords W1, W2, W3) ---
+Joint Likelihood P(W|Spam):  0.33600 | Joint Likelihood P(W|Legit): 0.00200
+Marginal Evidence P(W):      0.20240 | Posterior P(Spam | W): 0.996047 (99.60%)
+
+--- 3. Sequential Bayesian Updating (Coin Flips: H, H, T, H, H) ---
+Step 0 | P(Biased Coin = 0.80): 0.5000 (50.00%)
+Step 1 | P(Biased Coin = 0.80): 0.6154 (61.54%)
+Step 2 | P(Biased Coin = 0.80): 0.7191 (71.91%)
+Step 3 | P(Biased Coin = 0.80): 0.5059 (50.59%)
+Step 4 | P(Biased Coin = 0.80): 0.6210 (62.10%)
+Step 5 | P(Biased Coin = 0.80): 0.7239 (72.39%)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12: Ejercicios del Libro — Nivel 1: Fundamental
+\begin{frame}{Ejercicios del Libro — Nivel 1: Fundamental (Sencillos)}
+  \footnotesize
+  \textbf{Problema 2.5.1 (Dado y Condicional de Paridad):}
+  Un dado balanceado de 6 caras es lanzado una vez. Sea $A=\{1,2,3\}$ el evento de obtener un número menor que 4, e $I=\{1,3,5\}$ el evento de obtener un número impar.
+  \begin{itemize}
+    \item Sin información previa: $P(A) = \frac{3}{6} = 0.50$.
+    \item Sabiendo que el resultado fue impar ($I$):
+      \begin{align*}
+        P(A \mid I) = \frac{P(A \cap I)}{P(I)} = \frac{\card{\{1,3\}}}{\card{\{1,3,5\}}} = \frac{2}{3} \approx 0.6667 \text{ (66.67\%)}
+      \end{align*}
+  \end{itemize}
+  \vspace{0.2em}
+  \textbf{Problema 2.5.6 (Estudiantes Zurdos por Género):}
+  En un grupo el $60\%$ son mujeres ($M$) y el $40\%$ hombres ($H$). Las tasas de zurdería son $P(Z \mid M)=0.10$ y $P(Z \mid H)=0.15$. Si se selecciona alguien al azar y es zurdo ($Z$), la probabilidad a posteriori de que sea mujer es:
+  \begin{align*}
+    P(M \mid Z) = \frac{P(Z \mid M)P(M)}{P(Z \mid M)P(M) + P(Z \mid H)P(H)} = \frac{(0.10)(0.60)}{(0.10)(0.60) + (0.15)(0.40)} = \frac{0.06}{0.12} = 50\%
+  \end{align*}
+\end{frame}
+
+% Slide 13: Ejercicios del Libro — Nivel 1 (Cont.) & Nivel 2: Operativo
+\begin{frame}{Ejercicios del Libro — Nivel 1 (Cont.) y Nivel 2: Operativo}
+  \footnotesize
+  \textbf{Problema 2.5.4 (Estudio y Aprobación de Examen):}
+  Un estudiante estudia debidamente con probabilidad $P(E)=0.70$. La probabilidad de aprobar ($A$) dado que estudia es $P(A \mid E)=0.90$, y si no estudia es $P(A \mid E')=0.30$.
+  \begin{itemize}
+    \item Probabilidad total de aprobar: $P(A) = (0.90)(0.70) + (0.30)(0.30) = 0.63 + 0.09 = 0.72$ ($72\%$).
+    \item Si aprobó, probabilidad de que haya estudiado: $P(E \mid A) = \frac{0.63}{0.72} = \frac{7}{8} = 87.5\%$.
+    \item Si reprobó ($A'$), probabilidad de no haber estudiado: $P(E' \mid A') = \frac{(0.70)(0.30)}{1 - 0.72} = \frac{0.21}{0.28} = 75\%$.
+  \end{itemize}
+  \vspace{0.2em}
+  \textbf{Problema 2.5.7 (Urnas y Lanzamiento de Dados):}
+  Caja 1: 3 rojas, 2 azules ($P(R \mid C_1)=\frac{3}{5}$). Caja 2: 2 rojas, 8 azules ($P(R \mid C_2)=\frac{1}{5}$). Se eligen canicas de $C_1$ si la suma de dos dados es $\le 6$ ($P(C_1)=\frac{15}{36}=\frac{5}{12}$, $P(C_2)=\frac{7}{12}$).
+  Si se extrajo una canica roja ($R$), la probabilidad a posteriori de la Caja 1 es:
+  \begin{align*}
+    P(C_1 \mid R) = \frac{(3/5)(5/12)}{(3/5)(5/12) + (1/5)(7/12)} = \frac{15/60}{22/60} = \frac{15}{22} \approx 68.18\%
+  \end{align*}
+\end{frame}
+
+% Slide 14: Ejercicios del Libro — Nivel 2 (Cont.)
+\begin{frame}{Ejercicios del Libro — Nivel 2: Operativo (Intermedios)}
+  \footnotesize
+  \textbf{Problema 2.5.2 (Métricas Diagnósticas Clínicas y VPP/VPN):}
+  Una patología tiene prevalencia $P(E)=0.02$. El test clínico tiene Sensibilidad $P(+ \mid E)=0.95$ y Especificidad $P(- \mid E')=0.90$ (por tanto, falsos positivos $P(+ \mid E')=0.10$).
+  \begin{itemize}
+    \item Probabilidad total de positivo: $P(+) = (0.95)(0.02) + (0.10)(0.98) = 0.019 + 0.098 = 0.117$ ($11.7\%$).
+    \item \textbf{Valor Predictivo Positivo (VPP):} $P(E \mid +) = \frac{0.019}{0.117} \approx 16.24\%$. ¡El $83.76\%$ de positivos son falsas alarmas!
+    \item \textbf{Valor Predictivo Negativo (VPN):} $P(E' \mid -) = \frac{(0.90)(0.98)}{1 - 0.117} = \frac{0.882}{0.883} \approx 99.89\%$.
+  \end{itemize}
+  \vspace{0.2em}
+  \textbf{Problema 2.5.5 (Transmisión en Canal Digital con Ruido):}
+  Un canal transmite $60\%$ de bits 0 ($T_0$) y $40\%$ de bits 1 ($T_1$). Por ruido, $P(R_1 \mid T_0)=0.02$ y $P(R_1 \mid T_1)=0.97$.
+  \begin{itemize}
+    \item Probabilidad de recibir un 1: $P(R_1) = (0.02)(0.60) + (0.97)(0.40) = 0.012 + 0.388 = 0.40$ ($40\%$).
+    \item Si se recibe un 1, certeza de transmisión correcta: $P(T_1 \mid R_1) = \frac{0.388}{0.400} = 97.00\%$.
+  \end{itemize}
+\end{frame}
+
+% Slide 15: Ejercicios del Libro — Nivel 3: Analítico
+\begin{frame}{Ejercicios del Libro — Nivel 3: Analítico (Avanzados)}
+  \footnotesize
+  \textbf{Problema 2.5.3 (Líneas de Ensamble de Semiconductores):}
+  Tres líneas aportan $P(M_1)=0.50$, $P(M_2)=0.30$, $P(M_3)=0.20$ de la producción. Sus tasas de defecto son $P(D \mid M_1)=0.03$, $P(D \mid M_2)=0.05$, $P(D \mid M_3)=0.07$. Probabilidad marginal de defecto:
+  $P(D) = (0.03)(0.50) + (0.05)(0.30) + (0.07)(0.20) = 0.015 + 0.015 + 0.014 = 0.044$.
+  \begin{itemize}
+    \item Vector a posteriori: $P(M_1 \mid D) = \frac{15}{44} \approx 34.09\%$, $P(M_2 \mid D) = \frac{15}{44} \approx 34.09\%$, $P(M_3 \mid D) = \frac{14}{44} \approx 31.82\%$.
+    \item \emph{Conclusión:} Tanto $M_1$ como $M_2$ son las causas más probables en empate, debido a que el volumen masivo de $M_1$ compensa su menor tasa de fallas respecto a $M_2$.
+  \end{itemize}
+  \vspace{0.2em}
+  \textbf{Problema 2.5.8 (Demostración Rigurosa para Particiones Finitas):}
+  Dada una partición exhaustiva y mutuamente excluyente $\{B_1, \dots, B_k\}$, para cualquier $j$:
+  $P(B_j \cap A) = P(A \mid B_j)P(B_j)$. Dado que $A = \bigcup_{i=1}^k (A \cap B_i)$ es unión disjunta, por el 3er Axioma de Kolmogorov, $P(A) = \sum_{i=1}^k P(A \mid B_i)P(B_i)$. Al sustituir en $P(B_j \mid A) = \frac{P(B_j \cap A)}{P(A)}$, se concluye el Teorema de Bayes.
+\end{frame}
+
+% Slide 16: Ejercicios del Libro — Nivel 4: Desafiante
+\begin{frame}{Ejercicios del Libro — Nivel 4: Desafiante (Expertos)}
+  \footnotesize
+  \textbf{Problema 2.5.9 (La Falacia del Fiscal y ADN en Razón de Momios):}
+  Un perfil de ADN en una escena del crimen coincide con un sospechoso ($E$). La coincidencia aleatoria en la población ($N=5,000,000$) es $\alpha=10^{-6}$. El fiscal afirma culpabilidad del $99.9999\%$.
+  \begin{itemize}
+    \item Momios a priori de culpabilidad ($I$): $\frac{P(I)}{P(I')} = \frac{1 / 5,000,000}{1} = 2 \times 10^{-7}$.
+    \item Cociente de verosimilitud: $\text{LR} = \frac{P(E \mid I)}{P(E \mid I')} = \frac{1}{10^{-6}} = 1,000,000$.
+    \item Momio a posteriori: $\text{Momios}(I \mid E) = 1,000,000 \times (2 \times 10^{-7}) = 0.20 = \frac{1}{5} \implies P(I \mid E) = \frac{0.20}{1.20} = \frac{1}{6} \approx 16.67\%$.
+  \end{itemize}
+  \vspace{0.1em}
+  \textbf{Problema 2.5.10 (Clasificador Naïve Bayes para Filtro Anti-Spam):}
+  Un servidor procesa $60\%$ spam ($S$) y $40\%$ legítimo ($S'$). Palabras $W = W_1 \cap W_2 \cap W_3$ con verosimilitudes empíricas: $P(W \mid S) = (0.80)(0.70)(0.60) = 0.336$, y $P(W \mid S') = (0.10)(0.20)(0.10) = 0.002$.
+  \begin{align*}
+    P(S \mid W) = \frac{(0.336)(0.60)}{(0.336)(0.60) + (0.002)(0.40)} = \frac{0.2016}{0.2016 + 0.0008} = \frac{0.2016}{0.2024} \approx 99.60\%
+  \end{align*}
+\end{frame}
+
+% Slide 17: Síntesis y Próxima Sesión
+\begin{frame}{Síntesis y Reto para la Próxima Sesión}
+  \begin{block}{Conclusiones del Teorema de Bayes}
+    \begin{itemize}
+      \item \textbf{Inversión Rigurosa:} Bayes es el puente algebraico entre lo que observamos (efectos) y lo que deseamos inferir (causas subyacentes).
+      \item \textbf{El Peso del Prior:} Ignorar la probabilidad marginal a priori ($P(A)$) conduce a falacias graves de interpretación, especialmente en eventos raros.
+      \item \textbf{Aprendizaje Dinámico:} La actualización secuencial de probabilidades permite modelar la evolución del conocimiento bajo incertidumbre.
+    \end{itemize}
+  \end{block}
+  \vspace{0.4em}
+  \begin{alertblock}{Reto para la Sesión 02.06: Muestreo Aleatorio}
+    ¿Qué sucede cuando evaluamos secuencias de observaciones sin reemplazo sobre poblaciones finitas? Estudiaremos la transición entre la probabilidad hipergeométrica (dependiente) y la aproximación binomial (independiente).
+  \end{alertblock}
+\end{frame}
+
+\end{document}
