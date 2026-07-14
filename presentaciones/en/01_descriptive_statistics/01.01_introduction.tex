@@ -1,0 +1,218 @@
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Descriptive Statistics]{Section 1.1: Introduction to Descriptive Statistics}
+\subtitle{From Raw Data to Insight in Data Science}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Slide 2: Real-World Motivation (1 single block + pauses)
+\begin{frame}{Why Do We Need Descriptive Statistics?}
+  \begin{motivacion}
+    Imagine you are a Data Scientist at \textbf{Mercado Libre} or \textbf{Netflix}. Every single second, millions of clicks, purchases, and telemetry logs are generated.
+  \end{motivacion}
+  
+  \vspace{0.6em}
+  \textbf{Descriptive Statistics} is our fundamental tool for data compression and understanding:
+  \begin{itemize}
+    \item \textbf{Summarize:} Compress gigabytes of raw data into 3 or 4 interpretable metrics. \pause
+    \item \textbf{Detect:} Bring hidden patterns, critical anomalies, or fraud to light. \pause
+    \item \textbf{Communicate:} Report clear, actionable findings to executives and engineers.
+  \end{itemize}
+\end{frame}
+
+% Slide 3: Classroom Reflection (1 single block + pause)
+\begin{frame}{Classroom Reflection: The Risk of Bias (2 min)}
+  \begin{reflexion}
+    An analyst wants to estimate the average salary of software engineers in Mexico. Lacking access to nationwide payroll data, they interview \textbf{200 engineers} outside a corporate office tower in an exclusive financial district.
+  \end{reflexion}
+  
+  \vspace{0.8em}
+  \pause
+  \begin{itemize}
+    \item What methodological flaws do you observe in this sample? \pause
+    \item Will this result accurately reflect the national reality? \pause
+    \item \textbf{Key takeaway:} The critical gap between what we want to measure (\emph{Population}) and what we can actually observe (\emph{Sample}).
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Classroom Reflection Conclusions
+\begin{frame}{Classroom Reflection Conclusions}
+  \begin{itemize}
+    \item \textbf{Severe Selection Bias:} Interviewing exclusively in a financial corporate district over-represents high salaries while excluding startup developers, public sector engineers, academia, and remote workers. \pause
+    \item \textbf{Estimation Error:} The average calculated from that sample will be significantly higher than the true national average. \pause
+    \item \textbf{Methodological Lesson:} Flawless mathematical computation on a biased sample yields a completely erroneous conclusion in Data Science. \pause
+    \item \textbf{The Goal:} Our sample must be as random and representative as possible of the target universe.
+  \end{itemize}
+\end{frame}
+
+% Slide 5: Key Concepts - Descriptive vs Inferential
+\begin{frame}{Two Complementary Branches of Data Analysis}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      {\large \color{TecAzulOscuro}\textbf{Descriptive Statistics}}
+      \vspace{0.3em}
+      \begin{itemize}
+        \item \textbf{Focus:} Summarize and organize the observed dataset. \pause
+        \item \textbf{Tools:} Tables, histograms, averages, measures of dispersion. \pause
+        \item \textbf{Certainty:} 100\% regarding measured data; makes no assumptions about unobserved events.
+      \end{itemize}
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      {\large \color{TecRojo}\textbf{Inferential Statistics}}
+      \vspace{0.3em}
+      \begin{itemize}
+        \item \textbf{Focus:} Use measured data to make predictions and generalizations. \pause
+        \item \textbf{Tools:} Confidence intervals, hypothesis testing, regression modeling. \pause
+        \item \textbf{Uncertainty:} Rigorously quantifies the margin of error and probability.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 6: Population vs Sample & Parameter vs Statistic
+\begin{frame}{Population vs. Sample and Parameter vs. Statistic}
+  To avoid confusion in mathematical notation, let us recall this fundamental bridge:
+  
+  \vspace{0.4em}
+  \begin{center}
+    \small
+    \begin{tabular}{p{3.2cm} p{4.6cm} p{4.6cm}}
+      \toprule
+      \textbf{Concept} & \textbf{Population (Total Universe)} & \textbf{Sample (Subset)} \\
+      \midrule
+      \textbf{Definition} & All individuals of interest & Selected representative subset \\
+      \textbf{Associated metric} & \textbf{Parameter} (Fixed, hidden) & \textbf{Statistic} (Calculated) \\
+      \textbf{Mean (Average)} & $\mu$ (Greek letter mu) & $\bar{X}$ or $\bar{x}$ (X bar) \\
+      \textbf{Variance} & $\sigma^2$ (Sigma squared) & $S^2$ or $s^2$ (S squared) \\
+      \textbf{Proportion} & $p$ or $\pi$ & $\hat{p}$ (p hat) \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+
+  \vspace{0.4em}
+  \pause
+  \begin{itemize}
+    \item \textbf{Golden Rule:} We never compute $\mu$ exactly unless we conduct a global census. We use $\bar{X}$ as a telescope to estimate $\mu$!
+  \end{itemize}
+\end{frame}
+
+% Slide 7: Live Python Lab - Sampling Simulation
+\begin{frame}{Python Lab: Sampling Simulation}
+  How does statistical theory translate into code in Data Science? 
+  \\ Script: \texttt{\footnotesize presentaciones/code/01\_estadistica\_descriptiva/01.01\_poblacion\_vs\_muestra.py}
+  
+  \vspace{0.2em}
+  {\lstset{basicstyle=\ttfamily\tiny, aboveskip=0.2em, belowskip=0.2em}
+  \lstinputlisting[firstline=18,lastline=28]{../../code/01_estadistica_descriptiva/01.01_poblacion_vs_muestra.py}
+  }
+
+  \vspace{0.2em}
+  \begin{itemize}
+    \item When running in class, observe how $\bar{X}$ ($n=150$) closely approximates the true population $\mu$ ($N=100,000$).
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Quick Team Challenge
+\begin{frame}{Quick Team Challenge: Parameter or Statistic?}
+  \begin{retoclase}
+    Classify each value as either a \textbf{Parameter ($\mu, \sigma^2, p$)} or a \textbf{Statistic ($\bar{X}, S^2, \hat{p}$)}:
+  \end{retoclase}
+  
+  \vspace{0.5em}
+  \begin{enumerate}
+    \item We randomly sample 50 transactions on a server and compute an average amount of \textbf{\$1,450 MXN}. \pause
+    \item The National Statistics Institute surveyed all 35,000 middle schools in the nation and determined that \textbf{12\%} lack a computer lab. \pause
+    \item An ML algorithm trains on a batch of 512 images and computes an average loss of \textbf{0.34}. \pause
+    \item By engineering specification, an automated bottling machine fills cans with an exact theoretical target mean volume of \textbf{355 ml}.
+  \end{enumerate}
+\end{frame}
+
+% Slide 9: Quick Team Challenge Answers
+\begin{frame}{Quick Team Challenge Answers}
+  \begin{enumerate}
+    \item \textbf{\$1,450 MXN (50 transactions):} \color{TecAzulOscuro}\textbf{Statistic ($\bar{X}$)}\color{black} \pause
+       \\ \small \textit{Justification:} Computed over a random sample of 50 transactions, not the entire server history. \pause
+    \item \textbf{12\% (35,000 schools surveyed):} \color{TecRojo}\textbf{Parameter ($p$)}\color{black} \pause
+       \\ \small \textit{Justification:} Being an exhaustive census, this figure reflects the true proportion across the entire population of middle schools. \pause
+    \item \textbf{0.34 average loss (batch of 512 images):} \color{TecAzulOscuro}\textbf{Statistic}\color{black} \pause
+       \\ \small \textit{Justification:} A batch is a subset (sample) of the total training dataset in Machine Learning. \pause
+    \item \textbf{355 ml (bottling specification):} \color{TecRojo}\textbf{Parameter ($\mu$)}\color{black} \pause
+       \\ \small \textit{Justification:} This is the theoretical design mean across all production under ideal conditions.
+  \end{enumerate}
+\end{frame}
+
+% Slide 10: Course Exercises - Level 1
+\begin{frame}{Course Exercises — Level 1: Fundamental}
+  \begin{block}{Problem 1.1.1 (Simple / Direct)}
+    Classify each of the following variables according to its scale of measurement (\emph{Nominal, Ordinal, Interval, or Ratio}):
+    \begin{enumerate}
+      \item The postal code (ZIP code) of a customer's residence on an e-commerce platform.
+      \item A user's satisfaction rating regarding a mobile application (Very Dissatisfied, Dissatisfied, Neutral, Satisfied, Very Satisfied).
+      \item The temperature in degrees Celsius (°C) recorded by server racks in a data center.
+      \item The monthly salary in Mexican pesos of a data science engineer.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 11: Course Exercises - Level 2
+\begin{frame}{Course Exercises — Level 2: Operational}
+  \vspace{-0.2em}
+  \small
+  \begin{block}{Problem 1.1.5 (Intermediate / Analytical Development)}
+    A technology consulting corporation employs 4,000 personnel divided across four divisions: Engineering ($2,000$), Infrastructure ($1,000$), Sales ($600$), and Human Resources ($400$). A random sample of $n = 200$ employees must be selected to assess organizational workplace climate.
+    \begin{enumerate}
+      \item If simple random sampling is applied across the entire payroll without distinction, what is the potential statistical risk regarding the Human Resources division?
+      \item Design a \emph{proportional stratified random sampling} scheme and determine the exact number of employees to be interviewed within each of the four divisions to guarantee equitable representation.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 12: Course Exercises - Level 3
+\begin{frame}{Course Exercises — Level 3: Analytical}
+  \vspace{-0.3em}
+  \footnotesize
+  \begin{block}{Problem 1.1.7 (Advanced / Theoretical Connection)}
+    In 1936, the magazine \emph{Literary Digest} conducted a massive sampling campaign by mailing 10 million straw ballots to predict the U.S. presidential election between Franklin D. Roosevelt and Alf Landon, using telephone directories and automobile registration lists as their sampling frame. Despite receiving a colossal sample of $n \approx 2.4 \text{ million}$ responses, they predicted a resounding landslide victory for Landon, whereas Roosevelt won by a historic margin. Simultaneously, George Gallup accurately predicted Roosevelt's victory by surveying a much smaller sample of only $n = 50,000$ individuals.
+    
+    Demonstrate conceptually and algebraically how, if the sampling selection mechanism exhibits a systematic bias $B = \mathbb{E}[\bar{X}] - \mu \neq 0$, increasing the sample size indefinitely ($n \to \infty$) does not reduce the total estimation error, but instead causes the estimate to converge with certainty toward an incorrect value.
+  \end{block}
+\end{frame}
+
+% Slide 13: Course Exercises - Level 4
+\begin{frame}{Course Exercises — Level 4: Challenging}
+  \vspace{-0.2em}
+  \small
+  \begin{block}{Problem 1.1.9 (Expert / Big Data)}
+    In a financial Machine Learning project, a data engineering team extracts automated server logs to model the duration of user sessions on a high-frequency trading portal. However, the architecture automatically interrupts and discards the log entries (\emph{timeout logs}) of any session that exceeds 15 minutes of inactivity.
+    \begin{enumerate}
+      \item Demonstrate how this truncation or survival bias (\emph{survival bias}) distorts the observed empirical distribution and shifts the sample mean $\bar{X}$ relative to the true population mean session duration $\mu$.
+      \item If the dataset additionally contains extreme outliers caused by automated telemetry bots that generate session bursts of $0.001 \text{ seconds}$, why does traditional descriptive statistics based solely on the arithmetic mean become highly fragile? Justify which robust statistical measures should be preferred prior to predictive modeling.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 14: Summary & Connection
+\begin{frame}{Summary and Connection to Section 1.2}
+  \begin{itemize}
+    \item \textbf{Descriptive Statistics} rigorously organizes and summarizes observed data. \pause
+    \item We must always distinguish between the \textbf{Parameter} (the underlying truth of the Population) and the \textbf{Statistic} (the summary computed from our Sample). \pause
+    \item Sample representativeness is paramount: flawless calculation on a biased sample yields erroneous conclusions.
+  \end{itemize}
+
+  \vspace{0.6em}
+  \pause
+  {\large \color{TecAzulOscuro}\textbf{What will we cover in Section 1.2?}}
+  \vspace{0.2em}
+  \begin{itemize}
+    \item What is the best single-number summary for a dataset? We will explore \textbf{Measures of Central Tendency} (\emph{Mean, Median, and Mode}) and examine why the simple average can be misleading in the presence of extreme outliers.
+  \end{itemize}
+\end{frame}
+
+\end{document}
