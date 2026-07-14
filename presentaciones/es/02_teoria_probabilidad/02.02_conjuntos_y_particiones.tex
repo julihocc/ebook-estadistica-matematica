@@ -1,0 +1,296 @@
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Notación de Conjuntos]{Sección 2.2: Notación de Conjuntos y Particiones}
+\subtitle{El Lenguaje Algebraico y Causal del Azar}
+\author{Julio César Hernández Castro}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta e Indicador de Posición
+\begin{frame}{Hoja de Ruta — Capítulo 02: Teoría de Probabilidad}
+  ¿Dónde estamos en nuestro recorrido por la teoría de probabilidad? \pause
+  \begin{itemize}
+    \item \textbf{02.01 Introducción a la probabilidad} \emph{(Completado)} \pause
+    \item \color{TecRojo}\textbf{02.02 Notación de conjuntos y particiones \emph{(Hoy)}}\color{black} \pause
+    \item \textbf{02.03 Fundamentos y axiomas de probabilidad} \emph{(Siguiente sesión)} \pause
+    \item \textbf{02.04 Probabilidad condicional e independencia} \pause
+    \item \textbf{02.05 Teorema de Bayes} \pause
+    \item \textbf{02.06 Muestreo aleatorio}
+  \end{itemize}
+  \vspace{0.6em}
+  \begin{block}{Objetivo de la Sección 2.2}
+    Estandarizar las operaciones de conjuntos y utilizar \emph{particiones} como rompecabezas algebraicos para cuantificar elementos y evitar el conteo duplicado en análisis causales de datos.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación / Dilema de las Encuestas
+\begin{frame}{El Dilema del Conteo en Ciencia de Datos}
+  \begin{motivacion}
+    En una encuesta a $100$ usuarios de una app bancaria, $60$ utilizan dispositivos \textbf{iOS}, $45$ utilizan \textbf{Android} y $30$ utilizan ambos plataformas para sus transacciones. Si un directivo suma $60 + 45 = 105$, supera el número total de encuestados. ¿Por qué ocurre esta paradoja de conteo?
+  \end{motivacion}
+  
+  \vspace{0.4em}
+  \pause
+  \begin{itemize}
+    \item El error de \textbf{conteo duplicado} (\emph{double counting}) surge al ignorar la estructura algebraica de las intersecciones en conjuntos que no son mutuamente excluyentes. \pause
+    \item Para medir probabilidades con rigor exacto, necesitamos descomponer el espacio muestral en un \textbf{rompecabezas de particiones disjuntas}.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Álgebra de Conjuntos y Operaciones Básicas
+\begin{frame}{Operaciones Fundamentales con Conjuntos}
+  Sea un universo o espacio muestral $S$ y subconjuntos $A, B \subset S$:
+  
+  \vspace{0.2em}
+  \begin{itemize}
+    \item \textbf{Unión ($A \cup B$):} Elementos en $A$, en $B$, o en ambos: $\{x \in S \mid x \in A \text{ o } x \in B\}$. \pause
+    \item \textbf{Intersección ($A \cap B$):} Elementos simultáneamente en ambos: $\{x \in S \mid x \in A \text{ y } x \in B\}$. \pause
+    \item \textbf{Diferencia ($A \setminus B$):} Elementos en $A$ que no pertenecen a $B$: $\{x \in S \mid x \in A \text{ y } x \notin B\}$. \pause
+    \item \textbf{Complemento ($A'$):} Elementos de $S$ fuera de $A$: $\{x \in S \mid x \notin A\} = S \setminus A$. \pause
+    \item \textbf{Diferencia Simétrica ($A \triangle B$):} Elementos en $A$ o $B$, pero no en ambos: $(A \setminus B) \cup (B \setminus A)$.
+  \end{itemize}
+\end{frame}
+
+% Slide 5: El Concepto de Partición (Rompecabezas)
+\begin{frame}{¿Qué es una Partición de un Conjunto?}
+  Una \textbf{partición} de un conjunto $S$ es una colección finita de subconjuntos $\{P_i\}_{i=0}^{N}$ que divide el espacio total en piezas exactas, como un rompecabezas:
+  
+  \vspace{0.4em}
+  \begin{block}{Definición Formal de Partición}
+    La colección $\{P_i\}_{i=0}^{N}$ es una partición de $S$ si y solo si cumple dos condiciones:
+    \begin{enumerate}
+      \item \textbf{Mutuamente Disjuntos:} $P_i \cap P_j = \emptyset$ siempre que $i \neq j$. Ninguna pieza del rompecabezas se traslapa con otra. \pause
+      \item \textbf{Cobertura Total:} $\bigcup_{i=0}^{N} P_i = S$. Al unir todas las piezas se reconstruye el espacio total sin dejar vacíos.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 6: Partición Estándar de 2 Conjuntos (4 Regiones)
+\begin{frame}{Partición Estándar para Dos Conjuntos}
+  Para dos eventos $A, B \subset S$, cada elemento puede pertenecer o no a cada uno de ellos ($2^2 = 4$ regiones elementales disjuntas):
+  
+  \vspace{0.3em}
+  \begin{itemize}
+    \item $E_0 = A' \cap B'$ \quad (Elementos en ninguna de las dos categorías). \pause
+    \item $E_1 = A' \cap B$ \quad (Elementos exclusivos del conjunto $B$). \pause
+    \item $E_2 = A \cap B'$ \quad (Elementos exclusivos del conjunto $A$). \pause
+    \item $E_3 = A \cap B$ \quad (Elementos en la intersección simultánea).
+  \end{itemize}
+  
+  \vspace{0.3em}
+  \pause
+  \begin{block}{Regla Aditiva Exacta sobre Particiones}
+    Dado que $E_i \cap E_j = \emptyset$, el conteo cardinal es estrictamente lineal:
+    \[ \card{S} = x_0 + x_1 + x_2 + x_3, \quad \text{donde } x_k = \card{E_k} \]
+  \end{block}
+\end{frame}
+
+% Slide 7: Conexión con Sistemas de Ecuaciones Lineales
+\begin{frame}{Resolución Algebraica mediante Sistemas Lineales}
+  Cualquier problema de conteo sobre $A, B$ se traduce en un sistema lineal sobre las incógnitas de la partición ($x_0, x_1, x_2, x_3$):
+  
+  \vspace{0.3em}
+  \begin{center}
+    \begin{tabular}{l l l}
+      \textbf{Conjunto o Condición} & \textbf{Suma sobre Partición} & \textbf{Ejemplo iOS/Android} \\
+      \hline
+      Espacio Muestral ($S$) & $x_0 + x_1 + x_2 + x_3$ & $= 100$ \\
+      Conjunto $A$ (\emph{iOS}) & $x_2 + x_3$ & $= 60$ \\
+      Conjunto $B$ (\emph{Android}) & $x_1 + x_3$ & $= 45$ \\
+      Intersección ($A \cap B$) & $x_3$ & $= 30$ \\
+      \hline
+    \end{tabular}
+  \end{center}
+  
+  \vspace{0.3em}
+  \pause
+  Al sustituir $x_3 = 30$, obtenemos de inmediato $x_2 = 30$, $x_1 = 15$ y $x_0 = 25$. ¡La suma exacta es $30 + 30 + 15 + 25 = 100$!
+\end{frame}
+
+% Slide 8: Partición de 3 Conjuntos (8 Regiones)
+\begin{frame}{Partición Estándar para Tres Conjuntos}
+  Al introducir un tercer conjunto $C \subset S$, el espacio se divide en $2^3 = 8$ piezas elementales que podemos enumerar en código binario:
+  
+  \vspace{0.2em}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \item $E_0 = A' \cap B' \cap C'$ \quad ($000$)
+        \item $E_1 = A' \cap B' \cap C$ \quad ($001$)
+        \item $E_2 = A' \cap B \cap C'$ \quad ($010$)
+        \item $E_3 = A' \cap B \cap C$ \quad ($011$)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \item $E_4 = A \cap B' \cap C'$ \quad ($100$)
+        \item $E_5 = A \cap B' \cap C$ \quad ($101$)
+        \item $E_6 = A \cap B \cap C'$ \quad ($110$)
+        \item $E_7 = A \cap B \cap C$ \quad ($111$)
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  
+  \vspace{0.3em}
+  \pause
+  \begin{center}
+    \small Esto fundamenta la famosa \textbf{Fórmula de Inclusión-Exclusión}:
+    \[ \card{A \cup B \cup C} = \sum \card{A_i} - \sum \card{A_i \cap A_j} + \card{A \cap B \cap C} \]
+  \end{center}
+\end{frame}
+
+% Slide 9A: Laboratorio Python (Parte 1: Operaciones Básicas)
+\begin{frame}[fragile]{Laboratorio en Python: Operaciones Básicas}
+  El script \texttt{02.02\_conjuntos\_particiones.py} modela álgebra de eventos usando \texttt{set}:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=1, lastline=16]{../../code/02_teoria_probabilidad/02.02_conjuntos_particiones.py}}
+\end{frame}
+
+% Slide 9B-1: Laboratorio Python (Parte 2: Planteamiento del Sistema)
+\begin{frame}[fragile]{Laboratorio en Python: Ecuaciones de Partición}
+  Planteamiento de las 4 regiones elementales como incógnitas del sistema:
+  \vspace{0.1em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=18, lastline=35]{../../code/02_teoria_probabilidad/02.02_conjuntos_particiones.py}}
+\end{frame}
+
+% Slide 9B-2: Laboratorio Python (Parte 3: Matriz Numpy)
+\begin{frame}[fragile]{Laboratorio en Python: Matriz del Sistema Lineal}
+  Definición matricial $M x = b$ usando \texttt{numpy.array}:
+  \vspace{0.1em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=37, lastline=46]{../../code/02_teoria_probabilidad/02.02_conjuntos_particiones.py}}
+\end{frame}
+
+% Slide 9C: Laboratorio Python (Parte 4: Solución y Verificación)
+\begin{frame}[fragile]{Laboratorio en Python: Solución e Inspección}
+  Resolución matricial con \texttt{numpy.linalg.solve} y validación de la suma cardinal:
+  \vspace{0.1em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=47, lastline=54]{../../code/02_teoria_probabilidad/02.02_conjuntos_particiones.py}}
+\end{frame}
+
+% Slide 9D: Laboratorio Python (Salida en Consola)
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  Consola de resultados verificando las cardinalidades exactas de la partición:
+  \vspace{0.1em}
+  \begin{block}{Salida Estándar en Terminal}
+    \fontsize{6.5pt}{7.5pt}\selectfont
+    \begin{verbatim}
+--- 1. Operaciones Básicas de Conjuntos ---
+Espacio Muestral (S):  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Evento A (Pares):      [2, 4, 6, 8, 10]
+Evento B (<= 5):       [1, 2, 3, 4, 5]
+Unión (A union B):     [1, 2, 3, 4, 5, 6, 8, 10]
+Intersección (A & B):  [2, 4]
+Diferencia (A \ B):    [6, 8, 10]
+Complemento (A'):      [1, 3, 5, 7, 9]
+
+--- 2. Resolución Algebraica vía Partición Estándar (4 Piezas) ---
+x3 (|I & F|   - Ambos idiomas):           30 personas
+x2 (|I \ F|   - Solo Inglés):            30 personas
+x1 (|F \ I|   - Solo Francés):           15 personas
+x0 (|I' & F'| - Ninguno de los dos):      25 personas
+Total verificado de la partición:        100 personas
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 10: Ejercicios del Libro (Tiered 3-3-2-2) - Fundamental
+\begin{frame}{Ejercicios del Libro — Nivel 1: Fundamental}
+  \begin{block}{Problema 2.1.2 (Congreso Internacional)}
+    De $100$ asistentes a un congreso, $60$ hablan inglés ($I$), $45$ hablan francés ($F$) y $30$ hablan ambos idiomas ($I \cap F$). Determina:
+    \begin{enumerate}
+      \item $\card{I \cup F}$, el total que habla al menos uno de los dos idiomas. \pause
+      \item $\card{I \setminus F}$, los que hablan estrictamente solo inglés. \pause
+      \item $\card{(I \cup F)'}$, el número de asistentes que no habla ni inglés ni francés.
+    \end{enumerate}
+  \end{block}
+  
+  \vspace{0.3em}
+  \pause
+  \begin{alertblock}{Solución Inmediata vía Partición}
+    Con $x_3=30$, $x_2=30$, $x_1=15$ y $x_0=25$:
+    1) $\card{I \cup F} = 75$; \quad 2) $\card{I \setminus F} = 30$; \quad 3) $\card{(I \cup F)'} = 25$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 11: Ejercicios del Libro (Tiered 3-3-2-2) - Operativo
+\begin{frame}{Ejercicios del Libro — Nivel 2: Operativo}
+  \begin{block}{Problema 2.1.4 (Extensión a Tres Subconjuntos)}
+    Extiende la construcción de una partición al caso de tres subconjuntos $A, B, C \subset S$. ¿Cuántos elementos tiene la partición $\particion(A,B,C)$ y qué propiedad algebraica garantiza que no haya traslapos?
+  \end{block}
+  
+  \vspace{0.4em}
+  \pause
+  \begin{itemize}
+    \item \textbf{Número de Elementos:} Cada conjunto duplica las regiones anteriores ($2^3 = 8$ regiones elementales disjuntas $E_0, E_1, \dots, E_7$). \pause
+    \item \textbf{Garantía de Disjunción:} Para cualquier $i \neq j$, sus representaciones binarias difieren en al menos un bit (ej. estar en $A$ vs. estar en $A'$), cuya intersección es por definición el conjunto vacío ($\emptyset$).
+  \end{itemize}
+\end{frame}
+
+% Slide 12: Ejercicios del Libro (Tiered 3-3-2-2) - Analítico
+\begin{frame}{Ejercicios del Libro — Nivel 3: Analítico}
+  \small
+  \begin{block}{Problema 2.1.8 (Inclusión-Exclusión para 3 Conjuntos)}
+    Demuestra la identidad para la unión de tres conjuntos:
+    \begin{align*}
+      \card{A \cup B \cup C} = \card{A} + \card{B} + \card{C} - \card{A \cap B} - \card{A \cap C} \\
+      - \card{B \cap C} + \card{A \cap B \cap C}
+    \end{align*}
+  \end{block}
+  
+  \pause
+  \textbf{Demostración vía Particiones ($x_k = \card{E_k}$):}
+  \begin{itemize}
+    \item $\card{A} + \card{B} + \card{C}$ cuenta intersecciones dobles $2$ veces y la triple $3$ veces. \pause
+    \item Restar las dobles compensa los traslapos pero elimina $x_7$ ($3 - 3 = 0$). \pause
+    \item Por ello, sumamos $+ \card{A \cap B \cap C} = +x_7$ para obtener la cobertura exacta.
+  \end{itemize}
+\end{frame}
+
+% Slide 13: Ejercicios del Libro (Tiered 3-3-2-2) - Desafiante
+\begin{frame}{Ejercicios del Libro — Nivel 4: Desafiante}
+  \small
+  \begin{block}{Problema 2.1.10 (Absurdos Censales en Epidemiología)}
+    En $500$ pacientes, un informe dice: $\card{S_1}=300, \card{S_2}=250, \card{S_3}=200$; $\card{S_1 \cap S_2}=180, \card{S_1 \cap S_3}=150, \card{S_2 \cap S_3}=130$; $\card{S_1 \cap S_2 \cap S_3}=30$. ¿Por qué es falso?
+  \end{block}
+  
+  \pause
+  \begin{alertblock}{Análisis de la Región de Complemento ($x_0$)}
+    Intersecciones binarias simples: $\card{S_1 \cap S_2 \cap S_3'} = 150$, $\card{S_1 \cap S_3 \cap S_2'} = 120$, $\card{S_2 \cap S_3 \cap S_1'} = 100$.
+    \pause
+    Suma elemental: $150+120+100+30 + \text{simples} > 500$. Por tanto $x_0 < 0$ (imposible).
+  \end{alertblock}
+\end{frame}
+
+% Slide 14: Síntesis y Próximo Paso
+\begin{frame}{Resumen de la Sección 2.2}
+  \begin{block}{Conclusiones Clave}
+    \begin{itemize}
+      \item Toda operación sobre conjuntos no excluyentes debe transformarse en una \textbf{partición disjunta} para garantizar sumas aditivas sin sesgos. \pause
+      \item Los sistemas de ecuaciones lineales sobre particiones ($Mx = b$) son la herramienta computacional óptima para validar encuestas y censos.
+    \end{itemize}
+  \end{block}
+  
+  \vspace{0.6em}
+  \pause
+  {\large \color{TecAzulOscuro}\textbf{Siguiente Sesión: 02.03 Fundamentos y Axiomas de Probabilidad}}
+  \vspace{0.3em}
+  \begin{itemize}
+    \item Con la notación de conjuntos dominada, introduciremos la función de medida probabilística $P(A)$ y los tres axiomas inmortales de Kolmogorov.
+  \end{itemize}
+\end{frame}
+
+\end{document}

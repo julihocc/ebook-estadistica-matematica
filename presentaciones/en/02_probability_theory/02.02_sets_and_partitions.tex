@@ -1,0 +1,296 @@
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Set Notation and Partitions]{Section 2.2: Set Notation and Partitions}
+\subtitle{The Algebraic and Causal Language of Randomness}
+\author{Julio César Hernández Castro}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Title Page
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap and Position Indicator
+\begin{frame}{Roadmap — Chapter 02: Probability Theory}
+  Where are we on our journey through probability theory? \pause
+  \begin{itemize}
+    \item \textbf{02.01 Introduction to Probability} \emph{(Completed)} \pause
+    \item \color{TecRojo}\textbf{02.02 Set Notation and Partitions \emph{(Today)}}\color{black} \pause
+    \item \textbf{02.03 Fundamentals and Axioms of Probability} \emph{(Next session)} \pause
+    \item \textbf{02.04 Conditional Probability and Independence} \pause
+    \item \textbf{02.05 Bayes' Theorem} \pause
+    \item \textbf{02.06 Random Sampling}
+  \end{itemize}
+  \vspace{0.6em}
+  \begin{block}{Section 2.2 Objective}
+    Standardize set operations and use \emph{partitions} as algebraic puzzles to quantify elements and prevent double counting in data-driven causal analysis.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation / The Survey Dilemma
+\begin{frame}{The Counting Dilemma in Data Science}
+  \begin{motivacion}
+    In a survey of $100$ users of a banking app, $60$ use \textbf{iOS} devices, $45$ use \textbf{Android}, and $30$ use both platforms for their financial transactions. If a manager sums $60 + 45 = 105$, it exceeds the total sample size. Why does this counting paradox occur?
+  \end{motivacion}
+  
+  \vspace{0.4em}
+  \pause
+  \begin{itemize}
+    \item The \textbf{double counting error} arises when ignoring the algebraic structure of intersections in sets that are not mutually exclusive. \pause
+    \item To measure probabilities with rigorous accuracy, we must decompose the sample space into a \textbf{puzzle of disjoint partitions}.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Set Algebra and Basic Operations
+\begin{frame}{Fundamental Set Operations}
+  Given a universe or sample space $S$ and subsets $A, B \subset S$:
+  
+  \vspace{0.2em}
+  \begin{itemize}
+    \item \textbf{Union ($A \cup B$):} Elements in $A$, in $B$, or in both: $\{x \in S \mid x \in A \text{ or } x \in B\}$. \pause
+    \item \textbf{Intersection ($A \cap B$):} Elements simultaneously in both: $\{x \in S \mid x \in A \text{ and } x \in B\}$. \pause
+    \item \textbf{Difference ($A \setminus B$):} Elements in $A$ not belonging to $B$: $\{x \in S \mid x \in A \text{ and } x \notin B\}$. \pause
+    \item \textbf{Complement ($A'$):} Elements of $S$ outside of $A$: $\{x \in S \mid x \notin A\} = S \setminus A$. \pause
+    \item \textbf{Symmetric Difference ($A \triangle B$):} Elements in $A$ or $B$, but not in both: $(A \setminus B) \cup (B \setminus A)$.
+  \end{itemize}
+\end{frame}
+
+% Slide 5: The Partition Concept (Puzzle)
+\begin{frame}{What is a Partition of a Set?}
+  A \textbf{partition} of a set $S$ is a finite collection of subsets $\{P_i\}_{i=0}^{N}$ that divides the entire space into exact, non-overlapping pieces:
+  
+  \vspace{0.4em}
+  \begin{block}{Formal Definition of a Partition}
+    The collection $\{P_i\}_{i=0}^{N}$ is a partition of $S$ if and only if it satisfies two conditions:
+    \begin{enumerate}
+      \item \textbf{Mutually Disjoint:} $P_i \cap P_j = \emptyset$ whenever $i \neq j$. No puzzle piece overlaps with another. \pause
+      \item \textbf{Total Coverage:} $\bigcup_{i=0}^{N} P_i = S$. Joining all pieces reconstructs the complete space without leaving gaps.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 6: Standard Partition of 2 Sets (4 Regions)
+\begin{frame}{Standard Partition for Two Sets}
+  For two events $A, B \subset S$, every element either belongs or does not belong to each set ($2^2 = 4$ elementary disjoint regions):
+  
+  \vspace{0.3em}
+  \begin{itemize}
+    \item $E_0 = A' \cap B'$ \quad (Elements in neither of the two categories). \pause
+    \item $E_1 = A' \cap B$ \quad (Elements exclusive to set $B$). \pause
+    \item $E_2 = A \cap B'$ \quad (Elements exclusive to set $A$). \pause
+    \item $E_3 = A \cap B$ \quad (Elements in the simultaneous intersection).
+  \end{itemize}
+  
+  \vspace{0.3em}
+  \pause
+  \begin{block}{Exact Additive Rule on Partitions}
+    Since $E_i \cap E_j = \emptyset$, cardinality counting is strictly linear:
+    \[ \card{S} = x_0 + x_1 + x_2 + x_3, \quad \text{where } x_k = \card{E_k} \]
+  \end{block}
+\end{frame}
+
+% Slide 7: Connection with Linear Systems
+\begin{frame}{Algebraic Solution via Linear Systems}
+  Any counting problem over $A, B$ translates into a linear system of equations over the partition unknowns ($x_0, x_1, x_2, x_3$):
+  
+  \vspace{0.3em}
+  \begin{center}
+    \begin{tabular}{l l l}
+      \textbf{Set or Condition} & \textbf{Sum over Partition} & \textbf{iOS/Android Example} \\
+      \hline
+      Sample Space ($S$) & $x_0 + x_1 + x_2 + x_3$ & $= 100$ \\
+      Set $A$ (\emph{iOS}) & $x_2 + x_3$ & $= 60$ \\
+      Set $B$ (\emph{Android}) & $x_1 + x_3$ & $= 45$ \\
+      Intersection ($A \cap B$) & $x_3$ & $= 30$ \\
+      \hline
+    \end{tabular}
+  \end{center}
+  
+  \vspace{0.3em}
+  \pause
+  Substituting $x_3 = 30$, we immediately obtain $x_2 = 30$, $x_1 = 15$, and $x_0 = 25$. The exact sum is $30 + 30 + 15 + 25 = 100$!
+\end{frame}
+
+% Slide 8: Partition of 3 Sets (8 Regions)
+\begin{frame}{Standard Partition for Three Sets}
+  Introducing a third set $C \subset S$ divides the space into $2^3 = 8$ elementary pieces, indexable using binary notation:
+  
+  \vspace{0.2em}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \item $E_0 = A' \cap B' \cap C'$ \quad ($000$)
+        \item $E_1 = A' \cap B' \cap C$ \quad ($001$)
+        \item $E_2 = A' \cap B \cap C'$ \quad ($010$)
+        \item $E_3 = A' \cap B \cap C$ \quad ($011$)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \item $E_4 = A \cap B' \cap C'$ \quad ($100$)
+        \item $E_5 = A \cap B' \cap C$ \quad ($101$)
+        \item $E_6 = A \cap B \cap C'$ \quad ($110$)
+        \item $E_7 = A \cap B \cap C$ \quad ($111$)
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  
+  \vspace{0.3em}
+  \pause
+  \begin{center}
+    \small This establishes the fundamental \textbf{Inclusion-Exclusion Formula}:
+    \[ \card{A \cup B \cup C} = \sum \card{A_i} - \sum \card{A_i \cap A_j} + \card{A \cap B \cap C} \]
+  \end{center}
+\end{frame}
+
+% Slide 9A: Python Lab (Part 1: Basic Operations)
+\begin{frame}[fragile]{Python Lab: Basic Set Operations}
+  The script \texttt{02.02\_conjuntos\_particiones.py} models event algebra using Python's native \texttt{set}:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=1, lastline=16]{../../code/02_teoria_probabilidad/02.02_conjuntos_particiones.py}}
+\end{frame}
+
+% Slide 9B-1: Python Lab (Part 2: System Formulation)
+\begin{frame}[fragile]{Python Lab: Partition Equations}
+  Setting up the 4 elementary regions as unknowns in a linear algebra system:
+  \vspace{0.1em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=18, lastline=35]{../../code/02_teoria_probabilidad/02.02_conjuntos_particiones.py}}
+\end{frame}
+
+% Slide 9B-2: Python Lab (Part 3: Numpy Matrix)
+\begin{frame}[fragile]{Python Lab: Linear System Matrix}
+  Matrix definition $M x = b$ using \texttt{numpy.array}:
+  \vspace{0.1em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=37, lastline=46]{../../code/02_teoria_probabilidad/02.02_conjuntos_particiones.py}}
+\end{frame}
+
+% Slide 9C: Python Lab (Part 4: Solution and Verification)
+\begin{frame}[fragile]{Python Lab: Solution and Inspection}
+  Matrix solution with \texttt{numpy.linalg.solve} and cardinality validation:
+  \vspace{0.1em}
+  {\lstset{basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=47, lastline=54]{../../code/02_teoria_probabilidad/02.02_conjuntos_particiones.py}}
+\end{frame}
+
+% Slide 9D: Python Lab (Terminal Output)
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  Execution console verifying exact partition cardinalities:
+  \vspace{0.1em}
+  \begin{block}{Standard Terminal Output}
+    \fontsize{6.5pt}{7.5pt}\selectfont
+    \begin{verbatim}
+--- 1. Operaciones Básicas de Conjuntos ---
+Espacio Muestral (S):  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Evento A (Pares):      [2, 4, 6, 8, 10]
+Evento B (<= 5):       [1, 2, 3, 4, 5]
+Unión (A union B):     [1, 2, 3, 4, 5, 6, 8, 10]
+Intersección (A & B):  [2, 4]
+Diferencia (A \ B):    [6, 8, 10]
+Complemento (A'):      [1, 3, 5, 7, 9]
+
+--- 2. Resolución Algebraica vía Partición Estándar (4 Piezas) ---
+x3 (|I & F|   - Ambos idiomas):           30 personas
+x2 (|I \ F|   - Solo Inglés):            30 personas
+x1 (|F \ I|   - Solo Francés):           15 personas
+x0 (|I' & F'| - Ninguno de los dos):      25 personas
+Total verificado de la partición:        100 personas
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 10: Textbook Exercises (Tiered 3-3-2-2) - Fundamental
+\begin{frame}{Textbook Exercises — Level 1: Fundamental}
+  \begin{block}{Problem 2.1.2 (International Conference)}
+    Out of $100$ attendees at a conference, $60$ speak English ($I$), $45$ speak French ($F$), and $30$ speak both languages ($I \cap F$). Find:
+    \begin{enumerate}
+      \item $\card{I \cup F}$, the number who speak at least one of the two languages. \pause
+      \item $\card{I \setminus F}$, attendees who speak strictly English only. \pause
+      \item $\card{(I \cup F)'}$, the number of attendees who speak neither English nor French.
+    \end{enumerate}
+  \end{block}
+  
+  \vspace{0.3em}
+  \pause
+  \begin{alertblock}{Immediate Solution via Partitions}
+    With $x_3=30$, $x_2=30$, $x_1=15$, and $x_0=25$:
+    1) $\card{I \cup F} = 75$; \quad 2) $\card{I \setminus F} = 30$; \quad 3) $\card{(I \cup F)'} = 25$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 11: Textbook Exercises (Tiered 3-3-2-2) - Operational
+\begin{frame}{Textbook Exercises — Level 2: Operational}
+  \begin{block}{Problem 2.1.4 (Extension to Three Subsets)}
+    Extend the partition construction to three subsets $A, B, C \subset S$. How many elements does the partition $\particion(A,B,C)$ contain, and what algebraic property guarantees no overlaps?
+  \end{block}
+  
+  \vspace{0.4em}
+  \pause
+  \begin{itemize}
+    \item \textbf{Number of Elements:} Each set doubles the previous regions ($2^3 = 8$ elementary disjoint regions $E_0, E_1, \dots, E_7$). \pause
+    \item \textbf{Disjointness Guarantee:} For any $i \neq j$, their binary representations differ in at least one bit (e.g., belonging to $A$ vs. belonging to $A'$), whose intersection is by definition empty ($\emptyset$).
+  \end{itemize}
+\end{frame}
+
+% Slide 12: Textbook Exercises (Tiered 3-3-2-2) - Analytical
+\begin{frame}{Textbook Exercises — Level 3: Analytical}
+  \small
+  \begin{block}{Problem 2.1.8 (Inclusion-Exclusion for 3 Sets)}
+    Prove the cardinality identity for the union of three sets:
+    \begin{align*}
+      \card{A \cup B \cup C} = \card{A} + \card{B} + \card{C} - \card{A \cap B} - \card{A \cap C} \\
+      - \card{B \cap C} + \card{A \cap B \cap C}
+    \end{align*}
+  \end{block}
+  
+  \pause
+  \footnotesize \textbf{Proof via Partitions ($x_k = \card{E_k}$):}
+  \begin{itemize}
+    \item $\card{A} + \card{B} + \card{C}$ counts pairwise intersections $2$ times and the triple intersection $3$ times. \pause
+    \item Subtracting the pairwise terms balances double counting but eliminates $x_7$ completely ($3 - 3 = 0$). \pause
+    \item Therefore, we add $+ \card{A \cap B \cap C} = +x_7$ back at the end for exact, overlap-free coverage.
+  \end{itemize}
+\end{frame}
+
+% Slide 13: Textbook Exercises (Tiered 3-3-2-2) - Challenging
+\begin{frame}{Textbook Exercises — Level 4: Challenging}
+  \small
+  \begin{block}{Problem 2.1.10 (Census Absurdities in Epidemiology)}
+    For $500$ patients, a report states: $\card{S_1}=300, \card{S_2}=250, \card{S_3}=200$; $\card{S_1 \cap S_2}=180, \card{S_1 \cap S_3}=150, \card{S_2 \cap S_3}=130$; $\card{S_1 \cap S_2 \cap S_3}=30$. Why is this mathematically false?
+  \end{block}
+  
+  \pause
+  \begin{alertblock}{Analysis of the Complement Region ($x_0$)}
+    Simple pairwise intersections: $\card{S_1 \cap S_2 \cap S_3'} = 150$, $\card{S_1 \cap S_3 \cap S_2'} = 120$, $\card{S_2 \cap S_3 \cap S_1'} = 100$.
+    \pause
+    Elementary sum: $150+120+100+30 + \text{simple regions} > 500$. Thus $x_0 < 0$, which contradicts non-negativity.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14: Synthesis and Next Step
+\begin{frame}{Summary of Section 2.2}
+  \begin{block}{Key Takeaways}
+    \begin{itemize}
+      \item Any operation involving non-exclusive sets must be transformed into a \textbf{disjoint partition} to guarantee additive, bias-free sums. \pause
+      \item Linear systems of equations over partitions ($Mx = b$) are the optimal computational tool to validate surveys and census data.
+    \end{itemize}
+  \end{block}
+  
+  \vspace{0.6em}
+  \pause
+  {\large \color{TecAzulOscuro}\textbf{Next Session: 02.03 Fundamentals and Axioms of Probability}}
+  \vspace{0.3em}
+  \begin{itemize}
+    \item With set notation mastered, we will introduce the probability measure function $P(A)$ and Kolmogorov's three immortal axioms.
+  \end{itemize}
+\end{frame}
+
+\end{document}

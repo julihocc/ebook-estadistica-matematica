@@ -1,0 +1,143 @@
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Introducción a la Probabilidad]{Sección 2.1: Introducción a la Probabilidad}
+\subtitle{Modelación Matemática del Azar y la Incertidumbre}
+\author{Julio César Hernández Castro}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta e Indicador de Posición
+\begin{frame}{Hoja de Ruta — Capítulo 02: Teoría de Probabilidad}
+  ¿Dónde estamos en nuestro recorrido por la teoría de probabilidad? \pause
+  \begin{itemize}
+    \item \color{TecRojo}\textbf{02.01 Introducción a la probabilidad \emph{(Hoy)}}\color{black} \pause
+    \item \textbf{02.02 Notación de conjuntos y particiones} \emph{(Siguiente sesión)} \pause
+    \item \textbf{02.03 Fundamentos y axiomas de probabilidad} \pause
+    \item \textbf{02.04 Probabilidad condicional e independencia} \pause
+    \item \textbf{02.05 Teorema de Bayes} \pause
+    \item \textbf{02.06 Muestreo aleatorio}
+  \end{itemize}
+  \vspace{0.8em}
+  \begin{block}{Objetivo de la Sección 2.1}
+    Comprender la necesidad de modelar fenómenos aleatorios donde el determinismo clásico falla y establecer la conexión deductiva/inductiva entre Probabilidad y Ciencia de Datos.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación / Dilema Clásico (Pregunta Gatillo)
+\begin{frame}{¿Por qué no podemos predecir todo con exactitud?}
+  \begin{motivacion}
+    Si conocemos la gravedad, la masa de un cohete y el empuje de sus motores, la física clásica nos permite predecir su trayectoria con exactitud milimétrica. Sin embargo, ¿podemos predecir el minuto exacto en que un usuario de \textbf{Amazon} hará clic en "Comprar"? ¿O si un paciente responderá positivamente a un nuevo tratamiento oncológico?
+  \end{motivacion}
+  
+  \vspace{0.6em}
+  \pause
+  \begin{itemize}
+    \item En sistemas biológicos, sociales y tecnológicos complejos, el número de variables incontrolables o no observables es gigantesco. \pause
+    \item La \textbf{Teoría de Probabilidad} nos brinda el lenguaje matemático exacto para gestionar y razonar bajo esta incertidumbre ineludible.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Fenómenos Deterministas vs Aleatorios
+\begin{frame}{Fenómenos Deterministas vs. Fenómenos Aleatorios}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      {\large \color{TecAzulOscuro}\textbf{Fenómeno Determinista}}
+      \vspace{0.3em}
+      \begin{itemize}
+        \item \textbf{Definición:} Bajo las mismas condiciones iniciales, el resultado es siempre idéntico y predecible con certeza. \pause
+        \item \textbf{Ejemplos:} La caída de un objeto en el vacío ($d = \frac{1}{2}gt^2$), el área de un círculo ($\pi r^2$), el interés compuesto a tasa fija. \pause
+        \item \textbf{Incertidumbre:} $0\%$.
+      \end{itemize}
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      {\large \color{TecRojo}\textbf{Fenómeno Aleatorio}}
+      \vspace{0.3em}
+      \begin{itemize}
+        \item \textbf{Definición:} Su resultado no puede predecirse de antemano con certeza, incluso reproduciendo las condiciones iniciales. \pause
+        \item \textbf{Ejemplos:} El tiempo de latencia en un servidor web, el precio de una acción, el lanzamiento de un dado. \pause
+        \item \textbf{Incertidumbre:} Estructurada por regularidades estadísticas a largo plazo.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 5: La Relación Probabilidad vs Estadística
+\begin{frame}{El Puente Dual: Probabilidad vs. Estadística}
+  La probabilidad y la estadística son las dos caras de la misma moneda del razonamiento científico:
+  
+  \vspace{0.2em}
+  \begin{block}{El Motor Deductivo vs. El Telescopio Inductivo}
+    \begin{itemize}
+      \item \textbf{Probabilidad (Deducción):} Parte de un \emph{modelo teórico poblacional} conocido y predice la verosimilitud (\emph{likelihood}) de los datos o muestras que podríamos observar. \pause
+      \item \textbf{Estadística Inferencial (Inducción):} Parte de los \emph{datos muestrales observados} y utiliza las leyes de probabilidad para inferir o estimar el modelo poblacional subyacente.
+    \end{itemize}
+  \end{block}
+  
+  \vspace{0.2em}
+  \pause
+  \begin{center}
+    \small \textbf{Sin teoría de probabilidad, la estadística inferencial carecería de cimientos rigurosos para medir el margen de error.}
+  \end{center}
+\end{frame}
+
+% Slide 6: Campos de Aplicación en Ciencia e Ingeniería
+\begin{frame}{Áreas de Aplicación en la Era de los Datos}
+  La probabilidad es el núcleo de las tecnologías más avanzadas:
+  \vspace{0.4em}
+  \begin{itemize}
+    \item \textbf{Inteligencia Artificial y Machine Learning:} Redes neuronales probabilísticas, algoritmos de clasificación de Naive Bayes y aprendizaje por refuerzo. \pause
+    \item \textbf{Ingeniería de Confiabilidad (SRE):} Modelado del tiempo entre fallas de servidores críticos, tolerancia a fallos y teoría de colas. \pause
+    \item \textbf{Finanzas Cuantitativas:} Valoración de opciones de Black-Scholes, Valor en Riesgo ($VaR$) y modelado de portafolios de inversión. \pause
+    \item \textbf{Bioinformática y Genética:} Decodificación del genoma humano, mutaciones evolutivas y ensayos clínicos doble ciego.
+  \end{itemize}
+\end{frame}
+
+% Slide 7: Un Poco de Historia y Contexto
+\begin{frame}{Evolución Histórica de la Probabilidad}
+  \begin{itemize}
+    \item \textbf{Siglo XVII (El Nacimiento):} En $1654$, una correspondencia epistolar entre \textbf{Blaise Pascal} y \textbf{Pierre de Fermat} sobre la justa repartición de apuestas interrumpidas en juegos de azar sentó las bases algebraicas de la probabilidad matemática. \pause
+    \item \textbf{Siglos XVIII y XIX (Consolidación):} \textbf{Jacob Bernoulli} demuestra la primera Ley de los Grandes Números ($1713$) y \textbf{Carl Friedrich Gauss} caracteriza la distribución normal del error de medición ($1809$). \pause
+    \item \textbf{Siglo XX (Axiomatización Rigurosa):} En $1933$, \textbf{Andrey Kolmogorov} publica \emph{Los Fundamentos de la Teoría de la Probabilidad}, unificando la probabilidad con la teoría de la medida de Lebesgue en solo tres axiomas matemáticos incontestables.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Estructura Conceptual del Capítulo 02
+\begin{frame}{Estructura del Capítulo: Lo que Construiremos}
+  En las siguientes secciones dominaremos las herramientas formales del modelado aleatorio:
+  \vspace{0.6em}
+  \begin{enumerate}
+    \item \textbf{Álgebra de Eventos (Sección 2.2):} Uso de conjuntos, diagramas de Venn y particiones para dividir y contar el universo de posibilidades sin errores. \pause
+    \item \textbf{Axiomas de Kolmogorov (Sección 2.3):} Las tres reglas fundamentales de las cuales se deriva toda fórmula probabilística. \pause
+    \item \textbf{Probabilidad Condicional (Sección 2.4):} Cómo ajustar la probabilidad ante la presencia de información parcial u observaciones previas. \pause
+    \item \textbf{Teorema de Bayes (Sección 2.5):} El motor del aprendizaje automático que actualiza creencias a la luz de nueva evidencia.
+  \end{enumerate}
+\end{frame}
+
+% Slide 9: Resumen y Conexión
+\begin{frame}{Resumen y Conexión con la Sección 2.2}
+  \begin{block}{Lo que debemos recordar}
+    \begin{itemize}
+      \item Los fenómenos aleatorios presentan variabilidad inherente cuya estructura a largo plazo se describe mediante leyes probabilísticas. \pause
+      \item La probabilidad es el cimiento matemático de la estadística inferencial y de todo algoritmo moderno de Machine Learning.
+    \end{itemize}
+  \end{block}
+  
+  \vspace{0.8em}
+  \pause
+  {\large \color{TecAzulOscuro}\textbf{Siguiente Sección: 02.02 Notación de Conjuntos y Particiones}}
+  \vspace{0.3em}
+  \begin{itemize}
+    \item Para calcular probabilidades sin ambigüedades, primero debemos aprender a definir el universo de resultados algebraicamente utilizando \textbf{Conjuntos} y descomponerlo como un rompecabezas con \textbf{Particiones}.
+  \end{itemize}
+\end{frame}
+
+\end{document}

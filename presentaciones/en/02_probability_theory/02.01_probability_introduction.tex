@@ -1,0 +1,143 @@
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Probability Introduction]{Section 2.1: Introduction to Probability}
+\subtitle{Mathematical Modeling of Randomness and Uncertainty}
+\author{Julio César Hernández Castro}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Title Page
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap and Position Indicator
+\begin{frame}{Roadmap — Chapter 02: Probability Theory}
+  Where are we in our journey through probability theory? \pause
+  \begin{itemize}
+    \item \color{TecRojo}\textbf{02.01 Introduction to probability \emph{(Today)}}\color{black} \pause
+    \item \textbf{02.02 Set notation and partitions} \emph{(Next session)} \pause
+    \item \textbf{02.03 Foundations and probability axioms} \pause
+    \item \textbf{02.04 Conditional probability and independence} \pause
+    \item \textbf{02.05 Bayes' Theorem} \pause
+    \item \textbf{02.06 Random sampling}
+  \end{itemize}
+  \vspace{0.8em}
+  \begin{block}{Section 2.1 Objective}
+    Understand why we must model random phenomena where classical determinism fails, and establish the deductive/inductive bridge between Probability and Data Science.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation / Trigger Question
+\begin{frame}{Why Can't We Predict Everything Exactly?}
+  \begin{motivacion}
+    If we know gravity, the mass of a rocket, and engine thrust, classical physics lets us predict its trajectory with millimeter accuracy. However, can we predict the exact minute an \textbf{Amazon} user will click "Buy"? Or whether a patient will respond positively to a new cancer therapy?
+  \end{motivacion}
+  
+  \vspace{0.6em}
+  \pause
+  \begin{itemize}
+    \item In complex biological, social, and technological systems, the number of unobservable or uncontrollable variables is immense. \pause
+    \item \textbf{Probability Theory} provides the exact mathematical language required to reason, quantify, and make decisions under this unavoidable uncertainty.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Deterministic vs. Random Phenomena
+\begin{frame}{Deterministic vs. Random Phenomena}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      {\large \color{TecAzulOscuro}\textbf{Deterministic Phenomenon}}
+      \vspace{0.3em}
+      \begin{itemize}
+        \item \textbf{Definition:} Under identical initial conditions, the outcome is always precisely the same and predictable with certainty. \pause
+        \item \textbf{Examples:} Free fall in a vacuum ($d = \frac{1}{2}gt^2$), area of a circle ($\pi r^2$), fixed-rate compound interest. \pause
+        \item \textbf{Uncertainty:} $0\%$.
+      \end{itemize}
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      {\large \color{TecRojo}\textbf{Random Phenomenon}}
+      \vspace{0.3em}
+      \begin{itemize}
+        \item \textbf{Definition:} Its exact outcome cannot be predicted beforehand with certainty, even when replicating initial conditions. \pause
+        \item \textbf{Examples:} Web server latency, stock market fluctuations, rolling a die. \pause
+        \item \textbf{Uncertainty:} Governed by stable statistical regularities over the long run.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 5: The Probability vs. Statistics Bridge
+\begin{frame}{The Dual Bridge: Probability vs. Statistics}
+  Probability and statistics are two sides of the same scientific reasoning coin:
+  
+  \vspace{0.2em}
+  \begin{block}{The Deductive Engine vs. The Inductive Telescope}
+    \begin{itemize}
+      \item \textbf{Probability (Deduction):} Starts from a known \emph{theoretical population model} and predicts the likelihood of the sample data we might observe. \pause
+      \item \textbf{Inferential Statistics (Induction):} Starts from observed \emph{sample data} and uses the laws of probability to infer or estimate the underlying population model.
+    \end{itemize}
+  \end{block}
+  
+  \vspace{0.2em}
+  \pause
+  \begin{center}
+    \small \textbf{Without probability theory, inferential statistics would lack the rigorous mathematical foundation needed to quantify margins of error.}
+  \end{center}
+\end{frame}
+
+% Slide 6: Applications in Science & Engineering
+\begin{frame}{Applications in the Data Age}
+  Probability is the computational engine driving modern technologies:
+  \vspace{0.4em}
+  \begin{itemize}
+    \item \textbf{Artificial Intelligence \& Machine Learning:} Probabilistic neural networks, Naive Bayes classifiers, and reinforcement learning. \pause
+    \item \textbf{Site Reliability Engineering (SRE):} Modeling server time-to-failure, fault tolerance, and queuing theory in cloud infrastructure. \pause
+    \item \textbf{Quantitative Finance:} Black-Scholes option pricing, Value at Risk ($VaR$), and stochastic portfolio optimization. \pause
+    \item \textbf{Bioinformatics \& Genetics:} Genome decoding, evolutionary mutation rates, and double-blind clinical trials.
+  \end{itemize}
+\end{frame}
+
+% Slide 7: Historical Evolution
+\begin{frame}{Historical Evolution of Probability}
+  \begin{itemize}
+    \item \textbf{17th Century (The Birth):} In $1654$, an epistolary correspondence between \textbf{Blaise Pascal} and \textbf{Pierre de Fermat} regarding fair division of stakes in interrupted gambling games established the algebraic foundation of mathematical probability. \pause
+    \item \textbf{18th \& 19th Centuries (Consolidation):} \textbf{Jacob Bernoulli} proved the first Law of Large Numbers ($1713$), and \textbf{Carl Friedrich Gauss} characterized the normal distribution of measurement errors ($1809$). \pause
+    \item \textbf{20th Century (Modern Axiomatization):} In $1933$, \textbf{Andrey Kolmogorov} published \emph{Foundations of the Theory of Probability}, unifying probability with Lebesgue measure theory using just three indisputable axioms.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Chapter 02 Structural Overview
+\begin{frame}{Chapter Structure: What We Will Build}
+  In the upcoming sections, we will master the formal tools of random modeling:
+  \vspace{0.6em}
+  \begin{enumerate}
+    \item \textbf{Algebra of Events (Section 2.2):} Using sets, Venn diagrams, and partitions to divide and count the universe of possibilities without double counting. \pause
+    \item \textbf{Kolmogorov's Axioms (Section 2.3):} The three fundamental rules from which every probabilistic formula is derived. \pause
+    \item \textbf{Conditional Probability (Section 2.4):} Updating and adjusting probabilities when partial information or prior observations become available. \pause
+    \item \textbf{Bayes' Theorem (Section 2.5):} The core engine of machine learning that updates prior beliefs in light of new evidence.
+  \end{enumerate}
+\end{frame}
+
+% Slide 9: Summary & Connection
+\begin{frame}{Summary and Connection to Section 2.2}
+  \begin{block}{Key Takeaways}
+    \begin{itemize}
+      \item Random phenomena possess inherent variability whose long-term structure is governed by precise probabilistic laws. \pause
+      \item Probability is the mathematical bedrock of both inferential statistics and modern Machine Learning algorithms.
+    \end{itemize}
+  \end{block}
+  
+  \vspace{0.8em}
+  \pause
+  {\large \color{TecAzulOscuro}\textbf{Next Section: 02.02 Set Notation and Partitions}}
+  \vspace{0.3em}
+  \begin{itemize}
+    \item To compute probabilities without ambiguity, we must first learn to define the universe of outcomes algebraically using \textbf{Sets} and decompose it like a puzzle using \textbf{Partitions}.
+  \end{itemize}
+\end{frame}
+
+\end{document}
