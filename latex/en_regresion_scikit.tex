@@ -1,0 +1,92 @@
+\section{Linear Regression with \texttt{scikit-learn}}
+
+We will now implement the linear regression model using the \texttt{scikit-learn} package. This method is more elegant because it offers numerous built-in functions to perform the standard operational routines associated with regression modeling.
+
+For instance, you might recall from earlier sections that there is a dedicated function to partition the dataset into training and testing subsets automatically:
+
+\begin{lstlisting}[language=Python]
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+advert = pd.read_csv("./dataBases/Advertising.csv")
+feature_cols = ['TV', 'Radio']
+X = advert[feature_cols]
+Y = advert['Sales']
+trainX, testX, trainY, testY = train_test_split(X, Y, test_size=0.2)
+lm = LinearRegression()
+lm.fit(trainX, trainY)
+\end{lstlisting}
+
+The following code returns the estimated model parameters:
+\begin{lstlisting}[language=Python]
+print(lm.intercept_)
+for _ in zip(feature_cols, lm.coef_):
+    print(_)
+\end{lstlisting}
+
+The $R^{2}$ value is obtained as follows:
+\begin{lstlisting}[language=Python]
+print("R2 =", lm.score(trainX, trainY))
+\end{lstlisting}
+
+A typical output from running this code would be:
+\begin{lstlisting}[language=Python]
+2.73465274245
+('TV', 0.046830472078714387)
+('Radio', 0.18642021416992249)
+R2 = 0.893905959809
+\end{lstlisting}
+
+The resulting $R^{2}$ value turns out to be roughly $89\%$, which aligns very closely with the values obtained earlier using our previous regression methods.
+
+The fitted model can then be applied to predict sales values for the test dataset using the \texttt{TV} and \texttt{Radio} predictors:
+\begin{lstlisting}[language=Python]
+lm.predict(testX)
+\end{lstlisting}
+
+\subsection{Feature Selection with \texttt{scikit-learn}}
+
+Many statistical tools and software packages incorporate automated algorithms to perform feature selection (such as forward selection and backward elimination).
+
+Executing variable selection manually consumes considerable time, and evaluating all candidate subsets for importance can become a tedious task that compromises modeling efficiency.
+
+A major advantage of using the \texttt{scikit-learn} package for regression in Python is that it includes a specialized tool for automated variable selection. This procedure functions somewhat like backward elimination (though not identical) and is called \texttt{Recursive Feature Elimination} (`RFE`). You can explicitly specify the exact number of predictor variables desired in the final model specification.
+
+In this procedure, the model is initially fitted using all candidate predictor variables, and specific importance weights are assigned to each variable. Across subsequent iterations, variables exhibiting the smallest weights are pruned from the active list until the exact desired number of predictors remains.
+
+Let us examine how to execute automated feature selection using \texttt{scikit-learn}:
+
+\begin{lstlisting}[language=Python]
+import pandas as pd
+advert = pd.read_csv("./dataBases/Advertising.csv")
+
+from sklearn.feature_selection import RFE
+from sklearn.svm import SVR
+feature_cols = ['TV', 'Radio', 'Newspaper']
+X = advert[feature_cols]
+Y = advert['Sales']
+estimator = SVR(kernel="linear")
+selector = RFE(estimator, n_features_to_select=2, step=1)
+selector = selector.fit(X, Y)
+\end{lstlisting}
+
+We utilize the classes \texttt{RFE} and \texttt{SVR} built into \texttt{scikit-learn}. We indicate that we wish to fit a linear estimator and that the target number of retained variables in the final model is two.
+
+To obtain the boolean mask indicating which variables were selected, we run the following snippet:
+\begin{lstlisting}[language=Python]
+print(selector.support_)
+## [ True  True False]
+\end{lstlisting}
+
+In our specification, \texttt{X} comprises three variables: \texttt{TV}, \texttt{Radio}, and \texttt{Newspaper}. The boolean array above indicates that \texttt{TV} and \texttt{Radio} have been selected for the model, while \texttt{Newspaper} has been discarded. This conclusion matches exactly the variable selection decision we reached manually in earlier sections.
+
+This method also provides a numerical ranking array indicating feature importance:
+\begin{lstlisting}[language=Python]
+print(selector.ranking_)
+## [1 1 2]
+\end{lstlisting}
+
+\begin{observacion}
+	All selected variables are assigned a rank of 1, while eliminated variables are ranked in ascending order according to their relative importance (or descending order of significance). A variable assigned rank 2 is considered more significant to the model than one assigned rank 3, and so forth.
+\end{observacion}

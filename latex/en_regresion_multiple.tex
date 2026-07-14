@@ -1,0 +1,390 @@
+\section{Multiple Linear Regression}
+
+When a linear regression model involves more than one predictor variable, it is called \emph{multiple linear regression}.
+
+The underlying nature of the model remains identical—linear—except that there are multiple slope coefficients $\beta_i$, each associated with a specific predictor variable.
+
+The general model is represented mathematically as follows:
+\begin{align}
+	Y = \a + \beta_{1}X_{1} + \dots + \beta_{n}X_{n}
+\end{align}
+
+Each $\beta_i$ is estimated using the exact same optimization principle, \emph{Ordinary Least Squares}; consequently, we obtain a $p$-value associated with each parameter estimate:
+\begin{enumerate}
+	\item The smaller the $p$-value, the more statistically significant the predictor variable is to the model.
+	\item Conversely, variables exhibiting very large $p$-values should generally be removed from the model.
+\end{enumerate}
+
+\subsection{Pros and Cons}
+\begin{enumerate}
+	\item Because multiple linear regression allows us to incorporate multiple predictor variables simultaneously, it generally increases the explanatory power and efficiency of the model.
+	\item However, it also increases the complexity of the model-building process, as identifying and selecting the truly significant variables can become tedious.
+\end{enumerate}
+
+Even with a simple dataset containing just three candidate predictors, such as our advertising dataset, several distinct models can be constructed. These are:
+\begin{enumerate}[Model 1:]
+	\item \texttt{Sales$\sim$TV}
+	\item \texttt{Sales$\sim$Newspaper}
+	\item \texttt{Sales$\sim$Radio}
+	\item \texttt{Sales$\sim$TV+Radio}
+	\item \texttt{Sales$\sim$TV+Newspaper}
+	\item \texttt{Sales$\sim$Newspaper+Radio}
+	\item \texttt{Sales$\sim$TV+Radio+Newspaper}
+\end{enumerate}
+
+\begin{observacion}
+	In general, a dataset with $n$ potential predictor variables yields $2^n - 1$ possible non-empty linear models. Therefore, as the number of available predictors increases, exhaustive model selection becomes computationally and analytically demanding.
+\end{observacion}
+
+Fortunately, we can follow clear practical guidelines for screening predictors and selecting the most effective model specification:
+\begin{itemize}
+	\item Retain variables with low $p$-values and eliminate those with high $p$-values.
+	\item The inclusion of an additional variable in the model should ideally increase the value of $R^2$. However, as we will see later, we must examine the \emph{adjusted} $R^2$ to obtain a truly reliable indicator.
+\end{itemize}
+
+Based on these principles, there are two primary algorithmic approaches for selecting the predictor variables that will remain in the final model:
+
+\subsection{Forward Selection}
+\begin{enumerate}
+	\item In this approach, we begin with a null or empty model (containing no predictors except the intercept) and systematically add candidate predictor variables one by one.
+	\item The predictor whose inclusion results in the smallest residual sum of squares is added first.
+	\item If the $p$-value for the newly added variable is sufficiently small and the (adjusted) $R^2$ increases meaningfully, the predictor is retained in the model.
+	\item Otherwise, it is excluded, and the search terminates.
+\end{enumerate}
+
+\subsection{Backward Selection (Backward Elimination)}
+\begin{enumerate}
+	\item In this approach, we begin with a full model containing all candidate predictor variables simultaneously and systematically discard them one by one.
+	\item If the $p$-value of a specific predictor variable is large and removing it causes minimal drop in (adjusted) $R^2$, that predictor is dropped from the model.
+	\item Otherwise, it is retained.
+\end{enumerate}
+
+Many statistical software packages, including Python libraries, provide automated routines or diagnostic outputs to implement forward and backward selection strategies efficiently.
+
+For now, let us manually add specific variables and observe how our model diagnostics and explanatory efficiency change, giving us practical insight into what occurs behind the scenes when variable selection algorithms run.
+
+\subsection{Model 2: \texttt{'Sales$\sim$TV+Newspaper'}}
+
+\begin{enumerate}
+	\item We have already analyzed a simple linear regression model assuming a relationship between sales and TV advertising expenditure.
+	\item We can safely ignore the single-variable models for newspaper or radio alone, as we established earlier that they exhibit weaker baseline correlations with sales compared to TV.
+	\item Let us now add newspaper expenditure alongside TV and observe how the parameter estimates and diagnostic metrics shift.
+\end{enumerate}
+
+\begin{lstlisting}[language=Python]
+import pandas as pd
+import statsmodels.formula.api as smf
+
+advert = pd.read_csv("./dataBases/Advertising.csv")
+model2 = smf.ols(formula='Sales~TV+Newspaper', data=advert).fit()
+print(model2.params)
+print(model2.pvalues)
+print(model2.rsquared)
+\end{lstlisting}
+
+Which yields:
+\begin{lstlisting}[language=Python]
+Intercept    5.774948
+TV           0.046901
+Newspaper    0.044219
+dtype: float64
+
+Intercept    3.145860e-22
+TV           5.507584e-44
+Newspaper    2.217084e-05
+dtype: float64
+
+0.645835493829
+\end{lstlisting}
+
+The $p$-values for both coefficients are very small, suggesting that all estimated parameters are statistically significant. The fitted predictive equation for this model is:
+\begin{align}
+	\texttt{Sales} = 5.77 + 0.047 \times \texttt{TV} + 0.044 \times \texttt{Newspaper}
+\end{align}
+
+The resulting $R^2$ value is $0.6458$, which represents only a minor improvement over the baseline simple regression model using TV alone ($R^2 \approx 0.6119$).
+
+Predicted values can be generated using the following code snippet:
+\begin{lstlisting}[language=Python]
+sales_pred = model2.predict(advert[['TV', 'Newspaper']])
+print(sales_pred.head())
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+0    19.626901
+1     9.856348
+2     9.646055
+3    15.467318
+4    16.837102
+dtype: float64
+\end{lstlisting}
+
+To compute the Residual Standard Error (`RSE`), we execute the following lines:
+\begin{lstlisting}[language=Python]
+# RSE computation
+import numpy as np
+advert['sales_pred'] = 5.77 + 0.046901 * advert['TV'] + 0.044219 * advert['Newspaper']
+advert['SSD'] = (advert['Sales'] - advert['sales_pred']) ** 2
+SSD = advert.sum()['SSD']
+n = len(advert["Sales"])
+print("n", n)
+p = 2
+RSE = np.sqrt(SSD / (n - p - 1))
+print("RSE", RSE)
+salesmean = np.mean(advert['Sales'])
+print("salesmean", salesmean)
+error = RSE / salesmean
+print("error", error)
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+n 200
+RSE 3.12072391442
+salesmean 14.022500000000003
+error 0.222551179492
+\end{lstlisting}
+
+The resulting $RSE$ is approximately $3.12$ ($22\%$), which is not substantially different from the model using `TV` alone ($3.25$). In our formula, $p = 2$ represents the number of slope predictors included in our specification.
+
+Invoking the `summary()` method:
+\begin{lstlisting}[language=Python]
+print(model2.summary())
+\end{lstlisting}
+produces the following comprehensive model table:
+
+\begin{lstlisting}[language=Python]
+OLS Regression Results
+==============================================================================
+Dep. Variable:                  Sales   R-squared:                       0.646
+Model:                            OLS   Adj. R-squared:                  0.642
+Method:                 Least Squares   F-statistic:                     179.6
+Date:                Fri, 03 Nov 2017   Prob (F-statistic):           3.95e-45
+Time:                        21:57:12   Log-Likelihood:                -509.89
+No. Observations:                 200   AIC:                             1026.
+Df Residuals:                     197   BIC:                             1036.
+Df Model:                           2
+Covariance Type:            nonrobust
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      5.7749      0.525     10.993      0.000       4.739       6.811
+TV             0.0469      0.003     18.173      0.000       0.042       0.052
+Newspaper      0.0442      0.010      4.346      0.000       0.024       0.064
+==============================================================================
+Omnibus:                        0.658   Durbin-Watson:                   1.969
+Prob(Omnibus):                  0.720   Jarque-Bera (JB):                0.415
+Skew:                          -0.093   Prob(JB):                        0.813
+Kurtosis:                       3.122   Cond. No.                         410.
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+\end{lstlisting}
+
+Although the overall $F$-statistic decreases compared to our simple regression, its associated $p$-value remains extremely small. However, this model achieves only a marginal gain in descriptive accuracy ($R^2$ rises from $0.612$ to $0.646$). Thus, incorporating \texttt{Newspaper} provides little substantive enhancement to our model.
+
+\subsection{Model 3: \texttt{'Sales$\sim$TV+Radio'}}
+
+Let us now try incorporating \texttt{Radio} into our model instead of \texttt{Newspaper}. Recall from our earlier correlation matrix that \texttt{Radio} exhibits the second-strongest positive correlation with \texttt{Sales}. Consequently, we expect a more meaningful improvement in performance upon adding \texttt{Radio}. Let us verify whether this expectation holds true:
+
+\begin{lstlisting}[language=Python]
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+import pandas as pd
+import statsmodels.formula.api as smf
+
+advert = pd.read_csv("./dataBases/Advertising.csv")
+model3 = smf.ols(formula='Sales~TV+Radio', data=advert).fit()
+print(model3.params)
+print(model3.pvalues)
+
+a = model3.params[0]
+btv = model3.params[1]
+bradio = model3.params[2]
+
+advert["sales_pred"] = a + btv * advert["TV"] + bradio * advert["Radio"]
+
+sales_pred = model3.predict(advert[['TV', 'Radio']])
+print(sales_pred.head())
+
+print(model3.summary())
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+# print(model3.params)
+Intercept    2.921100
+TV           0.045755
+Radio        0.187994
+dtype: float64
+
+# print(model3.pvalues)
+Intercept    4.565557e-19
+TV           5.436980e-82
+Radio        9.776972e-59
+dtype: float64
+
+# print(sales_pred.head())
+0    20.555465
+1    12.345362
+2    12.337018
+3    17.617116
+4    13.223908
+dtype: float64
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+# print(model3.summary())
+OLS Regression Results
+==============================================================================
+Dep. Variable:                  Sales   R-squared:                       0.897
+Model:                            OLS   Adj. R-squared:                  0.896
+Method:                 Least Squares   F-statistic:                     859.6
+Date:                Sun, 05 Nov 2017   Prob (F-statistic):           4.83e-98
+Time:                        20:09:44   Log-Likelihood:                -386.20
+No. Observations:                 200   AIC:                             778.4
+Df Residuals:                     197   BIC:                             788.3
+Df Model:                           2
+Covariance Type:            nonrobust
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      2.9211      0.294      9.919      0.000       2.340       3.502
+TV             0.0458      0.001     32.909      0.000       0.043       0.048
+Radio          0.1880      0.008     23.382      0.000       0.172       0.204
+==============================================================================
+Omnibus:                       60.022   Durbin-Watson:                   2.081
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              148.679
+Skew:                          -1.323   Prob(JB):                     5.19e-33
+Kurtosis:                       6.292   Cond. No.                         425.
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+\end{lstlisting}
+
+We observe that $R^2$ has jumped dramatically to $0.897$ upon incorporating `Radio` alongside `TV`. Furthermore, the overall $F$-statistic has surged to $859.6$, confirming that this two-predictor model is highly efficient and predictive.
+
+We can compute the exact `RSE` for Model 3 using our standard code snippet:
+
+\begin{lstlisting}[language=Python]
+# RSE computation for Model 3
+import numpy as np
+
+advert['SSD'] = (advert['Sales'] - advert['sales_pred']) ** 2
+SSD = advert.sum()['SSD']
+n = len(advert["Sales"])
+print("n", n)
+p = 2
+RSE = np.sqrt(SSD / (n - p - 1))
+print("RSE", RSE)
+salesmean = np.mean(advert['Sales'])
+print("salesmean", salesmean)
+error = RSE / salesmean
+print("error", error)
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+n 200
+RSE 1.68136091251
+salesmean 14.022500000000003
+error 0.119904504369
+\end{lstlisting}
+
+The resulting $RSE$ is approximately $1.68$ ($12\%$), representing a remarkable reduction in prediction error compared to the $22\%$--$23\%$ observed in our previous single- or two-channel models.
+
+\subsection{Model 4: \texttt{'Sales$\sim$TV+Radio+Newspaper'}}
+
+\begin{problema}
+	Develop and execute a complete multiple linear regression model for:
+	\begin{center}
+		\texttt{Sales $\sim$ TV + Radio + Newspaper}
+	\end{center}
+	Perform a comprehensive analysis of the resulting statistical diagnostics. Based on your empirical findings, explain why the model benefits negligibly from incorporating the `Newspaper` predictor alongside `TV` and `Radio`.
+\end{problema}
+
+\subsection{Conclusions Regarding Model Selection}
+\begin{itemize}
+	\item When all three predictors are included, the coefficient for `Newspaper` becomes slightly negative, whereas when considered alongside `TV` alone, its coefficient was significantly positive.
+	\item For the three-predictor model, the overall $F$-statistic drops substantially from $859.6$ down to $570.3$.
+	\item Simultaneously, the `RSE` increases slightly rather than decreasing.
+\end{itemize}
+Taking all these empirical facts into account, we conclude that incorporating `Newspaper` into the combined model is inefficient and redundant (Why does this happen?).
+
+\subsection{Multicollinearity}
+
+\emph{Multicollinearity} is the fundamental statistical reason for the suboptimal performance and shifting coefficient signs observed when `Newspaper` is added to the final regression specification.
+
+Multicollinearity refers to the existence of substantial linear correlation among the predictor variables themselves within a regression model.
+
+Let us trace the warning signs of this common empirical challenge: earlier, when we constructed the \emph{correlation matrix} across all variables in our dataset, we discovered a notable positive correlation of $r \approx 0.35$ between `Radio` and `Newspaper`.
+
+This implies that companies that spend heavily on `Radio` advertising also tend to spend heavily on `Newspaper` campaigns. When two predictors are correlated, it inflates the sampling variability (standard errors) of their estimated regression coefficients.
+
+Recall that the $t$-statistic for any coefficient is calculated by dividing the estimated parameter value by its standard error (`variability`). As the coefficient variability increases due to predictor correlation, the $t$-statistic shrinks toward zero, causing the corresponding $p$-value to rise.
+
+Consequently, the likelihood of incorrectly accepting the null hypothesis ($H_0: \beta_i = 0$) increases significantly, obscuring or distorting the true marginal significance of the predictor within the multi-variable model.
+
+Therefore, collinearity is a critical diagnostic issue that must be monitored carefully. When dealing with correlated predictors, we must conduct quantitative screening tests to determine which combinations of variables yield the most robust and accurate model.
+
+A sound practical workflow is to inspect pairwise correlation matrices to flag potential collinearity early and evaluate its impact on coefficient stability. The predictor variables responsible for severe collinearity should generally be removed: the \emph{Variance Inflation Factor} (`VIF`) is the standard diagnostic metric used to quantify and resolve this issue.
+
+\subsection{\texttt{VIF} (Variance Inflation Factor)}
+
+The Variance Inflation Factor is a rigorous diagnostic metric designed to quantify precisely how much the variance of an estimated regression coefficient is inflated due to linear correlation with the remaining predictor variables.
+
+The `VIF` must be evaluated individually for every predictor in the model; if a specific variable exhibits an excessively high `VIF`, it should be eliminated from the specification.
+
+The underlying mathematical procedure for computing the `VIF` of the $i$-th predictor ($X_i$) is as follows:
+\begin{enumerate}
+	\item Regress $X_i$ linearly against all other $p-1$ predictor variables in the model:
+	\begin{align}
+		X_i = \sum_{j \neq i} \alpha_j X_j
+	\end{align}
+	\item Compute the coefficient of determination ($R^2$) of this auxiliary regression, denoting it as $R_i^2$. The `VIF` associated with predictor $X_i$ is defined as:
+	\begin{align}
+		\texttt{VIF}_i = \frac{1}{1 - R_i^2}
+	\end{align}
+	\item Interpret the resulting score according to established diagnostic benchmarks:
+	\begin{itemize}
+		\item $\texttt{VIF} = 1$: The predictor is completely uncorrelated with the other predictors.
+		\item $1 < \texttt{VIF} < 5$: The predictor exhibits moderate correlation with other predictors, but generally remains acceptable within the model.
+		\item $\texttt{VIF} \ge 5$: The predictor is highly collinear with other variables and should typically be investigated or removed from the model.
+	\end{itemize}
+\end{enumerate}
+
+We can compute the exact `VIF` values for all three predictors in our advertising dataset using the following Python code:
+
+\begin{lstlisting}[language=Python]
+modelN = smf.ols(formula="Newspaper~TV+Radio", data=advert).fit()
+r2N = modelN.rsquared
+VIFN = 1 / (1 - r2N)
+print("VIF(Newspaper):", VIFN)
+
+modelT = smf.ols(formula="TV~Newspaper+Radio", data=advert).fit()
+r2T = modelT.rsquared
+VIFT = 1 / (1 - r2T)
+print("VIF(TV):", VIFT)
+
+modelR = smf.ols(formula="Radio~TV+Newspaper", data=advert).fit()
+r2R = modelR.rsquared
+VIFR = 1 / (1 - r2R)
+print("VIF(Radio):", VIFR)
+\end{lstlisting}
+
+Which yields the following empirical outputs:
+\begin{lstlisting}[language=Python]
+VIF(Newspaper): 1.14518737872
+VIF(TV): 1.00461078494
+VIF(Radio): 1.14495191711
+\end{lstlisting}
+
+Notice that `Newspaper` and `Radio` exhibit virtually identical `VIF` values ($\approx 1.145$), demonstrating that their variance inflation is driven by their mutual correlation ($r \approx 0.35$), whereas `TV` (`VIF` $\approx 1.005$) is essentially independent of both.
+
+Although a `VIF` of $1.15$ is well below the critical threshold of $5$, our comparative model evaluation demonstrated clearly that combining `TV` and `Radio` alone produces a vastly superior specification compared to `TV` and `Newspaper`.
+
+Adding all three variables simultaneously yields virtually no gain in explanatory power while increasing model complexity, slightly inflating residual standard error, and sharply depressing the overall $F$-statistic.
+
+Thus, guided by both theoretical parsimony and quantitative diagnostics, we drop `Newspaper` from our specification and definitively select Model 3 as our optimal multiple linear regression model:
+\begin{align}
+	\texttt{Sales} = 2.92 + 0.046 \times \texttt{TV} + 0.188 \times \texttt{Radio}
+\end{align}

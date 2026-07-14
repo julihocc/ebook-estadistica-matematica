@@ -1,0 +1,184 @@
+\section{Understanding the Mathematics Behind Linear Regression}
+
+Suppose we have a hypothetical dataset containing information regarding the market cost (in units of $\$10,000$) of several residential properties alongside their respective physical sizes (in square feet, $\text{ft}^2$).
+
+\begin{center}
+	\begin{tabular}{|l|l|}\hline
+		Size & Cost\\\hline
+		1500 & 45\\\hline
+		1200 & 38\\\hline
+		1700 & 48\\\hline
+		800 & 27\\\hline
+	\end{tabular}
+\end{center}
+
+In this scenario, cost is the output response variable, whereas physical size is the input explanatory variable.
+
+The input and output variables are typically denoted by $X$ and $Y$, respectively.
+
+In the case of linear regression, we assume that the cost $Y$ is a linear function of size $X$, and to estimate $Y$, we propose the structural linear equation:
+\begin{align}
+	Y_e = \a + \beta X,
+\end{align}
+where $Y_e$ is the \emph{estimated value} of $Y$ yielded by our linear model.
+
+\begin{observacion}
+	The quantitative objective of linear regression is to determine statistically significant values for $\alpha$ and $\beta$ that \emph{minimize} the discrepancy between the observed $Y$ and the estimated $Y_e$.
+\end{observacion}
+
+For our illustrative example, if we determine parameter values $\a = 2$ and $\beta = 0.03$, then our linear prediction equation becomes:
+\begin{align}
+	Y_e = 2 + 0.03 X.
+\end{align}
+
+Using this equation, we can estimate the market cost of a property of any arbitrary size. For instance, for a residential property of $900\text{ ft}^2$, the estimated cost is:
+\begin{align}
+	Y_e = 2 + 0.03(900) = 29.
+\end{align}
+
+The next fundamental question is how to formally derive the exact optimal estimates for $\a$ and $\beta$. To achieve this, we employ the \emph{Ordinary Least Squares (OLS)} optimization procedure applied to the residual differences between $Y$ and $Y_e$, which we denote as:
+\begin{align}
+	\ep = Y - Y_e.
+\end{align}
+
+Our mathematical objective is to minimize the sum of squared residual errors:
+\begin{align}
+	\sum \ep^2 &= \sum \left( Y - Y_e \right)^2\\
+	&= \sum \left( Y - \left( \a + \beta X \right) \right)^2
+\end{align}
+with respect to the parameters $\a$ and $\beta$.
+
+By applying differential calculus, it can be proven that the exact parameter values minimizing this objective function are given by:
+\begin{align}
+	\label{beta}
+	\beta &= \dfrac{\sum \left( x - \bar{x} \right)\left( y - \bar{y} \right)}{\sum\left( x - \bar{x} \right)^2}\\
+	\label{alfa}
+	\a &= \bar{y} - \beta \times \bar{x}
+\end{align}
+
+\subsection{Proof of the Least Squares Normal Equations}
+
+To find the specific parameter estimates $\a$ and $\beta$ that minimize the sum of squared residual errors, we formalize the objective function:
+\begin{align}
+	S(\a, \beta) = \sum_{i=1}^{n} \left( Y_i - (\a + \beta X_i) \right)^2
+\end{align}
+
+To minimize $S$, we compute its partial derivatives with respect to both $\a$ and $\beta$ and set them equal to zero:
+
+\textbf{Partial derivative with respect to $\a$:}
+\begin{align}
+	\frac{\partial S}{\partial \a} &= -2 \sum_{i=1}^{n} \left( Y_i - \a - \beta X_i \right) = 0 \\
+	\sum_{i=1}^{n} Y_i - n\a - \beta \sum_{i=1}^{n} X_i &= 0 \\
+	n\a &= \sum_{i=1}^{n} Y_i - \beta \sum_{i=1}^{n} X_i \\
+	\a &= \bar{Y} - \beta \bar{X}
+\end{align}
+
+\textbf{Partial derivative with respect to $\beta$:}
+\begin{align}
+	\frac{\partial S}{\partial \beta} &= -2 \sum_{i=1}^{n} X_i \left( Y_i - \a - \beta X_i \right) = 0 \\
+	\sum_{i=1}^{n} X_i Y_i - \a \sum_{i=1}^{n} X_i - \beta \sum_{i=1}^{n} X_i^2 &= 0
+\end{align}
+
+Substituting $\a = \bar{Y} - \beta \bar{X}$ into our second normal equation yields:
+\begin{align}
+	\sum_{i=1}^{n} X_i Y_i - (\bar{Y} - \beta \bar{X}) \sum_{i=1}^{n} X_i - \beta \sum_{i=1}^{n} X_i^2 &= 0 \\
+	\sum_{i=1}^{n} X_i Y_i - \bar{Y} \sum_{i=1}^{n} X_i + \beta \bar{X} \sum_{i=1}^{n} X_i - \beta \sum_{i=1}^{n} X_i^2 &= 0 \\
+	\sum_{i=1}^{n} X_i Y_i - n\bar{X}\bar{Y} &= \beta \left( \sum_{i=1}^{n} X_i^2 - n\bar{X}^2 \right) \\
+	\beta &= \frac{\sum_{i=1}^{n} X_i Y_i - n\bar{X}\bar{Y}}{\sum_{i=1}^{n} X_i^2 - n\bar{X}^2}
+\end{align}
+
+This algebraic expression is completely equivalent to the sample covariance over sample variance form:
+\begin{align}
+	\beta &= \frac{\sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^{n} (X_i - \bar{X})^2}
+\end{align}
+
+\subsection{Decomposition of Sums of Squares: SST = SSR + SSD}
+
+We define three fundamental quadratic quantities that govern regression diagnostics:
+
+\begin{itemize}
+	\item \textbf{Total Sum of Squares (SST):}
+	\begin{align}
+		SST = \sum_{i=1}^{n} (Y_i - \bar{Y})^2
+	\end{align}
+	Measures the total empirical variability of $Y$ around its overall sample mean.
+	
+	\item \textbf{Regression Sum of Squares (SSR):}
+	\begin{align}
+		SSR = \sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})^2
+	\end{align}
+	Measures the structural variability explained explicitly by the linear regression model.
+	
+	\item \textbf{Error (Residual) Sum of Squares (SSD):}
+	\begin{align}
+		SSD = \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2
+	\end{align}
+	Measures the residual variability left unexplained by the regression model.
+\end{itemize}
+
+\begin{teorema}
+	$SST = SSR + SSD$
+\end{teorema}
+
+\begin{proof}
+	We start from the algebraic partitioning identity:
+	\begin{align}
+		Y_i - \bar{Y} = (\hat{Y}_i - \bar{Y}) + (Y_i - \hat{Y}_i)
+	\end{align}
+	
+	Squaring both sides and summing over all $n$ observations:
+	\begin{align}
+		\sum_{i=1}^{n} (Y_i - \bar{Y})^2 &= \sum_{i=1}^{n} \left[ (\hat{Y}_i - \bar{Y}) + (Y_i - \hat{Y}_i) \right]^2 \\
+		&= \sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})^2 + \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2 + 2\sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})(Y_i - \hat{Y}_i)
+	\end{align}
+	
+	The cross-product term vanishes identically to zero because:
+	\begin{align}
+		\sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})(Y_i - \hat{Y}_i) &= \sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})e_i \\
+		&= \sum_{i=1}^{n} \hat{Y}_i e_i - \bar{Y} \sum_{i=1}^{n} e_i
+	\end{align}
+	
+	By the fundamental properties of the OLS normal equations, we know that $\sum_{i=1}^{n} e_i = 0$ and $\sum_{i=1}^{n} X_i e_i = 0$, which necessarily implies that $\sum_{i=1}^{n} \hat{Y}_i e_i = 0$.
+	
+	Therefore, the cross-product is zero, concluding the proof:
+	\begin{align}
+		SST = SSR + SSD
+	\end{align}
+\end{proof}
+
+\subsection{Properties of the Coefficient of Determination $R^2$}
+
+The coefficient of determination is formally defined as the proportion of total variance explained by the model:
+\begin{align}
+	R^2 = \frac{SSR}{SST} = 1 - \frac{SSD}{SST}
+\end{align}
+
+\begin{observacion}[Properties of $R^2$]
+	\begin{enumerate}
+		\item $0 \leq R^2 \leq 1$.
+		\item $R^2 = 1$ if and only if $SSD = 0$; that is, the linear model explains $100\%$ of the empirical variation without any residual error.
+		\item $R^2 = 0$ if and only if $SSR = 0$; that is, the regression line provides no explanatory improvement over the unconditional sample mean $\bar{Y}$.
+		\item $R^2$ is monotonically non-decreasing when additional predictor variables are included in the model (even if those predictors have no true causal relationship with $Y$).
+		\item In simple linear regression, $R^2 = r^2$, where $r$ is the sample Pearson correlation coefficient between $X$ and $Y$.
+	\end{enumerate}
+\end{observacion}
+
+\begin{observacion}[Adjusted $R^2$]
+	To penalize the artificial inflation of $R^2$ caused by adding superfluous predictor terms, we define the Adjusted $R^2$ ($R^2_{\text{adj}}$):
+	\begin{align}
+		R^2_{\text{adj}} = 1 - \frac{SSD / (n - p - 1)}{SST / (n - 1)} = 1 - \frac{n - 1}{n - p - 1}(1 - R^2)
+	\end{align}
+	where $p$ represents the total number of predictor variables. The Adjusted $R^2$ can decrease if an added predictor variable fails to reduce the residual variance sufficiently to offset the loss of a degree of freedom.
+\end{observacion}
+
+% \part{DO NOT DELETE}
+% \section{Resources}
+% \subsection{Predictive Analysis}
+% The repository containing the \texttt{Python 3} scripts for this presentation can be found at \href{https://github.com/julihocc/ulsaPye/tree/master/analisisPredictivo}{https://github.com/julihocc/ulsaPye/tree/master/analisisPredictivo}
+% 
+% [t, ]
+% \frametitle{References}
+% \nocite{*}
+% \betaibliographystyle{amsalpha}
+% \betaibliography{ulsaPye}
+%

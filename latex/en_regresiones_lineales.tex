@@ -1,0 +1,105 @@
+\section{Introduction}
+
+In this unit, we will deal with a foundational predictive modeling technique called \emph{linear regression}, which enables us to construct a functional quantitative model from historical observational datasets.
+
+Our core objective is to understand the mathematical foundations underlying linear regression and to illustrate its empirical performance through practical Python implementations across various real-world datasets.
+
+\subsection{Context and Importance}
+
+Linear regression is one of the most fundamental and widely utilized techniques in statistics and data science. Developed in the nineteenth century by Francis Galton and mathematically formalized by Karl Pearson and Ronald Fisher, linear regression remains an indispensable tool in:
+
+\begin{itemize}
+	\item \textbf{Prediction:} Forecasting future quantities based on historical records (e.g., sales volume, asset pricing, consumer demand).
+	\item \textbf{Inference:} Understanding structural relationships between variables and precisely quantifying their marginal impacts.
+	\item \textbf{Process Control:} Optimizing industrial, engineering, and business systems.
+	\item \textbf{Scientific Research:} Rigorously testing theoretical hypotheses concerning directional associations.
+\end{itemize}
+
+Despite its conceptual simplicity, linear regression serves as the structural foundation for more advanced quantitative methodologies, including polynomial regression, generalized linear models (GLMs), and machine learning algorithms.
+
+\subsection{Roadmap}
+\begin{itemize}
+	\item The mathematical foundations behind linear regression.
+	\item Hands-on implementation of linear regression using Python.
+	\item Structural interpretation of the estimated model parameters.
+	\item Out-of-sample model validation and error assessment.
+	\item Handling common diagnostic issues and violations in linear regression.
+\end{itemize}
+
+\subsection{Mathematical Models}
+A \emph{mathematical / statistical / predictive model} is an algebraic equation linking \emph{input variables} to produced \emph{output variables} when specific numerical values are fed into the system.
+
+Models are broadly classified into two categories:
+\begin{itemize}
+	\item \textbf{Deterministic Models:} Always yield the exact same deterministic output for any given set of input values (e.g., $F = ma$).
+	\item \textbf{Stochastic Models:} Explicitly incorporate random variability and observational uncertainty (e.g., regression models).
+\end{itemize}
+
+Linear regression is inherently a stochastic model because it acknowledges that real-world empirical observations never adhere perfectly to a rigid deterministic line; rather, they include an additive random error component.
+
+\subsection{Example}
+For instance, suppose that the market price $P$ of a residential property is \emph{linearly dependent} on its total physical area $S$, internal amenities $A$, and proximity to public transit $T$.
+
+The corresponding structural equation is expressed as:
+\begin{align}
+	P = a_1 \times S + a_2 \times A + a_3 \times T + \epsilon
+\end{align}
+where $\epsilon$ represents the additive random error term (accounting for unmeasured confounding variables and inherent market noise not captured by the explicit predictors).
+
+This quantitative equation is termed the \emph{model}, and the numerical coefficients $a_1, a_2, a_3$ are its \emph{parameters}.
+
+Here, the variable $P$ represents the predicted target outcome, whereas $S, A, T$ represent the input features (known empirical measurements).
+
+However, the unknown structural parameters $a_i$ must be rigorously estimated from historical data.
+
+Once these parameters are empirically determined, the quantitative model is fully specified and ready for predictive evaluation.
+
+\subsection{Relationship with Correlation}
+
+It is essential to distinguish carefully between \emph{correlation} and \emph{regression}:
+
+\begin{itemize}
+	\item \textbf{Correlation:} Quantifies the linear association strength and direction between two variables. It is completely symmetric ($\corr(X,Y) = \corr(Y,X)$) and dimensionless (strictly bounded between $-1$ and $1$).
+	\item \textbf{Regression:} Models the directional functional linkage linking explanatory variables to a target response, allowing specific out-of-sample predictions. It is inherently asymmetric, and its estimated coefficients carry specific physical or monetary units.
+\end{itemize}
+
+While a high correlation coefficient between two variables suggests that fitting a linear regression model could be appropriate, correlation alone neither establishes causality nor yields a deployed predictive equation.
+
+\subsection{Model Assumptions}
+
+For a linear regression model to yield valid parametric inferences and reliable prediction intervals, several fundamental statistical assumptions must be met:
+
+\begin{enumerate}
+	\item \textbf{Linearity:} The functional conditional mean relationship between the predictors and the target response is linear.
+	\item \textbf{Independence:} Individual observations across the dataset are mutually independent of one another.
+	\item \textbf{Homoscedasticity:} The variance of the residual error terms remains constant across all predictor levels.
+	\item \textbf{Normality:} The residual error terms follow a normal probability distribution (particularly crucial when analyzing small samples).
+	\item \textbf{Absence of Multicollinearity:} In multiple regression, explanatory predictors must not exhibit strong or collinear inter-dependencies.
+\end{enumerate}
+
+In subsequent sections, we will examine formal statistical tests and diagnostic plots to verify these assumptions and explore remedial measures when violations arise.
+
+\subsection{Types of Linear Regression}
+
+Depending on the number of explanatory predictor variables included, we distinguish between:
+
+\begin{itemize}
+	\item \textbf{Simple Linear Regression:} Analyzes exactly one predictor variable ($Y = \beta_0 + \beta_1 X + \epsilon$).
+	\item \textbf{Multiple Linear Regression:} Analyzes two or more simultaneous predictor variables ($Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \epsilon$).
+\end{itemize}
+
+Both structural forms rely upon the exact same optimization principle: the **Ordinary Least Squares (OLS)** method, which estimates the model parameters by minimizing the sum of squared residual errors.
+
+\subsection{Practical Applications}
+
+Prominent real-world applications of linear regression include:
+
+\begin{itemize}
+	\item \textbf{Finance:} Forecasting asset prices, assessing quantitative credit risk metrics, and estimating expected investment returns.
+	\item \textbf{Marketing:} Quantifying cross-channel advertising ROI, predicting sales volume, and analyzing campaign effectiveness.
+	\item \textbf{Medicine:} Modeling pharmacological dose-response relationships and forecasting clinical disease progression.
+	\item \textbf{Engineering:} Industrial quality control, predicting component failure rates, and optimizing manufacturing efficiency.
+	\item \textbf{Social Sciences:} Exploring empirical relationships across socioeconomic, educational, and demographic variables.
+\end{itemize}
+
+In the following sections, we will develop the rigorous mathematical derivations underlying least squares optimization and demonstrate how to build, evaluate, and validate linear regression models step by step using Python.

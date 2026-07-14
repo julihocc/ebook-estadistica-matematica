@@ -1,0 +1,300 @@
+\section{Model Validation}
+
+Every predictive model must be validated to evaluate its performance across different datasets and determine whether its predictive accuracy remains consistent across similar data sources.
+
+This verification helps detect any \texttt{overfitting problem}, a condition in which a model fits the initial data exceptionally well but fails to generalize accurately to new or unseen data. A common validation procedure is to evaluate the model by splitting the available dataset into \texttt{training/testing} subsets. Another robust method is \texttt{$k$-fold cross-validation}, which we will explore in detail in this section and subsequent chapters.
+
+\subsection{Training and Testing Data Split}
+
+Ideally, data partitioning should be performed right at the start of the modeling pipeline to prevent sampling bias. In other words, the model should perform well even on a testing dataset that shares the same predictor variables but whose sample means and variances differ noticeably from those of the training set upon which the model was built.
+
+Such shifts can occur when the dataset used to build the model (training set) and the dataset upon which it is applied (testing set) originate from distinct sources or different sampling windows. A more robust way to address this variance is a procedure called $k$-fold cross-validation, which we will discuss shortly.
+
+Let us examine how to split our available dataset into training and testing subsets and evaluate our model on the testing subset:
+
+\begin{lstlisting}[language=Python]
+import pandas as pd
+import statsmodels.formula.api as smf
+
+advert = pd.read_csv("./dataBases/Advertising.csv")
+model3 = smf.ols(formula='Sales~TV+Radio', data=advert).fit()
+sales_pred = model3.predict(advert[['TV', 'Radio']])
+print(sales_pred.head())
+
+print(model3.summary())
+
+import numpy as np
+
+N = len(advert)
+arr = np.arange(N)
+np.random.shuffle(arr)
+check = arr < 0.8 * N
+training = advert[check].copy()
+testing = advert[~check].copy()
+\end{lstlisting}
+
+We now construct our regression model using only the training data and evaluate its predictive accuracy on the testing subset. Let us fit the model that previously achieved the best performance—namely, the specification using both TV and Radio advertising expenditures as predictors:
+
+\begin{lstlisting}[language=Python]
+import statsmodels.formula.api as smf
+model5 = smf.ols(formula='Sales~TV+Radio', data=training).fit()
+print(model5.summary())
+\end{lstlisting}
+
+Recall the output when fitting on the entire dataset (`print(model3.summary())`):
+
+\begin{lstlisting}[language=Python]
+OLS Regression Results
+==============================================================================
+Dep. Variable:                  Sales   R-squared:                       0.897
+Model:                            OLS   Adj. R-squared:                  0.896
+Method:                 Least Squares   F-statistic:                     859.6
+Date:                Sun, 12 Nov 2017   Prob (F-statistic):           4.83e-98
+Time:                        22:40:26   Log-Likelihood:                -386.20
+No. Observations:                 200   AIC:                             778.4
+Df Residuals:                     197   BIC:                             788.3
+Df Model:                           2
+Covariance Type:            nonrobust
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      2.9211      0.294      9.919      0.000       2.340       3.502
+TV             0.0458      0.001     32.909      0.000       0.043       0.048
+Radio          0.1880      0.008     23.382      0.000       0.172       0.204
+==============================================================================
+Omnibus:                       60.022   Durbin-Watson:                   2.081
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              148.679
+Skew:                          -1.323   Prob(JB):                     5.19e-33
+Kurtosis:                       6.292   Cond. No.                         425.
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+\end{lstlisting}
+
+Now observe the regression results when fitted solely on the $80\%$ training subset (`model5`):
+
+\begin{lstlisting}[language=Python]
+OLS Regression Results
+==============================================================================
+Dep. Variable:                  Sales   R-squared:                       0.906
+Model:                            OLS   Adj. R-squared:                  0.904
+Method:                 Least Squares   F-statistic:                     753.7
+Date:                Sun, 12 Nov 2017   Prob (F-statistic):           3.22e-81
+Time:                        22:40:26   Log-Likelihood:                -299.60
+No. Observations:                 160   AIC:                             605.2
+Df Residuals:                     157   BIC:                             614.4
+Df Model:                           2
+Covariance Type:            nonrobust
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      2.8708      0.318      9.035      0.000       2.243       3.498
+TV             0.0448      0.001     30.797      0.000       0.042       0.048
+Radio          0.1959      0.009     22.803      0.000       0.179       0.213
+==============================================================================
+Omnibus:                       11.888   Durbin-Watson:                   2.158
+Prob(Omnibus):                  0.003   Jarque-Bera (JB):               13.175
+Skew:                          -0.696   Prob(JB):                      0.00138
+Kurtosis:                       2.807   Cond. No.                         438.
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+\end{lstlisting}
+
+Notice that the primary model parameters—such as the intercept, regression slope estimates, and overall $R^2$ value—remain highly consistent across both estimations.
+
+The decrease observed in the overall $F$-statistic is directly attributable to the smaller sample size ($n = 160$ vs. $n = 200$). A smaller dataset generally produces a smaller $(n - p - 1)$ degrees of freedom term in the denominator of the $F$-statistic formula, directly causing the numerical value of the $F$-statistic to decline.
+
+The fitted predictive equation for our training model can be written as:
+\begin{align}
+	\texttt{Sales} \approx 2.86 + 0.04 \times \texttt{TV} + 0.17 \times \texttt{Radio}
+\end{align}
+
+Next, we generate sales predictions specifically for the $20\%$ testing subset (`testing[['TV', 'Radio']]`):
+
+\begin{lstlisting}[language=Python]
+sales_pred = model5.predict(testing[['TV', 'Radio']])
+print(sales_pred.head())
+\end{lstlisting}
+
+We can now compute the exact Residual Standard Error (`RSE`) on the testing subset using the following code block:
+
+\begin{lstlisting}[language=Python]
+testing['sales_pred'] = 2.86 + 0.04 * testing['TV'] + 0.17 * testing['Radio']
+n = len(testing)
+p = 2
+testing['SSD'] = (testing['Sales'] - testing['sales_pred']) ** 2
+SSD = testing.sum()['SSD']
+RSE = np.sqrt(SSD / (n - p - 1))
+salesmean = np.mean(testing['Sales'])
+error = RSE / salesmean
+print(RSE, salesmean, error)
+## 2.33080393856 14.527500000000003 0.160440814907
+\end{lstlisting}
+
+The resulting `RSE` on the testing set is approximately $2.33$ over a mean sales value of $14.53$, representing an out-of-sample prediction error of roughly $16\%$ ($17\%$).
+
+We observe that the model's out-of-sample prediction error (`RSE`) differs slightly from the in-sample `RSE` obtained when training on the full dataset ($1.68$). This discrepancy indicates a mild degree of overfitting when the model parameters are tuned to match every fluctuation of the full dataset.
+
+Although the `RSE` obtained from the training/testing split is slightly larger, it provides a much more trustworthy and realistic estimate of how the model will perform when predicting genuinely new, unseen observations.
+
+\subsection{$k$-Fold Cross-Validation}
+
+\emph{$k$-fold cross-validation} is a significantly more robust validation technique than a single training/testing split. Rather than creating just one random partition, we divide the available data into $k$ mutually exclusive subsets (folds) of approximately equal size and perform $k$ iterative training and evaluation rounds:
+
+\begin{enumerate}
+	\item In each iteration, we use $k - 1$ folds to train the model.
+	\item We use the remaining single fold as the testing set to validate the model.
+	\item We compute the chosen performance metrics (e.g., $R^2$, $RSE$) on the validation fold.
+\end{enumerate}
+
+Finally, we average the performance metrics across all $k$ iterations to obtain a stable, unbiased, and reliable estimate of the model's general predictive capability.
+
+\begin{observacion}
+	Key advantages of $k$-fold cross-validation:
+	\begin{itemize}
+		\item \textbf{Reduced Variance:} Averaging the performance metrics over $k$ distinct validation splits substantially reduces the variance caused by any single random train/test partition.
+		\item \textbf{Efficient Data Utilization:} Every observation in the dataset is used exactly once for testing and exactly $k - 1$ times for training.
+		\item \textbf{Overfitting Detection:} If a model consistently achieves exceptionally high performance on training folds while performing poorly on validation folds, it provides clear, undeniable diagnostic evidence of overfitting.
+	\end{itemize}
+\end{observacion}
+
+\subsubsection{Implementation in Python}
+
+\begin{lstlisting}[language=Python]
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import KFold
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Load dataset
+advert = pd.read_csv("./dataBases/Advertising.csv")
+X = advert[['TV', 'Radio']]
+Y = advert['Sales']
+
+# Configure cross-validation
+k = 5  # number of folds
+kf = KFold(n_splits=k, shuffle=True, random_state=42)
+
+# Store metric scores across folds
+r2_scores = []
+rse_scores = []
+
+# Perform cross-validation loops
+for fold, (train_idx, test_idx) in enumerate(kf.split(X), 1):
+    # Split data into training and testing partitions
+    X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
+    Y_train, Y_test = Y.iloc[train_idx], Y.iloc[test_idx]
+    
+    # Train OLS regression model
+    model = LinearRegression()
+    model.fit(X_train, Y_train)
+    
+    # Predict on unseen test fold
+    Y_pred = model.predict(X_test)
+    
+    # Compute fold performance metrics
+    r2 = r2_score(Y_test, Y_pred)
+    mse = mean_squared_error(Y_test, Y_pred)
+    rse = np.sqrt(mse)
+    
+    r2_scores.append(r2)
+    rse_scores.append(rse)
+    
+    print(f'Fold {fold}: R^2 = {r2:.4f}, RSE = {rse:.4f}')
+
+# Aggregate cross-validation summary
+print(f'\n=== {k}-Fold Cross-Validation Results ===')
+print(f'Mean R^2: {np.mean(r2_scores):.4f} +/- {np.std(r2_scores):.4f}')
+print(f'Mean RSE: {np.mean(rse_scores):.4f} +/- {np.std(rse_scores):.4f}')
+\end{lstlisting}
+
+\subsubsection{Interpretation of Results}
+
+The cross-validation output provides essential diagnostic benchmarks:
+
+\begin{itemize}
+	\item \textbf{Mean Metric Score:} Represents the expected generalization performance of the model when applied to new, unseen observations.
+	\item \textbf{Standard Deviation:} Measures the stability and consistency of the model. A small standard deviation confirms that the model's accuracy is robust and does not fluctuate wildly across different data partitions.
+	\item \textbf{Fold-by-Fold Performance:} Enables the analyst to identify anomalous folds (for instance, folds containing severe outliers or high-leverage observations that distort prediction accuracy).
+\end{itemize}
+
+\begin{observacion}
+	\textbf{Choosing the Number of Folds ($k$):}
+	\begin{itemize}
+		\item Values of $k = 5$ or $k = 10$ are the industry and academic standards, providing an optimal empirical balance between bias and variance.
+		\item Small values (e.g., $k = 2$ or $k = 3$): Produce higher bias but lower estimation variance, and execute rapidly.
+		\item Large values (e.g., $k = n$, known as \emph{Leave-One-Out Cross-Validation} or LOOCV): Achieve virtually unbiased performance estimates but exhibit higher variance across training sets and are computationally intensive for large sample sizes.
+	\end{itemize}
+\end{observacion}
+
+\subsubsection{Model Comparison via Cross-Validation}
+
+Cross-validation is particularly powerful for comparing competing regression specifications systematically:
+
+\begin{lstlisting}[language=Python]
+from sklearn.model_selection import cross_val_score
+
+# Model 1: TV alone
+X1 = advert[['TV']]
+r2_model1 = cross_val_score(LinearRegression(), X1, Y, cv=5, scoring='r2')
+
+# Model 2: TV + Radio
+X2 = advert[['TV', 'Radio']]
+r2_model2 = cross_val_score(LinearRegression(), X2, Y, cv=5, scoring='r2')
+
+# Model 3: TV + Radio + Newspaper
+X3 = advert[['TV', 'Radio', 'Newspaper']]
+r2_model3 = cross_val_score(LinearRegression(), X3, Y, cv=5, scoring='r2')
+
+print('Model Comparison (Mean R^2 +/- Standard Deviation):')
+print(f'Model 1 (TV): {np.mean(r2_model1):.4f} +/- {np.std(r2_model1):.4f}')
+print(f'Model 2 (TV+Radio): {np.mean(r2_model2):.4f} +/- {np.std(r2_model2):.4f}')
+print(f'Model 3 (TV+Radio+Newspaper): {np.mean(r2_model3):.4f} +/- {np.std(r2_model3):.4f}')
+\end{lstlisting}
+
+\subsubsection{Stratified Cross-Validation}
+
+When working with datasets containing critical distribution characteristics that must be preserved identically inside every fold (such as class proportions in classification tasks or specific target quantiles in regression), we can employ \emph{stratified cross-validation}:
+
+\begin{lstlisting}[language=Python]
+from sklearn.model_selection import StratifiedKFold
+
+# Construct target categories based on response quantiles (quartiles of Y)
+Y_quartiles = pd.qcut(Y, q=4, labels=False)
+
+# Configure stratified cross-validation
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+r2_stratified = []
+for train_idx, test_idx in skf.split(X, Y_quartiles):
+    X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
+    Y_train, Y_test = Y.iloc[train_idx], Y.iloc[test_idx]
+    
+    model = LinearRegression()
+    model.fit(X_train, Y_train)
+    Y_pred = model.predict(X_test)
+    
+    r2_stratified.append(r2_score(Y_test, Y_pred))
+
+print(f'Stratified R^2: {np.mean(r2_stratified):.4f} +/- {np.std(r2_stratified):.4f}')
+\end{lstlisting}
+
+\subsection{Summary of Validation Techniques}
+
+\begin{center}
+	\begin{tabular}{|l|l|l|l|}\hline
+		\textbf{Method} & \textbf{Advantages} & \textbf{Disadvantages} & \textbf{Recommended Usage} \\\hline
+		Train/Test Split & Fast, simple & High variance across splits & Initial exploration \\\hline
+		$k$-Fold CV & Robust, efficient & Computationally slower & Final model evaluation \\\hline
+		LOOCV ($k=n$) & Virtually unbiased & Very slow, higher variance & Small sample sizes \\\hline
+		Stratified CV & Preserves distribution & More complex setup & Imbalanced or skewed data \\\hline
+	\end{tabular}
+\end{center}
+
+\begin{observacion}
+	\textbf{Practical Recommendation:} Always adopt 5-fold or 10-fold cross-validation as your standard evaluation methodology for regression modeling. Reserve the single train/test split for preliminary prototyping or when operating on massive datasets where iterative training is computationally prohibitive.
+\end{observacion}

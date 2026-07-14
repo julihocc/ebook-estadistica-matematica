@@ -1,0 +1,647 @@
+\section{Solved Problems in Simple Linear Regression}
+
+\subsection{Problem Statements}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{problema}
+	\label{prob:reg_sim_horas_calif}
+	We investigate the relationship between study hours ($X$) and the final grade obtained ($Y$) on a modular statistics exam. Random data were collected from $n = 10$ students:
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}\hline
+			\textbf{Hours ($X$)} & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 12 \\\hline
+			\textbf{Grade ($Y$)} & 45 & 50 & 55 & 60 & 65 & 70 & 75 & 80 & 85 & 90 \\\hline
+		\end{tabular}
+	\end{center}
+	\begin{enumerate}
+		\item Compute the Ordinary Least Squares (OLS) estimators for the intercept ($\hat{\beta}_0$) and the slope ($\hat{\beta}_1$).
+		\item State the empirical equation of the fitted linear regression model $\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$.
+		\item Predict the expected grade for a student who dedicates $7.5$ hours to studying prior to the exam.
+		\item Compute the coefficient of determination $R^2$ and interpret its meaning within this pedagogical context.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:reg_sim_ventas_publicidad}
+	A retail firm wishes to model and forecast monthly sales ($Y$, in thousands of dollars) based on expenditure in advertising and digital marketing ($X$, in thousands of dollars). After compiling data across $n = 8$ consecutive months, the following sample quantities are summarized:
+	\begin{align}
+		\bar{X} = 4.5, \quad \bar{Y} = 23.125, \quad \sum_{i=1}^8 (X_i - \bar{X})(Y_i - \bar{Y}) = 122.5, \quad \sum_{i=1}^8 (X_i - \bar{X})^2 = 42.0.
+	\end{align}
+	\begin{enumerate}
+		\item Fit the simple linear regression line using the Ordinary Least Squares method.
+		\item Clearly interpret the estimated slope coefficient $\hat{\beta}_1$ in the monetary units of the problem.
+		\item How much money should the firm invest in advertising if it sets a projected target of reaching $\$40$ thousand dollars in monthly sales?
+		\item Compute the Residual Standard Error of the estimation ($RSE$ or $S_e$), knowing that the error sum of squares yielded $\text{SSD} = 12.5$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:reg_sim_paquetes_costo}
+	We analyze the structural relationship between postal package weight ($X$, in kg) and final shipping cost ($Y$, in dollars) at a logistics company. Statistical software reports the following empirical model based on a sample of $n = 20$ shipments with an average weight of $\bar{X} = 10.0\text{ kg}$:
+	\begin{align}
+		\hat{Y} = 5.0 + 2.5X, \quad R^2 = 0.85, \quad \text{SST} = 200.0.
+	\end{align}
+	\begin{enumerate}
+		\item Interpret the numerical estimates of the intercept ($\hat{\beta}_0 = 5.0$) and the slope ($\hat{\beta}_1 = 2.5$).
+		\item Compute the point prediction for the shipping cost of a package whose weight is exactly $15.0\text{ kg}$.
+		\item Using the Total Sum of Squares ($\text{SST} = 200.0$) and the $R^2$ coefficient, determine the Regression Sum of Squares ($\text{SSR}$) and the Error (Residual) Sum of Squares ($\text{SSD}$).
+		\item Compute the sample variance of the estimation error $\hat{\sigma}^2$ and the residual standard error of the model ($S_e$).
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{2. Operational Level (Intermediate / Development)}
+
+\begin{problema}
+	\label{prob:reg_sim_automoviles}
+	We investigate the depreciation of market value for automobiles of a specific brand as a function of their operational age. A random sample of $n = 12$ vehicles being sold on the secondhand market yields the following data pairs (Age $X$ in years, Selling Price $Y$ in thousands of dollars):
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
+			\textbf{Age ($X$)} & 1 & 2 & 2 & 3 & 4 & 5 & 5 & 6 & 7 & 8 & 9 & 10 \\\hline
+			\textbf{Price ($Y$)} & 25 & 22 & 20 & 18 & 16 & 14 & 13 & 12 & 10 & 8 & 7 & 5 \\\hline
+		\end{tabular}
+	\end{center}
+	\begin{enumerate}
+		\item Compute the preliminary algebraic sums $\sum X_i$, $\sum Y_i$, $\sum X_i^2$, $\sum Y_i^2$, and $\sum X_i Y_i$, along with the corrected sums of squares and cross-products $S_{XX}$ and $S_{XY}$.
+		\item Determine the sample regression line $\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 X$ and interpret its coefficients in terms of consumer economics.
+		\item Rigorously compute the coefficient of determination $R^2$ and state whether vehicle age constitutes a strong statistical predictor of depreciation.
+		\item Estimate the market price of a vehicle with exactly $6.5$ years of use.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:reg_sim_energia_temp}
+	An urban electrical grid engineer analyzes whether fluctuations in outdoor ambient temperature ($X$, in $^\circ\text{C}$) statistically impact total daily energy consumption across the distribution network ($Y$, in megawatt-hours, MWh). Over a period of $n = 15$ summer days, the following descriptive metrics were recorded:
+	\begin{align}
+		\bar{X} = 25.0^\circ\text{C}, \quad \bar{Y} = 450.0\text{ MWh}, \quad S_{XX} = \sum_{i=1}^{15} (X_i - \bar{X})^2 = 500.0, \quad S_{XY} = \sum_{i=1}^{15} (X_i - \bar{X})(Y_i - \bar{Y}) = 2000.0.
+	\end{align}
+	\begin{enumerate}
+		\item Compute the least squares parameter estimates $\hat{\beta}_0$ and $\hat{\beta}_1$ and state the regression equation.
+		\item If the Total Sum of Squares in electrical consumption was $\text{SST} = 10000.0$, compute the Regression Sum of Squares ($\text{SSR}$) and the Error Sum of Squares ($\text{SSD}$).
+		\item Conduct a formal significance test on the slope ($H_0: \beta_1 = 0$ vs. $H_a: \beta_1 \neq 0$) at a significance level $\alpha = 0.05$, computing the test statistic $t = \dfrac{\hat{\beta}_1}{SE(\hat{\beta}_1)}$ where $SE(\hat{\beta}_1) = \sqrt{\dfrac{\text{SSD}/(n-2)}{S_{XX}}}$, and verify its decision against the critical Student's $t$ quantile $t_{0.025, \, 13} = 2.160$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:reg_sim_baterias_ic}
+	An industrial quality control laboratory models the operational lifespan before failure of lithium battery cells ($Y$, in months) under sustained storage thermal variations ($X$, in $^\circ\text{C}$). After testing a batch of $n = 25$ batteries, the following regression model was fitted:
+	\begin{align}
+		\hat{Y} = 60.0 - 0.80X, \quad R^2 = 0.720, \quad S_{XX} = \sum_{i=1}^{25} (X_i - \bar{X})^2 = 800.0.
+	\end{align}
+	\begin{enumerate}
+		\item Interpret the sign and magnitude of the slope coefficient $\hat{\beta}_1 = -0.80$ in terms of electrochemical battery degradation.
+		\item Compute the regression sum of squares ($\text{SSR}$), total sum of squares ($\text{SST}$), and residual mean square ($\text{MSE} = \hat{\sigma}^2$).
+		\item Compute the standard error of the slope estimator $SE(\hat{\beta}_1)$ and construct a $95\%$ confidence interval for the true population slope $\beta_1$ ($t_{0.025, \, 23} = 2.069$).
+		\item Explain theoretically what would happen to the precision of the slope estimation ($SE(\hat{\beta}_1)$) if the laboratory decided to deliberately increase the spread of tested storage temperatures ($S_{XX}$).
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{3. Analytical Level (Advanced / Synthesis)}
+
+\begin{problema}
+	\label{prob:reg_sim_particion_r2}
+	In a corporate finance investigation correlating the annual percentage of revenue allocated to Research and Development ($X$) with the growth rate of operating margin ($Y$) across $n = 30$ technology firms, the sample univariate dispersion statistics are known:
+	\begin{align}
+		S_X = \sqrt{\frac{\sum (X_i - \bar{X})^2}{n-1}} = 4.5, \quad S_Y = \sqrt{\frac{\sum (Y_i - \bar{Y})^2}{n-1}} = 12.0, \quad \bar{X} = 8.0\%, \quad \bar{Y} = 15.0\%,
+	\end{align}
+	and the sample Pearson linear correlation coefficient is $r_{XY} = 0.820$.
+	\begin{enumerate}
+		\item Prove numerically and invoke analytical relationships to justify that in a simple linear regression model, the coefficient of determination is precisely the square of the Pearson correlation coefficient ($R^2 = r_{XY}^2$).
+		\item Compute the Total Sum of Squares ($\text{SST}$), Regression Sum of Squares ($\text{SSR}$), and Error Sum of Squares ($\text{SSD}$) of the fitted model.
+		\item Using the fundamental identity $\hat{\beta}_1 = r_{XY} \dfrac{S_Y}{S_X}$, compute the OLS slope and intercept, as well as the unbiased estimate of system residual variance ($\text{MSE} = S_e^2$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:reg_sim_bandas_conf_pred}
+	A metallurgical engineer studies cyclic fatigue strength in megacycles ($Y$) of a structural alloy as a function of the percentage content of added titanium ($X$). The simple linear regression model calibrated with $n = 18$ experimental specimens yielded:
+	\begin{align}
+		\hat{Y} = 120.0 + 15.0X, \quad \bar{X} = 3.0\%, \quad S_{XX} = \sum_{i=1}^{18} (X_i - \bar{X})^2 = 40.0, \quad S_e = \sqrt{\text{MSE}} = 4.2\text{ megacycles}.
+	\end{align}
+	\begin{enumerate}
+		\item Compute the standard error of the estimated expected population response $\text{SE}(\hat{\mu}_{Y|X_0}) = S_e \sqrt{\dfrac{1}{n} + \dfrac{(X_0 - \bar{X})^2}{S_{XX}}}$ at the design center of gravity $X_0 = 3.0\%$ and at an interpolation boundary $X_0 = 6.0\%$.
+		\item Compute the standard error of prediction for a new individual observation $\text{SE}(Y_{\text{pred}|X_0}) = S_e \sqrt{1 + \dfrac{1}{n} + \dfrac{(X_0 - \bar{X})^2}{S_{XX}}}$ at both evaluation points ($X_0 = 3.0\%$ and $X_0 = 6.0\%$).
+		\item Construct the $95\%$ confidence interval for the mean population response and the $95\%$ prediction interval for an individual specimen ($t_{0.025, \, 16} = 2.120$) at the point $X_0 = 6.0\%$. Explain the physical and geometric reason why the prediction interval is substantially wider than the mean confidence interval.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{4. Challenging Level (Expert / Deep Deduction)}
+
+\begin{problema}
+	\label{prob:reg_sim_deduccion_normales}
+	\textbf{Analytical Derivation of Gaussian Normal Equations and Exact OLS Unbiasedness:}
+	Consider the classical linear population regression model:
+	\begin{align}
+		Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i, \quad i = 1, 2, \dots, n,
+	\end{align}
+	where the independent variable $X_i$ is non-random with at least two distinct values ($S_{XX} > 0$), and the random errors satisfy the fundamental Gauss-Markov assumptions: $E[\varepsilon_i] = 0$, $\text{Var}(\varepsilon_i) = \sigma^2$, and $\text{Cov}(\varepsilon_i, \varepsilon_j) = 0$ for all $i \neq j$.
+	\begin{enumerate}
+		\item Defining the residual sum of squares objective function as $Q(\beta_0, \beta_1) = \sum_{i=1}^n (Y_i - \beta_0 - \beta_1 X_i)^2$, apply the first-order conditions of multivariate calculus ($\dfrac{\partial Q}{\partial \beta_0} = 0$ and $\dfrac{\partial Q}{\partial \beta_1} = 0$) to rigorously derive the simultaneous system of **Gaussian normal equations**.
+		\item Solving this normal system algebraically, explicitly obtain the closed-form expressions for the OLS estimators:
+		\begin{align}
+			\hat{\beta}_1 = \frac{\sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^n (X_i - \bar{X})^2} \quad \text{and} \quad \hat{\beta}_0 = \bar{Y} - \hat{\beta}_1 \bar{X}.
+		\end{align}
+		\item Applying the linearity axioms of the mathematical expectation operator ($E[\cdot]$) and substituting the true model for $Y_i$, analytically prove that both $\hat{\beta}_1$ and $\hat{\beta}_0$ are strictly **unbiased** estimators ($E[\hat{\beta}_1] = \beta_1$ and $E[\hat{\beta}_0] = \beta_0$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:reg_sim_deduccion_varianzas_residuos}
+	\textbf{Formal Derivation of OLS Sample Variances and Proof of the 4 Residual Orthogonality Identities:}
+	Under the exact same homoscedastic classical regression model $Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i$, define the centered constant weighting factors $c_i = \dfrac{X_i - \bar{X}}{S_{XX}}$ where $S_{XX} = \sum (X_i - \bar{X})^2$:
+	\begin{enumerate}
+		\item First, prove the three basic summation identities regarding these weighted constants: $\sum c_i = 0$, $\sum c_i X_i = 1$, and $\sum c_i^2 = \dfrac{1}{S_{XX}}$.
+		\item From the linear representation in terms of response observations ($\hat{\beta}_1 = \sum c_i Y_i$), apply the variance laws for independent sums to rigorously prove that:
+		\begin{align}
+			\text{Var}(\hat{\beta}_1) = \frac{\sigma^2}{S_{XX}} \quad \text{and} \quad \text{Var}(\hat{\beta}_0) = \sigma^2 \left[ \frac{1}{n} + \frac{\bar{X}^2}{S_{XX}} \right].
+		\end{align}
+		\item Let the vector of empirical OLS residuals be defined by $\hat{\varepsilon}_i = Y_i - \hat{Y}_i = Y_i - \hat{\beta}_0 - \hat{\beta}_1 X_i$. Algebraically prove that the least squares solution invariably enforces the exact fulfillment of the **four fundamental residual orthogonal projection properties**:
+		\begin{enumerate}
+			\item[a)] The arithmetic sum (and thus the sample mean) of the residuals is identically zero: $\sum_{i=1}^n \hat{\varepsilon}_i = 0$.
+			\item[b)] The residuals are empirically and completely orthogonal to the regressor $X$: $\sum_{i=1}^n X_i \hat{\varepsilon}_i = 0$.
+			\item[c)] The residuals are orthogonal to the fitted model predictions: $\sum_{i=1}^n \hat{Y}_i \hat{\varepsilon}_i = 0$.
+			\item[d)] The fitted regression line inexorably passes directly through the sample center of gravity of the scatter plot: $\bar{Y} = \hat{\beta}_0 + \hat{\beta}_1 \bar{X}$.
+		\end{enumerate}
+	\end{enumerate}
+\end{problema}
+
+
+\subsection{Detailed Solutions}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item First, we compute the sample means:
+		\begin{align}
+			\bar{X} &= \frac{2+3+4+5+6+7+8+9+10+12}{10} = \frac{66}{10} = 6.6\text{ hours}, \\
+			\bar{Y} &= \frac{45+50+55+60+65+70+75+80+85+90}{10} = \frac{675}{10} = 67.5\text{ points}.
+		\end{align}
+		Next, we compute the unnormalized sample covariance ($S_{XY}$) and the explanatory variable sum of squares ($S_{XX}$):
+		\begin{align}
+			S_{XY} &= \sum_{i=1}^{10} (X_i - \bar{X})(Y_i - \bar{Y}) = \sum_{i=1}^{10} X_i Y_i - n\bar{X}\bar{Y} \\
+			&= 4895.0 - 10(6.6)(67.5) = 4895.0 - 4455.0 = 440.0. \\
+			S_{XX} &= \sum_{i=1}^{10} (X_i - \bar{X})^2 = \sum_{i=1}^{10} X_i^2 - n\bar{X}^2 \\
+			&= 508.0 - 10(6.6)^2 = 508.0 - 435.6 = 72.4.
+		\end{align}
+		By the OLS estimator formulas:
+		\begin{align}
+			\hat{\beta}_1 &= \frac{S_{XY}}{S_{XX}} = \frac{440.0}{72.4} \approx 6.0773, \\
+			\hat{\beta}_0 &= \bar{Y} - \hat{\beta}_1 \bar{X} = 67.5 - (6.0773)(6.6) = 67.5 - 40.1102 \approx 27.3898.
+		\end{align}
+		
+		\item The equation of the fitted linear regression line is:
+		\begin{align}
+			\hat{Y} = 27.39 + 6.08X.
+		\end{align}
+		
+		\item For a study duration of $X = 7.5$ hours, the predicted grade is:
+		\begin{align}
+			\hat{Y} = 27.3898 + 6.0773(7.5) = 27.3898 + 45.5798 \approx 72.97\text{ points}.
+		\end{align}
+		An exam grade of approximately $73$ points is projected.
+		
+		\item We compute the Regression Sum of Squares ($\text{SSR}$) and Total Sum of Squares ($\text{SST}$):
+		\begin{align}
+			\text{SSR} &= \hat{\beta}_1 S_{XY} = (6.077348)(440.0) \approx 2674.033, \\
+			\text{SST} &= \sum_{i=1}^{10} (Y_i - \bar{Y})^2 = \sum_{i=1}^{10} Y_i^2 - n\bar{Y}^2 = 46825.0 - 10(67.5)^2 = 46825.0 - 45562.5 = 1262.5.
+		\end{align}
+		The coefficient of determination results in:
+		\begin{align}
+			R^2 = \frac{\text{SSR}}{\text{SST}} = \frac{2674.033}{1262.5} \approx 0.9972 \quad (99.72\%).
+		\end{align}
+		\textbf{Interpretation:} Exactly $99.72\%$ of the total variability in final exam grades is directly explained by the number of hours students dedicated to studying. This indicates an almost functional linear relationship of exceptional descriptive fidelity.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item With the preliminary sum quantities known ($S_{XY} = 122.5$ and $S_{XX} = 42.0$), we obtain the slope and intercept:
+		\begin{align}
+			\hat{\beta}_1 &= \frac{S_{XY}}{S_{XX}} = \frac{122.5}{42.0} \approx 2.9167, \\
+			\hat{\beta}_0 &= \bar{Y} - \hat{\beta}_1 \bar{X} = 23.125 - (2.9167)(4.5) = 23.125 - 13.1251 = 10.00.
+		\end{align}
+		The fitted linear model is:
+		\begin{align}
+			\hat{Y} = 10.00 + 2.92X.
+		\end{align}
+		
+		\item \textbf{Interpretation of $\hat{\beta}_1 = 2.92$:} For every additional $\$1$ thousand dollars invested in advertising and promotional strategies ($X$), monthly sales at the firm increase on average by $\$2.92$ thousand dollars ($\$2,920$ dollars).
+		
+		\item To estimate the required advertising budget $X$ needed to reach $Y = 40.0$ thousand dollars, we equate the regression line to the target value and solve:
+		\begin{align}
+			40.0 &= 10.00 + 2.9167X \\
+			2.9167X &= 30.0 \implies X = \frac{30.0}{2.9167} \approx 10.2856\text{ thousand dollars}.
+		\end{align}
+		The firm should allocate a budget of approximately $\$10,286$ dollars to advertising to project monthly sales of $\$40,000$ dollars.
+		
+		\item The residual standard error ($RSE$ or $S_e$) estimates the average standard deviation of residuals around the regression line. With $\text{SSD} = 12.5$ and $\nu_E = n - 2 = 8 - 2 = 6$ degrees of freedom:
+		\begin{align}
+			S_e = \sqrt{\frac{\text{SSD}}{n - 2}} = \sqrt{\frac{12.5}{6}} = \sqrt{2.0833} \approx 1.4434\text{ thousand dollars}.
+		\end{align}
+		The standard margin of error in monthly sales predictions is approximately $\$1,443$ dollars.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Parametric Interpretation:}
+		\begin{itemize}
+			\item $\hat{\beta}_0 = 5.0$: The base fixed fee or initial handling tariff for processing a package, regardless of physical weight (for a theoretical weight $X=0$), is $\$5.00$ dollars.
+			\item $\hat{\beta}_1 = 2.5$: For every additional kilogram of package mass, the logistics shipping tariff increases marginally by $\$2.50$ dollars.
+		\end{itemize}
+		
+		\item For a package weighing $X = 15.0\text{ kg}$:
+		\begin{align}
+			\hat{Y} = 5.0 + 2.5(15.0) = 5.0 + 37.5 = 42.50\text{ dollars}.
+		\end{align}
+		The estimated shipping cost for a $15\text{ kg}$ package is $\$42.50$ dollars.
+		
+		\item From the defining identity of the coefficient of determination $R^2 = \dfrac{\text{SSR}}{\text{SST}}$, we compute the Regression Sum of Squares ($\text{SSR}$):
+		\begin{align}
+			\text{SSR} = R^2 \times \text{SST} = (0.85)(200.0) = 170.0\text{ dollars}^2.
+		\end{align}
+		By the Pythagorean theorem of regression ANOVA ($\text{SST} = \text{SSR} + \text{SSD}$):
+		\begin{align}
+			\text{SSD} = \text{SST} - \text{SSR} = 200.0 - 170.0 = 30.0\text{ dollars}^2.
+		\end{align}
+		
+		\item For $n = 20$ shipments, the error degrees of freedom are $\nu_E = 20 - 2 = 18$.
+		The unbiased sample residual variance or Mean Squared Error ($\text{MSE}$) is:
+		\begin{align}
+			\hat{\sigma}^2 = \text{MSE} = \frac{\text{SSD}}{n - 2} = \frac{30.0}{18} \approx 1.6667\text{ dollars}^2.
+		\end{align}
+		The standard error of estimation ($S_e$) is the square root of this variance:
+		\begin{align}
+			S_e = \sqrt{\hat{\sigma}^2} = \sqrt{1.6667} \approx 1.2910\text{ dollars}.
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{2. Operational Level (Intermediate / Development)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Systematic intermediate computations across all $n = 12$ pairs $(X_i, Y_i)$:
+		\begin{align}
+			\sum_{i=1}^{12} X_i &= 1 + 2 + 2 + 3 + 4 + 5 + 5 + 6 + 7 + 8 + 9 + 10 = 62 \implies \bar{X} = \frac{62}{12} \approx 5.1667\text{ years}. \\
+			\sum_{i=1}^{12} Y_i &= 25 + 22 + 20 + 18 + 16 + 14 + 13 + 12 + 10 + 8 + 7 + 5 = 170 \implies \bar{Y} = \frac{170}{12} \approx 14.1667\text{ thousand}. \\
+			\sum_{i=1}^{12} X_i^2 &= 1^2 + 2^2 + 2^2 + 3^2 + 4^2 + 5^2 + 5^2 + 6^2 + 7^2 + 8^2 + 9^2 + 10^2 = 395. \\
+			\sum_{i=1}^{12} Y_i^2 &= 25^2 + 22^2 + 20^2 + 18^2 + 16^2 + 14^2 + 13^2 + 12^2 + 10^2 + 8^2 + 7^2 + 5^2 = 2836. \\
+			\sum_{i=1}^{12} X_i Y_i &= 1(25) + 2(22) + 2(20) + 3(18) + 4(16) + 5(14) + 5(13) + 6(12) \nonumber \\
+			&\quad + 7(10) + 8(8) + 9(7) + 10(5) = 25 + 44 + 40 + 54 + 64 + 70 + 65 + 72 + 70 + 64 + 63 + 50 = 722.
+		\end{align}
+		We now obtain the corrected sums of squares algebraically:
+		\begin{align}
+			S_{XX} &= \sum X_i^2 - \frac{(\sum X_i)^2}{n} = 395 - \frac{62^2}{12} = 395 - 320.3333 = 74.6667. \\
+			S_{XY} &= \sum X_i Y_i - \frac{(\sum X_i)(\sum Y_i)}{n} = 722 - \frac{62(170)}{12} = 722 - 878.3333 = -156.3333. \\
+			S_{YY} &= \text{SST} = \sum Y_i^2 - \frac{(\sum Y_i)^2}{n} = 2836 - \frac{170^2}{12} = 2836 - 2408.3333 = 427.6667.
+		\end{align}
+		
+		\item Ordinary Least Squares estimators:
+		\begin{align}
+			\hat{\beta}_1 &= \frac{S_{XY}}{S_{XX}} = \frac{-156.3333}{74.6667} \approx -2.0938, \\
+			\hat{\beta}_0 &= \bar{Y} - \hat{\beta}_1 \bar{X} = 14.1667 - (-2.0938)(5.1667) = 14.1667 + 10.8180 \approx 24.9847.
+		\end{align}
+		Sample regression line: $\hat{Y} = 24.98 - 2.09X$.
+		\textbf{Interpretation:}
+		\begin{itemize}
+			\item $\hat{\beta}_0 = 24.98$: The estimated showroom value for a brand-new vehicle ($X=0$) of that make is $\$24,980$ dollars.
+			\item $\hat{\beta}_1 = -2.09$: For every additional year that elapses following purchase, the automobile suffers an average loss in value (linear depreciation) of $\$2,094$ dollars.
+		\end{itemize}
+		
+		\item The regression sum of squares is $\text{SSR} = \hat{\beta}_1 S_{XY} = (-2.09375)(-156.3333) \approx 327.3229$.
+		The goodness-of-fit coefficient is:
+		\begin{align}
+			R^2 = \frac{\text{SSR}}{\text{SST}} = \frac{327.3229}{427.6667} \approx 0.7654 \quad (76.54\%).
+		\end{align}
+		Operational vehicle age explains $76.54\%$ of the total variance in secondhand market selling price, constituting a highly robust and empirically valuable statistical predictor.
+		
+		\item Point prediction for a vehicle age of $X = 6.5$ years:
+		\begin{align}
+			\hat{Y} = 24.9847 - 2.0938(6.5) = 24.9847 - 13.6097 \approx 11.375\text{ thousand dollars}.
+		\end{align}
+		The fair market valuation price is $\$11,375$ dollars.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item With $S_{XY} = 2000.0$ and $S_{XX} = 500.0$, we determine the energy consumption regression coefficients:
+		\begin{align}
+			\hat{\beta}_1 &= \frac{S_{XY}}{S_{XX}} = \frac{2000.0}{500.0} = 4.0\text{ MWh per }^\circ\text{C}, \\
+			\hat{\beta}_0 &= \bar{Y} - \hat{\beta}_1 \bar{X} = 450.0 - 4.0(25.0) = 450.0 - 100.0 = 350.0\text{ MWh}.
+		\end{align}
+		The regression line is: $\hat{Y} = 350.0 + 4.0X$.
+		
+		\item Fundamental partitioning of Sums of Squares:
+		\begin{align}
+			\text{SSR} &= \hat{\beta}_1 S_{XY} = (4.0)(2000.0) = 8000.0\text{ MWh}^2. \\
+			\text{SSD} &= \text{SST} - \text{SSR} = 10000.0 - 8000.0 = 2000.0\text{ MWh}^2.
+		\end{align}
+		The coefficient of determination is $R^2 = \dfrac{8000}{10000} = 0.800$ ($80.0\%$).
+		
+		\item Formal hypothesis test for the slope parameter:
+		\begin{align}
+			H_0: \beta_1 &= 0 \quad (\text{Outdoor temperature has no effect on grid energy demand}). \\
+			H_a: \beta_1 &\neq 0 \quad (\text{A significant linear relationship exists in energy consumption}).
+		\end{align}
+		For $n = 15$ observations, the residual degrees of freedom are $\nu_E = 15 - 2 = 13$.
+		The Mean Squared Error ($\text{MSE}$) or residual variance estimate is:
+		\begin{align}
+			\text{MSE} = \frac{\text{SSD}}{n - 2} = \frac{2000.0}{13} \approx 153.8462\text{ MWh}^2 \implies S_e = \sqrt{153.8462} \approx 12.4035\text{ MWh}.
+		\end{align}
+		The standard error of the population slope estimator ($\hat{\beta}_1$) is computed via:
+		\begin{align}
+			SE(\hat{\beta}_1) = \sqrt{\frac{\text{MSE}}{S_{XX}}} = \sqrt{\frac{153.8462}{500.0}} = \sqrt{0.3077} \approx 0.5547\text{ MWh per }^\circ\text{C}.
+		\end{align}
+		We compute Student's $t$ test statistic under the null hypothesis ($H_0: \beta_1 = 0$):
+		\begin{align}
+			t = \frac{\hat{\beta}_1 - 0}{SE(\hat{\beta}_1)} = \frac{4.0}{0.5547} \approx 7.2111.
+		\end{align}
+		At the two-tailed significance level $\alpha = 0.05$, the tabulated quantile in Student's distribution for $\nu = 13$ is $t_{0.025, \, 13} = 2.160$.
+		Because our experimental test statistic dramatically exceeds the rejection threshold ($|t| = 7.211 \gg 2.160$, with an extremely small $p$-value $< 0.0001$), **we reject the null hypothesis $H_0$ with absolute certainty**. A genuine and highly significant stochastic dependence exists: the distribution grid experiences a systematic demand increase of $4.0\text{ MWh}$ for every degree Celsius that outdoor ambient temperature rises during summer months.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Materials Science Interpretation:} The coefficient $\hat{\beta}_1 = -0.80$ indicates severe linear thermal degradation: for every constant $1^\circ\text{C}$ increase in storage room temperature, the expected operational lifespan before electrochemical failure of lithium cells decreases by $0.80$ months (approximately 24 days).
+		
+		\item With $R^2 = 0.720$, we can link regression explained variation to total variation.
+		Since $\text{SSR} = \hat{\beta}_1^2 S_{XX}$, we compute:
+		\begin{align}
+			\text{SSR} = (-0.80)^2 (800.0) = (0.64)(800.0) = 512.0\text{ months}^2.
+		\end{align}
+		Since $R^2 = \dfrac{\text{SSR}}{\text{SST}}$, we solve for the total observed variation across the trial:
+		\begin{align}
+			\text{SST} = \frac{\text{SSR}}{R^2} = \frac{512.0}{0.720} \approx 711.111\text{ months}^2.
+		\end{align}
+		The residual sum of squares is $\text{SSD} = \text{SST} - \text{SSR} = 711.111 - 512.0 = 199.111\text{ months}^2$.
+		For $n = 25$ batteries, $\nu_E = 25 - 2 = 23$. The Mean Squared Error is estimated as:
+		\begin{align}
+			\text{MSE} = \hat{\sigma}^2 = \frac{\text{SSD}}{23} = \frac{199.111}{23} \approx 8.6570\text{ months}^2.
+		\end{align}
+		
+		\item Standard error computation and confidence interval construction for the true parameter $\beta_1$:
+		\begin{align}
+			SE(\hat{\beta}_1) = \sqrt{\frac{\text{MSE}}{S_{XX}}} = \sqrt{\frac{8.6570}{800.0}} = \sqrt{0.01082} \approx 0.1040\text{ months per }^\circ\text{C}.
+		\end{align}
+		With a confidence level of $1 - \alpha = 0.95$, the critical Student's value with $\nu_E = 23$ degrees of freedom is $t_{0.025, \, 23} = 2.069$.
+		The parametric interval is given by $\hat{\beta}_1 \pm t_{\alpha/2, \, n-2} \cdot SE(\hat{\beta}_1)$:
+		\begin{align}
+			IC_{95\%}(\beta_1) &= -0.80 \pm (2.069)(0.1040) = -0.80 \pm 0.2152 \\
+			&= \left[ -1.0152, \; -0.5848 \right].
+		\end{align}
+		There is $95\%$ confidence that, at mass-production scale, true cell lifespan deterioration per degree of added heat ranges between $0.58$ and $1.02$ months of accelerated wear.
+		
+		\item **Theoretical Justification and Optimal Experimental Design:** By mathematical definition, the sample variance of the least squares slope estimator is strictly inversely proportional to the dispersion of the independent variable:
+		\begin{align}
+			\text{Var}(\hat{\beta}_1) = \frac{\sigma^2}{S_{XX}}.
+		\end{align}
+		If the laboratory decided to deliberately widen the range of tested temperatures (for instance, testing batteries from $-10^\circ\text{C}$ to $+60^\circ\text{C}$ instead of clustering them around room temperature), the sum of squares $S_{XX} = \sum(X_i - \bar{X})^2$ in the denominator would grow substantially.
+		As $S_{XX}$ increases, the variance $\text{Var}(\hat{\beta}_1)$ and its standard error $SE(\hat{\beta}_1)$ **decrease sharply**. This means that deliberately maximizing the variance of the explanatory variable during experimental design reduces sampling uncertainty and **substantially increases statistical precision and power** when estimating the population slope.
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{3. Analytical Level (Advanced / Synthesis)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Proof and numerical verification of $R^2 = r_{XY}^2$ in simple regression:**
+		The empirical covariance between $X$ and $Y$ is linked to the Pearson correlation coefficient via the identity $S_{XY} = r_{XY} \sqrt{S_{XX} S_{YY}}$.
+		Substituting the algebraic sample slope $\hat{\beta}_1 = \dfrac{S_{XY}}{S_{XX}}$ into the fundamental regression sum of squares formula ($\text{SSR} = \hat{\beta}_1 S_{XY}$):
+		\begin{align}
+			\text{SSR} = \left( \frac{S_{XY}}{S_{XX}} \right) S_{XY} = \frac{S_{XY}^2}{S_{XX}} = \frac{\left( r_{XY} \sqrt{S_{XX} S_{YY}} \right)^2}{S_{XX}} = \frac{r_{XY}^2 S_{XX} S_{YY}}{S_{XX}} = r_{XY}^2 S_{YY}.
+		\end{align}
+		Recalling that the Total Sum of Squares equals $S_{YY}$ exactly ($\text{SST} = S_{YY}$), dividing both sides by the total sum yields the definitive proof:
+		\begin{align}
+			R^2 = \frac{\text{SSR}}{\text{SST}} = \frac{r_{XY}^2 S_{YY}}{S_{YY}} = r_{XY}^2.
+		\end{align}
+		Numerically for our technology corporate finance sample:
+		\begin{align}
+			R^2 = (0.820)^2 = 0.6724 \quad (67.24\%).
+		\end{align}
+		Exactly $67.24\%$ of the variance in operating margin growth across the industry is uniquely explained by the intensity of budget allocated to Research and Development.
+		
+		\item Computation of complete Sums of Squares partitioning for $n = 30$:
+		Since the sample standard deviation is $S_Y = 12.0$ and the unbiased sample variance is $S_Y^2 = \dfrac{\text{SST}}{n-1}$:
+		\begin{align}
+			\text{SST} = (n - 1) S_Y^2 = (30 - 1)(12.0)^2 = 29 \times 144.0 = 4176.0\text{ (\%}^2\text{)}.
+		\end{align}
+		Therefore, the sum explained by the regression line is:
+		\begin{align}
+			\text{SSR} = R^2 \times \text{SST} = (0.6724)(4176.0) \approx 2807.9424\text{ (\%}^2\text{)}.
+		\end{align}
+		The unexplained residual sum of squares is obtained by subtraction:
+		\begin{align}
+			\text{SSD} = \text{SST} - \text{SSR} = 4176.0 - 2807.9424 = 1368.0576\text{ (\%}^2\text{)}.
+		\end{align}
+		
+		\item Derivation of intercept, slope, and Mean Squared Error:
+		Applying the direct empirical relationship converting the dimensionless coefficient $r_{XY}$ into a dimensional slope with standard deviations $S_Y = 12.0$ and $S_X = 4.5$:
+		\begin{align}
+			\hat{\beta}_1 &= r_{XY} \frac{S_Y}{S_X} = (0.820) \frac{12.0}{4.5} = (0.820)(2.6667) \approx 2.1867. \\
+			\hat{\beta}_0 &= \bar{Y} - \hat{\beta}_1 \bar{X} = 15.0 - (2.1867)(8.0) = 15.0 - 17.4936 = -2.4936\%.
+		\end{align}
+		The fitted corporate model is $\hat{Y} = -2.49 + 2.19X$. For every additional $1\%$ of revenue dedicated to innovation and technology ($R\&D$), operating margin expands by $2.19$ percentage points.
+		
+		The residual variance of the model ($\text{MSE}$) for $\nu_E = 30 - 2 = 28$ degrees of freedom is:
+		\begin{align}
+			\text{MSE} = S_e^2 = \frac{\text{SSD}}{n - 2} = \frac{1368.0576}{28} \approx 48.8592 \implies S_e = \sqrt{48.8592} \approx 6.9899\%.
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Standard error for the estimated expected mean population response ($\hat{\mu}_{Y|X_0}$):**
+		The estimator for the population mean response at a domain point is $\hat{\mu}_{Y|X_0} = \hat{\beta}_0 + \hat{\beta}_1 X_0$. Its exact theoretical variance follows from expectation algebra:
+		\begin{align}
+			\text{Var}(\hat{\mu}_{Y|X_0}) = \sigma^2 \left[ \frac{1}{n} + \frac{(X_0 - \bar{X})^2}{S_{XX}} \right] \implies \text{SE}(\hat{\mu}_{Y|X_0}) = S_e \sqrt{\frac{1}{n} + \frac{(X_0 - \bar{X})^2}{S_{XX}}}.
+		\end{align}
+		Evaluating at the exact experimental centroid $X_0 = \bar{X} = 3.0\%$ with $n = 18$ and $S_e = 4.2$:
+		\begin{align}
+			\text{SE}(\hat{\mu}_{Y|X_0 = 3.0}) = 4.2 \sqrt{\frac{1}{18} + \frac{(3.0 - 3.0)^2}{40.0}} = 4.2 \sqrt{0.05556 + 0} = 4.2(0.2357) \approx 0.9899\text{ megacycles}.
+		\end{align}
+		Evaluating at the extrapolation boundary of titanium content $X_0 = 6.0\%$:
+		\begin{align}
+			\text{SE}(\hat{\mu}_{Y|X_0 = 6.0}) = 4.2 \sqrt{\frac{1}{18} + \frac{(6.0 - 3.0)^2}{40.0}} = 4.2 \sqrt{0.05556 + \frac{9.0}{40.0}} = 4.2 \sqrt{0.05556 + 0.2250} = 4.2 \sqrt{0.28056} \approx 2.2246\text{ megacycles}.
+		\end{align}
+		Observe the fundamental parabolic behavior: as we move away from the mean $\bar{X} = 3.0\%$ toward the design boundary ($6.0\%$), the standard error in estimating the mean response **more than doubles** ($0.99 \to 2.22$).
+		
+		\item **Standard error for the prediction of a new individual specimen ($Y_{\text{pred}|X_0}$):**
+		When forecasting the specific value that *a single future physical specimen* will take, the prediction error $\hat{e}_0 = Y_{\text{new}} - \hat{Y}_0$ accumulates both the estimation uncertainty of the regression line and the independent natural variation inherent to that specific specimen (additive variance $\sigma^2$):
+		\begin{align}
+			\text{Var}(\hat{e}_0) = \sigma^2 \left[ 1 + \frac{1}{n} + \frac{(X_0 - \bar{X})^2}{S_{XX}} \right] \implies \text{SE}(Y_{\text{pred}|X_0}) = S_e \sqrt{1 + \frac{1}{n} + \frac{(X_0 - \bar{X})^2}{S_{XX}}}.
+		\end{align}
+		Evaluating at the centroid $X_0 = 3.0\%$:
+		\begin{align}
+			\text{SE}(Y_{\text{pred}|X_0 = 3.0}) = 4.2 \sqrt{1 + 0.05556 + 0} = 4.2 \sqrt{1.05556} = 4.2(1.0274) \approx 4.3151\text{ megacycles}.
+		\end{align}
+		Evaluating at the boundary $X_0 = 6.0\%$:
+		\begin{align}
+			\text{SE}(Y_{\text{pred}|X_0 = 6.0}) = 4.2 \sqrt{1 + 0.05556 + 0.2250} = 4.2 \sqrt{1.28056} = 4.2(1.1316) \approx 4.7528\text{ megacycles}.
+		\end{align}
+		
+		\item **Construction and analytical comparison of $95\%$ intervals at $X_0 = 6.0\%$:**
+		The point estimate predicted by the regression line for an alloy containing $6.0\%$ titanium is:
+		\begin{align}
+			\hat{Y}_0 = 120.0 + 15.0(6.0) = 120.0 + 90.0 = 210.0\text{ megacycles}.
+		\end{align}
+		With $\nu_E = 18 - 2 = 16$ degrees of freedom, the critical Student's value is $t_{0.025, \, 16} = 2.120$.
+		
+		The **$95\%$ Confidence Interval for mean population fatigue ($\mu_{Y|X_0=6}$):**
+		\begin{align}
+			IC_{95\%}(\mu_{Y|X_0=6}) &= \hat{Y}_0 \pm t_{\alpha/2, \, n-2} \cdot \text{SE}(\hat{\mu}_{Y|X_0=6}) = 210.0 \pm 2.120(2.2246) \\
+			&= 210.0 \pm 4.7162 = \left[ 205.28, \; 214.72 \right]\text{ megacycles}.
+		\end{align}
+		The **$95\%$ Prediction Interval for a new individual alloy specimen ($Y_{\text{pred}|X_0=6}$):**
+		\begin{align}
+			IP_{95\%}(Y_{\text{pred}|X_0=6}) &= \hat{Y}_0 \pm t_{\alpha/2, \, n-2} \cdot \text{SE}(Y_{\text{pred}|X_0=6}) = 210.0 \pm 2.120(4.7528) \\
+			&= 210.0 \pm 10.0759 = \left[ 199.92, \; 220.08 \right]\text{ megacycles}.
+		\end{align}
+		**Geometric and Industrial Explanation of the Divergence:** The margin of width in individual prediction ($\pm 10.08$ megacycles) is more than double the margin of confidence for the population mean ($\pm 4.72$ megacycles). This occurs because the *Confidence Interval* estimates where the true average of an infinite number of identical specimens lies; as sample size grows ($n \to \infty$), this interval collapses toward zero width. In contrast, the *Prediction Interval* must cover $95\%$ of the dispersion across *all individual random specimens* leaving the production line in the future; because every physical piece possesses unique microscopic flaws governed by residual variance $\sigma^2$, **the width of prediction bands can never be narrower than $\pm t_{\alpha/2} \sigma$, even with an infinite sample size**.
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{4. Challenging Level (Expert / Deep Deduction)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Multivariate derivation of the normal system via OLS optimization:**
+		Consider the Ordinary Least Squares algebraic criterion:
+		\begin{align}
+			Q(\beta_0, \beta_1) = \sum_{i=1}^n \varepsilon_i^2 = \sum_{i=1}^n (Y_i - \beta_0 - \beta_1 X_i)^2.
+		\end{align}
+		To locate the global differentiable minimum, we compute partial derivatives with respect to each parameter using the chain rule and equate them to zero (Fermat's first-order conditions):
+		\begin{align}
+			\frac{\partial Q}{\partial \beta_0} &= -2 \sum_{i=1}^n (Y_i - \beta_0 - \beta_1 X_i) = 0 \implies \sum_{i=1}^n (Y_i - \beta_0 - \beta_1 X_i) = 0. \\
+			\frac{\partial Q}{\partial \beta_1} &= -2 \sum_{i=1}^n X_i (Y_i - \beta_0 - \beta_1 X_i) = 0 \implies \sum_{i=1}^n X_i (Y_i - \beta_0 - \beta_1 X_i) = 0.
+		\end{align}
+		Distributing the summation operators across both equalities yields the **System of Gaussian Normal Equations**:
+		\begin{align}
+			\sum_{i=1}^n Y_i - n\hat{\beta}_0 - \hat{\beta}_1 \sum_{i=1}^n X_i &= 0 \implies n\hat{\beta}_0 + \hat{\beta}_1 \sum_{i=1}^n X_i = \sum_{i=1}^n Y_i, \label{eq:normal_1} \\
+			\sum_{i=1}^n X_i Y_i - \hat{\beta}_0 \sum_{i=1}^n X_i - \hat{\beta}_1 \sum_{i=1}^n X_i^2 &= 0 \implies \hat{\beta}_0 \sum_{i=1}^n X_i + \hat{\beta}_1 \sum_{i=1}^n X_i^2 = \sum_{i=1}^n X_i Y_i. \label{eq:normal_2}
+		\end{align}
+		
+		\item **Explicit resolution and closed-form OLS estimator expressions:**
+		From our first normal equation (\ref{eq:normal_1}), dividing both sides by sample size $n$:
+		\begin{align}
+			\hat{\beta}_0 + \hat{\beta}_1 \frac{\sum X_i}{n} = \frac{\sum Y_i}{n} \implies \hat{\beta}_0 = \bar{Y} - \hat{\beta}_1 \bar{X}.
+		\end{align}
+		We substitute this exact intercept identity into the second normal equation (\ref{eq:normal_2}):
+		\begin{align}
+			(\bar{Y} - \hat{\beta}_1 \bar{X})\sum_{i=1}^n X_i + \hat{\beta}_1 \sum_{i=1}^n X_i^2 = \sum_{i=1}^n X_i Y_i.
+		\end{align}
+		Recognizing that $\sum X_i = n\bar{X}$, we expand and group like terms of $\hat{\beta}_1$:
+		\begin{align}
+			n\bar{X}\bar{Y} - n\bar{X}^2 \hat{\beta}_1 + \hat{\beta}_1 \sum_{i=1}^n X_i^2 = \sum_{i=1}^n X_i Y_i \implies \hat{\beta}_1 \left[ \sum_{i=1}^n X_i^2 - n\bar{X}^2 \right] = \sum_{i=1}^n X_i Y_i - n\bar{X}\bar{Y}.
+		\end{align}
+		By elementary central moment properties, the bracketed term on the left represents the sum of squares of $X$ ($S_{XX}$) and the right side represents the sum of cross-products ($S_{XY}$). Solving for the slope:
+		\begin{align}
+			\hat{\beta}_1 = \frac{\sum_{i=1}^n X_i Y_i - n\bar{X}\bar{Y}}{\sum_{i=1}^n X_i^2 - n\bar{X}^2} = \frac{\sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^n (X_i - \bar{X})^2}.
+		\end{align}
+		
+		\item **Rigorous proof of strict unbiasedness ($E[\hat{\beta}_1] = \beta_1$ and $E[\hat{\beta}_0] = \beta_0$):**
+		To demonstrate that the estimator is unbiased, we express $\hat{\beta}_1$ in terms of the true model $Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i$.
+		Noting that in the numerator $\sum (X_i - \bar{X})(Y_i - \bar{Y}) = \sum (X_i - \bar{X}) Y_i$ (because $\sum (X_i - \bar{X})\bar{Y} = \bar{Y}\sum(X_i - \bar{X}) = 0$), we substitute $Y_i$ directly:
+		\begin{align}
+			\hat{\beta}_1 &= \frac{\sum_{i=1}^n (X_i - \bar{X})(\beta_0 + \beta_1 X_i + \varepsilon_i)}{S_{XX}} \\
+			&= \frac{\beta_0 \sum_{i=1}^n (X_i - \bar{X}) + \beta_1 \sum_{i=1}^n (X_i - \bar{X})X_i + \sum_{i=1}^n (X_i - \bar{X})\varepsilon_i}{S_{XX}}.
+		\end{align}
+		Because $\sum (X_i - \bar{X}) = 0$, the first term vanishes. For the second term, we verify that $\sum (X_i - \bar{X})X_i = \sum (X_i - \bar{X})^2 = S_{XX}$. Substituting this simplification into our fraction:
+		\begin{align}
+			\hat{\beta}_1 = \frac{\beta_1 S_{XX} + \sum_{i=1}^n (X_i - \bar{X})\varepsilon_i}{S_{XX}} = \beta_1 + \sum_{i=1}^n \left( \frac{X_i - \bar{X}}{S_{XX}} \right) \varepsilon_i.
+		\end{align}
+		We apply the linear mathematical expectation operator, conditioning on the non-random regressors $X_i$:
+		\begin{align}
+			E[\hat{\beta}_1] = E\left[ \beta_1 + \sum_{i=1}^n \left( \frac{X_i - \bar{X}}{S_{XX}} \right) \varepsilon_i \right] = \beta_1 + \sum_{i=1}^n \left( \frac{X_i - \bar{X}}{S_{XX}} \right) E[\varepsilon_i].
+		\end{align}
+		By the Gauss-Markov assumption on the error term ($E[\varepsilon_i] = 0$), the entire stochastic sum evaluates to zero:
+		\begin{align}
+			E[\hat{\beta}_1] = \beta_1 + 0 = \beta_1. \quad (\text{Unbiased estimator}).
+		\end{align}
+		For the intercept, we take the expectation of its explicit formula $\hat{\beta}_0 = \bar{Y} - \hat{\beta}_1 \bar{X}$:
+		\begin{align}
+			E[\hat{\beta}_0] = E[\bar{Y} - \hat{\beta}_1 \bar{X}] = E[\bar{Y}] - \bar{X} E[\hat{\beta}_1].
+		\end{align}
+		The expectation of the sample mean response is $E[\bar{Y}] = \dfrac{1}{n} \sum E[Y_i] = \dfrac{1}{n} \sum (\beta_0 + \beta_1 X_i) = \beta_0 + \beta_1 \bar{X}$.
+		Because we already established that $E[\hat{\beta}_1] = \beta_1$, we substitute and simplify:
+		\begin{align}
+			E[\hat{\beta}_0] = (\beta_0 + \beta_1 \bar{X}) - \bar{X}(\beta_1) = \beta_0 + \beta_1 \bar{X} - \beta_1 \bar{X} = \beta_0. \quad (\text{Unbiased estimator}).
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item **Algebraic-summation proof of weighted properties of $c_i = \dfrac{X_i - \bar{X}}{S_{XX}}$:**
+		\begin{itemize}
+			\item First identity ($\sum c_i = 0$):
+			\begin{align}
+				\sum_{i=1}^n c_i = \sum_{i=1}^n \frac{X_i - \bar{X}}{S_{XX}} = \frac{1}{S_{XX}} \sum_{i=1}^n (X_i - \bar{X}) = \frac{1}{S_{XX}} [0] = 0.
+			\end{align}
+			\item Second identity ($\sum c_i X_i = 1$):
+			\begin{align}
+				\sum_{i=1}^n c_i X_i &= \sum_{i=1}^n \frac{(X_i - \bar{X})X_i}{S_{XX}} = \frac{1}{S_{XX}} \left[ \sum X_i^2 - \bar{X}\sum X_i \right] \\
+				&= \frac{1}{S_{XX}} \left[ \sum X_i^2 - n\bar{X}^2 \right] = \frac{S_{XX}}{S_{XX}} = 1.
+			\end{align}
+			\item Third identity ($\sum c_i^2 = \dfrac{1}{S_{XX}}$):
+			\begin{align}
+				\sum_{i=1}^n c_i^2 = \sum_{i=1}^n \left( \frac{X_i - \bar{X}}{S_{XX}} \right)^2 = \frac{1}{S_{XX}^2} \sum_{i=1}^n (X_i - \bar{X})^2 = \frac{S_{XX}}{S_{XX}^2} = \frac{1}{S_{XX}}.
+			\end{align}
+		\end{itemize}
+		
+		\item **Derivation of theoretical variance for OLS estimators:**
+		As proven in the previous problem, the slope can be expressed as $\hat{\beta}_1 = \sum c_i Y_i$. Because the $X_i$ (and thus the $c_i$) are non-random constants, applying the variance operator to this linear combination of independent observations yields:
+		\begin{align}
+			\text{Var}(\hat{\beta}_1) = \text{Var}\left( \sum_{i=1}^n c_i Y_i \right) = \sum_{i=1}^n c_i^2 \text{Var}(Y_i).
+		\end{align}
+		Because $\text{Var}(Y_i) = \text{Var}(\varepsilon_i) = \sigma^2$ across all observations under the homoscedasticity assumption, we factor out the variance:
+		\begin{align}
+			\text{Var}(\hat{\beta}_1) = \sigma^2 \sum_{i=1}^n c_i^2 = \sigma^2 \left( \frac{1}{S_{XX}} \right) = \frac{\sigma^2}{S_{XX}}.
+		\end{align}
+		For the intercept, we utilize its explicit linear representation $\hat{\beta}_0 = \bar{Y} - \hat{\beta}_1 \bar{X} = \sum \left( \dfrac{1}{n} - c_i \bar{X} \right) Y_i$:
+		Defining the constant linear weights $k_i = \dfrac{1}{n} - c_i \bar{X}$, we compute the sample variance:
+		\begin{align}
+			\text{Var}(\hat{\beta}_0) = \sum_{i=1}^n k_i^2 \text{Var}(Y_i) = \sigma^2 \sum_{i=1}^n \left( \frac{1}{n} - c_i \bar{X} \right)^2 = \sigma^2 \sum_{i=1}^n \left[ \frac{1}{n^2} - \frac{2\bar{X}}{n} c_i + \bar{X}^2 c_i^2 \right].
+		\end{align}
+		Distributing the summation and substituting $\sum c_i = 0$ alongside $\sum c_i^2 = \dfrac{1}{S_{XX}}$:
+		\begin{align}
+			\text{Var}(\hat{\beta}_0) = \sigma^2 \left[ n\left(\frac{1}{n^2}\right) - \frac{2\bar{X}}{n}\sum c_i + \bar{X}^2 \sum c_i^2 \right] = \sigma^2 \left[ \frac{1}{n} - 0 + \frac{\bar{X}^2}{S_{XX}} \right] = \sigma^2 \left[ \frac{1}{n} + \frac{\bar{X}^2}{S_{XX}} \right].
+		\end{align}
+		
+		\item **Algebraic proof of the 4 residual orthogonal projection identities:**
+		Let $\hat{\varepsilon}_i = Y_i - \hat{\beta}_0 - \hat{\beta}_1 X_i$.
+		\begin{enumerate}
+			\item[a)] **Zero residual sum:** Directly from the first optimization gradient (Gaussian normal equation 1, $\sum (Y_i - \hat{\beta}_0 - \hat{\beta}_1 X_i) = 0$), we have:
+			\begin{align}
+				\sum_{i=1}^n \hat{\varepsilon}_i = \sum_{i=1}^n (Y_i - \hat{\beta}_0 - \hat{\beta}_1 X_i) \equiv 0.
+			\end{align}
+			\item[b)] **Empirical orthogonality to the regressor:** From the second optimization gradient (Gaussian normal equation 2, $\sum X_i (Y_i - \hat{\beta}_0 - \hat{\beta}_1 X_i) = 0$), we prove identically:
+			\begin{align}
+				\sum_{i=1}^n X_i \hat{\varepsilon}_i = \sum_{i=1}^n X_i (Y_i - \hat{\beta}_0 - \hat{\beta}_1 X_i) \equiv 0.
+			\end{align}
+			The vector of OLS residuals is geometrically orthogonal to the subspace spanned by the explanatory variable vector $X$.
+			\item[c)] **Orthogonality to fitted predictions ($\sum \hat{Y}_i \hat{\varepsilon}_i = 0$):**
+			We substitute the explicit definition of fitted predictions $\hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 X_i$ and expand by linearity:
+			\begin{align}
+				\sum_{i=1}^n \hat{Y}_i \hat{\varepsilon}_i = \sum_{i=1}^n (\hat{\beta}_0 + \hat{\beta}_1 X_i) \hat{\varepsilon}_i = \hat{\beta}_0 \sum_{i=1}^n \hat{\varepsilon}_i + \hat{\beta}_1 \sum_{i=1}^n X_i \hat{\varepsilon}_i.
+			\end{align}
+			Invoking properties a) ($\sum \hat{\varepsilon}_i = 0$) and b) ($\sum X_i \hat{\varepsilon}_i = 0$) proven earlier:
+			\begin{align}
+				\sum_{i=1}^n \hat{Y}_i \hat{\varepsilon}_i = \hat{\beta}_0 [0] + \hat{\beta}_1 [0] = 0 + 0 \equiv 0.
+			\end{align}
+			\item[d)] **Invariable passage through the center of gravity of the scatter plot ($\bar{X}, \bar{Y}$):**
+			Starting from the zero residual sum identity proven in part a):
+			\begin{align}
+				\sum_{i=1}^n \hat{\varepsilon}_i = 0 \implies \sum_{i=1}^n (Y_i - \hat{\beta}_0 - \hat{\beta}_1 X_i) = 0 \implies \sum_{i=1}^n Y_i - n\hat{\beta}_0 - \hat{\beta}_1 \sum_{i=1}^n X_i = 0.
+			\end{align}
+			Dividing all terms across the equality by sample size $n$:
+			\begin{align}
+				\frac{\sum Y_i}{n} - \hat{\beta}_0 - \hat{\beta}_1 \frac{\sum X_i}{n} = 0 \implies \bar{Y} - \hat{\beta}_0 - \hat{\beta}_1 \bar{X} = 0 \iff \bar{Y} = \hat{\beta}_0 + \hat{\beta}_1 \bar{X}.
+			\end{align}
+			The Ordinary Least Squares fitted regression line always passes directly through the average coordinates of both variables $(\bar{X}, \bar{Y})$, with this exact coordinate serving as the universal balancing pivot of the model.
+		\end{enumerate}
+	\end{enumerate}
+\end{solucion}

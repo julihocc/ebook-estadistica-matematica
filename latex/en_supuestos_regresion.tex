@@ -1,0 +1,311 @@
+\section{Linear Regression Model Assumptions}
+
+For statistical inferences based on a linear regression model to be valid (such as confidence intervals, hypothesis tests, and predictions), specific assumptions regarding the model's error terms must be satisfied. In this section, we discuss these assumptions, how to verify them using diagnostic techniques, and what remedial measures to apply when they are violated.
+
+\subsection{The Classical Assumptions}
+
+Recall that the multiple linear regression specification takes the form:
+\begin{align}
+	Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \epsilon
+\end{align}
+
+The classical regression assumptions concern primarily the random error term $\epsilon$:
+
+\begin{enumerate}
+	\item \textbf{Linearity:} The functional relationship between the predictor variables and the expected value of the response variable is strictly linear.
+	\item \textbf{Independence:} The individual error terms $\epsilon_i$ are statistically independent across all observations.
+	\item \textbf{Homoscedasticity:} The error terms exhibit a constant conditional variance across the predictor space: $\text{Var}(\epsilon_i) = \sigma^2$ for all $i$.
+	\item \textbf{Normality:} The error terms are normally distributed: $\epsilon_i \sim N(0, \sigma^2)$.
+	\item \textbf{Zero Conditional Mean:} The expected value of the error term is zero: $E(\epsilon_i) = 0$ for all $i$.
+\end{enumerate}
+
+\begin{observacion}
+	The zero conditional mean assumption is satisfied automatically whenever the regression model includes an intercept parameter $\beta_0$. Therefore, checking independence, homoscedasticity, and normality are the most critical empirical diagnostics in practice.
+\end{observacion}
+
+\subsection{Residual Analysis}
+
+\emph{Residuals} represent the sample differences between the observed response values and the fitted values estimated by the model:
+\begin{align}
+	e_i = Y_i - \hat{Y}_i
+\end{align}
+
+Residual analysis is the primary diagnostic toolkit for evaluating regression assumptions. Below we present the most critical diagnostic plots.
+
+\subsection{Residuals vs. Fitted Values Plot}
+
+This plot displays the residuals $e_i$ on the vertical axis against the model's fitted values $\hat{Y}_i$ on the horizontal axis.
+
+\textbf{Ideal Pattern:} Data points should scatter randomly around the horizontal reference line $e = 0$, forming a uniform band without any discernible systematic structures.
+
+\textbf{Problematic Patterns:}
+\begin{itemize}
+	\item \textbf{U-shaped or curved pattern:} Indicates non-linearity. The linear specification fails to capture a non-linear underlying relationship.
+	\item \textbf{Funnel or fan shape:} Indicates heteroscedasticity (non-constant variance across predictions).
+	\item \textbf{Isolated extreme points:} Highlights potential outliers or anomalous observations.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+
+# Fit OLS model
+model = sm.OLS(Y, X).fit()
+
+# Residuals vs Fitted plot
+fig, ax = plt.subplots(figsize=(8, 6))
+ax.scatter(model.fittedvalues, model.resid, alpha=0.6)
+ax.axhline(y=0, color='r', linestyle='--')
+ax.set_xlabel('Fitted Values')
+ax.set_ylabel('Residuals')
+ax.set_title('Residuals vs. Fitted Values')
+plt.show()
+\end{lstlisting}
+
+\subsection{Q-Q (Quantile-Quantile) Plot}
+
+The Q-Q plot compares the empirical quantiles of the standardized residuals against the theoretical quantiles of a standard normal distribution.
+
+\textbf{Ideal Pattern:} The plotted points should align closely along the diagonal straight reference line.
+
+\textbf{Common Deviations:}
+\begin{itemize}
+	\item \textbf{S-shaped curve:} Heavy-tailed distribution (producing more extreme outliers than expected under normality).
+	\item \textbf{Inverted S-shaped curve:} Light-tailed distribution.
+	\item \textbf{Curvature at one extremity:} Skewness in the error distribution.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+import scipy.stats as stats
+
+# Q-Q plot
+fig = sm.qqplot(model.resid, line='s')
+plt.title('Residual Q-Q Plot')
+plt.show()
+
+# Shapiro-Wilk normality test
+stat, p_value = stats.shapiro(model.resid)
+print(f'Shapiro-Wilk: statistic={stat:.4f}, p-value={p_value:.4f}')
+\end{lstlisting}
+
+\subsection{Scale-Location Plot}
+
+This diagnostic plot graphs the square root of the absolute standardized residuals against the fitted values. It is highly sensitive for detecting heteroscedasticity.
+
+\textbf{Ideal Pattern:} A roughly horizontal trend line with points scattered uniformly above and below, confirming constant variance.
+
+\textbf{Problematic Pattern:} An upward or downward sloping trend line indicates that error variance scales systematically with the magnitude of the prediction.
+
+\begin{lstlisting}[language=Python]
+# Scale-Location plot
+fig, ax = plt.subplots(figsize=(8, 6))
+std_resid = model.resid / np.std(model.resid)
+ax.scatter(model.fittedvalues, np.abs(std_resid), alpha=0.6)
+ax.axhline(y=1, color='r', linestyle='--')
+ax.set_xlabel('Fitted Values')
+ax.set_ylabel('|Standardized Residuals|')
+ax.set_title('Scale-Location Plot')
+plt.show()
+\end{lstlisting}
+
+\subsection{Formal Hypothesis Tests for Assumptions}
+
+In addition to visual diagnostic plots, rigorous statistical hypothesis tests provide quantitative verification:
+
+\subsubsection{Durbin-Watson Test (Independence)}
+
+Detects first-order autocorrelation among residuals (commonly encountered in time series applications):
+\begin{align}
+	DW = \frac{\sum_{i=2}^{n} (e_i - e_{i-1})^2}{\sum_{i=1}^{n} e_i^2}
+\end{align}
+
+\begin{itemize}
+	\item $DW \approx 2$: No autocorrelation present.
+	\item $DW < 2$: Positive residual autocorrelation.
+	\item $DW > 2$: Negative residual autocorrelation.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+from statsmodels.stats.stattools import durbin_watson
+
+dw_stat = durbin_watson(model.resid)
+print(f'Durbin-Watson statistic: {dw_stat:.4f}')
+\end{lstlisting}
+
+\subsubsection{Breusch-Pagan Test (Homoscedasticity)}
+
+Tests whether error variance is conditionally constant across explanatory variables:
+\begin{itemize}
+	\item $H_0$: Homoscedasticity (error variance is constant).
+	\item $H_1$: Heteroscedasticity (error variance is functionally dependent on predictors).
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+from statsmodels.stats.diagnostic import het_breuschpagan
+
+_, p_value, _, _ = het_breuschpagan(model.resid, model.model.exog)
+print(f'Breusch-Pagan: p-value={p_value:.4f}')
+
+if p_value < 0.05:
+    print('Reject H0: evidence of heteroscedasticity present.')
+else:
+    print('Do not reject H0: homoscedasticity supported.')
+\end{lstlisting}
+
+\subsection{Consequences of Violating Assumptions}
+
+\begin{itemize}
+	\item \textbf{Non-linearity:}
+	\begin{itemize}
+		\item Systematic bias in parameter estimates.
+		\item Suboptimal and inaccurate out-of-sample predictions.
+		\item \textbf{Remedy:} Apply non-linear transformations to variables, or employ polynomial and non-linear regression models.
+	\end{itemize}
+	
+	\item \textbf{Non-independence (Autocorrelation):}
+	\begin{itemize}
+		\item Standard errors of regression coefficients are severely underestimated.
+		\item Hypothesis tests ($t$-tests and $F$-tests) become invalid and artificially significant.
+		\item \textbf{Remedy:} Implement time series architectures (ARIMA/GLS) or compute autocorrelation-consistent robust standard errors (HAC / Newey-West).
+	\end{itemize}
+	
+	\item \textbf{Heteroscedasticity:}
+	\begin{itemize}
+		\item OLS coefficient estimates remain unbiased but lose minimum-variance efficiency.
+		\item Estimated standard errors are biased, distorting inference and confidence intervals.
+		\item \textbf{Remedy:} Compute robust standard errors (Huber-White / Eicker-White heteroscedasticity-consistent standard errors) or transform the response variable $Y$ (e.g., $\log(Y)$).
+	\end{itemize}
+	
+	\item \textbf{Non-normality:}
+	\begin{itemize}
+		\item Distorts exact finite-sample distributions of $t$ and $F$ statistics when sample size $n$ is small.
+		\item For large $n$, the Central Limit Theorem ensures asymptotic normality of OLS coefficient estimators.
+		\item \textbf{Remedy:} Transform response $Y$, employ non-parametric regression methods, or apply bootstrap inference techniques.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Common Remedial Transformations}
+
+When diagnostic checks reveal broken assumptions, functional transformations can restore model validity:
+
+\begin{center}
+	\begin{tabular}{|l|l|l|}\hline
+		\textbf{Problem} & \textbf{Transformation} & \textbf{Recommended Application} \\\hline
+		Heteroscedasticity & $\log(Y)$ & Variance proportional to conditional mean \\\hline
+		Heteroscedasticity & $\sqrt{Y}$ & Count data responses \\\hline
+		Non-linearity & $\log(X)$ & Logarithmic diminishing returns relationship \\\hline
+		Non-linearity & $X^2$ & Quadratic or parabolic relationship \\\hline
+		Non-normality & $\log(Y)$ & Strongly right-skewed response distribution \\\hline
+		Non-normality & $1/Y$ & Severely skewed reciprocal relationships \\\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Detecting Outliers and Influential Observations}
+
+\emph{Outliers} are observations exhibiting unusually large residual errors. \emph{Influential observations} are design points whose presence or absence exerts a disproportionate leverage and impact on estimated regression coefficients.
+
+\begin{lstlisting}[language=Python]
+# Influence diagnostics for each observation
+influence = model.get_influence()
+
+# Cook's Distance (identifying influential points)
+cooks_d = influence.cooks_distance[0]
+threshold = 4 / len(Y)
+
+print('Influential observations (Cook\'s D > threshold):')
+for i, d in enumerate(cooks_d):
+    if d > threshold:
+        print(f'  Observation {i}: Cook\'s D = {d:.4f}')
+
+# Internally studentized residuals (outlier screening)
+std_resid = influence.resid_studentized_internal
+outliers = np.abs(std_resid) > 3
+
+print(f'Number of severe outliers (|residual| > 3): {np.sum(outliers)}')
+\end{lstlisting}
+
+\begin{observacion}
+	Cook's distance measures the aggregate squared change in fitted regression coefficients when an individual observation is deleted from the sample. Values exceeding the heuristic cutoff $4/n$ flag influential observations warranting careful scrutiny and domain-specific validation.
+\end{observacion}
+
+\subsection{Comprehensive Diagnostic Pipeline Example}
+
+\begin{lstlisting}[language=Python]
+import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+from statsmodels.stats.stattools import durbin_watson
+from statsmodels.stats.diagnostic import het_breuschpagan
+
+# Load dataset
+data = pd.read_csv('datos.csv')
+X = sm.add_constant(data[['X1', 'X2']])
+Y = data['Y']
+
+# Fit regression model
+model = sm.OLS(Y, X).fit()
+print(model.summary())
+
+# Generate complete diagnostic dashboard
+fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+
+# 1. Residuals vs. Fitted
+axes[0, 0].scatter(model.fittedvalues, model.resid, alpha=0.6)
+axes[0, 0].axhline(y=0, color='r', linestyle='--')
+axes[0, 0].set_xlabel('Fitted Values')
+axes[0, 0].set_ylabel('Residuals')
+axes[0, 0].set_title('Residuals vs. Fitted Values')
+
+# 2. Q-Q Plot
+sm.qqplot(model.resid, line='s', ax=axes[0, 1])
+axes[0, 1].set_title('Normal Q-Q Plot')
+
+# 3. Scale-Location
+std_resid = model.resid / np.std(model.resid)
+axes[1, 0].scatter(model.fittedvalues, np.abs(std_resid), alpha=0.6)
+axes[1, 0].axhline(y=1, color='r', linestyle='--')
+axes[1, 0].set_xlabel('Fitted Values')
+axes[1, 0].set_ylabel('|Standardized Residuals|')
+axes[1, 0].set_title('Scale-Location Plot')
+
+# 4. Residual Histogram & Density Fit
+axes[1, 1].hist(model.resid, bins=20, density=True, alpha=0.7)
+x = np.linspace(model.resid.min(), model.resid.max(), 100)
+axes[1, 1].plot(x, stats.norm.pdf(x, 0, model.resid.std()), 'r-', lw=2)
+axes[1, 1].set_xlabel('Residuals')
+axes[1, 1].set_ylabel('Density')
+axes[1, 1].set_title('Residual Distribution')
+
+plt.tight_layout()
+plt.show()
+
+# Run formal statistical hypothesis tests
+print('\n=== Formal Diagnostic Tests ===')
+print(f'Durbin-Watson statistic: {durbin_watson(model.resid):.4f}')
+
+_, p_bp, _, _ = het_breuschpagan(model.resid, X)
+print(f'Breusch-Pagan (homoscedasticity): p-value = {p_bp:.4f}')
+
+_, p_sw = stats.shapiro(model.resid)
+print(f'Shapiro-Wilk (normality): p-value = {p_sw:.4f}')
+\end{lstlisting}
+
+\subsection{Summary of Diagnostic Workflow}
+
+The systematic protocol recommended for auditing regression assumptions is:
+
+\begin{enumerate}
+	\item \textbf{Fit the initial linear regression model} using OLS estimation.
+	\item \textbf{Inspect Residuals vs. Fitted plots} to check linearity and homoscedasticity visually.
+	\item \textbf{Examine Q-Q plots} to verify error normality across quantiles.
+	\item \textbf{Conduct formal hypothesis tests} (Durbin-Watson, Breusch-Pagan, Shapiro-Wilk).
+	\item \textbf{Screen for outliers and influential points} using internally studentized residuals and Cook's distance.
+	\item \textbf{Apply appropriate remedies} if violations are detected (variable transformations, robust standard errors, model respecification).
+	\item \textbf{Refit the corrected model} and iterate diagnostic validation until assumptions are satisfactorily met.
+\end{enumerate}
+
+\begin{observacion}
+	Model diagnosis is fundamentally an iterative empirical cycle. It is common practice to perform multiple iterations of fitting, diagnostic evaluation, and corrective transformation before establishing a reliable and robust regression model.
+\end{observacion}

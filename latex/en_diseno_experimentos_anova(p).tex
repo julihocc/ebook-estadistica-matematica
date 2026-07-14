@@ -1,0 +1,648 @@
+\section{Solved Problems in Experimental Design and ANOVA}
+
+\subsection{Problem Statements}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{problema}
+	\label{prob:anova_un_factor_ml}
+	A data scientist wishes to compare the overall performance (measured by percentage $F_1$-score) of four machine learning classification architectures: Random Forests (Treatment 1), Support Vector Machines (SVM, Treatment 2), XGBoost (Treatment 3), and Deep Neural Networks (DNN, Treatment 4).
+	
+	To ensure objectivity, all four algorithms are trained and evaluated completely at random across 5 independent benchmark high-dimensional datasets ($n = 5$ replicates per algorithm, for a total of $N = 20$ experiments). The sample means and standard deviations of the percentage $F_1$-scores obtained in the 5 trials for each model are:
+	\begin{itemize}
+		\item \textbf{Random Forest ($i=1$):} $\bar{Y}_{1.} = 84.2\%$, $S_1 = 3.1\%$.
+		\item \textbf{SVM ($i=2$):} $\bar{Y}_{2.} = 79.8\%$, $S_2 = 3.4\%$.
+		\item \textbf{XGBoost ($i=3$):} $\bar{Y}_{3.} = 88.6\%$, $S_3 = 2.8\%$.
+		\item \textbf{Neural Networks ($i=4$):} $\bar{Y}_{4.} = 86.4\%$, $S_4 = 3.5\%$.
+	\end{itemize}
+	Assuming normality and homoscedasticity, construct the complete One-Way Analysis of Variance table at significance level $\alpha = 0.05$. Is there statistical evidence to claim that at least one of the algorithms differs in its average $F_1$-score?
+\end{problema}
+
+\begin{problema}
+	\label{prob:posthoc_tukey_ml}
+	Given that the omnibus ANOVA in Problem \ref{prob:anova_un_factor_ml} was highly significant, apply **Tukey's HSD post-hoc procedure** with a family-wise significance level $\alpha = 0.05$ to simultaneously compare all six possible pairs of algorithms and precisely identify which models differ from one another in mean performance.
+\end{problema}
+
+\begin{problema}
+	\label{prob:anova_fund_particion}
+	In a quality control audit on the tensile strength (in MegaPascals, MPa) of a synthetic polymer synthesized under four chemical formulations ($k = 4$), an engineer collects a balanced random sample yielding a total of $N = 30$ observations. After analyzing the variability across the data, a Total Sum of Squares $\text{SCT} = 520.0$ $\text{MPa}^2$ and a Residual Error Sum of Squares $\text{SCE} = 180.0$ $\text{MPa}^2$ are recorded.
+	\begin{enumerate}
+		\item Calculate the Treatment Sum of Squares ($\text{SCTR}$) by applying the additive principle of one-way ANOVA.
+		\item Determine the degrees of freedom associated with the treatments ($\nu_{\text{TR}}$), the residual error ($\nu_E$), and the total ($\nu_T$).
+		\item Calculate the Treatment Mean Square ($\text{CMTR}$) and the Error Mean Square ($\text{CME}$), as well as the $F$ test statistic.
+		\item Test at the 1\% level ($\alpha = 0.01$) whether the four formulations produce statistically different tensile strengths (the critical table quantile is $F_{0.01, \, 3, \, 26} = 4.637$).
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{problema}
+	\label{prob:dbca_servidores}
+	To evaluate processing time for complex SQL queries in seconds (where lower is better) across $k = 3$ relational database optimization engines (Engine A, Engine B, and Engine C), an engineer notices that the company's physical server hardware is highly heterogeneous and cannot be mixed indiscriminately.
+	
+	Therefore, a **Randomized Complete Block Design (RCBD)** is designed using the physical generations of $b = 4$ distinct corporate servers as the blocking factor (Server 1: Latest Gen, Server 2: Mid Gen, Server 3: Old Gen, Server 4: Legacy virtualized Gen). Each engine is evaluated exactly once within each server, yielding the data shown in Table \ref{tab:dbca_datos}.
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{lccccc}
+			\hline
+			\textbf{Engine (Treatment $i$)} & \textbf{Serv. 1 ($j=1$)} & \textbf{Serv. 2 ($j=2$)} & \textbf{Serv. 3 ($j=3$)} & \textbf{Serv. 4 ($j=4$)} & \textbf{Treat. Mean ($\bar{Y}_{i.}$)} \\ \hline
+			Engine A ($i=1$) & 12.0 & 15.5 & 22.0 & 28.5 & \textbf{19.50} \\
+			Engine B ($i=2$) & 8.5 & 11.0 & 16.5 & 22.0 & \textbf{14.50} \\
+			Engine C ($i=3$) & 9.5 & 12.5 & 18.5 & 23.5 & \textbf{16.00} \\ \hline
+			\textbf{Block Mean ($\bar{Y}_{.j}$)} & \textbf{10.00} & \textbf{13.00} & \textbf{19.00} & \textbf{24.67} & $\bar{Y}_{..} = \textbf{16.67}$ \\ \hline
+		\end{tabular}
+		\caption{Execution times in seconds under an RCBD with 3 engines and 4 servers.}
+		\label{tab:dbca_datos}
+	\end{table}
+	
+	\begin{enumerate}
+		\item Construct the complete ANOVA table for the Randomized Complete Block Design at $\alpha = 0.05$.
+		\item Is there a statistically significant difference among the three optimization engines?
+		\item From a statistical efficiency standpoint, was incorporating servers as a blocking factor useful and effective?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:bonferroni_lsd}
+	A cloud engineering firm compares mean data transfer latency in milliseconds under $k = 5$ distinct routing protocols. The ANOVA produced an Error Mean Square $\text{CME} = 18.0$ $\text{ms}^2$ with $\nu_E = 25$ residual degrees of freedom, where each protocol was tested across $n = 6$ replicates.
+	\begin{enumerate}
+		\item Calculate the Least Significant Difference (**Fisher's LSD**) at $\alpha = 0.05$.
+		\item Calculate the critical difference margin using the **Bonferroni Correction** method to maintain a maximum family-wise error rate of $\alpha = 0.05$.
+		\item Quantitatively compare both thresholds and explain the implications of their difference in detection sensitivity within a data science project.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:anova_oper_desbalanceado_r2}
+	In a computational efficiency investigation, CPU bandwidth consumption in percentage ($\%$) is measured while executing intensive processes across three different virtualization environments ($k = 3$). Due to server farm interruptions, the collected samples were unbalanced:
+	\begin{itemize}
+		\item \textbf{Environment 1:} $n_1 = 6$ replicates, mean $\bar{Y}_{1.} = 45.0\%$, sample variance $S_1^2 = 12.0$.
+		\item \textbf{Environment 2:} $n_2 = 8$ replicates, mean $\bar{Y}_{2.} = 52.0\%$, sample variance $S_2^2 = 15.0$.
+		\item \textbf{Environment 3:} $n_3 = 5$ replicates, mean $\bar{Y}_{3.} = 38.0\%$, sample variance $S_3^2 = 10.0$.
+	\end{itemize}
+	\begin{enumerate}
+		\item Calculate the grand mean $\bar{Y}_{..}$ by correctly weighting the sample sizes ($N = 19$).
+		\item Calculate the Treatment Sum of Squares ($\text{SCTR}$) and the Error Sum of Squares ($\text{SCE}$), and construct the ANOVA table to test whether mean CPU consumption differs at $\alpha = 0.05$ ($F_{0.05, \, 2, \, 16} = 3.634$).
+		\item Calculate the multiple coefficient of determination for the ANOVA ($R^2 = \dfrac{\text{SCTR}}{\text{SCT}}$) and the adjusted $R^2$ coefficient, interpreting what percentage of CPU consumption variance is explained by the virtualization type.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{problema}
+	\label{prob:verificacion_supuestos_anova}
+	When auditing a one-way ANOVA across $k = 3$ cache memory configurations with small sample sizes ($n_1=6, n_2=6, n_3=6$), the calculated sample variances are $S_1^2 = 1.2$, $S_2^2 = 1.5$, and $S_3^2 = 8.9$.
+	
+	A junior analyst suggests proceeding with standard ANOVA, arguing that "ANOVA is robust to variance violations if group sizes are equal." Is this assertion correct given these data? Explain which quantitative verification procedure must be performed and what methodological alternative should be applied if the assumption fails.
+\end{problema}
+
+\begin{problema}
+	\label{prob:potencia_tamano_anova}
+	A data science team plans a new experiment (one-way ANOVA) to compare API request execution speed across $k = 4$ native backend languages. From historical system audits, intrinsic residual request variance is estimated at $\sigma^2 = 16$ $\text{ms}^2$ ($\sigma = 4$ ms).
+	
+	The team wishes to determine the replicate sample size $n$ per language required for the ANOVA to achieve a \textbf{statistical power of $80\%$ ($1 - \beta = 0.80$)} to detect at nominal level $\alpha = 0.05$ a maximum difference of at least $\Delta = \mu_{\text{max}} - \mu_{\text{min}} = 5$ ms between the fastest and slowest languages in the study. Use the maximum variability approximation via parameter $\Phi$ from Pearson-Hartley power tables or the formula for Cohen's standardized effect size $f$.
+\end{problema}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{problema}
+	\label{prob:anova_desaf_cochran}
+	\textbf{Analytical derivation of quadratic partitioning and independence of quadratic forms via Cochran's Theorem:}
+	Consider a completely randomized single-factor experiment with $k$ treatments and $n$ balanced replicates ($N = nk$), under the normal additive linear model:
+	\begin{align}
+		Y_{ij} = \mu + \tau_i + \varepsilon_{ij}, \quad i=1, \dots, k, \; j=1, \dots, n,
+	\end{align}
+	where $\sum_{i=1}^k \tau_i = 0$ and errors are i.i.d. $\varepsilon_{ij} \sim N(0, \sigma^2)$.
+	\begin{enumerate}
+		\item Starting from the elementary geometric observational error decomposition:
+		\begin{align}
+			Y_{ij} - \bar{Y}_{..} = (\bar{Y}_{i.} - \bar{Y}_{..}) + (Y_{ij} - \bar{Y}_{i.}),
+		\end{align}
+		algebraically prove that upon squaring both sides and summing over all $i$ and $j$, the double cross-product term vanishes exactly ($\sum_{i=1}^k \sum_{j=1}^n (\bar{Y}_{i.} - \bar{Y}_{..})(Y_{ij} - \bar{Y}_{i.}) \equiv 0$), proving the statistical Pythagorean theorem: $\text{SCT} = \text{SCTR} + \text{SCE}$.
+		\item Prove that under the universal null hypothesis $H_0: \tau_i = 0 \; \forall i$, the normalized random variables $\dfrac{\text{SCTR}}{\sigma^2}$ and $\dfrac{\text{SCE}}{\sigma^2}$ follow independent Chi-square distributions with $k-1$ and $N-k$ degrees of freedom, respectively.
+		\item Invoke **William G. Cochran's Theorem** concerning the decomposition of the identity matrix into idempotent orthogonal matrices to justify why the Mean Squares $\text{CMTR}$ and $\text{CME}$ are independent in probability, rigorously concluding that the ratio $F = \dfrac{\text{CMTR}}{\text{CME}}$ follows a central Snedecor $F$-distribution of order $(k-1, N-k)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:anova_desaf_esperanzas_dbca}
+	\textbf{Derivation of Expected Mean Squares ($E[\text{CM}]$) in RCBD and mathematical proof of Relative Efficiency of blocking:}
+	Consider a Randomized Complete Block Design without interaction having $k$ treatments and $b$ blocks ($N = kb$), modeled by:
+	\begin{align}
+		Y_{ij} = \mu + \tau_i + \beta_j + \varepsilon_{ij}, \quad \varepsilon_{ij} \sim N(0, \sigma^2 \mathbf{I}), \quad \sum_{i=1}^k \tau_i = 0, \quad \sum_{j=1}^b \beta_j = 0.
+	\end{align}
+	\begin{enumerate}
+		\item Using the expectation operator ($E[\cdot]$) and the independence and variance properties of errors $\varepsilon_{ij}$, step-by-step prove that the expectations of the Treatment Mean Square ($\text{CMTR}$), Block Mean Square ($\text{CMB}$), and Error Mean Square ($\text{CME}$) satisfy the exact parametric identities:
+		\begin{align}
+			E[\text{CMTR}] &= \sigma^2 + \frac{b}{k-1}\sum_{i=1}^k \tau_i^2, \\
+			E[\text{CMB}] &= \sigma^2 + \frac{k}{b-1}\sum_{j=1}^b \beta_j^2, \\
+			E[\text{CME}] &= \sigma^2.
+		\end{align}
+		\item In a Completely Randomized Design (CRD) that ignores blocks but uses the exact same $N = kb$ experimental units, let the estimated residual variance be denoted by $S_{\text{CRD}}^2$. Deduce from the above expectations the formula for the **Relative Efficiency ($\text{ER}$)** of the RCBD compared to the CRD:
+		\begin{align}
+			S_{\text{CRD}}^2 \approx \frac{(b-1)\text{CMB} + b(k-1)\text{CME}}{kb - 1},
+		\end{align}
+		and algebraically prove the exact analytical condition upon the Block Mean Square ($\text{CMB}$) that guarantees that the blocked design is quantitatively superior in contrast precision ($\text{ER} > 1$).
+	\end{enumerate}
+\end{problema}
+
+
+\subsection{Detailed Solutions}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{solucion}
+	\textbf{Step 1: Formal hypothesis formulation.}
+	\begin{align}
+		H_0&: \mu_1 = \mu_2 = \mu_3 = \mu_4 \quad (\text{All four algorithms have identical average performance}). \\
+		H_a&: \mu_i \neq \mu_j \text{ for at least one pair } (i, j).
+	\end{align}
+	
+	\textbf{Step 2: Calculation of the grand mean ($\bar{Y}_{..}$).}
+	Since sample sizes are balanced ($n_1 = n_2 = n_3 = n_4 = 5$), the grand mean is the simple arithmetic average of the 4 treatment means:
+	\begin{align}
+		\bar{Y}_{..} = \frac{84.2 + 79.8 + 88.6 + 86.4}{4} = \frac{339.0}{4} = 84.75\%.
+	\end{align}
+	
+	\textbf{Step 3: Calculation of the Treatment Sum of Squares ($\text{SCTR}$).}
+	The formula for $k = 4$ treatments is $\text{SCTR} = \sum_{i=1}^4 n (\bar{Y}_{i.} - \bar{Y}_{..})^2$:
+	\begin{align}
+		\text{SCTR} &= 5 \left[ (84.2 - 84.75)^2 + (79.8 - 84.75)^2 + (88.6 - 84.75)^2 + (86.4 - 84.75)^2 \right] \\
+		&= 5 \left[ (-0.55)^2 + (-4.95)^2 + (3.85)^2 + (1.65)^2 \right] \\
+		&= 5 \left[ 0.3025 + 24.5025 + 14.8225 + 2.7225 \right] = 5 \left[ 42.35 \right] = 211.75 \text{ (\%}^2\text{)}.
+	\end{align}
+	
+	\textbf{Step 4: Calculation of the Error Sum of Squares ($\text{SCE}$).}
+	We use the relationship $\text{SCE} = \sum_{i=1}^4 (n_i - 1)S_i^2$. Since $n_i - 1 = 5 - 1 = 4$ across all four groups:
+	\begin{align}
+		\text{SCE} &= 4 \left[ S_1^2 + S_2^2 + S_3^2 + S_4^2 \right] = 4 \left[ (3.1)^2 + (3.4)^2 + (2.8)^2 + (3.5)^2 \right] \\
+		&= 4 \left[ 9.61 + 11.56 + 7.84 + 12.25 \right] = 4 \left[ 41.26 \right] = 165.04 \text{ (\%}^2\text{)}.
+	\end{align}
+	
+	The Total Sum of Squares becomes: $\text{SCT} = \text{SCTR} + \text{SCE} = 211.75 + 165.04 = 376.79$.
+	
+	\textbf{Step 5: Degrees of freedom and Mean Squares ($\text{CM}$).}
+	\begin{itemize}
+		\item Treatment degrees of freedom: $\nu_{\text{TR}} = k - 1 = 4 - 1 = 3$.
+		\item Error degrees of freedom: $\nu_E = N - k = 20 - 4 = 16$.
+		\item Total degrees of freedom: $\nu_T = N - 1 = 19$.
+	\end{itemize}
+	We calculate the mean squares by division:
+	\begin{align}
+		\text{CMTR} &= \frac{\text{SCTR}}{k - 1} = \frac{211.75}{3} \approx 70.5833, \\
+		\text{CME} &= \frac{\text{SCE}}{N - k} = \frac{165.04}{16} = 10.315.
+	\end{align}
+	
+	\textbf{Step 6: Calculation of the observed $F$ statistic.}
+	\begin{align}
+		F = \frac{\text{CMTR}}{\text{CME}} = \frac{70.5833}{10.315} \approx 6.8428.
+	\end{align}
+	
+	We summarize all information in Table \ref{tab:anova_sol_1}.
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			\textbf{Source of Variation} & \textbf{SC} & \textbf{d.f. ($\nu$)} & \textbf{CM} & \textbf{$F$ Statistic} \\ \hline
+			Treatments (Algorithms) & 211.75 & 3 & 70.583 & \textbf{6.843} \\
+			Residual Error & 165.04 & 16 & 10.315 & \\ \hline
+			\textbf{Total} & 376.79 & 19 & & \\ \hline
+		\end{tabular}
+		\caption{ANOVA table for comparing the four classification algorithms.}
+		\label{tab:anova_sol_1}
+	\end{table}
+	
+	\textbf{Step 7: Decision rule and conclusion.}
+	For significance level $\alpha = 0.05$, we consult Fisher-Snedecor tables with $\nu_1 = 3$ numerator and $\nu_2 = 16$ denominator degrees of freedom:
+	\begin{align}
+		F_{0.05, \, 3, \, 16} = 3.239.
+	\end{align}
+	Since our calculated statistic $F = 6.843 \gg 3.239$ ($p\text{-value} \approx 0.0035$), **we categorically reject the null hypothesis $H_0$**. We demonstrate with greater than $99.6\%$ confidence that there is a highly significant difference in the mean accuracy ($F_1$-score) of at least one of the four machine learning algorithms across the evaluated datasets.
+\end{solucion}
+
+\begin{solucion}
+	\textbf{Step 1: Obtaining the Studentized range quantile ($q$).}
+	From the ANOVA table in Problem \ref{prob:anova_un_factor_ml}, our Mean Square Error is $\text{CME} = 10.315$ with $\nu_E = 16$ degrees of freedom, and we have $k = 4$ treatments, all with equal replicate sizes $n = 5$.
+	
+	Consulting statistical tables for the Studentized range distribution $q_{\alpha, k, \nu_E}$ at $\alpha = 0.05$, $k = 4$, and $\nu_E = 16$:
+	\begin{align}
+		q_{0.05, \, 4, \, 16} = 4.046.
+	\end{align}
+	
+	\textbf{Step 2: Calculation of the Honestly Significant Difference ($\text{HSD}$).}
+	Substituting into Tukey's fundamental formula for balanced samples:
+	\begin{align}
+		\text{HSD} = q_{\alpha, \, k, \, \nu_E} \sqrt{\frac{\text{CME}}{n}} = 4.046 \sqrt{\frac{10.315}{5}} = 4.046 \sqrt{2.063} = 4.046 \times 1.4363 \approx 5.811\%.
+	\end{align}
+	Consequently, **any pair of algorithms whose sample means differ in absolute value by more than $5.811\%$ will be considered statistically different** under strict family-wise error control at the $5\%$ level.
+	
+	\textbf{Step 3: Ordered matrix of group mean differences.}
+	Let us sort sample means from lowest to highest to systematize comparisons:
+	\begin{itemize}
+		\item $\bar{Y}_{\text{SVM}} = 79.8\%$
+		\item $\bar{Y}_{\text{Random Forest (RF)}} = 84.2\%$
+		\item $\bar{Y}_{\text{Neural Networks (DNN)}} = 86.4\%$
+		\item $\bar{Y}_{\text{XGBoost (XGB)}} = 88.6\%$
+	\end{itemize}
+	We evaluate the 6 pairwise differences against critical threshold $\text{HSD} = 5.811\%$ :
+	\begin{enumerate}
+		\item \textbf{XGBoost vs SVM:} $|\bar{Y}_{\text{XGB}} - \bar{Y}_{\text{SVM}}| = |88.6 - 79.8| = 8.80\% > 5.811\%$ $\implies$ **Significant ($*$)**.
+		\item \textbf{XGBoost vs Random Forest:} $|\bar{Y}_{\text{XGB}} - \bar{Y}_{\text{RF}}| = |88.6 - 84.2| = 4.40\% \leq 5.811\%$ $\implies$ Not significant.
+		\item \textbf{XGBoost vs Neural Networks:} $|\bar{Y}_{\text{XGB}} - \bar{Y}_{\text{DNN}}| = |88.6 - 86.4| = 2.20\% \leq 5.811\%$ $\implies$ Not significant.
+		\item \textbf{Neural Networks vs SVM:} $|\bar{Y}_{\text{DNN}} - \bar{Y}_{\text{SVM}}| = |86.4 - 79.8| = 6.60\% > 5.811\%$ $\implies$ **Significant ($*$)**.
+		\item \textbf{Neural Networks vs Random Forest:} $|\bar{Y}_{\text{DNN}} - \bar{Y}_{\text{RF}}| = |86.4 - 84.2| = 2.20\% \leq 5.811\%$ $\implies$ Not significant.
+		\item \textbf{Random Forest vs SVM:} $|\bar{Y}_{\text{RF}} - \bar{Y}_{\text{SVM}}| = |84.2 - 79.8| = 4.40\% \leq 5.811\%$ $\implies$ Not significant.
+	\end{enumerate}
+	**Technical post-hoc conclusion:** Tukey's HSD procedure reveals and isolates precisely the source of ANOVA significance: **both XGBoost ($88.6\%$) and Deep Neural Networks ($86.4\%$) significantly outperform SVM ($79.8\%$)** in $F_1$-score. Between XGBoost, Neural Networks, and Random Forests, there are no statistically discernible differences given the study's sample size.
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Calculation of Treatment Sum of Squares ($\text{SCTR}$):}
+		By the quadratic additivity theorem ($\text{SCT} = \text{SCTR} + \text{SCE}$), we solve directly:
+		\begin{align}
+			\text{SCTR} = \text{SCT} - \text{SCE} = 520.0 - 180.0 = 340.0 \text{ MPa}^2.
+		\end{align}
+		
+		\item \textbf{Determination of degrees of freedom ($\nu$):}
+		Given that the experiment includes $k = 4$ formulations and $N = 30$ total observations:
+		\begin{align}
+			\nu_{\text{TR}} &= k - 1 = 4 - 1 = 3. \\
+			\nu_E &= N - k = 30 - 4 = 26. \\
+			\nu_T &= N - 1 = 30 - 1 = 29.
+		\end{align}
+		We verify dimensional additivity: $3 + 26 = 29$.
+		
+		\item \textbf{Calculation of Mean Squares ($\text{CM}$) and $F$ statistic:}
+		\begin{align}
+			\text{CMTR} &= \frac{\text{SCTR}}{\nu_{\text{TR}}} = \frac{340.0}{3} \approx 113.333 \text{ MPa}^2. \\
+			\text{CME} &= \frac{\text{SCE}}{\nu_E} = \frac{180.0}{26} \approx 6.923 \text{ MPa}^2.
+		\end{align}
+		The ratio of inter-group to intra-group variances yields the observed statistic:
+		\begin{align}
+			F = \frac{\text{CMTR}}{\text{CME}} = \frac{113.333}{6.923} \approx 16.370.
+		\end{align}
+		
+		\item \textbf{Hypothesis evaluation and conclusion:}
+		The critical quantile in the $F$-distribution with $3$ and $26$ degrees of freedom at the $1\%$ level is $F_{0.01, \, 3, \, 26} = 4.637$.
+		Because our sample statistic exceeds the boundary by an overwhelming margin ($16.370 \gg 4.637$), **we reject the null hypothesis of equal strengths at the 1\% significance level**. Chemical formulation type decisively alters the mechanical tensile strength of the polymer.
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{solucion}
+	\textbf{Part 1: Sum of Squares Partitioning and RCBD ANOVA Table.}
+	The grand mean is $\bar{Y}_{..} = 16.6667$ s ($N = k \times b = 3 \times 4 = 12$ observations).
+	
+	\textbf{Treatment Sum of Squares ($\text{SCTR}$, $k=3$ with $b=4$ replicates per engine):}
+	\begin{align}
+		\text{SCTR} &= b \sum_{i=1}^3 (\bar{Y}_{i.} - \bar{Y}_{..})^2 = 4 \left[ (19.5 - 16.6667)^2 + (14.5 - 16.6667)^2 + (16.0 - 16.6667)^2 \right] \nonumber \\
+		&= 4 \left[ (2.8333)^2 + (-2.1667)^2 + (-0.6667)^2 \right] = 4 \left[ 8.0278 + 4.6944 + 0.4444 \right] \nonumber \\
+		&= 4 \times 13.1667 = 52.6667 \text{ s}^2.
+	\end{align}
+	
+	\textbf{Block Sum of Squares ($\text{SCB}$, $b=4$ with $k=3$ replicates per server):}
+	\begin{align}
+		\text{SCB} &= k \sum_{j=1}^4 (\bar{Y}_{.j} - \bar{Y}_{..})^2 \nonumber \\
+		&= 3 \left[ (10.0 - 16.6667)^2 + (13.0 - 16.6667)^2 + (19.0 - 16.6667)^2 + (24.6667 - 16.6667)^2 \right] \nonumber \\
+		&= 3 \left[ (-6.6667)^2 + (-3.6667)^2 + (2.3333)^2 + (8.0000)^2 \right] \nonumber \\
+		&= 3 \left[ 44.4444 + 13.4444 + 5.4444 + 64.0000 \right] = 3 \times 127.3333 = 382.0000 \text{ s}^2.
+	\end{align}
+	
+	\textbf{Total Sum of Squares ($\text{SCT}$):} Summing the squared deviations across all 12 cells relative to $\bar{Y}_{..} = 16.6667$:
+	\begin{align}
+		\text{SCT} &= \sum_{i=1}^3 \sum_{j=1}^4 (Y_{ij} - 16.6667)^2 = (12-16.6667)^2 + (15.5-16.6667)^2 + \ldots + (23.5-16.6667)^2 \nonumber \\
+		&= 21.78 + 1.36 + 28.44 + 140.03 + 66.70 + 32.11 + 0.03 + 28.44 + 51.36 + 17.36 + 3.36 + 46.70 \nonumber \\
+		&= 437.6667 \text{ s}^2.
+	\end{align}
+	
+	\textbf{Residual Error Sum of Squares ($\text{SCE}$):}
+	By exact orthogonal subtraction:
+	\begin{align}
+		\text{SCE} = \text{SCT} - \text{SCTR} - \text{SCB} = 437.6667 - 52.6667 - 382.0000 = 3.0000 \text{ s}^2.
+	\end{align}
+	
+	\textbf{Degrees of freedom and Mean Squares:}
+	\begin{itemize}
+		\item Treatments: $\nu_{\text{TR}} = k - 1 = 3 - 1 = 2 \implies \text{CMTR} = \frac{52.6667}{2} = 26.3333$.
+		\item Blocks: $\nu_{\text{B}} = b - 1 = 4 - 1 = 3 \implies \text{CMB} = \frac{382.0000}{3} = 127.3333$.
+		\item Residual error: $\nu_E = (k-1)(b-1) = 2 \times 3 = 6 \implies \text{CME} = \frac{3.0000}{6} = 0.5000$.
+	\end{itemize}
+	
+	\textbf{$F$ Statistics:}
+	\begin{align}
+		F_{\text{TR}} &= \frac{\text{CMTR}}{\text{CME}} = \frac{26.3333}{0.5000} = 52.667, \\
+		F_{\text{B}} &= \frac{\text{CMB}}{\text{CME}} = \frac{127.3333}{0.5000} = 254.667.
+	\end{align}
+	We summarize in Table \ref{tab:anova_dbca_sol}.
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{lcccc}
+			\hline
+			\textbf{Source of Variation} & \textbf{SC} & \textbf{d.f. ($\nu$)} & \textbf{CM} & \textbf{$F$ Statistic} \\ \hline
+			Treatments (SQL Engines) & 52.667 & 2 & 26.333 & \textbf{52.667} \\
+			Blocks (Server Hardware) & 382.000 & 3 & 127.333 & \textbf{254.667} \\
+			Residual Error & 3.000 & 6 & 0.500 & \\ \hline
+			\textbf{Total} & 437.667 & 11 & & \\ \hline
+		\end{tabular}
+		\caption{ANOVA table for the RCBD experiment evaluating SQL engines across server infrastructure.}
+		\label{tab:anova_dbca_sol}
+	\end{table}
+	
+	\textbf{Part 2: Test on treatments ($H_{0,\text{TR}}: \tau_1 = \tau_2 = \tau_3 = 0$).}
+	At level $\alpha = 0.05$ with degrees of freedom $\nu_1 = 2, \nu_2 = 6$, the rejection threshold is:
+	\begin{align}
+		F_{0.05, \, 2, \, 6} = 5.143.
+	\end{align}
+	Since the treatment statistic $F_{\text{TR}} = 52.667 \gg 5.143$, **we reject $H_{0,\text{TR}}$**. There is an extremely significant difference in processing times across the three SQL engines (observing clearly from treatment averages that **Engine B** with $\bar{Y}_{2.} = 14.50$ s is the fastest of the three).
+	
+	\textbf{Part 3: Assessment of blocking effectiveness ($H_{0,\text{B}}: \beta_1 = \ldots = \beta_4 = 0$).}
+	For the blocking factor, we consult Fisher's quantile with $\nu_1 = 3, \nu_2 = 6$:
+	\begin{align}
+		F_{0.05, \, 3, \, 6} = 4.757.
+	\end{align}
+	Because $F_{\text{B}} = 254.667 \gg 4.757$, the test on blocks is overwhelmingly significant.
+	
+	**Methodological conclusion on design:** Incorporating server generations as blocks was a **brilliantly effective and indispensable** methodological decision. Blocking absorbed and isolated $382.0$ units of pure infrastructure variance ($\text{SCB}$). If we had not blocked the design and instead analyzed the data using standard one-way ANOVA, those $382$ variance points would have been added directly to the residual error ($\text{SCE}_{\text{one-way}} = 382 + 3 = 385$), yielding a much larger residual variance $\text{CME}_{\text{one-way}} = \frac{385}{12-3} = 42.77$.
+	
+	Under that flawed unblocked one-way analysis, the engine statistic would have plummeted to an insignificant:
+	\begin{align}
+		F_{\text{one-way}} = \frac{26.333}{42.77} = 0.615 \quad (\text{far below the critical value } F_{0.05, 2, 9} = 4.26).
+	\end{align}
+	Blocking **completely rescued the experiment from a massive false negative (Type II error)** by purging hardware noise.
+\end{solucion}
+
+\begin{solucion}
+	\textbf{Part 1: Calculation of Fisher's LSD.}
+	For $k = 5$ treatments, the total number of pairwise comparisons is $m = \binom{5}{2} = \frac{5 \times 4}{2} = 10$.
+	The quantile of Student's $t$-distribution for a two-tailed individual test with $\alpha = 0.05$ ($\alpha/2 = 0.025$) and $\nu_E = 25$ degrees of freedom is:
+	\begin{align}
+		t_{0.025, \, 25} = 2.060.
+	\end{align}
+	Substituting into the LSD formula:
+	\begin{align}
+		\text{LSD} = t_{0.025, \, 25} \sqrt{\text{CME} \left( \frac{1}{n} + \frac{1}{n} \right)} &= 2.060 \sqrt{18.0 \left( \frac{2}{6} \right)} = 2.060 \sqrt{6.0} \\
+		&= 2.060 \times 2.4495 \approx 5.046 \text{ ms}.
+	\end{align}
+	
+	\textbf{Part 2: Calculation using Bonferroni Correction.}
+	To control family-wise error across $10$ comparisons at level $\alpha = 0.05$, the individual significance level for each specific test is rigidly adjusted to:
+	\begin{align}
+		\alpha^* = \frac{\alpha}{m} = \frac{0.05}{10} = 0.005 \implies \frac{\alpha^*}{2} = 0.0025.
+	\end{align}
+	Consulting $t$-distribution tables with $\nu_E = 25$ for the quantile leaving an upper tail of $0.0025$:
+	\begin{align}
+		t_{0.0025, \, 25} = 3.078.
+	\end{align}
+	The Bonferroni critical difference becomes:
+	\begin{align}
+		\text{CD}_{\text{Bonferroni}} = t_{0.0025, \, 25} \sqrt{\frac{2 \text{CME}}{n}} = 3.078 \times 2.4495 \approx 7.540 \text{ ms}.
+	\end{align}
+	
+	\textbf{Part 3: Comparison and technical implications.}
+	The Bonferroni threshold ($7.540$ ms) is **nearly $50\%$ more stringent and wide** than the Fisher LSD threshold ($5.046$ ms).
+	\begin{itemize}
+		\item **Fisher's LSD** provides high experimental sensitivity (low Type II error): it easily detects subtle differences across protocols (such as $5.2$ ms), but because it does not adjust for the 10 family comparisons, its true probability of declaring at least one false positive across the entire experiment exceeds $35\%$.
+		\item **Bonferroni** guarantees ironclad specificity ($\text{FWER} \leq 5\%$), preventing false alarms. However, its rigidity comes at a cost to statistical power (high Type II error): true, operationally valuable differences between $5.1$ ms and $7.5$ ms will pass unnoticed as non-significant. In computational analytics, when $k \geq 5$, researchers prefer the balanced middle ground offered by Tukey's HSD.
+	\end{itemize}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Calculation of the weighted grand mean ($\bar{Y}_{..}$):}
+		In designs with heterogeneous sample sizes ($n_j \neq n$), the grand average is not simple, but weighted by group replicate counts ($N = \sum n_j = 6 + 8 + 5 = 19$):
+		\begin{align}
+			\bar{Y}_{..} = \frac{\sum_{j=1}^3 n_j \bar{Y}_{j.}}{N} = \frac{6(45.0) + 8(52.0) + 5(38.0)}{19} = \frac{270.0 + 416.0 + 190.0}{19} = \frac{876.0}{19} \approx 46.1053\%.
+		\end{align}
+		
+		\item \textbf{Calculation of sums of squares, Mean Squares, and ANOVA test:}
+		\textbf{SCTR (unbalanced):}
+		\begin{align}
+			\text{SCTR} &= \sum_{j=1}^3 n_j (\bar{Y}_{j.} - \bar{Y}_{..})^2 = 6(45.0 - 46.1053)^2 + 8(52.0 - 46.1053)^2 + 5(38.0 - 46.1053)^2 \nonumber \\
+			&= 6(-1.1053)^2 + 8(5.8947)^2 + 5(-8.1053)^2 = 6(1.2217) + 8(34.7475) + 5(65.6959) \nonumber \\
+			&= 7.3302 + 277.9800 + 328.4795 = 613.7897 \text{ (\%}^2\text{).}
+		\end{align}
+		
+		\textbf{SCE (unbalanced):} Weighted sum of individual variances:
+		\begin{align}
+			\text{SCE} = \sum_{j=1}^3 (n_j - 1)S_j^2 = (6-1)(12.0) + (8-1)(15.0) + (5-1)(10.0) = 5(12) + 7(15) + 4(10) = 60 + 105 + 40 = 205.000 \text{ (\%}^2\text{).}
+		\end{align}
+		
+		The Total Sum of Squares is $\text{SCT} = 613.7897 + 205.000 = 818.7897$.
+		
+		Degrees of freedom: $\nu_{\text{TR}} = 3-1 = 2$, $\nu_E = 19 - 3 = 16$.
+		Mean Squares:
+		\begin{align}
+			\text{CMTR} &= \frac{613.7897}{2} \approx 306.8949, \\
+			\text{CME} &= \frac{205.000}{16} = 12.8125.
+		\end{align}
+		The experimental test statistic is:
+		\begin{align}
+			F = \frac{\text{CMTR}}{\text{CME}} = \frac{306.8949}{12.8125} \approx 23.9528.
+		\end{align}
+		At $\alpha = 0.05$ for $\nu_1=2, \nu_2=16$, the threshold is $F_{0.05, \, 2, \, 16} = 3.634$.
+		Since $F = 23.953 \gg 3.634$, **we reject $H_0$**. Average CPU bandwidth consumption differs drastically across the virtualization environments.
+		
+		\item \textbf{Calculation of $R^2$ and adjusted $R_{\text{adjusted}}^2$ coefficients:}
+		The **Coefficient of Determination ($R^2$ or Eta-squared $\eta^2$)** measures the total fraction of variability explained by the main factor:
+		\begin{align}
+			R^2 = \frac{\text{SCTR}}{\text{SCT}} = \frac{613.7897}{818.7897} \approx 0.7496 \quad (74.96\%).
+		\end{align}
+		This indicates that $74.96\%$ of all observed fluctuation in CPU consumption across the server farm is directly attributable to and explained by the chosen virtualization environment.
+		
+		The **adjusted $R^2$** penalizes the degrees of freedom consumed by treatments relative to the total:
+		\begin{align}
+			R_{\text{adjusted}}^2 = 1 - \left[ \frac{\text{CME}}{\text{CMT}} \right] = 1 - \left[ \frac{\text{SCE}/\nu_E}{\text{SCT}/\nu_T} \right] = 1 - \left[ \frac{12.8125}{818.7897 / 18} \right] = 1 - \left[ \frac{12.8125}{45.4883} \right] = 1 - 0.28166 \approx 0.7183 \quad (71.83\%).
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{solucion}
+	The analyst's assertion is **dangerously incomplete under the analyzed scenario**. It is a mathematical fact that ANOVA possesses structural robustness against mild-to-moderate homoscedasticity deviations when sample sizes are balanced ($n_1 = n_2 = n_3$). However, this robustness **does not withstand extreme disparities** across group variances.
+	
+	In our case, the variance of Treatment 3 ($S_3^2 = 8.9$) is more than **seven times larger** than the variance of Treatment 1 ($S_1^2 = 1.2$, ratio $8.9 / 1.2 = 7.41$). This severe heterogeneity indicates that Treatment 3 operates with vastly higher systemic instability or contains severe outliers.
+	
+	\textbf{Verification procedure and rigorous methodological action:}
+	\begin{enumerate}
+		\item **Qualitative and quantitative residual audit:** Construct a Studentized residual plot and inspect whether the dispersion exhibits a funnel or trumpet pattern (the classic hallmark of mean-dependent non-constant variance).
+		\item **Formal Levene or Brown-Forsythe test:** Subject the sample to Levene's test ($\alpha = 0.05$). Given a variance ratio of $7.4:1$, Levene's test will decisively reject the null hypothesis $H_0: \sigma_1^2 = \sigma_2^2 = \sigma_3^2$.
+		\item **Appropriate analytical alternative:** Given the confirmed homoscedasticity failure, the analyst must discard the conventional $F$ statistic and employ **Welch's ANOVA (or Welch's $F$-test)**, which inversely weights group mean squares by individual variances $S_i^2/n_i$ and adjusts denominator degrees of freedom, or alternatively apply a logarithmic transformation ($\log Y_{ij}$) if data are positive and right-skewed.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\textbf{Step 1: Effect size estimation under the most adverse configuration.}
+	For a fixed number of treatments $k = 4$ with a specified maximum difference $\Delta = 5$ ms and error dispersion $\sigma = 4$ ms, the hardest population configuration to detect (the one minimizing treatment sum of squares $\sum \tau_i^2$) occurs when two treatments lie at the extremes separated by $\Delta$, and the remaining $k-2$ treatments sit exactly at the midpoint between them.
+	
+	Under this minimal configuration, the population treatment variance is:
+	\begin{align}
+		\sigma_{\tau}^2 = \frac{\Delta^2}{2k} = \frac{(5)^2}{2(4)} = \frac{25}{8} = 3.125 \text{ ms}^2.
+	\end{align}
+	
+	\textbf{Step 2: Calculation of Cohen's standardized effect size $f$.}
+	Cohen's global effect size for ANOVA is defined as:
+	\begin{align}
+		f = \frac{\sigma_{\tau}}{\sigma} = \sqrt{\frac{3.125}{16}} = \sqrt{0.1953} \approx 0.4419.
+	\end{align}
+	A value of $f = 0.44$ represents a **medium-to-large** effect size magnitude on Cohen's standardized scale ($f=0.10$ small, $0.25$ medium, $0.40$ large).
+	
+	\textbf{Step 3: Calculation of the ANOVA non-centrality parameter ($\lambda$) or group sample size approximation.}
+	The theoretical relationship linking replicates per group $n$, Cohen's effect $f$, and the non-centrality parameter of the $F$ statistic is $\lambda = n \cdot k \cdot f^2$.
+	
+	To achieve a statistical power of $80\%$ ($1 - \beta = 0.80$) with $\alpha = 0.05$ and $\nu_1 = k - 1 = 3$ numerator degrees of freedom, computational power tables (or the \texttt{statsmodels.stats.power.FTestAnovaPower} module in Python) indicate that the required non-centrality parameter must hover around $\lambda \approx 10.90$.
+	
+	Solving for $n$ from the fundamental non-centrality relationship:
+	\begin{align}
+		n = \frac{\lambda}{k \cdot f^2} = \frac{10.90}{4 \times (0.4419)^2} = \frac{10.90}{4 \times 0.1953} = \frac{10.90}{0.7812} \approx 13.95 \text{ replicates per language}.
+	\end{align}
+	
+	\textbf{Experimental design conclusion:} Rounding up to the next integer to strictly guarantee achieving the desired target power, we must assign a sample size of **$n = 14$ replicates per backend language**, resulting in a total experiment size of **$N = k \times n = 4 \times 14 = 56$ audited API requests**.
+\end{solucion}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Algebraic proof of quadratic partitioning and cross-product identity:}
+		Let the exact observational error decomposition identity be:
+		\begin{align}
+			Y_{ij} - \bar{Y}_{..} = (\bar{Y}_{i.} - \bar{Y}_{..}) + (Y_{ij} - \bar{Y}_{i.}).
+		\end{align}
+		Squaring both sides yields:
+		\begin{align}
+			(Y_{ij} - \bar{Y}_{..})^2 = (\bar{Y}_{i.} - \bar{Y}_{..})^2 + (Y_{ij} - \bar{Y}_{i.})^2 + 2(\bar{Y}_{i.} - \bar{Y}_{..})(Y_{ij} - \bar{Y}_{i.}).
+		\end{align}
+		Applying the double summation operator over treatment index ($i=1,\dots,k$) and replicate index ($j=1,\dots,n$):
+		\begin{align}
+			\sum_{i=1}^k \sum_{j=1}^n (Y_{ij} - \bar{Y}_{..})^2 = \sum_{i=1}^k \sum_{j=1}^n (\bar{Y}_{i.} - \bar{Y}_{..})^2 + \sum_{i=1}^k \sum_{j=1}^n (Y_{ij} - \bar{Y}_{i.})^2 + 2\sum_{i=1}^k \sum_{j=1}^n (\bar{Y}_{i.} - \bar{Y}_{..})(Y_{ij} - \bar{Y}_{i.}).
+		\end{align}
+		In the first summation on the right, the term $(\bar{Y}_{i.} - \bar{Y}_{..})^2$ is constant with respect to the inner sum over $j$, so $\sum_{j=1}^n (\bar{Y}_{i.} - \bar{Y}_{..})^2 = n(\bar{Y}_{i.} - \bar{Y}_{..})^2$. This constitutes by definition the Treatment Sum of Squares ($\text{SCTR}$). The second summation is the Residual Error Sum of Squares ($\text{SCE}$).
+		
+		Let us analyze the double cross-product term:
+		\begin{align}
+			T_{\text{cross}} = \sum_{i=1}^k (\bar{Y}_{i.} - \bar{Y}_{..}) \left[ \sum_{j=1}^n (Y_{ij} - \bar{Y}_{i.}) \right].
+		\end{align}
+		Evaluating the inner sum inside the brackets for a fixed treatment $i$:
+		\begin{align}
+			\sum_{j=1}^n (Y_{ij} - \bar{Y}_{i.}) = \sum_{j=1}^n Y_{ij} - \sum_{j=1}^n \bar{Y}_{i.} = n\bar{Y}_{i.} - n\bar{Y}_{i.} = 0.
+		\end{align}
+		By an elementary property of the arithmetic mean, the sum of deviations of any dataset from its group mean is strictly zero. Consequently, upon multiplying by the constant factor in $i$, the entire double cross-product sum vanishes algebraically without remainder:
+		\begin{align}
+			2 \sum_{i=1}^k (\bar{Y}_{i.} - \bar{Y}_{..}) [0] \equiv 0 \implies \text{SCT} = \text{SCTR} + \text{SCE}.
+		\end{align}
+		
+		\item \textbf{Chi-square distributions under the universal null hypothesis ($H_0: \tau_i = 0$):}
+		Under $H_0$, all observed random variables are identically distributed $Y_{ij} \sim N(\mu, \sigma^2)$.
+		For the residual error, within each individual treatment $i$, by Gosset's Theorem regarding sample variance of independent normal observations:
+		\begin{align}
+			\frac{\sum_{j=1}^n (Y_{ij} - \bar{Y}_{i.})^2}{\sigma^2} = \frac{(n-1)S_i^2}{\sigma^2} \sim \chi^2_{n-1}.
+		\end{align}
+		Because the $k$ group samples are mutually independent, the sum of independent Chi-square variables follows another Chi-square distribution whose degrees of freedom equal the direct sum of the individual degrees of freedom:
+		\begin{align}
+			\frac{\text{SCE}}{\sigma^2} = \sum_{i=1}^k \left[ \frac{(n-1)S_i^2}{\sigma^2} \right] \sim \chi^2_{\sum_{i=1}^k (n-1)} = \chi^2_{k(n-1)} = \chi^2_{N-k}.
+		\end{align}
+		Similarly, under $H_0$, the $k$ sample group means are independent and distributed as $\bar{Y}_{i.} \sim N\left(\mu, \frac{\sigma^2}{n}\right)$. Applying Gosset's Theorem again to this vector of $k$ group means having grand mean $\bar{Y}_{..}$:
+		\begin{align}
+			\frac{\sum_{i=1}^k (\bar{Y}_{i.} - \bar{Y}_{..})^2}{\sigma^2 / n} = \frac{n \sum_{i=1}^k (\bar{Y}_{i.} - \bar{Y}_{..})^2}{\sigma^2} = \frac{\text{SCTR}}{\sigma^2} \sim \chi^2_{k-1}.
+		\end{align}
+		
+		\item \textbf{Invocation of Cochran's Theorem and deduction of the $F$ statistic:}
+		**William G. Cochran's Theorem** formally establishes in linear algebra that: if a standard multivariate normal vector $\mathbf{Z} \sim N(\mathbf{0}, \mathbf{I}_N)$ satisfies the quadratic form partitioning $\mathbf{Z}^T \mathbf{Z} = \sum_{m=1}^M \mathbf{Z}^T \mathbf{A}_m \mathbf{Z}$, where matrices $\mathbf{A}_m$ are symmetric with ranks $r_m = \text{rank}(\mathbf{A}_m)$, then **the quadratic forms $\mathbf{Z}^T \mathbf{A}_m \mathbf{Z}$ are mutually and unconditionally independent Chi-square random variables with $r_m$ degrees of freedom, if and only if the sum of their ranks equals the total space dimension: $\sum_{m=1}^M r_m = N$**.
+		
+		In our single-factor design, the vector of standardized deviations satisfies exact partitioning into symmetric projection matrices:
+		\begin{align}
+			\frac{\text{SCT}}{\sigma^2} = \frac{\text{SCTR}}{\sigma^2} + \frac{\text{SCE}}{\sigma^2}.
+		\end{align}
+		The total dimension of the deviation space around the grand mean is $\nu_T = N - 1$. The ranks on the right-hand side are $\nu_{\text{TR}} = k - 1$ for treatments and $\nu_E = N - k$ for error. Summing the dimensions of the two projective subspaces:
+		\begin{align}
+			(k - 1) + (N - k) = N - 1 = \nu_T.
+		\end{align}
+		Because the dimensional partitioning condition of Cochran's Theorem is satisfied with rigorous exactness, the projection matrices of $\text{SCTR}$ and $\text{SCE}$ are **idempotent and mutually orthogonal ($\mathbf{A}_{\text{TR}} \mathbf{A}_E = \mathbf{0}$)**. Therefore, the variables $\text{CMTR}$ and $\text{CME}$ are stochastically and functionally independent.
+		
+		Consequently, the normalized ratio of two independent Chi-square random variables, each divided by its respective degrees of freedom, defines by probability theory axioms the central Snedecor $F$-distribution:
+		\begin{align}
+			F = \frac{\dfrac{\text{SCTR}/\sigma^2}{k-1}}{\dfrac{\text{SCE}/\sigma^2}{N-k}} = \frac{\text{CMTR}}{\text{CME}} \sim F_{k-1, \, N-k}.
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Systematic derivation of expected Mean Squares ($E[\text{CM}]$):}
+		Consider the randomized complete block model $Y_{ij} = \mu + \tau_i + \beta_j + \varepsilon_{ij}$.
+		The expectation of any single observation is $E[Y_{ij}] = \mu + \tau_i + \beta_j$, since $E[\varepsilon_{ij}] = 0$.
+		The group mean of treatment $i$ averaged across all $b$ blocks is:
+		\begin{align}
+			\bar{Y}_{i.} = \frac{1}{b}\sum_{j=1}^b (\mu + \tau_i + \beta_j + \varepsilon_{ij}) = \mu + \tau_i + \frac{1}{b}\sum_{j=1}^b \beta_j + \bar{\varepsilon}_{i.} = \mu + \tau_i + 0 + \bar{\varepsilon}_{i.} = \mu + \tau_i + \bar{\varepsilon}_{i.},
+		\end{align}
+		and symmetrically for block $j$ averaged across all $k$ treatments, $\bar{Y}_{.j} = \mu + \beta_j + \bar{\varepsilon}_{.j}$, while the grand mean is $\bar{Y}_{..} = \mu + \bar{\varepsilon}_{..}$.
+		
+		Let us analyze the Treatment Mean Square ($\text{CMTR} = \dfrac{b}{k-1}\sum_{i=1}^k (\bar{Y}_{i.} - \bar{Y}_{..})^2$):
+		Substituting the simplified mean expressions:
+		\begin{align}
+			\bar{Y}_{i.} - \bar{Y}_{..} = (\mu + \tau_i + \bar{\varepsilon}_{i.}) - (\mu + \bar{\varepsilon}_{..}) = \tau_i + (\bar{\varepsilon}_{i.} - \bar{\varepsilon}_{..}).
+		\end{align}
+		Squaring and taking expectations across the summation:
+		\begin{align}
+			E\left[ \sum_{i=1}^k (\bar{Y}_{i.} - \bar{Y}_{..})^2 \right] = E\left[ \sum_{i=1}^k \tau_i^2 + 2\sum_{i=1}^k \tau_i (\bar{\varepsilon}_{i.} - \bar{\varepsilon}_{..}) + \sum_{i=1}^k (\bar{\varepsilon}_{i.} - \bar{\varepsilon}_{..})^2 \right].
+		\end{align}
+		Since $\tau_i$ is a fixed deterministic parameter independent of error, and $E[\bar{\varepsilon}_{i.} - \bar{\varepsilon}_{..}] = 0$, the cross term vanishes. For the third term, being a sample variance across $b$ independent observations with variance $\sigma^2/b$:
+		\begin{align}
+			E\left[ \sum_{i=1}^k (\bar{\varepsilon}_{i.} - \bar{\varepsilon}_{..})^2 \right] = (k - 1) \text{Var}(\bar{\varepsilon}_{i.}) = (k - 1) \frac{\sigma^2}{b}.
+		\end{align}
+		Substituting back and multiplying by the external factor $\dfrac{b}{k-1}$ of $\text{CMTR}$:
+		\begin{align}
+			E[\text{CMTR}] = \frac{b}{k-1} \left[ \sum_{i=1}^k \tau_i^2 + \frac{(k-1)\sigma^2}{b} \right] = \sigma^2 + \frac{b}{k-1}\sum_{i=1}^k \tau_i^2.
+		\end{align}
+		By exact index symmetry and block constraints $\sum \beta_j = 0$, the derivation for Block Mean Square is structurally twin:
+		\begin{align}
+			E[\text{CMB}] = \sigma^2 + \frac{k}{b-1}\sum_{j=1}^b \beta_j^2.
+		\end{align}
+		For Error Mean Square ($\text{CME}$), the residual in cell $(i,j)$ of the RCBD is:
+		\begin{align}
+			e_{ij} = Y_{ij} - \bar{Y}_{i.} - \bar{Y}_{.j} + \bar{Y}_{..} = \varepsilon_{ij} - \bar{\varepsilon}_{i.} - \bar{\varepsilon}_{.j} + \bar{\varepsilon}_{..}.
+		\end{align}
+		Upon squaring and summing across all $kb$ cells, the deterministic parameters $\tau_i$ and $\beta_j$ completely cancel out. Taking the expectation over this purely random sum of dimension $(k-1)(b-1)$ yields:
+		\begin{align}
+			E[\text{SCE}] = (k - 1)(b - 1) \sigma^2 \implies E[\text{CME}] = \frac{E[\text{SCE}]}{(k-1)(b-1)} = \sigma^2.
+		\end{align}
+		The $\text{CME}$ is the only perfectly unbiased estimator of intrinsic error variance $\sigma^2$.
+		
+		\item \textbf{Derivation of Relative Efficiency ($\text{ER}$) of RCBD compared to CRD:}
+		If the design had not been blocked and the data had been processed as a single-factor CRD with $k$ treatments of size $b$ ($N=kb$), the Error Sum of Squares in CRD would be the union of intrinsic error and the variability that the RCBD separated into blocks:
+		\begin{align}
+			\text{SCE}_{\text{CRD}} = \text{SCB} + \text{SCE}_{\text{RCBD}}.
+		\end{align}
+		The error degrees of freedom in unblocked CRD would be $\nu_{E,\text{CRD}} = N - k = k(b - 1)$.
+		Evaluating the expected or estimated error variance in that hypothetical CRD ($S_{\text{CRD}}^2 = \dfrac{\text{SCE}_{\text{CRD}}}{k(b-1)}$):
+		\begin{align}
+			S_{\text{CRD}}^2 = \frac{\text{SCB} + \text{SCE}_{\text{RCBD}}}{k(b - 1)} = \frac{(b-1)\text{CMB} + (k-1)(b-1)\text{CME}}{k(b-1)}.
+		\end{align}
+		To adjust this approximation for finite difference in degrees of freedom when reallocating design in small samples (the exact Kempthorne and Fisher efficiency adjustment for randomized designs), total error and within-group degrees of freedom are distributed across a convex combination weighted by exact degrees of freedom:
+		\begin{align}
+			S_{\text{CRD}}^2 \approx \frac{(b-1)\text{CMB} + b(k-1)\text{CME}}{(b-1) + b(k-1)} = \frac{(b-1)\text{CMB} + b(k-1)\text{CME}}{kb - 1}.
+		\end{align}
+		The **Relative Efficiency ($\text{ER}$)** is defined as the ratio of experimental error variances ($S_{\text{CRD}}^2 / S_{\text{RCBD}}^2 = S_{\text{CRD}}^2 / \text{CME}$):
+		\begin{align}
+			\text{ER} = \frac{S_{\text{CRD}}^2}{\text{CME}} = \frac{(b-1)\dfrac{\text{CMB}}{\text{CME}} + b(k-1)}{kb - 1} = \frac{(b-1)F_{\text{Block}} + b(k-1)}{kb - 1}.
+		\end{align}
+		
+		\textbf{Analytical condition for blocking superiority ($\text{ER} > 1$):}
+		For the Blocked Design to outperform the single-factor randomized design in precision, we require $\text{ER} > 1$:
+		\begin{align}
+			\frac{(b-1)\text{CMB} + b(k-1)\text{CME}}{kb - 1} > \text{CME} \implies (b-1)\text{CMB} + b(k-1)\text{CME} > (kb - 1)\text{CME}.
+		\end{align}
+		Expanding algebraic terms on the right-hand side:
+		\begin{align}
+			(b-1)\text{CMB} + (kb - b)\text{CME} > (kb - 1)\text{CME} \implies (b-1)\text{CMB} > (kb - 1 - kb + b)\text{CME} = (b-1)\text{CME}.
+		\end{align}
+		Dividing both sides by the strictly positive quantity $(b-1)$:
+		\begin{align}
+			\text{CMB} > \text{CME} \iff F_{\text{Block}} = \frac{\text{CMB}}{\text{CME}} > 1.
+		\end{align}
+		**Theoretical conclusion:** The Randomized Complete Block Design **yields a strict, tangible gain in estimation efficiency ($\text{ER} > 1$) whenever the Block Mean Square exceeds the Error Mean Square ($F_{\text{Block}} > 1$)**. If the blocking factor was irrelevant or poorly chosen such that $\text{CMB} < \text{CME}$, blocking acts as an analytical drag that unnecessarily wastes error degrees of freedom without absorbing infrastructure variance.
+	\end{enumerate}
+\end{solucion}
