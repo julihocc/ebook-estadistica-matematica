@@ -1,0 +1,274 @@
+\input{../../_preambulo_beamer.tex}
+
+\title{Medidas de Dispersión}
+\subtitle{Sección 1.3 — Modelación Estadística para Ciencia de Datos}
+\author{Julio César Hernández Castro}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta e Indicador de Posición
+\begin{frame}{Hoja de Ruta — Capítulo 01: Estadística Descriptiva}
+  ¿Dónde estamos en nuestro recorrido por la estadística básica? \pause
+  \begin{itemize}
+    \item \textbf{01.01 Introducción a la estadística descriptiva} \emph{(Completado)} \pause
+    \item \textbf{01.02 Medidas de tendencia central} \emph{(Completado)} \pause
+    \item \color{TecRojo}\textbf{01.03 Medidas de dispersión \emph{(Hoy)}}\color{black}
+  \end{itemize}
+  \vspace{1em}
+  \begin{block}{Objetivo de la Sección 1.3}
+    Cuantificar qué tan dispersos, variables o concentrados están nuestros datos alrededor de su centro, comprendiendo la corrección de Bessel y las medidas robustas intercuartílicas.
+  \end{block}
+\end{frame}
+
+% Slide 3: El Dilema de las Dos Muestras (Pregunta Gatillo)
+\begin{frame}{El Dilema de las Dos Muestras}
+  \begin{alertblock}{Situación de Latencia en Servidores (Pregunta Gatillo)}
+    Un ingeniero de confiabilidad (SRE) monitorea los tiempos de respuesta de dos arquitecturas de servidores en la nube. Toma una muestra de 5 peticiones (en milisegundos) de cada una:
+    \vspace{0.4em}
+    \begin{itemize}
+      \item \textbf{Arquitectura A:} $48, 49, 50, 51, 52 \text{ ms} \implies \bar{X}_A = 50.0 \text{ ms}$
+      \item \textbf{Arquitectura B:} $10, 30, 50, 70, 90 \text{ ms} \implies \bar{X}_B = 50.0 \text{ ms}$
+    \end{itemize}
+    \vspace{0.4em}
+    \begin{enumerate}
+      \item Si ambos sistemas tienen exactamente la misma media ($\bar{X} = 50 \text{ ms}$), ¿son igual de confiables y estables en producción? \pause
+      \item ¿Por qué la media aritmética y la mediana son totalmente ciegas ante la variabilidad del sistema?
+    \end{enumerate}
+  \end{alertblock}
+\end{frame}
+
+% Slide 4A: Conclusiones del Dilema (Análisis)
+\begin{frame}{Conclusiones del Dilema — Análisis}
+  \begin{itemize}
+    \item \textbf{La Ceguera del Promedio:} La media únicamente indica dónde se equilibra el centro de masa ($\bar{X} = 50 \text{ ms}$), pero oculta completamente la oscilación de los extremos. \pause
+    \item \textbf{Inestabilidad Operativa:} La Arquitectura A es consistente y predecible. La Arquitectura B es caótica; un usuario puede experimentar $10 \text{ ms}$ o un retraso severo de $90 \text{ ms}$. \pause
+    \item \textbf{El Rol de la Dispersión:} Para caracterizar una distribución con rigor en Ciencia de Datos, el centro (\emph{Ubicación}) siempre debe ir acompañado de una métrica de dispersión (\emph{Escala}).
+  \end{itemize}
+\end{frame}
+
+% Slide 4B: Conclusiones del Dilema (Respuestas Formales)
+\begin{frame}{Conclusiones del Dilema — Respuestas}
+  \begin{block}{Respuestas Formales al Dilema}
+    \begin{enumerate}
+      \item \textbf{¿Son igual de confiables?} Absolutamente no. La Arquitectura A ofrece una experiencia predecible, mientras que la B presenta una variabilidad que degrada la calidad del servicio. \pause
+      \item \textbf{¿Por qué son ciegas la media y mediana?} Porque fueron diseñadas matemáticamente solo para ubicar la posición del centro, no para medir la distancia o separación de los datos entre sí.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 5: El Rango y la Desviación Media Absoluta (MAD)
+\begin{frame}{Primeros Intentos: Rango y Desviación Media Absoluta}
+  ¿Cómo podríamos medir la separación de los datos algebraicamente? \pause
+  \begin{itemize}
+    \item \textbf{El Rango ($R$):} Es la diferencia entre el dato máximo y el mínimo:
+      \begin{align}
+        R = X_{\max} - X_{\min}
+      \end{align}
+      \small \emph{Limitación:} Depende exclusivamente de dos números e ignora el 100\% del comportamiento intermedio. \pause
+    \item \textbf{Desviación Media Absoluta (MAD):} Promedia el valor absoluto de las distancias al centro:
+      \begin{align}
+        \text{MAD} = \dfrac{1}{N} \sum_{i=1}^{N} |X_i - \bar{X}|
+      \end{align}
+      \small \emph{Limitación:} El valor absoluto $|x|$ genera esquinas no diferenciables en cálculo, dificultando la optimización matemática y el álgebra lineal.
+  \end{itemize}
+\end{frame}
+
+% Slide 6: La Varianza Poblacional vs Muestral
+\begin{frame}{La Varianza y la Corrección de Bessel}
+  Para obtener una función diferenciable y tratable analíticamente, elevamos al cuadrado las desviaciones respecto a la media: \pause
+  
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      {\large \color{TecAzulOscuro}\textbf{Varianza Poblacional ($\sigma^2$)}}
+      \vspace{0.2em}
+      \begin{align}
+        \sigma^2 = \dfrac{1}{N} \sum_{i=1}^{N} (X_i - \mu)^2
+      \end{align}
+      \small Promedio exacto del cuadrado de las desviaciones al conocer todo el universo $N$.
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      {\large \color{TecRojo}\textbf{Varianza Muestral ($S^2$)}}
+      \vspace{0.2em}
+      \begin{align}
+        S^2 = \dfrac{1}{n - 1} \sum_{i=1}^{n} (X_i - \bar{X})^2
+      \end{align}
+      \small Se divide entre $n-1$ (\textbf{Corrección de Bessel}) para evitar sesgo al estimar $\sigma^2$.
+    \end{column}
+  \end{columns}
+  \vspace{0.5em}
+  \pause
+  \begin{block}{¿Por qué $n-1$ grados de libertad?}
+    Al usar $\bar{X}$ en lugar del verdadero $\mu$, los datos pierden 1 grado de libertad porque la suma $\sum(X_i - \bar{X})$ está forzada a ser 0. Dividir entre $n-1$ compensa que $\bar{X}$ está más cerca de la muestra que del parámetro real.
+  \end{block}
+\end{frame}
+
+% Slide 7: Desviación Estándar y Coeficiente de Variación
+\begin{frame}{Desviación Estándar ($S$) y Coeficiente de Variación ($CV$)}
+  Dado que la varianza está en unidades al cuadrado ($\text{ms}^2$, $\text{pesos}^2$), tomamos la raíz cuadrada positiva para volver a las unidades originales de medición:
+  \begin{align}
+    S = \sqrt{S^2} = \sqrt{\dfrac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2}
+  \end{align}
+  \pause
+  \begin{block}{El Coeficiente de Variación ($CV$)}
+    ¿Cómo comparamos la dispersión del salario en dólares frente a la estatura en centímetros? El $CV$ normaliza la desviación respecto a la media en porcentaje:
+    \begin{align}
+      CV = \left( \dfrac{S}{\bar{X}} \right) \times 100\%
+    \end{align}
+    Un $CV > 30\%$ indica alta heterogeneidad y fuerte dispersión relativa.
+  \end{block}
+\end{frame}
+
+% Slide 8: Medida Robusta — El Rango Intercuartílico (IQR)
+\begin{frame}{Medidas Robustas: El Rango Intercuartílico ($IQR$)}
+  Al igual que la media es vulnerable a valores extremos (\emph{outliers}), la desviación estándar $S$ eleva al cuadrado cualquier anomalía, magnificando su impacto. \pause
+  \begin{itemize}
+    \item \textbf{Los Cuartiles ($Q_1, Q_2, Q_3$):} Dividen la muestra ordenada en 4 partes del $25\%$ de los datos cada una ($Q_2$ es la Mediana). \pause
+    \item \textbf{El Rango Intercuartílico ($IQR$):} Mide la dispersión del $50\%$ central de las observaciones:
+  \end{itemize}
+  \begin{align}
+    IQR = Q_3 - Q_1
+  \end{align}
+  \pause
+  \begin{alertblock}{Regla de Detección de Outliers (Tukey)}
+    Se considera un valor atípico severo a cualquier observación por fuera de las cercas:
+    \begin{align}
+      \text{Límite Inferior} = Q_1 - 1.5 \cdot IQR, \quad \text{Límite Superior} = Q_3 + 1.5 \cdot IQR
+    \end{align}
+  \end{alertblock}
+\end{frame}
+
+% Slide 9A: Laboratorio en Python (Comparación de Varianzas y Bessel)
+\begin{frame}{Laboratorio en Python: Varianza y Corrección de Bessel}
+  Cálculo computacional demostrando la diferencia entre \texttt{ddof=0} (población) y \texttt{ddof=1} (muestra).
+  \\ Script: \texttt{\footnotesize presentaciones/code/01\_estadistica\_descriptiva/01.03\_medidas\_dispersion.py}
+  
+  \vspace{0.4em}
+  {\lstset{basicstyle=\ttfamily\tiny, aboveskip=0.2em, belowskip=0.2em}
+  \lstinputlisting[firstline=4,lastline=21]{../../code/01_estadistica_descriptiva/01.03_medidas_dispersion.py}
+  }
+\end{frame}
+
+% Slide 9B: Laboratorio en Python (Outliers e IQR - Código)
+\begin{frame}{Laboratorio en Python: Robustez de IQR vs Desviación $S$}
+  Experimento inyectando una latencia anómala extrema ($450 \text{ ms}$) en una muestra estable.
+  \\ Script: \texttt{\footnotesize presentaciones/code/01\_estadistica\_descriptiva/01.03\_medidas\_dispersion.py}
+  
+  \vspace{0.4em}
+  {\lstset{basicstyle=\ttfamily\tiny, aboveskip=0.2em, belowskip=0.2em}
+  \lstinputlisting[firstline=24,lastline=39]{../../code/01_estadistica_descriptiva/01.03_medidas_dispersion.py}
+  }
+\end{frame}
+
+% Slide 9C: Laboratorio en Python (Salida Verificada en Consola)
+\begin{frame}{Laboratorio en Python: Verificación en Consola}
+  Resultados empíricos obtenidos al ejecutar \texttt{01.03\_medidas\_dispersion.py} en la terminal:
+  \vspace{0.6em}
+
+  \begin{block}{\footnotesize Salida de Consola — Parte 1: Corrección de Bessel}
+    {\fontsize{6.5pt}{7.5pt}\selectfont
+    \texttt{--- Comparación de Muestras (Media vs Dispersión) ---} \\
+    \texttt{Muestra A: Media = 50.0 ms | Desv. Estándar (S) = 1.58 ms} \\
+    \texttt{Muestra B: Media = 50.0 ms | Desv. Estándar (S) = 31.62 ms}
+    }
+  \end{block}
+
+  \vspace{0.3em}
+  \begin{alertblock}{\footnotesize Salida de Consola — Parte 2: Impacto de Outliers}
+    {\fontsize{6.5pt}{7.5pt}\selectfont
+    \texttt{--- Impacto de Outliers en S vs IQR ---} \\
+    \texttt{Sin outlier:  Desv. Estándar S = 3.45   | IQR = 4.75} \\
+    \texttt{Con outlier:  Desv. Estándar S = 133.29 | IQR = 6.00} \\
+    \texttt{Distorsión S: 38.6x veces mayor | Distorsión IQR: 1.3x (prácticamente estable)}
+    }
+  \end{alertblock}
+\end{frame}
+
+% Slide 10: Ejercicios del Curso - Nivel 1
+\begin{frame}{Ejercicios del Curso — Nivel 1: Fundamental}
+  \begin{block}{Problema 1.4.1 (Sencillo / Directo)}
+    Encontrar el rango y la desviación estándar muestral ($S$, con corrección de Bessel) del siguiente arreglo de datos no agrupados:
+    \begin{align}
+      X = \{12, 6, 7, 3, 15, 10, 18, 5\}
+    \end{align}
+    \vspace{0.2em}
+    \emph{Guía paso a paso:} Calcule la media $\bar{X}$, luego las diferencias $(X_i - \bar{X})^2$, sume y divida entre $n-1 = 7$.
+  \end{block}
+\end{frame}
+
+% Slide 11: Ejercicios del Curso - Nivel 2
+\begin{frame}{Ejercicios del Curso — Nivel 2: Operativo}
+  \begin{block}{Problema 1.4.9 (Intermedio / De Desarrollo)}
+    Dos grupos de estudiantes tienen las siguientes características muestrales:
+    \begin{itemize}
+      \item \textbf{Grupo A:} $n_1 = 30$ estudiantes, $\bar{X}_1 = 75$ puntos, $S_1 = 8$ puntos.
+      \item \textbf{Grupo B:} $n_2 = 20$ estudiantes, $\bar{X}_2 = 75$ puntos, $S_2 = 12$ puntos.
+    \end{itemize}
+    \vspace{0.4em}
+    Encuentre la desviación estándar del grupo combinado de $n_1 + n_2 = 50$ estudiantes utilizando la relación combinada de suma de cuadrados.
+  \end{block}
+\end{frame}
+
+% Slide 12: Ejercicios del Curso - Nivel 3
+\begin{frame}{Ejercicios del Curso — Nivel 3: Analítico}
+  \begin{block}{Problema 1.4.4 (Avanzado / De Conexión)}
+    Demostrar rigurosamente y paso a paso por expansión algebraica que para cualquier conjunto de observaciones, la fórmula computacional abreviada para la desviación estándar es:
+    \begin{align}
+      S = \sqrt{\dfrac{\sum X_i^2 - n\bar{X}^2}{n - 1}} = \sqrt{\dfrac{1}{n-1} \left[ \sum X_i^2 - \dfrac{\left(\sum X_i\right)^2}{n} \right]}
+    \end{align}
+    \emph{Nota:} Esta expresión requiere una sola pasada por los datos en algoritmos de procesamiento continuo.
+  \end{block}
+\end{frame}
+
+% Slide 13: Ejercicios del Curso - Nivel 4
+\begin{frame}{Ejercicios del Curso — Nivel 4: Desafiante}
+  \vspace{-0.2em}
+  \small
+  \begin{block}{Problema 1.4.10 (Experto / Comparación Relativa)}
+    El coeficiente de variación se define como $CV = \frac{S}{\bar{X}} \times 100\%$. Compare e interprete la variabilidad relativa en las siguientes dos situaciones prácticas de Ciencia de Datos:
+    \begin{enumerate}
+      \item \textbf{Salarios corporativos:} Empresa A tiene $\bar{X}_A = \$45,000$ con $S_A = \$8,000$; Empresa B tiene $\bar{X}_B = \$38,000$ con $S_B = \$6,500$. ¿Qué nómina es proporcionalmente más dispersa?
+      \item \textbf{Biometría humana:} Estatura media $170 \text{ cm}$ con $S = 8 \text{ cm}$; peso medio $70 \text{ kg}$ con $S = 10 \text{ kg}$. ¿Qué variable presenta mayor heterogeneidad intrínseca?
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 14: Resumen de la Sección 1.3
+\begin{frame}{Resumen de la Sección 1.3}
+  \begin{block}{Lo que dominamos en esta sección}
+    \begin{itemize}
+      \item \textbf{Medida Clásica ($S^2$ y $S$):} Cuantifican la dispersión en torno al centro mediante desviaciones al cuadrado. La corrección de Bessel ($n-1$) garantiza un estimador insesgado. \pause
+      \item \textbf{Normalización ($CV$):} El Coeficiente de Variación permite comparar la dispersión de variables con distintas escalas y unidades de medida. \pause
+      \item \textbf{Robustez Intercuartílica ($IQR$):} El rango intercuartílico y la regla de Tukey ($1.5 \cdot IQR$) protegen nuestros modelos del impacto devastador de los atípicos extremos.
+    \end{itemize}
+  \end{block}
+  \pause
+  \vspace{0.6em}
+  \begin{center}
+    \color{TecAzulOscuro}\textbf{Pausa de Asimilación:} ¿Alguna duda sobre cuándo usar la corrección de Bessel ($n-1$) o cómo calcular el $IQR$?
+    \color{black}
+  \end{center}
+\end{frame}
+
+% Slide 15: Conexión con el Siguiente Capítulo
+\begin{frame}{Conexión con el Próximo Capítulo}
+  \begin{alertblock}{Siguiente Hito: Capítulo 02 — Probabilidad y Variables Aleatorias}
+    Hasta ahora, hemos aprendido a resumir datos \emph{observados en el pasado} a través de tablas, medidas de tendencia central y de dispersión.
+    \vspace{0.6em}
+    \\ Para dar el salto hacia la \textbf{Estadística Inferencial} y el \textbf{Machine Learning predictivo}, necesitamos un lenguaje matemático para cuantificar el azar y la incertidumbre en eventos futuros:
+    \begin{itemize}
+      \item Axiomas y Fundamentos de Probabilidad
+      \item Teorema de Bayes y Probabilidad Condicional
+      \item Variables Aleatorias Discretas y Continuas
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

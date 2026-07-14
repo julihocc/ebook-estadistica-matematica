@@ -1,0 +1,274 @@
+\input{../../_preambulo_beamer.tex}
+
+\title{Measures of Dispersion}
+\subtitle{Section 1.3 — Statistical Modeling for Data Science}
+\author{Julio César Hernández Castro}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Chapter Roadmap and Position Indicator
+\begin{frame}{Roadmap — Chapter 01: Descriptive Statistics}
+  Where are we on our journey through foundational statistics? \pause
+  \begin{itemize}
+    \item \textbf{01.01 Introduction to Descriptive Statistics} \emph{(Completed)} \pause
+    \item \textbf{01.02 Measures of Central Tendency} \emph{(Completed)} \pause
+    \item \color{TecRojo}\textbf{01.03 Measures of Dispersion \emph{(Today)}}\color{black}
+  \end{itemize}
+  \vspace{1em}
+  \begin{block}{Section 1.3 Objective}
+    Quantify how spread out, variable, or concentrated data points are around their center, mastering Bessel's correction and interquartile robust metrics.
+  \end{block}
+\end{frame}
+
+% Slide 3: The Two-Sample Dilemma (Trigger Question)
+\begin{frame}{The Two-Sample Dilemma}
+  \begin{alertblock}{Cloud Server Latency Scenario (Trigger Question)}
+    A Site Reliability Engineer (SRE) monitors response times for two cloud server architectures, taking a sample of 5 requests (in milliseconds) from each:
+    \vspace{0.4em}
+    \begin{itemize}
+      \item \textbf{Architecture A:} $48, 49, 50, 51, 52 \text{ ms} \implies \bar{X}_A = 50.0 \text{ ms}$
+      \item \textbf{Architecture B:} $10, 30, 50, 70, 90 \text{ ms} \implies \bar{X}_B = 50.0 \text{ ms}$
+    \end{itemize}
+    \vspace{0.4em}
+    \begin{enumerate}
+      \item If both systems share identical averages ($\bar{X} = 50 \text{ ms}$), are they equally reliable and stable in production? \pause
+      \item Why are the arithmetic mean and median completely blind to system variability?
+    \end{enumerate}
+  \end{alertblock}
+\end{frame}
+
+% Slide 4A: Dilemma Conclusions (Analysis)
+\begin{frame}{Dilemma Conclusions — Analysis}
+  \begin{itemize}
+    \item \textbf{The Blindness of the Average:} The mean only reveals where the center of mass balances ($\bar{X} = 50 \text{ ms}$), completely concealing extreme oscillations. \pause
+    \item \textbf{Operational Instability:} Architecture A is highly consistent and predictable. Architecture B is chaotic; a user might experience a blazing $10 \text{ ms}$ response or a severe $90 \text{ ms}$ lag. \pause
+    \item \textbf{The Role of Dispersion:} To rigorously characterize any data distribution in Data Science, central location (\emph{Location}) must always be accompanied by a spread metric (\emph{Scale}).
+  \end{itemize}
+\end{frame}
+
+% Slide 4B: Dilemma Conclusions (Answers)
+\begin{frame}{Dilemma Conclusions — Answers}
+  \begin{block}{Formal Answers to the Dilemma}
+    \begin{enumerate}
+      \item \textbf{Are they equally reliable?} Absolutely not. Architecture A provides a predictable user experience, whereas B introduces severe latency variance that degrades Quality of Service (QoS). \pause
+      \item \textbf{Why are mean and median blind?} Because they were mathematically designed solely to pinpoint central location, not to measure the distance or scatter between data points.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 5: Range and Mean Absolute Deviation (MAD)
+\begin{frame}{Early Attempts: Range and Mean Absolute Deviation}
+  How can we measure data spread algebraically? \pause
+  \begin{itemize}
+    \item \textbf{The Range ($R$):} The difference between the maximum and minimum observation:
+      \begin{align}
+        R = X_{\max} - X_{\min}
+      \end{align}
+      \small \emph{Limitation:} It depends exclusively on two single numbers and ignores $100\%$ of intermediate behavior. \pause
+    \item \textbf{Mean Absolute Deviation (MAD):} Averages the absolute value of distances to the center:
+      \begin{align}
+        \text{MAD} = \dfrac{1}{N} \sum_{i=1}^{N} |X_i - \bar{X}|
+      \end{align}
+      \small \emph{Limitation:} The absolute value $|x|$ introduces non-differentiable corners in calculus, complicating mathematical optimization and linear algebra.
+  \end{itemize}
+\end{frame}
+
+% Slide 6: Population vs Sample Variance
+\begin{frame}{Variance and Bessel's Correction}
+  To obtain a smooth, differentiable function that is analytically tractable, we square the deviations from the mean: \pause
+  
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      {\large \color{TecAzulOscuro}\textbf{Population Variance ($\sigma^2$)}}
+      \vspace{0.2em}
+      \begin{align}
+        \sigma^2 = \dfrac{1}{N} \sum_{i=1}^{N} (X_i - \mu)^2
+      \end{align}
+      \small Exact average squared deviation when the entire universe $N$ is known.
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      {\large \color{TecRojo}\textbf{Sample Variance ($S^2$)}}
+      \vspace{0.2em}
+      \begin{align}
+        S^2 = \dfrac{1}{n - 1} \sum_{i=1}^{n} (X_i - \bar{X})^2
+      \end{align}
+      \small Divided by $n-1$ (\textbf{Bessel's Correction}) to eliminate underestimation bias when estimating $\sigma^2$.
+    \end{column}
+  \end{columns}
+  \vspace{0.5em}
+  \pause
+  \begin{block}{Why $n-1$ degrees of freedom?}
+    By replacing the true $\mu$ with the sample mean $\bar{X}$, data points lose 1 degree of freedom because the sum $\sum(X_i - \bar{X})$ is forced to equal 0. Dividing by $n-1$ compensates for $\bar{X}$ being closer to the sample data than to the true population parameter.
+  \end{block}
+\end{frame}
+
+% Slide 7: Standard Deviation and Coefficient of Variation
+\begin{frame}{Standard Deviation ($S$) and Coefficient of Variation ($CV$)}
+  Because variance is measured in squared units ($\text{ms}^2$, $\text{dollars}^2$), we take the positive square root to return to original measurement scale:
+  \begin{align}
+    S = \sqrt{S^2} = \sqrt{\dfrac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2}
+  \end{align}
+  \pause
+  \begin{block}{The Coefficient of Variation ($CV$)}
+    How do we compare salary dispersion in dollars versus height dispersion in centimeters? The $CV$ normalizes standard deviation as a percentage of the mean:
+    \begin{align}
+      CV = \left( \dfrac{S}{\bar{X}} \right) \times 100\%
+    \end{align}
+    A $CV > 30\%$ indicates high relative heterogeneity and strong dispersion.
+  \end{block}
+\end{frame}
+
+% Slide 8: Robust Measure — The Interquartile Range (IQR)
+\begin{frame}{Robust Measures: The Interquartile Range ($IQR$)}
+  Just as the arithmetic mean is vulnerable to extreme outliers, standard deviation $S$ squares any anomaly, magnifying its distortion dramatically. \pause
+  \begin{itemize}
+    \item \textbf{Quartiles ($Q_1, Q_2, Q_3$):} Divide the ordered sample into 4 equal segments of $25\%$ each ($Q_2$ is the Median). \pause
+    \item \textbf{The Interquartile Range ($IQR$):} Measures the spread across the middle $50\%$ of observations:
+  \end{itemize}
+  \begin{align}
+    IQR = Q_3 - Q_1
+  \end{align}
+  \pause
+  \begin{alertblock}{Tukey's Outlier Detection Rule}
+    Any observation falling outside the following inner fences is flagged as a severe outlier:
+    \begin{align}
+      \text{Lower Fence} = Q_1 - 1.5 \cdot IQR, \quad \text{Upper Fence} = Q_3 + 1.5 \cdot IQR
+    \end{align}
+  \end{alertblock}
+\end{frame}
+
+% Slide 9A: Python Lab (Bessel Correction & Variance)
+\begin{frame}{Python Lab: Variance and Bessel's Correction}
+  Computational calculation demonstrating the difference between \texttt{ddof=0} (population) and \texttt{ddof=1} (sample).
+  \\ Script: \texttt{\footnotesize presentations/code/01\_estadistica\_descriptiva/01.03\_medidas\_dispersion.py}
+  
+  \vspace{0.4em}
+  {\lstset{basicstyle=\ttfamily\tiny, aboveskip=0.2em, belowskip=0.2em}
+  \lstinputlisting[firstline=4,lastline=21]{../../code/01_estadistica_descriptiva/01.03_medidas_dispersion.py}
+  }
+\end{frame}
+
+% Slide 9B: Python Lab (Outliers & IQR Code)
+\begin{frame}{Python Lab: Robustness of IQR vs Deviation $S$}
+  Experiment injecting an extreme anomalous latency ($450 \text{ ms}$) into a stable sample.
+  \\ Script: \texttt{\footnotesize presentations/code/01\_estadistica\_descriptiva/01.03\_medidas\_dispersion.py}
+  
+  \vspace{0.4em}
+  {\lstset{basicstyle=\ttfamily\tiny, aboveskip=0.2em, belowskip=0.2em}
+  \lstinputlisting[firstline=24,lastline=39]{../../code/01_estadistica_descriptiva/01.03_medidas_dispersion.py}
+  }
+\end{frame}
+
+% Slide 9C: Python Lab (Verified Console Output)
+\begin{frame}{Python Lab: Verified Console Output}
+  Empirical results obtained by executing \texttt{01.03\_medidas\_dispersion.py} in the terminal:
+  \vspace{0.6em}
+
+  \begin{block}{\footnotesize Console Output — Part 1: Bessel's Correction}
+    {\fontsize{6.5pt}{7.5pt}\selectfont
+    \texttt{--- Comparación de Muestras (Media vs Dispersión) ---} \\
+    \texttt{Muestra A: Media = 50.0 ms | Desv. Estándar (S) = 1.58 ms} \\
+    \texttt{Muestra B: Media = 50.0 ms | Desv. Estándar (S) = 31.62 ms}
+    }
+  \end{block}
+
+  \vspace{0.3em}
+  \begin{alertblock}{\footnotesize Console Output — Part 2: Impact of Outliers}
+    {\fontsize{6.5pt}{7.5pt}\selectfont
+    \texttt{--- Impacto de Outliers en S vs IQR ---} \\
+    \texttt{Sin outlier:  Desv. Estándar S = 3.45   | IQR = 4.75} \\
+    \texttt{Con outlier:  Desv. Estándar S = 133.29 | IQR = 6.00} \\
+    \texttt{Distorsión S: 38.6x veces mayor | Distorsión IQR: 1.3x (prácticamente estable)}
+    }
+  \end{alertblock}
+\end{frame}
+
+% Slide 10: Course Exercises - Level 1
+\begin{frame}{Course Exercises — Level 1: Fundamental}
+  \begin{block}{Problem 1.4.1 (Simple / Direct)}
+    Find the range and sample standard deviation ($S$, applying Bessel's correction) for the following ungrouped array of data:
+    \begin{align}
+      X = \{12, 6, 7, 3, 15, 10, 18, 5\}
+    \end{align}
+    \vspace{0.2em}
+    \emph{Step-by-step guide:} Compute the sample mean $\bar{X}$, find the squared differences $(X_i - \bar{X})^2$, sum them, and divide by $n-1 = 7$.
+  \end{block}
+\end{frame}
+
+% Slide 11: Course Exercises - Level 2
+\begin{frame}{Course Exercises — Level 2: Operational}
+  \begin{block}{Problem 1.4.9 (Intermediate / Analytical Development)}
+    Two student cohorts exhibit the following sample characteristics:
+    \begin{itemize}
+      \item \textbf{Group A:} $n_1 = 30$ students, $\bar{X}_1 = 75$ points, $S_1 = 8$ points.
+      \item \textbf{Group B:} $n_2 = 20$ students, $\bar{X}_2 = 75$ points, $S_2 = 12$ points.
+    \end{itemize}
+    \vspace{0.4em}
+    Calculate the exact pooled standard deviation across the combined group of $n_1 + n_2 = 50$ students using the pooled sum of squares relationship.
+  \end{block}
+\end{frame}
+
+% Slide 12: Course Exercises - Level 3
+\begin{frame}{Course Exercises — Level 3: Analytical}
+  \begin{block}{Problem 1.4.4 (Advanced / Theoretical Connection)}
+    Prove rigorously step-by-step via algebraic expansion that for any dataset, the short-cut computational formula for sample standard deviation equals:
+    \begin{align}
+      S = \sqrt{\dfrac{\sum X_i^2 - n\bar{X}^2}{n - 1}} = \sqrt{\dfrac{1}{n-1} \left[ \sum X_i^2 - \dfrac{\left(\sum X_i\right)^2}{n} \right]}
+    \end{align}
+    \emph{Note:} This formulation requires only a single pass over the data, crucial for streaming data processing algorithms.
+  \end{block}
+\end{frame}
+
+% Slide 13: Course Exercises - Level 4
+\begin{frame}{Course Exercises — Level 4: Challenging}
+  \vspace{-0.2em}
+  \small
+  \begin{block}{Problem 1.4.10 (Expert / Relative Comparison)}
+    The coefficient of variation is defined as $CV = \frac{S}{\bar{X}} \times 100\%$. Compare and interpret relative variability in the following two practical Data Science scenarios:
+    \begin{enumerate}
+      \item \textbf{Corporate payrolls:} Company A has $\bar{X}_A = \$45,000$ with $S_A = \$8,000$; Company B has $\bar{X}_B = \$38,000$ with $S_B = \$6,500$. Which company displays greater proportional salary disparity?
+      \item \textbf{Human biometrics:} Mean height $170 \text{ cm}$ with $S = 8 \text{ cm}$; mean weight $70 \text{ kg}$ with $S = 10 \text{ kg}$. Which physiological metric exhibits greater intrinsic heterogeneity?
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 14: Section 1.3 Summary
+\begin{frame}{Section 1.3 Summary}
+  \begin{block}{Mastered Concepts}
+    \begin{itemize}
+      \item \textbf{Classical Variance ($S^2$ and $S$):} Quantify spread around the center via squared deviations. Bessel's correction ($n-1$) ensures an unbiased estimator. \pause
+      \item \textbf{Normalization ($CV$):} The Coefficient of Variation enables scale-invariant comparisons of dispersion across different measurement units. \pause
+      \item \textbf{Interquartile Robustness ($IQR$):} The interquartile range and Tukey fences ($1.5 \cdot IQR$) shield predictive models from devastating outlier distortions.
+    \end{itemize}
+  \end{block}
+  \pause
+  \vspace{0.6em}
+  \begin{center}
+    \color{TecAzulOscuro}\textbf{Assimilation Pause:} Any questions regarding when to apply Bessel's correction ($n-1$) or how to compute $IQR$?
+    \color{black}
+  \end{center}
+\end{frame}
+
+% Slide 15: Connection to Next Chapter
+\begin{frame}{Connection to the Next Chapter}
+  \begin{alertblock}{Next Milestone: Chapter 02 — Probability and Random Variables}
+    Up to this point, we have learned to summarize and compress \emph{historically observed data} using frequency tables, central tendency, and dispersion metrics.
+    \vspace{0.6em}
+    \\ To bridge the gap toward \textbf{Inferential Statistics} and \textbf{Predictive Machine Learning}, we require a rigorous mathematical framework to model randomness and uncertainty in future events:
+    \begin{itemize}
+      \item Axioms and Foundations of Probability Theory
+      \item Bayes' Theorem and Conditional Probability
+      \item Discrete and Continuous Random Variables
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
