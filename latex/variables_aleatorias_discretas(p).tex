@@ -1015,3 +1015,684 @@
 		\end{align*}
 	\end{enumerate}
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 03.03: ESPERANZA MATEMÁTICA Y VARIANZA OPERACIONAL
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 03.03}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:3.3.1}
+	Sea $X$ una variable aleatoria discreta que modela el número de transacciones en error durante una hora pico en una base de datos bancaria, con soporte $\mathcal{S}_X = \set{0, 1, 2, 3, 4}$ y función de masa de probabilidad explícita dada por:
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{c|ccccc}
+			\toprule
+			$x$ & $0$ & $1$ & $2$ & $3$ & $4$ \\
+			\midrule
+			$f_X(x)$ & $0.35$ & $0.30$ & $0.20$ & $0.10$ & $0.05$ \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	\begin{enumerate}
+		\item Calcule formalmente la esperanza matemática $\mu = \mathbb{E}[X]$ utilizando la definición analítica fundamental.
+		\item Calcule el segundo momento no central o momento bruto de segundo orden $\mathbb{E}[X^2]$.
+		\item Evalúe la varianza operacional de $X$ utilizando la identidad clásica de König-Huygens ($\text{Var}(X) = \mathbb{E}[X^2] - \mu^2$) y compruebe su equivalencia numérica exacta calculando la suma de desviaciones al cuadrado respecto al promedio por la definición central ($\sum (x-\mu)^2 f_X(x)$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.3.2}
+	Considere un experimento aleatorio donde se lanzan simultáneamente dos dados de seis caras perfectamente balanceados e independientes. Definamos la variable aleatoria suma $S = X_1 + X_2$, donde $X_1$ y $X_2$ representan las caras obtenidas en el primer y segundo dado, respectivamente.
+	\begin{enumerate}
+		\item Calcule la media aritmética del soporte de $S$ (donde $\mathcal{S}_S = \set{2, 3, \dots, 12}$) y explique rigurosamente por qué dicha media aritmética simple difiere o coincide en su valor numérico con la verdadera esperanza matemática $\mathbb{E}[S]$.
+		\item Calcule analíticamente el valor exacto de la esperanza $\mathbb{E}[S]$ y de la varianza $\text{Var}(S)$ sin tabular los once valores de la distribución conjunta de $S$, fundamentando su desarrollo en las propiedades de linealidad e independencia.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.3.3}
+	Sea $X$ una variable aleatoria discreta cuyo soporte es el conjunto simétrico $\mathcal{S}_X = \set{-2, -1, 0, 1, 2}$, con función de masa de probabilidad uniforme sobre dicho soporte ($f_X(x) = \frac{1}{5}$ para todo $x \in \mathcal{S}_X$). Consideremos la transformación polinomial no biyectiva dada por:
+	\begin{align*}
+		g(X) = 2X^2 - 3X + 5.
+	\end{align*}
+	\begin{enumerate}
+		\item Calcule el valor esperado $\mathbb{E}[g(X)]$ aplicando de forma directa el Teorema de la Ley del Estadístico Inconsciente (LOTUS).
+		\item Determine explícitamente la distribución de probabilidad inducida $Y = g(X)$ (su soporte $\mathcal{S}_Y$ y su función de masa $f_Y(y)$) y verifique formalmente la invarianza del resultado evaluando $\sum y f_Y(y)$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:3.3.4}
+	Una corporación de ingeniería civil e infraestructura evalúa la licitación de un megaproyecto minero cuya rentabilidad neta en millones de dólares es una variable aleatoria discreta $R$ con la siguiente distribución condicionada por los escenarios económicos globales:
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{l|ccc}
+			\toprule
+			\textbf{Escenario Económico} & \textbf{Probabilidad ($p_k$)} & \textbf{Rentabilidad Neta ($r_k$)} \\
+			\midrule
+			Expansión acelerada & $0.25$ & $+120$ M USD \\
+			Estabilidad moderada & $0.55$ & $+40$ M USD \\
+			Recesión severa & $0.20$ & $-50$ M USD \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	\begin{enumerate}
+		\item Determine el valor presente neto esperado del proyecto $\mathbb{E}[R]$ y la desviación estándar del retorno $\sigma_R$, interpretando físicamente esta última como medida de volatilidad o riesgo de capital.
+		\item Si la directiva exige un retorno mínimo ajustado por riesgo definido por la métrica de seguridad financiera $U = \mathbb{E}[R] - 1.25\sigma_R$, ¿debe la corporación aceptar la licitación si el umbral mínimo de aprobación es $U \ge 0$?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.3.5}
+	Un centro de procesamiento de datos en la nube administra un clúster masivo de servidores. Sea $K$ el número de servidores que experimentan una caída o falla crítica durante una ventana operativa de 24 horas. Estudios estadísticos históricos establecen que $\mathbb{E}[K] = 3.2$ servidores caídos y que la varianza operativa es $\text{Var}(K) = 1.8$.
+	El costo operativo total de reparación, penalización por contrato SLA y redistribución de carga (en miles de dólares) sigue una estructura polinomial estrictamente cuadrática y estrictamente convexa en el número de fallas:
+	\begin{align*}
+		C(K) = 15 + 12K + 4K^2.
+	\end{align*}
+	Calcule de forma exacta el costo operativo esperado $\mathbb{E}[C(K)]$ que la administración debe presupuestar por día de operación sin necesidad de conocer la distribución de probabilidad completa de $K$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.3.6}
+	En una evaluación técnica global para certificación en ciberseguridad industrial, la puntuación bruta $X$ de los ingenieros evaluados tiene media $\mu_X = 68.5$ puntos y desviación estándar $\sigma_X = 12.4$ puntos. Para estandarizar los resultados entre diferentes comités internacionales, se define la variable aleatoria estandarizada (o puntuación $Z$-score):
+	\begin{align*}
+		Z = \frac{X - \mu_X}{\sigma_X}.
+	\end{align*}
+	Demuestre formalmente y en detalle algebraico que, para cualquier variable aleatoria discreta $X$ con $\sigma_X > 0$, la variable estandarizada $Z$ cumple rigurosamente que su esperanza matemática es nula ($\mathbb{E}[Z] = 0$) y su varianza es unitaria ($\text{Var}(Z) = 1$).
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:3.3.7}
+	Sea $X$ una variable aleatoria discreta con media finita $\mu$ y varianza finita $\sigma^2$. Consideremos la función del error cuadrático medio respecto a un escalar arbitrario $a \in \mathbb{R}$, definida como el momento de segundo orden centrado en $a$:
+	\begin{align*}
+		M(a) = \mathbb{E}\left[ (X - a)^2 \right].
+	\end{align*}
+	\begin{enumerate}
+		\item Demuestre rigurosamente, mediante expansión algebraica y uso de la linealidad del operador esperanza, la identidad fundamental de descomposición de momentos:
+		\begin{align*}
+			M(a) = \text{Var}(X) + (\mu - a)^2.
+		\end{align*}
+		\item A partir de la identidad demostrada, deduzca de manera exacta el valor único de $a$ que minimiza el error cuadrático medio de aproximación probabilística, demostrando el teorema clásico del centro de gravedad probabilístico:
+		\begin{align*}
+			\min_{a \in \mathbb{R}} \mathbb{E}\left[ (X - a)^2 \right] = \text{Var}(X).
+		\end{align*}
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.3.8}
+	Considere dos variables aleatorias discretas $X$ e $Y$ definidas sobre el mismo espacio de probabilidad $\Omega$.
+	\begin{enumerate}
+		\item Demuestre de manera rigurosa, a partir del operador sumatoria conjunta y las propiedades axiomáticas de las leyes marginales, que para cualquier par de escalares $c, d \in \mathbb{R}$ se verifica la linealidad universal:
+		\begin{align*}
+			\mathbb{E}[cX + dY] = c\mathbb{E}[X] + d\mathbb{E}[Y],
+		\end{align*}
+		sin importar si las variables $X$ e $Y$ son independientes o dependientes.
+		\item Demuestre de forma analítica que si $X$ e $Y$ son estricta y funcionalmente independientes ($\mathbb{E}[XY] = \mathbb{E}[X]\mathbb{E}[Y]$), entonces el operador varianza cumple la propiedad de homogeneidad aditiva de segundo grado:
+		\begin{align*}
+			\text{Var}(cX \pm dY) = c^2\text{Var}(X) + d^2\text{Var}(Y).
+		\end{align*}
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:3.3.9}
+	Considere el célebre juego aleatorio conocido como la **Paradoja de San Petersburgo**: en un casino ideal, una moneda justa se lanza consecutivamente hasta la aparición de la primera cara en el $k$-ésimo lanzamiento. En ese instante exacto el juego termina y el casino paga al jugador un premio monetario de $X = 2^k$ unidades monetarias.
+	\begin{enumerate}
+		\item Demuestre formalmente que la esperanza matemática del premio $\mathbb{E}[X]$ diverge a infinito ($\mathbb{E}[X] = \infty$), evidenciando la paradoja económica entre un valor esperado infinito y la falta de disposición de un jugador racional a pagar una suma sustancial por participar.
+		\item **Regularización por límite de banca del casino:** Si el casino impone por regulación legal una cota máxima de reserva de capital equivalente a $N$ lanzamientos, de modo que si no sale cara en los primeros $N$ intentos el juego se detiene y se paga el premio máximo truncado $M = 2^N$, determine una expresión en forma cerrada para el valor esperado truncado $\mathbb{E}[X_N]$. Calcule el valor numérico exacto que un jugador debería pagar si el límite de banca de la casa es $N = 25$ (cerca de 33.5 millones de monedas).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.3.10}
+	Sea $X$ una variable aleatoria discreta cualquiera cuyo soporte $\mathcal{S}_X$ está estrictamente acotado dentro de un intervalo cerrado de la recta real:
+	\begin{align*}
+		P(a \le X \le b) = 1, \quad \text{donde } -\infty < a < b < \infty.
+	\end{align*}
+	Demuestre formalmente el **Teorema de la Cota Suprema de Popoviciu para la Varianza Discreta**, el cual establece que la varianza máxima que puede alcanzar cualquier variable con soporte acotado en $[a, b]$ está estrictamente acotada por:
+	\begin{align*}
+		\text{Var}(X) \le \frac{(b - a)^2}{4}.
+	\end{align*}
+	Especifique además qué distribución discreta alcanza con igualdad exacta esta cota superior absoluta.
+\end{problema}
+
+% ==============================================================================
+% SUGERENCIAS PARA LA SECCIÓN 03.03
+% ==============================================================================
+
+\subsection*{Sugerencias de los problemas --- Sección 03.03}
+
+\begin{sugerencia}
+	\label{sug:3.3.1}
+	Para el Problema \ref{prob:3.3.1}, organice los cálculos en una tabla auxiliar agregando columnas para $x \cdot f_X(x)$, $x^2 \cdot f_X(x)$ y $(x-\mu)^2 \cdot f_X(x)$. Recuerde que en la aritmética de punto flotante o fraccionaria la identidad de König-Huygens es un atajo algebraico invaluable.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.3.2}
+	Para el Problema \ref{prob:3.3.2}, no es necesario tabular los 11 valores posibles de la suma. Aplique directamente el operador de linealidad $\mathbb{E}[S] = \mathbb{E}[X_1] + \mathbb{E}[X_2]$ y la aditividad de la varianza para variables independientes $\text{Var}(S) = \text{Var}(X_1) + \text{Var}(X_2)$, recordando que para un dado único $\mathbb{E}[X_i] = 3.5$ y $\text{Var}(X_i) = \frac{35}{12}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.3.3}
+	Para el Problema \ref{prob:3.3.3}, observe que la función $g(X) = 2X^2 - 3X + 5$ no es uno a uno (por ejemplo, $g(-1) = 2(1)+3+5=10$ y $g(1) = 2-3+5=4$, pero $g(-2) = 19$ y $g(2) = 7$). Para verificar LOTUS, agrupe las probabilidades de aquellos $x$ que producen la misma imagen en $y = g(x)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.3.4}
+	Para el Problema \ref{prob:3.3.4}, calcule primero la esperanza como el promedio ponderado por probabilidades $\mathbb{E}[R] = \sum r_k p_k$. Luego halle la varianza sumando las desviaciones cuadráticas ponderadas $\sum (r_k - \mathbb{E}[R])^2 p_k$ y extraiga su raíz cuadrada positiva para obtener $\sigma_R$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.3.5}
+	Para el Problema \ref{prob:3.3.5}, expanda el operador lineal sobre el costo: $\mathbb{E}[C(K)] = 15 + 12\mathbb{E}[K] + 4\mathbb{E}[K^2]$. Para obtener el segundo momento no central $\mathbb{E}[K^2]$, despeje de la definición clásica de varianza: $\mathbb{E}[K^2] = \text{Var}(K) + (\mathbb{E}[K])^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.3.6}
+	Para el Problema \ref{prob:3.3.6}, extraiga las constantes $1/\sigma_X$ y $\mu_X/\sigma_X$ del operador lineal de esperanza. Para la varianza, utilice la propiedad fundamental de invarianza ante traslaciones y escalamiento cuadrático: $\text{Var}(aX + b) = a^2\text{Var}(X)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.3.7}
+	Para el Problema \ref{prob:3.3.7}, sume y reste la media verdadera $\mu$ dentro del paréntesis cuadrático: $(X - a)^2 = [(X - \mu) + (\mu - a)]^2$. Al expandir el binomio al cuadrado y aplicar la esperanza término a término, observe qué sucede con el término cruzado $2(\mu - a)\mathbb{E}[X - \mu]$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.3.8}
+	Para el Problema \ref{prob:3.3.8}, en la segunda parte expanda algebraicamente la definición del momento central: $\text{Var}(cX + dY) = \mathbb{E}[((cX + dY) - (c\mu_X + d\mu_Y))^2]$. Agrupe por variables $[c(X-\mu_X) + d(Y-\mu_Y)]^2$ y recuerde que la independencia implica que la covarianza es estrictamente nula ($\mathbb{E}[(X-\mu_X)(Y-\mu_Y)] = 0$).
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.3.9}
+	Para el Problema \ref{prob:3.3.9}, en la primera parte plantee la serie infinita de la esperanza sumando los términos del producto de ganancia por probabilidad: $\sum_{k=1}^\infty (2^k)\left(\frac{1}{2^k}\right)$. En la segunda parte, sume los primeros $N$ términos de la progresión y analice el comportamiento algebraico exacto de la esperanza truncada en función del parámetro $N$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.3.10}
+	Para el Problema \ref{prob:3.3.10}, parta de la identidad algebraica no negativa $(X - a)(b - X) \ge 0$, válida con probabilidad $1$ dado que el soporte está acotado en $[a, b]$. Tome esperanza en ambos lados y expanda el producto, relacionando $\mathbb{E}[X^2]$ con $\mathbb{E}[X]$ y completando el cuadrado respecto a la media $\mu$.
+\end{sugerencia}
+
+% ==============================================================================
+% SOLUCIONES PARA LA SECCIÓN 03.03
+% ==============================================================================
+
+\subsection*{Soluciones de los problemas --- Sección 03.03}
+
+\begin{solucion}
+	\label{sol:3.3.1}
+	Para el Problema \ref{prob:3.3.1}:
+	\begin{enumerate}
+		\item El cálculo analítico de la esperanza matemática o media $\mu = \mathbb{E}[X]$ se efectúa ponderando cada elemento del soporte por su respectiva masa de probabilidad:
+		\begin{align*}
+			\mu &= \sum_{x \in \mathcal{S}_X} x \cdot f_X(x) \\
+			&= (0)(0.35) + (1)(0.30) + (2)(0.20) + (3)(0.10) + (4)(0.05) \\
+			&= 0.00 + 0.30 + 0.40 + 0.30 + 0.20 \\
+			&= 1.20 \text{ transacciones en error}.
+		\end{align*}
+		Significado físico-estadístico: En una hora pico representativa, el número promedio ponderado a largo plazo de errores en la base de datos es exactamente $1.20$.
+		
+		\item Para el momento bruto de segundo orden $\mathbb{E}[X^2]$, ponderamos los cuadrados exactos de las abscisas del soporte:
+		\begin{align*}
+			\mathbb{E}[X^2] &= \sum_{x \in \mathcal{S}_X} x^2 \cdot f_X(x) \\
+			&= (0^2)(0.35) + (1^2)(0.30) + (2^2)(0.20) + (3^2)(0.10) + (4^2)(0.05) \\
+			&= (0)(0.35) + (1)(0.30) + (4)(0.20) + (9)(0.10) + (16)(0.05) \\
+			&= 0.00 + 0.30 + 0.80 + 0.90 + 0.80 \\
+			&= 2.80.
+		\end{align*}
+		
+		\item **Cálculo de varianza por la fórmula de König-Huygens:**
+		Aplicamos la identidad fundamental que conecta los momentos brutos con la varianza central:
+		\begin{align*}
+			\text{Var}(X) &= \mathbb{E}[X^2] - \mu^2 \\
+			&= 2.80 - (1.20)^2 \\
+			&= 2.80 - 1.44 = 1.36 \text{ (transacciones en error)}^2.
+		\end{align*}
+		**Verificación cruzada por la definición clásica de varianza central:**
+		Evaluamos la suma explícita de las desviaciones al cuadrado ponderadas por su probabilidad:
+		\begin{align*}
+			\text{Var}(X) &= \sum_{x \in \mathcal{S}_X} (x - \mu)^2 \cdot f_X(x) \\
+			&= (0 - 1.20)^2(0.35) + (1 - 1.20)^2(0.30) + (2 - 1.20)^2(0.20) \\
+			&\quad + (3 - 1.20)^2(0.10) + (4 - 1.20)^2(0.05) \\
+			&= (1.44)(0.35) + (0.04)(0.30) + (0.64)(0.20) + (3.24)(0.10) + (7.84)(0.05) \\
+			&= 0.504 + 0.012 + 0.128 + 0.324 + 0.392 \\
+			&= 1.36 \text{ (transacciones en error)}^2.
+		\end{align*}
+		La equivalencia numérica entre ambos métodos ($1.36$) valida la exactitud algebraica del cálculo.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.3.2}
+	Para el Problema \ref{prob:3.3.2}:
+	\begin{enumerate}
+		\item El soporte de la suma de dos dados es $\mathcal{S}_S = \set{2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}$, conformado por $N = 11$ elementos discretos.
+		La media aritmética simple o no ponderada del conjunto de soporte se calcula como:
+		\begin{align*}
+			\bar{S}_{\text{soporte}} = \frac{1}{N} \sum_{k=2}^{12} k = \frac{2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 + 12}{11} = \frac{77}{11} = 7.
+		\end{align*}
+		En este caso extraordinariamente particular y simétrico, el valor numérico coincide con el centro de gravedad o esperanza matemática verdadera ($\mathbb{E}[S] = 7$). Sin embargo, es vital aclarar rigurosamente que **ambos conceptos difieren fundamentalmente por definición**: la media aritmética del soporte asume una ponderación uniforme ($1/11$) para todos los valores del rango, mientras que la esperanza matemática verdadera pondera cada suma $k$ con su verdadera probabilidad triangular no uniforme ($f_S(k) = \frac{6 - |7-k|}{36}$). La coincidencia se debe exclusivamente a que la distribución de probabilidad $f_S(k)$ es simétrica respecto a su centro geométrico $k=7$.
+		
+		\item Para el cálculo analítico sin tabulación combinatoria, invocamos la linealidad universal de la esperanza matemática y la independencia funcional de los dados:
+		\begin{align*}
+			\mathbb{E}[S] = \mathbb{E}[X_1 + X_2] = \mathbb{E}[X_1] + \mathbb{E}[X_2].
+		\end{align*}
+		Como cada dado individual $X_i$ es una variable aleatoria equiprobable con soporte $\set{1, 2, 3, 4, 5, 6}$, su esperanza elemental es:
+		\begin{align*}
+			\mathbb{E}[X_i] = \sum_{j=1}^6 j \cdot \frac{1}{6} = \frac{1+2+3+4+5+6}{6} = \frac{21}{6} = 3.5.
+		\end{align*}
+		Por lo tanto:
+		\begin{align*}
+			\mathbb{E}[S] = 3.5 + 3.5 = 7.
+		\end{align*}
+		Para la varianza, dado que los lanzamientos son eventos estrictamente independientes en un espacio producto, la covarianza es nula ($\text{Cov}(X_1, X_2) = 0$) y la varianza aditiva se simplifica a:
+		\begin{align*}
+			\text{Var}(S) = \text{Var}(X_1 + X_2) = \text{Var}(X_1) + \text{Var}(X_2).
+		\end{align*}
+		Calculamos la varianza elemental de un dado individual mediante $E[X_i^2] - (\mathbb{E}[X_i])^2$:
+		\begin{align*}
+			\mathbb{E}[X_i^2] = \sum_{j=1}^6 j^2 \cdot \frac{1}{6} = \frac{1 + 4 + 9 + 16 + 25 + 36}{6} = \frac{91}{6}.
+		\end{align*}
+		Luego, la varianza de cada cara es:
+		\begin{align*}
+			\text{Var}(X_i) = \frac{91}{6} - \left(\frac{7}{2}\right)^2 = \frac{91}{6} - \frac{49}{4} = \frac{182 - 147}{12} = \frac{35}{12}.
+		\end{align*}
+		Sumando ambas varianzas marginales:
+		\begin{align*}
+			\text{Var}(S) = \frac{35}{12} + \frac{35}{12} = \frac{70}{12} = \frac{35}{6} \approx 5.8333.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.3.3}
+	Para el Problema \ref{prob:3.3.3}:
+	\begin{enumerate}
+		\item El soporte de $X$ es $\mathcal{S}_X = \set{-2, -1, 0, 1, 2}$ y $f_X(x) = \frac{1}{5}$ constante para los 5 puntos.
+		Aplicamos directamente el Teorema de la Ley del Estadístico Inconsciente (LOTUS), evaluando la suma de las imágenes de $g(x)$ multiplicadas por las masas originales:
+		\begin{align*}
+			\mathbb{E}[g(X)] &= \sum_{x \in \mathcal{S}_X} g(x) \cdot f_X(x) = \sum_{x \in \set{-2, -1, 0, 1, 2}} (2x^2 - 3x + 5) \cdot \frac{1}{5} \\
+			&= \frac{1}{5} \left[ g(-2) + g(-1) + g(0) + g(1) + g(2) \right].
+		\end{align*}
+		Evaluamos numéricamente cada imagen polinomial:
+		\begin{align*}
+			g(-2) &= 2(-2)^2 - 3(-2) + 5 = 2(4) + 6 + 5 = 19, \\
+			g(-1) &= 2(-1)^2 - 3(-1) + 5 = 2(1) + 3 + 5 = 10, \\
+			g(0) &= 2(0)^2 - 3(0) + 5 = 0 + 0 + 5 = 5, \\
+			g(1) &= 2(1)^2 - 3(1) + 5 = 2(1) - 3 + 5 = 4, \\
+			g(2) &= 2(2)^2 - 3(2) + 5 = 2(4) - 6 + 5 = 7.
+		\end{align*}
+		Sustituyendo las evaluaciones en la suma:
+		\begin{align*}
+			\mathbb{E}[g(X)] = \frac{1}{5} (19 + 10 + 5 + 4 + 7) = \frac{45}{5} = 9.
+		\end{align*}
+		
+		\item Para construir la distribución de masa inducida $Y = g(X)$, identificamos los valores del rango o imagen que toma la transformación:
+		$\mathcal{S}_Y = \set{4, 5, 7, 10, 19}$.
+		Como las cinco imágenes obtenidas ($19, 10, 5, 4, 7$) son completamente distintas entre sí (no hubo colisión por simetría en esta cuadrática parabólica particular debido al término lineal $-3X$), cada punto del soporte inducido hereda exactamente una única preimagen de masa $1/5$:
+		\begin{table}[h]
+			\centering
+			\begin{tabular}{c|ccccc}
+				\toprule
+				$y$ & $4$ & $5$ & $7$ & $10$ & $19$ \\
+				\midrule
+				$f_Y(y)$ & $0.20$ & $0.20$ & $0.20$ & $0.20$ & $0.20$ \\
+				\bottomrule
+			\end{tabular}
+		\end{table}
+		
+		Verificamos la esperanza directamente en el nuevo espacio de probabilidad inducido:
+		\begin{align*}
+			\mathbb{E}[Y] = \sum_{y \in \mathcal{S}_Y} y \cdot f_Y(y) = (4+5+7+10+19) \cdot \frac{1}{5} = \frac{45}{5} = 9.
+		\end{align*}
+		Ambos procedimientos concluyen de forma idéntica en el valor esperado exacto de $9$, ilustrando el gran ahorro de cómputo que proporciona el Teorema LOTUS al evitar la construcción formal de $f_Y(y)$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.3.4}
+	Para el Problema \ref{prob:3.3.4}:
+	\begin{enumerate}
+		\item Calculamos primero el valor esperado de la rentabilidad neta $\mathbb{E}[R]$ sumando los productos de cada retorno condicional por su probabilidad macroeconómica:
+		\begin{align*}
+			\mathbb{E}[R] &= \sum_{k=1}^3 r_k \cdot p_k \\
+			&= (120)(0.25) + (40)(0.55) + (-50)(0.20) \\
+			&= 30.0 + 22.0 - 10.0 = +42.0 \text{ Millones de USD}.
+		\end{align*}
+		Para calcular la volatilidad o desviación estándar $\sigma_R$, evaluamos primero el segundo momento bruto de la rentabilidad $\mathbb{E}[R^2]$:
+		\begin{align*}
+			\mathbb{E}[R^2] &= \sum_{k=1}^3 r_k^2 \cdot p_k \\
+			&= (120^2)(0.25) + (40^2)(0.55) + ((-50)^2)(0.20) \\
+			&= (14400)(0.25) + (1600)(0.55) + (2500)(0.20) \\
+			&= 3600 + 880 + 500 = 4980 \text{ (M USD)}^2.
+		\end{align*}
+		Aplicando la identidad computacional de König-Huygens para la varianza:
+		\begin{align*}
+			\text{Var}(R) &= \mathbb{E}[R^2] - (\mathbb{E}[R])^2 \\
+			&= 4980 - (42.0)^2 = 4980 - 1764 = 3216 \text{ (M USD)}^2.
+		\end{align*}
+		Extrayendo la raíz cuadrada, obtenemos la desviación estándar del retorno:
+		\begin{align*}
+			\sigma_R = \sqrt{3216} \approx 56.7098 \text{ Millones de USD}.
+		\end{align*}
+		Interpretación de ingeniería financiera: Aunque el retorno esperado positivo de $+42.0$ M USD es altamente atractivo, la enorme desviación estándar de $\approx 56.71$ M USD refleja una extrema volatilidad de capital, alertando al directorio sobre el peligro real de sufrir pérdidas catastróficas (hasta $-50$ M USD) en caso de un choque recesivo en el mercado minero.
+		
+		\item Evaluamos el umbral corporativo de decisión o utilidad ajustada por riesgo $U$:
+		\begin{align*}
+			U &= \mathbb{E}[R] - 1.25\sigma_R \\
+			&= 42.0 - 1.25(56.7098) = 42.0 - 70.88725 = -28.88725 \text{ M USD}.
+		\end{align*}
+		Como la métrica de utilidad ajustada arroja un valor estrictamente negativo ($U \approx -28.89 < 0$), **la corporación debe rechazar formalmente la licitación del megaproyecto**. El excedente de rentabilidad esperada no logra compensar ni proteger a la empresa frente al gigantesco riesgo financiero implicado.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.3.5}
+	Para el Problema \ref{prob:3.3.5}:
+	El costo de mantenimiento y reparación total es una función polinomial de segundo grado del número de servidores caídos $K$:
+	\begin{align*}
+		C(K) = 15 + 12K + 4K^2.
+	\end{align*}
+	Por la propiedad del operador lineal de la esperanza matemática (Teorema \ref{thm:2.9.1}), aplicamos el operador a cada término de la combinación lineal:
+	\begin{align*}
+		\mathbb{E}[C(K)] &= \mathbb{E}[15 + 12K + 4K^2] \\
+		&= 15 + 12\mathbb{E}[K] + 4\mathbb{E}[K^2].
+	\end{align*}
+	El enunciado proporciona directamente la media de fallas ($\mathbb{E}[K] = 3.2$) y la varianza operativa ($\text{Var}(K) = 1.8$). Para evaluar el término cuadrático $\mathbb{E}[K^2]$, despejamos de la fórmula clásica de la varianza:
+	\begin{align*}
+		\text{Var}(K) = \mathbb{E}[K^2] - (\mathbb{E}[K])^2 \implies \mathbb{E}[K^2] = \text{Var}(K) + (\mathbb{E}[K])^2.
+	\end{align*}
+	Sustituyendo los valores numéricos del clúster:
+	\begin{align*}
+		\mathbb{E}[K^2] = 1.8 + (3.2)^2 = 1.8 + 10.24 = 12.04.
+	\end{align*}
+	Por último, sustituimos los momentos $\mathbb{E}[K]$ y $\mathbb{E}[K^2]$ en el desarrollo lineal del costo esperado:
+	\begin{align*}
+		\mathbb{E}[C(K)] &= 15 + 12(3.2) + 4(12.04) \\
+		&= 15 + 38.4 + 48.16 \\
+		&= 101.56 \text{ miles de dólares}.
+	\end{align*}
+	En conclusión, el departamento de finanzas debe reservar un presupuesto medio exacto de **\$101,560 USD diarios** para cubrir la gestión de contingencias del centro de datos sin necesidad de conocer o asumir una distribución paramétrica para $K$.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.3.6}
+	Para el Problema \ref{prob:3.3.6}:
+	Consideremos la transformación afín de estandarización $Z = \frac{X - \mu_X}{\sigma_X}$. Podemos separar esta fracción en la suma de una pendiente constante $a = \frac{1}{\sigma_X}$ y una ordenada al origen constante $b = -\frac{\mu_X}{\sigma_X}$:
+	\begin{align*}
+		Z = aX + b, \quad \text{donde } a = \frac{1}{\sigma_X} \text{ y } b = -\frac{\mu_X}{\sigma_X}.
+	\end{align*}
+	
+	**Demostración de que la esperanza estandarizada es nula ($\mathbb{E}[Z] = 0$):**
+	Aplicamos la linealidad del operador esperanza sobre la combinación afín:
+	\begin{align*}
+		\mathbb{E}[Z] &= \mathbb{E}[aX + b] = a\mathbb{E}[X] + b \\
+		&= \left(\frac{1}{\sigma_X}\right) \mathbb{E}[X] - \frac{\mu_X}{\sigma_X}.
+	\end{align*}
+	Por definición fundamental de la media del soporte original, sabemos que $\mathbb{E}[X] = \mu_X$. Al sustituir esta identidad se produce una cancelación exacta de términos opuestos:
+	\begin{align*}
+		\mathbb{E}[Z] = \frac{\mu_X}{\sigma_X} - \frac{\mu_X}{\sigma_X} = 0.
+	\end{align*}
+	
+	**Demostración de que la varianza estandarizada es unitaria ($\text{Var}(Z) = 1$):**
+	Invocamos las dos leyes de transformación de la varianza ante cambios lineales (Teorema \ref{thm:2.9.3} del libro maestro):
+	1. La varianza es estrictamente invariante frente a traslaciones o desplazamientos constantes ($\text{Var}(Y + c) = \text{Var}(Y)$ para todo $c \in \mathbb{R}$). Por tanto, el término constante $b$ se anula.
+	2. Al multiplicar por un escalar $a$, la varianza se escala cuadráticamente por dicho factor ($\text{Var}(aY) = a^2\text{Var}(Y)$).
+	
+	Aplicando ambas leyes algebraicas sobre $Z$:
+	\begin{align*}
+		\text{Var}(Z) &= \text{Var}(aX + b) = \text{Var}(aX) \\
+		&= a^2 \text{Var}(X) = \left(\frac{1}{\sigma_X}\right)^2 \text{Var}(X) \\
+		&= \frac{\text{Var}(X)}{\sigma_X^2}.
+	\end{align*}
+	Dado que por definición la desviación estándar es la raíz cuadrada positiva de la varianza ($\sigma_X^2 \equiv \text{Var}(X)$), la fracción resulta en una identidad exacta con numerador y denominador idénticos:
+	\begin{align*}
+		\text{Var}(Z) = \frac{\sigma_X^2}{\sigma_X^2} = 1.
+	\end{align*}
+	Queda demostrado de manera rigurosa y general para cualquier variable aleatoria discreta o continua con dispersión no degenerada.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.3.7}
+	Para el Problema \ref{prob:3.3.7}:
+	\begin{enumerate}
+		\item Queremos expandir y simplificar la función del error cuadrático medio $M(a) = \mathbb{E}[(X - a)^2]$.
+		Para conectar directamente este momento centrado con los invariantes centrales del sistema, introducimos un cero artificial en la diferencia restando y sumando la verdadera media poblacional $\mu \equiv \mathbb{E}[X]$:
+		\begin{align*}
+			X - a = (X - \mu) + (\mu - a).
+		\end{align*}
+		Elevamos al cuadrado ambos lados de la igualdad agrupando el término probabilístico $(X-\mu)$ por una parte y la diferencia de constantes $(\mu-a)$ por otra:
+		\begin{align*}
+			(X - a)^2 &= \left[ (X - \mu) + (\mu - a) \right]^2 \\
+			&= (X - \mu)^2 + 2(X - \mu)(\mu - a) + (\mu - a)^2.
+		\end{align*}
+		Ahora, tomamos esperanza matemática en ambos extremos invocando la linealidad universal del operador:
+		\begin{align*}
+			M(a) = \mathbb{E}\left[ (X - a)^2 \right] &= \mathbb{E}\left[ (X - \mu)^2 \right] + \mathbb{E}\left[ 2(X - \mu)(\mu - a) \right] + \mathbb{E}\left[ (\mu - a)^2 \right].
+		\end{align*}
+		Analicemos minuciosamente los tres sumandos resultantes:
+		- El primer término es, por definición canónica de dispersión central, exactamente la varianza: $\mathbb{E}[(X - \mu)^2] = \text{Var}(X)$.
+		- En el segundo término, las cantidades $2$ y $(\mu - a)$ son constantes numéricas exactas que salen fuera del operador lineal de esperanza:
+		  \begin{align*}
+		  	\mathbb{E}\left[ 2(X - \mu)(\mu - a) \right] = 2(\mu - a) \mathbb{E}[X - \mu].
+		  \end{align*}
+		  Sin embargo, la esperanza de una variable aleatoria centrada en su propia media siempre es idénticamente nula ($\mathbb{E}[X - \mu] = \mathbb{E}[X] - \mu = \mu - \mu = 0$). En consecuencia, todo el término cruzado de covarianza se anula: $2(\mu - a)(0) = 0$.
+		- El tercer término es el promedio de una constante pura invariable, por lo cual se mantiene idéntico: $\mathbb{E}[(\mu - a)^2] = (\mu - a)^2$.
+		
+		Al reunir las piezas algebraicas no nulas, obtenemos la identidad exacta del error cuadrático:
+		\begin{align*}
+			M(a) = \text{Var}(X) + (\mu - a)^2.
+		\end{align*}
+		
+		\item Para hallar el escalar $a \in \mathbb{R}$ que minimiza $M(a)$, observamos la estructura analítica de nuestra descomposición:
+		$\text{Var}(X)$ es una constante estructural que depende únicamente de la dispersión intrínseca de $X$ (por tanto, es inmutable respecto a $a$).
+		El segundo término $(\mu - a)^2$ es el cuadrado de una diferencia sobre números reales, lo que garantiza por los axiomas de orden en $\mathbb{R}$ que es una cantidad no negativa:
+		\begin{align*}
+			(\mu - a)^2 \ge 0 \quad \text{para todo } a \in \mathbb{R}.
+		\end{align*}
+		En consecuencia directa, sumando la varianza en ambos miembros, se tiene la desigualdad acotada universal:
+		\begin{align*}
+			M(a) = \text{Var}(X) + (\mu - a)^2 \ge \text{Var}(X) + 0 = \text{Var}(X).
+		\end{align*}
+		La cota inferior absoluta $\text{Var}(X)$ se alcanza con igualdad exacta si, y solo si, el término cuadrático no negativo se anula por completo:
+		\begin{align*}
+			(\mu - a)^2 = 0 \iff a = \mu.
+		\end{align*}
+		Por consiguiente, queda rigurosamente demostrado el Teorema del Centro de Gravedad:
+		\begin{align*}
+			\min_{a \in \mathbb{R}} \mathbb{E}\left[ (X - a)^2 \right] = \text{Var}(X), \quad \text{alcanzado únicamente cuando } a = \mu = \mathbb{E}[X].
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.3.8}
+	Para el Problema \ref{prob:3.3.8}:
+	\begin{enumerate}
+		\item Sean $X$ e $Y$ dos variables aleatorias discretas definidas con una función de masa de probabilidad conjunta dada por $f_{X,Y}(x, y) = P(X = x, Y = y)$ para todo par $(x, y)$ en el producto cartesiano de los soportes $\mathcal{S}_X \times \mathcal{S}_Y$.
+		Por definición analítica fundamental en el espacio multivariado, el valor esperado de cualquier combinación lineal afín $cX + dY$ se calcula sumando sobre todo el soporte conjunto bidimensional:
+		\begin{align*}
+			\mathbb{E}[cX + dY] = \sum_{x \in \mathcal{S}_X} \sum_{y \in \mathcal{S}_Y} (cx + dy) \cdot f_{X,Y}(x, y).
+		\end{align*}
+		Aplicamos la propiedad distributiva algebraica del producto respecto a la suma en cada término:
+		\begin{align*}
+			\mathbb{E}[cX + dY] = \sum_{x \in \mathcal{S}_X} \sum_{y \in \mathcal{S}_Y} \left[ cx \cdot f_{X,Y}(x, y) + dy \cdot f_{X,Y}(x, y) \right].
+		\end{align*}
+		Por las propiedades elementales de convergencia absoluta en series discretas sumables, podemos separar la suma doble en la adición de dos series bidimensionales independientes:
+		\begin{align*}
+			\mathbb{E}[cX + dY] = \sum_{x \in \mathcal{S}_X} \sum_{y \in \mathcal{S}_Y} cx \cdot f_{X,Y}(x, y) + \sum_{x \in \mathcal{S}_X} \sum_{y \in \mathcal{S}_Y} dy \cdot f_{X,Y}(x, y).
+		\end{align*}
+		En la primera suma doble, el factor $cx$ es algebraicamente independiente del índice de suma $y$, permitiendo extraerlo del sumatorio interior. Análogamente, en la segunda suma, el factor $dy$ es independiente del índice $x$, por lo que conmutamos el orden de sumas por el Teorema de Fubini-Tonelli y extraemos $dy$:
+		\begin{align*}
+			\mathbb{E}[cX + dY] = c \sum_{x \in \mathcal{S}_X} x \left[ \sum_{y \in \mathcal{S}_Y} f_{X,Y}(x, y) \right] + d \sum_{y \in \mathcal{S}_Y} y \left[ \sum_{x \in \mathcal{S}_X} f_{X,Y}(x, y) \right].
+		\end{align*}
+		Por el axioma de consistencia marginal de la probabilidad multivariada, la suma o marginalización de la distribución conjunta respecto a una de las variables arroja exactamente la función de masa marginal de la variable complementaria:
+		\begin{align*}
+			\sum_{y \in \mathcal{S}_Y} f_{X,Y}(x, y) = f_X(x) \quad \text{y} \quad \sum_{x \in \mathcal{S}_X} f_{X,Y}(x, y) = f_Y(y).
+		\end{align*}
+		Sustituyendo estas identidades marginales en nuestros sumatorios:
+		\begin{align*}
+			\mathbb{E}[cX + dY] &= c \sum_{x \in \mathcal{S}_X} x \cdot f_X(x) + d \sum_{y \in \mathcal{S}_Y} y \cdot f_Y(y) \\
+			&= c\mathbb{E}[X] + d\mathbb{E}[Y].
+		\end{align*}
+		Queda demostrado que la linealidad es una verdad matemática absoluta que se cumple universalmente, prescindiendo por completo de la independencia o estructura de correlación de $X$ e $Y$.
+		
+		\item Consideremos ahora el operador varianza aplicado a la combinación lineal $W = cX \pm dY$.
+		Por definición formal de varianza central:
+		\begin{align*}
+			\text{Var}(W) = \mathbb{E}\left[ (W - \mathbb{E}[W])^2 \right].
+		\end{align*}
+		Utilizando la linealidad demostrada en el punto 1, la media de nuestra combinación afín es $\mu_W = c\mu_X \pm d\mu_Y$ (donde $\mu_X = \mathbb{E}[X]$ y $\mu_Y = \mathbb{E}[Y]$). Reemplazando en la diferencia central y agrupando por las variables originales:
+		\begin{align*}
+			W - \mu_W &= (cX \pm dY) - (c\mu_X \pm d\mu_Y) \\
+			&= c(X - \mu_X) \pm d(Y - \mu_Y).
+		\end{align*}
+		Elevamos al cuadrado el binomio resultante:
+		\begin{align*}
+			(W - \mu_W)^2 &= \left[ c(X - \mu_X) \pm d(Y - \mu_Y) \right]^2 \\
+			&= c^2(X - \mu_X)^2 \pm 2cd(X - \mu_X)(Y - \mu_Y) + d^2(Y - \mu_Y)^2.
+		\end{align*}
+		Aplicamos el operador lineal de esperanza sobre cada uno de los tres términos expandidos:
+		\begin{align*}
+			\text{Var}(cX \pm dY) = c^2 \mathbb{E}\left[ (X - \mu_X)^2 \right] \pm 2cd \mathbb{E}\left[ (X - \mu_X)(Y - \mu_Y) \right] + d^2 \mathbb{E}\left[ (Y - \mu_Y)^2 \right].
+		\end{align*}
+		Reconocemos inmediatamente las definiciones del primer y tercer sumando como las varianzas marginales: $\mathbb{E}[(X-\mu_X)^2] = \text{Var}(X)$ y $\mathbb{E}[(Y-\mu_Y)^2] = \text{Var}(Y)$.
+		El término central es la definición canónica de la covarianza conjunta ponderada por $2cd$:
+		\begin{align*}
+			\mathbb{E}\left[ (X - \mu_X)(Y - \mu_Y) \right] \equiv \text{Cov}(X, Y).
+		\end{align*}
+		Bajo la hipótesis estricta del enunciado, las variables $X$ e $Y$ son estadística y funcionalmente independientes, lo cual implica axiomáticamente que la covarianza es idénticamente nula ($\text{Cov}(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y] = 0$).
+		Al anularse todo el término cruzado intermedio ($\pm 2cd \cdot 0 = 0$), se concluye la demostración formal:
+		\begin{align*}
+			\text{Var}(cX \pm dY) = c^2 \text{Var}(X) + d^2 \text{Var}(Y).
+		\end{align*}
+		Nótese cómo el signo intermedio $\pm$ original se transforma invariablemente en una suma positiva en la varianza ($+d^2\text{Var}(Y)$) debido al escalamiento cuadrático de las constantes.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.3.9}
+	Para el Problema \ref{prob:3.3.9}:
+	\begin{enumerate}
+		\item El juego de la moneda justa se detiene en la primera cara que aparezca en el $k$-ésimo lanzamiento. La variable aleatoria que modela el número de intentos hasta el primer éxito es $K \sim \text{Geom}(p = 0.5)$, cuya función de masa de probabilidad en el soporte $\mathcal{S}_K = \set{1, 2, 3, \dots, \infty}$ es:
+		\begin{align*}
+			P(K = k) = (1 - p)^{k-1} p = (0.5)^{k-1} (0.5) = \left(\frac{1}{2}\right)^k = 2^{-k}.
+		\end{align*}
+		El pago o premio monetario otorgado por el casino al finalizar el experimento es $X = 2^K$. Por el Teorema de la Ley del Estadístico Inconsciente (LOTUS), la esperanza matemática de la recompensa se calcula sumando sobre todo el soporte infinito numerable:
+		\begin{align*}
+			\mathbb{E}[X] &= \sum_{k=1}^\infty g(k) \cdot P(K = k) \\
+			&= \sum_{k=1}^\infty (2^k) \cdot (2^{-k}) \\
+			&= \sum_{k=1}^\infty 2^0 = \sum_{k=1}^\infty 1.
+		\end{align*}
+		Evaluamos el comportamiento asintótico de esta serie infinita constante:
+		\begin{align*}
+			\mathbb{E}[X] = 1 + 1 + 1 + 1 + \dots = \lim_{n \to \infty} \sum_{k=1}^n 1 = \lim_{n \to \infty} n = \infty.
+		\end{align*}
+		Queda rigurosamente demostrado que el valor monetario esperado del premio diverge a **infinito ($\mathbb{E}[X] = \infty$)**.
+		Interpretación económica (La Paradoja de Daniel Bernoulli): Si un jugador basara sus decisiones exclusivamente en el criterio del valor esperado bruto, debería estar dispuesto a empeñar o pagar cualquier cantidad monetaria finita imaginable (incluso miles de millones de dólares) solo por adquirir el boleto de entrada a un juego con esperanza matemática infinita. Sin embargo, en la realidad empírica ningún ser humano racional pagaría más de unas pocas monedas por jugar. Esta contradicción histórica y profunda motivó el desarrollo moderno de la teoría neoclásica de la **utilidad marginal decreciente del dinero**, donde lo que se maximiza no es la esperanza del dinero neto $\mathbb{E}[X]$, sino la esperanza de su utilidad cóncava $\mathbb{E}[u(X)] \ll \infty$.
+		
+		\item En un entorno financiero del mundo real ningún casino posee reservas monetarias infinitas. Si el casino impone un tope reglamentario máximo de banca equivalente a $N$ lanzamientos consecutivos, el esquema de premios truncados $X_N$ queda acotado superiormente por $M = 2^N$:
+		\begin{align*}
+			X_N = \begin{cases}
+				2^k & \text{si el juego termina en el intento } k \le N \text{ (probabilidad } 2^{-k}), \\
+				2^N & \text{si no aparece cara en los primeros } N \text{ lanzamientos (probabilidad } P(K > N)).
+			\end{cases}
+		\end{align*}
+		La probabilidad de la cola de supervivencia en una distribución geométrica (no haber obtenido ninguna cara en $N$ tiros consecutivos) es exactamente la probabilidad del evento intersección de $N$ fracasos independientes:
+		\begin{align*}
+			P(K > N) = (1 - p)^N = \left(\frac{1}{2}\right)^N = 2^{-N}.
+		\end{align*}
+		Calculamos ahora formalmente el valor esperado regularizado del juego truncado sumando la contribución de los $N$ intentos exitosos posibles más el término del tope de banca final:
+		\begin{align*}
+			\mathbb{E}[X_N] &= \left[ \sum_{k=1}^N (2^k) \cdot (2^{-k}) \right] + (2^N) \cdot P(K > N) \\
+			&= \left[ \sum_{k=1}^N 1 \right] + (2^N) \cdot (2^{-N}) \\
+			&= N + 2^0 = N + 1.
+		\end{align*}
+		Hemos deducido una elegantísima y compacta expresión en forma cerrada: **el valor esperado truncado es lineal en el número máximo de lanzamientos ($\mathbb{E}[X_N] = N + 1$)**.
+		
+		**Evaluación numérica para $N = 25$ lanzamientos:**
+		Si la banca máxima del casino es $N = 25$ (lo que representa un premio tope estratosférico de $2^{25} = 33,554,432$ monedas de oro), el valor esperado exacto del juego es:
+		\begin{align*}
+			\mathbb{E}[X_{25}] = 25 + 1 = 26 \text{ unidades monetarias}.
+		\end{align*}
+		Esta asombrosa compresión logarítmica resuelve la paradoja en la práctica: incluso ante una banca multimillonaria de más de 33.5 millones de dólares, la entrada justa al juego vale apenas **26 monedas**.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.3.10}
+	Para el Problema \ref{prob:3.3.10}:
+	Sea $X$ una variable aleatoria discreta con soporte acotado $\mathcal{S}_X \subseteq [a, b]$, lo que implica axiomáticamente que $P(a \le X \le b) = 1$.
+	Consideremos el producto algebraico de las dos distancias complementarias del soporte al punto $X$: el factor $(X - a)$ y el factor $(b - X)$.
+	Dado que para cualquier resultado observable $\omega \in \Omega$ se cumple con probabilidad uno que $a \le X(\omega) \le b$, ambas diferencias son simultánea y estrictamente no negativas sobre todo el dominio:
+	\begin{align*}
+		X(\omega) - a \ge 0 \quad \text{y} \quad b - X(\omega) \ge 0 \implies (X - a)(b - X) \ge 0.
+	\end{align*}
+	Expandimos algebraicamente el producto cuadrático no negativo:
+	\begin{align*}
+		(X - a)(b - X) &= bX - X^2 - ab + aX \\
+		&= (a + b)X - X^2 - ab \ge 0.
+	\end{align*}
+	Por el axioma de monotonía del operador lineal de esperanza (si una variable aleatoria $Y \ge 0$ casi seguramente, entonces $\mathbb{E}[Y] \ge 0$), tomamos esperanza matemática en ambos miembros de la desigualdad y distribuimos linealmente:
+	\begin{align*}
+		\mathbb{E}\left[ (a + b)X - X^2 - ab \right] \ge 0 \implies (a + b)\mathbb{E}[X] - \mathbb{E}[X^2] - ab \ge 0.
+	\end{align*}
+	Despejamos el momento bruto de segundo orden hacia el extremo derecho, conservando el sentido de la cota:
+	\begin{align*}
+		\mathbb{E}[X^2] \le (a + b)\mu - ab, \quad \text{donde } \mu \equiv \mathbb{E}[X].
+	\end{align*}
+	Ahora, invocamos la fórmula computacional de König-Huygens para la varianza central:
+	\begin{align*}
+		\text{Var}(X) = \mathbb{E}[X^2] - \mu^2.
+	\end{align*}
+	Sustituimos la cota superior que acabamos de demostrar para $\mathbb{E}[X^2]$ dentro de la fórmula de la varianza:
+	\begin{align*}
+		\text{Var}(X) \le (a + b)\mu - ab - \mu^2.
+	\end{align*}
+	Reorganizamos el miembro derecho en un polinomio cuadrático canónico respecto a la variable independiente $\mu$:
+	\begin{align*}
+		\text{Var}(X) \le -\mu^2 + (a + b)\mu - ab.
+	\end{align*}
+	Para determinar el supremo absoluto de esta parábola cóncava respecto a $\mu$, completamos el cuadrado perfecto. Factorizamos el signo negativo de los dos primeros términos:
+	\begin{align*}
+		-\mu^2 + (a + b)\mu - ab &= -\left[ \mu^2 - (a + b)\mu \right] - ab.
+	\end{align*}
+	Sumamos y restamos el cuadrado de la mitad del coeficiente lineal $\left(\frac{a+b}{2}\right)^2$ dentro del corchete:
+	\begin{align*}
+		-\left[ \mu^2 - (a + b)\mu + \left(\frac{a+b}{2}\right)^2 - \left(\frac{a+b}{2}\right)^2 \right] - ab &= -\left( \mu - \frac{a+b}{2} \right)^2 + \frac{(a + b)^2}{4} - ab.
+	\end{align*}
+	Desarrollamos la fracción constante independiente de $\mu$ con común denominador $4$:
+	\begin{align*}
+		\frac{(a + b)^2 - 4ab}{4} = \frac{a^2 + 2ab + b^2 - 4ab}{4} = \frac{a^2 - 2ab + b^2}{4} = \frac{(b - a)^2}{4}.
+	\end{align*}
+	Al sustituir esta identidad en nuestra desigualdad general de varianza, obtenemos la descomposición en vértice de Popoviciu:
+	\begin{align*}
+		\text{Var}(X) \le \frac{(b - a)^2}{4} - \left( \mu - \frac{a+b}{2} \right)^2.
+	\end{align*}
+	Dado que el segundo término al cuadrado restado es siempre no negativo ($\left( \mu - \frac{a+b}{2} \right)^2 \ge 0$), la resta solo puede disminuir o mantener la magnitud global. Al eliminar dicho término negativo, se alcanza la cota superior absoluta y suprema:
+	\begin{align*}
+		\text{Var}(X) \le \frac{(b - a)^2}{4}.
+	\end{align*}
+	
+	**Caracterización exacta de la distribución extremal de igualdad:**
+	La cota máxima absoluta $\text{Var}(X) = \frac{(b-a)^2}{4}$ se alcanza con estricta igualdad matemática si, y solo si, se cumplen simultáneamente dos condiciones algebraicas extremas:
+	1. El término cuadrático completado debe anularse ($(\mu - \frac{a+b}{2})^2 = 0 \implies \mu = \frac{a+b}{2}$), lo cual exige que la distribución esté simétricamente centrada en el punto medio exacto del intervalo $[a, b]$.
+	2. La desigualdad de partida $(X - a)(b - X) \ge 0$ debe cumplirse con igualdad en casi todas partes ($P((X - a)(b - X) = 0) = 1$), lo que obliga a que toda la masa probabilística de $X$ esté localizada exclusivamente en los puntos de frontera extrema $x = a$ y $x = b$.
+	
+	Por lo tanto, la distribución discreta única que alcanza el supremo de varianza es la **distribución de Bernoulli simétrica bimodal concentrada en los extremos del intervalo**, cuya función de masa de probabilidad es:
+	\begin{align*}
+		P(X = a) = \frac{1}{2} \quad \text{y} \quad P(X = b) = \frac{1}{2}.
+	\end{align*}
+	Con esta distribución, la media es efectivamente el punto medio $\mu = \frac{a+b}{2}$ y su varianza central es la mitad de la longitud al cuadrado $\text{Var}(X) = \frac{1}{2}(a - \frac{a+b}{2})^2 + \frac{1}{2}(b - \frac{a+b}{2})^2 = \frac{(b-a)^2}{4}$, confirmando la solidez absoluta del teorema.
+\end{solucion}
+

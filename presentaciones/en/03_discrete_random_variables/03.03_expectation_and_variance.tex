@@ -1,0 +1,524 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title{Expectation and Variance}
+\subtitle{Section 03.03 --- Moments of Discrete Variables}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% SLIDE 01: Cover Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
+	\begin{block}{Curricular Structure of Unit 2}
+		\small
+		\begin{enumerate}
+			\itemsep=0.04cm
+			\item \textcolor{gray}{Section 03.01: Discrete Probability Functions (PMF and Support)}
+			\item \textcolor{gray}{Section 03.02: Cumulative Distribution Functions (Discrete CDF)}
+			\item \textbf{\textcolor{TecRojo}{Section 03.03: Expectation, Variance, and Moments}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 03.04: Special Distributions I (Binomial, Geometric, and Hypergeometric)}
+			\item \textcolor{gray}{Section 03.05: Special Distributions II (Poisson, Negative Binomial, and Multinomial)}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Didactic Objective}
+		\footnotesize
+		Master the formal calculation, operational properties, and theoretical foundations of Mathematical Expectation $\mathbb{E}[X]$, Variance $\text{Var}(X)$, and higher-order moments, applying LOTUS and the probabilistic center of gravity theorem across engineering and statistical inference problems.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivation and Intuition
+\begin{frame}{Motivation --- From Distributions to Summary Numerical Summaries}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Complexity of Full PMFs}
+				\small
+				\begin{itemize}
+					\itemsep=0.08cm
+					\item A complete PMF $f_X(x)$ or CDF $F_X(x)$ contains the **full stochastic characterization** of a random variable $X$.
+					\item In complex engineering systems or large-scale data pipelines, comparing entire distributions is algebraically intractable.
+					\item We require **synthetic scalar invariants** that summarize central tendency and dispersion.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Center of Gravity and Inertia}
+				\small
+				\begin{itemize}
+					\itemsep=0.08cm
+					\item **Expectation ($\mu$):** The physical center of mass of the probability distribution, weighting every value by its likelihood.
+					\item **Variance ($\sigma^2$):** The moment of inertia around $\mu$, quantifying risk, volatility, and quadratic spread.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Formal Definition of Expectation
+\begin{frame}{Formal Definition --- Mathematical Expectation}
+	\begin{block}{Analytical Definition of Population Mean $\mu = \mathbb{E}[X]$}
+		\small
+		Let $X$ be a discrete random variable with countable support $\mathcal{S}_X = \set{x_1, x_2, \dots}$ and probability mass function $f_X(x)$. The **mathematical expectation** or **expected value** of $X$ is defined as:
+		\begin{align*}
+			\mathbb{E}[X] = \sum_{x \in \mathcal{S}_X} x \cdot f_X(x),
+		\end{align*}
+		provided that the series converges absolutely ($\sum |x| f_X(x) < \infty$).
+	\end{block}
+	\vspace{-0.1cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Frequentist Interpretation}
+				\footnotesize
+				By the Law of Large Numbers, as independent trials are repeated $n \to \infty$ times, the sample arithmetic mean $\bar{X}_n$ converges almost surely to $\mathbb{E}[X]$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Conceptual Warning}
+				\footnotesize
+				$\mathbb{E}[X]$ does not necessarily belong to support $\mathcal{S}_X$. For instance, a fair six-sided die yields $\mathbb{E}[X] = 3.5 \notin \mathcal{S}_X$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: LOTUS Theorem
+\begin{frame}{LOTUS Theorem --- Law of the Unconscious Statistician}
+	\begin{block}{Law of the Unconscious Statistician (LOTUS)}
+		\small
+		Let $X$ be a discrete random variable with PMF $f_X(x)$ and let $g: \mathbb{R} \to \mathbb{R}$ be any real-valued function. The expected value of the transformation $Y = g(X)$ is directly given by:
+		\begin{align*}
+			\mathbb{E}[g(X)] = \sum_{x \in \mathcal{S}_X} g(x) \cdot f_X(x).
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Absolute Operational Advantage}
+				\footnotesize
+				Computes $\mathbb{E}[g(X)]$ **directly from the original support $\mathcal{S}_X$ and PMF $f_X(x)$**, without needing to derive the induced PMF $f_Y(y)$ first.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Algorithmic Efficiency}
+				\footnotesize
+				Bypasses the combinatorial overhead of grouping preimages $\set{x : g(x) = y}$ whenever $g(X)$ is non-injective or many-to-one.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Properties of the Expectation Operator
+\begin{frame}{Properties of the Expectation Operator}
+	\begin{block}{Universal Linearity and Monotonicity}
+		\small
+		The expectation operator $\mathbb{E}[\cdot]$ is a **linear, additive, and homogeneous functional** over the space of random variables with finite mean:
+		\begin{enumerate}
+			\itemsep=0.06cm
+			\item \textbf{Constant Invariance:} If $c \in \mathbb{R}$ is constant, then $\mathbb{E}[c] = c$.
+			\item \textbf{Affine Linearity:} $\mathbb{E}[aX + b] = a\mathbb{E}[X] + b$ for all constants $a, b \in \mathbb{R}$.
+			\item \textbf{Universal Additivity:} For any two variables $X$ and $Y$ (dependent or independent):
+			\begin{align*}
+				\mathbb{E}[aX + bY] = a\mathbb{E}[X] + b\mathbb{E}[Y].
+			\end{align*}
+			\item \textbf{Monotonicity:} If $X \ge Y$ almost surely, then $\mathbb{E}[X] \ge \mathbb{E}[Y]$.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+% SLIDE 07: Operational Variance and König-Huygens
+\begin{frame}{Operational Variance and König-Huygens Formula}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Core Definition of Variance}
+				\small
+				The variance of $X$, denoted $\text{Var}(X)$ or $\sigma_X^2$, is the second central moment around the mean:
+				\begin{align*}
+					\text{Var}(X) = \mathbb{E}\left[ (X - \mu)^2 \right].
+				\end{align*}
+				Measures average quadratic spread around $\mu$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Standard Deviation ($\sigma_X$)}
+				\small
+				The positive square root of variance:
+				\begin{align*}
+					\sigma_X = \sqrt{\text{Var}(X)}.
+				\end{align*}
+				Shares exact physical units with the random variable $X$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+	\vspace{-0.1cm}
+	\begin{exampleblock}{König-Huygens Identity (Computational Shortcut)}
+		\small
+		Expanding $(X-\mu)^2$ and applying linearity yields the fundamental operational formula:
+		\begin{align*}
+			\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2.
+		\end{align*}
+	\end{exampleblock}
+\end{frame}
+
+% SLIDE 08: Raw and Central Moments
+\begin{frame}{Taxonomy of Raw and Central Moments}
+	\begin{block}{Hierarchy of Statistical Moments of Order $k \in \mathbb{Z}^+$}
+		\scriptsize
+		\centering
+		\begin{tabular}{p{2.8cm}|p{2.8cm}|p{6.4cm}}
+			\toprule
+			\textbf{Moment Type} & \textbf{Formal Operator} & \textbf{Stochastic \& Engineering Meaning} \\
+			\midrule
+			Raw Moment ($k$) & $\alpha_k = \mathbb{E}[X^k]$ & Moments relative to origin ($x=0$). \\
+			\midrule
+			Central Moment ($k$) & $\mu_k = \mathbb{E}[(X - \mu)^k]$ & Moments centered at population mean. \\
+			\midrule
+			Skewness ($\gamma_1$) & $\gamma_1 = \mu_3 / \sigma^3$ & Tail asymmetry (left vs. right tails). \\
+			\midrule
+			Kurtosis ($\gamma_2$) & $\gamma_2 = (\mu_4 / \sigma^4) - 3$ & Tail heaviness and modal sharpness. \\
+			\bottomrule
+		\end{tabular}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Basic Properties of Central Moments}
+		\footnotesize
+		By definition, the first central moment is identically zero: $\mu_1 = \mathbb{E}[X - \mu] = 0$. The second central moment corresponds precisely to the variance: $\mu_2 = \text{Var}(X)$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 09: Standardization and Z-Scores
+\begin{frame}{Standardization of Variables ($Z$-Scores)}
+	\begin{block}{Affine Standardization Transformation}
+		\small
+		Given a discrete variable $X$ with mean $\mu_X$ and standard deviation $\sigma_X > 0$, the standardized random variable ($Z$-score) is defined as:
+		\begin{align*}
+			Z = \frac{X - \mu_X}{\sigma_X}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Universal Moment Invariance}
+				\footnotesize
+				By linearity of expectation and affine variance transformation rules:
+				\begin{align*}
+					\mathbb{E}[Z] = 0 \quad \text{and} \quad \text{Var}(Z) = 1.
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Practical Significance}
+				\footnotesize
+				Enables dimensionless comparisons across heterogeneous physical units, evaluating how many standard deviations an observation deviates from the mean.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 10: Center of Gravity Theorem
+\begin{frame}{Probabilistic Center of Gravity Theorem}
+	\begin{block}{Mean Squared Error Minimization}
+		\small
+		Let $X$ be a random variable with finite variance and let $a \in \mathbb{R}$ be an arbitrary scalar. The mean squared error centered at $a$ decomposes exactly as:
+		\begin{align*}
+			M(a) = \mathbb{E}\left[ (X - a)^2 \right] = \text{Var}(X) + (\mu - a)^2.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Unique Minimum Solution}
+				\footnotesize
+				Since $(\mu - a)^2 \ge 0$, the absolute minimum is achieved if and only if $a = \mu$:
+				\begin{align*}
+					\min_{a \in \mathbb{R}} \mathbb{E}\left[ (X - a)^2 \right] = \text{Var}(X).
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Foundation of Least Squares}
+				\footnotesize
+				Establishes the population mean $\mu$ as the optimal point predictor under quadratic loss, where variance represents irreducible residual error.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 11: Fundamental Tier --- Problems 3.3.1 & 3.3.2
+\begin{frame}{Fundamental Tier --- Problems 3.3.1 and 3.3.2}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.3.1: Database Error Audit}
+				\scriptsize
+				Support $\mathcal{S}_X = \set{0, 1, 2, 3, 4}$, PMF $[0.35, 0.30, 0.20, 0.10, 0.05]$.
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item **Mean:** $\mu = 0(0.35)+1(0.30)+2(0.20)+3(0.10)+4(0.05) = 1.20$.
+					\item **2nd Moment:** $\mathbb{E}[X^2] = 0+0.30+0.80+0.90+0.80 = 2.80$.
+					\item **Variance (König-Huygens):** $\text{Var}(X) = 2.80 - 1.44 = 1.36$.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problem 3.3.2: Sum of Two Dice ($S = X_1 + X_2$)}
+				\scriptsize
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item **Support Mean vs. Expectation:** $\bar{S} = \frac{77}{11} = 7$. Coincides with $\mathbb{E}[S] = 7$ purely due to **symmetry**, not uniform probabilities.
+					\item **Linear Calculation:** By independence, $\mathbb{E}[S] = 3.5 + 3.5 = 7$.
+					\item **Additive Variance:** Since $\text{Cov}(X_1, X_2) = 0$:
+					\begin{align*}
+						\text{Var}(S) = \frac{35}{12} + \frac{35}{12} = \frac{35}{6} \approx 5.8333.
+					\end{align*}
+				\end{itemize}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 12: Fundamental Tier --- Problem 3.3.3
+\begin{frame}{Fundamental Tier --- Problem 3.3.3 (LOTUS Verification)}
+	\begin{block}{Problem 3.3.3: Non-Bijective Quadratic Transformation}
+		\small
+		Let $X$ be uniform on $\mathcal{S}_X = \set{-2, -1, 0, 1, 2}$ ($f_X(x) = 1/5$). Evaluate $g(X) = 2X^2 - 3X + 5$.
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Direct Computation via LOTUS}
+				\scriptsize
+				Evaluate images over original support:
+				\begin{itemize}
+					\itemsep=0.02cm
+					\item $g(-2) = 2(4)+6+5 = 19$, $g(-1) = 10$
+					\item $g(0) = 5$, $g(1) = 4$, $g(2) = 7$
+				\end{itemize}
+				Weighting each by $1/5$:
+				\begin{align*}
+					\mathbb{E}[g(X)] = \frac{19+10+5+4+7}{5} = \frac{45}{5} = 9.
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Verification via Induced PMF $Y$}
+				\scriptsize
+				Induced support $\mathcal{S}_Y = \set{4, 5, 7, 10, 19}$. Since each image originates from a unique preimage $x$, $f_Y(y) = 1/5$:
+				\begin{align*}
+					\mathbb{E}[Y] = \sum y f_Y(y) = \frac{45}{5} = 9.
+				\end{align*}
+				Confirms exact operational invariance.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 13: Operational Tier --- Problems 3.3.4 & 3.3.5
+\begin{frame}{Operational Tier --- Problems 3.3.4 and 3.3.5}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.3.4: Mining Project Risk}
+				\scriptsize
+				Scenarios: $+120$ ($0.25$), $+40$ ($0.55$), $-50$ ($0.20$).
+				\begin{itemize}
+					\itemsep=0.02cm
+					\item **Mean:** $\mathbb{E}[R] = +42.0$ M USD.
+					\item **2nd Moment:** $\mathbb{E}[R^2] = 4980$.
+					\item **Volatility:** $\sigma_R \approx 56.71$ M USD.
+					\item **Corporate Decision:** $U = -28.89 < 0$. **Rejected** due to high financial risk.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problem 3.3.5: Server Cluster Cost}
+				\scriptsize
+				Failures $K$ with $\mathbb{E}[K] = 3.2$ and $\text{Var}(K) = 1.8$. Quadratic cost $C(K) = 15 + 12K + 4K^2$.
+				\begin{itemize}
+					\itemsep=0.02cm
+					\item **Solving for 2nd Moment:**
+					\begin{align*}
+						\mathbb{E}[K^2] = 1.8 + (3.2)^2 = 12.04.
+					\end{align*}
+					\item **Applying Linearity:**
+					\begin{align*}
+						\mathbb{E}[C(K)] &= 15 + 12(3.2) + 4(12.04) \\
+						&= 101.56 \text{ thousand USD}.
+					\end{align*}
+				\end{itemize}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 14: Operational Tier --- Problem 3.3.6
+\begin{frame}{Operational Tier --- Problem 3.3.6 ($Z$-Score Proof)}
+	\begin{block}{Structural Invariance Proof for Standardization}
+		\small
+		Let $Z = aX + b$ where $a = \frac{1}{\sigma_X}$ and $b = -\frac{\mu_X}{\sigma_X}$. Prove that $\mathbb{E}[Z]=0$ and $\text{Var}(Z)=1$.
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{1. Mean Proof ($\mathbb{E}[Z]=0$)}
+				\footnotesize
+				Applying expectation linearity:
+				\begin{align*}
+					\mathbb{E}[Z] &= a\mathbb{E}[X] + b = \left(\frac{1}{\sigma_X}\right)\mu_X - \frac{\mu_X}{\sigma_X} \\
+					&= \frac{\mu_X}{\sigma_X} - \frac{\mu_X}{\sigma_X} = 0.
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{2. Variance Proof ($\text{Var}(Z)=1$)}
+				\footnotesize
+				Using shift invariance ($+b$) and quadratic scaling ($a^2$):
+				\begin{align*}
+					\text{Var}(Z) &= \text{Var}(aX+b) = a^2\text{Var}(X) \\
+					&= \left(\frac{1}{\sigma_X}\right)^2 \sigma_X^2 = \frac{\sigma_X^2}{\sigma_X^2} = 1.
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 15: Analytical Tier --- Problems 3.3.7 & 3.3.8
+\begin{frame}{Analytical Tier --- Problems 3.3.7 and 3.3.8}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.3.7: Quadratic Error}
+				\scriptsize
+				Let $M(a) = \mathbb{E}[(X-a)^2]$. Adding and subtracting $\mu$:
+				\begin{align*}
+					X-a = (X-\mu) + (\mu-a).
+				\end{align*}
+				Squaring and taking expectation eliminates the cross term since $\mathbb{E}[X-\mu]=0$:
+				\begin{align*}
+					M(a) = \text{Var}(X) + (\mu-a)^2 \ge \text{Var}(X).
+				\end{align*}
+				Achieves absolute minimum iff $a = \mu$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problem 3.3.8: Linearity vs. Additivity}
+				\scriptsize
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item **Universal Linearity:** Proven by separating double summations via Fubini-Tonelli and marginalization $\sum_y f_{X,Y}(x,y) = f_X(x)$. Holds without independence.
+					\item **Variance Additivity:**
+					\begin{align*}
+						\text{Var}(cX \pm dY) &= c^2\text{Var}(X) + d^2\text{Var}(Y) \\
+						&\quad \pm 2cd\,\text{Cov}(X,Y).
+					\end{align*}
+					Requires $\text{Cov}(X,Y)=0$ for pure sum.
+				\end{itemize}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 16: Challenging Tier --- Problem 3.3.9
+\begin{frame}{Challenging Tier --- Problem 3.3.9 (St. Petersburg Paradox)}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Divergence of Infinite Expectation}
+				\scriptsize
+				Game: toss fair coin until 1st heads at trial $k \sim \text{Geom}(0.5)$. Payout $X = 2^k$.
+				\begin{align*}
+					\mathbb{E}[X] &= \sum_{k=1}^\infty (2^k) \cdot P(K=k) = \sum_{k=1}^\infty (2^k)(2^{-k}) \\
+					&= \sum_{k=1}^\infty 1 = 1 + 1 + 1 + \dots = \infty.
+				\end{align*}
+				Rational agents refuse high entry fees, proving **diminishing marginal utility**.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Regularization via Bankroll Limit ($N=25$)}
+				\scriptsize
+				If the casino sets a maximum bankroll of $N$ tosses ($M = 2^N$ if $K > N$ with probability $2^{-N}$):
+				\begin{align*}
+					\mathbb{E}[X_N] &= \left[\sum_{k=1}^N (2^k)(2^{-k})\right] + (2^N)(2^{-N}) \\
+					&= \left[\sum_{k=1}^N 1\right] + 1 = N + 1.
+				\end{align*}
+				For $N=25$ ($\approx 33.5$M coins bankroll), the exact fair entry fee is **26 coins**.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 17: Challenging Tier --- Problem 3.3.10
+\begin{frame}{Challenging Tier --- Problem 3.3.10 (Popoviciu's Bound)}
+	\begin{block}{Supremum Variance Bound on Bounded Support $[a, b]$}
+		\small
+		If $P(a \le X \le b) = 1$, then $(X-a)(b-X) \ge 0$. Taking expectations and expanding:
+		\begin{align*}
+			\mathbb{E}[(a+b)X - X^2 - ab] \ge 0 \implies \mathbb{E}[X^2] \le (a+b)\mu - ab.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Completing the Square in Variance}
+				\scriptsize
+				Substituting $\mathbb{E}[X^2]$ into the variance formula:
+				\begin{align*}
+					\text{Var}(X) &\le -\mu^2 + (a+b)\mu - ab \\
+					&= \frac{(b-a)^2}{4} - \left(\mu - \frac{a+b}{2}\right)^2 \le \frac{(b-a)^2}{4}.
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Extremal Bernoulli Distribution}
+				\scriptsize
+				The absolute upper bound $\text{Var}(X) = \frac{(b-a)^2}{4}$ is attained **only by the symmetric bimodal distribution** concentrated on the endpoints:
+				\begin{align*}
+					P(X=a) = \frac{1}{2} \quad \text{and} \quad P(X=b) = \frac{1}{2}.
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 18: Python Lab --- Raw and Central Moments
+\begin{frame}[fragile]{Python Lab --- Moment Computation (`numpy`)}
+	\begin{block}{Single Source of Truth Implementation (\texttt{03.03\_expectation\_and\_variance.py})}
+		\lstinputlisting[language=Python, firstline=12, lastline=27, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.03_expectation_and_variance.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 19: Python Lab --- LOTUS and Z-Score Verification
+\begin{frame}[fragile]{Python Lab --- LOTUS and $Z$-Score Verification}
+	\begin{block}{Algebraic and Computational Invariance in `numpy`}
+		\lstinputlisting[language=Python, firstline=32, lastline=49, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.03_expectation_and_variance.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 20: Conclusion & Monte Carlo Simulation of LLN
+\begin{frame}[fragile]{Conclusion --- Monte Carlo Law of Large Numbers Simulation}
+	\begin{columns}[T]
+		\begin{column}{0.55\textwidth}
+			\begin{block}{Sample Path Simulation ($N=100,000$)}
+				\lstinputlisting[language=Python, firstline=54, lastline=66, basicstyle=\fontsize{5.6pt}{6.7pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.03_expectation_and_variance.py}
+			\end{block}
+		\end{column}
+		\begin{column}{0.42\textwidth}
+			\begin{alertblock}{Key Conclusions}
+				\scriptsize
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item $\bar{X}_n \to \mu = 1.20$ with tiny $0.0044$ error across $10^5$ iterations.
+					\item $S_n^2 \to \sigma^2 = 1.36$ confirming ergodic empirical stability.
+					\item Standardized $Z$-score variance is strictly unit ($1.000000$).
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\end{document}

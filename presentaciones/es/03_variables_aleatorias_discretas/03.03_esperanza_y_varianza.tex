@@ -1,0 +1,524 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title{Esperanza y Varianza}
+\subtitle{Sección 03.03 --- Momentos de Variables Discretas}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% SLIDE 01: Portada
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 03: Variables Aleatorias Discretas}
+	\begin{block}{Estructura Curricular de la Unidad 2}
+		\small
+		\begin{enumerate}
+			\itemsep=0.04cm
+			\item \textcolor{gray}{Sección 03.01: Funciones de Probabilidad Discretas (PMF y Soporte)}
+			\item \textcolor{gray}{Sección 03.02: Función de Distribución Acumulada (CDF Discreta)}
+			\item \textbf{\textcolor{TecRojo}{Sección 03.03: Esperanza Matemática, Varianza y Momentos}} $\leftarrow$ \emph{Foco actual}
+			\item \textcolor{gray}{Sección 03.04: Distribuciones Especiales I (Binomial, Geométrica e Hipergeométrica)}
+			\item \textcolor{gray}{Sección 03.05: Distribuciones Especiales II (Poisson, Binomial Negativa y Multinomial)}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Objetivo Didáctico}
+		\footnotesize
+		Dominar el cálculo formal, las propiedades operacionales y la fundamentación teórica de la Esperanza Matemática $\mathbb{E}[X]$, la Varianza $\text{Var}(X)$ y los Momentos de orden superior, aplicando el Teorema LOTUS y el teorema del centro de gravedad probabilístico en problemas de ingeniería e inferencia.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivación e Intuición
+\begin{frame}{Motivación --- De la Distribución a los Resúmenes Numéricos}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Complejidad de la PMF Completa}
+				\small
+				\begin{itemize}
+					\itemsep=0.08cm
+					\item Una PMF $f_X(x)$ o una CDF $F_X(x)$ contienen la **información estocástica completa** de la variable $X$.
+					\item En sistemas de ingeniería o grandes volúmenes de datos, comparar distribuciones completas resulta algebraicamente costoso o impracticable.
+					\item Se necesitan **escalares invariantes y sintéticos** que capturen la posición central y la dispersión del fenómeno.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{El Centro de Gravedad y la Inercia}
+				\small
+				\begin{itemize}
+					\itemsep=0.08cm
+					\item **Esperanza Matemática ($\mu$):** Es el punto de equilibrio o centro de masa de la distribución. Pondera cada valor por su probabilidad de ocurrencia.
+					\item **Varianza ($\sigma^2$):** Es el momento de inercia físico respecto a $\mu$. Cuantifica el riesgo, la volatilidad y el esparcimiento cuadrático.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Definición Formal de Esperanza
+\begin{frame}{Definición Formal --- Esperanza Matemática}
+	\begin{block}{Definición Analítica de la Media poblacional $\mu = \mathbb{E}[X]$}
+		\small
+		Sea $X$ una variable aleatoria discreta con soporte numerable $\mathcal{S}_X = \set{x_1, x_2, \dots}$ y función de masa de probabilidad $f_X(x)$. La **esperanza matemática** o **valor esperado** de $X$ se define como:
+		\begin{align*}
+			\mathbb{E}[X] = \sum_{x \in \mathcal{S}_X} x \cdot f_X(x),
+		\end{align*}
+		siempre que la serie converga absolutamente ($\sum |x| f_X(x) < \infty$).
+	\end{block}
+	\vspace{-0.1cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Interpretación Frecuentista}
+				\footnotesize
+				Por la Ley de los Grandes Números, si se repite un experimento independiente $n \to \infty$ veces, el promedio aritmético muestral $\bar{X}_n$ converge casi seguramente a $\mathbb{E}[X]$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Advertencia Conceptual}
+				\footnotesize
+				$\mathbb{E}[X]$ no necesariamente pertenece al soporte $\mathcal{S}_X$. Por ejemplo, para el lanzamiento de un dado balanceado, $\mathbb{E}[X] = 3.5 \notin \mathcal{S}_X$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Teorema LOTUS
+\begin{frame}{Teorema LOTUS --- Ley del Estadístico Inconsciente}
+	\begin{block}{Teorema del Estadístico Inconsciente (LOTUS)}
+		\small
+		Sea $X$ una variable aleatoria discreta con función de masa $f_X(x)$ y sea $g: \mathbb{R} \to \mathbb{R}$ una función real cualquiera. El valor esperado de la transformación $Y = g(X)$ está dado por:
+		\begin{align*}
+			\mathbb{E}[g(X)] = \sum_{x \in \mathcal{S}_X} g(x) \cdot f_X(x).
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Ventaja Operacional Absoluta}
+				\footnotesize
+				Permite calcular $\mathbb{E}[g(X)]$ **directamente desde el soporte $\mathcal{S}_X$ y la PMF original $f_X(x)$**, sin necesidad de derivar previamente la función de masa inducida $f_Y(y)$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Ahorro Algorítmico}
+				\footnotesize
+				Evita el costo combinatorio de identificar preimágenes $\set{x : g(x) = y}$ cuando $g(X)$ no es una función inyectiva o uno a uno.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Propiedades del Operador Esperanza
+\begin{frame}{Propiedades del Operador Esperanza}
+	\begin{block}{Linealidad Universal y Monotonía}
+		\small
+		El operador esperanza matemática $\mathbb{E}[\cdot]$ es un **funcional lineal homogéneo y aditivo** sobre el espacio de variables aleatorias con media finita:
+		\begin{enumerate}
+			\itemsep=0.06cm
+			\item \textbf{Invarianza de constantes:} Si $c \in \mathbb{R}$ es constante, entonces $\mathbb{E}[c] = c$.
+			\item \textbf{Linealidad afín:} $\mathbb{E}[aX + b] = a\mathbb{E}[X] + b$ para todo $a, b \in \mathbb{R}$.
+			\item \textbf{Aditividad universal:} Para dos variables $X$ e $Y$ (independientes o dependientes):
+			\begin{align*}
+				\mathbb{E}[aX + bY] = a\mathbb{E}[X] + b\mathbb{E}[Y].
+			\end{align*}
+			\item \textbf{Monotonía:} Si $X \ge Y$ casi seguramente, entonces $\mathbb{E}[X] \ge \mathbb{E}[Y]$.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+% SLIDE 07: Varianza Operacional y Fórmula de König-Huygens
+\begin{frame}{Varianza Operacional y Fórmula de König-Huygens}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Definición Central de Varianza}
+				\small
+				La varianza de $X$, denotada $\text{Var}(X)$ o $\sigma_X^2$, es el momento central de segundo orden:
+				\begin{align*}
+					\text{Var}(X) = \mathbb{E}\left[ (X - \mu)^2 \right].
+				\end{align*}
+				Mide la dispersión cuadrática promedio respecto a la media poblacional $\mu$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Desviación Estándar ($\sigma_X$)}
+				\small
+				La raíz cuadrada positiva de la varianza:
+				\begin{align*}
+					\sigma_X = \sqrt{\text{Var}(X)}.
+				\end{align*}
+				Posee las mismas unidades físicas que la variable original $X$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+	\vspace{-0.1cm}
+	\begin{exampleblock}{Identidad Operacional de König-Huygens (Atajo de Cálculo)}
+		\small
+		Al expandir $(X-\mu)^2$ y aplicar linealidad, se obtiene la fórmula fundamental de cálculo:
+		\begin{align*}
+			\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2.
+		\end{align*}
+	\end{exampleblock}
+\end{frame}
+
+% SLIDE 08: Momentos Brutos y Centrales
+\begin{frame}{Taxonomía de Momentos Brutos y Centrales}
+	\begin{block}{Jerarquía de los Momentos Estadísticos de Orden $k \in \mathbb{Z}^+$}
+		\scriptsize
+		\centering
+		\begin{tabular}{p{2.8cm}|p{2.8cm}|p{6.4cm}}
+			\toprule
+			\textbf{Tipo de Momento} & \textbf{Operador Formal} & \textbf{Significado Estocástico e Ingeniería} \\
+			\midrule
+			Momento Bruto ($k$) & $\alpha_k = \mathbb{E}[X^k]$ & Momentos respecto al origen cero ($x=0$). \\
+			\midrule
+			Momento Central ($k$) & $\mu_k = \mathbb{E}[(X - \mu)^k]$ & Momentos centrados en la media poblacional. \\
+			\midrule
+			Asimetría (\emph{Skew}) & $\gamma_1 = \mu_3 / \sigma^3$ & Asimetría de las colas (izq. vs. der.). \\
+			\midrule
+			Curtosis (\emph{Kurtosis}) & $\gamma_2 = (\mu_4 / \sigma^4) - 3$ & Concentración en colas y pico modal. \\
+			\bottomrule
+		\end{tabular}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Propiedades Básicas de los Momentos Centrales}
+		\footnotesize
+		Por definición, el primer momento central siempre es idénticamente nulo: $\mu_1 = \mathbb{E}[X - \mu] = 0$. El segundo momento central coincide exactamente con la varianza operativa: $\mu_2 = \text{Var}(X)$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 09: Estandarización y Z-Scores
+\begin{frame}{Estandarización de Variables ($Z$-Scores)}
+	\begin{block}{Transformación Afín de Estandarización}
+		\small
+		Dada una variable discreta $X$ con media $\mu_X$ y desviación estándar $\sigma_X > 0$, la variable aleatoria estandarizada (o variable centrado-reducida) $Z$ se define como:
+		\begin{align*}
+			Z = \frac{X - \mu_X}{\sigma_X}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Invarianza Universal de Momentos}
+				\footnotesize
+				Por linealidad del operador esperanza y las leyes de transformación afín de la varianza:
+				\begin{align*}
+					\mathbb{E}[Z] = 0 \quad \text{y} \quad \text{Var}(Z) = 1.
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Aplicación Práctica}
+				\footnotesize
+				Permite comparar magnitudes físicas heterogéneas o puntajes en diferentes escalas, evaluando cuántas desviaciones estándar dista una observación del centro poblacional.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 10: Teorema del Centro de Gravedad
+\begin{frame}{Teorema del Centro de Gravedad Probabilístico}
+	\begin{block}{Minimización del Error Cuadrático Medio}
+		\small
+		Sea $X$ una variable aleatoria con varianza finita y sea $a \in \mathbb{R}$ un escalar arbitrario. La función de error cuadrático medio centrado en $a$ se descompone exactamente como:
+		\begin{align*}
+			M(a) = \mathbb{E}\left[ (X - a)^2 \right] = \text{Var}(X) + (\mu - a)^2.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Solución Única del Supremo}
+				\footnotesize
+				Como $(\mu - a)^2 \ge 0$, el mínimo absoluto se alcanza si, y solo si, $a = \mu$:
+				\begin{align*}
+					\min_{a \in \mathbb{R}} \mathbb{E}\left[ (X - a)^2 \right] = \text{Var}(X).
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Fundamento de Mínimos Cuadrados}
+				\footnotesize
+				Demuestra que la media poblacional $\mu$ es el predictor puntual óptimo bajo pérdida cuadrática, y la varianza es el error remanente irreductible.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 11: Nivel Fundamental --- Problemas 3.3.1 y 3.3.2
+\begin{frame}{Nivel Fundamental --- Problemas 3.3.1 y 3.3.2}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problema 3.3.1: Errores en Base de Datos}
+				\scriptsize
+				Soporte $\mathcal{S}_X = \set{0, 1, 2, 3, 4}$, PMF $[0.35, 0.30, 0.20, 0.10, 0.05]$.
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item **Media:** $\mu = 0(0.35)+1(0.30)+2(0.20)+3(0.10)+4(0.05) = 1.20$.
+					\item **Segundo Momento:** $\mathbb{E}[X^2] = 0+0.30+0.80+0.90+0.80 = 2.80$.
+					\item **Varianza (König-Huygens):** $\text{Var}(X) = 2.80 - 1.44 = 1.36$.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problema 3.3.2: Suma de Dos Dados ($S = X_1 + X_2$)}
+				\scriptsize
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item **Media del Soporte vs. Esperanza:** $\bar{S} = \frac{77}{11} = 7$. Coincide con $\mathbb{E}[S] = 7$ solo por **simetría**, no porque las probabilidades sean uniformes.
+					\item **Cálculo Lineal:** Por independencia, $\mathbb{E}[S] = 3.5 + 3.5 = 7$.
+					\item **Varianza Aditiva:** Como $\text{Cov}(X_1, X_2) = 0$:
+					\begin{align*}
+						\text{Var}(S) = \frac{35}{12} + \frac{35}{12} = \frac{35}{6} \approx 5.8333.
+					\end{align*}
+				\end{itemize}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 12: Nivel Fundamental --- Problema 3.3.3
+\begin{frame}{Nivel Fundamental --- Problema 3.3.3 (Verificación LOTUS)}
+	\begin{block}{Problema 3.3.3: Transformación Cuadrática No Biyectiva}
+		\small
+		Sea $X$ uniforme en $\mathcal{S}_X = \set{-2, -1, 0, 1, 2}$ ($f_X(x) = 1/5$). Evaluemos $g(X) = 2X^2 - 3X + 5$.
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Cálculo Directo por LOTUS}
+				\scriptsize
+				Evaluamos las cinco imágenes en el soporte original:
+				\begin{itemize}
+					\itemsep=0.02cm
+					\item $g(-2) = 2(4)+6+5 = 19$, $g(-1) = 10$
+					\item $g(0) = 5$, $g(1) = 4$, $g(2) = 7$
+				\end{itemize}
+				Ponderando por $1/5$:
+				\begin{align*}
+					\mathbb{E}[g(X)] = \frac{19+10+5+4+7}{5} = \frac{45}{5} = 9.
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Verificación en Distribución Inducida $Y$}
+				\scriptsize
+				Soporte inducido $\mathcal{S}_Y = \set{4, 5, 7, 10, 19}$. Como cada imagen proviene de un único $x$, $f_Y(y) = 1/5$:
+				\begin{align*}
+					\mathbb{E}[Y] = \sum y f_Y(y) = \frac{45}{5} = 9.
+				\end{align*}
+				Se confirma la invarianza absoluta del teorema.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 13: Nivel Operativo --- Problemas 3.3.4 y 3.3.5
+\begin{frame}{Nivel Operativo --- Problemas 3.3.4 y 3.3.5}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problema 3.3.4: Riesgo Minero}
+				\scriptsize
+				Escenarios: $+120$ ($0.25$), $+40$ ($0.55$), $-50$ ($0.20$).
+				\begin{itemize}
+					\itemsep=0.02cm
+					\item **Media:** $\mathbb{E}[R] = +42.0$ M USD.
+					\item **2do Momento:** $\mathbb{E}[R^2] = 4980$.
+					\item **Volatilidad:** $\sigma_R \approx 56.71$ M USD.
+					\item **Decisión Corporativa:** $U = -28.89 < 0$. **Se rechaza** por riesgo financiero.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problema 3.3.5: Clúster de Servidores}
+				\scriptsize
+				Fallas $K$ con $\mathbb{E}[K] = 3.2$ y $\text{Var}(K) = 1.8$. Costo cuadrático $C(K) = 15 + 12K + 4K^2$.
+				\begin{itemize}
+					\itemsep=0.02cm
+					\item **Despeje del Segundo Momento:**
+					\begin{align*}
+						\mathbb{E}[K^2] = 1.8 + (3.2)^2 = 12.04.
+					\end{align*}
+					\item **Aplicación del Operador Lineal:**
+					\begin{align*}
+						\mathbb{E}[C(K)] &= 15 + 12(3.2) + 4(12.04) \\
+						&= 101.56 \text{ miles USD}.
+					\end{align*}
+				\end{itemize}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 14: Nivel Operativo --- Problema 3.3.6
+\begin{frame}{Nivel Operativo --- Problema 3.3.6 (Demostración de $Z$-Score)}
+	\begin{block}{Demostración de Invarianza Estructural de la Estandarización}
+		\small
+		Sea $Z = aX + b$ donde $a = \frac{1}{\sigma_X}$ y $b = -\frac{\mu_X}{\sigma_X}$. Demostremos que $\mathbb{E}[Z]=0$ y $\text{Var}(Z)=1$.
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{1. Demostración para la Media ($\mathbb{E}[Z]=0$)}
+				\footnotesize
+				Aplicando linealidad de la esperanza:
+				\begin{align*}
+					\mathbb{E}[Z] &= a\mathbb{E}[X] + b = \left(\frac{1}{\sigma_X}\right)\mu_X - \frac{\mu_X}{\sigma_X} \\
+					&= \frac{\mu_X}{\sigma_X} - \frac{\mu_X}{\sigma_X} = 0.
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{2. Demostración para la Varianza ($\text{Var}(Z)=1$)}
+				\footnotesize
+				Invocando invarianza ante traslaciones ($+b$) y escalamiento cuadrático ($a^2$):
+				\begin{align*}
+					\text{Var}(Z) &= \text{Var}(aX+b) = a^2\text{Var}(X) \\
+					&= \left(\frac{1}{\sigma_X}\right)^2 \sigma_X^2 = \frac{\sigma_X^2}{\sigma_X^2} = 1.
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 15: Nivel Analítico --- Problema 3.3.7 y 3.3.8
+\begin{frame}{Nivel Analítico --- Problemas 3.3.7 y 3.3.8}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problema 3.3.7: Error Cuadrático}
+				\scriptsize
+				Sea $M(a) = \mathbb{E}[(X-a)^2]$. Sumando y restando $\mu$:
+				\begin{align*}
+					X-a = (X-\mu) + (\mu-a).
+				\end{align*}
+				Al elevar al cuadrado y tomar esperanza, el término cruzado se anula porque $\mathbb{E}[X-\mu]=0$:
+				\begin{align*}
+					M(a) = \text{Var}(X) + (\mu-a)^2 \ge \text{Var}(X).
+				\end{align*}
+				El mínimo se alcanza cuando $(\mu-a)^2 = 0 \iff a = \mu$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problema 3.3.8: Linealidad vs. Aditividad}
+				\scriptsize
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item **Linealidad universal:** Demostrada al separar la suma doble con Fubini-Tonelli y usar la marginalización $\sum_y f_{X,Y}(x,y) = f_X(x)$. No requiere independencia.
+					\item **Aditividad de varianza:**
+					\begin{align*}
+						\text{Var}(cX \pm dY) &= c^2\text{Var}(X) + d^2\text{Var}(Y) \\
+						&\quad \pm 2cd\,\text{Cov}(X,Y).
+					\end{align*}
+					Si $X,Y$ son independientes, $\text{Cov}(X,Y)=0$.
+				\end{itemize}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 16: Nivel Desafiante --- Problema 3.3.9
+\begin{frame}{Nivel Desafiante --- Problema 3.3.9 (Paradoja de San Petersburgo)}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Divergencia de la Esperanza Infinita}
+				\scriptsize
+				Juego: se lanza moneda justa hasta la 1ra cara en el intento $k \sim \text{Geom}(0.5)$. Premio $X = 2^k$.
+				\begin{align*}
+					\mathbb{E}[X] &= \sum_{k=1}^\infty (2^k) \cdot P(K=k) = \sum_{k=1}^\infty (2^k)(2^{-k}) \\
+					&= \sum_{k=1}^\infty 1 = 1 + 1 + 1 + \dots = \infty.
+				\end{align*}
+				Ningún jugador racional paga sumas millonarias, motivando el concepto de **utilidad marginal decreciente**.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Regularización por Tope de Banca ($N=25$)}
+				\scriptsize
+				Si el casino impone un tope de banca de $N$ lanzamientos ($M = 2^N$ si $K > N$ con probabilidad $2^{-N}$):
+				\begin{align*}
+					\mathbb{E}[X_N] &= \left[\sum_{k=1}^N (2^k)(2^{-k})\right] + (2^N)(2^{-N}) \\
+					&= \left[\sum_{k=1}^N 1\right] + 1 = N + 1.
+				\end{align*}
+				Para $N=25$ ($\approx 33.5$ millones de monedas de banca), la entrada justa vale **exactamente 26 monedas**.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 17: Nivel Desafiante --- Problema 3.3.10
+\begin{frame}{Nivel Desafiante --- Problema 3.3.10 (Cota de Popoviciu)}
+	\begin{block}{Teorema de la Cota Suprema de Varianza en Soporte Acotado $[a, b]$}
+		\small
+		Si $P(a \le X \le b) = 1$, entonces $(X-a)(b-X) \ge 0$. Tomando esperanza y expandiendo:
+		\begin{align*}
+			\mathbb{E}[(a+b)X - X^2 - ab] \ge 0 \implies \mathbb{E}[X^2] \le (a+b)\mu - ab.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Completando el Cuadrado en Varianza}
+				\scriptsize
+				Sustituyendo $\mathbb{E}[X^2]$ en la fórmula de varianza:
+				\begin{align*}
+					\text{Var}(X) &\le -\mu^2 + (a+b)\mu - ab \\
+					&= \frac{(b-a)^2}{4} - \left(\mu - \frac{a+b}{2}\right)^2 \le \frac{(b-a)^2}{4}.
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Distribución Extremal de Bernoulli}
+				\scriptsize
+				La cota superior absoluta $\text{Var}(X) = \frac{(b-a)^2}{4}$ se alcanza **únicamente con la distribución simétrica bimodal** en los extremos del intervalo:
+				\begin{align*}
+					P(X=a) = \frac{1}{2} \quad \text{y} \quad P(X=b) = \frac{1}{2}.
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 18: Lab Python --- Cálculo de Momentos Brutos y Centrales
+\begin{frame}[fragile]{Laboratorio Python --- Cálculo de Momentos (`numpy`)}
+	\begin{block}{Implementación en \texttt{03.03\_expectation\_and\_variance.py}}
+		\lstinputlisting[language=Python, firstline=12, lastline=27, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.03_expectation_and_variance.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 19: Lab Python --- Verificación LOTUS y Estandarización Z
+\begin{frame}[fragile]{Laboratorio Python --- Verificación LOTUS y Estandarización $Z$}
+	\begin{block}{Invarianza Algebraica y Computacional en `numpy`}
+		\lstinputlisting[language=Python, firstline=32, lastline=49, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.03_expectation_and_variance.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 20: Cierre y Simulación Monte Carlo de la LLN
+\begin{frame}[fragile]{Cierre --- Simulación Monte Carlo de la Ley de Grandes Números}
+	\begin{columns}[T]
+		\begin{column}{0.55\textwidth}
+			\begin{block}{Simulación de Trayectorias ($N=100,000$)}
+				\lstinputlisting[language=Python, firstline=54, lastline=66, basicstyle=\fontsize{5.6pt}{6.7pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.03_expectation_and_variance.py}
+			\end{block}
+		\end{column}
+		\begin{column}{0.42\textwidth}
+			\begin{alertblock}{Conclusiones Clave}
+				\scriptsize
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item $\bar{X}_n \to \mu = 1.20$ con error de $0.0044$ en $10^5$ iteraciones.
+					\item $S_n^2 \to \sigma^2 = 1.36$ confirmando la estabilidad ergodica del sistema.
+					\item La varianza de $Z$ es estrictamente unitaria ($1.000000$).
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\end{document}

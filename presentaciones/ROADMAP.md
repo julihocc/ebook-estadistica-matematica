@@ -35,10 +35,10 @@ A partir de la estructura del libro maestro y el sílabo, se desarrollarán las 
 2. $\checkmark$ **Sección 03.02: Función de Distribución Acumulada (CDF) Discreta** *(100% COMPLETADA)*
    - *Foco teórico:* Propiedades escalonadas por la derecha (cadlag), saltos de probabilidad y cuantiles discretos.
    - *Lab Python (`03.02_discrete_cdf.py`):* Construcción numérico-vectorial de mesetas CDF, inversión $\Delta F(x)$ e intervalos.
-3. $\rightarrow$ **Sección 03.03: Esperanza Matemática y Varianza Operacional** *(FOCO ACTUAL)*
-   - *Foco teórico:* Linealidad de la esperanza, teorema de la ley del estadístico inconsciente (LOTUS) en discretas, identidad computacional $\text{Var}(X) = E(X^2) - [E(X)]^2$.
-   - *Lab Python (`03.03_expectation_and_variance.py`):* Simulación Monte Carlo del valor esperado vs. promedio de muestras finitas.
-4. **Sección 03.04: Distribuciones de Bernoulli y Binomial**
+3. $\checkmark$ **Sección 03.03: Esperanza Matemática, Varianza y Momentos** *(100% COMPLETADA)*
+   - *Foco teórico:* Linealidad de la esperanza, teorema de la ley del estadístico inconsciente (LOTUS) en discretas, identidad computacional $\text{Var}(X) = E(X^2) - [E(X)]^2$, estandarización $Z$-score y Teorema del Centro de Gravedad.
+   - *Lab Python (`03.03_expectation_and_variance.py`):* Cálculo de momentos brutos y centrales (`numpy`), verificación LOTUS, invariantes en estandarización $Z$ y simulación Monte Carlo de la LLN.
+4. $\rightarrow$ **Sección 03.04: Distribuciones de Bernoulli y Binomial** *(FOCO ACTUAL)*
    - *Foco teórico:* Ensayos independientes, coeficientes binomiales, $\text{Bin}(n,p)$ como suma de Bernoullis.
    - *Lab Python (`03.04_bernoulli_binomial.py`):* Simulación de inspección de piezas o control de calidad ($n$ ensayos, tasa de fallo $p$).
 5. **Sección 03.05: Distribuciones Geométrica y Binomial Negativa**
@@ -64,12 +64,12 @@ A partir de la estructura del libro maestro y el sílabo, se desarrollarán las 
 Cuando inicies una nueva sesión con el objetivo de continuar el desarrollo:
 
 1. **Revisa la documentación maestro:** Lee cuidadosamente `presentaciones/README.md` (Las 4 Reglas de Oro y el checklist de 6 pasos).
-2. **Crea la estructura de carpetas (si no existe):**
+2. **Crea o verifica la estructura de carpetas:**
    ```bash
    mkdir -p presentaciones/code/03_variables_aleatorias_discretas
    mkdir -p presentaciones/es/03_variables_aleatorias_discretas
    mkdir -p presentaciones/en/03_discrete_random_variables
    ```
-3. **Comienza con la Sección 03.01 (`03.01_pmf_and_support`):**
-   - Consulta el archivo `latex/variables_aleatorias_discretas.tex` o similar para verificar los contenidos base del capítulo 3 del libro maestro.
-   - Aplica el flujo y no termines la sección hasta comprobar en la terminal con `pdflatex` que las presentaciones PDF en español e inglés tienen exactamente 0 `Overfull \vbox` y 0 `Overfull \hbox` en todas sus diapositivas de contenido.
+3. **Comienza con la Sección 03.04 (`03.04_bernoulli_binomial`):**
+   - Consulta el archivo `latex/variables_aleatorias_discretas.tex` y el companion `variables_aleatorias_discretas(p).tex` para formalizar y resolver problemas bajo la taxonomía 3-3-2-2.
+   - Aplica el flujo integral y no termines la sección hasta comprobar en la terminal con `pdflatex` que las presentaciones PDF en español e inglés tienen exactamente 0 `Overfull \vbox` y 0 `Overfull \hbox` en todas sus diapositivas de contenido.
