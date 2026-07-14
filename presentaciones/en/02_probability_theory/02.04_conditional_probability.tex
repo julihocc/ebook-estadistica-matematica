@@ -1,0 +1,345 @@
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Conditional Probability \& Independence]{Section 02.04: Conditional Probability and Independence}
+\subtitle{Uncertainty Updating, Multiplication Rule, and the Monty Hall Paradox}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnologico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Title Page
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap — Chapter 02: Probability Theory}
+  Where are we in the modular development of probability theory? \pause
+  \begin{itemize}\itemsep=0.1em
+    \item \textbf{02.01 Introduction to probability} \emph{(Completed)} \pause
+    \item \textbf{02.02 Set notation and partitions} \emph{(Completed)} \pause
+    \item \textbf{02.03 Probability foundations and axioms} \emph{(Completed)} \pause
+    \item \color{TecRojo}\textbf{02.04 Conditional probability and independence \emph{(Today)}}\color{black} \pause
+    \item \textbf{02.05 Bayes' Theorem} \pause
+    \item \textbf{02.06 Random sampling}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{block}{Section 02.04 Learning Objectives}
+    Formalize the mathematical mechanism for updating event probabilities under newly observed evidence, derive the multiplication rule, and rigorously distinguish between independence and mutual exclusion.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{The Role of Prior Knowledge in Data Science}
+  \begin{motivation}[Why do we need to update probabilities?]
+    If we know an incoming email contains the words \texttt{verification} and \texttt{urgent}, the probability that it is \emph{spam} is dramatically higher than for a random email. Partial knowledge radically transforms uncertainty assessment.
+  \end{motivation}
+  
+  \vspace{0.3em}
+  \pause
+  \begin{itemize}\itemsep=0.1em
+    \item \textbf{Dynamic Inference:} Medical diagnostic models, fraud detection systems, and algorithmic classifiers operate by evaluating probabilities conditioned on observed evidence. \pause
+    \item \textbf{Sample Space Contraction:} Upon confirming that an event $A$ has occurred, the original sample space $S$ contracts, and $A$ becomes the new universe of discourse.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Formal Definition
+\begin{frame}{Formal Definition of Conditional Probability}
+  \small Let $A, B \subset S$ be two events such that $P(A) > 0$. The \emph{conditional probability} of event $B$ given that event $A$ has occurred, denoted by $P(B \mid A)$, is defined precisely as: \pause
+
+  \vspace{0.2em}
+  \begin{block}{Definition (Conditional Probability)}
+    $$P(B \mid A) = \dfrac{P(A \cap B)}{P(A)}$$
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{Geometric Interpretation and Rescaling}
+    Since we know with certainty that the outcome lies within $A$, the only favorable outcomes for $B$ that can still occur are those inside the intersection $A \cap B$. To preserve total probability normalization (Axiom 2), we divide by the total probability of the new reference set $P(A)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Classical Theoretical Example (1/2)
+\begin{frame}{Classical Example: Urn without Replacement (1/2)}
+  \small
+  \begin{block}{Theoretical Example Statement}
+    Five marbles are placed inside an urn: three white and two black ($N = 5$). The urn is shaken immediately afterwards. Determine the probability of drawing a black marble on the second turn ($E_2'$), given that a white marble was drawn on the first turn ($E_1$).
+  \end{block}
+
+  \vspace{0.2em}
+  \pause
+  \begin{itemize}\itemsep=0.1em
+    \item Let $E_1$: \texttt{``Drawing a white marble on 1st attempt''} ($P(E_1) = 3/5$). \pause
+    \item Let $E_2'$: \texttt{``Drawing a black marble on 2nd attempt''}. \pause
+    \item The joint probability of drawing white first and black second is:
+    $$P(E_1 \cap E_2') = \dfrac{3}{5} \times \dfrac{2}{4} = \dfrac{6}{20} = \dfrac{3}{10}$$
+  \end{itemize}
+\end{frame}
+
+% Slide 6: Classical Theoretical Example (2/2)
+\begin{frame}{Classical Example: Urn without Replacement (2/2)}
+  \small
+  Applying the formal definition of conditional probability directly: \pause
+
+  \vspace{0.2em}
+  \begin{alertblock}{Exact Conditional Calculation}
+    $$P(E_2' \mid E_1) = \dfrac{P(E_1 \cap E_2')}{P(E_1)} = \dfrac{3/10}{3/5} = \dfrac{1}{2} = 0.50$$
+  \end{alertblock}
+
+  \vspace{0.2em}
+  \pause
+  \begin{block}{Remark (Axiomatic Validity)}
+    The function $P(\cdot \mid A)$ satisfies Kolmogorov's three axioms over the event sub-algebra:
+    $$P(A \mid A) = 1, \quad P(B \mid A) \geq 0, \quad P(B_1 \sqcup B_2 \mid A) = P(B_1 \mid A) + P(B_2 \mid A)$$
+  \end{block}
+\end{frame}
+
+% Slide 7: Multiplication Rule (Chain Rule)
+\begin{frame}{Theorem 2.4.1: The Multiplication Rule}
+  \footnotesize
+  Solving for the joint probability in the conditional definition yields the fundamental tool for sequential experiments: \pause
+
+  \vspace{0.1em}
+  \begin{block}{Multiplication Rule for Two Events}
+    $$P(A \cap B) = P(A) P(B \mid A) = P(B) P(A \mid B)$$
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{block}{General Chain Rule for Three or More Events}
+    For any three events $A_1, A_2, A_3 \subset S$ with positive probability:
+    $$P(A_1 \cap A_2 \cap A_3) = P(A_1) P(A_2 \mid A_1) P(A_3 \mid A_1 \cap A_2)$$
+    In general, for $n$ sequential events:
+    $$P(A_1 \cap \dots \cap A_n) = P(A_1) \prod_{k=2}^{n} P(A_k \mid A_1 \cap \dots \cap A_{k-1})$$
+  \end{block}
+\end{frame}
+
+% Slide 8: Law of Total Probability
+\begin{frame}{Theorem 2.4.2: Law of Total Probability}
+  \small If $S = A_1 \sqcup A_2 \sqcup \dots \sqcup A_N$ is a disjoint partition of the sample space where $P(A_i) > 0$ for all $i$, then any event $B$ can be reconstructed by summing its conditional contributions: \pause
+
+  \vspace{0.2em}
+  \begin{block}{Total Probability Formula}
+    $$P(B) = \sum_{i=1}^{N} P(B \cap A_i) = \sum_{i=1}^{N} P(A_i) P(B \mid A_i)$$
+  \end{block}
+
+  \vspace{0.2em}
+  \pause
+  \begin{alertblock}{Stepping Stone to Bayes' Theorem}
+    This law enables us to compute the total probability of an effect $B$ by weighting the conditional probabilities under each possible cause $A_i$ by the prior probability of that cause.
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Statistical Independence vs. Mutual Exclusion
+\begin{frame}{Statistical Independence of Events}
+  \small If the occurrence of $A$ provides zero information and leaves the probability of $B$ entirely unchanged, i.e., $P(B \mid A) = P(B)$, the events are termed \emph{independent}. \pause
+
+  \vspace{0.2em}
+  \begin{block}{Definition of Statistical Independence}
+    Two events $A, B \subset S$ are independent if and only if:
+    $$P(A \cap B) = P(A) P(B)$$
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{Caution! Independent $\neq$ Mutually Exclusive}
+    \begin{itemize}\itemsep=0.1em
+      \item \textbf{Mutually Exclusive ($A \cap B = \emptyset$):} If $A$ occurs, $B$ \emph{cannot} occur ($P(B \mid A) = 0$). They are strongly dependent!
+      \item \textbf{Independent:} Knowing $A$ occurred leaves $P(B)$ completely unchanged.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 10: Pairwise vs. Mutual Independence
+\begin{frame}{Pairwise vs. Mutual Independence}
+  \footnotesize
+  Independence generalizes to more than two events, but requires strict multi-way product conditions: \pause
+
+  \vspace{0.1em}
+  \begin{block}{Mutual Independence of Three Events ($A_1, A_2, A_3$)}
+    Three events are mutually independent if they simultaneously satisfy \textbf{all} of the following product identities:
+    \begin{align*}
+      P(A_1 \cap A_2) &= P(A_1)P(A_2), \quad P(A_1 \cap A_3) = P(A_1)P(A_3) \\
+      P(A_2 \cap A_3) &= P(A_2)P(A_3), \quad P(A_1 \cap A_2 \cap A_3) = P(A_1)P(A_2)P(A_3)
+    \end{align*}
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{block}{Remark}
+    Three events may be pairwise independent across every pair, yet the joint occurrence of the first two might completely determine the third ($P(A_3 \mid A_1 \cap A_2) = 1$). Therefore, the three-way product condition is essential.
+  \end{block}
+\end{frame}
+
+% Slide 11A-1: Python Lab (Part 1: Urns without Replacement - Setup)
+\begin{frame}[fragile]{Python Laboratory: Urn without Replacement (1/2)}
+  Monte Carlo simulation of two sequential draws without replacement (\texttt{02.04\_conditional\_probability.py}):
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.3pt}{7.3pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=23, lastline=39]{../../code/02_teoria_probabilidad/02.04_conditional_probability.py}}
+\end{frame}
+
+% Slide 11A-2: Python Lab (Part 1: Urns without Replacement - Logic)
+\begin{frame}[fragile]{Python Laboratory: Urn without Replacement (2/2)}
+  Conditional tallying and printing of empirical vs. exact theoretical probabilities:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.3pt}{7.3pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=40, lastline=56]{../../code/02_teoria_probabilidad/02.04_conditional_probability.py}}
+\end{frame}
+
+% Slide 11B: Python Lab (Part 2: Dice Independence Test)
+\begin{frame}[fragile]{Python Laboratory: Independence Test}
+  Rolling two dice to empirically verify dependence when events are coupled by sum:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.3pt}{7.3pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=75, lastline=94]{../../code/02_teoria_probabilidad/02.04_conditional_probability.py}}
+\end{frame}
+
+% Slide 11C: Python Lab (Part 3: Monty Hall Paradox)
+\begin{frame}[fragile]{Python Laboratory: Monty Hall Paradox}
+  Monte Carlo game simulation verifying the dramatic win probability increase when switching doors:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.3pt}{7.3pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=119, lastline=135]{../../code/02_teoria_probabilidad/02.04_conditional_probability.py}}
+\end{frame}
+
+% Slide 11D: Python Lab (Terminal Output)
+\begin{frame}[fragile]{Python Laboratory: Terminal Output}
+  Exact console output from the Python simulation ($N = 100,000$):
+  \vspace{0.2em}
+  \begin{block}{Standard Terminal Output}
+    \fontsize{6.0pt}{7.0pt}\selectfont
+    \begin{verbatim}
+--- 1. Sampling without Replacement (Urn 5 Red, 3 Blue) ---
+P(1st Red) [A]:               Empirical = 0.6279 | Theoretical = 0.6250 (5/8)
+P(2nd Red | 1st Red) [B|A]:   Empirical = 0.5729 | Theoretical = 0.5714 (4/7)
+P(2nd Red | 1st Blue) [B|A']: Empirical = 0.7145 | Theoretical = 0.7143 (5/7)
+P(2nd Red Total) [B]:         Empirical = 0.6256 | Theoretical = 0.6250
+
+--- 2. Independence and Dependence Test (Two Dice) ---
+P(Sum >= 9) [A]:              Empirical = 0.2797 | Theoretical = 0.2778 (10/36)
+P(First die even) [B]:        Empirical = 0.5010 | Theoretical = 0.5000 (18/36)
+P(A inter B):                 Empirical = 0.1681 | Theoretical = 0.1667 (6/36)
+P(A | B):                     Empirical = 0.3355 | Theoretical = 0.3333 (1/3)
+Product P(A) * P(B):          0.1401 != P(A inter B) -> DEPENDENT!
+
+--- 3. Monty Hall Paradox (100,000 games) ---
+P(Win staying):               0.3326 (Theoretical: 1/3 = 0.3333)
+P(Win switching doors):       0.6674 (Theoretical: 2/3 = 0.6667)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12: Textbook Exercises — Tier 1: Fundamental
+\begin{frame}{Textbook Exercises — Tier 1: Fundamental}
+  \footnotesize
+  \begin{block}{Problem 2.4.2 (Sequential Draws without Replacement)}
+    An urn contains 5 red balls and 3 blue balls. Two balls are drawn successively without replacement. Let $A$: \texttt{``1st is red''} and $B$: \texttt{``2nd is red''}. Compute $P(A)$, $P(B \mid A)$, $P(B \mid A')$, and the total probability $P(B)$.
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{Analytical Solution}
+    \begin{itemize}\itemsep=0.1em
+      \item $P(A) = \dfrac{5}{8} = 0.6250$. Given $A$, 4 red remain out of 7: $P(B \mid A) = \dfrac{4}{7} \approx 0.5714$.
+      \item Given $A'$ (1st blue), 5 red remain out of 7: $P(B \mid A') = \dfrac{5}{7} \approx 0.7143$.
+      \item By the Law of Total Probability:
+      $$P(B) = P(A)P(B \mid A) + P(A')P(B \mid A') = \left(\frac{5}{8}\right)\left(\frac{4}{7}\right) + \left(\frac{3}{8}\right)\left(\frac{5}{7}\right) = \frac{20 + 15}{56} = \frac{5}{8}$$
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 13: Textbook Exercises — Tier 2: Operational
+\begin{frame}{Textbook Exercises — Tier 2: Operational}
+  \footnotesize
+  \begin{block}{Problem 2.4.4 (Quality Control in Automated Production Lines)}
+    70\% of processed parts come from production line A and 30\% from line B. Line A has a 5\% defect rate, while line B has a 10\% defect rate. Compute the total probability that a randomly selected part is defective ($D$).
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{Total Probability Derivation}
+    We identify the partition $S = A \sqcup B$ and the given conditional rates:
+    $$P(A) = 0.70, \; P(B) = 0.30, \quad P(D \mid A) = 0.05, \; P(D \mid B) = 0.10$$
+    Applying Theorem 2.4.2:
+    \begin{align*}
+      P(D) &= P(A)P(D \mid A) + P(B)P(D \mid B) \\
+           &= (0.70)(0.05) + (0.30)(0.10) = 0.035 + 0.030 = 0.065 \; (6.5\%)
+    \end{align*}
+  \end{alertblock}
+\end{frame}
+
+% Slide 14: Textbook Exercises — Tier 3: Analytical
+\begin{frame}{Textbook Exercises — Tier 3: Analytical}
+  \footnotesize
+  \begin{block}{Problem 2.4.8 (Independence of Complementary Events)}
+    Rigorously prove that if events $A$ and $B$ are statistically independent and $0 < P(A) < 1$, then their complements $A'$ and $B'$ are also mutually independent.
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{Proof via Complement Algebra}
+    We must show that $P(A' \cap B') = P(A')P(B')$. By De Morgan's Laws, $A' \cap B' = (A \cup B)'$. Therefore:
+    \begin{align*}
+      P(A' \cap B') &= 1 - P(A \cup B) = 1 - [P(A) + P(B) - P(A \cap B)] \\
+                    &= 1 - P(A) - P(B) + P(A)P(B) \quad \text{(by independence hypothesis)} \\
+                    &= [1 - P(A)] - P(B)[1 - P(A)] = [1 - P(A)][1 - P(B)] \\
+                    &= P(A')P(B') \quad \blacksquare
+    \end{align*}
+  \end{alertblock}
+\end{frame}
+
+% Slide 15: Textbook Exercises — Tier 4: Challenging (1/2)
+\begin{frame}{Textbook Exercises — Tier 4: Challenging (1/2)}
+  \footnotesize
+  \begin{block}{Problem 2.4.10: The Monty Hall Paradox (Statement)}
+    A game show features 3 doors ($P_1, P_2, P_3$): 1 hides a car and 2 hide goats. The contestant chooses Door 1. The host, who knows where the car is and must always open a door with a goat, opens Door 3. Should the contestant switch to Door 2?
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{Axiomatic Prior Hypothesis Formalization}
+    Let $C_i$: \texttt{``The car is behind door $i$''} ($P(C_1)=P(C_2)=P(C_3)=1/3$).
+    Let $A_3$: \texttt{``The host opens Door 3''}. Evaluating the conditionals:
+    \begin{itemize}\itemsep=0.05em
+      \item Given $C_1$ (car at 1), host chooses randomly between 2 and 3: $P(A_3 \mid C_1) = 1/2$.
+      \item Given $C_2$ (car at 2), host is \emph{forced} to open door 3: $P(A_3 \mid C_2) = 1$.
+      \item Given $C_3$ (car at 3), host cannot open door 3: $P(A_3 \mid C_3) = 0$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Textbook Exercises — Tier 4: Challenging (2/2)
+\begin{frame}{Textbook Exercises — Tier 4: Challenging (2/2)}
+  \footnotesize
+  We first compute the total probability that the host opens Door 3: \pause
+  $$P(A_3) = P(C_1)P(A_3 \mid C_1) + P(C_2)P(A_3 \mid C_2) + P(C_3)P(A_3 \mid C_3) = \frac{1}{3}\left(\frac{1}{2}\right) + \frac{1}{3}(1) + 0 = \frac{1}{2}$$ \pause
+
+  \vspace{0.1em}
+  \begin{block}{Exact Strategy Comparison}
+    \begin{itemize}\itemsep=0.1em
+      \item \textbf{Win Probability if staying at Door 1:}
+      $$P(C_1 \mid A_3) = \dfrac{P(C_1 \cap A_3)}{P(A_3)} = \dfrac{P(C_1)P(A_3 \mid C_1)}{P(A_3)} = \dfrac{(1/3)(1/2)}{1/2} = \mathbf{\dfrac{1}{3}}$$
+      \item \textbf{Win Probability if switching to Door 2:}
+      $$P(C_2 \mid A_3) = \dfrac{P(C_2 \cap A_3)}{P(A_3)} = \dfrac{P(C_2)P(A_3 \mid C_2)}{P(A_3)} = \dfrac{(1/3)(1)}{1/2} = \mathbf{\dfrac{2}{3}}$$
+    \end{itemize}
+    Switching doors mathematically doubles the probability of winning!
+  \end{block}
+\end{frame}
+
+% Slide 17: Synthesis and Reflection
+\begin{frame}{Section Summary and Conditional Synthesis}
+  \begin{reflection}[The Power of Dynamic Updating]
+    Conditional probability is not merely a division formula; it is the formal mathematical machinery by which rigorous knowledge updates prior belief. Contracting the sample universe $S$ down to the confirmed event $A$ eliminates static uncertainty and enables intelligent real-world data modeling.
+  \end{reflection}
+
+  \vspace{0.5em}
+  \pause
+  \begin{block}{Looking Ahead: Bayes' Theorem}
+    In this section, we computed total effect probabilities from known causes via the Law of Total Probability. Next session, we will solve the inverse problem of scientific diagnosis: given the observed effect ($B$), what is the exact posterior probability of each potential underlying cause ($A_k$)?
+  \end{block}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,345 @@
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Probabilidad Condicional e Independencia]{Sección 02.04: Probabilidad Condicional e Independencia}
+\subtitle{Actualización de Incertidumbre, Regla de la Multiplicación y Paradoja de Monty Hall}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta — Capítulo 02: Teoría de Probabilidad}
+  ¿Dónde nos encontramos en el desarrollo modular de la teoría? \pause
+  \begin{itemize}\itemsep=0.1em
+    \item \textbf{02.01 Introducción a la probabilidad} \emph{(Completado)} \pause
+    \item \textbf{02.02 Notación de conjuntos y particiones} \emph{(Completado)} \pause
+    \item \textbf{02.03 Fundamentos y axiomas de probabilidad} \emph{(Completado)} \pause
+    \item \color{TecRojo}\textbf{02.04 Probabilidad condicional e independencia \emph{(Hoy)}}\color{black} \pause
+    \item \textbf{02.05 Teorema de Bayes} \pause
+    \item \textbf{02.06 Muestreo aleatorio}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{block}{Objetivo de la Sección 02.04}
+    Formalizar el mecanismo matemático para actualizar la probabilidad de un evento ante la ocurrencia confirmada de otro, derivar la regla general de la cadena y distinguir rigurosamente entre independencia y mutua exclusión.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{El Rol del Conocimiento Previo en Ciencia de Datos}
+  \begin{motivacion}[¿Por qué necesitamos actualizar probabilidades?]
+    Si sabemos que un correo electrónico contiene las palabras \texttt{verificación} y \texttt{urgente}, la probabilidad de que sea \emph{spam} no es la misma que para un correo cualquiera. El conocimiento parcial transforma radicalmente nuestra evaluación de incertidumbre.
+  \end{motivacion}
+  
+  \vspace{0.3em}
+  \pause
+  \begin{itemize}\itemsep=0.1em
+    \item \textbf{Inferencia Dinámica:} Los modelos de diagnóstico médico, detección de fraude o filtrado algorítmico operan evaluando eventos condicionados a evidencia observada. \pause
+    \item \textbf{Reducción del Espacio:} Al confirmar que un evento $A$ ha ocurrido, el espacio muestral original $S$ se contrae, y $A$ se convierte en el nuevo universo de referencia.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición Formal
+\begin{frame}{Definición Formal de Probabilidad Condicional}
+  \small Sean $A, B \subset S$ dos eventos tales que $P(A) > 0$. La \emph{probabilidad condicional} del evento $B$ dado que el evento $A$ ha ocurrido, denotada por $P(B \mid A)$, se define exactamente como: \pause
+
+  \vspace{0.2em}
+  \begin{block}{Definición (Probabilidad Condicional)}
+    $$P(B \mid A) = \dfrac{P(A \cap B)}{P(A)}$$
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{Interpretación Geométrica y Reescalamiento}
+    Como sabemos con certeza que el resultado está dentro de $A$, los únicos resultados favorables para $B$ que aún pueden ocurrir son aquellos en la intersección $A \cap B$. Para mantener la normalización unitaria (Axioma 2), dividimos entre la probabilidad total de la nueva referencia $P(A)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Ejemplo Clásico Teórico
+\begin{frame}{Ejemplo Clásico: Urna sin Reemplazo (1/2)}
+  \small
+  \begin{block}{Enunciado del Ejemplo Teórico}
+    En un bote se colocan cinco canicas: tres blancas y dos negras ($N = 5$). Inmediatamente después se agita el bote. Determina la probabilidad de que en el segundo turno extraigamos una canica negra ($E_2'$), dado que en el primero obtuvimos una blanca ($E_1$).
+  \end{block}
+
+  \vspace{0.2em}
+  \pause
+  \begin{itemize}\itemsep=0.1em
+    \item Sea $E_1$: \texttt{``Obtener canica blanca en 1er intento''} ($P(E_1) = 3/5$). \pause
+    \item Sea $E_2'$: \texttt{``Obtener canica negra en 2o intento''}. \pause
+    \item La probabilidad conjunta de sacar primero blanca y después negra es:
+    $$P(E_1 \cap E_2') = \dfrac{3}{5} \times \dfrac{2}{4} = \dfrac{6}{20} = \dfrac{3}{10}$$
+  \end{itemize}
+\end{frame}
+
+% Slide 6: Ejemplo Clásico Teórico (Continuación)
+\begin{frame}{Ejemplo Clásico: Urna sin Reemplazo (2/2)}
+  \small
+  Aplicando directamente la definición formal de probabilidad condicional: \pause
+
+  \vspace{0.2em}
+  \begin{alertblock}{Cálculo Condicional Exacto}
+    $$P(E_2' \mid E_1) = \dfrac{P(E_1 \cap E_2')}{P(E_1)} = \dfrac{3/10}{3/5} = \dfrac{1}{2} = 0.50$$
+  \end{alertblock}
+
+  \vspace{0.2em}
+  \pause
+  \begin{block}{Observación (Validez Axiomática)}
+    La función $P(\cdot \mid A)$ satisface los tres axiomas de Kolmogorov sobre la subálgebra de eventos:
+    $$P(A \mid A) = 1, \quad P(B \mid A) \geq 0, \quad P(B_1 \sqcup B_2 \mid A) = P(B_1 \mid A) + P(B_2 \mid A)$$
+  \end{block}
+\end{frame}
+
+% Slide 7: Regla de la Multiplicación (o de la Cadena)
+\begin{frame}{Teorema 2.4.1: Regla de la Multiplicación}
+  \footnotesize
+  Despejando la probabilidad conjunta de la definición condicional, obtenemos la herramienta fundamental para secuencias de experimentos: \pause
+
+  \vspace{0.1em}
+  \begin{block}{Regla de la Multiplicación para Dos Eventos}
+    $$P(A \cap B) = P(A) P(B \mid A) = P(B) P(A \mid B)$$
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{block}{Regla General de la Cadena para Tres o Más Eventos}
+    Para cualesquiera tres eventos $A_1, A_2, A_3 \subset S$ con probabilidad positiva:
+    $$P(A_1 \cap A_2 \cap A_3) = P(A_1) P(A_2 \mid A_1) P(A_3 \mid A_1 \cap A_2)$$
+    En general, para $n$ eventos secuenciales:
+    $$P(A_1 \cap \dots \cap A_n) = P(A_1) \prod_{k=2}^{n} P(A_k \mid A_1 \cap \dots \cap A_{k-1})$$
+  \end{block}
+\end{frame}
+
+% Slide 8: Teorema de la Probabilidad Total
+\begin{frame}{Teorema 2.4.2: Ley de la Probabilidad Total}
+  \small Si $S = A_1 \sqcup A_2 \sqcup \dots \sqcup A_N$ es una partición disjunta del espacio muestral donde $P(A_i) > 0$ para todo $i$, entonces cualquier evento $B$ puede reconstruirse sumando sus contribuciones condicionales: \pause
+
+  \vspace{0.2em}
+  \begin{block}{Fórmula de la Probabilidad Total}
+    $$P(B) = \sum_{i=1}^{N} P(B \cap A_i) = \sum_{i=1}^{N} P(A_i) P(B \mid A_i)$$
+  \end{block}
+
+  \vspace{0.2em}
+  \pause
+  \begin{alertblock}{Preparación para el Teorema de Bayes}
+    Esta ley nos permite calcular la probabilidad del efecto final $B$ ponderando las probabilidades condicionales de cada causa posible $A_i$ por la probabilidad prior de dicha causa.
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Independencia Estadística vs. Mutuamente Excluyentes
+\begin{frame}{Independencia Estadística de Eventos}
+  \small Si la ocurrencia de $A$ no aporta ninguna información ni modifica la probabilidad de $B$, es decir, si $P(B \mid A) = P(B)$, diremos que los eventos son \emph{independientes}. \pause
+
+  \vspace{0.2em}
+  \begin{block}{Definición de Independencia Estadística}
+    Dos eventos $A, B \subset S$ son independientes si y solo si:
+    $$P(A \cap B) = P(A) P(B)$$
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{¡Precaución! Independiente $\neq$ Mutuamente Excluyente}
+    \begin{itemize}\itemsep=0.1em
+      \item \textbf{Mutuamente Excluyentes ($A \cap B = \emptyset$):} Si $A$ ocurre, $B$ \emph{no puede} ocurrir ($P(B \mid A) = 0$). ¡Son altamente dependientes!
+      \item \textbf{Independientes:} Saber que $A$ ocurrió deja a $P(B)$ intacta.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 10: Independencia Dos a Dos vs. Independencia Mutua
+\begin{frame}{Independencia Dos a Dos vs. Independencia Mutua}
+  \footnotesize
+  La independencia se generaliza a más de dos eventos, pero requiere extrema precisión en sus condiciones algebraicas: \pause
+
+  \vspace{0.1em}
+  \begin{block}{Independencia Mutua de Tres Eventos ($A_1, A_2, A_3$)}
+    Tres eventos son mutuamente independientes si satisfacen simultáneamente \textbf{todas} las siguientes identidades de producto:
+    \begin{align*}
+      P(A_1 \cap A_2) &= P(A_1)P(A_2), \quad P(A_1 \cap A_3) = P(A_1)P(A_3) \\
+      P(A_2 \cap A_3) &= P(A_2)P(A_3), \quad P(A_1 \cap A_2 \cap A_3) = P(A_1)P(A_2)P(A_3)
+    \end{align*}
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{block}{Observación}
+    Es posible que tres eventos sean independientes por parejas (\emph{dos a dos}), pero que la ocurrencia conjunta de los dos primeros determine por completo al tercero ($P(A_3 \mid A_1 \cap A_2) = 1$). Por ello, la identidad del triple producto es indispensable.
+  \end{block}
+\end{frame}
+
+% Slide 11A-1: Laboratorio Python (Parte 1: Urnas sin Reemplazo - Setup)
+\begin{frame}[fragile]{Laboratorio en Python: Urna sin Reemplazo (1/2)}
+  Simulación Monte Carlo de dos extracciones sucesivas sin reemplazo (\texttt{02.04\_probabilidad\_condicional.py}):
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.3pt}{7.3pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=23, lastline=39]{../../code/02_teoria_probabilidad/02.04_probabilidad_condicional.py}}
+\end{frame}
+
+% Slide 11A-2: Laboratorio Python (Parte 1: Urnas sin Reemplazo - Lógica)
+\begin{frame}[fragile]{Laboratorio en Python: Urna sin Reemplazo (2/2)}
+  Conteo de casos condicionales e impresión de probabilidades empíricas vs. teóricas:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.3pt}{7.3pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=40, lastline=56]{../../code/02_teoria_probabilidad/02.04_probabilidad_condicional.py}}
+\end{frame}
+
+% Slide 11B: Laboratorio Python (Parte 2: Independencia en Dados)
+\begin{frame}[fragile]{Laboratorio en Python: Test de Independencia}
+  Lanzamiento de dos dados verificando empíricamente la dependencia en eventos acoplados por suma:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.3pt}{7.3pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=75, lastline=94]{../../code/02_teoria_probabilidad/02.04_probabilidad_condicional.py}}
+\end{frame}
+
+% Slide 11C: Laboratorio Python (Parte 3: Paradoja de Monty Hall)
+\begin{frame}[fragile]{Laboratorio en Python: Paradoja de Monty Hall}
+  Simulación de las estrategias del concurso demostrando el beneficio de cambiar de puerta:
+  \vspace{0.2em}
+  {\lstset{basicstyle=\fontsize{6.3pt}{7.3pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=119, lastline=135]{../../code/02_teoria_probabilidad/02.04_probabilidad_condicional.py}}
+\end{frame}
+
+% Slide 11D: Laboratorio Python (Salida en Consola)
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  Resultado exacto ejecutado en la consola de Python ($N = 100,000$):
+  \vspace{0.2em}
+  \begin{block}{Salida Estándar en Terminal}
+    \fontsize{6.0pt}{7.0pt}\selectfont
+    \begin{verbatim}
+--- 1. Extracciones sin Reemplazo (Urna 5 Rojas, 3 Azules) ---
+P(1a Roja) [A]:               Empirica = 0.6279 | Teorica = 0.6250 (5/8)
+P(2a Roja | 1a Roja) [B|A]:   Empirica = 0.5729 | Teorica = 0.5714 (4/7)
+P(2a Roja | 1a Azul) [B|A']:  Empirica = 0.7145 | Teorica = 0.7143 (5/7)
+P(2a Roja Total) [B]:         Empirica = 0.6256 | Teorica = 0.6250
+
+--- 2. Test de Independencia y Dependencia (Dos Dados) ---
+P(Suma >= 9) [A]:             Empirica = 0.2797 | Teorica = 0.2778 (10/36)
+P(Primer dado par) [B]:       Empirica = 0.5010 | Teorica = 0.5000 (18/36)
+P(A inter B):                 Empirica = 0.1681 | Teorica = 0.1667 (6/36)
+P(A | B):                     Empirica = 0.3355 | Teorica = 0.3333 (1/3)
+Producto P(A) * P(B):         0.1401 != P(A inter B) -> ¡DEPENDIENTES!
+
+--- 3. Paradoja de Monty Hall (100,000 partidas) ---
+P(Ganar quedandose):          0.3326 (Teorica: 1/3 = 0.3333)
+P(Ganar cambiando de puerta): 0.6674 (Teorica: 2/3 = 0.6667)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12: Ejercicios del Libro — Nivel 1: Fundamental
+\begin{frame}{Ejercicios del Libro — Nivel 1: Fundamental}
+  \footnotesize
+  \begin{block}{Problema 2.4.2 (Extracción Sucesiva sin Reemplazo)}
+    Una urna contiene 5 bolas rojas y 3 azules. Se extraen dos bolas sin reemplazo. Sea $A$: \texttt{``la 1a es roja''} y $B$: \texttt{``la 2a es roja''}. Calcula $P(A)$, $P(B \mid A)$, $P(B \mid A')$ y la probabilidad total $P(B)$.
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{Solución Analítica}
+    \begin{itemize}\itemsep=0.1em
+      \item $P(A) = \dfrac{5}{8} = 0.6250$. Si $A$ ocurre, quedan 4 rojas de 7: $P(B \mid A) = \dfrac{4}{7} \approx 0.5714$.
+      \item Si $A'$ ocurre (1a azul), quedan las 5 rojas intactas de 7: $P(B \mid A') = \dfrac{5}{7} \approx 0.7143$.
+      \item Por la Ley de Probabilidad Total:
+      $$P(B) = P(A)P(B \mid A) + P(A')P(B \mid A') = \left(\frac{5}{8}\right)\left(\frac{4}{7}\right) + \left(\frac{3}{8}\right)\left(\frac{5}{7}\right) = \frac{20 + 15}{56} = \frac{5}{8}$$
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 13: Ejercicios del Libro — Nivel 2: Operativo
+\begin{frame}{Ejercicios del Libro — Nivel 2: Operativo}
+  \footnotesize
+  \begin{block}{Problema 2.4.4 (Control de Calidad en Líneas de Automatización)}
+    El 70\% de las piezas provienen de la línea A y el 30\% de la línea B. La línea A tiene 5\% de defectos y la línea B un 10\%. Calcula la probabilidad total de que una pieza seleccionada al azar sea defectuosa ($D$).
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{Desarrollo por Probabilidad Total}
+    Identificamos la partición del espacio muestral como $S = A \sqcup B$, y los datos condicionales dados por el problema:
+    $$P(A) = 0.70, \; P(B) = 0.30, \quad P(D \mid A) = 0.05, \; P(D \mid B) = 0.10$$
+    Aplicando el Teorema 2.4.2:
+    \begin{align*}
+      P(D) &= P(A)P(D \mid A) + P(B)P(D \mid B) \\
+           &= (0.70)(0.05) + (0.30)(0.10) = 0.035 + 0.030 = 0.065 \; (6.5\%)
+    \end{align*}
+  \end{alertblock}
+\end{frame}
+
+% Slide 14: Ejercicios del Libro — Nivel 3: Analítico
+\begin{frame}{Ejercicios del Libro — Nivel 3: Analítico}
+  \footnotesize
+  \begin{block}{Problema 2.4.8 (Independencia en Complementos)}
+    Demuestra formalmente que si los eventos $A$ y $B$ son estadísticamente independientes y $0 < P(A) < 1$, entonces sus complementos $A'$ y $B'$ también son mutuamente independientes.
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{Demostración por Álgebra de Complementos}
+    Queremos probar que $P(A' \cap B') = P(A')P(B')$. Por las Leyes de De Morgan, sabemos que $A' \cap B' = (A \cup B)'$. Por tanto:
+    \begin{align*}
+      P(A' \cap B') &= 1 - P(A \cup B) = 1 - [P(A) + P(B) - P(A \cap B)] \\
+                    &= 1 - P(A) - P(B) + P(A)P(B) \quad \text{(por hipótesis de indep.)} \\
+                    &= [1 - P(A)] - P(B)[1 - P(A)] = [1 - P(A)][1 - P(B)] \\
+                    &= P(A')P(B') \quad \blacksquare
+    \end{align*}
+  \end{alertblock}
+\end{frame}
+
+% Slide 15: Ejercicios del Libro — Nivel 4: Desafiante (1/2)
+\begin{frame}{Ejercicios del Libro — Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 2.4.10: La Paradoja de Monty Hall (Enunciado)}
+    En un concurso hay 3 puertas ($P_1, P_2, P_3$): 1 oculta un auto y 2 ocultas cabras. El participante elige la Puerta 1. El presentador, quien sabe dónde está el auto y siempre debe abrir una puerta con cabra, abre la Puerta 3. ¿Debe el participante cambiar su elección a la Puerta 2?
+  \end{block}
+
+  \vspace{0.1em}
+  \pause
+  \begin{alertblock}{Formalización Axiomática de la Hipótesis Previa}
+    Sea $C_i$: \texttt{``El auto está tras la puerta $i$''} ($P(C_1)=P(C_2)=P(C_3)=1/3$).
+    Sea $A_3$: \texttt{``El presentador abre la Puerta 3''}. Evaluamos las condicionales:
+    \begin{itemize}\itemsep=0.05em
+      \item Si $C_1$ (auto en 1), el presentador elige al azar entre 2 y 3: $P(A_3 \mid C_1) = 1/2$.
+      \item Si $C_2$ (auto en 2), el presentador \emph{está obligado} a abrir la 3: $P(A_3 \mid C_2) = 1$.
+      \item Si $C_3$ (auto en 3), el presentador no puede abrir la 3: $P(A_3 \mid C_3) = 0$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Ejercicios del Libro — Nivel 4: Desafiante (2/2)
+\begin{frame}{Ejercicios del Libro — Nivel 4: Desafiante (2/2)}
+  \footnotesize
+  Calculamos primero la probabilidad total de que el presentador abra la Puerta 3: \pause
+  $$P(A_3) = P(C_1)P(A_3 \mid C_1) + P(C_2)P(A_3 \mid C_2) + P(C_3)P(A_3 \mid C_3) = \frac{1}{3}\left(\frac{1}{2}\right) + \frac{1}{3}(1) + 0 = \frac{1}{2}$$ \pause
+
+  \vspace{0.1em}
+  \begin{block}{Comparación Exacta de Estrategias}
+    \begin{itemize}\itemsep=0.1em
+      \item \textbf{Probabilidad si se queda en Puerta 1:}
+      $$P(C_1 \mid A_3) = \dfrac{P(C_1 \cap A_3)}{P(A_3)} = \dfrac{P(C_1)P(A_3 \mid C_1)}{P(A_3)} = \dfrac{(1/3)(1/2)}{1/2} = \mathbf{\dfrac{1}{3}}$$
+      \item \textbf{Probabilidad si cambia a la Puerta 2:}
+      $$P(C_2 \mid A_3) = \dfrac{P(C_2 \cap A_3)}{P(A_3)} = \dfrac{P(C_2)P(A_3 \mid C_2)}{P(A_3)} = \dfrac{(1/3)(1)}{1/2} = \mathbf{\dfrac{2}{3}}$$
+    \end{itemize}
+    ¡Cambiar de puerta duplica matemáticamente las probabilidades de ganar!
+  \end{block}
+\end{frame}
+
+% Slide 17: Síntesis y Reflexión
+\begin{frame}{Cierre de Sección y Síntesis Condicional}
+  \begin{reflexion}[El Poder de la Actualización Dinámica]
+    La probabilidad condicional no es simplemente una fórmula de división; es el mecanismo formal mediante el cual el conocimiento riguroso actualiza nuestras creencias. Transformar el universo muestral $S$ en el evento confirmado $A$ elimina la incertidumbre estática y da paso al modelado inteligente de datos reales.
+  \end{reflexion}
+
+  \vspace{0.5em}
+  \pause
+  \begin{retoclase}[Para la próxima sesión: Teorema de Bayes]
+    En esta sección calculamos el efecto a partir de las causas mediante la Ley de la Probabilidad Total. En la próxima sesión resolveremos el problema inverso del diagnóstico científico: dada la observación del efecto ($B$), ¿cuál es la probabilidad exacta de cada una de sus posibles causas ($A_k$)?
+  \end{retoclase}
+\end{frame}
+
+\end{document}
