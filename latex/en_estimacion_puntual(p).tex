@@ -1,0 +1,522 @@
+\section*{Problems}
+
+\subsection{Problem Statements}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{problema}
+	\label{prob:estim-fund-1}
+	Let $X_1, X_2, \dots, X_n$ be an independent random sample drawn from a population whose random variable satisfies $E[X^2] = \theta$, where $\theta > 0$ is the second population moment about the origin. Consider the proposed sample statistic:
+	\begin{align}
+		\hat{\theta} = \frac{1}{n} \sum_{i=1}^n X_i^2.
+	\end{align}
+	Analytically prove using the linearity of the expectation operator that $\hat{\theta}$ is a strictly unbiased estimator for $\theta$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:estim-fund-2}
+	Consider a random sample $X_1, X_2, \dots, X_n$ from a normal distribution $N(\mu, \sigma^2)$, where both parameters are unknown. Their first two population moments are $\mu_1 = \mu$ and $\mu_2 = E[X^2] = \mu^2 + \sigma^2$.
+	Using the Method of Moments (MoM), equating the population moments $\mu_k$ with the sample moments $m_k = \frac{1}{n}\sum_{i=1}^n X_i^k$, explicitly derive the algebraic expressions for the estimators $\hat{\mu}_{MoM}$ and $\hat{\sigma}^2_{MoM}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:mle_invariancia}
+	In an epidemiological investigation in health data science, the average spread radius of a pathogen is modeled by a normal variable with mean $\mu$ and variance $\sigma^2$ estimated by maximum likelihood as $\hat{\mu}_{MLE} = 12.4$ km and $\hat{\sigma}^2_{MLE} = 4.0$ km$^2$. 
+	\begin{enumerate}
+		\item Using the functional invariance property of maximum likelihood estimators, obtain the MLE estimate of the average area of the spread circle in a single observation, given by $\theta = E(\pi X^2)$.
+		\item Calculate the value of the MLE estimator for the population coefficient of variation, defined as $\text{CV} = \dfrac{\sigma}{\mu}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{problema}
+	\label{prob:mom_exponencial}
+	The time between server failures in a cloud data center is modeled by a continuous random variable $X$ with an Exponential distribution of parameter $\lambda > 0$, whose probability density function is:
+	\begin{align}
+		f(x \mid \lambda) = \lambda e^{-\lambda x}, \quad x > 0.
+	\end{align}
+	\begin{enumerate}
+		\item Derive the estimator for the parameter $\lambda$ using the Method of Moments ($\hat{\lambda}_{MoM}$).
+		\item Derive the maximum likelihood estimator $\hat{\lambda}_{MLE}$. Do both methods coincide for this model, and what is their formula?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:mle_poisson_op}
+	Let $X_1, X_2, \ldots, X_n$ be an independent random sample of size $n$ drawn from a Poisson distribution with unknown rate parameter $\lambda > 0$.
+	\begin{enumerate}
+		\item Construct the log-likelihood function $\ell(\lambda)$.
+		\item By differentiating $\ell(\lambda)$ with respect to $\lambda$ and setting it equal to zero, prove that the maximum likelihood estimator is the sample mean $\hat{\lambda}_{MLE} = \bar{X}$, verifying the second-order condition.
+		\item Prove that this estimator is absolutely unbiased ($E[\hat{\lambda}_{MLE}] = \lambda$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:mle_bernoulli}
+	In a social media advertising campaign, whether the $i$-th user clicks on an ad is modeled by a Bernoulli random variable $X_i \sim \text{Bernoulli}(p)$, where $p \in (0,1)$ is the true unknown Click-Through Rate (CTR) and $n$ is the total number of independent impressions.
+	\begin{enumerate}
+		\item Derive the maximum likelihood estimator $\hat{p}_{MLE}$ from the likelihood function of binary trials.
+		\item Calculate the exact variance $\Var(\hat{p}_{MLE})$ as a function of $p$ and $n$, and state the expression for the estimated standard error $\text{SE}(\hat{p}_{MLE})$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{problema}
+	\label{prob:mle_poisson_crlb}
+	\textbf{Absolute Efficiency and the Cramér-Rao Lower Bound (CRLB):} Returning to the Poisson distribution model with rate $\lambda > 0$ from Problem \ref{prob:mle_poisson_op}:
+	\begin{enumerate}
+		\item Calculate the Fisher Information $I(\lambda)$ contained in a single observation $X \sim \text{Poisson}(\lambda)$ by differentiating the logarithm of its density and computing its expected second derivative.
+		\item Determine the Cramér-Rao Lower Bound for the variance of any unbiased estimator of $\lambda$ based on a sample of size $n$.
+		\item Prove that the estimator $\hat{\lambda}_{MLE} = \bar{X}$ exactly achieves this bound, concluding that it is the Uniformly Minimum Variance Unbiased Estimator (UMVUE).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:mle_uniforme}
+	Let $X_1, X_2, \ldots, X_n$ be a random sample from a variable with a Uniform distribution on the interval $[0, \theta]$, where $\theta > 0$ is an unknown parameter. The density of each observation is:
+	\begin{align}
+		f(x \mid \theta) = 
+		\begin{cases}
+			\frac{1}{\theta} & \text{if } 0 \leq x \leq \theta, \\
+			0 & \text{otherwise.}
+		\end{cases}
+	\end{align}
+	\begin{enumerate}
+		\item Find the Method of Moments estimator $\hat{\theta}_{MoM}$.
+		\item Rigorously prove why the usual technique of differentiating the log-likelihood and setting it to zero fails to find the maximum likelihood estimator in this case, and formally derive $\hat{\theta}_{MLE}$.
+		\item Compare the bias of $\hat{\theta}_{MoM}$ and $\hat{\theta}_{MLE}$, and construct from the latter a modified estimator $\hat{\theta}^*$ that is 100\% unbiased.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{problema}
+	\label{prob:estim-desaf-consistencia}
+	\textbf{Asymptotic unbiasedness and consistency in variance estimators:}
+	Let $X_1, X_2, \dots, X_n$ be a simple random sample from a population with finite mean $\mu$ and variance $\sigma^2$. The maximum likelihood estimator under normality for the variance is:
+	\begin{align}
+		S_n^2 = \frac{1}{n} \sum_{i=1}^n (X_i - \bar{X})^2.
+	\end{align}
+	\begin{enumerate}
+		\item Prove using the formal algebraic decomposition $(X_i - \mu) = (X_i - \bar{X}) + (\bar{X} - \mu)$ that the exact expectation of the estimator is $E[S_n^2] = \dfrac{n-1}{n}\sigma^2$, confirming that $S_n^2$ is biased for finite samples.
+		\item Calculate the exact bias expression $\text{Bias}(S_n^2) = E[S_n^2] - \sigma^2$ and mathematically prove that $\lim_{n \to \infty} \text{Bias}(S_n^2) = 0$ (asymptotic unbiasedness).
+		\item Assuming that the fourth population moment $\mu_4 = E[(X-\mu)^4]$ is finite, prove by the definition of convergence in probability or by invoking Chebyshev's Inequality that $S_n^2$ is a weakly and asymptotically consistent estimator of $\sigma^2$ (that is, $S_n^2 \xrightarrow{P} \sigma^2$ as $n \to \infty$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:estim-desaf-rao-blackwell}
+	\textbf{The Rao-Blackwell Theorem and sufficiency in variance reduction:}
+	Let $X_1, X_2, \dots, X_n$ be a sample from a Poisson distribution with rate parameter $\lambda$. Consider the naive but unbiased estimator based solely on the first observation: $T_1 = X_1$, which has expectation $E[T_1] = \lambda$ and variance $\Var(T_1) = \lambda$.
+	
+	We know that the sum of observations $S = \sum_{i=1}^n X_i \sim \text{Poisson}(n\lambda)$ is a sufficient statistic for $\lambda$.
+	\begin{enumerate}
+		\item Applying the Rao-Blackwell Theorem, construct the improved conditional estimator $T^* = E[T_1 \mid S = s]$. To do so, derive the conditional probability distribution of the first observation given the sum $P(X_1 = x_1 \mid S = s)$ and analytically prove that:
+		\begin{align}
+			T^* = \frac{S}{n} = \bar{X}.
+		\end{align}
+		\item Prove, explicitly using the Law of Total Variance $\Var(T_1) = E[\Var(T_1 \mid S)] + \Var(E[T_1 \mid S])$, the theoretical reason why the variance of the Rao-Blackwell estimator strictly satisfies $\Var(T^*) \le \Var(T_1)$, explicitly verifying the exact magnitude of variance reduction.
+	\end{enumerate}
+\end{problema}
+
+
+\subsection{Detailed Solutions}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{solucion}
+	By definition, an estimator $\hat{\theta}$ is unbiased for the population parameter $\theta$ if and only if its mathematical expectation is exactly equal to that parameter: $E[\hat{\theta}] = \theta$.
+	
+	We apply the expectation operator to the proposed statistic:
+	\begin{align}
+		E[\hat{\theta}] = E\left[ \frac{1}{n} \sum_{i=1}^n X_i^2 \right].
+	\end{align}
+	By the linearity property of mathematical expectation (the expectation of a linear sum is the sum of the expectations), we can factor out the constant $\frac{1}{n}$ and bring the expectation operator inside the summation:
+	\begin{align}
+		E[\hat{\theta}] = \frac{1}{n} \sum_{i=1}^n E\left[ X_i^2 \right].
+	\end{align}
+	Since all variables in the sample are identically distributed (i.i.d.), they share the exact same second moment about the origin from the population model: $E[X_i^2] = \theta$ for all $i \in \{1, 2, \dots, n\}$. Substituting:
+	\begin{align}
+		E[\hat{\theta}] = \frac{1}{n} \sum_{i=1}^n \theta = \frac{1}{n} (n \theta) = \theta.
+	\end{align}
+	Since $E[\hat{\theta}] = \theta$, it is rigorously proven that the estimator is 100\% unbiased.
+\end{solucion}
+
+\begin{solucion}
+	The Method of Moments establishes an algebraic system by equating each order of population moment $\mu_k$ to the empirical sample moment $m_k = \frac{1}{n}\sum X_i^k$:
+	\begin{align}
+		\mu_1 &= m_1 \implies \mu = \frac{1}{n} \sum_{i=1}^n X_i = \bar{X}. \\
+		\mu_2 &= m_2 \implies E[X^2] = \frac{1}{n} \sum_{i=1}^n X_i^2.
+	\end{align}
+	We know that the theoretical variance of the normal distribution satisfies:
+	\begin{align}
+		\sigma^2 = E[X^2] - (E[X])^2 = \mu_2 - \mu_1^2 \implies \mu_2 = \mu^2 + \sigma^2.
+	\end{align}
+	Substituting $\mu_2$ and $\mu_1$ into the sample moment equations:
+	\begin{align}
+		\hat{\mu}_{MoM}^2 + \hat{\sigma}^2_{MoM} &= \frac{1}{n} \sum_{i=1}^n X_i^2. \\
+		\hat{\sigma}^2_{MoM} &= \frac{1}{n} \sum_{i=1}^n X_i^2 - \hat{\mu}_{MoM}^2 = \frac{1}{n} \sum_{i=1}^n X_i^2 - \bar{X}^2.
+	\end{align}
+	By the fundamental algebraic identity for the centered sum of squares $\sum (X_i - \bar{X})^2 = \sum X_i^2 - n\bar{X}^2$, dividing by $n$ yields:
+	\begin{align}
+		\hat{\sigma}^2_{MoM} = \frac{1}{n} \sum_{i=1}^n (X_i - \bar{X})^2.
+	\end{align}
+	Thus, the method of moments estimators for the normal distribution are $\hat{\mu}_{MoM} = \bar{X}$ and the uncorrected sample variance $\hat{\sigma}^2_{MoM} = \frac{1}{n}\sum(X_i-\bar{X})^2$.
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{MLE estimation for the average area:}
+		For a normal variable $X \sim N(\mu, \sigma^2)$, the second moment is related to the mean and variance by the identity $E(X^2) = \mu^2 + \sigma^2$. Therefore, the average area of the spread circle is defined by the parameterized function:
+		\begin{align}
+			\theta = g(\mu, \sigma^2) = \pi E(X^2) = \pi(\mu^2 + \sigma^2).
+		\end{align}
+		By the Functional Invariance Principle of MLE, if $\hat{\mu}_{MLE}$ and $\hat{\sigma}^2_{MLE}$ maximize the likelihood of the normal distribution, the MLE for any single-valued function of the parameters is obtained by directly substituting the individual estimates:
+		\begin{align}
+			\hat{\theta}_{MLE} = g(\hat{\mu}_{MLE}, \hat{\sigma}^2_{MLE}) = \pi\left( \hat{\mu}_{MLE}^2 + \hat{\sigma}^2_{MLE} \right).
+		\end{align}
+		Evaluating numerically with $\hat{\mu}_{MLE} = 12.4$ km and $\hat{\sigma}^2_{MLE} = 4.0$ km$^2$:
+		\begin{align}
+			\hat{\theta}_{MLE} = \pi \left( 12.4^2 + 4.0 \right) = \pi (153.76 + 4.0) = 157.76\pi \approx 495.62 \text{ km}^2.
+		\end{align}
+		
+		\item \textbf{MLE estimation for the coefficient of variation:}
+		Similarly, the coefficient of variation is given by the parametric relation $h(\mu, \sigma^2) = \dfrac{\sqrt{\sigma^2}}{\mu}$. Applying the MLE invariance theorem:
+		\begin{align}
+			\widehat{\text{CV}}_{MLE} = h(\hat{\mu}_{MLE}, \hat{\sigma}^2_{MLE}) = \frac{\sqrt{\hat{\sigma}^2_{MLE}}}{\hat{\mu}_{MLE}} = \frac{\sqrt{4.0}}{12.4} = \frac{2.0}{12.4} \approx 0.1613 \text{ (or 16.13\%).}
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Method of Moments Estimation:}
+		The first theoretical moment (expectation) of an exponential distribution with density $\lambda e^{-\lambda x}$ is obtained via integration by parts of $\int_0^\infty x\lambda e^{-\lambda x}dx$:
+		\begin{align}
+			\mu_1 = E[X] = \frac{1}{\lambda}.
+		\end{align}
+		Equating this population moment with the first sample moment $m_1 = \bar{X}$:
+		\begin{align}
+			\frac{1}{\lambda} = \bar{X} \implies \hat{\lambda}_{MoM} = \frac{1}{\bar{X}}.
+		\end{align}
+		
+		\item \textbf{Maximum Likelihood Estimation:}
+		The joint likelihood function for a sample $X_1, \dots, X_n$ is the product:
+		\begin{align}
+			L(\lambda) = \prod_{i=1}^n \lambda e^{-\lambda x_i} = \lambda^n e^{-\lambda \sum_{i=1}^n x_i}.
+		\end{align}
+		Taking the natural logarithm, we obtain the log-likelihood:
+		\begin{align}
+			\ell(\lambda) = \ln L(\lambda) = n \ln \lambda - \lambda \sum_{i=1}^n x_i.
+		\end{align}
+		Differentiating with respect to the parameter $\lambda$ and setting equal to zero:
+		\begin{align}
+			\frac{d}{d\lambda} \ell(\lambda) = \frac{n}{\lambda} - \sum_{i=1}^n x_i = 0 \implies \frac{n}{\lambda} = n\bar{X} \implies \hat{\lambda}_{MLE} = \frac{1}{\bar{X}}.
+		\end{align}
+		
+		\textbf{Conclusion:} Yes, both methods coincide completely for the single-parameter exponential distribution, resulting in the reciprocal of the sample mean ($\hat{\lambda}_{MoM} = \hat{\lambda}_{MLE} = 1/\bar{X}$).
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Construction of the log-likelihood:}
+		The joint probability mass function for $n$ independent Poisson($\lambda$) observations is:
+		\begin{align}
+			L(\lambda) = \prod_{i=1}^n \frac{\lambda^{x_i} e^{-\lambda}}{x_i!} = \frac{\lambda^{\sum x_i} e^{-n\lambda}}{\prod x_i!}.
+		\end{align}
+		Taking the natural logarithm yields the log-likelihood function $\ell(\lambda)$:
+		\begin{align}
+			\ell(\lambda) = \left( \sum_{i=1}^n x_i \right) \ln \lambda - n\lambda - \sum_{i=1}^n \ln(x_i!).
+		\end{align}
+		
+		\item \textbf{Maximization:}
+		We differentiate $\ell(\lambda)$ with respect to $\lambda$ and set it equal to zero to find the critical point:
+		\begin{align}
+			\frac{d}{d\lambda} \ell(\lambda) = \frac{1}{\lambda} \sum_{i=1}^n x_i - n = 0 \implies \sum_{i=1}^n x_i = n\lambda \implies \hat{\lambda}_{MLE} = \frac{1}{n} \sum_{i=1}^n X_i = \bar{X}.
+		\end{align}
+		We check concavity using the second derivative:
+		\begin{align}
+			\frac{d^2}{d\lambda^2} \ell(\lambda) = -\frac{1}{\lambda^2} \sum_{i=1}^n x_i < 0, \quad \text{for all } \sum x_i > 0 \text{ and } \lambda > 0.
+		\end{align}
+		Since the second derivative is strictly negative throughout the domain of interest, it is formally confirmed that $\bar{X}$ is a unique global maximum.
+		
+		\item \textbf{Unbiasedness:}
+		We calculate the expectation of the estimator:
+		\begin{align}
+			E[\hat{\lambda}_{MLE}] = E[\bar{X}] = E\left[ \frac{1}{n} \sum_{i=1}^n X_i \right] = \frac{1}{n} \sum_{i=1}^n E[X_i].
+		\end{align}
+		Because each individual variable $X_i \sim \text{Poisson}(\lambda)$ has population expectation $E[X_i] = \lambda$:
+		\begin{align}
+			E[\hat{\lambda}_{MLE}] = \frac{1}{n} (n\lambda) = \lambda.
+		\end{align}
+		We conclude that the maximum likelihood estimator for the Poisson distribution is unbiased.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Derivation of $\hat{p}_{MLE}$ for Bernoulli trials:}
+		The probability function for the $i$-th binary user is written using the canonical indicator: $f(x_i \mid p) = p^{x_i} (1-p)^{1-x_i}$ for $x_i \in \{0, 1\}$.
+		The overall likelihood function is:
+		\begin{align}
+			L(p) = \prod_{i=1}^n p^{x_i} (1-p)^{1-x_i} = p^{\sum x_i} (1-p)^{n - \sum x_i}.
+		\end{align}
+		Taking the natural logarithm:
+		\begin{align}
+			\ell(p) = \left( \sum_{i=1}^n x_i \right) \ln p + \left( n - \sum_{i=1}^n x_i \right) \ln(1-p).
+		\end{align}
+		Differentiating with respect to $p$ and setting equal to zero:
+		\begin{align}
+			\frac{d}{dp}\ell(p) = \frac{\sum x_i}{p} - \frac{n - \sum x_i}{1 - p} = 0.
+		\end{align}
+		Multiplying through by the common denominator $p(1-p)$:
+		\begin{align}
+			(1-p)\sum_{i=1}^n x_i - p\left(n - \sum_{i=1}^n x_i\right) = 0 \implies \sum_{i=1}^n x_i - p\sum x_i - np + p\sum x_i = 0.
+		\end{align}
+		Solving for $p$, we obtain the sample success proportion:
+		\begin{align}
+			np = \sum_{i=1}^n x_i \implies \hat{p}_{MLE} = \frac{1}{n} \sum_{i=1}^n X_i = \bar{X}.
+		\end{align}
+		
+		\item \textbf{Variance and Standard Error:}
+		The theoretical variance of an independent Bernoulli variable is $\Var(X_i) = p(1-p)$. By the properties of the variance of a sample mean of i.i.d. observations:
+		\begin{align}
+			\Var(\hat{p}_{MLE}) = \Var(\bar{X}) = \frac{\Var(X_i)}{n} = \frac{p(1-p)}{n}.
+		\end{align}
+		Since the true population parameter $p$ is unknown in practice, the estimated Standard Error of the proportion replaces $p$ with its consistent estimator $\hat{p}$:
+		\begin{align}
+			\text{SE}(\hat{p}_{MLE}) = \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}.
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Calculation of Univariate Fisher Information:}
+		The natural logarithm of the probability function for a Poisson observation $X \sim \text{Poisson}(\lambda)$ is:
+		\begin{align}
+			\ln f(X \mid \lambda) = X \ln \lambda - \lambda - \ln(X!).
+		\end{align}
+		Differentiating twice consecutively with respect to the parameter $\lambda$:
+		\begin{align}
+			\frac{\partial}{\partial \lambda} \ln f(X \mid \lambda) &= \frac{X}{\lambda} - 1. \\
+			\frac{\partial^2}{\partial \lambda^2} \ln f(X \mid \lambda) &= -\frac{X}{\lambda^2}.
+		\end{align}
+		Fisher Information for a single observation is defined as the negative expected value of the second derivative of the log-likelihood:
+		\begin{align}
+			I(\lambda) = -E\left[ \frac{\partial^2}{\partial \lambda^2} \ln f(X \mid \lambda) \right] = -E\left[ -\frac{X}{\lambda^2} \right] = \frac{E[X]}{\lambda^2}.
+		\end{align}
+		Knowing that for a Poisson variable the first moment is $E[X] = \lambda$:
+		\begin{align}
+			I(\lambda) = \frac{\lambda}{\lambda^2} = \frac{1}{\lambda}.
+		\end{align}
+		
+		\item \textbf{Determination of the Cramér-Rao Lower Bound (CRLB):}
+		For any unbiased estimator $T(X_1, \dots, X_n)$ of the parameter $\lambda$, the theoretical lower bound on its variance when collecting $n$ independent observations is given by the total sample Fisher information $n I(\lambda)$ in the denominator:
+		\begin{align}
+			\text{CRLB} = \frac{1}{n I(\lambda)} = \frac{1}{n (1/\lambda)} = \frac{\lambda}{n}.
+		\end{align}
+		
+		\item \textbf{Proof of efficiency and UMVUE property:}
+		We explicitly calculate the variance of the sample mean $\hat{\lambda}_{MLE} = \bar{X}$ of Poisson observations:
+		\begin{align}
+			\Var(\hat{\lambda}_{MLE}) = \Var(\bar{X}) = \frac{\Var(X_i)}{n} = \frac{\lambda}{n}.
+		\end{align}
+		Comparing both algebraic results:
+		\begin{align}
+			\Var(\hat{\lambda}_{MLE}) = \frac{\lambda}{n} \equiv \text{CRLB}.
+		\end{align}
+		Since $\hat{\lambda}_{MLE}$ is unbiased (proven in Problem \ref{prob:mle_poisson_op}) and exactly achieves the absolute lower variance limit dictated by the Cramér-Rao inequality for any sample size $n$, we prove that the sample mean of Poisson observations is the Uniformly Minimum Variance Unbiased Estimator (UMVUE).
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Method of Moments:}
+		The mathematical expectation of the uniform support on $[0, \theta]$ is the midpoint $\mu_1 = \dfrac{\theta}{2}$. Equating this to the sample average:
+		\begin{align}
+			\frac{\theta}{2} = \bar{X} \implies \hat{\theta}_{MoM} = 2\bar{X}.
+		\end{align}
+		
+		\item \textbf{Failure of differential method for parametric support and MLE derivation:}
+		The likelihood for a uniform sample is written using the domain indicator function:
+		\begin{align}
+			L(\theta) = \prod_{i=1}^n \frac{1}{\theta} I_{(0 \le x_i \le \theta)} = 
+			\begin{cases}
+				\theta^{-n} & \text{if } \theta \ge \max(X_1, \dots, X_n), \\
+				0 & \text{if } \theta < \max(X_1, \dots, X_n).
+			\end{cases}
+		\end{align}
+		The fundamental reason why differentiating and setting to zero fails is that **regularity conditions for differentiating under the integral sign are violated** when the support of the density depends explicitly on $\theta$. If we try to differentiate $\ell(\theta) = -n\ln \theta$, we get $-\dfrac{n}{\theta} = 0$, which absurdly implies an infinite parameter or no interior critical point.
+		
+		To maximize $L(\theta)$ within its valid domain, notice that for any $\theta \ge X_{(n)} \equiv \max(X_1, \dots, X_n)$, the function $\theta^{-n}$ is **strictly decreasing**. Therefore, to make the likelihood as large as possible without it collapsing to zero, we must choose the smallest permissible value of $\theta$ within its feasible region:
+		\begin{align}
+			\hat{\theta}_{MLE} = X_{(n)} = \max(X_1, X_2, \dots, X_n).
+		\end{align}
+		
+		\item \textbf{Comparative bias analysis and unbiased correction:}
+		The method of moments estimator is trivially unbiased:
+		\begin{align}
+			E[\hat{\theta}_{MoM}] = E[2\bar{X}] = 2E[\bar{X}] = 2\left(\frac{\theta}{2}\right) = \theta \implies \text{Bias}(\hat{\theta}_{MoM}) = 0.
+		\end{align}
+		To obtain the bias of the MLE, we determine the CDF of the maximum order statistic $X_{(n)}$:
+		\begin{align}
+			F_{X_{(n)}}(y) = P(X_{(n)} \le y) = \prod_{i=1}^n P(X_i \le y) = \left( \frac{y}{\theta} \right)^n, \quad 0 \le y \le \theta.
+		\end{align}
+		Differentiating with respect to $y$, the observed probability density function of the maximum is:
+		\begin{align}
+			f_{X_{(n)}}(y) = \frac{n y^{n-1}}{\theta^n}, \quad 0 \le y \le \theta.
+		\end{align}
+		The mathematical expectation of the MLE is therefore:
+		\begin{align}
+			E[\hat{\theta}_{MLE}] = \int_0^\theta y \frac{n y^{n-1}}{\theta^n} dy = \frac{n}{\theta^n} \int_0^\theta y^n dy = \frac{n}{\theta^n} \left[ \frac{\theta^{n+1}}{n+1} \right] = \frac{n}{n+1} \theta.
+		\end{align}
+		The bias of $\hat{\theta}_{MLE}$ systematically underestimates by a boundary factor:
+		\begin{align}
+			\text{Bias}(\hat{\theta}_{MLE}) = E[\hat{\theta}_{MLE}] - \theta = \frac{n}{n+1}\theta - \theta = -\frac{1}{n+1}\theta.
+		\end{align}
+		To construct a modified, completely unbiased estimator $\hat{\theta}^*$, we multiply the biased estimator by the exact reciprocal of its distortion factor $\dfrac{n+1}{n}$:
+		\begin{align}
+			\hat{\theta}^* = \frac{n+1}{n} X_{(n)}.
+		\end{align}
+		It is immediately verified that $E[\hat{\theta}^*] = \dfrac{n+1}{n} \left( \dfrac{n}{n+1}\theta \right) = \theta$.
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Rigorously proving finite-sample bias in MLE variance:}
+		We decompose the deviation from the sample mean in terms of the true population mean $\mu$:
+		\begin{align}
+			X_i - \bar{X} = (X_i - \mu) - (\bar{X} - \mu).
+		\end{align}
+		We square both sides of the expression and sum over the $n$ observations:
+		\begin{align}
+			\sum_{i=1}^n (X_i - \bar{X})^2 = \sum_{i=1}^n \left[ (X_i - \mu) - (\bar{X} - \mu) \right]^2 = \sum_{i=1}^n (X_i - \mu)^2 - 2(\bar{X} - \mu)\sum_{i=1}^n (X_i - \mu) + \sum_{i=1}^n (\bar{X} - \mu)^2.
+		\end{align}
+		Notice that by definition of the sample mean, the sum centered at $\mu$ is exactly $n(\bar{X} - \mu)$:
+		\begin{align}
+			\sum_{i=1}^n (X_i - \mu) = n\bar{X} - n\mu = n(\bar{X} - \mu).
+		\end{align}
+		Substituting this into the middle term:
+		\begin{align}
+			\sum_{i=1}^n (X_i - \bar{X})^2 = \sum_{i=1}^n (X_i - \mu)^2 - 2n(\bar{X} - \mu)^2 + n(\bar{X} - \mu)^2 = \sum_{i=1}^n (X_i - \mu)^2 - n(\bar{X} - \mu)^2.
+		\end{align}
+		We apply the expectation operator to the sum of squared sample errors after dividing by $n$:
+		\begin{align}
+			E[S_n^2] = E\left[ \frac{1}{n} \sum_{i=1}^n (X_i - \bar{X})^2 \right] = \frac{1}{n} \sum_{i=1}^n E\left[ (X_i - \mu)^2 \right] - E\left[ (\bar{X} - \mu)^2 \right].
+		\end{align}
+		From the theoretical definitions of variance for i.i.d. observations, we know that $E[(X_i - \mu)^2] = \Var(X_i) = \sigma^2$ and that the variance of the sample mean satisfies $E[(\bar{X} - \mu)^2] = \Var(\bar{X}) = \dfrac{\sigma^2}{n}$. Substituting:
+		\begin{align}
+			E[S_n^2] = \frac{1}{n}(n \sigma^2) - \frac{\sigma^2}{n} = \sigma^2 - \frac{\sigma^2}{n} = \left( \frac{n - 1}{n} \right) \sigma^2.
+		\end{align}
+		This proves that the maximum likelihood estimator of the variance systematically underestimates the true dispersion by a factor of $\dfrac{n-1}{n}$.
+		
+		\item \textbf{Asymptotic Unbiasedness:}
+		The exact bias of the estimator is given by the difference:
+		\begin{align}
+			\text{Bias}(S_n^2) = E[S_n^2] - \sigma^2 = \left( \frac{n - 1}{n} \right)\sigma^2 - \sigma^2 = -\frac{\sigma^2}{n}.
+		\end{align}
+		Taking the limit as the sample size grows without bound:
+		\begin{align}
+			\lim_{n \to \infty} \text{Bias}(S_n^2) = \lim_{n \to \infty} \left( -\frac{\sigma^2}{n} \right) = 0.
+		\end{align}
+		Thus, although $S_n^2$ exhibits negative bias in finite samples, this bias completely vanishes asymptotically.
+		
+		\item \textbf{Consistency of sample variance via Chebyshev's Inequality:}
+		An estimator is consistent ($S_n^2 \xrightarrow{P} \sigma^2$) if for any $\epsilon > 0$, the probability of deviating from the population parameter approaches zero as $n \to \infty$:
+		\begin{align}
+			\lim_{n \to \infty} P(|S_n^2 - \sigma^2| \ge \epsilon) = 0.
+		\end{align}
+		We invoke generalized Chebyshev's Inequality with respect to the target $\sigma^2$:
+		\begin{align}
+			P(|S_n^2 - \sigma^2| \ge \epsilon) \le \frac{E[(S_n^2 - \sigma^2)^2]}{\epsilon^2}.
+		\end{align}
+		The numerator term on the right-hand side is the Mean Squared Error (MSE) of $S_n^2$, which decomposes theoretically into the variance of the estimator plus the square of its bias:
+		\begin{align}
+			E[(S_n^2 - \sigma^2)^2] = \Var(S_n^2) + [\text{Bias}(S_n^2)]^2.
+		\end{align}
+		We know that $[\text{Bias}(S_n^2)]^2 = \left(-\dfrac{\sigma^2}{n}\right)^2 = \dfrac{\sigma^4}{n^2} \to 0$. Moreover, when the fourth central moment $\mu_4$ is finite, the variance of the estimator $S_n^2$ satisfies the classical exact formula:
+		\begin{align}
+			\Var(S_n^2) = \frac{(n-1)^2}{n^3} \mu_4 - \frac{(n-1)(n-3)}{n^3} \sigma^4 = O\left(\frac{1}{n}\right).
+		\end{align}
+		Since $\lim_{n \to \infty} \Var(S_n^2) = 0$ and $\lim_{n \to \infty} [\text{Bias}(S_n^2)]^2 = 0$, it follows that:
+		\begin{align}
+			\lim_{n \to \infty} E[(S_n^2 - \sigma^2)^2] = 0 \implies \lim_{n \to \infty} P(|S_n^2 - \sigma^2| \ge \epsilon) = 0.
+		\end{align}
+		We formally conclude that $S_n^2$ is a 100\% consistent estimator in probability for $\sigma^2$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Application of the Rao-Blackwell Theorem and derivation of the conditional distribution:}
+		The Rao-Blackwell Theorem states that if $T_1$ is an unbiased estimator of $\lambda$ and $S$ is a sufficient statistic for $\lambda$, then the conditional projection $T^* = E[T_1 \mid S]$ is a new estimator that does not depend on $\lambda$, remains unbiased, and has variance less than or equal to that of the original estimator.
+		
+		To explicitly compute $T^* = E[X_1 \mid S = s]$, we must first derive the conditional probability distribution of $X_1 = x_1$ given that the total sum over the $n$ elements is $S = \sum_{i=1}^n X_i = s$. By the definition of conditional probability:
+		\begin{align}
+			P(X_1 = x_1 \mid S = s) = \frac{P(X_1 = x_1 \text{ and } S = s)}{P(S = s)}.
+		\end{align}
+		We observe that the joint event $\{X_1 = x_1 \text{ and } \sum_{i=1}^n X_i = s\}$ is strictly equivalent to the first observation taking the value $x_1$ and, simultaneously, the sum of the remaining $(n-1)$ observations being $(s - x_1)$. That is:
+		\begin{align}
+			P(X_1 = x_1 \text{ and } S = s) = P\left( X_1 = x_1 \text{ and } \sum_{i=2}^n X_i = s - x_1 \right).
+		\end{align}
+		By the independence of random sampling, the first variable is independent of the block of the remaining $(n-1)$ observations. Furthermore, by the reproductive property of the Poisson distribution, we know that the partial sum of the rest satisfies $\sum_{i=2}^n X_i \sim \text{Poisson}((n-1)\lambda)$ and the total sum statistic satisfies $S \sim \text{Poisson}(n\lambda)$. Factoring the Poisson probabilities in numerator and denominator:
+		\begin{align}
+			P(X_1 = x_1 \mid S = s) &= \frac{P(X_1 = x_1) P\left( \sum_{i=2}^n X_i = s - x_1 \right)}{P(S = s)} \\
+			&= \frac{\left( \dfrac{\lambda^{x_1} e^{-\lambda}}{x_1!} \right) \left( \dfrac{[(n-1)\lambda]^{s - x_1} e^{-(n-1)\lambda}}{(s - x_1)!} \right)}{\dfrac{(n\lambda)^s e^{-n\lambda}}{s!}}.
+		\end{align}
+		Notice how the exponential rate factors cancel completely: $e^{-\lambda} e^{-(n-1)\lambda} = e^{-n\lambda}$, while the powers of the scale parameter also simplify completely: $\lambda^{x_1} \lambda^{s-x_1} / \lambda^s = \lambda^s / \lambda^s = 1$. Rearranging factorial coefficients and constant terms of size $n$:
+		\begin{align}
+			P(X_1 = x_1 \mid S = s) = \frac{s!}{x_1! (s - x_1)!} \frac{(n-1)^{s - x_1}}{n^s} = \binom{s}{x_1} \left( \frac{1}{n} \right)^{x_1} \left( 1 - \frac{1}{n} \right)^{s - x_1}.
+		\end{align}
+		This is precisely the probability mass function of a **Binomial distribution** where the number of trials is $s$ and the success probability is $p = \dfrac{1}{n}$:
+		\begin{align}
+			(X_1 \mid S = s) \sim \text{Binomial}\left( s, \, p = \frac{1}{n} \right).
+		\end{align}
+		Consequently, the conditional mathematical expectation of a binomial distribution is the product of the number of trials and the probability of success:
+		\begin{align}
+			T^* = E[X_1 \mid S = s] = s \cdot \left( \frac{1}{n} \right) = \frac{s}{n}.
+		\end{align}
+		Replacing the random variable $S = \sum X_i$, it is proven that the Rao-Blackwell projected estimator formally coincides with the sample mean:
+		\begin{align}
+			T^* = E[X_1 \mid S] = \frac{1}{n} \sum_{i=1}^n X_i = \bar{X}.
+		\end{align}
+		
+		\item \textbf{Proof of variance reduction via the Law of Total Variance:}
+		The Law of Total Variance (or Conditional Variance Decomposition Theorem) relates the marginal variance of the initial estimator $T_1$ to the variance of its projection onto $S$:
+		\begin{align}
+			\Var(T_1) = E\left[ \Var(T_1 \mid S) \right] + \Var\left( E[T_1 \mid S] \right).
+		\end{align}
+		Since we derived that $E[T_1 \mid S] = T^*$, we substitute this term into the second term:
+		\begin{align}
+			\Var(T_1) = E\left[ \Var(T_1 \mid S) \right] + \Var(T^*).
+		\end{align}
+		Because the conditional variance $\Var(T_1 \mid S)$ of any non-degenerate random variable with respect to conditioning is strictly non-negative everywhere ($ \Var(T_1 \mid S = s) \ge 0 $), its mathematical expectation always satisfies $E[\Var(T_1 \mid S)] \ge 0$. Solving:
+		\begin{align}
+			\Var(T^*) = \Var(T_1) - E\left[ \Var(T_1 \mid S) \right] \implies \Var(T^*) \le \Var(T_1).
+		\end{align}
+		To verify the quantitative gain explicitly, we compute the conditional variance of the Binomial model $(s, 1/n)$ obtained previously:
+		\begin{align}
+			\Var(T_1 \mid S = s) = s \left( \frac{1}{n} \right) \left( 1 - \frac{1}{n} \right) = \frac{s(n-1)}{n^2}.
+		\end{align}
+		Taking the expectation over the random variable $S \sim \text{Poisson}(n\lambda)$, whose central moment is $E[S] = n\lambda$:
+		\begin{align}
+			E\left[ \Var(T_1 \mid S) \right] = E\left[ \frac{S(n-1)}{n^2} \right] = \frac{n-1}{n^2} E[S] = \frac{n-1}{n^2}(n\lambda) = \frac{n-1}{n}\lambda.
+		\end{align}
+		Substituting this into the Rao-Blackwell variance decomposition equation:
+		\begin{align}
+			\Var(T^*) = \Var(T_1) - \frac{n-1}{n}\lambda = \lambda - \left( \lambda - \frac{\lambda}{n} \right) = \frac{\lambda}{n} = \Var(\bar{X}).
+		\end{align}
+		We conclusively demonstrate that conditioning on the sufficient statistic drastically reduces the variance of the naive estimator from $\lambda$ down to $\dfrac{\lambda}{n}$ (an exact improvement factor of $n$ times), producing the uniformly minimum variance unbiased estimator possible.
+	\end{enumerate}
+\end{solucion}

@@ -1,0 +1,188 @@
+\section{Hypothesis Testing}
+
+In hypothesis testing, we assume an initial premise (usually concerning the value of an estimator) called the \emph{null hypothesis}, and we attempt to determine whether or not it is true by applying statistical techniques.
+
+We also have another premise called the \emph{alternative hypothesis}, which is the negation of the null hypothesis.
+
+\subsection{Null vs. Alternative Hypothesis}
+
+When conducting quantitative \emph{research} to calibrate the value of an estimator, the \emph{known value} of the parameter is taken as the \emph{null hypothesis}, while the \emph{new value} found (from the research) is taken as the \emph{alternative hypothesis}.
+
+In our case (finding the average age of our city), a researcher might claim that the age is \emph{less than 35}. This can serve as the \emph{null hypothesis}.
+
+If a new agency claims that it is \emph{greater than 35}, then that can be designated as the \emph{alternative hypothesis}.
+
+\subsection{Formal Notation}
+
+We denote the hypotheses as:
+\begin{itemize}
+	\item $H_0$: Null hypothesis (the claim initially assumed to be true)
+	\item $H_a$ or $H_1$: Alternative hypothesis (the claim that contradicts $H_0$)
+\end{itemize}
+
+\begin{ejemplo}
+	A cereal manufacturer claims that the average weight of its boxes is 500 grams. A quality inspector suspects the weight is lower.
+	
+	\begin{align}
+		H_0: \mu &= 500 \text{ g} \\
+		H_a: \mu &< 500 \text{ g}
+	\end{align}
+\end{ejemplo}
+
+\subsection{Types of Hypothesis Tests}
+
+Depending on the alternative hypothesis, tests can be:
+
+\begin{enumerate}
+	\item \textbf{Left-tailed test:}
+	\begin{align}
+		H_0: \mu &= \mu_0 \\
+		H_a: \mu &< \mu_0
+	\end{align}
+	
+	\item \textbf{Right-tailed test:}
+	\begin{align}
+		H_0: \mu &= \mu_0 \\
+		H_a: \mu &> \mu_0
+	\end{align}
+	
+	\item \textbf{Two-tailed test:}
+	\begin{align}
+		H_0: \mu &= \mu_0 \\
+		H_a: \mu &\neq \mu_0
+	\end{align}
+\end{enumerate}
+
+\subsection{Errors in Hypothesis Testing}
+
+When making decisions based on sample data, we can commit two types of errors:
+
+\begin{definicion}[Type I Error]
+	Rejecting the null hypothesis when it is actually true. The probability of committing this error is denoted by $\alpha$ (significance level):
+	\begin{align}
+		\alpha = P(\text{Reject } H_0 \mid H_0 \text{ is true})
+	\end{align}
+\end{definicion}
+
+\begin{definicion}[Type II Error]
+	Failing to reject the null hypothesis when it is actually false. The probability of committing this error is denoted by $\beta$:
+	\begin{align}
+		\beta = P(\text{Do not reject } H_0 \mid H_0 \text{ is false})
+	\end{align}
+\end{definicion}
+
+\begin{observacion}
+	The \emph{power} of a test is the probability of correctly rejecting a false null hypothesis:
+	\begin{align}
+		\text{Power} = 1 - \beta = P(\text{Reject } H_0 \mid H_0 \text{ is false})
+	\end{align}
+\end{observacion}
+
+\subsection{Significance Level}
+
+The \emph{significance level} $\alpha$ is the maximum acceptable probability of committing a Type I error. Common values are:
+\begin{itemize}
+	\item $\alpha = 0.10$ (10\%) - Low significance level
+	\item $\alpha = 0.05$ (5\%) - Standard significance level
+	\item $\alpha = 0.01$ (1\%) - High significance level
+\end{itemize}
+
+\begin{observacion}
+	The choice of $\alpha$ depends on the context and the consequences of committing a Type I error. In medical or safety applications, stricter significance levels ($\alpha = 0.01$ or lower) are typically used.
+\end{observacion}
+
+\subsection{$p$-value}
+
+The \emph{$p$-value} is the probability of obtaining a test result at least as extreme as the one observed, assuming that the null hypothesis is true.
+
+\begin{definicion}[$p$-value]
+	The $p$-value is:
+	\begin{align}
+		p\text{-value} = P(\text{Statistic} \geq \text{observed value} \mid H_0 \text{ is true})
+	\end{align}
+	for right-tailed tests, or the corresponding area depending on the type of test.
+\end{definicion}
+
+\subsection{Decision Rule}
+
+The decision rule based on the $p$-value is:
+
+\begin{itemize}
+	\item If $p\text{-value} \leq \alpha$: \textbf{Reject} $H_0$
+	\item If $p\text{-value} > \alpha$: \textbf{Do not reject} $H_0$
+\end{itemize}
+
+\begin{observacion}
+	``Do not reject $H_0$'' is not the same as ``accept $H_0$''. It simply means there is not enough evidence to reject it.
+\end{observacion}
+
+\subsection{Complete Example}
+
+A company claims that the average delivery time for its products is 3 days. A customer suspects the time is longer and takes a sample of $n = 36$ deliveries, obtaining $\bar{x} = 3.5$ days with $s = 1.2$ days.
+
+\textbf{Step 1: Formulate hypotheses}
+\begin{align}
+	H_0: \mu &= 3 \text{ days} \\
+	H_a: \mu &> 3 \text{ days}
+\end{align}
+
+\textbf{Step 2: Choose significance level}
+\begin{align}
+	\alpha = 0.05
+\end{align}
+
+\textbf{Step 3: Calculate test statistic}
+
+Since $n = 36 \geq 30$, we use the $Z$-test:
+\begin{align}
+	Z = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} = \frac{3.5 - 3}{1.2/\sqrt{36}} = \frac{0.5}{0.2} = 2.5
+\end{align}
+
+\textbf{Step 4: Calculate $p$-value}
+\begin{align}
+	p\text{-value} = P(Z > 2.5) = 1 - \Phi(2.5) \approx 0.0062
+\end{align}
+
+\textbf{Step 5: Make decision}
+
+Since $p\text{-value} = 0.0062 < 0.05 = \alpha$, we reject $H_0$.
+
+\textbf{Conclusion:} There is sufficient statistical evidence at the 5\% significance level to claim that the average delivery time is greater than 3 days.
+
+\subsection{Interpretation of Results}
+
+It is crucial to correctly interpret the results:
+
+\begin{itemize}
+	\item \textbf{Reject $H_0$:} There is sufficient statistical evidence to support the alternative hypothesis.
+	
+	\item \textbf{Do not reject $H_0$:} There is not sufficient statistical evidence to support the alternative hypothesis. This does not mean $H_0$ is true, only that we could not prove otherwise.
+\end{itemize}
+
+\subsection{Important Considerations}
+
+\begin{enumerate}
+	\item \textbf{Sample size:} Larger samples provide greater statistical power to detect real differences.
+	
+	\item \textbf{Statistical vs. practical significance:} A result can be statistically significant without being practically relevant.
+	
+	\item \textbf{Assumptions:} Hypothesis tests assume that certain underlying conditions (normality, independence, etc.) are met.
+	
+	\item \textbf{Multiple testing:} Performing many tests increases the probability of committing at least one Type I error.
+\end{enumerate}
+
+\subsection{Summary of the Procedure}
+
+The general procedure for a hypothesis test is:
+
+\begin{enumerate}
+	\item Formulate $H_0$ and $H_a$
+	\item Choose the significance level $\alpha$
+	\item Select the appropriate test statistic
+	\item Calculate the value of the statistic using the sample data
+	\item Determine the $p$-value or critical region
+	\item Make a decision: reject or do not reject $H_0$
+	\item Interpret the result in the context of the problem
+\end{enumerate}
+
+In the following sections we will study specific tests for means ($Z$ and $t$ tests), proportions, and other common situations.

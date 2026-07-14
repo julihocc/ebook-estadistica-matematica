@@ -1,0 +1,560 @@
+\section*{Problems}
+
+\subsection{Problem Statements}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{problema}
+	\label{prob:3.9.1}
+	A regular die is rolled 120 times in a random experiment, and the following observed frequencies are recorded for each of its six faces:
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|c|c|}\hline
+			Face & 1 & 2 & 3 & 4 & 5 & 6 \\\hline
+			Observed frequency ($O_i$) & 18 & 22 & 20 & 19 & 23 & 18 \\\hline
+		\end{tabular}
+	\end{center}
+	\begin{enumerate}
+		\item Formulate the null ($H_0$) and alternative ($H_a$) hypotheses to formally evaluate whether the die is fair (equiprobable).
+		\item Calculate the expected frequency under the null hypothesis ($E_i$) for each face of the die.
+		\item Calculate the value of Pearson's $\chi^2$ test statistic.
+		\item Determine the degrees of freedom associated with the experiment.
+		\item Should $H_0$ be rejected at a significance level of $\alpha = 0.05$? (The critical quantile in the tables is $\chi^2_{0.05, \, 5} = 11.07$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.4}
+	A population geneticist investigates whether the distribution of ABO blood groups in a community cohort closely follows the theoretical national reference proportions: 45\% Type A, 40\% Type B, 10\% Type AB, and 5\% Type O. In a random sample of $n = 200$ individuals, the following absolute frequencies are obtained:
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|}\hline
+			Blood group & A & B & AB & O \\\hline
+			Observed frequency ($O_i$) & 95 & 75 & 18 & 12 \\\hline
+		\end{tabular}
+	\end{center}
+	Perform a goodness-of-fit test at the $\alpha = 0.05$ significance level to confirm or refute the group's conformity with the population reference.
+\end{problema}
+
+\begin{problema}
+	\label{prob:chi-fund-cochran}
+	A data scientist designs a $\chi^2$ goodness-of-fit test for a discrete categorization model with four classes ($k = 4$, with $\nu = 3$ degrees of freedom) from an experimental pilot with $n = 80$ observations. When calculating the expected frequencies under the theoretical model, they obtain: $E_1 = 45.2$, $E_2 = 30.5$, $E_3 = 3.2$, and $E_4 = 1.1$.
+	\begin{enumerate}
+		\item Explain theoretically why direct calculation of Pearson's statistic violates the asymptotic regularity conditions of the $\chi^2$ test (in particular, **Cochran's Rule** regarding minimum expected frequencies).
+		\item Propose the standard corrective procedure the analyst should apply to the category structure before computing the final test, and indicate how many degrees of freedom the new adjusted test would have.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{problema}
+	\label{prob:3.9.2}
+	A market research firm conducts a survey in a shopping mall among $n = 200$ consumers to determine their preference regarding five color schemes for new product packaging:
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|c|}\hline
+			Packaging color & Red & Blue & Green & Yellow & Other \\\hline
+			Observed frequency ($O_i$) & 55 & 48 & 42 & 35 & 20 \\\hline
+		\end{tabular}
+	\end{center}
+	Test the null hypothesis of uniformity (all colors are equally preferred) at the $\alpha = 0.05$ significance level, providing a detailed interpretation of which colors generate the greatest divergence from expectations.
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.3}
+	A road safety audit seeks to determine whether there is statistical independence between the type of vehicle involved in urban accidents and the workday of the week on which they occur. From a systematic sample of $n = 300$ official reports, the following two-way contingency table is compiled:
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|}\hline
+			Vehicle type & Monday & Wednesday & Friday & Row total \\\hline
+			Automobile & 30 & 25 & 45 & 100 \\\hline
+			SUV / Truck & 20 & 30 & 30 & 80 \\\hline
+			Motorcycle & 25 & 20 & 35 & 80 \\\hline
+			Heavy truck & 15 & 15 & 10 & 40 \\\hline
+			Column total & 90 & 90 & 120 & 300 \\\hline
+		\end{tabular}
+	\end{center}
+	\begin{enumerate}
+		\item Calculate the matrix of expected frequencies ($E_{ij}$) under the assumption of complete independence.
+		\item Calculate the contingency $\chi^2$ statistic.
+		\item Determine the theoretical degrees of freedom of the $4 \times 3$ table.
+		\item With a table critical value of $\chi^2_{0.05, \, 6} = 12.59$, is there a statistically significant relationship between the day and the type of vehicle involved in the accident at the $5\%$ significance level?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.5}
+	The human resources department of an industrial conglomerate analyzes whether perceived job satisfaction level is related to functional department. A stratified sample of $n = 250$ employees is interviewed:
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|}\hline
+			Department & Highly satisfied & Satisfied & Dissatisfied & Row total \\\hline
+			Sales & 20 & 35 & 15 & 70 \\\hline
+			Production & 25 & 40 & 25 & 90 \\\hline
+			Administration & 30 & 25 & 5 & 60 \\\hline
+			Human Resources & 15 & 10 & 5 & 30 \\\hline
+			Column total & 90 & 110 & 50 & 250 \\\hline
+		\end{tabular}
+	\end{center}
+	\begin{enumerate}
+		\item Calculate all expected frequencies of the table.
+		\item Obtain the numerical value of the $\chi^2$ statistic.
+		\item Determine the degrees of freedom of the test and compare with the critical quantile $\chi^2_{0.05, \, 6} = 12.59$.
+		\item Provide the executive conclusion detailing which departments concentrate the largest discrepancies between the actual report and statistical independence.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{problema}
+	\label{prob:chi-analit-poisson}
+	\textbf{Goodness-of-fit test with internal parameter estimation (Poisson):}
+	A network infrastructure engineer records the daily count of momentary service interruptions on a central server during an audited sample of $n = 100$ consecutive days. The distribution of observed absolute frequencies is:
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|c|}\hline
+			Number of interruptions ($k$) & 0 & 1 & 2 & $\ge 3$ & Total \\\hline
+			Observed frequency ($O_k$) & 36 & 40 & 18 & 6 & 100 \\\hline
+		\end{tabular}
+	\end{center}
+	To verify whether daily occurrence follows a Poisson distribution $P(X = k) = \dfrac{e^{-\lambda}\lambda^k}{k!}$:
+	\begin{enumerate}
+		\item Calculate the maximum likelihood estimate of the mean daily interruption rate $\hat{\lambda}$ from the observed data (assume a point value of exactly $k=3$ for the final aggregated cell $\ge 3$).
+		\item Calculate the theoretical probabilities and corresponding expected frequencies ($E_k$) under the Poisson model using the estimated $\hat{\lambda}$.
+		\item Calculate the $\chi^2$ statistic and state why the correct degrees of freedom for the test are $\nu = k - 1 - m$, where $m = 1$ is the number of parameters estimated from the same sample. Is the Poisson model accepted at the $\alpha = 0.05$ significance level?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:chi-analit-homogeneidad-z}
+	\textbf{Mathematical equivalence between the homogeneity test in $2 \times 2$ tables and the $Z$-test for two independent proportions:}
+	In a controlled clinical trial, the efficacy of a new prophylactic vaccine is compared against a placebo in preventing a seasonal infection after six months of follow-up:
+	\begin{itemize}
+		\item Vaccine Group ($n_1 = 150$): $12$ infected individuals and $138$ healthy.
+		\item Placebo Group ($n_2 = 150$): $28$ infected individuals and $122$ healthy.
+	\end{itemize}
+	\begin{enumerate}
+		\item Construct the $2 \times 2$ contingency table and perform the $\chi^2$ homogeneity test with $\nu = 1$ degree of freedom to determine whether the infection rate differs significantly between both arms at $\alpha = 0.05$.
+		\item Calculate the difference between sample proportions and the standardized normal $Z$ statistic of a conventional two-tailed two-proportion test with pooled standard error ($\text{SE}_p$). Numerically verify that in every $2 \times 2$ table the exact algebraic identity holds:
+		\begin{align}
+			Z^2 \equiv \chi^2.
+		\end{align}
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{problema}
+	\label{prob:chi-desaf-contingencia-2x2}
+	\textbf{Analytical derivation of the exact contingency statistic for $2 \times 2$ matrices:}
+	Consider a general contingency table of order $2 \times 2$ where the inner cells contain the observed absolute frequencies $a, b, c, d$, with marginal row totals $R_1, R_2$, column totals $C_1, C_2$, and overall sample size $N = a+b+c+d$:
+	\begin{center}
+		\begin{tabular}{|c|c|c|}\hline
+			$a$ & $b$ & $R_1 = a+b$ \\\hline
+			$c$ & $d$ & $R_2 = c+d$ \\\hline
+			$C_1 = a+c$ & $C_2 = b+d$ & $N$ \\\hline
+		\end{tabular}
+	\end{center}
+	\begin{enumerate}
+		\item Starting from Pearson's general definition under independence $\chi^2 = \sum_{i=1}^2 \sum_{j=1}^2 \dfrac{(O_{ij} - E_{ij})^2}{E_{ij}}$ where expected frequencies are $E_{ij} = \dfrac{R_i C_j}{N}$, prove using rigorous algebra that the general formula collapses to the direct closed expression:
+		\begin{align}
+			\chi^2 = \frac{N(ad - bc)^2}{(a+b)(c+d)(a+c)(b+d)}.
+		\end{align}
+		\item Analyze the elementary geometry and statistical significance of the factor $(ad - bc)$ in the numerator, relating it to the determinant of the cross-frequency matrix and the odds ratio ($\text{OR} = \dfrac{ad}{bc}$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:chi-desaf-teorema-pearson}
+	\textbf{Asymptotic multinomial foundation of Pearson's Theorem and analysis of Yates' continuity correction:}
+	Let there be an experiment with $N$ independent trials falling into mutually exclusive categories $k$ with random count vector $\mathbf{O} = (O_1, \dots, O_k)$ and theoretical parameter vector $\mathbf{p} = (p_1, \dots, p_k)$ such that $\sum_{i=1}^k p_i = 1$ and $\sum_{i=1}^k O_i = N$.
+	\begin{enumerate}
+		\item Each marginal cell follows a Binomial distribution $O_i \sim \text{Bin}(N, p_i)$. By the Central Limit Theorem, the standardized variables $Z_i = \dfrac{O_i - Np_i}{\sqrt{Np_i(1-p_i)}}$ converge to standard normals. However, Pearson's test uses the non-standardized sum relative to the full marginal variance: $Q = \sum_{i=1}^k \dfrac{(O_i - Np_i)^2}{Np_i}$. Analytically justify why $Q$ is not distributed as $\chi^2_k$, but exactly as $\chi^2_{k-1}$, explaining the fundamental role of the linear dependence constraint $\sum_{i=1}^k (O_i - Np_i) = 0$ in the vector space of the statistic.
+		\item In $2 \times 2$ tables (with $\nu = 1$ degree of freedom) applied to small or medium-sized samples, Frank Yates introduced **Yates' Continuity Correction**:
+		\begin{align}
+			\chi^2_{\text{Yates}} = \frac{N \left( |ad - bc| - \frac{N}{2} \right)^2}{(a+b)(c+d)(a+c)(b+d)}.
+		\end{align}
+		Explain epistemologically and from the perspective of discrete perturbation theory why the original Pearson $\chi^2$ statistic tends to be systematically optimistic (overestimating statistical significance and increasing Type I error probability) when continuous distributions approximate discrete hypergeometrics, and demonstrate how the penalty term $-\dfrac{N}{2}$ stabilizes $p$-values in the tails of Fisher's exact distribution.
+	\end{enumerate}
+\end{problema}
+
+
+\subsection{Detailed Solutions}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Formulation of hypotheses:}
+		\begin{align}
+			H_0&: p_1 = p_2 = p_3 = p_4 = p_5 = p_6 = \frac{1}{6} \quad (\text{The die is perfectly symmetric and equiprobable}). \\
+			H_a&: \text{At least one of the six probabilities } p_i \text{ is strictly different from } \frac{1}{6}.
+		\end{align}
+		
+		\item \textbf{Expected frequencies under the null hypothesis ($E_i$):}
+		If the die is fair, for each of the 6 faces across $N = 120$ rolls, we expect equiprobably:
+		\begin{align}
+			E_i = N \times p_i = 120 \times \frac{1}{6} = 20 \text{ occurrences.}
+		\end{align}
+		
+		\item \textbf{Calculation of the $\chi^2$ test statistic:}
+		We sum over the 6 faces the ratio of the squared discrepancy to the expected theoretical value:
+		\begin{align}
+			\chi^2 &= \sum_{i=1}^6 \frac{(O_i - E_i)^2}{E_i} \\
+			&= \frac{(18-20)^2}{20} + \frac{(22-20)^2}{20} + \frac{(20-20)^2}{20} + \frac{(19-20)^2}{20} + \frac{(23-20)^2}{20} + \frac{(18-20)^2}{20} \\
+			&= \frac{(-2)^2}{20} + \frac{(2)^2}{20} + \frac{0^2}{20} + \frac{(-1)^2}{20} + \frac{(3)^2}{20} + \frac{(-2)^2}{20} \\
+			&= \frac{4}{20} + \frac{4}{20} + 0 + \frac{1}{20} + \frac{9}{20} + \frac{4}{20} = \frac{22}{20} = 1.10.
+		\end{align}
+		
+		\item \textbf{Degrees of freedom ($\nu$):}
+		In a goodness-of-fit test across $k = 6$ mutually exclusive categories where theoretical probabilities are known a priori (no parameters were estimated), the degrees of freedom are:
+		\begin{align}
+			\nu = k - 1 = 6 - 1 = 5.
+		\end{align}
+		
+		\item \textbf{Decision rule and statistical conclusion:}
+		For a significance level of $\alpha = 0.05$ with $\nu = 5$ degrees of freedom, Pearson's quantile table sets the upper critical threshold at $\chi^2_{0.05, \, 5} = 11.07$.
+		Since our sample statistic is far below the threshold ($1.10 < 11.07$), **there is no statistical evidence to reject the null hypothesis ($H_0$)**.
+		
+		**Conclusion:** Small variations in observed frequencies (such as rolling 23 fives versus 18 ones) are completely natural and attributable to random sampling variation. The die behaves formally as a fair instrument.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\textbf{Step 1: System of hypotheses.}
+	\begin{align}
+		H_0&: p_A = 0.45, \; p_B = 0.40, \; p_{AB} = 0.10, \; p_O = 0.05 \quad (\text{The sample follows national baseline proportions}). \\
+		H_a&: \text{The phenotypic distribution of the community differs from the tested theoretical proportions.}
+	\end{align}
+	
+	\textbf{Step 2: Calculation of expected absolute frequencies ($E_i = N p_i$ for $N = 200$).}
+	\begin{align}
+		E_A &= 200 \times 0.45 = 90. \\
+		E_B &= 200 \times 0.40 = 80. \\
+		E_{AB} &= 200 \times 0.10 = 20. \\
+		E_O &= 200 \times 0.05 = 10.
+	\end{align}
+	
+	\textbf{Step 3: Obtaining the $\chi^2$ test statistic.}
+	We evaluate the normalized quadratic discrepancy cell by cell:
+	\begin{align}
+		\chi^2 &= \sum_{i=1}^4 \frac{(O_i - E_i)^2}{E_i} = \frac{(95-90)^2}{90} + \frac{(75-80)^2}{80} + \frac{(18-20)^2}{20} + \frac{(12-10)^2}{10} \\
+		&= \frac{25}{90} + \frac{25}{80} + \frac{4}{20} + \frac{4}{10} = 0.2778 + 0.3125 + 0.2000 + 0.4000 = 1.1903.
+	\end{align}
+	
+	\textbf{Step 4: Critical evaluation at level $\alpha = 0.05$ ($\nu = 4 - 1 = 3$).}
+	The quantile in chi-square tables with 3 degrees of freedom is $\chi^2_{0.05, \, 3} = 7.815$.
+	Since $\chi^2 = 1.1903 < 7.815$, **the null hypothesis is not rejected**.
+	
+	**Biological conclusion:** The observed distribution in the sample ($47.5\%$ A, $37.5\%$ B, $9\%$ AB, and $6\%$ O) conforms remarkably well with the national population genetic profile at $95\%$ confidence.
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Violation of Cochran's Rule and validity of the statistic:}
+		The exact distribution of the random variable $Q = \sum \dfrac{(O_i - E_i)^2}{E_i}$ in finite samples is discrete and highly skewed. Only when observed frequencies are sufficiently large via the De Moivre-Laplace Central Limit Theorem does the true distribution of $Q$ asymptotically converge to Pearson's continuous distribution $\chi^2_\nu$.
+		
+		William G. Cochran formally demonstrated that for this integral approximation to be mathematically reliable (not distorting $p$-values or causing excessive false positive rates in the tails), **no individual expected frequency ($E_i$) in the study should be less than $1.0$, and no more than $20\%$ of all cells should have expected frequencies less than $5.0$** ($E_i < 5$).
+		
+		In our design with $k=4$ cells, we observe two categories in severe violation: $E_3 = 3.2 < 5$ and $E_4 = 1.1 < 5$. This implies that $50\%$ of the cells ($2 / 4$) violate the threshold of 5, completely invalidating the use of standard $\chi^2$ tables.
+		
+		\item \textbf{Methodological corrective procedure:}
+		The canonical statistical solution consists of **pooling or collapsing adjacent low-probability categories** into a single combined category until all cells in the new design vector satisfy $E_i \ge 5$.
+		
+		In this case, we merge classes 3 and 4 into a new aggregated category ($3+4$). Its new combined expected frequency will be:
+		\begin{align}
+			E_{3+4} = E_3 + E_4 = 3.2 + 1.1 = 4.3.
+		\end{align}
+		If strict rigor requires (since $4.3$ is still slightly below 5), we could merge it with category 2 ($E_{2+3+4} = 30.5 + 4.3 = 34.8$). However, if we accept the double merge into $k' = 3$ categories ($E_1 = 45.2, E_2 = 30.5, E_{3+4} = 4.3$), since only one cell is slightly below 5 representing a minor fraction of a design satisfying $E_i \ge 1$, the analysis is acceptable.
+		Upon collapsing to $k' = 3$ categories, the new theoretical degrees of freedom of the test necessarily decrease from $3$ to:
+		\begin{align}
+			\nu_{\text{corrected}} = k' - 1 = 3 - 1 = 2 \text{ degrees of freedom.}
+		\end{align}
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{solucion}
+	\textbf{Step 1: Uniformity hypothesis and expected frequencies.}
+	\begin{align}
+		H_0&: p_1 = p_2 = p_3 = p_4 = p_5 = 0.20 \quad (\text{Identical preference across the 5 colors}). \\
+		H_a&: \text{At least one color has a true population preference distinct from } 20\%.
+	\end{align}
+	Under uniformity, for $N = 200$ interviews the expected count for each color is:
+	\begin{align}
+		E_i = 200 \times 0.20 = 40 \text{ people for each option.}
+	\end{align}
+	
+	\textbf{Step 2: Calculation of the $\chi^2$ statistic broken down by contribution:}
+	\begin{align}
+		\chi^2 &= \sum_{i=1}^5 \frac{(O_i - 40)^2}{40} = \frac{(55-40)^2}{40} + \frac{(48-40)^2}{40} + \frac{(42-40)^2}{40} + \frac{(35-40)^2}{40} + \frac{(20-40)^2}{40} \\
+		&= \frac{225}{40} + \frac{64}{40} + \frac{4}{40} + \frac{25}{40} + \frac{400}{40} = 5.625 + 1.600 + 0.100 + 0.625 + 10.000 = 17.950.
+	\end{align}
+	
+	\textbf{Step 3: Decision and analysis by standard residuals:}
+	For $k = 5$ options, the degrees of freedom are $\nu = 4$. The quantile at $5\%$ is $\chi^2_{0.05, \, 4} = 9.488$.
+	Since $\chi^2 = 17.950 > 9.488$, **the null hypothesis of uniformity is overwhelmingly rejected**.
+	
+	**Diagnostic interpretation:** Analyzing the relative contributions to the overall statistic ($\chi^2 = 17.95$), we discover that the **"Other"** category contributes more than half of the total statistic ($10.00 / 17.95$), due to having a real preference far below uniformity ($O_5 = 20$ vs. $E_5 = 40$). Furthermore, the **Red** color contributes a notable $5.625$, as the clear market favorite ($O_1 = 55$ vs. $E_1 = 40$). The firm should prioritize the Red color scheme in its final design.
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Calculation of expected frequencies under independence ($E_{ij}$):}
+		In two-dimensional $r \times c$ contingency tables, the joint theoretical probability under the independence hypothesis is the product of marginal row and column probabilities: $P(F_i \cap C_j) = P(F_i) \times P(C_j) = \dfrac{R_i}{N} \times \dfrac{C_j}{N}$. Multiplying by $N$ yields the expected count:
+		\begin{align}
+			E_{ij} = \frac{R_i \times C_j}{N}.
+		\end{align}
+		We calculate each of the $4 \times 3 = 12$ cells for $N = 300$:
+		\begin{itemize}
+			\item \textbf{Automobile ($R_1 = 100$):} $E_{1,1} = \frac{100 \times 90}{300} = 30$; $E_{1,2} = \frac{100 \times 90}{300} = 30$; $E_{1,3} = \frac{100 \times 120}{300} = 40$.
+			\item \textbf{SUV / Truck ($R_2 = 80$):} $E_{2,1} = \frac{80 \times 90}{300} = 24$; $E_{2,2} = \frac{80 \times 90}{300} = 24$; $E_{2,3} = \frac{80 \times 120}{300} = 32$.
+			\item \textbf{Motorcycle ($R_3 = 80$):} $E_{3,1} = 24$; $E_{3,2} = 24$; $E_{3,3} = 32$.
+			\item \textbf{Heavy truck ($R_4 = 40$):} $E_{4,1} = \frac{40 \times 90}{300} = 12$; $E_{4,2} = \frac{40 \times 90}{300} = 12$; $E_{4,3} = \frac{40 \times 120}{300} = 16$.
+		\end{itemize}
+		
+		\item \textbf{Calculation of the $\chi^2$ statistic:}
+		We sum the 12 contributions $\dfrac{(O_{ij} - E_{ij})^2}{E_{ij}}$:
+		\begin{align}
+			\chi^2 &= \frac{(30-30)^2}{30} + \frac{(25-30)^2}{30} + \frac{(45-40)^2}{40} + \frac{(20-24)^2}{24} + \frac{(30-24)^2}{24} + \frac{(30-32)^2}{32} \\
+			&\quad + \frac{(25-24)^2}{24} + \frac{(20-24)^2}{24} + \frac{(35-32)^2}{32} + \frac{(15-12)^2}{12} + \frac{(15-12)^2}{12} + \frac{(10-16)^2}{16} \\
+			&= 0 + 0.8333 + 0.6250 + 0.6667 + 1.5000 + 0.1250 + 0.0417 + 0.6667 + 0.2813 + 0.7500 + 0.7500 + 2.2500 \\
+			&= 8.4897.
+		\end{align}
+		
+		\item \textbf{Theoretical degrees of freedom:}
+		In a contingency table with $r = 4$ rows and $c = 3$ columns, degrees of freedom reflect the number of free cells after fixing marginal row and column totals:
+		\begin{align}
+			\nu = (r - 1)(c - 1) = (4 - 1)(3 - 1) = 3 \times 2 = 6.
+		\end{align}
+		
+		\item \textbf{Road safety decision and interpretation:}
+		The critical value at $5\%$ for $\nu = 6$ is $\chi^2_{0.05, \, 6} = 12.592$.
+		Since $\chi^2 = 8.49 < 12.592$, **the hypothesis of independence is not rejected**.
+		
+		**Conclusion:** There is no statistically significant relationship at the 5\% level between vehicle type and the day of the week on which the accident occurs. The relative probability of crashing an car, truck, or motorcycle remains invariant whether it is Monday, Wednesday, or Friday.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Calculation of expected frequencies ($E_{ij} = \dfrac{R_i C_j}{250}$):}
+		Marginals by satisfaction are: $C_{\text{Highly sat.}} = 90$, $C_{\text{Sat.}} = 110$, $C_{\text{Dissat.}} = 50$.
+		\begin{itemize}
+			\item \textbf{Sales ($R_1 = 70$):} $E_{1,1} = \frac{70 \times 90}{250} = 25.2$; $E_{1,2} = \frac{70 \times 110}{250} = 30.8$; $E_{1,3} = \frac{70 \times 50}{250} = 14.0$.
+			\item \textbf{Production ($R_2 = 90$):} $E_{2,1} = \frac{90 \times 90}{250} = 32.4$; $E_{2,2} = \frac{90 \times 110}{250} = 39.6$; $E_{2,3} = \frac{90 \times 50}{250} = 18.0$.
+			\item \textbf{Administration ($R_3 = 60$):} $E_{3,1} = \frac{60 \times 90}{250} = 21.6$; $E_{3,2} = \frac{60 \times 110}{250} = 26.4$; $E_{3,3} = \frac{60 \times 50}{250} = 12.0$.
+			\item \textbf{Human Resources ($R_4 = 30$):} $E_{4,1} = \frac{30 \times 90}{250} = 10.8$; $E_{4,2} = \frac{30 \times 110}{250} = 13.2$; $E_{4,3} = \frac{30 \times 50}{250} = 6.0$.
+		\end{itemize}
+		
+		\item \textbf{Calculation of the contingency $\chi^2$ statistic:}
+		\begin{align}
+			\chi^2 &= \frac{(20-25.2)^2}{25.2} + \frac{(35-30.8)^2}{30.8} + \frac{(15-14)^2}{14} + \frac{(25-32.4)^2}{32.4} + \frac{(40-39.6)^2}{39.6} + \frac{(25-18)^2}{18} \\
+			&\quad + \frac{(30-21.6)^2}{21.6} + \frac{(25-26.4)^2}{26.4} + \frac{(5-12)^2}{12} + \frac{(15-10.8)^2}{10.8} + \frac{(10-13.2)^2}{13.2} + \frac{(5-6)^2}{6} \\
+			&= 1.0714 + 0.5727 + 0.0714 + 1.6840 + 0.0040 + 2.7222 + 3.2667 + 0.0742 + 4.0833 + 1.6333 + 0.7758 + 0.1667 \\
+			&= 16.1257.
+		\end{align}
+		
+		\item \textbf{Degrees of freedom and test decision:}
+		For a $4 \times 3$ table, $\nu = (4-1)(3-1) = 6$.
+		With an upper critical value of $\chi^2_{0.05, \, 6} = 12.592$, since our statistic $\chi^2 = 16.126 > 12.592$, **we categorically reject the hypothesis of functional independence**.
+		
+		\item \textbf{Human Resources corporate conclusion:}
+		There is a highly significant dependency at 95\% between functional department and employee morale. Examining individual contributions:
+		\begin{itemize}
+			\item \textbf{Administration ($4.08$ contribution in dissatisfaction):} Exhibits far fewer dissatisfied employees than expected under homogeneity ($O_{3,3} = 5$ vs. $E_{3,3} = 12$), and a high concentration of highly satisfied personnel ($30$ vs. $21.6$).
+			\item \textbf{Production ($2.72$ in dissatisfaction):} Concentrates the major labor risk area with an excess of dissatisfied workers ($O_{2,3} = 25$ vs. $E_{2,3} = 18$) and a notable deficit in high satisfaction ($25$ vs. $32.4$). Management must immediately intervene in working conditions within the Production department.
+		\end{itemize}
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Estimation of mean daily interruption rate ($\hat{\lambda}$):}
+		The maximum likelihood estimator for parameter $\lambda$ of the Poisson distribution coincides with the sample average count:
+		\begin{align}
+			\hat{\lambda} = \bar{X} = \frac{1}{N} \sum_{k=0}^3 k \cdot O_k = \frac{0(36) + 1(40) + 2(18) + 3(6)}{100} = \frac{0 + 40 + 36 + 18}{100} = \frac{94}{100} = 0.94 \text{ failures/day.}
+		\end{align}
+		
+		\item \textbf{Calculation of theoretical probabilities and expected frequencies ($E_k = 100 \cdot P_k$):}
+		Under the Poisson distribution with $\hat{\lambda} = 0.94$:
+		\begin{align}
+			P_0 &= e^{-0.94} \frac{0.94^0}{0!} = e^{-0.94} \approx 0.390628 \implies E_0 = 39.06. \\
+			P_1 &= e^{-0.94} \frac{0.94^1}{1!} = 0.390628 \times 0.94 \approx 0.367191 \implies E_1 = 36.72. \\
+			P_2 &= e^{-0.94} \frac{0.94^2}{2!} = \frac{0.367191 \times 0.94}{2} \approx 0.172580 \implies E_2 = 17.26. \\
+			P_{\ge 3} &= 1 - (P_0 + P_1 + P_2) = 1 - (0.390628 + 0.367191 + 0.172580) = 1 - 0.930399 = 0.069601 \implies E_{\ge 3} = 6.96.
+		\end{align}
+		Note: We verify that all cells easily satisfy Cochran's Rule ($E_{\ge 3} = 6.96 > 5$).
+		
+		\item \textbf{Calculation of $\chi^2$ and analytical justification of degrees of freedom ($\nu$):}
+		\begin{align}
+			\chi^2 &= \sum_{k=0}^3 \frac{(O_k - E_k)^2}{E_k} = \frac{(36 - 39.06)^2}{39.06} + \frac{(40 - 36.72)^2}{36.72} + \frac{(18 - 17.26)^2}{17.26} + \frac{(6 - 6.96)^2}{6.96} \\
+			&= \frac{9.3636}{39.06} + \frac{10.7584}{36.72} + \frac{0.5476}{17.26} + \frac{0.9216}{6.96} = 0.2397 + 0.2930 + 0.0317 + 0.1324 = 0.6968.
+		\end{align}
+		
+		\textbf{Parametric constraint theorem:} When in a Pearson goodness-of-fit test the population parameters governing the theoretical probability model are not pre-specified or external, but are **estimated by maximum likelihood from the very experimental sample under study**, each estimated parameter imposes an additional algebraic-differential constraint on the deviation vector $(O_k - E_k)$. This reduces the dimension of freedom of the subspace containing the normalized quadratic form by one unit for each parameter ($m$).
+		Therefore, having estimated $m = 1$ parameter ($\hat{\lambda}$) across $k = 4$ design cells, the degrees of freedom become:
+		\begin{align}
+			\nu = k - 1 - m = 4 - 1 - 1 = 2 \text{ exact degrees of freedom.}
+		\end{align}
+		For $\alpha = 0.05$ with $\nu = 2$, the critical quantile of the $\chi^2$ distribution is $\chi^2_{0.05, \, 2} = 5.991$.
+		Since $\chi^2 = 0.697 \ll 5.991$, **the Poisson model with rate $\lambda = 0.94$ is accepted and confirmed with high fidelity as the underlying stochastic process for server interruptions**.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{$2 \times 2$ contingency table and $\chi^2$ homogeneity test ($\nu = 1$):}
+		\begin{center}
+			\begin{tabular}{|l|c|c|c|}\hline
+				Experimental group & Infected ($C_1$) & Healthy ($C_2$) & Row total ($R_i$) \\\hline
+				Vaccine ($F_1$) & $O_{11} = 12$ & $O_{12} = 138$ & $n_1 = 150$ \\\hline
+				Placebo ($F_2$) & $O_{21} = 28$ & $O_{22} = 122$ & $n_2 = 150$ \\\hline
+				Column total ($C_j$) & $40$ & $260$ & $N = 300$ \\\hline
+			\end{tabular}
+		\end{center}
+		We calculate the expected frequencies $E_{ij} = \dfrac{R_i C_j}{300}$:
+		\begin{align}
+			E_{11} &= \frac{150 \times 40}{300} = 20, \quad E_{12} = \frac{150 \times 260}{300} = 130. \\
+			E_{21} &= \frac{150 \times 40}{300} = 20, \quad E_{22} = \frac{150 \times 260}{300} = 130.
+		\end{align}
+		We evaluate Pearson's homogeneity statistic without Yates' continuity correction:
+		\begin{align}
+			\chi^2 &= \frac{(12-20)^2}{20} + \frac{(138-130)^2}{130} + \frac{(28-20)^2}{20} + \frac{(122-130)^2}{130} \\
+			&= \frac{64}{20} + \frac{64}{130} + \frac{64}{20} + \frac{64}{130} = 3.20 + 0.4923 + 3.20 + 0.4923 = 7.3846.
+		\end{align}
+		For $\nu = (2-1)(2-1) = 1$ and $\alpha = 0.05$, the critical value is $\chi^2_{0.05, \, 1} = 3.841$.
+		Since $7.3846 > 3.841$, it is demonstrated at 95\% confidence that the vaccine significantly reduces infection incidence compared to placebo.
+		
+		\item \textbf{Normal $Z$-test for two proportions and formal proof of equivalence:}
+		The sample proportions of infection in each group are:
+		\begin{align}
+			\hat{p}_1 = \frac{12}{150} = 0.08, \quad \hat{p}_2 = \frac{28}{150} = \frac{14}{75} \approx 0.18667.
+		\end{align}
+		The pooled overall proportion under the null hypothesis ($H_0: p_1 = p_2 = p$) is:
+		\begin{align}
+			\hat{p} = \frac{12 + 28}{150 + 150} = \frac{40}{300} = \frac{2}{15} \approx 0.13333 \implies \hat{q} = 1 - \hat{p} = \frac{13}{15} \approx 0.86667.
+		\end{align}
+		The combined standard error of the difference under the null hypothesis is:
+		\begin{align}
+			\text{SE}_p = \sqrt{\hat{p}\hat{q} \left( \frac{1}{n_1} + \frac{1}{n_2} \right)} = \sqrt{\left(\frac{2}{15}\right)\left(\frac{13}{15}\right)\left(\frac{1}{150} + \frac{1}{150}\right)} = \sqrt{\frac{26}{225} \left(\frac{2}{150}\right)} = \sqrt{\frac{52}{33,750}} \approx \sqrt{0.00154074} \approx 0.039252.
+		\end{align}
+		We calculate the standardized normal $Z$ statistic:
+		\begin{align}
+			Z = \frac{\hat{p}_1 - \hat{p}_2}{\text{SE}_p} = \frac{0.08 - 0.18667}{0.039252} = \frac{-0.10667}{0.039252} = -2.7175.
+		\end{align}
+		We square the normal statistic $Z$ to verify the second-order identity:
+		\begin{align}
+			Z^2 = (-2.7175)^2 \approx 7.3848.
+		\end{align}
+		We observe an absolute match across algebraic decimal computations with the $\chi^2 = 7.3846$ statistic (the minor discrepancy in the fourth decimal place stems solely from intermediate rounding of square roots).
+		
+		**Algebraic justification of isomorphism:** In mathematical statistics, the square of a standard normal variable follows, by axiomatic definition, a Chi-square distribution with exactly 1 degree of freedom ($Z \sim N(0,1) \implies Z^2 \sim \chi^2_1$).
+		In any $2 \times 2$ contingency table, Pearson's homogeneity statistic is structurally the quadratic decomposition of the binomial proportion gap, meaning both tests are **100\% analytically, asymptotically, and probabilistically identical**.
+	\end{enumerate}
+\end{solucion}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Complete algebraic derivation of the simplified formula for $2 \times 2$ tables:}
+		In a general cell of a $2 \times 2$ table, the observed frequency is denoted by $O_{ij}$ and the expected count under independence by $E_{ij} = \dfrac{R_i C_j}{N}$. The difference between observation and expectation in the first cell ($O_{11} = a$, where $R_1 = a+b$ and $C_1 = a+c$) is:
+		\begin{align}
+			O_{11} - E_{11} = a - \frac{(a+b)(a+c)}{N} = \frac{a(a+b+c+d) - (a^2 + ac + ab + bc)}{N}.
+		\end{align}
+		Expanding the algebraic product in the numerator:
+		\begin{align}
+			O_{11} - E_{11} = \frac{a^2 + ab + ac + ad - a^2 - ac - ab - bc}{N} = \frac{ad - bc}{N}.
+		\end{align}
+		Since marginal observed and expected totals for rows and columns match exactly by design, the simple deviations across all four cells share identical absolute magnitude in the numerator, varying only by alternating signs in a checkerboard pattern:
+		\begin{align}
+			O_{11} - E_{11} &= \frac{ad - bc}{N}, & O_{12} - E_{12} &= -\frac{ad - bc}{N}. \\
+			O_{21} - E_{21} &= -\frac{ad - bc}{N}, & O_{22} - E_{22} &= \frac{ad - bc}{N}.
+		\end{align}
+		Squaring each of these four deviations inside Pearson's statistic yields a universal quadratic numerator across all four cells: $(O_{ij} - E_{ij})^2 = \dfrac{(ad - bc)^2}{N^2}$.
+		
+		Substituting this common factor into the general definition $\chi^2 = \sum \sum \dfrac{(O_{ij} - E_{ij})^2}{E_{ij}}$:
+		\begin{align}
+			\chi^2 &= \frac{(ad - bc)^2}{N^2} \left[ \frac{1}{E_{11}} + \frac{1}{E_{12}} + \frac{1}{E_{21}} + \frac{1}{E_{22}} \right] \\
+			&= \frac{(ad - bc)^2}{N^2} \left[ \frac{N}{(a+b)(a+c)} + \frac{N}{(a+b)(b+d)} + \frac{N}{(c+d)(a+c)} + \frac{N}{(c+d)(b+d)} \right].
+		\end{align}
+		Factoring out $N$ from all four terms simplifies with $N^2$ in the outer denominator:
+		\begin{align}
+			\chi^2 = \frac{(ad - bc)^2}{N} \left[ \frac{1}{R_1 C_1} + \frac{1}{R_1 C_2} + \frac{1}{R_2 C_1} + \frac{1}{R_2 C_2} \right].
+		\end{align}
+		We group terms inside the bracket by row common factors ($R_1$ and $R_2$):
+		\begin{align}
+			\frac{1}{R_1 C_1} + \frac{1}{R_1 C_2} + \frac{1}{R_2 C_1} + \frac{1}{R_2 C_2} &= \frac{1}{R_1}\left( \frac{1}{C_1} + \frac{1}{C_2} \right) + \frac{1}{R_2}\left( \frac{1}{C_1} + \frac{1}{C_2} \right) \\
+			&= \left( \frac{1}{R_1} + \frac{1}{R_2} \right) \left( \frac{1}{C_1} + \frac{1}{C_2} \right).
+		\end{align}
+		Performing elementary algebraic addition inside both parentheses:
+		\begin{align}
+			\left( \frac{R_2 + R_1}{R_1 R_2} \right) \left( \frac{C_2 + C_1}{C_1 C_2} \right).
+		\end{align}
+		Recalling that the total sum of the two rows ($R_1 + R_2$) or two columns ($C_1 + C_2$) equals exactly the overall sample $N$, the entire bracket equals $\dfrac{N \cdot N}{R_1 R_2 C_1 C_2} = \dfrac{N^2}{R_1 R_2 C_1 C_2}$.
+		
+		Substituting the simplified bracket back into the statistic equation:
+		\begin{align}
+			\chi^2 = \frac{(ad - bc)^2}{N} \left[ \frac{N^2}{(a+b)(c+d)(a+c)(b+d)} \right] = \frac{N(ad - bc)^2}{(a+b)(c+d)(a+c)(b+d)}.
+		\end{align}
+		This elegantly derives Pearson's exact computational formula for $2 \times 2$ tables.
+		
+		\item \textbf{Significance of the factor $(ad - bc)$ in linear algebra and odds ratio theory:}
+		The factor $(ad - bc)$ governs the behavior of the entire statistic. If we structure the original contingency table as a square matrix of order 2:
+		\begin{align}
+			\mathbf{M} = \begin{pmatrix} a & b \\ c & d \end{pmatrix},
+		\end{align}
+		we immediately recognize that the term $(ad - bc)$ is the **exact determinant of the contingency matrix ($\det(\mathbf{M}) = ad - bc$)**.
+		\begin{itemize}
+			\item If the determinant is zero ($\det(\mathbf{M}) = ad - bc = 0 \iff ad = bc$), the rows are linearly dependent (proportional to each other). In probability, this equates to **absolute statistical independence between the qualitative variables** ($\chi^2 = 0$).
+			\item Dividing both sides of the null point $ad = bc$ by $bc$ yields the definition of the **Odds Ratio ($\text{OR}$)**:
+			\begin{align}
+				\text{OR} = \frac{a / c}{b / d} = \frac{ad}{bc}.
+			\end{align}
+			When $\text{OR} = 1$, the hypothesis of independence holds ($\det = 0$). As $\text{OR}$ diverges from $1$ (toward infinity for strong positive association or toward zero for inverse association), the modulus of the determinant $|ad - bc|$ grows quadratically, vigorously driving the $\chi^2$ statistic toward the right-hand rejection region of the distribution.
+		\end{itemize}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Foundation of degrees of freedom in Pearson's Theorem ($k-1$ instead of $k$):}
+		Let the random vector of observed counts be $\mathbf{O} = (O_1, \dots, O_k)^T$ following a multinomial distribution with parameters $(N, \, p_1, \dots, p_k)$. Pearson's non-standardized statistic is the sum of $k$ quadratic components:
+		\begin{align}
+			Q = \sum_{i=1}^k \frac{(O_i - Np_i)^2}{Np_i} = \sum_{i=1}^k Z_i^2, \quad \text{where } Z_i = \frac{O_i - Np_i}{\sqrt{Np_i}}.
+		\end{align}
+		If the variables $Z_i$ were standard normals and **stochastically independent** of each other, their sum of squares $Q$ would be distributed as a direct sum of squared normals, namely $\chi^2_k$ with exactly $k$ degrees of freedom.
+		
+		However, in any closed experiment or survey, the total sample size is a fixed finite constant ($N$). This imposes a **strict, unbreakable linear constraint** upon individual deviations:
+		\begin{align}
+			\sum_{i=1}^k O_i = N \implies \sum_{i=1}^k (O_i - Np_i) = \sum_{i=1}^k O_i - N \sum_{i=1}^k p_i = N - N(1) = 0.
+		\end{align}
+		Since the $k$ sampling deviations must necessarily sum to zero, the count of the $k$-th cell is not a free variable; it is deterministically pre-assigned as soon as the first $k-1$ counts are known:
+		\begin{align}
+			O_k - Np_k = -\sum_{i=1}^{k-1} (O_i - Np_i).
+		\end{align}
+		In terms of linear algebra geometry, the random deviation vector $\mathbf{Z} = (Z_1, \dots, Z_k)^T$ cannot freely explore the entire Euclidean space $\mathbb{R}^k$. Instead, it is confined to live inside a degenerate affine hyperplane of strictly reduced topological dimension by one unit: $\mathbb{R}^{k-1}$.
+		By orthogonally projecting the multivariate normal vector onto this $(k-1)$-dimensional hyperplane via the idempotent spectral covariance matrix, the eigenvalues of the normalized quadratic form yield exactly $k-1$ ones and a single zero. Consequently, the asymptotic statistic $Q$ is distributed as a $\chi^2$ variable with the true spectral rank of the matrix:
+		\begin{align}
+			\nu = k - 1 \text{ degrees of freedom.}
+		\end{align}
+		
+		\item \textbf{Epistemology of positive bias in Pearson and Yates' correction mechanism:}
+		\begin{itemize}
+			\item \textbf{Origin of optimistic bias (overestimation of Type I error):}
+			The exact theoretical distribution of the test statistic for a finite $2 \times 2$ discrete table is dictated by **Fisher's Exact Hypergeometric Distribution**. As a counting function of integer subjects or successes, its sampling probability function is purely **discrete (step-like)**.
+			In contrast, the reference distribution $\chi^2_1$ against which we compare Pearson's statistic is a **smooth, absolutely continuous** mathematical curve.
+			When attempting to approximate discrete step jumps using a continuous integral curve, the area under the continuous right tail of the $\chi^2_1$ distribution (which represents the evaluated $p$-value) is systematically smaller than the true exact probability of observing that extreme discrepancy in the discrete hypergeometric world. Therefore, the classic Pearson formula yields artificially low $p$-values ($p_{\text{Pearson}} < p_{\text{exact}}$), inducing the researcher to commit an excess of **false positives (Type I error)** and declare spurious significance in finite samples that true exact probability does not support.
+			
+			\item \textbf{Mathematical mechanism of Yates' stabilization ($-\frac{N}{2}$):}
+			To bridge this quantization gap and align the continuous asymptotic curve with discrete hypergeometric steps (analogous to De Moivre's $\pm 0.5$ continuity correction for binomial-normal approximations), Frank Yates introduced a constant contraction that reduces the discrepancy between observation and expectation by exactly half a discrete unit ($0.5$).
+			Since for an elementary cell the correction is $|O_{ij} - E_{ij}| - 0.5$, translating this adjustment into the expanded general determinant formula for the full table multiplies the reduction factor by exactly the total cell sample size $N$:
+			\begin{align}
+				|ad - bc| \longrightarrow |ad - bc| - \frac{N}{2}.
+			\end{align}
+			By subtracting the constant quantity $\dfrac{N}{2}$ from the absolute magnitude of the determinant before squaring it, the final statistic $\chi^2_{\text{Yates}}$ **decreases in numerical value**:
+			\begin{align}
+				\chi^2_{\text{Yates}} = \frac{N \left( |ad - bc| - \frac{N}{2} \right)^2}{(a+b)(c+d)(a+c)(b+d)} < \chi^2_{\text{Pearson}}.
+			\end{align}
+			Lowering the statistic increases the associated $p$-value in the right tail of the continuous distribution, bringing it into perfect epistemological alignment with the strict $p$-value of Fisher's Exact Test. Yates thus transforms the test into a conservative tool free of false positives for discrete contingency analysis in data science and clinical statistics.
+		\end{itemize}
+	\end{enumerate}
+\end{solucion}

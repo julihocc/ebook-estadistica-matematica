@@ -1,0 +1,426 @@
+\section{Solved Problems on Advanced Interval Estimation and Sample Size}
+
+\subsection{Problem Statements}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{problema}
+	\label{prob:n_media}
+	A research team wishes to estimate the average time a user spends interacting with a virtual educational platform before logging out. From preliminary data on similar platforms, it is known that the standard deviation of session durations is roughly $\sigma = 18$ minutes.
+	\begin{enumerate}
+		\item What sample size is required to estimate the population mean $\mu$ with a maximum tolerable margin of error $E = 2$ minutes at a $95\%$ confidence level?
+		\item If the budget only allows monitoring a maximum of $n = 150$ sessions, what would be the actual margin of error achieved at $95\%$ confidence?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:ic_varianza}
+	A financial analytics team monitors the daily volatility of a technology stock market index. Over a trading month of $n = 21$ business days, logarithmic returns exhibit a sample standard deviation $S = 1.45\%$. Assuming that daily returns follow a normal distribution, construct a $90\%$ confidence interval for the true population variance $\sigma^2$ and for the standard deviation $\sigma$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:dif_medias_z_avanzado}
+	In a data center performance audit, query processing response times are compared between two independent server clusters. From a random sample of $n_1 = 50$ queries on Cluster 1, an average of $\bar{X}_1 = 120.0$ ms with a sample standard deviation $S_1 = 15.0$ ms was obtained. On Cluster 2, a sample of $n_2 = 60$ queries yielded $\bar{X}_2 = 112.0$ ms with $S_2 = 12.0$ ms.
+	
+	Given that the sample sizes are large ($n_1, n_2 \ge 30$), construct a $95\%$ parametric confidence interval for the difference in average response times $\mu_1 - \mu_2$ using the standard normal distribution $Z$.
+\end{problema}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{problema}
+	\label{prob:dif_medias_indep_iguales}
+	A data science engineer evaluates the latency time (in milliseconds) of two cloud database architectures (Architecture A and Architecture B) under similar workloads. They draw two independent random samples with the following results:
+	\begin{itemize}
+		\item \textbf{Architecture A:} $n_1 = 15$, sample mean $\bar{X}_1 = 48.5$ ms, standard deviation $S_1 = 6.2$ ms.
+		\item \textbf{Architecture B:} $n_2 = 12$, sample mean $\bar{X}_2 = 53.8$ ms, standard deviation $S_2 = 5.8$ ms.
+	\end{itemize}
+	Assuming that the populations are normal and have equal variances ($\sigma_1^2 = \sigma_2^2$), construct a $95\%$ confidence interval for the true difference in mean latencies $\mu_1 - \mu_2$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:dif_proporciones_ab}
+	In an A/B test for an e-commerce website, two versions of a checkout form are randomly shown to visitors. Out of $n_1 = 800$ users exposed to Version A (classic design), $X_1 = 144$ completed a purchase. Out of $n_2 = 850$ users exposed to Version B (single-step minimalist design), $X_2 = 187$ completed a purchase.
+	\begin{enumerate}
+		\item Construct a $95\%$ confidence interval for the true difference between population conversion rates $p_1 - p_2$.
+		\item Do the data justify the decision to permanently adopt Version B?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:n_proporcion}
+	An analytical firm plans to conduct a national survey to determine the proportion $p$ of urban households using generative artificial intelligence services in their daily lives.
+	\begin{enumerate}
+		\item Calculate the minimum required sample size so that the estimate has a margin of error no greater than $3\%$ ($E = 0.03$) at a $99\%$ confidence level, assuming no prior survey is available (most conservative scenario).
+		\item Suppose a previous pilot study suggested that this proportion is around $20\%$ ($\hat{p}^* = 0.20$). How many surveys would be required under this new scenario with the same level of precision and confidence? What percentage savings in sample size does having this prior information represent?
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{problema}
+	\label{prob:dif_medias_welch}
+	In a study on the performance of two optimization algorithms (Algorithm 1 and Algorithm 2) applied to convolutional neural networks, convergence time was measured in seconds. Since the variability of one seems much larger, equal variances are not assumed ($\sigma_1^2 \neq \sigma_2^2$). The obtained data are:
+	\begin{itemize}
+		\item \textbf{Algorithm 1:} $n_1 = 10$, $\bar{X}_1 = 120.4$ s, $S_1 = 18.5$ s.
+		\item \textbf{Algorithm 2:} $n_2 = 14$, $\bar{X}_2 = 105.2$ s, $S_2 = 7.3$ s.
+	\end{itemize}
+	Construct a $99\%$ confidence interval for $\mu_1 - \mu_2$ using the Welch-Satterthwaite approximation.
+\end{problema}
+
+\begin{problema}
+	\label{prob:ic_razon_varianzas}
+	To verify whether two industrial IoT temperature sensors manufactured by different suppliers have exactly the same variance and precision in their measurements, two independent samples are taken:
+	\begin{itemize}
+		\item \textbf{Supplier 1:} $n_1 = 16$ measurements, with sample variance $S_1^2 = 0.36$ $^\circ$C$^2$.
+		\item \textbf{Supplier 2:} $n_2 = 13$ measurements, with sample variance $S_2^2 = 0.12$ $^\circ$C$^2$.
+	\end{itemize}
+	Construct a $98\%$ confidence interval for the population variance ratio $\dfrac{\sigma_1^2}{\sigma_2^2}$. Is there statistical evidence to claim that one supplier has higher variability than the other?
+\end{problema}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{problema}
+	\label{prob:ic-desaf-fisher}
+	\textbf{Derivation of the exact asymptotic interval for Pearson's correlation using Fisher's transformation:}
+	The sample linear correlation coefficient $r$ obtained from a bivariate normal sample $(X_i, Y_i)$ of size $n$ has a distribution on the interval $[-1, 1]$ that becomes highly skewed as the true parameter $\rho \to \pm 1$.
+	\begin{enumerate}
+		\item Theoretically explain why the symmetric standard error technique $r \pm Z_{\alpha/2}\text{SE}(r)$ produces mathematical absurdities or poor coverage when $|\rho|$ is large in small or moderate samples.
+		\item Fisher's hyperbolic variance-stabilizing transformation is defined by:
+		\begin{align}
+			Z(r) = \text{artanh}(r) = \frac{1}{2} \ln\left( \frac{1 + r}{1 - r} \right).
+		\end{align}
+		Algebraically demonstrate how to invert the symmetric asymptotic confidence interval for $Z(\rho)$ in the transformed scale ($Z(r) \pm Z_{\alpha/2}\frac{1}{\sqrt{n-3}}$) using the hyperbolic tangent function $\tanh(z) = \frac{e^{2z}-1}{e^{2z}+1}$ to obtain explicit limits $[L_\rho, \, U_\rho]$ in the original scale of the correlation coefficient.
+		\item In a bioinformatics analysis on collinear gene expression across $n = 28$ patients, a sample correlation coefficient $r = 0.82$ was observed. Exactly compute the $95\%$ confidence interval for $\rho$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:ic-desaf-delta-method}
+	\textbf{The Delta Method for interval inference on ratios of means:}
+	In quantitative economics and data science, one frequently wishes to estimate and construct confidence intervals for ratios of population parameters $\theta = \dfrac{\mu_Y}{\mu_X}$ (for example, average elasticity, cost efficiency, or return on cost), from independent pairs of observations $(X_1, Y_1), \dots, (X_n, Y_n)$ where $\mu_X \neq 0$. The natural ratio estimator is defined as:
+	\begin{align}
+		\hat{\theta} = \frac{\bar{Y}}{\bar{X}}.
+	\end{align}
+	\begin{enumerate}
+		\item Using a first-order multivariate Taylor series expansion (or multivariate Delta Method) around the exact point $(\mu_X, \mu_Y)$, rigorously prove that the asymptotic variance of $\hat{\theta}$ is given by the expression:
+		\begin{align}
+			\Var(\hat{\theta}) \approx \frac{1}{n \mu_X^2} \left[ \sigma_Y^2 - 2\theta \sigma_{XY} + \theta^2 \sigma_X^2 \right],
+		\end{align}
+		where $\sigma_{XY} = \cov(X, Y)$ is the population covariance.
+		\item Based on the derived result, systematically state how to construct the $(1-\alpha)$ asymptotic confidence interval for $\theta = \dfrac{\mu_Y}{\mu_X}$ by replacing unknown parameters with consistent sample moments ($\bar{X}, \bar{Y}, s_X^2, s_Y^2, s_{XY}$).
+	\end{enumerate}
+\end{problema}
+
+
+\subsection{Detailed Solutions}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{solucion}
+	\textbf{Part 1: Required sample size ($n$).}
+	For a $95\%$ confidence level, the standardized normal value is $Z_{0.025} = 1.96$. The known dispersion is $\sigma = 18$ min and the tolerable margin of error is $E = 2$ min.
+	
+	Substituting directly into the elementary sample size formula:
+	\begin{align}
+		n = \left( \frac{Z_{\alpha/2} \cdot \sigma}{E} \right)^2 = \left( \frac{1.96 \times 18}{2} \right)^2 = (1.96 \times 9)^2 = (17.64)^2 = 311.1696.
+	\end{align}
+	Since sample sizes correspond to discrete counts of entire sessions and the margin of error must strictly not exceed 2 minutes, we apply the ceiling rule by always rounding up:
+	\begin{align}
+		n \geq \lceil 311.17 \rceil = 312 \text{ sessions.}
+	\end{align}
+	
+	\textbf{Part 2: Margin of error under a fixed budget of $n = 150$.}
+	Solving for $E$ from the confidence interval half-width formula for the mean:
+	\begin{align}
+		E = Z_{\alpha/2} \frac{\sigma}{\sqrt{n}} = 1.96 \times \frac{18}{\sqrt{150}} = \frac{35.28}{12.2474} \approx 2.8806 \text{ minutes.}
+	\end{align}
+	Consequently, limiting data collection to $150$ sessions decreases the study's precision, yielding an increased margin of error of $2.88$ minutes at $95\%$ confidence.
+\end{solucion}
+
+\begin{solucion}
+	\textbf{Step 1: Degrees of freedom and chi-square quantiles.}
+	The degrees of freedom of the sample variance statistic are $\nu = n - 1 = 21 - 1 = 20$.
+	For a $90\%$ confidence level ($\alpha = 0.10$), the upper and lower tails exclude an area of $\alpha/2 = 0.05$ and $1-\alpha/2 = 0.95$. Consulting the $\chi^2$ distribution tables with $\nu = 20$:
+	\begin{align}
+		\chi^2_{0.05, \, 20} &= 31.410, \\
+		\chi^2_{0.95, \, 20} &= 10.851.
+	\end{align}
+	
+	\textbf{Step 2: Interval for the variance $\sigma^2$.}
+	The numerator of the sum of squares $(n-1)S^2$ is:
+	\begin{align}
+		(20)(1.45)^2 = 20 \times 2.1025 = 42.05 \text{ (\%}^2\text{).}
+	\end{align}
+	Substituting into the exact limits of the $\chi^2$ distribution:
+	\begin{align}
+		\frac{42.05}{31.410} \le \sigma^2 \le \frac{42.05}{10.851} \implies [1.3387, \, 3.8752] \text{ (\%}^2\text{).}
+	\end{align}
+	
+	\textbf{Step 3: Interval for the standard deviation $\sigma$.}
+	Since the square root is a strictly increasing function for positive reals, we take the square root across all terms:
+	\begin{align}
+		\sqrt{1.3387} \le \sigma \le \sqrt{3.8752} \implies [1.157, \, 1.969] \%.
+	\end{align}
+	
+	\textbf{Interpretation:} With $90\%$ confidence, the true daily volatility of the stock index lies between $1.16\%$ and $1.97\%$.
+\end{solucion}
+
+\begin{solucion}
+	The difference between sample average latencies is:
+	\begin{align}
+		\hat{D} = \bar{X}_1 - \bar{X}_2 = 120.0 - 112.0 = 8.0 \text{ ms.}
+	\end{align}
+	Because both samples are large ($n_1 = 50, n_2 = 60$), the standard error of the difference is calculated and standardized without assuming equal variances via the Central Limit Theorem:
+	\begin{align}
+		\text{SE}(\bar{X}_1 - \bar{X}_2) = \sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} = \sqrt{\frac{15.0^2}{50} + \frac{12.0^2}{60}} = \sqrt{\frac{225.0}{50} + \frac{144.0}{60}} = \sqrt{4.5 + 2.4} = \sqrt{6.9} \approx 2.6268 \text{ ms.}
+	\end{align}
+	For a $95\%$ confidence level ($Z_{0.025} = 1.96$), the margin of error is:
+	\begin{align}
+		E = 1.96 \times 2.6268 \approx 5.1485 \text{ ms.}
+	\end{align}
+	The 95\% parametric confidence interval results in:
+	\begin{align}
+		8.0 - 5.1485 \le \mu_1 - \mu_2 \le 8.0 + 5.1485 \implies [2.85, \, 13.15] \text{ ms.}
+	\end{align}
+	\textbf{Interpretation:} With 95\% confidence, queries on Cluster 1 take on average between $2.85$ and $13.15$ milliseconds longer than on Cluster 2, demonstrating in a statistically robust manner that Cluster 2 is faster.
+\end{solucion}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{solucion}
+	\textbf{Step 1: Calculation of the pooled sample variance ($S_p^2$).}
+	Assuming normality and homoscedasticity ($\sigma_1^2 = \sigma_2^2$), we compute the weighted pooled variance:
+	\begin{align}
+		S_p^2 &= \frac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 - 2} = \frac{(15 - 1)(6.2)^2 + (12 - 1)(5.8)^2}{15 + 12 - 2} \\
+		&= \frac{14(38.44) + 11(33.64)}{25} = \frac{538.16 + 370.04}{25} = \frac{908.2}{25} = 36.328 \text{ ms}^2.
+	\end{align}
+	Therefore, the pooled standard deviation is $S_p = \sqrt{36.328} \approx 6.027$ ms.
+	
+	\textbf{Step 2: Critical quantile from the $t$-distribution with $\nu = 25$.}
+	Total degrees of freedom are $\nu = 15 + 12 - 2 = 25$. For 95\% confidence ($\alpha = 0.05$), the table value is:
+	\begin{align}
+		t_{0.025, \, 25} = 2.060.
+	\end{align}
+	
+	\textbf{Step 3: Interval construction.}
+	The difference in means is $\bar{X}_1 - \bar{X}_2 = 48.5 - 53.8 = -5.3$ ms. The margin of error $E$ is calculated as:
+	\begin{align}
+		E = t_{0.025, \, 25} \cdot S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}} = 2.060(6.027) \sqrt{\frac{1}{15} + \frac{1}{12}} = (12.4156) \sqrt{0.1500} = (12.4156)(0.3873) \approx 4.8086 \text{ ms.}
+	\end{align}
+	The $95\%$ confidence interval for the latency difference is therefore:
+	\begin{align}
+		-5.3 - 4.809 \le \mu_1 - \mu_2 \le -5.3 + 4.809 \implies [-10.11, \, -0.49] \text{ ms.}
+	\end{align}
+	\textbf{Interpretation:} Since the entire interval is contained within the negative region ($[-10.11, -0.49]$) and does not touch zero, it is confirmed with 95\% confidence that Architecture A has a significantly lower mean latency (is faster) than Architecture B.
+\end{solucion}
+
+\begin{solucion}
+	\textbf{Part 1: Proportions and standard error.}
+	The empirical purchase (conversion) proportions are:
+	\begin{align}
+		\hat{p}_1 &= \frac{144}{800} = 0.18 \quad (18\%), \\
+		\hat{p}_2 &= \frac{187}{850} = 0.22 \quad (22\%).
+	\end{align}
+	The point difference in conversion rates is $\hat{p}_1 - \hat{p}_2 = 0.18 - 0.22 = -0.04$. We verify that all observed and expected counts of successes and failures ($144, 656, 187, 663$) exceed $10$, confirming that the asymptotic normal approximation is entirely valid.
+	
+	The standard error of the difference is computed as:
+	\begin{align}
+		\text{SE}(\hat{p}_1 - \hat{p}_2) &= \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}} = \sqrt{\frac{0.18(0.82)}{800} + \frac{0.22(0.78)}{850}} \\
+		&= \sqrt{\frac{0.1476}{800} + \frac{0.1716}{850}} = \sqrt{0.0001845 + 0.0002019} = \sqrt{0.0003864} \approx 0.01966.
+	\end{align}
+	For $95\%$ confidence ($Z_{0.025} = 1.96$), the margin of error $E$ is:
+	\begin{align}
+		E = 1.96 \times 0.01966 \approx 0.0385 \text{ (or 3.85\%).}
+	\end{align}
+	The $95\%$ confidence interval for $p_1 - p_2$ is:
+	\begin{align}
+		-0.04 - 0.0385 \le p_1 - p_2 \le -0.04 + 0.0385 \implies [-0.0785, \, -0.0015].
+	\end{align}
+	
+	\textbf{Part 2: Decision on the A/B design.}
+	The interval for $p_1 - p_2$ spans from $-7.85\%$ to $-0.15\%$. Since the upper limit is strictly below zero, there is 95\% statistical certainty that Version B's conversion rate ($p_2$) genuinely exceeds Version A's ($p_1$). Therefore, the data fully justify the immediate adoption of Version B.
+\end{solucion}
+
+\begin{solucion}
+	\textbf{Part 1: Conservative scenario ($\hat{p}^* = 0.5$).}
+	For 99\% confidence, the normal quantile is $Z_{0.005} = 2.576$. The allowable margin of error is $E = 0.03$. Lacking prior surveys, we maximize the variance using $p^*(1-p^*) = 0.5(0.5) = 0.25$:
+	\begin{align}
+		n_{\text{max}} = \frac{Z_{\alpha/2}^2}{4 E^2} = \frac{(2.576)^2}{4 (0.03)^2} = \frac{6.635776}{4 (0.0009)} = \frac{6.635776}{0.0036} = 1,843.27.
+	\end{align}
+	Applying rounding up by integer count: $n = \lceil 1,843.27 \rceil = 1,844$ households in total.
+	
+	\textbf{Part 2: Scenario with prior information ($\hat{p}^* = 0.20$).}
+	Utilizing the pilot study, the estimated variance decreases to $p^*(1-p^*) = 0.20(0.80) = 0.16$:
+	\begin{align}
+		n = \left( \frac{Z_{\alpha/2}}{E} \right)^2 p^*(1-p^*) = \left( \frac{2.576}{0.03} \right)^2 (0.16) = (85.8667)^2 (0.16) = (7,373.084)(0.16) = 1,179.69.
+	\end{align}
+	Rounding up to the next integer: $n = \lceil 1,179.69 \rceil = 1,180$ households in the survey.
+	
+	\textbf{Evaluation of percentage savings:}
+	The absolute savings in surveyed households by utilizing prior data science information is $1,844 - 1,180 = 664$ households. The percentage reduction in data collection costs is:
+	\begin{align}
+		\text{Savings} = \frac{664}{1,844} \times 100\% \approx 36.01\%.
+	\end{align}
+\end{solucion}
+
+\subsubsection*{3. Analytical Level (Advanced / Connection)}
+
+\begin{solucion}
+	\textbf{Step 1: Welch-Satterthwaite degrees of freedom ($\nu$).}
+	We calculate the sample variances divided by their respective sample sizes:
+	\begin{align}
+		\frac{S_1^2}{n_1} = \frac{18.5^2}{10} = \frac{342.25}{10} = 34.225, \quad \frac{S_2^2}{n_2} = \frac{7.3^2}{14} = \frac{53.29}{14} \approx 3.8064.
+	\end{align}
+	Substituting into the analytical approximation for heterogeneous variances:
+	\begin{align}
+		\nu &= \frac{\left( \dfrac{S_1^2}{n_1} + \dfrac{S_2^2}{n_2} \right)^2}{\dfrac{(S_1^2 / n_1)^2}{n_1 - 1} + \dfrac{(S_2^2 / n_2)^2}{n_2 - 1}} = \frac{(34.225 + 3.8064)^2}{\dfrac{34.225^2}{10 - 1} + \dfrac{3.8064^2}{14 - 1}} = \frac{(38.0314)^2}{\dfrac{1,171.3506}{9} + \dfrac{14.4887}{13}} \\
+		&= \frac{1,446.3874}{130.1501 + 1.1145} = \frac{1,446.3874}{131.2646} \approx 11.0188.
+	\end{align}
+	Taking the conservative integer part so as not to overestimate confidence, we obtain $\nu = 11$ degrees of freedom.
+	
+	\textbf{Step 2: Critical value from Student's table and standard error.}
+	For 99\% confidence ($\alpha = 0.01 \implies \alpha/2 = 0.005$) with $\nu = 11$, the table quantile is $t_{0.005, \, 11} = 3.106$.
+	The standard error of the difference between means is:
+	\begin{align}
+		\text{SE}(\bar{X}_1 - \bar{X}_2) = \sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} = \sqrt{34.225 + 3.8064} = \sqrt{38.0314} \approx 6.1670 \text{ s.}
+	\end{align}
+	
+	\textbf{Step 3: Construction and interpretation of the 99\% interval:}
+	The observed sample difference is $\hat{D} = 120.4 - 105.2 = 15.2$ s. The margin of error $E$ is:
+	\begin{align}
+		E = 3.106 \times 6.1670 \approx 19.155 \text{ s.}
+	\end{align}
+	The 99\% interval for $\mu_1 - \mu_2$ is:
+	\begin{align}
+		15.2 - 19.155 \le \mu_1 - \mu_2 \le 15.2 + 19.155 \implies [-3.955, \, 34.355] \text{ s.}
+	\end{align}
+	Since it crosses zero from negative to positive ($[-3.96, 34.36]$), we cannot conclude that Algorithm 2 is significantly faster than Algorithm 1 at 99\% confidence.
+\end{solucion}
+
+\begin{solucion}
+	\textbf{Step 1: Degrees of freedom and Fisher ($F$) critical points.}
+	Numerator and denominator degrees of freedom are $\nu_1 = n_1 - 1 = 15$ and $\nu_2 = n_2 - 1 = 12$.
+	For $98\%$ confidence ($\alpha = 0.02 \implies \alpha/2 = 0.01$), the upper quantile in the $F$ table is:
+	\begin{align}
+		F_{0.01, \, 15, \, 12} = 3.96.
+	\end{align}
+	By the geometric reciprocal property for exchanging degrees of freedom, the lower quantile is:
+	\begin{align}
+		F_{0.99, \, 15, \, 12} = \frac{1}{F_{0.01, \, 12, \, 15}} = \frac{1}{3.67} \approx 0.2725.
+	\end{align}
+	
+	\textbf{Step 2: Calculation of the interval for the population ratio $\dfrac{\sigma_1^2}{\sigma_2^2}$.}
+	The empirical ratio between observed sample variances is:
+	\begin{align}
+		\frac{S_1^2}{S_2^2} = \frac{0.36}{0.12} = 3.00.
+	\end{align}
+	Substituting into the general formula for the interval of a dispersion ratio:
+	\begin{align}
+		\frac{S_1^2 / S_2^2}{F_{0.01, \, 15, \, 12}} \le \frac{\sigma_1^2}{\sigma_2^2} \le \frac{S_1^2 / S_2^2}{F_{0.99, \, 15, \, 12}} \implies \frac{3.00}{3.96} \le \frac{\sigma_1^2}{\sigma_2^2} \le \frac{3.00}{0.2725} \implies [0.7576, \, 11.009].
+	\end{align}
+	\textbf{Interpretation and hypothesis testing conclusion:} The 98\% interval for the ratio of variances spans from $0.758$ to $11.009$. Since the exact equivalence ratio ($1.0$) lies comfortably inside the empirical boundaries, the data demonstrate that there is not enough evidence at the $98\%$ level to conclude that Supplier 1's sensor has higher or lower variability than Supplier 2's.
+\end{solucion}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Theoretical limitations of the symmetric approximation in $r$:}
+		The correlation coefficient $r$ is strictly bounded in domain to the compact space $[-1, 1]$. When the true population correlation is strong (for example, $\rho = 0.85$), the sampling distribution of $r$ is strongly compressed against the upper boundary $+1$, generating heavy negative skewness with an elongated left tail. If in this scenario we applied the naive formula $r \pm Z_{\alpha/2}\text{SE}(r)$, the upper limit of the interval would frequently exceed $+1$ (an axiomatic absurdity in correlations), and actual coverage rates would drop drastically below the nominal $95\%$ because the exact variance of the estimator $r$ heavily depends on the parameter $\rho$ itself: $\Var(r) \approx \dfrac{(1-\rho^2)^2}{n}$.
+		
+		\item \textbf{Inversion of Fisher's hyperbolic transformation:}
+		Sir Ronald Fisher derived that applying the inverse hyperbolic tangent to the estimator $r$, the transformed variable $Z(r) = \text{artanh}(r) = \dfrac{1}{2}\ln\left(\dfrac{1+r}{1-r}\right)$ follows an asymptotically normal distribution whose mean is $Z(\rho)$ and, crucially, **whose variance is stabilized at the constant $\dfrac{1}{n-3}$, independent of the parameter**:
+		\begin{align}
+			Z(r) \sim N\left( \frac{1}{2}\ln\left(\frac{1+\rho}{1-\rho}\right), \; \frac{1}{n-3} \right).
+		\end{align}
+		Therefore, the $(1-\alpha)$ symmetric asymptotic interval for parameter $Z(\rho)$ on the transformed scale can be written without error as:
+		\begin{align}
+			\left[ Z_L, \, Z_U \right] = \left[ Z(r) - Z_{\alpha/2} \frac{1}{\sqrt{n-3}}, \; Z(r) + Z_{\alpha/2} \frac{1}{\sqrt{n-3}} \right].
+		\end{align}
+		Since the hyperbolic tangent function $\tanh(z) = \dfrac{e^{2z}-1}{e^{2z}+1}$ is strictly monotonically increasing and continuous for all $z \in \mathbb{R}$, it preserves algebraic probability inequalities when applied across all terms:
+		\begin{align}
+			Z_L \le Z(\rho) \le Z_U \iff \tanh(Z_L) \le \tanh\left(\text{artanh}(\rho)\right) \le \tanh(Z_U) \iff \tanh(Z_L) \le \rho \le \tanh(Z_U).
+		\end{align}
+		This yields the exact limits on the original scale:
+		\begin{align}
+			[L_\rho, \, U_\rho] = \left[ \tanh(Z_L), \; \tanh(Z_U) \right].
+		\end{align}
+		
+		\item \textbf{Numerical calculation for the bioinformatics study ($r = 0.82, n = 28$):}
+		We evaluate Fisher's transformation at $r = 0.82$:
+		\begin{align}
+			Z(0.82) = \frac{1}{2} \ln\left( \frac{1 + 0.82}{1 - 0.82} \right) = \frac{1}{2} \ln\left( \frac{1.82}{0.18} \right) = \frac{1}{2} \ln(10.1111) = \frac{1}{2}(2.31363) \approx 1.1568.
+		\end{align}
+		The constant standard error on the $Z$ scale for $n = 28$ is:
+		\begin{align}
+			\text{SE}_Z = \frac{1}{\sqrt{n - 3}} = \frac{1}{\sqrt{28 - 3}} = \frac{1}{\sqrt{25}} = \frac{1}{5} = 0.2000.
+		\end{align}
+		For 95\% confidence ($Z_{0.025} = 1.96$), we compute the intermediate bounds $Z_L$ and $Z_U$:
+		\begin{align}
+			Z_L &= 1.1568 - 1.96(0.2000) = 1.1568 - 0.3920 = 0.7648, \\
+			Z_U &= 1.1568 + 1.96(0.2000) = 1.1568 + 0.3920 = 1.5488.
+		\end{align}
+		Applying the monotonic inverse function $\tanh(z)$ to each bound to return to the space $[-1, 1]$:
+		\begin{align}
+			L_\rho &= \tanh(0.7648) = \frac{e^{2(0.7648)} - 1}{e^{2(0.7648)} + 1} = \frac{e^{1.5296} - 1}{e^{1.5296} + 1} = \frac{4.6163 - 1}{4.6163 + 1} = \frac{3.6163}{5.6163} \approx 0.6439. \\
+			U_\rho &= \tanh(1.5488) = \frac{e^{2(1.5488)} - 1}{e^{2(1.5488)} + 1} = \frac{e^{3.0976} - 1}{e^{3.0976} + 1} = \frac{22.1448 - 1}{22.1448 + 1} = \frac{21.1448}{23.1448} \approx 0.9136.
+		\end{align}
+		The exact 95\% asymptotic confidence interval for true population correlation in gene expression is:
+		\begin{align}
+			IC_{95\%}(\rho) = [0.6439, \; 0.9136].
+		\end{align}
+		Notice how the resulting interval is logically asymmetric around the point estimate ($0.82 - 0.6439 = 0.1761$ left distance versus $0.9136 - 0.82 = 0.0936$ right distance), perfectly respecting the natural $+1$ boundary.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item \textbf{Algebraic-differential derivation of the Delta Method for ratios:}
+		Let the nonlinear objective function of two variables be $g(u, v) = \dfrac{v}{u}$, evaluated at the random vector of sample means $(\bar{X}, \bar{Y})$ whose true expectation parameter is $\boldsymbol{\mu} = (\mu_X, \mu_Y)$.
+		
+		We expand the first-order bivariate Taylor series of $g(\bar{X}, \bar{Y})$ around the parameter point $(\mu_X, \mu_Y)$:
+		\begin{align}
+			g(\bar{X}, \bar{Y}) \approx g(\mu_X, \mu_Y) + \left. \frac{\partial g}{\partial u} \right|_{(\mu_X, \mu_Y)} (\bar{X} - \mu_X) + \left. \frac{\partial g}{\partial v} \right|_{(\mu_X, \mu_Y)} (\bar{Y} - \mu_Y).
+		\end{align}
+		We calculate the exact partial derivatives evaluated at the central point:
+		\begin{align}
+			\frac{\partial g}{\partial u} &= \frac{\partial}{\partial u}\left( \frac{v}{u} \right) = -\frac{v}{u^2} \implies \left. \frac{\partial g}{\partial u} \right|_{(\mu_X, \mu_Y)} = -\frac{\mu_Y}{\mu_X^2} = -\frac{\theta}{\mu_X}. \\
+			\frac{\partial g}{\partial v} &= \frac{\partial}{\partial v}\left( \frac{v}{u} \right) = \frac{1}{u} \implies \left. \frac{\partial g}{\partial v} \right|_{(\mu_X, \mu_Y)} = \frac{1}{\mu_X}.
+		\end{align}
+		Substituting into the standardized linear expansion of the ratio estimator $\hat{\theta}$:
+		\begin{align}
+			\hat{\theta} = \frac{\bar{Y}}{\bar{X}} \approx \theta - \frac{\theta}{\mu_X}(\bar{X} - \mu_X) + \frac{1}{\mu_X}(\bar{Y} - \mu_Y).
+		\end{align}
+		To obtain the asymptotic variance of $\hat{\theta}$, we apply the variance operator to the linear approximation. Recalling that for any linear combination $\Var(aW_1 + bW_2) = a^2\Var(W_1) + b^2\Var(W_2) + 2ab\cov(W_1, W_2)$ and that the constant term $\theta$ has zero variance:
+		\begin{align}
+			\Var(\hat{\theta}) \approx \left( -\frac{\theta}{\mu_X} \right)^2 \Var(\bar{X}) + \left( \frac{1}{\mu_X} \right)^2 \Var(\bar{Y}) + 2\left( -\frac{\theta}{\mu_X} \right)\left( \frac{1}{\mu_X} \right) \cov(\bar{X}, \bar{Y}).
+		\end{align}
+		By properties of independent and paired i.i.d. sampling of size $n$, the variances and covariances of the sample averages are:
+		\begin{align}
+			\Var(\bar{X}) = \frac{\sigma_X^2}{n}, \quad \Var(\bar{Y}) = \frac{\sigma_Y^2}{n}, \quad \cov(\bar{X}, \bar{Y}) = \frac{\sigma_{XY}}{n}.
+		\end{align}
+		Substituting these sampling variances into the equation and factoring out $1 / (n \mu_X^2)$:
+		\begin{align}
+			\Var(\hat{\theta}) \approx \frac{\theta^2}{\mu_X^2} \left( \frac{\sigma_X^2}{n} \right) + \frac{1}{\mu_X^2} \left( \frac{\sigma_Y^2}{n} \right) - \frac{2\theta}{\mu_X^2} \left( \frac{\sigma_{XY}}{n} \right) = \frac{1}{n \mu_X^2} \left[ \sigma_Y^2 - 2\theta \sigma_{XY} + \theta^2 \sigma_X^2 \right].
+		\end{align}
+		This formally proves the fundamental result of the Delta Method for algebraic ratios of averages.
+		
+		\item \textbf{Systematic interval estimation procedure in practice:}
+		Since in empirical data science reality the theoretical parameters $(\mu_X, \sigma_X^2, \sigma_Y^2, \sigma_{XY}, \theta)$ are unknown, to construct the $(1-\alpha)$ confidence interval we follow this sequential protocol:
+		\begin{itemize}
+			\item Point-estimate the sample averages and unbiased sample variances: $\bar{X}, \bar{Y}, s_X^2, s_Y^2$, and compute the sample covariance of the paired data:
+			\begin{align}
+				s_{XY} = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y}).
+			\end{align}
+			\item Evaluate the central point ratio $\hat{\theta} = \dfrac{\bar{Y}}{\bar{X}}$.
+			\item Substitute the estimates into the derived formula to obtain the consistent standard error ($\text{SE}_{\hat{\theta}}$):
+			\begin{align}
+				\text{SE}(\hat{\theta}) = \sqrt{ \frac{1}{n \bar{X}^2} \left[ s_Y^2 - 2\hat{\theta} s_{XY} + \hat{\theta}^2 s_X^2 \right] }.
+			\end{align}
+			\item Finally, by asymptotic normality of the linearized estimator as $n \to \infty$, the $(1-\alpha)$ confidence interval for the population ratio $\theta$ is formulated as:
+			\begin{align}
+				IC_{(1-\alpha)}(\theta) = \hat{\theta} \pm Z_{\alpha/2} \cdot \text{SE}(\hat{\theta}) = \frac{\bar{Y}}{\bar{X}} \pm Z_{\alpha/2} \sqrt{ \frac{1}{n \bar{X}^2} \left[ s_Y^2 - 2\hat{\theta} s_{XY} + \hat{\theta}^2 s_X^2 \right] }.
+			\end{align}
+		\end{itemize}
+	\end{enumerate}
+\end{solucion}

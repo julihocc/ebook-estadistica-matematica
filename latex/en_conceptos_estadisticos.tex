@@ -1,0 +1,138 @@
+\section{Fundamental Concepts of Inferential Statistics}
+
+In this section we will introduce the basic concepts essential for understanding inferential statistics. These concepts provide the language and tools needed to make inferences about populations based on samples.
+
+\subsection{Estimators and Their Properties}
+
+An \emph{estimator} is a statistic used to estimate the value of an unknown population parameter. We denote an estimator of the parameter $\theta$ by $\hat{\theta}$.
+
+\begin{definicion}[Unbiased Estimator]
+	\label{def:5.1.1}
+	An estimator $\hat{\theta}$ is \emph{unbiased} for the parameter $\theta$ if
+	\begin{align}
+		E(\hat{\theta}) = \theta
+	\end{align}
+
+	That is, the expected value of the estimator equals the true value of the parameter.
+\end{definicion}
+
+\begin{ejemplo}
+	\label{exmp:5.1.1}
+	The sample mean $\bar{X}$ is an unbiased estimator of the population mean $\mu$:
+	\begin{align}
+		E(\bar{X}) = E\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n}\sum_{i=1}^n E(X_i) = \frac{1}{n} \cdot n\mu = \mu
+	\end{align}
+\end{ejemplo}
+
+\begin{observacion}
+	The sample variance $S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$ is an unbiased estimator of the population variance $\sigma^2$. Using $n-1$ instead of $n$ (known as Bessel's correction) is precisely what makes the estimator unbiased.
+\end{observacion}
+
+\subsection{Sampling Distributions}
+
+When we take multiple samples of the same size from a population and calculate a statistic for each sample, the distribution of these statistics is called the \emph{sampling distribution}.
+
+\begin{definicion}[Sampling Distribution]
+	\label{def:5.1.2}
+	The \emph{sampling distribution} of a statistic is the probability distribution of that statistic when calculated over all possible samples of size $n$ from a given population.
+\end{definicion}
+
+\begin{ejemplo}
+	\label{exmp:5.1.2}
+	If $X_1, X_2, \ldots, X_n$ are independent and identically distributed random variables with mean $\mu$ and variance $\sigma^2$, then the sample mean $\bar{X}$ satisfies:
+	\begin{align}
+		E(\bar{X}) &= \mu \\
+		\text{Var}(\bar{X}) &= \frac{\sigma^2}{n}
+	\end{align}
+
+	This means that the variability of the sample mean decreases as the sample size increases.
+\end{ejemplo}
+
+\subsection{Standard Error}
+
+The \emph{standard error} of a statistic is the standard deviation of its sampling distribution. It measures the precision of the estimate.
+
+\begin{definicion}[Standard Error of the Mean]
+	\label{def:5.1.3}
+	The standard error of the sample mean is:
+	\begin{align}
+		SE(\bar{X}) = \frac{\sigma}{\sqrt{n}}
+	\end{align}
+
+	When $\sigma$ is unknown, it is estimated by:
+	\begin{align}
+		SE(\bar{X}) \approx \frac{s}{\sqrt{n}}
+	\end{align}
+	where $s$ is the sample standard deviation.
+\end{definicion}
+
+\subsection{Law of Large Numbers}
+
+The \emph{Law of Large Numbers} states that, under certain conditions, the average of the results obtained from a large number of trials should be close to the expected value, and will tend to become closer as more trials are performed.
+
+\begin{teorema}[Law of Large Numbers]
+	\label{teo:5.1.1}
+	If $X_1, X_2, \ldots, X_n$ are independent and identically distributed random variables with mean $\mu$, then for any $\epsilon > 0$:
+	\begin{align}
+		\lim_{n \to \infty} P(|\bar{X}_n - \mu| < \epsilon) = 1
+	\end{align}
+
+	That is, the sample mean converges in probability to the population mean.
+\end{teorema}
+
+\begin{observacion}
+	The Law of Large Numbers justifies the use of sample averages to estimate population means. It tells us that with sufficiently large samples, our estimate will be very close to the true value.
+\end{observacion}
+
+\subsection{Central Limit Theorem}
+
+The \emph{Central Limit Theorem} (CLT) is one of the most important results in statistics. It states that, under certain conditions, the distribution of the sum (or average) of a large number of independent random variables approaches a normal distribution, regardless of the distribution of the original variables.
+
+\begin{teorema}[Central Limit Theorem]
+	\label{teo:5.1.2}
+	If $X_1, X_2, \ldots, X_n$ are independent and identically distributed random variables with mean $\mu$ and finite variance $\sigma^2 < \infty$, then as $n$ becomes large:
+	\begin{align}
+		\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1)
+	\end{align}
+
+	That is, the distribution of the standardized sample mean approaches a standard normal distribution.
+\end{teorema}
+
+\begin{observacion}
+	In practice, the CLT works well when $n \geq 30$, although this depends on the shape of the original distribution. For heavily skewed or heavy-tailed distributions, a larger $n$ may be required.
+\end{observacion}
+
+\begin{ejemplo}
+	\label{exmp:5.1.3}
+	Suppose the waiting time in a line has an exponential distribution with mean $\mu = 5$ minutes. If we take a sample of $n = 50$ people, by the CLT, the sampling distribution of the average waiting time will be approximately normal:
+	\begin{align}
+		\bar{X} \sim N\left(5, \frac{5^2}{50}\right) = N(5, 0.5)
+	\end{align}
+\end{ejemplo}
+
+\subsection{Importance of the CLT in Statistical Inference}
+
+The Central Limit Theorem is fundamental to statistical inference because:
+
+\begin{enumerate}
+	\item It allows us to use the normal distribution to make inferences about population means, even when the original population is not normally distributed.
+	
+	\item It justifies the use of Z and t tests for means, which we will study in subsequent sections.
+	
+	\item It provides the theoretical foundation for constructing confidence intervals.
+	
+	\item It explains why many variables in nature follow approximately normal distributions (as they are the result of the sum of many small, independent effects).
+\end{enumerate}
+
+\subsection{Summary of Key Concepts}
+
+\begin{itemize}
+	\item \textbf{Estimator:} A statistic used to estimate a population parameter.
+	\item \textbf{Unbiased Estimator:} An estimator whose expected value equals the parameter.
+	\item \textbf{Sampling Distribution:} The probability distribution of a statistic over all possible samples.
+	\item \textbf{Standard Error:} The standard deviation of the sampling distribution.
+	\item \textbf{Law of Large Numbers:} The sample mean converges to the population mean.
+	\item \textbf{Central Limit Theorem:} The sampling distribution of the sample mean approaches the normal distribution.
+\end{itemize}
+
+These concepts form the foundation upon which we will build estimation techniques and hypothesis tests in the following sections.
