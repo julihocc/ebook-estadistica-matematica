@@ -39,7 +39,7 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 - $\checkmark$ **03.05 Distribuciones Geométrica y Binomial Negativa:** 100% completado.
   - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/distribuciones_especiales(p).tex` (Problemas 3.5.1 al 3.5.10).
   - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.py` (validación combinatoria con SciPy y Monte Carlo $N=250,000$).
-  - *Mazos Beamer:* 20 diapositivas exactas en `presentaciones/es/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.tex` y `en/03_discrete_random_variables/03.05_geometric_negative_binomial.tex`, compilados con **0 `Overfull`**.
+  - *Mazos Beamer:* 18 diapositivas pedagógicas y modulares en `presentaciones/es/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.tex` (revelado progresivo `\pause`, 4 ejercicios interactivos en clase divididos en Enunciado/Resolución, cero marcado informal y compilado con **0 `Overfull \vbox` y 0 `Overfull \hbox`**).
 - $\checkmark$ **03.06 Distribución Hipergeométrica:** 100% completado.
   - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/distribuciones_especiales(p).tex` (Problemas 3.6.1 al 3.6.10).
   - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.06_hypergeometric.py` (validación PMF, FPCF con Monte Carlo $N=250,000$ y prueba exacta de Fisher).
