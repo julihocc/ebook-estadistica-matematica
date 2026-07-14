@@ -41,3 +41,13 @@ soluciones/                          ← solution write-ups (mostly empty)
 - **Python scripts** in `code/` are standalone, stdlib or numpy-only. No venv, no `requirements.txt`.
 - **Problem-tier standard ("3-3-2-2")**: every `(p).tex` file organizes its "Enunciados de los problemas" into four `\subsubsection*` tiers, in order: Nivel Fundamental (3 problems), Nivel Operativo (3), Nivel Analítico (2), Nivel Desafiante (2). Apply this same structure to any new topic's problem file.
 - **Syllabus coverage**: the official program (`docs/MA1001B - Analítico.pdf`) defines 7 units, which map 1:1 onto chapters 2–8 of the master file. Chapter 1 (Estadística Descriptiva) and chapter 9 (Regresiones Lineales y Múltiples) are supplementary content beyond the official syllabus — there is no "Unit 8" to fill.
+
+## Beamer Presentations & Python Labs (`presentaciones/`)
+
+When working on Beamer slide decks or Python computational labs, **you MUST immediately consult `presentaciones/README.md` and `presentaciones/ROADMAP.md` before taking any action**.
+Key rules enforced in `presentaciones/README.md`:
+1. **Single Source of Truth in English for Code**: Python scripts reside in `presentaciones/code/<unit>/<ID>_<name_in_english>.py` (`numpy`/`scipy` only, strict English comments/variables). Do NOT create Spanish `.py` scripts. Both Spanish (`presentaciones/es/`) and English (`presentaciones/en/`) Beamer decks import lines from the exact same English `.py` script via `\lstinputlisting`.
+2. **Zero Overfull Warning Policy**: Slide decks must compile (`pdflatex`) with **ZERO `Overfull \vbox` and ZERO `Overfull \hbox`** warnings across all content slides (pages 2+). Use compact sizing (`\small`, `\footnotesize`, `\scriptsize`), tight vertical spacing (`\vspace{-0.1cm}` to `-0.2cm`), and two-column layouts `\begin{columns}[T]`. Title page uses `\begin{frame}[plain]`.
+3. **Institutional Identity**: Author `Juliho Castillo Colmenares` (`julihocc@tec.mx`), `Tecnológico de Monterrey`. Uses institutional palette `#EC2661` (TecRojo) and `#1A2E51` (TecAzul).
+4. **Reproducible 6-Step Checklist**: Every new section must follow the exact 6-step checklist detailed in `presentaciones/README.md` (theory audit $\to$ problem notebook 3-3-2-2 $\to$ Python lab in English $\to$ ES/EN Beamer decks $\to$ double `pdflatex` compilation zero-warning verification $\to$ commit & log update).
+
