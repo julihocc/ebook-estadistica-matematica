@@ -139,7 +139,18 @@ A continuación se presenta el estado finalizado y verificado de las 6 secciones
 
 ---
 
-## 5. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
+## 5. Catálogo e Índice de Presentaciones --- Capítulo 03 (En Curso)
 
-Para ver la planificación del siguiente hito curricular del proyecto (inicio de la **Unidad 2 / Capítulo 03: Variables Aleatorias Discretas y Distribuciones de Probabilidad**), consulta el documento oficial de planificación:
+A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 2 / Capítulo 03: Variables Aleatorias Discretas**:
+
+| Sección | Título en Español | Título en Inglés | Script Python (en `code/03_variables_aleatorias_discretas/`) | Estado |
+| :---: | :--- | :--- | :--- | :---: |
+| **03.01** | [03.01 PMF y Soporte](es/03_variables_aleatorias_discretas/03.01_pmf_y_soporte.tex) ([PDF](es/03_variables_aleatorias_discretas/03.01_pmf_y_soporte.pdf)) | [03.01 PMF and Support](en/03_discrete_random_variables/03.01_pmf_and_support.tex) ([PDF](en/03_discrete_random_variables/03.01_pmf_and_support.pdf)) | `03.01_pmf_and_support.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
+| **03.02** | [03.02 CDF Discreta](es/03_variables_aleatorias_discretas/03.02_cdf_discreta.tex) ([PDF](es/03_variables_aleatorias_discretas/03.02_cdf_discreta.pdf)) | [03.02 Discrete CDF](en/03_discrete_random_variables/03.02_discrete_cdf.tex) ([PDF](en/03_discrete_random_variables/03.02_discrete_cdf.pdf)) | `03.02_discrete_cdf.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
+
+---
+
+## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
+
+Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 03.03: Esperanza Matemática, Varianza y Momentos**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

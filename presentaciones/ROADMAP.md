@@ -9,7 +9,10 @@ Este documento detalla el estado global del proyecto en la rama `crear-presentac
 - **Capítulo 01: Estadística Descriptiva (Contenido Suplementario)** $\to$ *Pendiente de presentaciones* (Nota: el libro no incluye `estadistica-descriptiva.tex` en la master actual; es contenido de soporte).
 - **Capítulo 02: Teoría de la Probabilidad (Unidad 1 del Sílabo Oficial)** $\to$ $\checkmark$ **100% COMPLETADO Y VERIFICADO**
   - Secciones `02.01` a `02.06`: Presentaciones en español e inglés listas, compiladas con cero advertencias de desbordamiento, y laboratorios computacionales en Python puros (`numpy`/`scipy`) en `presentaciones/code/02_teoria_probabilidad/`.
-- **Capítulo 03: Variables Aleatorias Discretas y Distribuciones de Probabilidad (Unidad 2)** $\to$ **$\leftarrow$ PRÓXIMO OBJETIVO INMEDIATO (0%)**
+- **Capítulo 03: Variables Aleatorias Discretas y Distribuciones de Probabilidad (Unidad 2)** $\to$ **EN DESARROLLO (Secciones 03.01 y 03.02 Completadas)**
+  - $\checkmark$ **Sección 03.01: Funciones de Probabilidad Discretas (PMF y Soporte)** $\to$ *Completada (20 diapositivas ES/EN, 0 warnings, lab `03.01_pmf_and_support.py`)*
+  - $\checkmark$ **Sección 03.02: Función de Distribución Acumulada (CDF Discreta)** $\to$ *Completada (20 diapositivas ES/EN, 0 warnings, lab `03.02_discrete_cdf.py`, 10 problemas 3-3-2-2)*
+  - **$\leftarrow$ PRÓXIMO OBJETIVO INMEDIATO: Sección 03.03: Esperanza Matemática y Varianza Operacional**
 - **Capítulo 04: Variables Aleatorias Continuas y sus Distribuciones (Unidad 3)** $\to$ *Pendiente*
 - **Capítulo 05: Distribuciones Muestrales y Teoremas Límites (Unidad 4)** $\to$ *Pendiente*
 - **Capítulo 06: Estimación Puntual e Intervalos de Confianza (Unidad 5)** $\to$ *Pendiente*
@@ -26,13 +29,13 @@ El **Capítulo 03: Variables Aleatorias Discretas** formaliza el paso del álgeb
 ### Inventario de Secciones a Desarrollar (Capítulo 03)
 A partir de la estructura del libro maestro y el sílabo, se desarrollarán las siguientes 9 secciones (cada una con: cuaderno de problemas 3-3-2-2 en `latex/`, script de Python en `presentaciones/code/03_variables_aleatorias_discretas/` y dos mazos Beamer en `presentaciones/es/03_variables_aleatorias_discretas/` y `presentaciones/en/03_discrete_random_variables/`):
 
-1. **Sección 03.01: Conceptos Básicos y Función de Masa de Probabilidad (PMF)**
+1. $\checkmark$ **Sección 03.01: Conceptos Básicos y Función de Masa de Probabilidad (PMF)** *(100% COMPLETADA)*
    - *Foco teórico:* Definición medible de V.A. discreta, condiciones de normalización $\sum p_X(x) = 1$.
-   - *Lab Python (`03.01_pmf_and_support.py`):* Verificación empírica de PMFs custom y muestreo por transformación inversa o `np.random.choice`.
-2. **Sección 03.02: Función de Distribución Acumulada (CDF) Discreta**
+   - *Lab Python (`03.01_pmf_and_support.py`):* Verificación empírica de PMFs custom y muestreo por transformación inversa.
+2. $\checkmark$ **Sección 03.02: Función de Distribución Acumulada (CDF) Discreta** *(100% COMPLETADA)*
    - *Foco teórico:* Propiedades escalonadas por la derecha (cadlag), saltos de probabilidad y cuantiles discretos.
-   - *Lab Python (`03.02_discrete_cdf.py`):* Construcción y graficación numérica por consola de saltos CDF.
-3. **Sección 03.03: Esperanza Matemática y Varianza Operacional**
+   - *Lab Python (`03.02_discrete_cdf.py`):* Construcción numérico-vectorial de mesetas CDF, inversión $\Delta F(x)$ e intervalos.
+3. $\rightarrow$ **Sección 03.03: Esperanza Matemática y Varianza Operacional** *(FOCO ACTUAL)*
    - *Foco teórico:* Linealidad de la esperanza, teorema de la ley del estadístico inconsciente (LOTUS) en discretas, identidad computacional $\text{Var}(X) = E(X^2) - [E(X)]^2$.
    - *Lab Python (`03.03_expectation_and_variance.py`):* Simulación Monte Carlo del valor esperado vs. promedio de muestras finitas.
 4. **Sección 03.04: Distribuciones de Bernoulli y Binomial**
