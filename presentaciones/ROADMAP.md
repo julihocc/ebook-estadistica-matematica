@@ -31,55 +31,60 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 - $\checkmark$ **02.05 Teorema de Bayes:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.05_bayes_theorem.py`.
 - $\checkmark$ **02.06 Muestreo Aleatorio y TLC:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.06_random_sampling.py`.
 
-### Unidad 2 / Capítulo 03: Variables Aleatorias Discretas (`Avance actual: 4 de 9 secciones completadas`)
+### Unidad 2 / Capítulo 03: Variables Aleatorias Discretas (`Avance actual: 6 de 9 secciones completadas`)
 - $\checkmark$ **03.01 PMF y Soporte:** 100% completado (`03.01_pmf_y_soporte.tex` ES/EN, `03.01_pmf_and_support.py`).
 - $\checkmark$ **03.02 CDF Discreta:** 100% completado (`03.02_cdf_discreta.tex` ES/EN, `03.02_discrete_cdf.py`).
 - $\checkmark$ **03.03 Esperanza Matemática, Varianza y Momentos:** 100% completado (`03.03_esperanza_y_varianza.tex` ES/EN, `03.03_expectation_and_variance.py`).
-- $\checkmark$ **03.04 Distribuciones de Bernoulli y Binomial:** 100% completado.
-  - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/distribuciones_especiales(p).tex` (Problemas 3.4.1 al 3.4.10) debidamente importados por el libro maestro.
-  - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py` (validación combinatoria con SciPy y Monte Carlo $N=100,000$).
-  - *Mazos Beamer:* 20 diapositivas exactas en `presentaciones/es/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.tex` y `en/03.04_bernoulli_binomial.tex`, compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** bajo el tema Metropolis.
-  - *Libro Maestro:* Compilado limpiamente (`[Modelación Estadística].tex`) con 518 páginas verificadas.
+- $\checkmark$ **03.04 Distribuciones de Bernoulli y Binomial:** 100% completado (`03.04_bernoulli_binomial.tex` ES/EN, `03.04_bernoulli_binomial.py`).
+- $\checkmark$ **03.05 Distribuciones Geométrica y Binomial Negativa:** 100% completado.
+  - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/distribuciones_especiales(p).tex` (Problemas 3.5.1 al 3.5.10).
+  - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.py` (validación combinatoria con SciPy y Monte Carlo $N=250,000$).
+  - *Mazos Beamer:* 20 diapositivas exactas en `presentaciones/es/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.tex` y `en/03_discrete_random_variables/03.05_geometric_negative_binomial.tex`, compilados con **0 `Overfull`**.
+- $\checkmark$ **03.06 Distribución Hipergeométrica:** 100% completado.
+  - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/distribuciones_especiales(p).tex` (Problemas 3.6.1 al 3.6.10).
+  - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.06_hypergeometric.py` (validación PMF, FPCF con Monte Carlo $N=250,000$ y prueba exacta de Fisher).
+  - *Mazos Beamer:* 20 diapositivas en `presentaciones/es/03_variables_aleatorias_discretas/03.06_hipergeometrica.tex` y `en/03_discrete_random_variables/03.06_hypergeometric.tex`, compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`**.
+  - *Libro Maestro:* Compilado limpiamente (`[Modelación Estadística].tex`).
 
 ---
 
-## 3. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 03.05`)
+## 3. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 03.07`)
 
-Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 03.05: Distribuciones Geométrica y Binomial Negativa** siguiendo este protocolo exacto de 6 pasos:
+Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 03.07: Distribución de Poisson y Procesos de Poisson** siguiendo este protocolo exacto de 6 pasos:
 
 ### Paso 1: Auditoría de Teoría y Creación/Integración de `(p).tex`
-1. Consultar el archivo `latex/distribuciones_especiales.tex` (donde se ubica la teoría de distribuciones geométricas y binomiales negativas o de espera).
-2. Verificar si en `distribuciones_especiales(p).tex` existen los problemas de la 03.05. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2` usando los entornos institucionales (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`):
-   - **Nivel Fundamental (3):** Tiempo de espera al primer éxito (PMF geométrica $P(X=k) = q^{k-1}p$), propiedad de pérdida de memoria y cálculo de probabilidades acumuladas sencillas (`3.5.1` a `3.5.3`).
-   - **Nivel Operativo (3):** Muestreo hasta obtener $r$ éxitos (Binomial Negativa / Pascal $P(X=k) = \comb{k-1}{r-1}p^r q^{k-r}$), control de calidad industrial con paros de línea e inspección reiterada (`3.5.4` a `3.5.6`).
-   - **Nivel Analítico (2):** Deducción formal de esperanza $\mu = 1/p$ (o $r/p$) por diferenciación de series de potencias o suma de geométricas i.i.d., y cálculo de varianza $\sigma^2 = q/p^2$ (`3.5.7` y `3.5.8`).
-   - **Nivel Desafiante (2):** Teorema de caracterización de la pérdida de memoria en V.A. discretas ($P(X>m+n \mid X>m) = P(X>n) \iff X \sim \text{Geom}$) y relación asintótica/límite (`3.5.9` y `3.5.10`).
+1. Consultar el archivo `latex/distribuciones_especiales.tex` (donde se ubica la teoría de la distribución de Poisson).
+2. Verificar si en `distribuciones_especiales(p).tex` existen los problemas de la 03.07. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2` usando los entornos institucionales (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`):
+   - **Nivel Fundamental (3):** PMF de Poisson ($P(X=k) = e^{-\lambda}\lambda^k/k!$), media y varianza ($\mu = \sigma^2 = \lambda$), y cálculo directo de probabilidades (`3.7.1` a `3.7.3`).
+   - **Nivel Operativo (3):** Ley de los eventos raros (aproximación de Poisson a la Binomial cuando $n \to \infty, p \to 0, np = \lambda$), modelación de tráfico, llamadas y fallas temporales (`3.7.4` a `3.7.6`).
+   - **Nivel Analítico (2):** Deducción de momentos mediante la serie exponencial y aditividad de variables independientes de Poisson ($X+Y \sim \text{Pois}(\lambda_1+\lambda_2)$) (`3.7.7` y `3.7.8`).
+   - **Nivel Desafiante (2):** Distribución condicional binomial en sumas de Poisson ($X \mid (X+Y=n) \sim \text{Bin}(n, \lambda_1/(\lambda_1+\lambda_2))$) y procesos espaciales de Poisson (`3.7.9` y `3.7.10`).
 3. Compilar el libro maestro dos veces para comprobar que no se rompen índices ni referencias.
 
-### Paso 2: Desarrollo de Script Python en Inglés (`03.05_geometric_negative_binomial.py`)
-Crear el archivo en `presentaciones/code/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.py` con `numpy` y `scipy.stats`:
-- **Block 1: Geometric vs. Negative Binomial PMF & CDF Validation:** Verificación de soporte, suma unitaria y relación como suma de $r$ geométricas independientes (`scipy.stats.geom`, `scipy.stats.nbinom`).
-- **Block 2: Memoryless Property & Monte Carlo Waiting Times:** Simulación empírica de $N=100,000$ trayectorias de espera demostrando numéricamente la propiedad sin memoria $P(X > m+n \mid X > m) = P(X > n)$.
-- **Block 3: Analytical Moments & Dispersion Analysis:** Comparación empírica vs. teórica de la sobre-dispersión (donde $\sigma^2 > \mu$), contrastando con la binomial donde $\sigma^2 < \mu$.
+### Paso 2: Desarrollo de Script Python en Inglés (`03.07_poisson_distribution.py`)
+Crear el archivo en `presentaciones/code/03_variables_aleatorias_discretas/03.07_poisson_distribution.py` con `numpy` y `scipy.stats`:
+- **Block 1: Poisson PMF Validation & Equidispersion:** Verificación de soporte, normalización de series de potencias y comprobación de $\mu = \sigma^2 = \lambda$.
+- **Block 2: Law of Rare Events (Binomial to Poisson Limit):** Simulación Monte Carlo e ilustración de la convergencia con error en distancia de variación total (TVD).
+- **Block 3: Additivity & Conditional Binomial Property:** Verificación numérica por simulación de que la suma de variables independientes de Poisson es Poisson y la condicionada al total es Binomial.
 
-### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`03.05_geometric_negative_binomial.tex`)
-1. Crear los mazos espejos de 20 diapositivas en `presentaciones/es/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.tex` y `presentaciones/en/03_discrete_random_variables/03.05_geometric_negative_binomial.tex`.
+### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`03.07_poisson_distribution.tex`)
+1. Crear los mazos espejos de 20 diapositivas en `presentaciones/es/03_variables_aleatorias_discretas/03.07_poisson_distribution.tex` y `presentaciones/en/03_discrete_random_variables/03.07_poisson_distribution.tex`.
 2. Usar `\date{\vspace{-1.2cm}}` en la portada para absorber el alto de autor e institución sin generar advertencia vertical.
-3. Importar los bloques del script con `\lstinputlisting[language=Python, firstline=..., lastline=..., basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.py}`.
-4. Ajustar tablas teóricas con `p{width}` explícitos para prevenir `Overfull \hbox`.
+3. Importar los bloques del script con `\lstinputlisting[language=Python, ...]{../../code/03_variables_aleatorias_discretas/03.07_poisson_distribution.py}`.
+4. Ajustar tablas teóricas y espaciados para prevenir `Overfull`.
 
 ### Paso 4: Compilación y Doble Verificación (*Zero Overfull Check*)
 Ejecutar los siguientes comandos en la terminal y comprobar que la búsqueda de `Overfull` arroje cero coincidencias en las diapositivas 2+:
 ```bash
 # Para la versión en Español
-cd presentations/es/03_variables_aleatorias_discretas
-pdflatex -interaction=nonstopmode 03.05_geometric_negative_binomial.tex && pdflatex -interaction=nonstopmode 03.05_geometric_negative_binomial.tex
-grep "Overfull" 03.05_geometric_negative_binomial.log
+cd presentaciones/es/03_variables_aleatorias_discretas
+pdflatex -interaction=nonstopmode 03.07_poisson_distribution.tex && pdflatex -interaction=nonstopmode 03.07_poisson_distribution.tex
+grep "Overfull" 03.07_poisson_distribution.log
 
 # Para la versión en Inglés
 cd ../../en/03_discrete_random_variables
-pdflatex -interaction=nonstopmode 03.05_geometric_negative_binomial.tex && pdflatex -interaction=nonstopmode 03.05_geometric_negative_binomial.tex
-grep "Overfull" 03.05_geometric_negative_binomial.log
+pdflatex -interaction=nonstopmode 03.07_poisson_distribution.tex && pdflatex -interaction=nonstopmode 03.07_poisson_distribution.tex
+grep "Overfull" 03.07_poisson_distribution.log
 ```
 
 ### Paso 5: Sincronización de Ebook Principal (`[Modelación Estadística].tex`)
@@ -89,16 +94,15 @@ pdflatex -interaction=nonstopmode "[Modelación Estadística].tex" && pdflatex -
 ```
 
 ### Paso 6: Actualización de Documentación y Cierre de Tarea (Sin Auto-Commits)
-Actualizar este archivo (`ROADMAP.md`) marcando la 03.05 como completada y apuntando a la 03.06 como el nuevo foco. Verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
+Actualizar este archivo (`ROADMAP.md`) marcando la 03.07 como completada y apuntando a la 03.08 como el nuevo foco. Verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
 
 ---
 
 ## 4. Mapeo Curricular Maestro — Capítulos 03 al 09 (Temas Pendientes)
 
-A continuación se enlistan exhaustivamente todos los temas curriculares que deben desarrollarse de manera sucesiva tras finalizar la Sección 03.05, siguiendo la misma estructura de 3 archivos: cuaderno `(p).tex`, script Python y 2 mazos Beamer ES/EN.
+A continuación se enlistan exhaustivamente todos los temas curriculares que deben desarrollarse de manera sucesiva tras finalizar la Sección 03.06, siguiendo la misma estructura de 3 archivos: cuaderno `(p).tex`, script Python y 2 mazos Beamer ES/EN.
 
 ### Capítulo 03: Variables Aleatorias Discretas (Restantes)
-- **Sección 03.06:** Distribución Hipergeométrica (`03.06_hypergeometric.py`). *Muestreo sin reemplazo ($N, K, n$), momentos combinatorios y convergencia asintótica a la Binomial.*
 - **Sección 03.07:** Distribución de Poisson y Procesos de Poisson (`03.07_poisson_distribution.py`). *Ley de eventos raros ($\lambda=np$), conteo continuo e intervalos de llegada.*
 - **Sección 03.08:** Momentos y Funciones Generadoras de Momentos (`03.08_moment_generating_functions.py`). *$M_X(t)=\mathbb{E}[e^{tX}]$, derivadas en el origen ($M_X^{(k)}(0)=\mathbb{E}[X^k]$), unicidad.*
 - **Sección 03.09:** Desigualdades Probabilísticas en V.A. Discretas (`03.09_probability_inequalities.py`). *Cotas de Markov ($P(X\ge a)\le \mu/a$) y de Chebyshev ($P(|X-\mu|\ge k\sigma)\le 1/k^2$).*

@@ -882,3 +882,377 @@
 		En este régimen límite, el carácter secuencial y sobredisperso de las sumas geométricas de Pascal ($\sigma^2 > \mu$) se homogeniza perfectamente: la varianza empuja su valor asintótico hacia la media ($\lim_{r \to \infty} \sigma_Y^2 = \lim_{r \to \infty} \frac{\lambda}{p} = \frac{\lambda}{1} = \lambda = \mu_Y$). La ley combinatoria de Pascal colapsa entonces en el **Proceso Puntual de Poisson**, proporcionando el puente teórico unificado entre el conteo discreto de esperas reiteradas y los eventos raros en tiempo continuo.
 	\end{enumerate}
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 3.6: DISTRIBUCIÓN HIPERGEOMÉTRICA
+% ==============================================================================
+
+\subsubsection*{Nivel 1: Fundamental (Conceptos básicos y directos)}
+
+\begin{problema}
+	\label{prob:3.6.1}
+	Sea una población finita de tamaño $N$ dividida en $K$ éxitos y $N-K$ fracasos. Se extrae una muestra aleatoria de tamaño $n$ \emph{sin reemplazo}. Sea $X$ el número de éxitos en la muestra.
+	\begin{enumerate}
+		\item Escriba la función de probabilidad $f_X(k) = P(X = k)$ y determine su soporte exacto $\mathcal{S}_X$.
+		\item Demuestre que la suma de probabilidades sobre todo el soporte es igual a $1$ utilizando la identidad de Vandermonde.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	La identidad de Vandermonde establece que para enteros no negativos $a, b, c$, se cumple $\sum_{j=0}^{c} \comb{a}{j} \comb{b}{c-j} = \comb{a+b}{c}$.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.2}
+	En una planta ensambladora se recibe un lote de $N=30$ tabletas electrónicas. El departamento de control de calidad inspecciona una muestra aleatoria de $n=5$ tabletas sin reemplazo y rechaza todo el lote si encuentra al menos $2$ defectuosas. Si en realidad el lote contiene $K=6$ tabletas defectuosas:
+	\begin{enumerate}
+		\item Calcule la probabilidad exacta de no encontrar ninguna tableta defectuosa en la muestra ($X = 0$).
+		\item Calcule la probabilidad exacta de que el lote sea aceptado ($X \le 1$).
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	El lote se acepta si y solo si $X \in \set{0, 1}$. Utilice la fórmula $P(X=k) = \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}}$.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.3}
+	Sea $X \sim \text{Hiper}(N, K, n)$ el número de éxitos al extraer $n$ elementos sin reemplazo. Podemos expresar a $X$ como la suma de variables indicadoras $X = \sum_{i=1}^n I_i$, donde $I_i = 1$ si la $i$-ésima extracción resulta en éxito y $I_i = 0$ en caso contrario.
+	\begin{enumerate}
+		\item Determine la probabilidad marginal $P(I_i = 1)$ para cualquier $i \in \set{1, 2, \dots, n}$.
+		\item Utilizando la linealidad de la esperanza matemática, demuestre que $\mathbb{E}[X] = n \dfrac{K}{N}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	Por simetría incondicional, la probabilidad marginal de que la $i$-ésima extracción sea un éxito no depende del orden $i$ si no se ha observado la trayectoria previa.
+\end{sugerencia}
+
+\subsubsection*{Nivel 2: Operativo (Cálculo e implementación técnica)}
+
+\begin{problema}
+	\label{prob:3.6.4}
+	Considere una variable aleatoria hipergeométrica $X \sim \text{Hiper}(N, K, n)$ con varianza $\text{Var}(X) = n \dfrac{K}{N} \left(1 - \dfrac{K}{N}\right) \left(\dfrac{N-n}{N-1}\right)$.
+	\begin{enumerate}
+		\item Identifique y explique el significado del término $\dfrac{N-n}{N-1}$, conocido como Factor de Corrección por Población Finita (FPCF).
+		\item Compare el valor numérico de $\text{Var}(X)$ frente al modelo binomial correspondiente ($p = K/N$) cuando $N=50, K=10, n=20$. ¿En qué porcentaje se reduce la varianza real respecto a la aproximación con reemplazo?
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	Evalúe el cociente entre la varianza hipergeométrica y la varianza binomial $np(1-p)$.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.5}
+	Un auditor fiscal revisa un padrón de $N=100$ facturas corporativas, entre las cuales existen $K=15$ con irregularidades tributarias severas. El auditor selecciona una muestra aleatoria de $n=10$ facturas sin reemplazo.
+	\begin{enumerate}
+		\item Calcule la media $\mu_X$ y la desviación estándar $\sigma_X$ del número de facturas irregulares en la muestra.
+		\item Determine la probabilidad exacta de que el auditor detecte al menos $3$ facturas irregulares ($P(X \ge 3)$).
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	Para la cola superior, utilice el complemento $P(X \ge 3) = 1 - [P(X=0) + P(X=1) + P(X=2)]$.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.6}
+	Una base de datos municipal contiene $N=2000$ expedientes de zonificación, de los cuales $K=100$ presentan errores de captura. Se extrae una muestra de $n=20$ expedientes sin reemplazo para control interno.
+	\begin{enumerate}
+		\item Verifique si se cumple la regla empírica $\dfrac{n}{N} < 0.05$.
+		\item Calcule $P(X = 2)$ utilizando la fórmula exacta hipergeométrica y compárela con la aproximación binomial $Y \sim \text{Bin}(20, p=0.05)$. Determine el error absoluto $|P(X=2) - P(Y=2)|$.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	Calcule $p = K/N = 100/2000 = 0.05$. La aproximación binomial asume independencia muestral.
+\end{sugerencia}
+
+\subsubsection*{Nivel 3: Analítico (Demostraciones y modelación matemática)}
+
+\begin{problema}
+	\label{prob:3.6.7}
+	Sea $X \sim \text{Hiper}(N, K, n)$. Utilizando identidades combinatorias directamente sobre la suma de la función de masa de probabilidad:
+	\begin{enumerate}
+		\item Demuestre que el primer momento factorial es $\mathbb{E}[X] = n \dfrac{K}{N}$ usando la identidad de absorción $k \comb{K}{k} = K \comb{K-1}{k-1}$.
+		\item Demuestre que el segundo momento factorial es $\mathbb{E}[X(X-1)] = n(n-1) \dfrac{K(K-1)}{N(N-1)}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	Para el segundo momento factorial, utilice la identidad de absorción de segundo orden $k(k-1)\comb{K}{k} = K(K-1)\comb{K-2}{k-2}$ y reubique los índices del sumatorio combinatorio.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.8}
+	A partir de la descomposición en variables indicadoras $X = \sum_{i=1}^n I_i$ del Problema \ref{prob:3.6.3}, donde $I_i \sim \text{Bern}(K/N)$:
+	\begin{enumerate}
+		\item Demuestre que para $i \neq j$, la probabilidad conjunta es $P(I_i = 1, I_j = 1) = \dfrac{K(K-1)}{N(N-1)}$.
+		\item Deduzca que la covarianza entre dos extracciones distintas sin reemplazo es negativa y está dada por $\text{Cov}(I_i, I_j) = -\dfrac{K(N-K)}{N^2(N-1)}$.
+		\item Utilizando la fórmula general de la varianza para sumas de variables correlacionadas, obtenga la expresión exacta de $\text{Var}(X)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	$\text{Var}\left(\sum_{i=1}^n I_i\right) = \sum_{i=1}^n \text{Var}(I_i) + \sum_{i \neq j} \text{Cov}(I_i, I_j)$. Exprese el resultado en función del FPCF $\frac{N-n}{N-1}$.
+\end{sugerencia}
+
+\subsubsection*{Nivel 4: Desafiante (Problemas avanzados o retos de ingeniería)}
+
+\begin{problema}
+	\label{prob:3.6.9}
+	Demuestre formalmente el límite combinatorio asintótico que conecta el muestreo sin reemplazo con el muestreo con reemplazo:
+	Sea $X_N \sim \text{Hiper}(N, K_N, n)$ de modo que cuando $N \to \infty$ y $K_N \to \infty$, la proporción de éxitos en la población tiende a una constante fija $p = \lim_{N \to \infty} \dfrac{K_N}{N} \in (0, 1)$, mientras que el tamaño de muestra $n$ permanece constante. Demuestre puntualmente que para todo $k \in \set{0, 1, \dots, n}$:
+	\begin{align*}
+		\lim_{N \to \infty} P(X_N = k) = \comb{n}{k} p^k (1-p)^{n-k}.
+	\end{align*}
+\end{problema}
+
+\begin{sugerencia}
+	Descomponga los coeficientes combinatorios en factoriales decrecientes: $\comb{K}{k}\comb{N-K}{n-k}/\comb{N}{n} = \comb{n}{k} \frac{K^{(k)} (N-K)^{(n-k)}}{N^{(n)}}$ y tome el límite de cada cociente lineal.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.10}
+	**Prueba Exacta de Fisher en Ensayos Clínicos:**
+	En un estudio clínico sobre un nuevo agente antitrombótico, se seleccionaron $N=25$ pacientes en total, de los cuales $K=12$ recibieron la terapia activa y $N-K=13$ recibieron placebo. Al finalizar el estudio, se observó que exactamente $n=8$ pacientes experimentaron la formación de trombos en general, mientras que $17$ no presentaron trombos.
+	
+	Bajo la hipótesis nula ($H_0$) de que el tratamiento no tiene ningún efecto y la trombosis ocurre independientemente del grupo al que fue asignado el paciente:
+	\begin{enumerate}
+		\item Demuestre teóricamente que, condicionado a los marginales fijos de la tabla de contingencia $2 \times 2$, la variable aleatoria $X$ (número de pacientes con trombosis en el grupo de terapia activa) sigue una distribución hipergeométrica con parámetros $N=25, K=12, n=8$.
+		\item Si en el estudio se observó que solo $X = 1$ paciente del grupo de terapia activa desarrolló trombos (frente a $7$ en el placebo), calcule el *valor p de una cola inferior* ($P(X \le 1)$) e interprete estadísticamente si existe evidencia de eficacia terapéutica al nivel $\alpha = 0.05$.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	El valor $p$ exacto de Fisher de una cola en la dirección observada es la suma hipergeométrica $\sum_{j=0}^{1} P(X=j)$.
+\end{sugerencia}
+
+% --- SOLUCIONES DE LA SECCIÓN 3.6 ---
+
+\begin{solucion}
+	\label{sol:3.6.1}
+	Para el Problema \ref{prob:3.6.1}:
+	\begin{enumerate}
+		\item El número de formas de elegir $k$ éxitos de un total de $K$ disponibles es $\comb{K}{k}$, y por cada una de estas formas, se deben elegir $(n-k)$ fracasos de los $(N-K)$ disponibles, con $\comb{N-K}{n-k}$ posibilidades. El número total de configuraciones equiprobables al extraer $n$ elementos de $N$ sin orden es $\comb{N}{n}$. Así:
+		\begin{align*}
+			f_X(k) = P(X=k) = \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}}.
+		\end{align*}
+		El soporte $\mathcal{S}_X$ requiere que los argumentos superiores sean mayores o iguales que los inferiores en cada coeficiente: $k \le K$ y $n-k \le N-K \implies k \ge n-(N-K)$. Además, $k \ge 0$ y $k \le n$. Por tanto, el intervalo exacto es:
+		\begin{align*}
+			\mathcal{S}_X = \set{\max(0, n-(N-K)), \dots, \min(n, K)}.
+		\end{align*}
+		\item Sumando la función de probabilidad sobre todas las configuraciones posibles y aplicando la identidad combinatoria de Vandermonde en el numerador:
+		\begin{align*}
+			\sum_{k \in \mathcal{S}_X} f_X(k) &= \dfrac{1}{\comb{N}{n}} \sum_{k \in \mathcal{S}_X} \comb{K}{k}\comb{N-K}{n-k} \\
+			&= \dfrac{1}{\comb{N}{n}} \comb{K + (N-K)}{k + (n-k)} = \dfrac{\comb{N}{n}}{\comb{N}{n}} = 1.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.2}
+	Para el Problema \ref{prob:3.6.2}:
+	Aquí los parámetros son $N=30$, $K=6$ (defectuosas), $N-K=24$ (buenas) y $n=5$ (muestra).
+	\begin{enumerate}
+		\item La probabilidad de que las $5$ tabletas muestreadas sean buenas ($k=0$ defectuosas):
+		\begin{align*}
+			P(X = 0) &= \dfrac{\comb{6}{0}\comb{24}{5}}{\comb{30}{5}} = \dfrac{1 \times 42504}{142506} \approx 0.298259 \approx 0.2983.
+		\end{align*}
+		\item La probabilidad de encontrar exactamente $k=1$ tableta defectuosa:
+		\begin{align*}
+			P(X = 1) &= \dfrac{\comb{6}{1}\comb{24}{4}}{\comb{30}{5}} = \dfrac{6 \times 10626}{142506} = \dfrac{63756}{142506} \approx 0.447391 \approx 0.4474.
+		\end{align*}
+		La probabilidad exacta de que el lote sea aceptado ($X \le 1$) es la suma puntual:
+		\begin{align*}
+			P(\text{Aceptación}) &= P(X = 0) + P(X = 1) \approx 0.298259 + 0.447391 = 0.74565 \approx 0.7457.
+		\end{align*}
+		Existe un $74.57\%$ de probabilidad de aceptar este lote con 6 piezas defectuosas. La probabilidad de rechazarlo es $1 - 0.7457 = 25.43\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.3}
+	Para el Problema \ref{prob:3.6.3}:
+	\begin{enumerate}
+		\item La variable indicadora $I_i$ vale $1$ si la $i$-ésima tableta/elemento extraído es un éxito. Por simetría incondicional (antes de conocer los resultados de las extracciones previas o posteriores), cada uno de los $N$ elementos de la población tiene la misma probabilidad de ocupar la $i$-ésima posición en la muestra:
+		\begin{align*}
+			P(I_i = 1) = \dfrac{K}{N}, \quad \forall i \in \set{1, 2, \dots, n}.
+		\end{align*}
+		\item La esperanza de una variable indicadora es su propia probabilidad de éxito: $\mathbb{E}[I_i] = P(I_i = 1) = \dfrac{K}{N}$. Por el teorema de linealidad de la esperanza (el cual es válido incluso para variables aleatorias dependientes o correlacionadas):
+		\begin{align*}
+			\mathbb{E}[X] &= \mathbb{E}\left[\sum_{i=1}^n I_i\right] = \sum_{i=1}^n \mathbb{E}[I_i] = \sum_{i=1}^n \dfrac{K}{N} = n \dfrac{K}{N}.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.4}
+	Para el Problema \ref{prob:3.6.4}:
+	\begin{enumerate}
+		\item El término $\text{FPCF} = \dfrac{N-n}{N-1}$ mide la reducción geométrica en la variabilidad muestral debida a que cada extracción sin reemplazo disminuye el conjunto disponible. 
+		- Cuando $n=1$, el factor vale $\frac{N-1}{N-1} = 1$ (coincidiendo con Bernoulli).
+		- Cuando $n=N$ (censo total), el factor vale $\frac{0}{N-1} = 0$, ya que al inspeccionar toda la población no existe ninguna incertidumbre muestral ($\text{Var}(X) = 0$).
+		\item Con los parámetros $N=50, K=10, n=20$:
+		- Varianza Binomial (con reemplazo, $p = 10/50 = 0.20$):
+		  \begin{align*}
+		  	\text{Var}_{\text{Bin}}(X) = np(1-p) = 20(0.20)(0.80) = 3.20.
+		  \end{align*}
+		- Factor de Corrección por Población Finita:
+		  \begin{align*}
+		  	\text{FPCF} = \dfrac{50-20}{50-1} = \dfrac{30}{49} \approx 0.612245.
+		  \end{align*}
+		- Varianza Hipergeométrica real:
+		  \begin{align*}
+		  	\text{Var}_{\text{Hiper}}(X) = 3.20 \times \dfrac{30}{49} = \dfrac{96}{49} \approx 1.9592.
+		  \end{align*}
+		La varianza se reduce en un $1 - 0.612245 = 38.78\%$ gracias a la información no redundante capturada por el muestreo sin reemplazo.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.5}
+	Para el Problema \ref{prob:3.6.5}:
+	Tenemos $N=100$, $K=15$ y $n=10$.
+	\begin{enumerate}
+		\item Cálculo de momentos de primer y segundo orden:
+		\begin{align*}
+			\mu_X &= 10 \left(\dfrac{15}{100}\right) = 1.50. \\
+			\sigma_X^2 &= 10(0.15)(0.85)\left(\dfrac{100-10}{100-1}\right) = 1.275 \left(\dfrac{90}{99}\right) = 1.275 \times \dfrac{10}{11} \approx 1.15909. \\
+			\sigma_X &= \sqrt{1.15909} \approx 1.0766.
+		\end{align*}
+		\item Para hallar $P(X \ge 3)$, calculamos los tres primeros términos del soporte ($k=0, 1, 2$):
+		\begin{align*}
+			P(X=0) &= \dfrac{\comb{15}{0}\comb{85}{10}}{\comb{100}{10}} \approx 0.18684, \\
+			P(X=1) &= \dfrac{\comb{15}{1}\comb{85}{9}}{\comb{100}{10}} \approx 0.36402, \\
+			P(X=2) &= \dfrac{\comb{15}{2}\comb{85}{8}}{\comb{100}{10}} \approx 0.28634.
+		\end{align*}
+		Sumando las probabilidades inferiores: $P(X \le 2) \approx 0.18684 + 0.36402 + 0.28634 = 0.83720$.
+		Por la regla del complemento:
+		\begin{align*}
+			P(X \ge 3) = 1 - P(X \le 2) \approx 1 - 0.83720 = 0.1628.
+		\end{align*}
+		El auditor tiene un $16.28\%$ de probabilidad de detectar $3$ o más facturas irregulares en una muestra de solo $10$ documentos.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.6}
+	Para el Problema \ref{prob:3.6.6}:
+	\begin{enumerate}
+		\item El cociente muestral es $\dfrac{n}{N} = \dfrac{20}{2000} = 0.01 = 1\%$. Como $1\% < 5\%$, se cumple ampliamente el criterio práctico de independencia aproximada.
+		\item Probabilidad exacta Hipergeométrica ($N=2000, K=100, n=20, k=2$):
+		\begin{align*}
+			P(X=2) = \dfrac{\comb{100}{2}\comb{1900}{18}}{\comb{2000}{20}} \approx 0.189725.
+		\end{align*}
+		Probabilidad Binomial aproximada ($n=20, p=100/2000=0.05, k=2$):
+		\begin{align*}
+			P(Y=2) = \comb{20}{2}(0.05)^2(0.95)^{18} = 190(0.0025)(0.397214) \approx 0.188677.
+		\end{align*}
+		El error absoluto exacto entre ambos modelos es:
+		\begin{align*}
+			|P(X=2) - P(Y=2)| \approx |0.189725 - 0.188677| = 0.001048 \approx 0.105\%.
+		\end{align*}
+		La aproximación binomial introduce un error marginal de apenas una décima de punto porcentual.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.7}
+	Para el Problema \ref{prob:3.6.7}:
+	\begin{enumerate}
+		\item Aplicando la identidad combinatoria $k \comb{K}{k} = K \comb{K-1}{k-1}$ sobre la definición de esperanza:
+		\begin{align*}
+			\mathbb{E}[X] &= \sum_{k=1}^n k \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}} = \dfrac{1}{\comb{N}{n}} \sum_{k=1}^n K \comb{K-1}{k-1}\comb{N-K}{n-k}.
+		\end{align*}
+		Extraemos $K$ y reescribimos el denominador utilizando $n \comb{N}{n} = N \comb{N-1}{n-1} \implies \comb{N}{n} = \frac{N}{n} \comb{N-1}{n-1}$:
+		\begin{align*}
+			\mathbb{E}[X] &= n \dfrac{K}{N} \sum_{k=1}^n \dfrac{\comb{K-1}{k-1}\comb{N-K}{n-k}}{\comb{N-1}{n-1}}.
+		\end{align*}
+		Con el cambio de variable $j = k-1$, la suma sobre $j \in \set{0, \dots, n-1}$ de $\comb{K-1}{j}\comb{(N-1)-(K-1)}{(n-1)-j}/\comb{N-1}{n-1}$ es la suma de una PMF hipergeométrica con parámetros $(N-1, K-1, n-1)$, cuyo total es exactamente $1$. Queda demostrado $\mathbb{E}[X] = n \dfrac{K}{N}$.
+		\item Para el segundo momento factorial, aplicamos $k(k-1)\comb{K}{k} = K(K-1)\comb{K-2}{k-2}$:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] &= \sum_{k=2}^n k(k-1) \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}} \\
+			&= \dfrac{K(K-1)}{\comb{N}{n}} \sum_{k=2}^n \comb{K-2}{k-2}\comb{N-K}{n-k}.
+		\end{align*}
+		Usando $\comb{N}{n} = \dfrac{N(N-1)}{n(n-1)}\comb{N-2}{n-2}$:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] &= n(n-1)\dfrac{K(K-1)}{N(N-1)} \sum_{j=0}^{n-2} \dfrac{\comb{K-2}{j}\comb{(N-2)-(K-2)}{(n-2)-j}}{\comb{N-2}{n-2}} \\
+			&= n(n-1)\dfrac{K(K-1)}{N(N-1)} \times 1 = n(n-1)\dfrac{K(K-1)}{N(N-1)}.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.8}
+	Para el Problema \ref{prob:3.6.8}:
+	\begin{enumerate}
+		\item Para dos extracciones distintas $i \neq j$, el evento $(I_i = 1, I_j = 1)$ significa que la $i$-ésima y la $j$-ésima extracción son éxitos. Por regla de la multiplicación incondicional:
+		\begin{align*}
+			P(I_i = 1, I_j = 1) &= P(I_i = 1) P(I_j = 1 \mid I_i = 1) = \dfrac{K}{N} \left(\dfrac{K-1}{N-1}\right).
+		\end{align*}
+		\item La covarianza entre dos variables indicadoras se obtiene por definición:
+		\begin{align*}
+			\text{Cov}(I_i, I_j) &= \mathbb{E}[I_i I_j] - \mathbb{E}[I_i]\mathbb{E}[I_j] = P(I_i = 1, I_j = 1) - \left(\dfrac{K}{N}\right)^2 \\
+			&= \dfrac{K(K-1)}{N(N-1)} - \dfrac{K^2}{N^2} = \dfrac{K}{N} \left[ \dfrac{K-1}{N-1} - \dfrac{K}{N} \right] \\
+			&= \dfrac{K}{N} \left[ \dfrac{N(K-1) - K(N-1)}{N(N-1)} \right] = \dfrac{K}{N} \left[ \dfrac{NK - N - NK + K}{N(N-1)} \right] \\
+			&= -\dfrac{K(N-K)}{N^2(N-1)} < 0.
+		\end{align*}
+		\item Varianza de la suma de indicadoras correlacionadas:
+		\begin{align*}
+			\text{Var}(X) &= \sum_{i=1}^n \text{Var}(I_i) + \sum_{i \neq j} \text{Cov}(I_i, I_j).
+		\end{align*}
+		Como $\text{Var}(I_i) = \frac{K}{N}\left(1 - \frac{K}{N}\right)$ y existen $n(n-1)$ pares ordenados $i \neq j$ con la misma covarianza:
+		\begin{align*}
+			\text{Var}(X) &= n \dfrac{K}{N}\left(\dfrac{N-K}{N}\right) - n(n-1) \dfrac{K(N-K)}{N^2(N-1)} \\
+			&= n \dfrac{K}{N}\left(\dfrac{N-K}{N}\right) \left[ 1 - \dfrac{n-1}{N-1} \right] \\
+			&= n \dfrac{K}{N}\left(1 - \dfrac{K}{N}\right) \left[ \dfrac{(N-1) - (n-1)}{N-1} \right] = n \dfrac{K}{N}\left(1 - \dfrac{K}{N}\right) \left(\dfrac{N-n}{N-1}\right).
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.9}
+	Para el Problema \ref{prob:3.6.9}:
+	Expresamos la función de masa hipergeométrica utilizando factoriales decrecientes $A^{(m)} = A(A-1)\cdots(A-m+1)$:
+	\begin{align*}
+		P(X_N = k) &= \dfrac{\comb{K_N}{k}\comb{N-K_N}{n-k}}{\comb{N}{n}} = \dfrac{\dfrac{K_N^{(k)}}{k!} \cdot \dfrac{(N-K_N)^{(n-k)}}{(n-k)!}}{\dfrac{N^{(n)}}{n!}} = \comb{n}{k} \dfrac{K_N^{(k)} (N-K_N)^{(n-k)}}{N^{(n)}}.
+	\end{align*}
+	Para el factor con $K_N^{(k)}$, dividimos cada uno de los $k$ factores decrecientes entre $N$:
+	\begin{align*}
+		\dfrac{K_N^{(k)}}{N^k} &= \left(\dfrac{K_N}{N}\right)\left(\dfrac{K_N-1}{N}\right)\cdots\left(\dfrac{K_N-k+1}{N}\right) \xrightarrow[N \to \infty]{} p \cdot p \cdots p = p^k.
+	\end{align*}
+	De manera idéntica, para los $(n-k)$ factores del segundo término, como $\frac{N-K_N}{N} = 1 - \frac{K_N}{N} \to 1-p$:
+	\begin{align*}
+		\dfrac{(N-K_N)^{(n-k)}}{N^{n-k}} &\xrightarrow[N \to \infty]{} (1-p)^{n-k}.
+	\end{align*}
+	Finalmente, el denominador $N^{(n)}/N^n \to 1$ ya que $n$ es una constante finita:
+	\begin{align*}
+		\lim_{N \to \infty} P(X_N = k) &= \comb{n}{k} \left[ \lim_{N \to \infty} \dfrac{K_N^{(k)}}{N^k} \right] \left[ \lim_{N \to \infty} \dfrac{(N-K_N)^{(n-k)}}{N^{n-k}} \right] \left[ \lim_{N \to \infty} \dfrac{N^n}{N^{(n)}} \right] \\
+		&= \comb{n}{k} p^k (1-p)^{n-k}.
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.10}
+	Para el Problema \ref{prob:3.6.10}:
+	\begin{enumerate}
+		\item En la tabla $2 \times 2$, tenemos $N=25$ sujetos con totales marginales de tratamientos fijos ($K=12$ en terapia activa, $N-K=13$ en placebo) y totales marginales de respuesta fijos ($n=8$ con trombos, $N-n=17$ sin trombos).
+		
+		Bajo la hipótesis nula $H_0$ de independencia (los $n=8$ eventos trombóticos se distribuyen al azar entre los $25$ pacientes), cada combinación de elegir los $8$ pacientes trombóticos entre los $N$ disponibles tiene probabilidad $1/\comb{N}{n}$. El número de formas en que exactamente $k$ de esos $8$ trombos recaigan en el grupo activo (de tamaño $K$) y los restantes $(n-k)$ recaigan en el grupo placebo (de tamaño $N-K$) es $\comb{K}{k}\comb{N-K}{n-k}$. Por tanto:
+		\begin{align*}
+			P(X = k \mid \text{marginales fijos}) = \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}} \sim \text{Hiper}(N=25, K=12, n=8).
+		\end{align*}
+		\item Evaluamos la probabilidad exacta del resultado observado ($X=1$) y los más extremos en favor de la eficacia terapéutica ($X=0$):
+		\begin{align*}
+			P(X = 0) &= \dfrac{\comb{12}{0}\comb{13}{8}}{\comb{25}{8}} = \dfrac{1 \times 1287}{1081575} \approx 0.001190. \\
+			P(X = 1) &= \dfrac{\comb{12}{1}\comb{13}{7}}{\comb{25}{8}} = \dfrac{12 \times 1716}{1081575} = \dfrac{20592}{1081575} \approx 0.019039.
+		\end{align*}
+		El *valor p de una cola inferior* de la Prueba Exacta de Fisher es:
+		\begin{align*}
+			p\text{-value} = P(X \le 1) = P(X=0) + P(X=1) \approx 0.001190 + 0.019039 = 0.020229 \approx 0.0202.
+		\end{align*}
+		Como $p\text{-value} \approx 0.0202 < \alpha = 0.05$, se rechaza la hipótesis nula $H_0$. Existe evidencia estadística estadísticamente significativa de que la terapia activa reduce la incidencia de trombosis respecto al placebo.
+	\end{enumerate}
+\end{solucion}

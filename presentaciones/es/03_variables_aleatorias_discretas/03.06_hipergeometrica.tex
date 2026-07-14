@@ -1,0 +1,545 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title{Distribución Hipergeométrica}
+\subtitle{Sección 03.06 --- Muestreo Sin Reemplazo y FPCF}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Portada
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 03: Variables Aleatorias Discretas}
+	\vspace{-0.15cm}
+	\begin{block}{Estructura Curricular de la Unidad 2}
+		\footnotesize
+		\begin{enumerate}
+			\itemsep=0.03cm
+			\item \textcolor{gray}{Sección 03.01 a 03.03: Fundamentos, PMF, CDF, Esperanza y Varianza}
+			\item \textcolor{gray}{Sección 03.04: Distribuciones de Bernoulli y Binomial (Muestreo con reemplazo)}
+			\item \textcolor{gray}{Sección 03.05: Distribuciones Geométrica y Binomial Negativa (Tiempos de espera)}
+			\item \textbf{\textcolor{TecRojo}{Sección 03.06: Distribución Hipergeométrica}} $\leftarrow$ \emph{Foco actual}
+			\item \textcolor{gray}{Sección 03.07: Distribución de Poisson y Procesos de Poisson}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Objetivo Didáctico}
+		\scriptsize
+		Dominar el modelado de extracciones aleatorias \emph{sin reemplazo} en poblaciones finitas heterogéneas, cuantificando la reducción de varianza mediante el Factor de Corrección por Población Finita (FPCF) y la covarianza negativa.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivación e Intuición
+\begin{frame}{Motivación --- De la Independencia a la Dependencia Muestral}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Muestreo Con Reemplazo (Binomial)}
+				\footnotesize
+				\begin{itemize}
+					\itemsep=0.05cm
+					\item El elemento extraído retorna a la urna antes de la siguiente extracción.
+					\item La probabilidad de éxito ($p$) permanece **estrictamente constante**.
+					\item Los ensayos son mutuamente **independientes** ($P(A \cap B) = P(A)P(B)$).
+					\item Varianza teórica máxima: $\sigma^2 = np(1-p)$.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Muestreo Sin Reemplazo (Hipergeométrica)}
+				\footnotesize
+				\begin{itemize}
+					\itemsep=0.05cm
+					\item El elemento **no retorna** a la urna; la población disminuye ($N \to N-1$).
+					\item La probabilidad del siguiente intento depende del historial previo.
+					\item Los ensayos muestran **dependencia correlacionada negativa**.
+					\item Varianza reducida por el factor poblacional.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Definición Formal
+\begin{frame}{Definición Formal --- La Función de Masa Hipergeométrica}
+	\vspace{-0.2cm}
+	\begin{block}{Estructura Poblacional ($N, K, n$)}
+		\scriptsize
+		En una población de tamaño $N$, exactamente $K$ elementos son \emph{éxitos} y $N-K$ son \emph{fracasos}. Al extraer una muestra de tamaño $n$ sin reemplazo, el conteo de éxitos $X$ sigue una **Distribución Hipergeométrica**: $X \sim \text{Hiper}(N, K, n)$.
+	\end{block}
+	\vspace{-0.25cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Fórmula Exacta de la PMF}
+				\scriptsize
+				Probabilidad de obtener $k$ éxitos:
+				$P(X = k) = \frac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}}$.
+				
+				Donde $\comb{K}{k}$ elige éxitos, $\comb{N-K}{n-k}$ elige fracasos y $\comb{N}{n}$ es el total de muestras posibles.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Parametrización en SciPy}
+				\scriptsize
+				En Python (\texttt{scipy.stats.hypergeom}):
+				$\texttt{hypergeom(M, n, N)}$.
+				
+				Mapeo de variables:
+				\texttt{M} $= N$ (Población total),
+				\texttt{n} $= K$ (Éxitos totales),
+				\texttt{N} $= n$ (Tamaño de muestra).
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Soporte Exacto y Vandermonde
+\begin{frame}{Soporte Exacto y Normalización por Vandermonde}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Intervalo de Soporte $\mathcal{S}_X$}
+				\scriptsize
+				Los coeficientes exigen una doble restricción física sobre $k$:
+				\begin{itemize}
+					\itemsep=0.04cm
+					\item Éxitos disponibles: $k \le \min(n, K)$.
+					\item Fracasos disponibles: $n-k \le N-K \implies k \ge n-(N-K)$.
+				\end{itemize}
+				El soporte discreto exacto resulta:
+				\begin{align*}
+					\mathcal{S}_X = \set{\max(0, n-N+K), \dots, \min(n, K)}
+				\end{align*}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Identidad de Vandermonde}
+				\scriptsize
+				Para garantizar que la suma total sea 1, se aplica la identidad de convolución combinatoria con $a=K$, $b=N-K$, $c=n$:
+				\begin{align*}
+					\sum_{k} \comb{a}{k} \comb{b}{c-k} = \comb{a+b}{c}
+				\end{align*}
+				\vspace{-0.25cm}
+				Al dividir entre $\comb{N}{n}$, se obtiene:
+				\begin{align*}
+					\sum_{k \in \mathcal{S}_X} P(X=k) = 1
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Esperanza y Linealidad
+\begin{frame}{Esperanza Matemática --- Simetría y Linealidad Incondicional}
+	\vspace{-0.15cm}
+	\begin{block}{Descomposición en Variables Indicadoras}
+		\footnotesize
+		Sea $I_i = 1$ si la $i$-ésima extracción es éxito ($0$ en caso contrario), tal que $X = \sum_{i=1}^n I_i$. Por simetría marginal incondicional, cualquier elemento tiene idéntica probabilidad inicial de ser extraído en el intento $i$: $P(I_i = 1) = \frac{K}{N}$.
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Deducción del Primer Momento}
+				\scriptsize
+				Por linealidad universal de la esperanza:
+				\begin{align*}
+					\mathbb{E}[X] = \sum_{i=1}^n \mathbb{E}[I_i] = \sum_{i=1}^n \dfrac{K}{N} = n \dfrac{K}{N}
+				\end{align*}
+				¡Coincide con la media binomial ($np$) al definir $p = K/N$!
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Simetría y Condicionalidad}
+				\scriptsize
+				Aunque el ensayo 1 altera el ensayo 2 ($P(I_2=1 \mid I_1=1) = \frac{K-1}{N-1}$), el promedio total conserva la marginal:
+				\begin{align*}
+					P(I_2=1) = \dfrac{K}{N}\dfrac{K-1}{N-1} + \dfrac{N-K}{N}\dfrac{K}{N-1} = \dfrac{K}{N}
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 07: Varianza y Covarianza Negativa
+\begin{frame}{Covarianza Negativa y el Factor FPCF}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Covarianza Muestral ($i \neq j$)}
+				\scriptsize
+				La probabilidad conjunta es $P(I_i=1, I_j=1) = \frac{K(K-1)}{N(N-1)}$. Su covarianza resulta:
+				\begin{align*}
+					\text{Cov}(I_i, I_j) &= \dfrac{K(K-1)}{N(N-1)} - \left(\dfrac{K}{N}\right)^2 \\
+					&= -\dfrac{K(N-K)}{N^2(N-1)} < 0
+				\end{align*}
+				Extraer un éxito reduce la probabilidad de obtener otro en el futuro.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Varianza y Corrección Poblacional}
+				\scriptsize
+				Sumando las varianzas individuales y las $n(n-1)$ covarianzas negativas:
+				\begin{align*}
+					\text{Var}(X) &= n\dfrac{K}{N}\left(1-\dfrac{K}{N}\right) \left[ \dfrac{N-n}{N-1} \right] \\
+					&= np(1-p) \times \text{FPCF}
+				\end{align*}
+				\vspace{-0.25cm}
+				El término $\text{FPCF} = \frac{N-n}{N-1} \le 1$ cuantifica la reducción teórica de incertidumbre.
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 08: Comparación Teórica Binomial vs Hipergeométrica
+\begin{frame}{Análisis de Incertidumbre --- Censo vs. Muestreo}
+	\vspace{-0.15cm}
+	\begin{block}{Comportamiento Límite del FPCF ($\frac{N-n}{N-1}$)}
+		\footnotesize
+		El Factor de Corrección por Población Finita actúa como modulador geométrico de la varianza en función del tamaño de muestra $n$:
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Casos Extremos ($n=1$ y $n=N$)}
+				\scriptsize
+				\begin{itemize}
+					\itemsep=0.04cm
+					\item **Extracción Unitaria ($n=1$):** El FPCF vale $\frac{N-1}{N-1} = 1$. Sin reemplazo y con reemplazo son idénticos en un intento.
+					\item **Censo Completo ($n=N$):** El FPCF vale $0 \implies \text{Var}(X) = 0$. Al medir toda la población, no existe error aleatorio ($X=K$ con certeza).
+				\end{itemize}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Subdispersión vs Binomial}
+				\scriptsize
+				Para una muestra del $40\%$ ($n = 0.40 N$ con $N=100$):
+				\begin{align*}
+					\text{FPCF} = \dfrac{100-40}{100-1} = \dfrac{60}{99} \approx 0.606
+				\end{align*}
+				La varianza muestral es un $39.4\%$ menor que si asumiéramos muestreo con reemplazo. ¡El modelo es **subdisperso** ($\sigma^2 < \mu$)!
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 09: Convergencia Asintótica
+\begin{frame}{Convergencia Asintótica --- La Regla Práctica del $5\%$}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Límite Asintótico Poblacional}
+				\footnotesize
+				Cuando $N \to \infty$ y $K \to \infty$ manteniendo la proporción $p = \frac{K}{N}$ fija, el FPCF tiende a 1:
+				\begin{align*}
+					\lim_{N \to \infty} \dfrac{N-n}{N-1} = 1
+				\end{align*}
+				\vspace{-0.25cm}
+				Extraer sin reemplazo en una población infinita apenas altera las proporciones, y $\text{Hiper}(N, K, n) \to \text{Bin}(n, p)$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Regla de Oro en Auditorías ($\frac{n}{N} < 0.05$)}
+				\footnotesize
+				En ingeniería de calidad, calcular factoriales masivos en $\binom{N}{n}$ causa desbordamientos numéricos.
+				
+				**Criterio Práctico:** Si el tamaño muestral representa menos del **5\%** de la población ($n/N < 0.05$), se puede aproximar la Hipergeométrica mediante la Binomial con un error absoluto $< 10^{-3}$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 10: Aplicaciones Clave
+\begin{frame}{Aplicaciones --- Auditorías, Control y Prueba Exacta de Fisher}
+	\vspace{-0.15cm}
+	\begin{block}{Tres Dominios Críticos de la Distribución Hipergeométrica}
+		\footnotesize
+		\begin{enumerate}
+			\itemsep=0.08cm
+			\item **Control de Calidad (MIL-STD-105):** Inspección por atributos en lotes finitos cerrados. De un lote de $N$ piezas con $K$ defectuosas, se audita una muestra de $n$ y se rechaza si los defectos superan el límite $c$.
+			\item **Auditorías Forenses y Contables:** Evaluación de padrones de facturas o cuentas transaccionales finitas para cuantificar irregularidades fiscales con rigor exacto y sin sobreestimar la varianza.
+			\item **Prueba Exacta de Fisher en Bioestadística:** En ensayos clínicos $2 \times 2$ con muestras pequeñas, condicionado a totales marginales fijos, la distribución nula del número de eventos es **exactamente hipergeométrica**.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+% SLIDE 11: Ejercicios Nivel Fundamental I
+\begin{frame}{Ejercicios Nivel Fundamental I --- Problemas 3.6.1 y 3.6.2}
+	\vspace{-0.3cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problema 3.6.1: Soporte y Vandermonde}
+				\scriptsize
+				**Enunciado:** Determine el soporte de $X \sim \text{Hiper}(N, K, n)$ y verifique la suma unitaria.
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Solución Analítica}
+					Soporte: $k \le K$ y $k \ge n-(N-K) \implies$
+					$\mathcal{S}_X = \set{\max(0, n-N+K), \dots, \min(n, K)}$.
+					
+					Identidad de Vandermonde:
+					$\sum_{k} \comb{K}{k}\comb{N-K}{n-k} = \comb{N}{n} \implies \sum f_X(k) = 1$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problema 3.6.2: Aceptación de Lotes}
+				\scriptsize
+				**Enunciado:** Lote $N=30$ ($K=6$ defectuosas), muestra $n=5$. Calcule $P(X \le 1)$.
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Solución Exacta}
+					Cálculo puntual ($k=0, 1$):
+					$P(X=0) = \frac{\comb{6}{0}\comb{24}{5}}{\comb{30}{5}} \approx 0.2983$,
+					$P(X=1) = \frac{\comb{6}{1}\comb{24}{4}}{\comb{30}{5}} \approx 0.4474$.
+					
+					Aceptación: $P(X \le 1) \approx 0.7457$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 12: Ejercicios Nivel Fundamental II
+\begin{frame}{Ejercicios Nivel Fundamental II --- Problema 3.6.3}
+	\vspace{-0.15cm}
+	\begin{block}{Problema 3.6.3: Linealidad Incondicional de la Esperanza}
+		\footnotesize
+		**Enunciado:** Sea $X = \sum_{i=1}^n I_i$ el conteo de éxitos en $n$ extracciones sin reemplazo ($I_i = 1$ si el $i$-ésimo es éxito). Demuestre por linealidad que $\mathbb{E}[X] = n \frac{K}{N}$.
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Simetría de la Probabilidad Marginal}
+				\scriptsize
+				Antes de observar los primeros ensayos, la probabilidad marginal de que el $i$-ésimo elemento sea un éxito es idéntica para toda posición $i \in \set{1, \dots, n}$:
+				\begin{align*}
+					P(I_i = 1) = \dfrac{K}{N} \implies \mathbb{E}[I_i] = \dfrac{K}{N}
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Aplicación de Linealidad Universal}
+				\scriptsize
+				La linealidad $\mathbb{E}[\sum Y_i] = \sum \mathbb{E}[Y_i]$ opera **sin importar la dependencia** o covarianza:
+				\begin{align*}
+					\mathbb{E}[X] = \sum_{i=1}^n \mathbb{E}[I_i] = \sum_{i=1}^n \dfrac{K}{N} = n \dfrac{K}{N}
+				\end{align*}
+				\vspace{-0.25cm}
+				Demostración directa sin sumatorias algebraicas complejas.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 13: Ejercicios Nivel Operativo I
+\begin{frame}{Ejercicios Nivel Operativo I --- Problemas 3.6.4 y 3.6.5}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problema 3.6.4: Reducción por FPCF}
+				\scriptsize
+				**Enunciado:** Con $N=50, K=10, n=20$, compare la varianza Hipergeométrica vs Binomial ($p=0.20$).
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Cálculo y Reducción Muestral}
+					Varianza con reemplazo (Binomial):
+					\begin{align*}
+						\text{Var}_{\text{Bin}}(X) = 20(0.20)(0.80) = 3.20
+					\end{align*}
+					\vspace{-0.25cm}
+					Factor de Corrección FPCF: $\frac{50-20}{50-1} = \frac{30}{49} \approx 0.6122$.
+					\begin{align*}
+						\text{Var}_{\text{Hiper}}(X) = 3.20 \times 0.6122 \approx 1.9592
+					\end{align*}
+					\vspace{-0.25cm}
+					La varianza disminuye un $38.78\%$ por muestreo sin reemplazo.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problema 3.6.5: Auditoría Fiscal}
+				\scriptsize
+				**Enunciado:** En $N=100$ facturas con $K=15$ irregulares, se auditan $n=10$. Calcule $P(X \ge 3)$.
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Cálculo por Complemento}
+					Probabilidades acumuladas inferiores ($k=0,1,2$):
+					\begin{align*}
+						P(X=0) &= \comb{15}{0}\comb{85}{10}/\comb{100}{10} \approx 0.1868 \\
+						P(X=1) &= \comb{15}{1}\comb{85}{9}/\comb{100}{10} \approx 0.3640 \\
+						P(X=2) &= \comb{15}{2}\comb{85}{8}/\comb{100}{10} \approx 0.2863
+					\end{align*}
+					\vspace{-0.25cm}
+					Suma: $P(X \le 2) \approx 0.8372 \implies P(X \ge 3) \approx 0.1628$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 14: Ejercicios Nivel Operativo II
+\begin{frame}{Ejercicios Nivel Operativo II --- Problema 3.6.6}
+	\vspace{-0.15cm}
+	\begin{block}{Problema 3.6.6: Aproximación Binomial y Error Absoluto}
+		\footnotesize
+		**Enunciado:** En $N=2000$ expedientes con $K=100$ errores ($p=0.05$), se auditan $n=20$. Verifique la condición $n/N < 0.05$ y calcule el error absoluto $|P(X=2) - P(Y=2)|$.
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Cálculo Exacto Hipergeométrico}
+				\scriptsize
+				Verificación: $\frac{n}{N} = \frac{20}{2000} = 0.01 = 1\% < 5\%$.
+				La probabilidad exacta sin reemplazo es:
+				\begin{align*}
+					P(X=2) = \dfrac{\comb{100}{2}\comb{1900}{18}}{\comb{2000}{20}} \approx 0.189725
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Modelo Binomial y Error Absoluto}
+				\scriptsize
+				Aproximando con $Y \sim \text{Bin}(n=20, p=0.05)$:
+				\begin{align*}
+					P(Y=2) = \comb{20}{2}(0.05)^2(0.95)^{18} \approx 0.188677
+				\end{align*}
+				\vspace{-0.25cm}
+				Error absoluto: $|0.189725 - 0.188677| = 0.001048$. ¡Una precisión superior al $99.8\%$!
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 15: Ejercicios Nivel Analítico I
+\begin{frame}{Ejercicios Nivel Analítico --- Problemas 3.6.7 y 3.6.8}
+	\vspace{-0.3cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problema 3.6.7: Momentos Factoriales}
+				\scriptsize
+				**Enunciado:** Deduzca $\mathbb{E}[X]$ y $\mathbb{E}[X(X-1)]$.
+				\vspace{-0.15cm}
+				\begin{exampleblock}{Absorción Combinatoria}
+					\fontsize{7pt}{8.2pt}\selectfont
+					Con $k\comb{K}{k} = K\comb{K-1}{k-1}$ y $\comb{N}{n} = \frac{N}{n}\comb{N-1}{n-1}$:
+					$\mathbb{E}[X] = \sum k \frac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}} = n\frac{K}{N}$.
+					
+					Análogamente: $\mathbb{E}[X(X-1)] = n(n-1)\frac{K(K-1)}{N(N-1)}$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problema 3.6.8: Varianza Exacta}
+				\scriptsize
+				**Enunciado:** Deduzca la varianza muestral.
+				\vspace{-0.15cm}
+				\begin{exampleblock}{Covarianza Muestral}
+					\fontsize{7pt}{8.2pt}\selectfont
+					Para $i \neq j$: $\text{Cov}(I_i, I_j) = -\frac{K(N-K)}{N^2(N-1)}$.
+					
+					Sumando varianzas y covarianzas:
+					$\text{Var}(X) = n\frac{K}{N}(1-\frac{K}{N})(\frac{N-n}{N-1})$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 16: Ejercicios Nivel Desafiante
+\begin{frame}{Ejercicios Nivel Desafiante --- Problemas 3.6.9 y 3.6.10}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problema 3.6.9: Límite Asintótico}
+				\scriptsize
+				**Enunciado:** Demuestre que si $N \to \infty$ con $\frac{K_N}{N} \to p$, entonces $P(X_N=k) \to \comb{n}{k}p^k(1-p)^{n-k}$.
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Factoriales Decrecientes}
+					Usando factoriales decrecientes $A^{(m)}$:
+					\begin{align*}
+						P(X_N=k) = \comb{n}{k} \dfrac{K_N^{(k)} (N-K_N)^{(n-k)}}{N^{(n)}}
+					\end{align*}
+					\vspace{-0.25cm}
+					Al dividir cada factor entre $N$:
+					$\frac{K_N^{(k)}}{N^k} \to p^k$, $\frac{(N-K_N)^{(n-k)}}{N^{n-k}} \to (1-p)^{n-k}$, obteniendo el límite Binomial exacto.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problema 3.6.10: Prueba Exacta de Fisher}
+				\scriptsize
+				**Enunciado:** En tabla $2 \times 2$ con $N=25$ ($K=12$ activos, $13$ placebo) y $n=8$ trombos, se observa $X=1$ en activo. Calcule el valor $p$.
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Decisión Biomédica Exacta}
+					Bajo $H_0$, $X \sim \text{Hiper}(25, 12, 8)$.
+					Valor $p$ de cola inferior ($P(X \le 1)$):
+					\begin{align*}
+						P(X=0) &= \comb{12}{0}\comb{13}{8}/\comb{25}{8} \approx 0.001190 \\
+						P(X=1) &= \comb{12}{1}\comb{13}{7}/\comb{25}{8} \approx 0.019039
+					\end{align*}
+					\vspace{-0.25cm}
+					Suma: $p \approx 0.0202 < 0.05 \implies$ Rechazo de $H_0$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 17: Lab Python I --- PMF y Soporte
+\begin{frame}[fragile]{Laboratorio Python --- Validación Vectorizada de PMF/Soporte (`scipy.stats`)}
+	\vspace{-0.2cm}
+	\begin{block}{Implementación en \texttt{03.06\_hypergeometric.py} (Bloque 1)}
+		\lstinputlisting[language=Python, firstline=16, lastline=33, basicstyle=\fontsize{6.2pt}{7.2pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.06_hypergeometric.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 18: Lab Python II --- FPCF y Monte Carlo
+\begin{frame}[fragile]{Laboratorio Python --- Covarianza Negativa y FPCF por Monte Carlo ($N=250,000$)}
+	\vspace{-0.25cm}
+	\begin{block}{Implementación en \texttt{03.06\_hypergeometric.py} (Bloque 2)}
+		\lstinputlisting[language=Python, firstline=37, lastline=58, basicstyle=\fontsize{5.5pt}{6.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.06_hypergeometric.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 19: Lab Python III --- Prueba de Fisher y Asintótica
+\begin{frame}[fragile]{Laboratorio Python --- Prueba Exacta de Fisher y Convergencia Asintótica}
+	\vspace{-0.2cm}
+	\begin{block}{Implementación en \texttt{03.06\_hypergeometric.py} (Bloque 3)}
+		\lstinputlisting[language=Python, firstline=62, lastline=78, basicstyle=\fontsize{6.2pt}{7.2pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.06_hypergeometric.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 20: Cierre y Puente Didáctico
+\begin{frame}{Cierre --- Síntesis Estocástica y Puente Didáctico}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Síntesis Conceptual de la Hipergeométrica}
+				\footnotesize
+				\begin{itemize}
+					\itemsep=0.08cm
+					\item **Muestreo Sin Reemplazo ($N, K, n$):** Modelado exacto en poblaciones finitas.
+					\item **Subdispersión y FPCF:** $\text{Var}(X) = np(1-p)\left(\frac{N-n}{N-1}\right) < np(1-p)$ debido a la covarianza negativa.
+					\item **Convergencia Binomial:** Si $\frac{n}{N} < 0.05$, el muestreo sin reemplazo equivale al muestreo con reemplazo.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Puente a la Sección 03.07}
+				\footnotesize
+				Hemos completado el estudio del conteo discreto en ensayos con $p$ fija o en poblaciones finitas con $N, K$ conocidos.
+				
+				¿Qué ocurre en fenómenos continuos donde los eventos suceden aleatoriamente en el **tiempo o el espacio**, con una tasa media constante de ocurrencia $\lambda$?
+				
+				$\to$ Esto nos conduce a la **Distribución de Poisson**.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,545 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title{Hypergeometric Distribution}
+\subtitle{Section 03.06 --- Sampling Without Replacement and FPCF}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 2}
+		\footnotesize
+		\begin{enumerate}
+			\itemsep=0.03cm
+			\item \textcolor{gray}{Section 03.01 to 03.03: Foundations, PMF, CDF, Expectation, and Variance}
+			\item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions (Sampling with replacement)}
+			\item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions (Waiting times)}
+			\item \textbf{\textcolor{TecRojo}{Section 03.06: Hypergeometric Distribution}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 03.07: Poisson Distribution and Poisson Processes}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Master the modeling of random draws \emph{without replacement} from heterogeneous finite populations, quantifying variance reduction through the Finite Population Correction Factor (FPCF) and negative covariance.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivation and Intuition
+\begin{frame}{Motivation --- From Independence to Sample Dependence}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Sampling With Replacement (Binomial)}
+				\footnotesize
+				\begin{itemize}
+					\itemsep=0.05cm
+					\item Each drawn element returns to the urn before the next draw.
+					\item Success probability ($p$) remains **strictly constant** across draws.
+					\item Trials are mutually **independent** ($P(A \cap B) = P(A)P(B)$).
+					\item Theoretical variance maximum: $\sigma^2 = np(1-p)$.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Sampling Without Replacement (Hypergeometric)}
+				\footnotesize
+				\begin{itemize}
+					\itemsep=0.05cm
+					\item Drawn elements **do not return**; population shrinks ($N \to N-1$).
+					\item Probability of the next attempt depends heavily on prior history.
+					\item Trials exhibit **negative correlated dependence**.
+					\item Variance reduced by the population structure.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Formal Definition
+\begin{frame}{Formal Definition --- The Hypergeometric Probability Mass Function}
+	\vspace{-0.2cm}
+	\begin{block}{Population Structure ($N, K, n$)}
+		\scriptsize
+		In a finite population of size $N$, exactly $K$ elements are \emph{successes} and $N-K$ are \emph{failures}. Drawing a sample of size $n$ without replacement, the success count $X$ follows a **Hypergeometric Distribution**: $X \sim \text{Hyper}(N, K, n)$.
+	\end{block}
+	\vspace{-0.25cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Exact PMF Formula}
+				\scriptsize
+				Probability of observing $k$ successes:
+				$P(X = k) = \frac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}}$.
+				
+				Where $\comb{K}{k}$ chooses successes, $\comb{N-K}{n-k}$ chooses failures, and $\comb{N}{n}$ is total sample space.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{SciPy Parameterization}
+				\scriptsize
+				In Python (\texttt{scipy.stats.hypergeom}):
+				$\texttt{hypergeom(M, n, N)}$.
+				
+				Variable mapping:
+				\texttt{M} $= N$ (Total population),
+				\texttt{n} $= K$ (Total successes),
+				\texttt{N} $= n$ (Sample size).
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Exact Support and Vandermonde
+\begin{frame}{Exact Support and Vandermonde Normalization}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Support Interval $\mathcal{S}_X$}
+				\scriptsize
+				Combinatorial coefficients impose a dual physical constraint on $k$:
+				\begin{itemize}
+					\itemsep=0.04cm
+					\item Available successes: $k \le \min(n, K)$.
+					\item Available failures: $n-k \le N-K \implies k \ge n-(N-K)$.
+				\end{itemize}
+				The exact discrete support is:
+				\begin{align*}
+					\mathcal{S}_X = \set{\max(0, n-N+K), \dots, \min(n, K)}
+				\end{align*}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Vandermonde Identity}
+				\scriptsize
+				To guarantee total probability sums to 1, we apply the combinatorial convolution identity with $a=K$, $b=N-K$, $c=n$:
+				\begin{align*}
+					\sum_{k} \comb{a}{k} \comb{b}{c-k} = \comb{a+b}{c}
+				\end{align*}
+				\vspace{-0.25cm}
+				Dividing by $\comb{N}{n}$, we obtain:
+				\begin{align*}
+					\sum_{k \in \mathcal{S}_X} P(X=k) = 1
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Expectation and Linearity
+\begin{frame}{Mathematical Expectation --- Symmetry and Unconditional Linearity}
+	\vspace{-0.15cm}
+	\begin{block}{Decomposition via Indicator Variables}
+		\footnotesize
+		Let $I_i = 1$ if the $i$-th draw is a success ($0$ otherwise), so $X = \sum_{i=1}^n I_i$. By unconditional marginal symmetry, every element has an identical initial probability of being chosen at draw $i$: $P(I_i = 1) = \frac{K}{N}$.
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{First Moment Derivation}
+				\scriptsize
+				By universal linearity of expectation:
+				\begin{align*}
+					\mathbb{E}[X] = \sum_{i=1}^n \mathbb{E}[I_i] = \sum_{i=1}^n \dfrac{K}{N} = n \dfrac{K}{N}
+				\end{align*}
+				Matches binomial expectation ($np$) exactly when setting $p = K/N$!
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Symmetry and Conditioning}
+				\scriptsize
+				Although draw 1 alters draw 2 ($P(I_2=1 \mid I_1=1) = \frac{K-1}{N-1}$), total probability preserves the marginal:
+				\begin{align*}
+					P(I_2=1) = \dfrac{K}{N}\dfrac{K-1}{N-1} + \dfrac{N-K}{N}\dfrac{K}{N-1} = \dfrac{K}{N}
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 07: Variance and Negative Covariance
+\begin{frame}{Negative Covariance and the FPCF Factor}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Sample Covariance ($i \neq j$)}
+				\scriptsize
+				Joint probability is $P(I_i=1, I_j=1) = \frac{K(K-1)}{N(N-1)}$. Its covariance yields:
+				\begin{align*}
+					\text{Cov}(I_i, I_j) &= \dfrac{K(K-1)}{N(N-1)} - \left(\dfrac{K}{N}\right)^2 \\
+					&= -\dfrac{K(N-K)}{N^2(N-1)} < 0
+				\end{align*}
+				Extracting one success reduces the likelihood of extracting another later.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Variance and Population Correction}
+				\scriptsize
+				Summing individual variances plus $n(n-1)$ negative covariances:
+				\begin{align*}
+					\text{Var}(X) &= n\dfrac{K}{N}\left(1-\dfrac{K}{N}\right) \left[ \dfrac{N-n}{N-1} \right] \\
+					&= np(1-p) \times \text{FPCF}
+				\end{align*}
+				\vspace{-0.25cm}
+				The term $\text{FPCF} = \frac{N-n}{N-1} \le 1$ quantifies theoretical uncertainty reduction.
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 08: Theoretical Comparison Binomial vs Hypergeometric
+\begin{frame}{Uncertainty Analysis --- Census vs. Sampling}
+	\vspace{-0.15cm}
+	\begin{block}{Limit Behavior of the FPCF ($\frac{N-n}{N-1}$)}
+		\footnotesize
+		The Finite Population Correction Factor acts as a geometric variance modulator driven by sample size $n$:
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Extreme Cases ($n=1$ and $n=N$)}
+				\scriptsize
+				\begin{itemize}
+					\itemsep=0.04cm
+					\item **Single Draw ($n=1$):** FPCF equals $\frac{N-1}{N-1} = 1$. Without and with replacement are identical for one attempt.
+					\item **Full Census ($n=N$):** FPCF equals $0 \implies \text{Var}(X) = 0$. Measuring the whole population leaves zero random error ($X=K$ certainly).
+				\end{itemize}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Underdispersion vs Binomial}
+				\scriptsize
+				For a $40\%$ sample size ($n = 0.40 N$ with $N=100$):
+				\begin{align*}
+					\text{FPCF} = \dfrac{100-40}{100-1} = \dfrac{60}{99} \approx 0.606
+				\end{align*}
+				Sample variance is $39.4\%$ smaller than if we assumed sampling with replacement. The model is **underdispersed** ($\sigma^2 < \mu$)!
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 09: Asymptotic Convergence
+\begin{frame}{Asymptotic Convergence --- The $5\%$ Rule of Thumb}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Population Asymptotic Limit}
+				\footnotesize
+				When $N \to \infty$ and $K \to \infty$ holding proportion $p = \frac{K}{N}$ fixed, the FPCF converges to 1:
+				\begin{align*}
+					\lim_{N \to \infty} \dfrac{N-n}{N-1} = 1
+				\end{align*}
+				\vspace{-0.25cm}
+				Drawing without replacement from an infinite population barely alters proportions, and $\text{Hyper}(N, K, n) \to \text{Bin}(n, p)$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Auditing Golden Rule ($\frac{n}{N} < 0.05$)}
+				\footnotesize
+				In quality engineering, computing massive factorials inside $\binom{N}{n}$ triggers numerical overflows.
+				
+				**Practical Rule:** If sample size represents less than **5\%** of the total population ($n/N < 0.05$), the hypergeometric can be approximated by the binomial with absolute error $< 10^{-3}$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 10: Key Applications
+\begin{frame}{Applications --- Quality Audits and Fisher's Exact Test}
+	\vspace{-0.15cm}
+	\begin{block}{Three Critical Domains of the Hypergeometric Distribution}
+		\footnotesize
+		\begin{enumerate}
+			\itemsep=0.08cm
+			\item **Quality Control (MIL-STD-105):** Attribute inspection in closed finite batches. From a batch of $N$ items containing $K$ defectives, a sample $n$ is audited and rejected if defects exceed limit $c$.
+			\item **Forensic and Financial Auditing:** Evaluating finite transaction ledgers or invoice databases to quantify fiscal irregularities with exact mathematical rigor without overestimating variance.
+			\item **Fisher's Exact Test in Biostatistics:** In $2 \times 2$ clinical trials with small sample sizes, conditioned on fixed marginal totals, the null distribution of event counts is **exactly hypergeometric**.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+% SLIDE 11: Fundamental Tier Exercises I
+\begin{frame}{Fundamental Tier Exercises I --- Problems 3.6.1 and 3.6.2}
+	\vspace{-0.3cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.6.1: Support and Vandermonde}
+				\scriptsize
+				**Statement:** Determine support of $X \sim \text{Hyper}(N, K, n)$ and verify unity probability sum.
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Analytical Solution}
+					Support: $k \le K$ and $k \ge n-(N-K) \implies$
+					$\mathcal{S}_X = \set{\max(0, n-N+K), \dots, \min(n, K)}$.
+					
+					By Vandermonde Identity:
+					$\sum_{k} \comb{K}{k}\comb{N-K}{n-k} = \comb{N}{n} \implies \sum f_X(k) = 1$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.6.2: Batch Acceptance}
+				\scriptsize
+				**Statement:** Batch $N=30$ ($K=6$ defectives), sample $n=5$. Calculate $P(X \le 1)$.
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Exact Solution}
+					Point probabilities ($k=0, 1$):
+					$P(X=0) = \frac{\comb{6}{0}\comb{24}{5}}{\comb{30}{5}} \approx 0.2983$,
+					$P(X=1) = \frac{\comb{6}{1}\comb{24}{4}}{\comb{30}{5}} \approx 0.4474$.
+					
+					Acceptance: $P(X \le 1) \approx 0.7457$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 12: Fundamental Tier Exercises II
+\begin{frame}{Fundamental Tier Exercises II --- Problem 3.6.3}
+	\vspace{-0.15cm}
+	\begin{block}{Problem 3.6.3: Unconditional Linearity of Expectation}
+		\footnotesize
+		**Statement:** Let $X = \sum_{i=1}^n I_i$ be the success count in $n$ draws without replacement ($I_i = 1$ if $i$-th draw is success). Prove via linearity that $\mathbb{E}[X] = n \frac{K}{N}$.
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Marginal Probability Symmetry}
+				\scriptsize
+				Before observing prior trials, the marginal probability that the $i$-th element is a success is identical for any draw position $i \in \set{1, \dots, n}$:
+				\begin{align*}
+					P(I_i = 1) = \dfrac{K}{N} \implies \mathbb{E}[I_i] = \dfrac{K}{N}
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Applying Universal Linearity}
+				\scriptsize
+				Linearity $\mathbb{E}[\sum Y_i] = \sum \mathbb{E}[Y_i]$ holds true **regardless of dependence** or covariance:
+				\begin{align*}
+					\mathbb{E}[X] = \sum_{i=1}^n \mathbb{E}[I_i] = \sum_{i=1}^n \dfrac{K}{N} = n \dfrac{K}{N}
+				\end{align*}
+				\vspace{-0.25cm}
+				Direct derivation bypassing complicated algebraic summations.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 13: Operational Tier Exercises I
+\begin{frame}{Operational Tier Exercises I --- Problems 3.6.4 and 3.6.5}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.6.4: FPCF Reduction}
+				\scriptsize
+				**Statement:** With $N=50, K=10, n=20$, compare Hypergeometric vs Binomial variance ($p=0.20$).
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Sample Variance Reduction}
+					With replacement (Binomial):
+					\begin{align*}
+						\text{Var}_{\text{Bin}}(X) = 20(0.20)(0.80) = 3.20
+					\end{align*}
+					\vspace{-0.25cm}
+					FPCF factor: $\frac{50-20}{50-1} = \frac{30}{49} \approx 0.6122$.
+					\begin{align*}
+						\text{Var}_{\text{Hyper}}(X) = 3.20 \times 0.6122 \approx 1.9592
+					\end{align*}
+					\vspace{-0.25cm}
+					Variance drops by $38.78\%$ under sampling without replacement.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.6.5: Fiscal Audit}
+				\scriptsize
+				**Statement:** In $N=100$ invoices ($K=15$ irregular), $n=10$ are audited. Calculate $P(X \ge 3)$.
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Complementary Calculation}
+					Lower tail probabilities ($k=0,1,2$):
+					\begin{align*}
+						P(X=0) &= \comb{15}{0}\comb{85}{10}/\comb{100}{10} \approx 0.1868 \\
+						P(X=1) &= \comb{15}{1}\comb{85}{9}/\comb{100}{10} \approx 0.3640 \\
+						P(X=2) &= \comb{15}{2}\comb{85}{8}/\comb{100}{10} \approx 0.2863
+					\end{align*}
+					\vspace{-0.25cm}
+					Sum: $P(X \le 2) \approx 0.8372 \implies P(X \ge 3) \approx 0.1628$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 14: Operational Tier Exercises II
+\begin{frame}{Operational Tier Exercises II --- Problem 3.6.6}
+	\vspace{-0.15cm}
+	\begin{block}{Problem 3.6.6: Binomial Approximation and Absolute Error}
+		\footnotesize
+		**Statement:** In $N=2000$ files containing $K=100$ errors ($p=0.05$), $n=20$ are audited. Verify the condition $n/N < 0.05$ and calculate absolute error $|P(X=2) - P(Y=2)|$.
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Exact Hypergeometric Probability}
+				\scriptsize
+				Verification: $\frac{n}{N} = \frac{20}{2000} = 0.01 = 1\% < 5\%$.
+				Exact probability without replacement:
+				\begin{align*}
+					P(X=2) = \dfrac{\comb{100}{2}\comb{1900}{18}}{\comb{2000}{20}} \approx 0.189725
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Binomial Model and Error Bounds}
+				\scriptsize
+				Approximating via $Y \sim \text{Bin}(n=20, p=0.05)$:
+				\begin{align*}
+					P(Y=2) = \comb{20}{2}(0.05)^2(0.95)^{18} \approx 0.188677
+				\end{align*}
+				\vspace{-0.25cm}
+				Absolute error: $|0.189725 - 0.188677| = 0.001048$. Exceeds $99.8\%$ accuracy!
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 15: Analytical Tier Exercises I
+\begin{frame}{Analytical Tier Exercises --- Problems 3.6.7 and 3.6.8}
+	\vspace{-0.3cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.6.7: Factorial Moments}
+				\scriptsize
+				**Statement:** Derive $\mathbb{E}[X]$ and $\mathbb{E}[X(X-1)]$.
+				\vspace{-0.15cm}
+				\begin{exampleblock}{Combinatorial Absorption}
+					\fontsize{7pt}{8.2pt}\selectfont
+					Using $k\comb{K}{k} = K\comb{K-1}{k-1}$ and $\comb{N}{n} = \frac{N}{n}\comb{N-1}{n-1}$:
+					$\mathbb{E}[X] = \sum k \frac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}} = n\frac{K}{N}$.
+					
+					Similarly: $\mathbb{E}[X(X-1)] = n(n-1)\frac{K(K-1)}{N(N-1)}$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.6.8: Exact Variance}
+				\scriptsize
+				**Statement:** Derive the sample variance.
+				\vspace{-0.15cm}
+				\begin{exampleblock}{Sample Covariance}
+					\fontsize{7pt}{8.2pt}\selectfont
+					For $i \neq j$: $\text{Cov}(I_i, I_j) = -\frac{K(N-K)}{N^2(N-1)}$.
+					
+					Summing variances and covariances:
+					$\text{Var}(X) = n\frac{K}{N}(1-\frac{K}{N})(\frac{N-n}{N-1})$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 16: Challenging Tier Exercises
+\begin{frame}{Challenging Tier Exercises --- Problems 3.6.9 and 3.6.10}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.6.9: Asymptotic Limit}
+				\scriptsize
+				**Statement:** Prove that if $N \to \infty$ with $\frac{K_N}{N} \to p$, then $P(X_N=k) \to \comb{n}{k}p^k(1-p)^{n-k}$.
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Falling Factorials}
+					Expressing via falling factorials $A^{(m)}$:
+					\begin{align*}
+						P(X_N=k) = \comb{n}{k} \dfrac{K_N^{(k)} (N-K_N)^{(n-k)}}{N^{(n)}}
+					\end{align*}
+					\vspace{-0.25cm}
+					Dividing each term by $N$:
+					$\frac{K_N^{(k)}}{N^k} \to p^k$, $\frac{(N-K_N)^{(n-k)}}{N^{n-k}} \to (1-p)^{n-k}$, yielding exact binomial convergence.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.6.10: Fisher's Exact Test}
+				\scriptsize
+				**Statement:** In $2 \times 2$ trial with $N=25$ ($K=12$ active, $13$ placebo) and $n=8$ clots, we observe $X=1$ active. Compute $p$-value.
+				\vspace{-0.1cm}
+				\begin{exampleblock}{Exact Biomedical Decision}
+					Under $H_0$, $X \sim \text{Hyper}(25, 12, 8)$.
+					Lower-tail $p$-value ($P(X \le 1)$):
+					\begin{align*}
+						P(X=0) &= \comb{12}{0}\comb{13}{8}/\comb{25}{8} \approx 0.001190 \\
+						P(X=1) &= \comb{12}{1}\comb{13}{7}/\comb{25}{8} \approx 0.019039
+					\end{align*}
+					\vspace{-0.25cm}
+					Sum: $p \approx 0.0202 < 0.05 \implies$ Reject $H_0$.
+				\end{exampleblock}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 17: Python Lab I --- PMF and Support
+\begin{frame}[fragile]{Python Lab --- Vectorized PMF/Support Validation (`scipy.stats`)}
+	\vspace{-0.2cm}
+	\begin{block}{Implementation in \texttt{03.06\_hypergeometric.py} (Block 1)}
+		\lstinputlisting[language=Python, firstline=16, lastline=33, basicstyle=\fontsize{6.2pt}{7.2pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.06_hypergeometric.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 18: Python Lab II --- FPCF and Monte Carlo
+\begin{frame}[fragile]{Python Lab --- Negative Covariance and FPCF via Monte Carlo ($N=250,000$)}
+	\vspace{-0.25cm}
+	\begin{block}{Implementation in \texttt{03.06\_hypergeometric.py} (Block 2)}
+		\lstinputlisting[language=Python, firstline=37, lastline=58, basicstyle=\fontsize{5.5pt}{6.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.06_hypergeometric.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 19: Python Lab III --- Fisher's Test and Asymptotics
+\begin{frame}[fragile]{Python Lab --- Fisher's Exact Test and Asymptotic Convergence}
+	\vspace{-0.2cm}
+	\begin{block}{Implementation in \texttt{03.06\_hypergeometric.py} (Block 3)}
+		\lstinputlisting[language=Python, firstline=62, lastline=78, basicstyle=\fontsize{6.2pt}{7.2pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.06_hypergeometric.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 20: Closing and Didactic Bridge
+\begin{frame}{Closing --- Stochastic Synthesis and Didactic Bridge}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Stochastic Synthesis of Hypergeometric}
+				\footnotesize
+				\begin{itemize}
+					\itemsep=0.08cm
+					\item **Sampling Without Replacement ($N, K, n$):** Exact combinatorial modeling in finite populations.
+					\item **Underdispersion and FPCF:** $\text{Var}(X) = np(1-p)\left(\frac{N-n}{N-1}\right) < np(1-p)$ due to negative covariance across draws.
+					\item **Binomial Convergence:** When $\frac{n}{N} < 0.05$, sampling without replacement approximates replacement.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Bridge to Section 03.07}
+				\footnotesize
+				We have finalized discrete counting models under fixed success probability $p$ or finite populations with known $N, K$.
+				
+				What happens in continuous phenomena where discrete events occur randomly across **time or physical space**, governed by a constant average rate $\lambda$?
+				
+				$\to$ This leads naturally to the **Poisson Distribution**.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\end{document}
