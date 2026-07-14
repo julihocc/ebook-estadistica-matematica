@@ -96,8 +96,8 @@
 	El tiempo de respuesta del servidor de procesamiento de transacciones de una fintech sigue una distribución normal con desviación estándar poblacional conocida $\sigma = 15$ milisegundos. El estándar operativo exige que la latencia media no supere los $100$ ms ($H_0: \mu \le 100$ vs. $H_a: \mu > 100$). Se monitorea una muestra aleatoria diaria de $n = 25$ transacciones con un nivel de significancia $\alpha = 0.05$.
 	\begin{enumerate}
 		\item Determine la regla de decisión en la escala original del promedio muestral de latencia ($\bar{X}_c = \mu_0 + Z_\alpha \frac{\sigma}{\sqrt{n}}$).
-		\item Suponga que debido a una sobrecarga en la red, la latencia media real de la población aumentó silenciosamente a $\mu_a = 108$ ms. Calcule la probabilidad exacta de cometer un **Error Tipo II ($\beta$)** —no detectar la sobrecarga— y determine el valor exacto de la **Potencia de la prueba ($1-\beta$)**.
-		\item Si el director de ingeniería exige que la prueba mantenga un riesgo $\alpha = 0.05$ pero sea capaz de detectar una sobrecarga real de $\mu_a = 108$ ms con una **Potencia estadística del $90\%$** ($1-\beta = 0.90 \implies Z_\beta = 1.282$), deduzca y calcule exactamente qué tamaño de muestra $n$ debe procesar el sistema en cada auditoría.
+		\item Suponga que debido a una sobrecarga en la red, la latencia media real de la población aumentó silenciosamente a $\mu_a = 108$ ms. Calcule la probabilidad exacta de cometer un \textbf{Error Tipo II ($\beta$)} —no detectar la sobrecarga— y determine el valor exacto de la \textbf{Potencia de la prueba ($1-\beta$)}.
+		\item Si el director de ingeniería exige que la prueba mantenga un riesgo $\alpha = 0.05$ pero sea capaz de detectar una sobrecarga real de $\mu_a = 108$ ms con una \textbf{Potencia estadística del $90\%$} ($1-\beta = 0.90 \implies Z_\beta = 1.282$), deduzca y calcule exactamente qué tamaño de muestra $n$ debe procesar el sistema en cada auditoría.
 	\end{enumerate}
 \end{problema}
 
@@ -105,7 +105,7 @@
 
 \begin{problema}
 	\label{prob:doc_desaf_lrt_wilks}
-	\textbf{Deducción de la Prueba de Razón de Verosimilitudes (*Likelihood Ratio Test*, LRT) para varianzas e invocación del Teorema de Wilks:}
+	\textbf{Deducción de la Prueba de Razón de Verosimilitudes (\emph{Likelihood Ratio Test}, LRT) para varianzas e invocación del Teorema de Wilks:}
 	Sean dos muestras aleatorias independientes $X_1, \dots, X_{n_1} \sim N(\mu_1, \sigma_1^2)$ y $Y_1, \dots, Y_{n_2} \sim N(\mu_2, \sigma_2^2)$ donde tanto las medias como las varianzas son completamente desconocidas. Se desea docimar la hipótesis paramétrica de homoscedasticidad $H_0: \sigma_1^2 = \sigma_2^2 = \sigma^2$ frente a $H_a: \sigma_1^2 \neq \sigma_2^2$.
 	\begin{enumerate}
 		\item Deduzca el logaritmo de la función de verosimilitud bivariada conjunta $\ln L(\mu_1, \mu_2, \sigma_1^2, \sigma_2^2)$ bajo el espacio paramétrico total sin restricciones $\Theta$, explicitando los estimadores máximo verosímiles de dispersión $\hat{\sigma}_1^2 = \frac{1}{n_1}\sum (X_i - \bar{X})^2$ y $\hat{\sigma}_2^2 = \frac{1}{n_2}\sum (Y_i - \bar{Y})^2$.
@@ -127,9 +127,9 @@
 	En la literatura de ciencia de datos es habitual confundir el valor-$p$ observado con la probabilidad posterior de la hipótesis nula ($P(H_0 \mid \text{datos})$). Formalice la verdadera naturaleza del valor-$p$ considerándolo una variable aleatoria $P(X)$ sobre el espacio de las muestras observadas:
 	\begin{enumerate}
 		\item Sea una prueba univariada continua cuyo estadístico docimásica $T(X)$ posee una función de distribución estrictamente monótona continua $F_0(t) = P_{H_0}(T \le t)$ y función de supervivencia $S_0(t) = 1 - F_0(t) = P_{H_0}(T \ge t)$ bajo la hipótesis nula. El valor-$p$ aleatorio para pruebas de cola superior se define por $P = S_0(T)$.
-		Demuestre con rigor mediante la diferenciación y el Teorema de la Transformada de Probabilidad Integral (*Probability Integral Transform*) que, **cuando $H_0$ es verdadera, la variable aleatoria p-valor $P$ se distribuye en forma exactamente Uniforme sobre el intervalo unitario $[0, 1]$** ($P \sim U(0,1)$), cumpliendo $P_{H_0}(P \le \alpha) = \alpha$ para todo $\alpha \in (0,1)$.
-		\item Cuando la hipótesis alternativa $H_a$ es verdadera (existe un tamaño de efecto real en la naturaleza), el estadístico adopta una distribución alternativa diferente $F_a(t) = P_{H_a}(T \le t)$. Demuestre algebraicamente que la función de distribución acumulada del p-valor bajo $H_a$, denotada por $G_P(u) = P_{H_a}(P \le u)$ para $u \in (0,1)$, es una función **estrictamente cóncava** que domina estocásticamente a la diagonal uniforme ($G_P(u) > u$).
-		\item Demuestre por qué la densidad diferencial del p-valor en el límite del rechazo absoluto $\lim_{u \to 0^+} g_P(u) = \lim_{u \to 0^+} G_P'(u)$ es directamente proporcional al **cociente de verosimilitudes monótono** $\dfrac{f_a(t)}{f_0(t)}$ en la región extrema $t \to \infty$, justificando por qué ante cualquier efecto real los p-valores experimentales se aglomeran masivamente en la vecindad inmediata del cero.
+		Demuestre con rigor mediante la diferenciación y el Teorema de la Transformada de Probabilidad Integral (\emph{Probability Integral Transform}) que, \textbf{cuando $H_0$ es verdadera, la variable aleatoria p-valor $P$ se distribuye en forma exactamente Uniforme sobre el intervalo unitario $[0, 1]$} ($P \sim U(0,1)$), cumpliendo $P_{H_0}(P \le \alpha) = \alpha$ para todo $\alpha \in (0,1)$.
+		\item Cuando la hipótesis alternativa $H_a$ es verdadera (existe un tamaño de efecto real en la naturaleza), el estadístico adopta una distribución alternativa diferente $F_a(t) = P_{H_a}(T \le t)$. Demuestre algebraicamente que la función de distribución acumulada del p-valor bajo $H_a$, denotada por $G_P(u) = P_{H_a}(P \le u)$ para $u \in (0,1)$, es una función \textbf{estrictamente cóncava} que domina estocásticamente a la diagonal uniforme ($G_P(u) > u$).
+		\item Demuestre por qué la densidad diferencial del p-valor en el límite del rechazo absoluto $\lim_{u \to 0^+} g_P(u) = \lim_{u \to 0^+} G_P'(u)$ es directamente proporcional al \textbf{cociente de verosimilitudes monótono} $\dfrac{f_a(t)}{f_0(t)}$ en la región extrema $t \to \infty$, justificando por qué ante cualquier efecto real los p-valores experimentales se aglomeran masivamente en la vecindad inmediata del cero.
 	\end{enumerate}
 \end{problema}
 
@@ -163,7 +163,7 @@
 	Para una prueba de dos colas con $\alpha = 0.05$ y $\nu = 32$ grados de libertad, el valor crítico en la tabla $t$ es $t_{0.025, \, 32} \approx 2.037$.
 	La región de rechazo está formada por los valores $t < -2.037$ o $t > 2.037$.
 	
-	Como el estadístico calculado $t = -3.017$ cae claramente en la región de rechazo de la cola izquierda ($-3.017 < -2.037$), **rechazamos $H_0$**. Concluimos al nivel del $5\%$ que existe una diferencia estadísticamente significativa en los tiempos medios de respuesta entre ambas plataformas, siendo la Plataforma 1 significativamente más rápida.
+	Como el estadístico calculado $t = -3.017$ cae claramente en la región de rechazo de la cola izquierda ($-3.017 < -2.037$), \textbf{rechazamos $H_0$}. Concluimos al nivel del $5\%$ que existe una diferencia estadísticamente significativa en los tiempos medios de respuesta entre ambas plataformas, siendo la Plataforma 1 significativamente más rápida.
 \end{solucion}
 
 \begin{solucion}
@@ -185,7 +185,7 @@
 	\begin{align}
 		t_{0.01, \, 11} = 2.718.
 	\end{align}
-	La región de rechazo es $t > 2.718$. Dado que nuestro valor observado $t = 6.268 \gg 2.718$, **rechazamos categóricamente $H_0$**. Existe evidencia estadística abrumadora al nivel del $1\%$ para afirmar que el programa de entrenamiento en altitud produce un incremento real en el $\text{VO}_2$ máximo de los atletas.
+	La región de rechazo es $t > 2.718$. Dado que nuestro valor observado $t = 6.268 \gg 2.718$, \textbf{rechazamos categóricamente $H_0$}. Existe evidencia estadística abrumadora al nivel del $1\%$ para afirmar que el programa de entrenamiento en altitud produce un incremento real en el $\text{VO}_2$ máximo de los atletas.
 \end{solucion}
 
 \begin{solucion}
@@ -219,7 +219,7 @@
 	\begin{align}
 		-Z_{0.02} = -2.054.
 	\end{align}
-	Como el estadístico observado $Z = -3.881$ cae en la zona de rechazo ($Z < -2.054$, con un p-valor $< 0.0001$), **rechazamos $H_0$**. Demostramos al nivel de significancia del $2\%$ que el nuevo Modelo de IA tiene una tasa de detección superior al Filtro Clásico.
+	Como el estadístico observado $Z = -3.881$ cae en la zona de rechazo ($Z < -2.054$, con un p-valor $< 0.0001$), \textbf{rechazamos $H_0$}. Demostramos al nivel de significancia del $2\%$ que el nuevo Modelo de IA tiene una tasa de detección superior al Filtro Clásico.
 \end{solucion}
 
 \subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
@@ -275,7 +275,7 @@
 	
 	\textbf{Paso 4: Grados de libertad y decisión.}
 	Para una tabla $3 \times 3$, $\nu = (3-1)(3-1) = 4$. El valor crítico con $\alpha = 0.01$ es $\chi^2_{0.01, \, 4} = 13.277$.
-	Dado que $\chi^2 = 56.147 \gg 13.277$ (p-valor $< 0.00001$), **rechazamos $H_0$**. La distribución de preferencias de monetización no es idéntica; la Generación X prefiere fuertemente el pago único ($70$ vs $41.25$ esperados) mientras que la Gen Z se decanta en forma abrumadora por el modelo Freemium ($90$ vs $63.33$).
+	Dado que $\chi^2 = 56.147 \gg 13.277$ (p-valor $< 0.00001$), \textbf{rechazamos $H_0$}. La distribución de preferencias de monetización no es idéntica; la Generación X prefiere fuertemente el pago único ($70$ vs $41.25$ esperados) mientras que la Gen Z se decanta en forma abrumadora por el modelo Freemium ($90$ vs $63.33$).
 \end{solucion}
 
 \begin{solucion}
@@ -301,7 +301,7 @@
 			t = \frac{\bar{X}_1 - \bar{X}_2}{\text{SE}_W} = \frac{10.7}{3.4282} \approx 3.1212.
 		\end{align}
 		Para un contraste de dos colas con $\alpha = 0.05$ y $\nu = 18$, el cuantil de Student es $t_{0.025, \, 18} = 2.101$.
-		Puesto que $t = 3.121 > 2.101$, **rechazamos $H_0$**. Concluimos al 95\% de confianza que el Algoritmo 2 consume un tiempo de ejecución medio significativamente menor que el Algoritmo 1.
+		Puesto que $t = 3.121 > 2.101$, \textbf{rechazamos $H_0$}. Concluimos al 95\% de confianza que el Algoritmo 2 consume un tiempo de ejecución medio significativamente menor que el Algoritmo 1.
 	\end{enumerate}
 \end{solucion}
 
@@ -329,7 +329,7 @@
 		\chi^2 = 6.8571 + 1.7143 + 1.4286 + 8.5714 = 18.5714.
 	\end{align}
 	Los grados de libertad son $\nu = k - 1 = 4 - 1 = 3$. Para $\alpha = 0.05$, el cuantil es $\chi^2_{0.05, \, 3} = 7.815$.
-	Como $\chi^2 = 18.5714 > 7.815$, **rechazamos $H_0$**. Las tasas de cumplimiento ético difieren entre las cuatro empresas.
+	Como $\chi^2 = 18.5714 > 7.815$, \textbf{rechazamos $H_0$}. Las tasas de cumplimiento ético difieren entre las cuatro empresas.
 	
 	\textbf{Parte 2: Procedimiento post-hoc de Marascuilo.}
 	El valor crítico de Marascuilo utiliza la raíz del estadístico global: $\sqrt{\chi^2_{0.05, \, 3}} = \sqrt{7.815} \approx 2.7955$.
@@ -337,7 +337,7 @@
 	\begin{itemize}
 		\item \textbf{A vs B:} $|\hat{p}_1 - \hat{p}_2| = |0.82 - 0.64| = 0.180$.
 		$r_{12} = 2.7955 \sqrt{\frac{0.82(0.18)}{100} + \frac{0.64(0.36)}{100}} = 2.7955 \sqrt{0.00378} \approx 0.1719$.
-		Al ser $0.180 > 0.1719$, **la diferencia A vs B es estadísticamente significativa**.
+		Al ser $0.180 > 0.1719$, \textbf{la diferencia A vs B es estadísticamente significativa}.
 		\item \textbf{A vs C:} $|\hat{p}_1 - \hat{p}_3| = |0.82 - 0.75| = 0.070$.
 		$r_{13} = 2.7955 \sqrt{0.001476 + \frac{0.75(0.25)}{120}} \approx 0.1541$. ($0.070 \le 0.1541 \implies \text{No significativa}$).
 		\item \textbf{A vs D:} $|\hat{p}_1 - \hat{p}_4| = |0.82 - 0.55| = 0.270$.
@@ -349,7 +349,7 @@
 		\item \textbf{C vs D:} $|\hat{p}_3 - \hat{p}_4| = |0.75 - 0.55| = 0.200$.
 		$r_{34} = 2.7955 \sqrt{\frac{0.75(0.25)}{120} + \frac{0.55(0.45)}{80}} = 2.7955 \sqrt{0.004656} \approx 0.1908$. ($0.200 > 0.1908 \implies \textbf{Significativa}$).
 	\end{itemize}
-	**Conclusión:** Las parejas con diferencias reales comprobadas son **A vs. B** ($82\%$ vs $64\%$), **A vs. D** ($82\%$ vs $55\%$) y **C vs. D** ($75\%$ vs $55\%$).
+	\textbf{Conclusión:} Las parejas con diferencias reales comprobadas son \textbf{A vs. B} ($82\%$ vs $64\%$), \textbf{A vs. D} ($82\%$ vs $55\%$) y \textbf{C vs. D} ($75\%$ vs $55\%$).
 \end{solucion}
 
 \begin{solucion}
@@ -361,10 +361,10 @@
 		\begin{align}
 			\bar{X}_c = \mu_0 + Z_{0.05} \cdot \text{SE}(\bar{X}) = 100 + 1.645(3) = 100 + 4.935 = 104.935 \text{ ms.}
 		\end{align}
-		**Regla operativa:** Si en una auditoría diaria el promedio muestral de transacciones supera los $104.935$ ms ($\bar{X} > 104.935$), el sistema rechaza $H_0$ y activa una alerta de sobrecarga en la red.
+		\textbf{Regla operativa:} Si en una auditoría diaria el promedio muestral de transacciones supera los $104.935$ ms ($\bar{X} > 104.935$), el sistema rechaza $H_0$ y activa una alerta de sobrecarga en la red.
 		
 		\item \textbf{Cálculo de la probabilidad de Error Tipo II ($\beta$) y Potencia ($1-\beta$) con $\mu_a = 108$ ms:}
-		El **Error Tipo II ($\beta$)** se comete al aceptar erróneamente $H_0$ ($\bar{X} \le \bar{X}_c$) cuando en el mundo real la hipótesis alternativa es verdadera ($\mu = 108$ ms):
+		El \textbf{Error Tipo II ($\beta$)} se comete al aceptar erróneamente $H_0$ ($\bar{X} \le \bar{X}_c$) cuando en el mundo real la hipótesis alternativa es verdadera ($\mu = 108$ ms):
 		\begin{align}
 			\beta = P\left(\bar{X} \le 104.935 \mid \mu = 108\right).
 		\end{align}
@@ -376,7 +376,7 @@
 		\begin{align}
 			\beta = \Phi(-1.0217) = 1 - \Phi(1.0217) \approx 1 - 0.8465 = 0.1535 \text{ (15.35\%).}
 		\end{align}
-		La **Potencia estadística ($1-\beta$)** —la probabilidad real de detectar con éxito la sobrecarga— resulta por diferencia directa:
+		La \textbf{Potencia estadística ($1-\beta$)} —la probabilidad real de detectar con éxito la sobrecarga— resulta por diferencia directa:
 		\begin{align}
 			\text{Potencia} = 1 - \beta = 1 - 0.1535 = 0.8465 \text{ (84.65\%).}
 		\end{align}
@@ -455,14 +455,14 @@
 		Queda deducida formalmente la identidad paramétrica de Wilks.
 		
 		\item \textbf{Invocación asintótica del Teorema de Wilks y contraste con la prueba $F$ de Snedecor:}
-		El **Teorema de Samuel S. Wilks** demuestra que en condiciones de regularidad paramétrica (el verdadero parámetro nulo reside en el interior del subespacio $\Theta_0$), el estadístico $-2\ln\Lambda$ converge en distribución, cuando los tamaños muestrales crecen infinitamente ($n_1, n_2 \to \infty$), a una distribución Chi-cuadrada central ($\chi^2_\nu$).
-		Los grados de libertad $\nu$ corresponden exactamente a la **diferencia geométrica en la dimensión de los espacios de parámetros**:
+		El \textbf{Teorema de Samuel S. Wilks} demuestra que en condiciones de regularidad paramétrica (el verdadero parámetro nulo reside en el interior del subespacio $\Theta_0$), el estadístico $-2\ln\Lambda$ converge en distribución, cuando los tamaños muestrales crecen infinitamente ($n_1, n_2 \to \infty$), a una distribución Chi-cuadrada central ($\chi^2_\nu$).
+		Los grados de libertad $\nu$ corresponden exactamente a la \textbf{diferencia geométrica en la dimensión de los espacios de parámetros}:
 		\begin{align}
 			\nu = \dim(\Theta) - \dim(\Theta_0) = 4 - 3 = 1 \text{ grado de libertad.}
 		\end{align}
 		(En $\Theta$ los cuatro parámetros libres eran $(\mu_1, \mu_2, \sigma_1^2, \sigma_2^2)$, mientras que en $\Theta_0$ se restringieron a tres: $(\mu_1, \mu_2, \sigma_0^2)$).
 		
-		**Contraste conceptual con $F$ de Snedecor:** Mientras que la prueba de Razón de Verosimilitudes (LRT) invocada vía Wilks es un estadístico **asintótico** válido solo en muestras grandes y extremadamente sensible al supuesto normal, la **prueba $F$ de Snedecor ($F = s_1^2 / s_2^2$) es la prueba exacta para muestras finitas normales** uniformemente más potente (UMP insesgada), siendo por tanto la opción preferida por excelencia para diseños experimentales de tamaño pequeño o mediano en docimasia analítica.
+		\textbf{Contraste conceptual con $F$ de Snedecor:} Mientras que la prueba de Razón de Verosimilitudes (LRT) invocada vía Wilks es un estadístico \textbf{asintótico} válido solo en muestras grandes y extremadamente sensible al supuesto normal, la \textbf{prueba $F$ de Snedecor ($F = s_1^2 / s_2^2$) es la prueba exacta para muestras finitas normales} uniformemente más potente (UMP insesgada), siendo por tanto la opción preferida por excelencia para diseños experimentales de tamaño pequeño o mediano en docimasia analítica.
 	\end{enumerate}
 \end{solucion}
 
@@ -486,7 +486,7 @@
 		\begin{align}
 			P_{H_0}(P \le x) = x.
 		\end{align}
-		Esta es por definición única y exclusiva la función de distribución acumulada de una **variable aleatoria Uniforme Estándar $U(0,1)$**. El teorema demuestra de manera irrefutable que, si la hipótesis nula es verdadera, los p-valores se esparcen en el plano con absoluta planeidad ($f_P(p) = 1$). El p-valor no es una probabilidad del parámetro verdadero ($P(H_0 \mid D)$), sino un cuantil uniforme aleatorio del procedimiento docimásica.
+		Esta es por definición única y exclusiva la función de distribución acumulada de una \textbf{variable aleatoria Uniforme Estándar $U(0,1)$}. El teorema demuestra de manera irrefutable que, si la hipótesis nula es verdadera, los p-valores se esparcen en el plano con absoluta planeidad ($f_P(p) = 1$). El p-valor no es una probabilidad del parámetro verdadero ($P(H_0 \mid D)$), sino un cuantil uniforme aleatorio del procedimiento docimásica.
 		
 		\item \textbf{Concavidad rigurosa y dominancia estocástica bajo $H_a$ ($G_P(u) > u$):}
 		Cuando el experimento se realiza bajo una hipótesis alternativa real $H_a$ donde el verdadero parámetro poblacional superó el punto de nulidad ($\mu_a > \mu_0$), la nueva distribución del estadístico $T$ está gobernada por $F_a(t) = P_{H_a}(T \le t)$. Evaluamos la función de distribución de los p-valores en este escenario ($G_P(u) = P_{H_a}(P \le u)$):
@@ -501,7 +501,7 @@
 		\begin{align}
 			G_P(u) = 1 - F_a\left( S_0^{-1}(u) \right) > S_0\left( S_0^{-1}(u) \right) = u \implies G_P(u) > u \quad \forall u \in (0,1).
 		\end{align}
-		Además, al derivar dos veces $G_P(u)$ por regla de la cadena respecto al cuantil $u$, se comprueba que la segunda derivada es estrictamente negativa ($G_P''(u) < 0$), demostrando que la curva de acumulación de los p-valores bajo $H_a$ es una función **estrictamente cóncava superior que se alza en el origen dominando de forma estocástica y absoluta al segmento diagonal unitario de la uniformidad nula**.
+		Además, al derivar dos veces $G_P(u)$ por regla de la cadena respecto al cuantil $u$, se comprueba que la segunda derivada es estrictamente negativa ($G_P''(u) < 0$), demostrando que la curva de acumulación de los p-valores bajo $H_a$ es una función \textbf{estrictamente cóncava superior que se alza en el origen dominando de forma estocástica y absoluta al segmento diagonal unitario de la uniformidad nula}.
 		
 		\item \textbf{Densidad diferencial en el límite y cociente monótono de verosimilitudes:}
 		Derivamos la función de distribución del p-valor bajo $H_a$ ($G_P(u) = 1 - F_a(S_0^{-1}(u))$) por la regla de la cadena del cálculo para encontrar la función de densidad marginal real del valor-$p$, $g_P(u) = G_P'(u)$:
@@ -516,7 +516,7 @@
 		\begin{align}
 			g_P(u) = -f_a\left( S_0^{-1}(u) \right) \cdot \left( \frac{-1}{f_0\left( S_0^{-1}(u) \right)} \right) = \frac{f_a\left( S_0^{-1}(u) \right)}{f_0\left( S_0^{-1}(u) \right)}.
 		\end{align}
-		Esta es la identidad exacta: **la densidad en el espacio de p-valores en cualquier punto $u$ es idénticamente el Cociente de Verosimilitud evaluado en el cuantil docimásica correspondiente ($t = S_0^{-1}(u)$)**.
+		Esta es la identidad exacta: \textbf{la densidad en el espacio de p-valores en cualquier punto $u$ es idénticamente el Cociente de Verosimilitud evaluado en el cuantil docimásica correspondiente ($t = S_0^{-1}(u)$)}.
 		Evaluando la densidad en el límite extrema de rechazo donde el p-valor tiende a cero por la derecha ($u \to 0^+$):
 		\begin{align}
 			\lim_{u \to 0^+} g_P(u) = \lim_{t \to \infty} \frac{f_a(t)}{f_0(t)}.

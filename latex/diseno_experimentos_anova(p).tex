@@ -20,7 +20,7 @@
 
 \begin{problema}
 	\label{prob:posthoc_tukey_ml}
-	Dado que el ANOVA global del Problema \ref{prob:anova_un_factor_ml} resultó altamente significativo, aplique el **procedimiento post-hoc HSD de Tukey** con una significancia global por familia de $\alpha = 0.05$ para comparar simultáneamente las seis parejas posibles de algoritmos e identificar exactamente cuáles modelos difieren entre sí en su rendimiento medio.
+	Dado que el ANOVA global del Problema \ref{prob:anova_un_factor_ml} resultó altamente significativo, aplique el \textbf{procedimiento post-hoc HSD de Tukey} con una significancia global por familia de $\alpha = 0.05$ para comparar simultáneamente las seis parejas posibles de algoritmos e identificar exactamente cuáles modelos difieren entre sí en su rendimiento medio.
 \end{problema}
 
 \begin{problema}
@@ -40,7 +40,7 @@
 	\label{prob:dbca_servidores}
 	Para evaluar el tiempo de procesamiento de consultas complejas SQL en segundos (métrica donde menor es mejor) en $k = 3$ motores de optimización en bases de datos relacionales (Motor A, Motor B y Motor C), un ingeniero advierte que el hardware de los servidores de la empresa es muy heterogéneo y no puede mezclarse sin control. 
 	
-	Por tanto, diseña un **Diseño en Bloques Completos al Azar (DBCA)** utilizando como factor de bloqueo las generaciones físicas del hardware de $b = 4$ servidores corporativos distintos (Servidor 1: Última Gen, Servidor 2: Gen Media, Servidor 3: Gen Antigua, Servidor 4: Gen Legacy virtualizada). Cada motor es evaluado exactamente una vez dentro de cada servidor, obteniéndose los datos de la Tabla \ref{tab:dbca_datos}.
+	Por tanto, diseña un \textbf{Diseño en Bloques Completos al Azar (DBCA)} utilizando como factor de bloqueo las generaciones físicas del hardware de $b = 4$ servidores corporativos distintos (Servidor 1: Última Gen, Servidor 2: Gen Media, Servidor 3: Gen Antigua, Servidor 4: Gen Legacy virtualizada). Cada motor es evaluado exactamente una vez dentro de cada servidor, obteniéndose los datos de la Tabla \ref{tab:dbca_datos}.
 	\begin{table}[h!]
 		\centering
 		\begin{tabular}{lccccc}
@@ -66,8 +66,8 @@
 	\label{prob:bonferroni_lsd}
 	Una firma de ingeniería en la nube compara la latencia media de transferencia de datos en milisegundos bajo $k = 5$ protocolos de enrutamiento distintos. El ANOVA arrojó un Cuadrado Medio del Error $\text{CME} = 18.0$ $\text{ms}^2$ con $\nu_E = 25$ grados de libertad en el residual, y cada protocolo fue evaluado con $n = 6$ réplicas.
 	\begin{enumerate}
-		\item Calcule la Diferencia Mínima Significativa (**LSD de Fisher**) al nivel $\alpha = 0.05$.
-		\item Calcule el margen crítico de diferencia por el método de la **Corrección de Bonferroni** para mantener una tasa de error global máxima de $\alpha = 0.05$.
+		\item Calcule la Diferencia Mínima Significativa (\textbf{LSD de Fisher}) al nivel $\alpha = 0.05$.
+		\item Calcule el margen crítico de diferencia por el método de la \textbf{Corrección de Bonferroni} para mantener una tasa de error global máxima de $\alpha = 0.05$.
 		\item Compare cuantitativamente ambos umbrales y explique qué implicaciones tiene la diferencia en la sensibilidad de detección en un proyecto de ciencia de datos.
 	\end{enumerate}
 \end{problema}
@@ -217,7 +217,7 @@
 	\begin{align}
 		F_{0.05, \, 3, \, 16} = 3.239.
 	\end{align}
-	Dado que nuestro estadístico calculado $F = 6.843 \gg 3.239$ ($p-\text{valor} \approx 0.0035$), **rechazamos categóricamente la hipótesis nula $H_0$**. Demostramos con más del $99.6\%$ de confianza que existe una diferencia altamente significativa en la precisión media ($F_1$-score) de al menos uno de los cuatro algoritmos de aprendizaje automático sobre los conjuntos de datos evaluados.
+	Dado que nuestro estadístico calculado $F = 6.843 \gg 3.239$ ($p-\text{valor} \approx 0.0035$), \textbf{rechazamos categóricamente la hipótesis nula $H_0$}. Demostramos con más del $99.6\%$ de confianza que existe una diferencia altamente significativa en la precisión media ($F_1$-score) de al menos uno de los cuatro algoritmos de aprendizaje automático sobre los conjuntos de datos evaluados.
 \end{solucion}
 
 \begin{solucion}
@@ -234,7 +234,7 @@
 	\begin{align}
 		\text{HSD} = q_{\alpha, \, k, \, \nu_E} \sqrt{\frac{\text{CME}}{n}} = 4.046 \sqrt{\frac{10.315}{5}} = 4.046 \sqrt{2.063} = 4.046 \times 1.4363 \approx 5.811\%.
 	\end{align}
-	Por consiguiente, **cualquier par de algoritmos cuya media difiera en valor absoluto por más de $5.811\%$ se considerará estadísticamente diferente** con un control estricto del error familiar al $5\%$.
+	Por consiguiente, \textbf{cualquier par de algoritmos cuya media difiera en valor absoluto por más de $5.811\%$ se considerará estadísticamente diferente} con un control estricto del error familiar al $5\%$.
 	
 	\textbf{Paso 3: Matriz ordenada de diferencias de medias grupales.}
 	Ordenemos las medias muestrales de menor a mayor para sistematizar las comparaciones:
@@ -246,14 +246,14 @@
 	\end{itemize}
 	Evaluamos las 6 diferencias por pares contra el umbral crítico $\text{HSD} = 5.811\%$:
 	\begin{enumerate}
-		\item \textbf{XGBoost vs SVM:} $|\bar{Y}_{\text{XGB}} - \bar{Y}_{\text{SVM}}| = |88.6 - 79.8| = 8.80\% > 5.811\%$ $\implies$ **Significativo ($*$)**.
+		\item \textbf{XGBoost vs SVM:} $|\bar{Y}_{\text{XGB}} - \bar{Y}_{\text{SVM}}| = |88.6 - 79.8| = 8.80\% > 5.811\%$ $\implies$ \textbf{Significativo ($*$)}.
 		\item \textbf{XGBoost vs Random Forest:} $|\bar{Y}_{\text{XGB}} - \bar{Y}_{\text{RF}}| = |88.6 - 84.2| = 4.40\% \leq 5.811\%$ $\implies$ No significativo.
 		\item \textbf{XGBoost vs Redes Neuronales:} $|\bar{Y}_{\text{XGB}} - \bar{Y}_{\text{DNN}}| = |88.6 - 86.4| = 2.20\% \leq 5.811\%$ $\implies$ No significativo.
-		\item \textbf{Redes Neuronales vs SVM:} $|\bar{Y}_{\text{DNN}} - \bar{Y}_{\text{SVM}}| = |86.4 - 79.8| = 6.60\% > 5.811\%$ $\implies$ **Significativo ($*$)**.
+		\item \textbf{Redes Neuronales vs SVM:} $|\bar{Y}_{\text{DNN}} - \bar{Y}_{\text{SVM}}| = |86.4 - 79.8| = 6.60\% > 5.811\%$ $\implies$ \textbf{Significativo ($*$)}.
 		\item \textbf{Redes Neuronales vs Random Forest:} $|\bar{Y}_{\text{DNN}} - \bar{Y}_{\text{RF}}| = |86.4 - 84.2| = 2.20\% \leq 5.811\%$ $\implies$ No significativo.
 		\item \textbf{Random Forest vs SVM:} $|\bar{Y}_{\text{RF}} - \bar{Y}_{\text{SVM}}| = |84.2 - 79.8| = 4.40\% \leq 5.811\%$ $\implies$ No significativo.
 	\end{enumerate}
-	**Conclusión técnica del análisis post-hoc:** El procedimiento de Tukey HSD revela y aisla con precisión la causa de significancia del ANOVA: **tanto XGBoost ($88.6\%$) como las Redes Neuronales Profundas ($86.4\%$) superan de manera estadísticamente probada a SVM ($79.8\%$)** en el $F_1$-score. Entre XGBoost, Redes Neuronales y Bosques Aleatorios no existen diferencias estadísticamente discernibles para el tamaño de muestra del estudio.
+	\textbf{Conclusión técnica del análisis post-hoc:} El procedimiento de Tukey HSD revela y aisla con precisión la causa de significancia del ANOVA: \textbf{tanto XGBoost ($88.6\%$) como las Redes Neuronales Profundas ($86.4\%$) superan de manera estadísticamente probada a SVM ($79.8\%$)} en el $F_1$-score. Entre XGBoost, Redes Neuronales y Bosques Aleatorios no existen diferencias estadísticamente discernibles para el tamaño de muestra del estudio.
 \end{solucion}
 
 \begin{solucion}
@@ -285,7 +285,7 @@
 		
 		\item \textbf{Evaluación docimásica y conclusión:}
 		El cuantil crítico en la distribución $F$ con $3$ y $26$ grados de libertad al $1\%$ es $F_{0.01, \, 3, \, 26} = 4.637$.
-		Puesto que nuestro estadístico muestral excede por un margen abrumador a la frontera ($16.370 \gg 4.637$), **se rechaza la hipótesis nula de igualdad de resistencias al nivel de significancia del 1\%**. El tipo de formulación química altera decisiva y significativamente la resistencia mecánica del polímero.
+		Puesto que nuestro estadístico muestral excede por un margen abrumador a la frontera ($16.370 \gg 4.637$), \textbf{se rechaza la hipótesis nula de igualdad de resistencias al nivel de significancia del 1\%}. El tipo de formulación química altera decisiva y significativamente la resistencia mecánica del polímero.
 	\end{enumerate}
 \end{solucion}
 
@@ -355,7 +355,7 @@
 	\begin{align}
 		F_{0.05, \, 2, \, 6} = 5.143.
 	\end{align}
-	Como el estadístico de tratamientos $F_{\text{TR}} = 52.667 \gg 5.143$, **rechazamos $H_{0,\text{TR}}$**. Existe una diferencia extremadamente significativa en el tiempo de procesamiento entre los tres motores SQL (observándose con claridad en las medias que el **Motor B** con $\bar{Y}_{2.} = 14.50$ s es el más rápido de los tres).
+	Como el estadístico de tratamientos $F_{\text{TR}} = 52.667 \gg 5.143$, \textbf{rechazamos $H_{0,\text{TR}}$}. Existe una diferencia extremadamente significativa en el tiempo de procesamiento entre los tres motores SQL (observándose con claridad en las medias que el \textbf{Motor B} con $\bar{Y}_{2.} = 14.50$ s es el más rápido de los tres).
 	
 	\textbf{Parte 3: Evaluación de la efectividad del bloqueo ($H_{0,\text{B}}: \beta_1 = \ldots = \beta_4 = 0$).}
 	Para el factor de bloques, consultamos el cuantil de Fisher con $\nu_1 = 3, \nu_2 = 6$:
@@ -364,13 +364,13 @@
 	\end{align}
 	Dado que $F_{\text{B}} = 254.667 \gg 4.757$, la prueba sobre los bloques es colosalmente significativa. 
 	
-	**Conclusión metodológica sobre el diseño:** Haber incorporado las generaciones de los servidores como bloques fue una decisión metodológica **extraordinariamente exitosa y brillante**. El bloqueo logró absorber y aislar $382.0$ unidades de varianza pura de infraestructura ($\text{SCB}$). Si no hubiéramos bloqueado el diseño y hubiéramos evaluado los datos como un ANOVA de un factor normal, esos $382$ puntos de varianza habrían terminado sumados directamente al error residual ($\text{SCE}_{\text{un factor}} = 382 + 3 = 385$), lo que habría arrojado una nueva varianza residual $\text{CME}_{\text{un factor}} = \frac{385}{12-3} = 42.77$. 
+	\textbf{Conclusión metodológica sobre el diseño:} Haber incorporado las generaciones de los servidores como bloques fue una decisión metodológica \textbf{extraordinariamente exitosa y brillante}. El bloqueo logró absorber y aislar $382.0$ unidades de varianza pura de infraestructura ($\text{SCB}$). Si no hubiéramos bloqueado el diseño y hubiéramos evaluado los datos como un ANOVA de un factor normal, esos $382$ puntos de varianza habrían terminado sumados directamente al error residual ($\text{SCE}_{\text{un factor}} = 382 + 3 = 385$), lo que habría arrojado una nueva varianza residual $\text{CME}_{\text{un factor}} = \frac{385}{12-3} = 42.77$. 
 	
 	Bajo ese fallido análisis de un factor sin bloquear, el estadístico de los motores se habría desplomado a un insignificante:
 	\begin{align}
 		F_{\text{un factor}} = \frac{26.333}{42.77} = 0.615 \quad (\text{que es mucho menor al crítico } F_{0.05, 2, 9} = 4.26).
 	\end{align}
-	El bloqueo **rescató por completo el experimento de un falso negativo masivo (error Tipo II)** al purgar el ruido del hardware.
+	El bloqueo \textbf{rescató por completo el experimento de un falso negativo masivo (error Tipo II)} al purgar el ruido del hardware.
 \end{solucion}
 
 \begin{solucion}
@@ -401,10 +401,10 @@
 	\end{align}
 	
 	\textbf{Parte 3: Comparación e implicaciones técnicas.}
-	El umbral de Bonferroni ($7.540$ ms) es **casi un $50\%$ más severo y amplio** que el umbral de Fisher LSD ($5.046$ ms). 
+	El umbral de Bonferroni ($7.540$ ms) es \textbf{casi un $50\%$ más severo y amplio} que el umbral de Fisher LSD ($5.046$ ms). 
 	\begin{itemize}
-		\item **LSD de Fisher** es una herramienta de alta sensibilidad experimental (bajo error Tipo II): detectará fácilmente diferencias sutiles entre protocolos (como $5.2$ ms), pero al no ajustar por las 10 comparaciones de la familia, su probabilidad real de declarar al menos un falso positivo en todo el experimento asciende a más del $35\%$.
-		\item **Bonferroni** garantiza una especificidad férrea ($\text{FWER} \leq 5\%$), impidiendo falsas alarmas. Sin embargo, su rigidez cobra un precio en potencia estadística (elevado error Tipo II): diferencias reales y operativamente valiosas entre $5.1$ ms y $7.5$ ms pasarán inadvertidas como no significativas. En analítica computacional, cuando $k \geq 5$, se prefiere el término medio equilibrado que ofrece HSD de Tukey.
+		\item \textbf{LSD de Fisher} es una herramienta de alta sensibilidad experimental (bajo error Tipo II): detectará fácilmente diferencias sutiles entre protocolos (como $5.2$ ms), pero al no ajustar por las 10 comparaciones de la familia, su probabilidad real de declarar al menos un falso positivo en todo el experimento asciende a más del $35\%$.
+		\item \textbf{Bonferroni} garantiza una especificidad férrea ($\text{FWER} \leq 5\%$), impidiendo falsas alarmas. Sin embargo, su rigidez cobra un precio en potencia estadística (elevado error Tipo II): diferencias reales y operativamente valiosas entre $5.1$ ms y $7.5$ ms pasarán inadvertidas como no significativas. En analítica computacional, cuando $k \geq 5$, se prefiere el término medio equilibrado que ofrece HSD de Tukey.
 	\end{itemize}
 \end{solucion}
 
@@ -442,16 +442,16 @@
 			F = \frac{\text{CMTR}}{\text{CME}} = \frac{306.8949}{12.8125} \approx 23.9528.
 		\end{align}
 		Con $\alpha = 0.05$ en $\nu_1=2, \nu_2=16$, el umbral es $F_{0.05, \, 2, \, 16} = 3.634$.
-		Como $F = 23.953 \gg 3.634$, **rechazamos $H_0$**. El consumo medio de CPU difiere radicalmente de un entorno de virtualización a otro.
+		Como $F = 23.953 \gg 3.634$, \textbf{rechazamos $H_0$}. El consumo medio de CPU difiere radicalmente de un entorno de virtualización a otro.
 		
 		\item \textbf{Cálculo de los coeficientes $R^2$ y $R_{\text{ajustado}}^2$:}
-		El **Coeficiente de Determinación ($R^2$ o Eta-cuadrada $\eta^2$)** mide la fracción total de variabilidad explicada por el factor principal:
+		El \textbf{Coeficiente de Determinación ($R^2$ o Eta-cuadrada $\eta^2$)} mide la fracción total de variabilidad explicada por el factor principal:
 		\begin{align}
 			R^2 = \frac{\text{SCTR}}{\text{SCT}} = \frac{613.7897}{818.7897} \approx 0.7496 \quad (74.96\%).
 		\end{align}
 		Esto significa que el $74.96\%$ de toda la fluctuación observada en el consumo de CPU de la granja de servidores es directamente atribuible y explicada por el tipo de entorno de virtualización elegido.
 		
-		El **$R^2$ ajustado** penaliza el número de grados de libertad consumidos por los tratamientos respecto al total:
+		El \textbf{$R^2$ ajustado} penaliza el número de grados de libertad consumidos por los tratamientos respecto al total:
 		\begin{align}
 			R_{\text{ajustado}}^2 = 1 - \left[ \frac{\text{CME}}{\text{CMT}} \right] = 1 - \left[ \frac{\text{SCE}/\nu_E}{\text{SCT}/\nu_T} \right] = 1 - \left[ \frac{12.8125}{818.7897 / 18} \right] = 1 - \left[ \frac{12.8125}{45.4883} \right] = 1 - 0.28166 \approx 0.7183 \quad (71.83\%).
 		\end{align}
@@ -461,15 +461,15 @@
 \subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
 
 \begin{solucion}
-	La afirmación del analista es **peligrosamente incompleta en el escenario analizado**. Es un hecho matemático que el ANOVA goza de robustez estructural frente a desviaciones leves a moderadas de homoscedasticidad cuando las muestras están balanceadas ($n_1 = n_2 = n_3$). Sin embargo, dicha robustez **no soporta disparidades extremas** en las varianzas grupales.
+	La afirmación del analista es \textbf{peligrosamente incompleta en el escenario analizado}. Es un hecho matemático que el ANOVA goza de robustez estructural frente a desviaciones leves a moderadas de homoscedasticidad cuando las muestras están balanceadas ($n_1 = n_2 = n_3$). Sin embargo, dicha robustez \textbf{no soporta disparidades extremas} en las varianzas grupales.
 	
-	En nuestro caso, la varianza del Tratamiento 3 ($S_3^2 = 8.9$) es más de **siete veces superior** a la varianza del Tratamiento 1 ($S_1^2 = 1.2$, cociente $8.9 / 1.2 = 7.41$). Esta heterogeneidad severa indica que el Tratamiento 3 opera con una inestabilidad sistémica muy superior o contiene valores atípicos severos.
+	En nuestro caso, la varianza del Tratamiento 3 ($S_3^2 = 8.9$) es más de \textbf{siete veces superior} a la varianza del Tratamiento 1 ($S_1^2 = 1.2$, cociente $8.9 / 1.2 = 7.41$). Esta heterogeneidad severa indica que el Tratamiento 3 opera con una inestabilidad sistémica muy superior o contiene valores atípicos severos.
 	
 	\textbf{Procedimiento de verificación y acción metodológica rigurosa:}
 	\begin{enumerate}
-		\item **Auditoría cualitativa y cuantitativa de residuos:** Se debe construir un gráfico de residuos estudiantizados e inspeccionar si la dispersión adopta forma de embudo o trompeta (indicio clásico de varianza no constante dependiente de la media).
-		\item **Prueba formal de Levene o Brown-Forsythe:** Se debe someter la muestra a la prueba de Levene ($\alpha = 0.05$). Ante una disparidad de razón $7.4:1$, la prueba de Levene rechazará de forma contundente la hipótesis nula $H_0: \sigma_1^2 = \sigma_2^2 = \sigma_3^2$.
-		\item **Alternativa analítica adecuada:** Dado el fallo confirmado de homoscedasticidad, el analista debe desestimar el estadístico $F$ convencional y emplear el **ANOVA de Welch (o prueba $F$ de Welch)**, que pondera inversamente los cuadrados medios grupales por las varianzas individuales $S_i^2/n_i$ y ajusta los grados de libertad del denominador, o bien aplicar una transformación logarítmica ($\log Y_{ij}$) si los datos son positivos y asimétricos a la derecha.
+		\item \textbf{Auditoría cualitativa y cuantitativa de residuos:} Se debe construir un gráfico de residuos estudiantizados e inspeccionar si la dispersión adopta forma de embudo o trompeta (indicio clásico de varianza no constante dependiente de la media).
+		\item \textbf{Prueba formal de Levene o Brown-Forsythe:} Se debe someter la muestra a la prueba de Levene ($\alpha = 0.05$). Ante una disparidad de razón $7.4:1$, la prueba de Levene rechazará de forma contundente la hipótesis nula $H_0: \sigma_1^2 = \sigma_2^2 = \sigma_3^2$.
+		\item \textbf{Alternativa analítica adecuada:} Dado el fallo confirmado de homoscedasticidad, el analista debe desestimar el estadístico $F$ convencional y emplear el \textbf{ANOVA de Welch (o prueba $F$ de Welch)}, que pondera inversamente los cuadrados medios grupales por las varianzas individuales $S_i^2/n_i$ y ajusta los grados de libertad del denominador, o bien aplicar una transformación logarítmica ($\log Y_{ij}$) si los datos son positivos y asimétricos a la derecha.
 	\end{enumerate}
 \end{solucion}
 
@@ -487,7 +487,7 @@
 	\begin{align}
 		f = \frac{\sigma_{\tau}}{\sigma} = \sqrt{\frac{3.125}{16}} = \sqrt{0.1953} \approx 0.4419.
 	\end{align}
-	Un valor $f = 0.44$ representa un tamaño del efecto de magnitud **grande a mediana** en la escala estandarizada de Cohen ($f=0.10$ pequeño, $0.25$ mediano, $0.40$ grande).
+	Un valor $f = 0.44$ representa un tamaño del efecto de magnitud \textbf{grande a mediana} en la escala estandarizada de Cohen ($f=0.10$ pequeño, $0.25$ mediano, $0.40$ grande).
 	
 	\textbf{Paso 3: Cálculo del parámetro de no centralidad del ANOVA ($\lambda$) o uso de aproximación de muestras por grupo.}
 	La relación teórica entre el número de réplicas por grupo $n$, el efecto de Cohen $f$, y el parámetro de no centralidad del estadístico $F$ es $\lambda = n \cdot k \cdot f^2$.
@@ -499,7 +499,7 @@
 		n = \frac{\lambda}{k \cdot f^2} = \frac{10.90}{4 \times (0.4419)^2} = \frac{10.90}{4 \times 0.1953} = \frac{10.90}{0.7812} \approx 13.95 \text{ réplicas por lenguaje}.
 	\end{align}
 	
-	\textbf{Conclusión de diseño experimental:} Redondeando al entero superior inmediato para garantizar el cumplimiento estricto del poder deseado, se requiere asignar un tamaño de muestra de **$n = 14$ réplicas por cada lenguaje de backend**, lo que implica un tamaño total de experimento de **$N = k \times n = 4 \times 14 = 56$ peticiones de API auditadas**.
+	\textbf{Conclusión de diseño experimental:} Redondeando al entero superior inmediato para garantizar el cumplimiento estricto del poder deseado, se requiere asignar un tamaño de muestra de \textbf{$n = 14$ réplicas por cada lenguaje de backend}, lo que implica un tamaño total de experimento de \textbf{$N = k \times n = 4 \times 14 = 56$ peticiones de API auditadas}.
 \end{solucion}
 
 \subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
@@ -550,7 +550,7 @@
 		\end{align}
 		
 		\item \textbf{Invocación del Teorema de Cochran y deducción del estadístico $F$:}
-		El **Teorema de William G. Cochran** establece formalmente en álgebra lineal que: si un vector normal multivariado estándar $\mathbf{Z} \sim N(\mathbf{0}, \mathbf{I}_N)$ satisface la partición en formas cuadráticas $\mathbf{Z}^T \mathbf{Z} = \sum_{m=1}^M \mathbf{Z}^T \mathbf{A}_m \mathbf{Z}$, donde las matrices $\mathbf{A}_m$ son simétricas con rangos $r_m = \text{rango}(\mathbf{A}_m)$, entonces **las formas cuadráticas $\mathbf{Z}^T \mathbf{A}_m \mathbf{Z}$ son variables aleatorias Chi-cuadrada mutuamente e incondicionalmente independientes con $r_m$ grados de libertad, si y solo si la suma de los rangos iguala la dimensión total del espacio: $\sum_{m=1}^M r_m = N$**.
+		El \textbf{Teorema de William G. Cochran} establece formalmente en álgebra lineal que: si un vector normal multivariado estándar $\mathbf{Z} \sim N(\mathbf{0}, \mathbf{I}_N)$ satisface la partición en formas cuadráticas $\mathbf{Z}^T \mathbf{Z} = \sum_{m=1}^M \mathbf{Z}^T \mathbf{A}_m \mathbf{Z}$, donde las matrices $\mathbf{A}_m$ son simétricas con rangos $r_m = \text{rango}(\mathbf{A}_m)$, entonces \textbf{las formas cuadráticas $\mathbf{Z}^T \mathbf{A}_m \mathbf{Z}$ son variables aleatorias Chi-cuadrada mutuamente e incondicionalmente independientes con $r_m$ grados de libertad, si y solo si la suma de los rangos iguala la dimensión total del espacio: $\sum_{m=1}^M r_m = N$}.
 		
 		En nuestro diseño unifactorial, el vector de desviaciones estandarizadas satisface la partición exacta en matrices simétricas de proyección:
 		\begin{align}
@@ -560,7 +560,7 @@
 		\begin{align}
 			(k - 1) + (N - k) = N - 1 = \nu_T.
 		\end{align}
-		Al cumplirse con rigurosa exactitud la condición de partición dimensional del Teorema de Cochran, las matrices proyectoras de $\text{SCTR}$ y $\text{SCE}$ son **idempotentes y mutuamente ortogonales ($\mathbf{A}_{\text{TR}} \mathbf{A}_E = \mathbf{0}$)**. Por tanto, las variables $\text{CMTR}$ y $\text{CME}$ son estocástica y funcionalmente independientes.
+		Al cumplirse con rigurosa exactitud la condición de partición dimensional del Teorema de Cochran, las matrices proyectoras de $\text{SCTR}$ y $\text{SCE}$ son \textbf{idempotentes y mutuamente ortogonales ($\mathbf{A}_{\text{TR}} \mathbf{A}_E = \mathbf{0}$)}. Por tanto, las variables $\text{CMTR}$ y $\text{CME}$ son estocástica y funcionalmente independientes.
 		
 		En consecuencia, el cociente normalizado de dos independientes chi-cuadrada divididas cada una entre sus respectivos grados de libertad define, por la propia axiomática del cálculo de probabilidades, a la distribución $F$ de Snedecor central:
 		\begin{align}
@@ -625,7 +625,7 @@
 		\begin{align}
 			S_{\text{DCA}}^2 \approx \frac{(b-1)\text{CMB} + b(k-1)\text{CME}}{(b-1) + b(k-1)} = \frac{(b-1)\text{CMB} + b(k-1)\text{CME}}{kb - 1}.
 		\end{align}
-		La **Eficiencia Relativa ($\text{ER}$)** se define como la razón de las varianzas experimentales del error ($S_{\text{DCA}}^2 / S_{\text{DBCA}}^2 = S_{\text{DCA}}^2 / \text{CME}$):
+		La \textbf{Eficiencia Relativa ($\text{ER}$)} se define como la razón de las varianzas experimentales del error ($S_{\text{DCA}}^2 / S_{\text{DBCA}}^2 = S_{\text{DCA}}^2 / \text{CME}$):
 		\begin{align}
 			\text{ER} = \frac{S_{\text{DCA}}^2}{\text{CME}} = \frac{(b-1)\dfrac{\text{CMB}}{\text{CME}} + b(k-1)}{kb - 1} = \frac{(b-1)F_{\text{Bloque}} + b(k-1)}{kb - 1}.
 		\end{align}
@@ -643,6 +643,6 @@
 		\begin{align}
 			\text{CMB} > \text{CME} \iff F_{\text{Bloque}} = \frac{\text{CMB}}{\text{CME}} > 1.
 		\end{align}
-		**Conclusión teórica:** El Diseño en Bloques Completos al Azar **aporta una ganancia estricta y real de eficiencia en estimación ($\text{ER} > 1$) siempre que el Cuadrado Medio del Bloque supere al Cuadrado Medio del Error ($F_{\text{Bloque}} > 1$)**. Si el factor de bloqueo fue irrelevante o mal escogido de modo que $\text{CMB} < \text{CME}$, el bloqueo habrá sido un lastre analítico que habrá destruido innecesariamente grados de libertad del error sin absorber varianza de la infraestructura.
+		\textbf{Conclusión teórica:} El Diseño en Bloques Completos al Azar \textbf{aporta una ganancia estricta y real de eficiencia en estimación ($\text{ER} > 1$) siempre que el Cuadrado Medio del Bloque supere al Cuadrado Medio del Error ($F_{\text{Bloque}} > 1$)}. Si el factor de bloqueo fue irrelevante o mal escogido de modo que $\text{CMB} < \text{CME}$, el bloqueo habrá sido un lastre analítico que habrá destruido innecesariamente grados de libertad del error sin absorber varianza de la infraestructura.
 	\end{enumerate}
 \end{solucion}

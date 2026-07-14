@@ -38,7 +38,7 @@
 	\label{prob:chi-fund-cochran}
 	A data scientist designs a $\chi^2$ goodness-of-fit test for a discrete categorization model with four classes ($k = 4$, with $\nu = 3$ degrees of freedom) from an experimental pilot with $n = 80$ observations. When calculating the expected frequencies under the theoretical model, they obtain: $E_1 = 45.2$, $E_2 = 30.5$, $E_3 = 3.2$, and $E_4 = 1.1$.
 	\begin{enumerate}
-		\item Explain theoretically why direct calculation of Pearson's statistic violates the asymptotic regularity conditions of the $\chi^2$ test (in particular, **Cochran's Rule** regarding minimum expected frequencies).
+		\item Explain theoretically why direct calculation of Pearson's statistic violates the asymptotic regularity conditions of the $\chi^2$ test (in particular, \textbf{Cochran's Rule} regarding minimum expected frequencies).
 		\item Propose the standard corrective procedure the analyst should apply to the category structure before computing the final test, and indicate how many degrees of freedom the new adjusted test would have.
 	\end{enumerate}
 \end{problema}
@@ -164,7 +164,7 @@
 	Let there be an experiment with $N$ independent trials falling into mutually exclusive categories $k$ with random count vector $\mathbf{O} = (O_1, \dots, O_k)$ and theoretical parameter vector $\mathbf{p} = (p_1, \dots, p_k)$ such that $\sum_{i=1}^k p_i = 1$ and $\sum_{i=1}^k O_i = N$.
 	\begin{enumerate}
 		\item Each marginal cell follows a Binomial distribution $O_i \sim \text{Bin}(N, p_i)$. By the Central Limit Theorem, the standardized variables $Z_i = \dfrac{O_i - Np_i}{\sqrt{Np_i(1-p_i)}}$ converge to standard normals. However, Pearson's test uses the non-standardized sum relative to the full marginal variance: $Q = \sum_{i=1}^k \dfrac{(O_i - Np_i)^2}{Np_i}$. Analytically justify why $Q$ is not distributed as $\chi^2_k$, but exactly as $\chi^2_{k-1}$, explaining the fundamental role of the linear dependence constraint $\sum_{i=1}^k (O_i - Np_i) = 0$ in the vector space of the statistic.
-		\item In $2 \times 2$ tables (with $\nu = 1$ degree of freedom) applied to small or medium-sized samples, Frank Yates introduced **Yates' Continuity Correction**:
+		\item In $2 \times 2$ tables (with $\nu = 1$ degree of freedom) applied to small or medium-sized samples, Frank Yates introduced \textbf{Yates' Continuity Correction}:
 		\begin{align}
 			\chi^2_{\text{Yates}} = \frac{N \left( |ad - bc| - \frac{N}{2} \right)^2}{(a+b)(c+d)(a+c)(b+d)}.
 		\end{align}
@@ -208,9 +208,9 @@
 		
 		\item \textbf{Decision rule and statistical conclusion:}
 		For a significance level of $\alpha = 0.05$ with $\nu = 5$ degrees of freedom, Pearson's quantile table sets the upper critical threshold at $\chi^2_{0.05, \, 5} = 11.07$.
-		Since our sample statistic is far below the threshold ($1.10 < 11.07$), **there is no statistical evidence to reject the null hypothesis ($H_0$)**.
+		Since our sample statistic is far below the threshold ($1.10 < 11.07$), \textbf{there is no statistical evidence to reject the null hypothesis ($H_0$)}.
 		
-		**Conclusion:** Small variations in observed frequencies (such as rolling 23 fives versus 18 ones) are completely natural and attributable to random sampling variation. The die behaves formally as a fair instrument.
+		\textbf{Conclusion:} Small variations in observed frequencies (such as rolling 23 fives versus 18 ones) are completely natural and attributable to random sampling variation. The die behaves formally as a fair instrument.
 	\end{enumerate}
 \end{solucion}
 
@@ -238,9 +238,9 @@
 	
 	\textbf{Step 4: Critical evaluation at level $\alpha = 0.05$ ($\nu = 4 - 1 = 3$).}
 	The quantile in chi-square tables with 3 degrees of freedom is $\chi^2_{0.05, \, 3} = 7.815$.
-	Since $\chi^2 = 1.1903 < 7.815$, **the null hypothesis is not rejected**.
+	Since $\chi^2 = 1.1903 < 7.815$, \textbf{the null hypothesis is not rejected}.
 	
-	**Biological conclusion:** The observed distribution in the sample ($47.5\%$ A, $37.5\%$ B, $9\%$ AB, and $6\%$ O) conforms remarkably well with the national population genetic profile at $95\%$ confidence.
+	\textbf{Biological conclusion:} The observed distribution in the sample ($47.5\%$ A, $37.5\%$ B, $9\%$ AB, and $6\%$ O) conforms remarkably well with the national population genetic profile at $95\%$ confidence.
 \end{solucion}
 
 \begin{solucion}
@@ -248,12 +248,12 @@
 		\item \textbf{Violation of Cochran's Rule and validity of the statistic:}
 		The exact distribution of the random variable $Q = \sum \dfrac{(O_i - E_i)^2}{E_i}$ in finite samples is discrete and highly skewed. Only when observed frequencies are sufficiently large via the De Moivre-Laplace Central Limit Theorem does the true distribution of $Q$ asymptotically converge to Pearson's continuous distribution $\chi^2_\nu$.
 		
-		William G. Cochran formally demonstrated that for this integral approximation to be mathematically reliable (not distorting $p$-values or causing excessive false positive rates in the tails), **no individual expected frequency ($E_i$) in the study should be less than $1.0$, and no more than $20\%$ of all cells should have expected frequencies less than $5.0$** ($E_i < 5$).
+		William G. Cochran formally demonstrated that for this integral approximation to be mathematically reliable (not distorting $p$-values or causing excessive false positive rates in the tails), \textbf{no individual expected frequency ($E_i$) in the study should be less than $1.0$, and no more than $20\%$ of all cells should have expected frequencies less than $5.0$} ($E_i < 5$).
 		
 		In our design with $k=4$ cells, we observe two categories in severe violation: $E_3 = 3.2 < 5$ and $E_4 = 1.1 < 5$. This implies that $50\%$ of the cells ($2 / 4$) violate the threshold of 5, completely invalidating the use of standard $\chi^2$ tables.
 		
 		\item \textbf{Methodological corrective procedure:}
-		The canonical statistical solution consists of **pooling or collapsing adjacent low-probability categories** into a single combined category until all cells in the new design vector satisfy $E_i \ge 5$.
+		The canonical statistical solution consists of \textbf{pooling or collapsing adjacent low-probability categories} into a single combined category until all cells in the new design vector satisfy $E_i \ge 5$.
 		
 		In this case, we merge classes 3 and 4 into a new aggregated category ($3+4$). Its new combined expected frequency will be:
 		\begin{align}
@@ -288,9 +288,9 @@
 	
 	\textbf{Step 3: Decision and analysis by standard residuals:}
 	For $k = 5$ options, the degrees of freedom are $\nu = 4$. The quantile at $5\%$ is $\chi^2_{0.05, \, 4} = 9.488$.
-	Since $\chi^2 = 17.950 > 9.488$, **the null hypothesis of uniformity is overwhelmingly rejected**.
+	Since $\chi^2 = 17.950 > 9.488$, \textbf{the null hypothesis of uniformity is overwhelmingly rejected}.
 	
-	**Diagnostic interpretation:** Analyzing the relative contributions to the overall statistic ($\chi^2 = 17.95$), we discover that the **"Other"** category contributes more than half of the total statistic ($10.00 / 17.95$), due to having a real preference far below uniformity ($O_5 = 20$ vs. $E_5 = 40$). Furthermore, the **Red** color contributes a notable $5.625$, as the clear market favorite ($O_1 = 55$ vs. $E_1 = 40$). The firm should prioritize the Red color scheme in its final design.
+	\textbf{Diagnostic interpretation:} Analyzing the relative contributions to the overall statistic ($\chi^2 = 17.95$), we discover that the \textbf{"Other"} category contributes more than half of the total statistic ($10.00 / 17.95$), due to having a real preference far below uniformity ($O_5 = 20$ vs. $E_5 = 40$). Furthermore, the \textbf{Red} color contributes a notable $5.625$, as the clear market favorite ($O_1 = 55$ vs. $E_1 = 40$). The firm should prioritize the Red color scheme in its final design.
 \end{solucion}
 
 \begin{solucion}
@@ -325,9 +325,9 @@
 		
 		\item \textbf{Road safety decision and interpretation:}
 		The critical value at $5\%$ for $\nu = 6$ is $\chi^2_{0.05, \, 6} = 12.592$.
-		Since $\chi^2 = 8.49 < 12.592$, **the hypothesis of independence is not rejected**.
+		Since $\chi^2 = 8.49 < 12.592$, \textbf{the hypothesis of independence is not rejected}.
 		
-		**Conclusion:** There is no statistically significant relationship at the 5\% level between vehicle type and the day of the week on which the accident occurs. The relative probability of crashing an car, truck, or motorcycle remains invariant whether it is Monday, Wednesday, or Friday.
+		\textbf{Conclusion:} There is no statistically significant relationship at the 5\% level between vehicle type and the day of the week on which the accident occurs. The relative probability of crashing an car, truck, or motorcycle remains invariant whether it is Monday, Wednesday, or Friday.
 	\end{enumerate}
 \end{solucion}
 
@@ -352,7 +352,7 @@
 		
 		\item \textbf{Degrees of freedom and test decision:}
 		For a $4 \times 3$ table, $\nu = (4-1)(3-1) = 6$.
-		With an upper critical value of $\chi^2_{0.05, \, 6} = 12.592$, since our statistic $\chi^2 = 16.126 > 12.592$, **we categorically reject the hypothesis of functional independence**.
+		With an upper critical value of $\chi^2_{0.05, \, 6} = 12.592$, since our statistic $\chi^2 = 16.126 > 12.592$, \textbf{we categorically reject the hypothesis of functional independence}.
 		
 		\item \textbf{Human Resources corporate conclusion:}
 		There is a highly significant dependency at 95\% between functional department and employee morale. Examining individual contributions:
@@ -389,13 +389,13 @@
 			&= \frac{9.3636}{39.06} + \frac{10.7584}{36.72} + \frac{0.5476}{17.26} + \frac{0.9216}{6.96} = 0.2397 + 0.2930 + 0.0317 + 0.1324 = 0.6968.
 		\end{align}
 		
-		\textbf{Parametric constraint theorem:} When in a Pearson goodness-of-fit test the population parameters governing the theoretical probability model are not pre-specified or external, but are **estimated by maximum likelihood from the very experimental sample under study**, each estimated parameter imposes an additional algebraic-differential constraint on the deviation vector $(O_k - E_k)$. This reduces the dimension of freedom of the subspace containing the normalized quadratic form by one unit for each parameter ($m$).
+		\textbf{Parametric constraint theorem:} When in a Pearson goodness-of-fit test the population parameters governing the theoretical probability model are not pre-specified or external, but are \textbf{estimated by maximum likelihood from the very experimental sample under study}, each estimated parameter imposes an additional algebraic-differential constraint on the deviation vector $(O_k - E_k)$. This reduces the dimension of freedom of the subspace containing the normalized quadratic form by one unit for each parameter ($m$).
 		Therefore, having estimated $m = 1$ parameter ($\hat{\lambda}$) across $k = 4$ design cells, the degrees of freedom become:
 		\begin{align}
 			\nu = k - 1 - m = 4 - 1 - 1 = 2 \text{ exact degrees of freedom.}
 		\end{align}
 		For $\alpha = 0.05$ with $\nu = 2$, the critical quantile of the $\chi^2$ distribution is $\chi^2_{0.05, \, 2} = 5.991$.
-		Since $\chi^2 = 0.697 \ll 5.991$, **the Poisson model with rate $\lambda = 0.94$ is accepted and confirmed with high fidelity as the underlying stochastic process for server interruptions**.
+		Since $\chi^2 = 0.697 \ll 5.991$, \textbf{the Poisson model with rate $\lambda = 0.94$ is accepted and confirmed with high fidelity as the underlying stochastic process for server interruptions}.
 	\end{enumerate}
 \end{solucion}
 
@@ -446,8 +446,8 @@
 		\end{align}
 		We observe an absolute match across algebraic decimal computations with the $\chi^2 = 7.3846$ statistic (the minor discrepancy in the fourth decimal place stems solely from intermediate rounding of square roots).
 		
-		**Algebraic justification of isomorphism:** In mathematical statistics, the square of a standard normal variable follows, by axiomatic definition, a Chi-square distribution with exactly 1 degree of freedom ($Z \sim N(0,1) \implies Z^2 \sim \chi^2_1$).
-		In any $2 \times 2$ contingency table, Pearson's homogeneity statistic is structurally the quadratic decomposition of the binomial proportion gap, meaning both tests are **100\% analytically, asymptotically, and probabilistically identical**.
+		\textbf{Algebraic justification of isomorphism:} In mathematical statistics, the square of a standard normal variable follows, by axiomatic definition, a Chi-square distribution with exactly 1 degree of freedom ($Z \sim N(0,1) \implies Z^2 \sim \chi^2_1$).
+		In any $2 \times 2$ contingency table, Pearson's homogeneity statistic is structurally the quadratic decomposition of the binomial proportion gap, meaning both tests are \textbf{100\% analytically, asymptotically, and probabilistically identical}.
 	\end{enumerate}
 \end{solucion}
 
@@ -502,10 +502,10 @@
 		\begin{align}
 			\mathbf{M} = \begin{pmatrix} a & b \\ c & d \end{pmatrix},
 		\end{align}
-		we immediately recognize that the term $(ad - bc)$ is the **exact determinant of the contingency matrix ($\det(\mathbf{M}) = ad - bc$)**.
+		we immediately recognize that the term $(ad - bc)$ is the \textbf{exact determinant of the contingency matrix ($\det(\mathbf{M}) = ad - bc$)}.
 		\begin{itemize}
-			\item If the determinant is zero ($\det(\mathbf{M}) = ad - bc = 0 \iff ad = bc$), the rows are linearly dependent (proportional to each other). In probability, this equates to **absolute statistical independence between the qualitative variables** ($\chi^2 = 0$).
-			\item Dividing both sides of the null point $ad = bc$ by $bc$ yields the definition of the **Odds Ratio ($\text{OR}$)**:
+			\item If the determinant is zero ($\det(\mathbf{M}) = ad - bc = 0 \iff ad = bc$), the rows are linearly dependent (proportional to each other). In probability, this equates to \textbf{absolute statistical independence between the qualitative variables} ($\chi^2 = 0$).
+			\item Dividing both sides of the null point $ad = bc$ by $bc$ yields the definition of the \textbf{Odds Ratio ($\text{OR}$)}:
 			\begin{align}
 				\text{OR} = \frac{a / c}{b / d} = \frac{ad}{bc}.
 			\end{align}
@@ -521,9 +521,9 @@
 		\begin{align}
 			Q = \sum_{i=1}^k \frac{(O_i - Np_i)^2}{Np_i} = \sum_{i=1}^k Z_i^2, \quad \text{where } Z_i = \frac{O_i - Np_i}{\sqrt{Np_i}}.
 		\end{align}
-		If the variables $Z_i$ were standard normals and **stochastically independent** of each other, their sum of squares $Q$ would be distributed as a direct sum of squared normals, namely $\chi^2_k$ with exactly $k$ degrees of freedom.
+		If the variables $Z_i$ were standard normals and \textbf{stochastically independent} of each other, their sum of squares $Q$ would be distributed as a direct sum of squared normals, namely $\chi^2_k$ with exactly $k$ degrees of freedom.
 		
-		However, in any closed experiment or survey, the total sample size is a fixed finite constant ($N$). This imposes a **strict, unbreakable linear constraint** upon individual deviations:
+		However, in any closed experiment or survey, the total sample size is a fixed finite constant ($N$). This imposes a \textbf{strict, unbreakable linear constraint} upon individual deviations:
 		\begin{align}
 			\sum_{i=1}^k O_i = N \implies \sum_{i=1}^k (O_i - Np_i) = \sum_{i=1}^k O_i - N \sum_{i=1}^k p_i = N - N(1) = 0.
 		\end{align}
@@ -540,9 +540,9 @@
 		\item \textbf{Epistemology of positive bias in Pearson and Yates' correction mechanism:}
 		\begin{itemize}
 			\item \textbf{Origin of optimistic bias (overestimation of Type I error):}
-			The exact theoretical distribution of the test statistic for a finite $2 \times 2$ discrete table is dictated by **Fisher's Exact Hypergeometric Distribution**. As a counting function of integer subjects or successes, its sampling probability function is purely **discrete (step-like)**.
-			In contrast, the reference distribution $\chi^2_1$ against which we compare Pearson's statistic is a **smooth, absolutely continuous** mathematical curve.
-			When attempting to approximate discrete step jumps using a continuous integral curve, the area under the continuous right tail of the $\chi^2_1$ distribution (which represents the evaluated $p$-value) is systematically smaller than the true exact probability of observing that extreme discrepancy in the discrete hypergeometric world. Therefore, the classic Pearson formula yields artificially low $p$-values ($p_{\text{Pearson}} < p_{\text{exact}}$), inducing the researcher to commit an excess of **false positives (Type I error)** and declare spurious significance in finite samples that true exact probability does not support.
+			The exact theoretical distribution of the test statistic for a finite $2 \times 2$ discrete table is dictated by \textbf{Fisher's Exact Hypergeometric Distribution}. As a counting function of integer subjects or successes, its sampling probability function is purely \textbf{discrete (step-like)}.
+			In contrast, the reference distribution $\chi^2_1$ against which we compare Pearson's statistic is a \textbf{smooth, absolutely continuous} mathematical curve.
+			When attempting to approximate discrete step jumps using a continuous integral curve, the area under the continuous right tail of the $\chi^2_1$ distribution (which represents the evaluated $p$-value) is systematically smaller than the true exact probability of observing that extreme discrepancy in the discrete hypergeometric world. Therefore, the classic Pearson formula yields artificially low $p$-values ($p_{\text{Pearson}} < p_{\text{exact}}$), inducing the researcher to commit an excess of \textbf{false positives (Type I error)} and declare spurious significance in finite samples that true exact probability does not support.
 			
 			\item \textbf{Mathematical mechanism of Yates' stabilization ($-\frac{N}{2}$):}
 			To bridge this quantization gap and align the continuous asymptotic curve with discrete hypergeometric steps (analogous to De Moivre's $\pm 0.5$ continuity correction for binomial-normal approximations), Frank Yates introduced a constant contraction that reduces the discrepancy between observation and expectation by exactly half a discrete unit ($0.5$).
@@ -550,7 +550,7 @@
 			\begin{align}
 				|ad - bc| \longrightarrow |ad - bc| - \frac{N}{2}.
 			\end{align}
-			By subtracting the constant quantity $\dfrac{N}{2}$ from the absolute magnitude of the determinant before squaring it, the final statistic $\chi^2_{\text{Yates}}$ **decreases in numerical value**:
+			By subtracting the constant quantity $\dfrac{N}{2}$ from the absolute magnitude of the determinant before squaring it, the final statistic $\chi^2_{\text{Yates}}$ \textbf{decreases in numerical value}:
 			\begin{align}
 				\chi^2_{\text{Yates}} = \frac{N \left( |ad - bc| - \frac{N}{2} \right)^2}{(a+b)(c+d)(a+c)(b+d)} < \chi^2_{\text{Pearson}}.
 			\end{align}

@@ -33,11 +33,11 @@
 		\end{tabular}
 	\end{center}
 	\begin{enumerate}
-		\item Compute the **Test Mean Squared Error (\emph{Test MSE})**:
+		\item Compute the \textbf{Test Mean Squared Error (\emph{Test MSE})}:
 		\begin{align}
 			\text{MSE}_{\text{test}} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{n_{\text{test}}} (Y_i - \hat{Y}_i)^2.
 		\end{align}
-		\item Compute the **Root Mean Squared Error (\emph{Test RMSE})** and the **Mean Absolute Error (\emph{Test MAE})**:
+		\item Compute the \textbf{Root Mean Squared Error (\emph{Test RMSE})} and the \textbf{Mean Absolute Error (\emph{Test MAE})}:
 		\begin{align}
 			\text{RMSE}_{\text{test}} = \sqrt{\text{MSE}_{\text{test}}}, \qquad \text{MAE}_{\text{test}} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{n_{\text{test}}} |Y_i - \hat{Y}_i|.
 		\end{align}
@@ -47,7 +47,7 @@
 
 \begin{problema}
 	\label{prob:val_mod_kfold_basico}
-	An analytical firm evaluates the generalization stability of a credit risk forecasting algorithm using the **$k$-Fold Cross-Validation** methodology with $k = 5$ equal partitions across a base sample of $n = 100$ client profiles. The independent coefficient of determination ($R_{\text{CV}, j}^2$) computed on the validation fold as each fold $j$ is rotated was:
+	An analytical firm evaluates the generalization stability of a credit risk forecasting algorithm using the \textbf{$k$-Fold Cross-Validation} methodology with $k = 5$ equal partitions across a base sample of $n = 100$ client profiles. The independent coefficient of determination ($R_{\text{CV}, j}^2$) computed on the validation fold as each fold $j$ is rotated was:
 	\begin{center}
 		\begin{tabular}{|c|c|c|c|c|c|}
 			\hline
@@ -77,7 +77,7 @@
 	\begin{enumerate}
 		\item Determine which specification exhibits greater mean explanatory power and which demonstrates superior structural robustness or stability via its percentage Coefficient of Variation.
 		\item If both models were to be deployed in production across a finite population of $n = 150$ stores, compute the expected Adjusted Coefficient of Determination ($R_{\text{adj}}^2$) for each when accounting for degrees of freedom penalization.
-		\item Applying the **Principle of Parsimony (Occam's Razor)** and the law of diminishing returns in statistical modeling, conclusively justify which model management should adopt.
+		\item Applying the \textbf{Principle of Parsimony (Occam's Razor)} and the law of diminishing returns in statistical modeling, conclusively justify which model management should adopt.
 	\end{enumerate}
 \end{problema}
 
@@ -95,14 +95,14 @@
 	\end{center}
 	\begin{enumerate}
 		\item Compute the out-of-sample predictive degradation ratios $RSE_{\text{test}} / RSE_{\text{train}}$ and $R_{\text{test}}^2 / R_{\text{train}}^2$.
-		\item Perform formal differential diagnosis: does the model suffer from a pathology of **Severe Overfitting (high variance)** or **Underfitting (high bias)**? Justify according to industry diagnostic benchmarks.
+		\item Perform formal differential diagnosis: does the model suffer from a pathology of \textbf{Severe Overfitting (high variance)} or \textbf{Underfitting (high bias)}? Justify according to industry diagnostic benchmarks.
 		\item Develop a strategic methodological rectification plan detailing at least four specific technical interventions (such as parametric regularization, algorithmic variable selection, or nested cross-validation) to resolve this failure.
 	\end{enumerate}
 \end{problema}
 
 \begin{problema}
 	\label{prob:val_mod_loocv_contabilidad}
-	A biomedical researcher analyzes a highly specialized clinical dataset of small sample size, comprising exactly $n = 50$ patients with a rare pathology. To avoid the bias of simple random partitioning in small samples, the researcher decides to validate the regression treatment equation using **Leave-One-Out Cross-Validation (LOOCV)**.
+	A biomedical researcher analyzes a highly specialized clinical dataset of small sample size, comprising exactly $n = 50$ patients with a rare pathology. To avoid the bias of simple random partitioning in small samples, the researcher decides to validate the regression treatment equation using \textbf{Leave-One-Out Cross-Validation (LOOCV)}.
 	\begin{enumerate}
 		\item Determine the exact total number of independent linear regressions that the computational engine must estimate to complete one LOOCV run. How many observations make up the training subset and how many the testing subset in each individual iteration?
 		\item If, after consolidating the $n = 50$ point predictive residuals ($\hat{\varepsilon}_{(-i)} = Y_i - \hat{Y}_{(-i)}$), the consolidated population Mean Squared Error of LOOCV was $\text{MSE}_{\text{LOOCV}} = 25.00$, compute the overall estimated Prediction Standard Error ($RSE_{\text{est}}$).
@@ -120,7 +120,7 @@
 \begin{problema}
 	\label{prob:val_mod_aic_bic_teoria}
 	To model the price-demand elasticity of public transportation in a metropolitan study comprising $n = 100$ evaluated routes, three candidate multivariable models with different levels of structural complexity were calibrated ($p$ is the total number of estimated parameters, including intercept $\beta_0$ and error variance $\sigma^2$).
-	To avoid the optimistic bias of $R^2$ without resorting to sample-reducing partitions, information theorists proposed the **Akaike Information Criterion (AIC)** and the **Bayesian (Schwarz) Information Criterion (BIC)**:
+	To avoid the optimistic bias of $R^2$ without resorting to sample-reducing partitions, information theorists proposed the \textbf{Akaike Information Criterion (AIC)} and the \textbf{Bayesian (Schwarz) Information Criterion (BIC)}:
 	\begin{align}
 		\text{AIC} = n \ln\left( \frac{\text{SSD}}{n} \right) + 2p, \qquad \text{BIC} = n \ln\left( \frac{\text{SSD}}{n} \right) + p \ln(n),
 	\end{align}
@@ -138,7 +138,7 @@
 	\begin{enumerate}
 		\item Manually compute, step by step and with logarithmic precision ($\ln(4.50) = 1.5041, \ln(3.80) = 1.3350, \ln(3.50) = 1.2528, \ln(100) = 4.6052$), the exact numerical values of $\text{AIC}$ and $\text{BIC}$ for all three models.
 		\item Determine which model is indisputably selected as optimal under the $\text{AIC}$ criterion and which under the $\text{BIC}$ criterion.
-		\item Explain theoretically why the $\text{BIC}$ criterion applies a **much more severe asymptotic penalty** on complexity ($p$) than $\text{AIC}$ whenever sample size satisfies $n \geq 8$, and discuss what implications this has for selecting parsimonious models in Big Data applications.
+		\item Explain theoretically why the $\text{BIC}$ criterion applies a \textbf{much more severe asymptotic penalty} on complexity ($p$) than $\text{AIC}$ whenever sample size satisfies $n \geq 8$, and discuss what implications this has for selecting parsimonious models in Big Data applications.
 	\end{enumerate}
 \end{problema}
 
@@ -147,12 +147,12 @@
 	In a labor econometrics investigation ($n = 30$ firms in the manufacturing sector), researchers seek to select the best subset of variables to predict hourly productivity ($Y$). A full master model with $p_{\text{max}} = 6$ parameters is formulated (whose unbiased fit yielded an unbiased residual variance of $\hat{\sigma}^2 = \text{MSE}_{\text{full}} = 4.00$).
 	A parsimonious candidate sub-model retaining only $p = 3$ parameters and achieving an observed Residual Sum of Squares of $\text{SSD}_p = 13.00$ is evaluated.
 	\begin{enumerate}
-		\item Compute **Mallows' $C_p$ Statistic** for the $p=3$ parameter sub-model via the formula:
+		\item Compute \textbf{Mallows' $C_p$ Statistic} for the $p=3$ parameter sub-model via the formula:
 		\begin{align}
 			C_p = \frac{\text{SSD}_p}{\hat{\sigma}^2} - n + 2p.
 		\end{align}
 		Interpret whether the evaluated model suffers from omitted variable bias by comparing the value of $C_p$ against the theoretical unbiased boundary ($C_p \approx p$).
-		\item If executing leave-one-out cross-validation on this sub-model yields a prediction residual sum of squares of $\text{PRESS} = \sum_{i=1}^n (Y_i - \hat{Y}_{(-i)})^2 = 18.00$, and the sample Total Sum of Squares was $\text{SST} = 150.00$, compute the **Predictive Cross-Validation Coefficient ($Q^2$ or $R_{\text{pred}}^2$)**:
+		\item If executing leave-one-out cross-validation on this sub-model yields a prediction residual sum of squares of $\text{PRESS} = \sum_{i=1}^n (Y_i - \hat{Y}_{(-i)})^2 = 18.00$, and the sample Total Sum of Squares was $\text{SST} = 150.00$, compute the \textbf{Predictive Cross-Validation Coefficient ($Q^2$ or $R_{\text{pred}}^2$)}:
 		\begin{align}
 			Q^2 = 1 - \frac{\text{PRESS}}{\text{SST}}.
 		\end{align}
@@ -185,7 +185,7 @@
 			\hat{\boldsymbol{\beta}}_{(-i)} = \hat{\boldsymbol{\beta}} - \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i e_i}{1 - H_{ii}},
 		\end{align}
 		where $e_i = Y_i - \mathbf{x}_i^T \hat{\boldsymbol{\beta}}$ is the ordinary least squares residual from the full model.
-		\item By taking the inner product of the difference vector with $\mathbf{x}_i^T$, prove the **Allen-PRESS Theorem**: the leave-one-out cross-validation residual ($\hat{\varepsilon}_{(-i)} = Y_i - \hat{Y}_{(-i)}$) can be computed exactly without re-fitting any auxiliary regression as:
+		\item By taking the inner product of the difference vector with $\mathbf{x}_i^T$, prove the \textbf{Allen-PRESS Theorem}: the leave-one-out cross-validation residual ($\hat{\varepsilon}_{(-i)} = Y_i - \hat{Y}_{(-i)}$) can be computed exactly without re-fitting any auxiliary regression as:
 		\begin{align}
 			\hat{\varepsilon}_{(-i)} = \frac{e_i}{1 - H_{ii}} \implies \text{PRESS} = \sum_{i=1}^n \left( \frac{e_i}{1 - H_{ii}} \right)^2.
 		\end{align}
@@ -203,7 +203,7 @@
 	where $\varepsilon$ is population measurement random noise with zero mean ($E[\varepsilon] = 0$) and constant variance $\text{Var}(\varepsilon) = E[\varepsilon^2] = \sigma_{\varepsilon}^2$, independent of variables $\mathbf{x}$.
 	Let $\hat{f}(\mathbf{x})$ be a parametric regression estimator trained on a random data sample $\mathcal{D} = \{(\mathbf{x}_i, Y_i)\}_{i=1}^n$ drawn from the same generating process.
 	\begin{enumerate}
-		\item Prove analytically, step by step via algebraic expansion of unconditional mathematical expectation over the training set ($E_{\mathcal{D}}[\cdot]$) and over a new independent test observation $(\mathbf{x}_0, Y_0)$, that the Expected Prediction Mean Squared Error at point $\mathbf{x}_0$ decomposes orthogonally into the **Fundamental Trilogy of Statistical Learning (Bias-Variance-Noise Decomposition)**:
+		\item Prove analytically, step by step via algebraic expansion of unconditional mathematical expectation over the training set ($E_{\mathcal{D}}[\cdot]$) and over a new independent test observation $(\mathbf{x}_0, Y_0)$, that the Expected Prediction Mean Squared Error at point $\mathbf{x}_0$ decomposes orthogonally into the \textbf{Fundamental Trilogy of Statistical Learning (Bias-Variance-Noise Decomposition)}:
 		\begin{align}
 			E_{\mathcal{D}, \, \varepsilon}\left[ \left( Y_0 - \hat{f}(\mathbf{x}_0) \right)^2 \right] = \left( \text{Bias}\left[\hat{f}(\mathbf{x}_0)\right] \right)^2 + \text{Var}\left( \hat{f}(\mathbf{x}_0) \right) + \sigma_{\varepsilon}^2,
 		\end{align}
@@ -212,7 +212,7 @@
 			\text{Bias}\left[\hat{f}(\mathbf{x}_0)\right] &= E_{\mathcal{D}}\left[\hat{f}(\mathbf{x}_0)\right] - f(\mathbf{x}_0), \\
 			\text{Var}\left( \hat{f}(\mathbf{x}_0) \right) &= E_{\mathcal{D}}\left[ \left( \hat{f}(\mathbf{x}_0) - E_{\mathcal{D}}\left[\hat{f}(\mathbf{x}_0)\right] \right)^2 \right].
 		\end{align}
-		\item Consider the pure multiple linear model $f(\mathbf{x}) = \mathbf{x}^T \boldsymbol{\beta}$. Knowing that the classical OLS estimator ($\hat{\boldsymbol{\beta}}_{\text{OLS}}$) is strictly unbiased ($\text{Bias} = 0$), but that in the presence of multicollinearity or high dimensionality its variance tensor $\sigma^2 (\mathbf{X}^T \mathbf{X})^{-1}$ experiences a spectral explosion in its inverse eigenvalues, demonstrate how the **Ridge (Tikhonov) Regression estimator ($\hat{\boldsymbol{\beta}}_{\text{Ridge}} = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}\mathbf{X}^T \mathbf{Y}$)** voluntarily introduces bounded parametric bias in exchange for collapsing projection variance.
+		\item Consider the pure multiple linear model $f(\mathbf{x}) = \mathbf{x}^T \boldsymbol{\beta}$. Knowing that the classical OLS estimator ($\hat{\boldsymbol{\beta}}_{\text{OLS}}$) is strictly unbiased ($\text{Bias} = 0$), but that in the presence of multicollinearity or high dimensionality its variance tensor $\sigma^2 (\mathbf{X}^T \mathbf{X})^{-1}$ experiences a spectral explosion in its inverse eigenvalues, demonstrate how the \textbf{Ridge (Tikhonov) Regression estimator ($\hat{\boldsymbol{\beta}}_{\text{Ridge}} = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}\mathbf{X}^T \mathbf{Y}$)} voluntarily introduces bounded parametric bias in exchange for collapsing projection variance.
 		Prove algebraically why there axiomatically exists across the continuous space of the regularization hyperparameter a strict real value $\lambda^* > 0$ where the net reduction in sample variance far outweighs the square of the induced bias:
 		\begin{align}
 			\frac{\partial}{\partial \lambda} \left[ \text{Var}\left(\hat{Y}_{\text{Ridge}}\right) + \text{Bias}^2\left(\hat{Y}_{\text{Ridge}}\right) \right]_{\lambda = 0^+} < 0,
@@ -228,25 +228,25 @@
 
 \begin{solucion}
 	\begin{enumerate}
-		\item **Empirical Overfitting Diagnosis:**
+		\item \textbf{Empirical Overfitting Diagnosis:}
 		Overfitting occurs when a predictive model learns idiosyncratic random patterns or measurement noise present exclusively in the specific calibration sample, losing generality on new data from the same market. Let us evaluate the observed sample gaps:
 		\begin{itemize}
-			\item **Gap in Coefficient of Determination ($\Delta R^2$):**
+			\item \textbf{Gap in Coefficient of Determination ($\Delta R^2$):}
 			\begin{align}
 				\Delta R^2 = R_{\text{train}}^2 - R_{\text{test}}^2 = 0.760 - 0.720 = +0.040 \quad (4.0\text{ percentage points}).
 			\end{align}
 			The model loses just $4.0\%$ of explained variance capacity when evaluated on out-of-sample data.
-			\item **Gap in Residual Standard Error ($\Delta RSE$):**
+			\item \textbf{Gap in Residual Standard Error ($\Delta RSE$):}
 			\begin{align}
 				\text{Relative error increase} = \frac{RSE_{\text{test}} - RSE_{\text{train}}}{RSE_{\text{train}}} \times 100 = \frac{27.80 - 24.50}{24.50} \times 100 = \frac{3.30}{24.50} \times 100 \approx +13.47\%.
 			\end{align}
 		\end{itemize}
 		In applied statistical modeling, the following diagnostic scale is standard:
 		\begin{itemize}
-			\item $\Delta R^2 \leq 0.05$ and $RSE$ increase $\leq 15\%$: **Mild / acceptable overfitting**, expected from normal sampling fluctuation across finite testing samples ($n_{\text{test}} = 40$).
-			\item $\Delta R^2 > 0.15$ or $RSE$ increase $> 40\%$: **Severe / pathological overfitting**, indicating statistical memorization and lack of parsimony.
+			\item $\Delta R^2 \leq 0.05$ and $RSE$ increase $\leq 15\%$: \textbf{Mild / acceptable overfitting}, expected from normal sampling fluctuation across finite testing samples ($n_{\text{test}} = 40$).
+			\item $\Delta R^2 > 0.15$ or $RSE$ increase $> 40\%$: \textbf{Severe / pathological overfitting}, indicating statistical memorization and lack of parsimony.
 		\end{itemize}
-		Therefore, we conclude that **no pathological overfitting exists**. The model generalizes reasonably and consistently to the global real estate market.
+		Therefore, we conclude that \textbf{no pathological overfitting exists}. The model generalizes reasonably and consistently to the global real estate market.
 		
 		\item Computation of mean relative predictive error percentage on the holdout testing subset:
 		For an average testing property price of $\bar{Y}_{\text{test}} = 250.0$ thousand dollars and a residual dispersion of $RSE_{\text{test}} = 27.80$ thousand:
@@ -255,19 +255,19 @@
 		\end{align}
 		Model predictions on new housing units incur an average standard deviation of just $11.12\%$ of the property's true appraisal value.
 		
-		\item **Structural limitations of the Holdout Method (simple 80/20 split) and a superior alternative:**
+		\item \textbf{Structural limitations of the Holdout Method (simple 80/20 split) and a superior alternative:}
 		When total sample size is moderate (such as $n = 200$), reserving a single fixed testing block of $n_{\text{test}} = 40$ creates two severe vulnerabilities:
 		\begin{enumerate}
-			\item **High variance or sensitivity to random partitioning:** Out-of-sample error estimation depends heavily on whether those particular 40 randomly selected properties happened to be atypical, excessively expensive, or unusually homogeneous. Another random seed could yield substantially different $R_{\text{test}}^2$ metrics.
-			\item **Loss of sample power during estimation:** By withholding $20\%$ of the data, parameter vector $\boldsymbol{\beta}$ is calibrated with less information ($160$ instead of $200$), inducing a conservative bias that underestimates the true predictive capability of the model had it been trained on all available data.
+			\item \textbf{High variance or sensitivity to random partitioning:} Out-of-sample error estimation depends heavily on whether those particular 40 randomly selected properties happened to be atypical, excessively expensive, or unusually homogeneous. Another random seed could yield substantially different $R_{\text{test}}^2$ metrics.
+			\item \textbf{Loss of sample power during estimation:} By withholding $20\%$ of the data, parameter vector $\boldsymbol{\beta}$ is calibrated with less information ($160$ instead of $200$), inducing a conservative bias that underestimates the true predictive capability of the model had it been trained on all available data.
 		\end{enumerate}
-		**Superior Alternative:** Implement a **$k$-Fold Cross-Validation protocol ($k=5$ or $k=10$)**. This method systematically rotates the sample into 5 or 10 partitions, ensuring that $100\%$ of the original data is used exactly once for holdout testing and that errors are averaged, definitively stabilizing inference regarding generalization capacity.
+		\textbf{Superior Alternative:} Implement a \textbf{$k$-Fold Cross-Validation protocol ($k=5$ or $k=10$)}. This method systematically rotates the sample into 5 or 10 partitions, ensuring that $100\%$ of the original data is used exactly once for holdout testing and that errors are averaged, definitively stabilizing inference regarding generalization capacity.
 	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
 	\begin{enumerate}
-		\item **Exact computation of Test Mean Squared Error (\emph{Test MSE}):**
+		\item \textbf{Exact computation of Test Mean Squared Error (\emph{Test MSE}):}
 		We tabulate the residual errors and their squares across the $n_{\text{test}} = 4$ forecasting observations:
 		\begin{center}
 			\begin{tabular}{ccccc}
@@ -285,7 +285,7 @@
 			\text{MSE}_{\text{test}} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{4} e_i^2 = \frac{54.00}{4} = 13.50\text{ (MWh)}^2.
 		\end{align}
 		
-		\item **Computation of Root Mean Squared Error (\emph{RMSE}) and Mean Absolute Error (\emph{MAE}):**
+		\item \textbf{Computation of Root Mean Squared Error (\emph{RMSE}) and Mean Absolute Error (\emph{MAE}):}
 		\begin{itemize}
 			\item For $\text{RMSE}_{\text{test}}$ (expressed in the exact same physical units as response $Y$, megawatt-hours):
 			\begin{align}
@@ -297,20 +297,20 @@
 			\end{align}
 		\end{itemize}
 		
-		\item **Invariant algebraic dominance ($\text{RMSE} \geq \text{MAE}$) and geometric penalty:**
-		By the classical **Cauchy-Schwarz Inequality for generalized means (or $L_p$ norms)** in Euclidean vector spaces, the quadratic ($L_2$) root-mean-square norm of any set of deviations is strictly greater than the absolute ($L_1$) mean norm, achieving equality only in the trivial pathological case where all absolute residuals are numerically constant ($|e_1| = |e_2| = \dots = |e_n|$):
+		\item \textbf{Invariant algebraic dominance ($\text{RMSE} \geq \text{MAE}$) and geometric penalty:}
+		By the classical \textbf{Cauchy-Schwarz Inequality for generalized means (or $L_p$ norms)} in Euclidean vector spaces, the quadratic ($L_2$) root-mean-square norm of any set of deviations is strictly greater than the absolute ($L_1$) mean norm, achieving equality only in the trivial pathological case where all absolute residuals are numerically constant ($|e_1| = |e_2| = \dots = |e_n|$):
 		\begin{align}
 			\text{RMSE}_{\text{test}} \geq \text{MAE}_{\text{test}} \quad (3.6742 > 3.5000).
 		\end{align}
 		
-		**Geometric Penalty of RMSE:** By squaring each residual error ($e_i^2$) before taking the average, the $\text{MSE}$ metric (and consequently $\text{RMSE}$) assigns an exponentially aggressive, disproportionate weight to **extreme predictive deviations or large outliers**. For example, a single forecast error of $10\text{ MWh}$ contributes $100$ units to the sum of squares (equal to the total penalty of one hundred individual small errors of $1\text{ MWh}$).
+		\textbf{Geometric Penalty of RMSE:} By squaring each residual error ($e_i^2$) before taking the average, the $\text{MSE}$ metric (and consequently $\text{RMSE}$) assigns an exponentially aggressive, disproportionate weight to \textbf{extreme predictive deviations or large outliers}. For example, a single forecast error of $10\text{ MWh}$ contributes $100$ units to the sum of squares (equal to the total penalty of one hundred individual small errors of $1\text{ MWh}$).
 		For this reason, $\text{RMSE}$ is used as the standard validation benchmark in engineering and finance when committing a severe forecasting error generates catastrophic operational costs, whereas $\text{MAE}$ is preferred when assessing average robust performance in distributions prone to spurious outliers.
 	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
 	\begin{enumerate}
-		\item **Computation of Mean Cross-Validation Coefficient of Determination and its standard deviation across folds:**
+		\item \textbf{Computation of Mean Cross-Validation Coefficient of Determination and its standard deviation across folds:}
 		We sum and average the coefficients obtained across all $k = 5$ rotations:
 		\begin{align}
 			\bar{R}_{\text{CV}}^2 = \frac{1}{5} \sum_{j=1}^{5} R_{\text{CV}, j}^2 = \frac{0.680 + 0.720 + 0.650 + 0.700 + 0.690}{5} = \frac{3.440}{5} = 0.6880 \quad (68.80\%).
@@ -327,7 +327,7 @@
 			s_{R^2}^2 = \frac{0.002680}{4} = 0.000670 \implies s_{R^2} = \sqrt{0.000670} \approx 0.025884.
 		\end{align}
 		
-		\item **Construction of the $95\%$ probabilistic confidence interval for generalization $R^2$:**
+		\item \textbf{Construction of the $95\%$ probabilistic confidence interval for generalization $R^2$:}
 		For $\nu = k - 1 = 4$ degrees of freedom, Student's two-tailed $95\%$ critical quantile is $t_{0.025, \, 4} = 2.776$.
 		The standard error of the mean cross-validation estimate is:
 		\begin{align}
@@ -340,12 +340,12 @@
 		\end{align}
 		With $95\%$ statistical certainty, the true predictive power of the credit algorithm when applied to new population profiles will stably range between $65.59\%$ and $72.01\%$ of explained variance.
 		
-		\item **Homogeneity audit via the Coefficient of Variation ($CV$):**
+		\item \textbf{Homogeneity audit via the Coefficient of Variation ($CV$):}
 		The dimensional coefficient of variation yields a very small percentage:
 		\begin{align}
 			CV = \frac{s_{R^2}}{\bar{R}_{\text{CV}}^2} \times 100 = \frac{0.025884}{0.6880} \times 100 \approx 3.762\%.
 		\end{align}
-		An inter-fold coefficient of variation below $5\%$ guarantees **outstanding stability, structural robustness, and high sample homogeneity**. It formally confirms that the algorithm is not erratic and does not depend on idiosyncratic client subsets; the data are distributed harmoniously across parameter space, ensuring that the model will maintain uniform predictive accuracy in daily banking operations.
+		An inter-fold coefficient of variation below $5\%$ guarantees \textbf{outstanding stability, structural robustness, and high sample homogeneity}. It formally confirms that the algorithm is not erratic and does not depend on idiosyncratic client subsets; the data are distributed harmoniously across parameter space, ensuring that the model will maintain uniform predictive accuracy in daily banking operations.
 	\end{enumerate}
 \end{solucion}
 
@@ -353,75 +353,75 @@
 
 \begin{solucion}
 	\begin{enumerate}
-		\item **Comparison of mean explanatory power and stability via Coefficient of Variation:**
+		\item \textbf{Comparison of mean explanatory power and stability via Coefficient of Variation:}
 		\begin{itemize}
-			\item **Mean Gross Explanatory Power:** **Model B ($p_B=5$)** exhibits an apparent superiority of $2.0$ absolute percentage points over Model A in mean testing explained variance ($\bar{R}_{\text{CV}, B}^2 = 0.800$ vs. $\bar{R}_{\text{CV}, A}^2 = 0.780$).
-			\item **Inter-fold Stability Audit (percentage Coefficient of Variation):**
+			\item \textbf{Mean Gross Explanatory Power:} \textbf{Model B ($p_B=5$)} exhibits an apparent superiority of $2.0$ absolute percentage points over Model A in mean testing explained variance ($\bar{R}_{\text{CV}, B}^2 = 0.800$ vs. $\bar{R}_{\text{CV}, A}^2 = 0.780$).
+			\item \textbf{Inter-fold Stability Audit (percentage Coefficient of Variation):}
 			\begin{align}
 				CV_{\text{Model A}} &= \frac{\sigma_A}{\bar{R}_{\text{CV}, A}^2} \times 100 = \frac{0.040}{0.780} \times 100 \approx 5.128\%, \\
 				CV_{\text{Model B}} &= \frac{\sigma_B}{\bar{R}_{\text{CV}, B}^2} \times 100 = \frac{0.060}{0.800} \times 100 \approx 7.500\%.
 			\end{align}
 		\end{itemize}
-		**Model A demonstrates superior stability and lower generalization variance** ($CV$ of $5.13\%$ vs. $7.50\%$ for Model B). The inter-fold variability of the complex model is $50\%$ higher ($\sigma_B = 0.06$ vs $\sigma_A = 0.04$), indicating that adding the two extra predictors makes the system sensitive and oscillatory under sample rotation.
+		\textbf{Model A demonstrates superior stability and lower generalization variance} ($CV$ of $5.13\%$ vs. $7.50\%$ for Model B). The inter-fold variability of the complex model is $50\%$ higher ($\sigma_B = 0.06$ vs $\sigma_A = 0.04$), indicating that adding the two extra predictors makes the system sensitive and oscillatory under sample rotation.
 		
-		\item **Computation of expected Adjusted Coefficient of Determination ($R_{\text{adj}}^2$) for $n = 150$ stores:**
+		\item \textbf{Computation of expected Adjusted Coefficient of Determination ($R_{\text{adj}}^2$) for $n = 150$ stores:}
 		Applying degrees of freedom correction $R_{\text{adj}}^2 = 1 - \left[ \dfrac{n - 1}{n - p - 1}(1 - \bar{R}_{\text{CV}}^2) \right]$:
 		\begin{itemize}
-			\item For **Model A ($n = 150, p_A = 3, \bar{R}_{\text{CV}, A}^2 = 0.780$)**:
+			\item For \textbf{Model A ($n = 150, p_A = 3, \bar{R}_{\text{CV}, A}^2 = 0.780$)}:
 			\begin{align}
 				R_{\text{adj, A}}^2 &= 1 - \left[ \frac{150 - 1}{150 - 3 - 1}(1 - 0.780) \right] = 1 - \left[ \frac{149}{146}(0.220) \right] \\
 				&= 1 - \left[ (1.020548)(0.220) \right] = 1 - 0.224520 \approx 0.7755 \quad (77.55\%).
 			\end{align}
-			\item For **Model B ($n = 150, p_B = 5, \bar{R}_{\text{CV}, B}^2 = 0.800$)**:
+			\item For \textbf{Model B ($n = 150, p_B = 5, \bar{R}_{\text{CV}, B}^2 = 0.800$)}:
 			\begin{align}
 				R_{\text{adj, B}}^2 &= 1 - \left[ \frac{150 - 1}{150 - 5 - 1}(1 - 0.800) \right] = 1 - \left[ \frac{149}{144}(0.200) \right] \\
 				&= 1 - \left[ (1.034722)(0.200) \right] = 1 - 0.206944 \approx 0.7931 \quad (79.31\%).
 			\end{align}
 		\end{itemize}
 		
-		\item **Definitive strategic selection under the Principle of Parsimony (Occam's Razor):**
+		\item \textbf{Definitive strategic selection under the Principle of Parsimony (Occam's Razor):}
 		William of Occam's famous methodological postulate states that *``among competing hypotheses explaining data with equal accuracy, the simplest one should always be chosen''*. In econometrics and data science, this principle dictates that a more complex model is justified only if it delivers a statistically overwhelming, decisive gain in out-of-sample forecasting accuracy.
 		
-		Let us weigh the trade-off: moving from Model A (3 predictors) to Model B (5 predictors) requires management to incur the operational cost of collecting, cleaning, and maintaining $66.7\%$ more input variables in production. In exchange for this structural complexity, the net gain in adjusted explained variance is tiny and marginal: an advantage of **just $+1.76$ percentage points** ($R_{\text{adj, B}}^2 = 79.31\%$ vs $R_{\text{adj, A}}^2 = 77.55\%$), combined with the disadvantage that the saturated model suffers unstable variance across cross-validation folds ($CV=7.50\%$).
+		Let us weigh the trade-off: moving from Model A (3 predictors) to Model B (5 predictors) requires management to incur the operational cost of collecting, cleaning, and maintaining $66.7\%$ more input variables in production. In exchange for this structural complexity, the net gain in adjusted explained variance is tiny and marginal: an advantage of \textbf{just $+1.76$ percentage points} ($R_{\text{adj, B}}^2 = 79.31\%$ vs $R_{\text{adj, A}}^2 = 77.55\%$), combined with the disadvantage that the saturated model suffers unstable variance across cross-validation folds ($CV=7.50\%$).
 		
-		Therefore, we **unanimously and strongly recommend adopting Model A (Parsimonious)**. Its simplicity, elegance, high fold-to-fold stability, and virtually identical retail forecasting accuracy protect the corporation against overfitting while maximizing decision-making reliability.
+		Therefore, we \textbf{unanimously and strongly recommend adopting Model A (Parsimonious)}. Its simplicity, elegance, high fold-to-fold stability, and virtually identical retail forecasting accuracy protect the corporation against overfitting while maximizing decision-making reliability.
 	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
 	\begin{enumerate}
-		\item **Computation of quantitative out-of-sample degradation ratios:**
+		\item \textbf{Computation of quantitative out-of-sample degradation ratios:}
 		\begin{itemize}
-			\item **Residual Standard Error inflation ratio ($RSE_{\text{test}} / RSE_{\text{train}}$):**
+			\item \textbf{Residual Standard Error inflation ratio ($RSE_{\text{test}} / RSE_{\text{train}}$):}
 			\begin{align}
 				\text{Ratio } RSE = \frac{RSE_{\text{test}}}{RSE_{\text{train}}} = \frac{28.70}{15.20} \approx 1.8882 \quad (188.82\%).
 			\end{align}
-			Residual forecasting error almost **doubles (+88.82\%)** the moment the model encounters transactions omitted from its training.
-			\item **Explained Variance retention ratio ($R_{\text{test}}^2 / R_{\text{train}}^2$):**
+			Residual forecasting error almost \textbf{doubles (+88.82\%)} the moment the model encounters transactions omitted from its training.
+			\item \textbf{Explained Variance retention ratio ($R_{\text{test}}^2 / R_{\text{train}}^2$):}
 			\begin{align}
 				\text{Ratio } R^2 = \frac{R_{\text{test}}^2}{R_{\text{train}}^2} = \frac{0.620}{0.850} \approx 0.7294 \quad (72.94\%).
 			\end{align}
 			The model experiences a sharp drop and loss of $27.06\%$ in nominal variability prediction capacity ($\Delta R^2 = 0.850 - 0.620 = +0.230$).
 		\end{itemize}
 		
-		\item **Pathological differential diagnosis: Severe Overfitting (High Variance):**
+		\item \textbf{Pathological differential diagnosis: Severe Overfitting (High Variance):}
 		Let us distinguish rigorously between the two fundamental structural failures in linear modeling:
 		\begin{itemize}
-			\item **Underfitting (High Bias):** Diagnosed when a model is too rigid or simple to capture true non-linear patterns in the data. It manifests when in-sample error is already poorly high and calibration explained variance is weak (for example, $R_{\text{train}}^2 \approx 0.35$ and $R_{\text{test}}^2 \approx 0.33$).
-			\item **Severe Overfitting (High Variance):** Diagnosed by the **simultaneous coexistence of stellar, artificially high performance in training** ($R_{\text{train}}^2 = 0.850$, low $RSE_{\text{train}} = 15.20$) **and a dramatic collapse in out-of-sample metrics** ($\text{Ratio } RSE > 1.50$ and $R^2$ loss $> 0.20$).
+			\item \textbf{Underfitting (High Bias):} Diagnosed when a model is too rigid or simple to capture true non-linear patterns in the data. It manifests when in-sample error is already poorly high and calibration explained variance is weak (for example, $R_{\text{train}}^2 \approx 0.35$ and $R_{\text{test}}^2 \approx 0.33$).
+			\item \textbf{Severe Overfitting (High Variance):} Diagnosed by the \textbf{simultaneous coexistence of stellar, artificially high performance in training} ($R_{\text{train}}^2 = 0.850$, low $RSE_{\text{train}} = 15.20$) \textbf{and a dramatic collapse in out-of-sample metrics} ($\text{Ratio } RSE > 1.50$ and $R^2$ loss $> 0.20$).
 		\end{itemize}
-		Our model exhibits a textbook case of **Severe Overfitting (High Variance)**. By forcing the estimation of $p = 15$ predictors across a finite calibration subset of just $n_{\text{train}} = 96$ transactions (yielding a precarious ratio of only $6.4$ observations per candidate variable—far below the econometric safety guideline of $15$ to $20$ observations per parameter), the algorithm memorized random noise and transient aberrations in the calibration set, completely sacrificing global predictive validity.
+		Our model exhibits a textbook case of \textbf{Severe Overfitting (High Variance)}. By forcing the estimation of $p = 15$ predictors across a finite calibration subset of just $n_{\text{train}} = 96$ transactions (yielding a precarious ratio of only $6.4$ observations per candidate variable—far below the econometric safety guideline of $15$ to $20$ observations per parameter), the algorithm memorized random noise and transient aberrations in the calibration set, completely sacrificing global predictive validity.
 		
-		\item **Comprehensive strategic methodological rectification plan:**
+		\item \textbf{Comprehensive strategic methodological rectification plan:}
 		To eliminate this severe overfitting and build a robust model that generalizes successfully, four mandatory technical interventions must be prescribed:
 		\begin{enumerate}
-			\item **Parametric Regularization via Norm Contraction (Ridge $L_2$ or Lasso $L_1$ Regression):**
+			\item \textbf{Parametric Regularization via Norm Contraction (Ridge $L_2$ or Lasso $L_1$ Regression):}
 			Replace pure OLS estimation ($\min \sum e_i^2$) with a penalized objective function $\min \left\{ \sum (Y_i - \hat{Y}_i)^2 + \lambda \sum |\beta_j| \right\}$ (Lasso) or $\min \left\{ \sum (Y_i - \hat{Y}_i)^2 + \lambda \sum \beta_j^2 \right\}$ (Ridge). The penalty term with calibrated hyperparameter $\lambda > 0$ shrinks regression coefficients toward zero, substantially suppressing estimator variance and forcing weak predictor signals to exactly zero (intrinsic automated selection in Lasso).
-			\item **Algorithmic Selection and Dimensionality Reduction (Recursive Feature Elimination -- RFE or Principal Component Regression -- PCR):**
+			\item \textbf{Algorithmic Selection and Dimensionality Reduction (Recursive Feature Elimination -- RFE or Principal Component Regression -- PCR):}
 			Because $15$ variables overfit $96$ rows, the number of active regressors must be reduced to a parsimonious subset of $4$ to $6$ high-signal variables. Using Recursive Feature Elimination with internal cross-validation (RFECV), regressors with the smallest partial Student's $t$ statistics or variance inflation factors $\text{VIF} > 5.0$ are systematically pruned.
-			\item **Replacing Simple Partitioning with Nested Cross-Validation (\emph{Nested $k$-Fold Cross-Validation}):**
-			To prevent bias and data leakage during feature selection or hyperparameter $\lambda$ tuning, an **inner** cross-validation loop ($k=5$) must be employed to tune hyperparameters and select features, wrapped inside an independent **outer** cross-validation loop ($k=10$) that evaluates purely out-of-sample generalization error on genuinely blind folds.
-			\item **Domain Feature Engineering and Outlier Mitigation (\emph{Robust Regression / Feature Transformations}):**
+			\item \textbf{Replacing Simple Partitioning with Nested Cross-Validation (\emph{Nested $k$-Fold Cross-Validation}):}
+			To prevent bias and data leakage during feature selection or hyperparameter $\lambda$ tuning, an \textbf{inner} cross-validation loop ($k=5$) must be employed to tune hyperparameters and select features, wrapped inside an independent \textbf{outer} cross-validation loop ($k=10$) that evaluates purely out-of-sample generalization error on genuinely blind folds.
+			\item \textbf{Domain Feature Engineering and Outlier Mitigation (\emph{Robust Regression / Feature Transformations}):}
 			Audit the normality of the dependent transaction variable ($Y$) using logarithmic or Box-Cox transformations ($\ln Y$), and identify observations with anomalous leverage via Cook's distance to refit with robust regression models (such as Huber $M$-estimators that minimize the quadratic impact of outliers).
 		\end{enumerate}
 	\end{enumerate}
@@ -429,11 +429,11 @@
 
 \begin{solucion}
 	\begin{enumerate}
-		\item **Operational accounting of Leave-One-Out Cross-Validation (LOOCV):**
+		\item \textbf{Operational accounting of Leave-One-Out Cross-Validation (LOOCV):}
 		In LOOCV executed across a finite sample of size $n = 50$:
 		\begin{itemize}
-			\item **Exact total number of fitted regressions:** Exactly **$n = 50$ independent OLS regression models** must be calibrated and solved numerically ($\hat{\boldsymbol{\beta}}_{(-1)}, \hat{\boldsymbol{\beta}}_{(-2)}, \dots, \hat{\boldsymbol{\beta}}_{(-50)}$).
-			\item **Subset sample sizes across iterations $i=1,\dots,50$:**
+			\item \textbf{Exact total number of fitted regressions:} Exactly \textbf{$n = 50$ independent OLS regression models} must be calibrated and solved numerically ($\hat{\boldsymbol{\beta}}_{(-1)}, \hat{\boldsymbol{\beta}}_{(-2)}, \dots, \hat{\boldsymbol{\beta}}_{(-50)}$).
+			\item \textbf{Subset sample sizes across iterations $i=1,\dots,50$:}
 			\begin{align}
 				n_{\text{train}, i} = n - 1 = 50 - 1 = \mathbf{49\text{ observations for estimation}}, \\
 				n_{\text{test}, i} = \mathbf{1\text{ single excluded observation for testing and forecast}}.
@@ -446,16 +446,16 @@
 			RSE_{\text{est}} = \sqrt{\text{MSE}_{\text{LOOCV}}} = \sqrt{25.00} = 5.00\text{ clinical units}.
 		\end{align}
 		
-		\item **Structural analytical comparison between LOOCV ($k=n$) and $5$-Fold CV ($k=5$):**
+		\item \textbf{Structural analytical comparison between LOOCV ($k=n$) and $5$-Fold CV ($k=5$):}
 		Table \ref{tab:loocv_vs_kfold_sol} synthesizes the trade-offs across the three core dimensions of statistical learning.
 		\begin{table}[h!]
 			\centering
 			\begin{tabular}{p{3.5cm}p{5.5cm}p{5.5cm}}
 				\hline
 				\textbf{Analytical Dimension} & \textbf{LOOCV (Leave-One-Out, $k=n$)} & \textbf{$5$-Fold Cross-Validation ($k=5$)} \\ \hline
-				\textbf{1. Bias in estimating true generalization error} & **Extremely low / Virtually unbiased ($\text{Bias} \approx 0$).** Each model is trained on $n-1=49$ data points ($98\%$ of the original sample), yielding mean estimators virtually identical to the full parametric model. & **Slightly conservative bias ($\text{Bias} > 0$).** Training on $0.8n = 40$ observations per fold slightly overestimates the true error rate of the full model. \\ \hline
-				\textbf{2. Inter-model variance and predictive stability} & **High statistical variance.** The 50 training sets of size $n-1$ are virtually identical to one another (sharing $98\%$ of the same observations). This extreme linear inter-sample correlation inflates the variance of the average prediction error. & **Significantly lower variance / High stability.** The 5 testing blocks are mutually exclusive and independent, reducing inter-model covariance and achieving a superior Bias-Variance balance. \\ \hline
-				\textbf{3. Computational cost and algorithmic complexity} & **Very high cost / Prohibitive in Big Data ($O(n)$ fits).** Requires inverting and solving the design matrix $n$ successive times, making it unfeasible for datasets with hundreds of thousands of rows (unless optimized via the closed-form hat matrix formula). & **Lightweight and ultrafast computational cost ($O(k)$ fits, with $k=5$).** Requires inverting and training just 5 models, making it the industry standard for efficiency and inferential precision. \\ \hline
+				\textbf{1. Bias in estimating true generalization error} & \textbf{Extremely low / Virtually unbiased ($\text{Bias} \approx 0$).} Each model is trained on $n-1=49$ data points ($98\%$ of the original sample), yielding mean estimators virtually identical to the full parametric model. & \textbf{Slightly conservative bias ($\text{Bias} > 0$).} Training on $0.8n = 40$ observations per fold slightly overestimates the true error rate of the full model. \\ \hline
+				\textbf{2. Inter-model variance and predictive stability} & \textbf{High statistical variance.} The 50 training sets of size $n-1$ are virtually identical to one another (sharing $98\%$ of the same observations). This extreme linear inter-sample correlation inflates the variance of the average prediction error. & \textbf{Significantly lower variance / High stability.} The 5 testing blocks are mutually exclusive and independent, reducing inter-model covariance and achieving a superior Bias-Variance balance. \\ \hline
+				\textbf{3. Computational cost and algorithmic complexity} & \textbf{Very high cost / Prohibitive in Big Data ($O(n)$ fits).} Requires inverting and solving the design matrix $n$ successive times, making it unfeasible for datasets with hundreds of thousands of rows (unless optimized via the closed-form hat matrix formula). & \textbf{Lightweight and ultrafast computational cost ($O(k)$ fits, with $k=5$).} Requires inverting and training just 5 models, making it the industry standard for efficiency and inferential precision. \\ \hline
 			\end{tabular}
 			\caption{Methodological dominance comparison between LOOCV and $k$-Fold Cross-Validation.}
 			\label{tab:loocv_vs_kfold_sol}
@@ -467,20 +467,20 @@
 
 \begin{solucion}
 	\begin{enumerate}
-		\item **Rigorous manual computation of Akaike ($\text{AIC}$) and Schwarz ($\text{BIC}$) Information Criteria:**
+		\item \textbf{Rigorous manual computation of Akaike ($\text{AIC}$) and Schwarz ($\text{BIC}$) Information Criteria:}
 		We apply algebraic definitions $\text{AIC} = n\ln(\text{SSD}/n) + 2p$ and $\text{BIC} = n\ln(\text{SSD}/n) + p\ln(n)$ for a sample of size $n = 100$ with $\ln(100) = 4.6052$:
 		\begin{itemize}
-			\item **Model A ($p=3, \text{SSD}=450.00 \implies \text{SSD}/n = 4.500, \ln(4.500) = 1.5041$):**
+			\item \textbf{Model A ($p=3, \text{SSD}=450.00 \implies \text{SSD}/n = 4.500, \ln(4.500) = 1.5041$):}
 			\begin{align}
 				\text{AIC}_A &= 100(1.5041) + 2(3) = 150.41 + 6.00 = \mathbf{156.41}, \\
 				\text{BIC}_A &= 100(1.5041) + 3(4.6052) = 150.41 + 13.8156 = \mathbf{164.23}.
 			\end{align}
-			\item **Model B ($p=5, \text{SSD}=380.00 \implies \text{SSD}/n = 3.800, \ln(3.800) = 1.3350$):**
+			\item \textbf{Model B ($p=5, \text{SSD}=380.00 \implies \text{SSD}/n = 3.800, \ln(3.800) = 1.3350$):}
 			\begin{align}
 				\text{AIC}_B &= 100(1.3350) + 2(5) = 133.50 + 10.00 = \mathbf{143.50}, \\
 				\text{BIC}_B &= 100(1.3350) + 5(4.6052) = 133.50 + 23.0260 = \mathbf{156.53}.
 			\end{align}
-			\item **Model C ($p=8, \text{SSD}=350.00 \implies \text{SSD}/n = 3.500, \ln(3.500) = 1.2528$):**
+			\item \textbf{Model C ($p=8, \text{SSD}=350.00 \implies \text{SSD}/n = 3.500, \ln(3.500) = 1.2528$):}
 			\begin{align}
 				\text{AIC}_C &= 100(1.2528) + 2(8) = 125.28 + 16.00 = \mathbf{141.28}, \\
 				\text{BIC}_C &= 100(1.2528) + 8(4.6052) = 125.28 + 36.8416 = \mathbf{162.12}.
@@ -500,30 +500,30 @@
 			\label{tab:aic_bic_sol}
 		\end{table}
 		
-		\item **Optimal model selection under each criterion:**
-		In informational model selection theory, the superior model is always the one minimizing relative Kullback-Leibler entropy loss with respect to truth—that is, **the model achieving the lowest absolute numerical score**:
+		\item \textbf{Optimal model selection under each criterion:}
+		In informational model selection theory, the superior model is always the one minimizing relative Kullback-Leibler entropy loss with respect to truth—that is, \textbf{the model achieving the lowest absolute numerical score}:
 		\begin{itemize}
-			\item **Under the $\text{AIC}$ criterion:** The optimal selected model is **Model C (Saturated with $p=8$)**, achieving the minimum score $\text{AIC}_C = \mathbf{141.28}$ (compared to $143.50$ for B and $156.41$ for A).
-			\item **Under the $\text{BIC}$ criterion:** The optimal selected model is **Model B (Intermediate with $p=5$)**, achieving the minimum score $\text{BIC}_B = \mathbf{156.53}$ (compared to $162.12$ for C and $164.23$ for A).
+			\item \textbf{Under the $\text{AIC}$ criterion:} The optimal selected model is \textbf{Model C (Saturated with $p=8$)}, achieving the minimum score $\text{AIC}_C = \mathbf{141.28}$ (compared to $143.50$ for B and $156.41$ for A).
+			\item \textbf{Under the $\text{BIC}$ criterion:} The optimal selected model is \textbf{Model B (Intermediate with $p=5$)}, achieving the minimum score $\text{BIC}_B = \mathbf{156.53}$ (compared to $162.12$ for C and $164.23$ for A).
 		\end{itemize}
 		
-		\item **Dominance of Schwarz's asymptotic penalty and implications in Big Data:**
+		\item \textbf{Dominance of Schwarz's asymptotic penalty and implications in Big Data:}
 		Let us analyze why the two criteria disagree when penalizing the addition of parameters:
 		\begin{itemize}
 			\item In $\text{AIC}$, the marginal penalty for incorporating one additional variable ($\Delta p = 1$) is a fixed constant invariant to sample size: $\text{Penalty}_{\text{AIC}} = +2$.
 			\item In $\text{BIC}$, the marginal penalty per parameter is proportional to the natural logarithm of sample size: $\text{Penalty}_{\text{BIC}} = +\ln(n)$.
 		\end{itemize}
-		As soon as sample size exceeds the trivial threshold of $n \geq 8$, the natural logarithm surpasses the constant factor of AIC ($\ln(8) \approx 2.079 > 2.000$). For our sample of $n=100$, BIC penalizes each extra variable with a surcharge of $+4.61$ points—over **$130\%$ more severe** than the $+2.00$ points imposed by AIC.
+		As soon as sample size exceeds the trivial threshold of $n \geq 8$, the natural logarithm surpasses the constant factor of AIC ($\ln(8) \approx 2.079 > 2.000$). For our sample of $n=100$, BIC penalizes each extra variable with a surcharge of $+4.61$ points—over \textbf{$130\%$ more severe} than the $+2.00$ points imposed by AIC.
 		
 		Because of this structural difference, when evaluating Model C ($p=8$ vs $p=5$, three extra parameters), AIC imposes a mild surcharge of just $+6.00$ points that is more than compensated for by the reduction in residual sum of squares ($125.28 - 133.50 = -8.22$), thus favoring the complex model. In sharp contrast, BIC imposes a heavy surcharge of $+13.82$ points on those three extra parameters, easily outweighing the residual error reduction and rejecting Model C as pathological overfitting, thereby declaring Model B ($p=5$) the parsimonious winner.
 		
-		**Critical Implications in Big Data:** In massive datasets with $n = 1,000,000$ rows ($\ln n \approx 13.82$), AIC chronically and inconsistently selects oversized models packed with redundant variables whose effects are statistically significant only at the hundredth decimal place. **BIC possesses the theoretical property of asymptotic model selection consistency**: as the probability of selecting the true underlying model converges to $1$ when $n \to \infty$, BIC serves as the definitive selection criterion in large-scale modern analytics.
+		\textbf{Critical Implications in Big Data:} In massive datasets with $n = 1,000,000$ rows ($\ln n \approx 13.82$), AIC chronically and inconsistently selects oversized models packed with redundant variables whose effects are statistically significant only at the hundredth decimal place. \textbf{BIC possesses the theoretical property of asymptotic model selection consistency}: as the probability of selecting the true underlying model converges to $1$ when $n \to \infty$, BIC serves as the definitive selection criterion in large-scale modern analytics.
 	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
 	\begin{enumerate}
-		\item **Computation of parametric validation via Mallows' $C_p$ Statistic:**
+		\item \textbf{Computation of parametric validation via Mallows' $C_p$ Statistic:}
 		For the sample of $n = 30$ firms, with the unbiased residual variance of the full master model ($p_{\text{max}} = 6$) being $\hat{\sigma}^2 = 4.00$, and the residual sum of squares of the evaluated sub-model ($p = 3$) being $\text{SSD}_p = 13.00$:
 		\begin{align}
 			C_p = \frac{\text{SSD}_p}{\hat{\sigma}^2} - n + 2p = \frac{13.00}{4.00} - 30 + 2(3) = 3.25 - 30 + 6.00 = -20.75 + 6.00 = -20.75.
@@ -532,28 +532,28 @@
 		\begin{align}
 			E[C_p] = \frac{(n - p)\sigma^2}{\sigma^2} - n + 2p = n - p - n + 2p = p.
 		\end{align}
-		An experimental value of **$C_p \approx p$ (i.e., close to $3.00$)** indicates an absence of omitted variable bias, confirming the evaluated sub-model as an excellent parsimonious choice.
+		An experimental value of \textbf{$C_p \approx p$ (i.e., close to $3.00$)} indicates an absence of omitted variable bias, confirming the evaluated sub-model as an excellent parsimonious choice.
 		
-		\item **Computation of Predictive Cross-Validation Coefficient ($Q^2$ or $R_{\text{pred}}^2$):**
+		\item \textbf{Computation of Predictive Cross-Validation Coefficient ($Q^2$ or $R_{\text{pred}}^2$):}
 		With a Leave-One-Out Cross-Validation Residual Sum of Squares of $\text{PRESS} = 18.00$ and a total sample variance of $\text{SST} = 150.00$:
 		\begin{align}
 			Q^2 = 1 - \frac{\text{PRESS}}{\text{SST}} = 1 - \frac{18.00}{150.00} = 1 - 0.1200 = 0.8800 \quad (88.00\%).
 		\end{align}
 		The Stone-Geisser predictive indicator reveals extraordinary generalization power ($88.00\%$ of productivity behavior is predictable on genuinely out-of-sample holdout folds). A $Q^2 > 0.50$ is considered robust in social sciences, while $Q^2 > 0.80$ represents a stellar standard in applied econometrics.
 		
-		\item **Analytical impact of high-leverage points on the PRESS statistic and $Q^2$:**
+		\item \textbf{Analytical impact of high-leverage points on the PRESS statistic and $Q^2$:}
 		By Allen's Theorem, the exact forecasting residual when removing the $i$-th firm from the regression fit satisfies the analytical relation:
 		\begin{align}
 			Y_i - \hat{Y}_{(-i)} = \frac{Y_i - \hat{Y}_i}{1 - H_{ii}} = \frac{e_i}{1 - H_{ii}},
 		\end{align}
 		where $H_{ii}$ is the diagonal element of the hat matrix ($\mathbf{x}_i^T(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i$), which is bounded in the real interval $0 \leq \dfrac{1}{n} \leq H_{ii} \leq 1$.
 		
-		Numerical proof of collapse: Suppose one of the 30 firms is an atypical technology corporation with extreme leverage of **$H_{ii} = 0.90$**, while its ordinary OLS residual is only $e_i = 1.50$ (giving the false impression of an excellent fit in ordinary $R^2$).
+		Numerical proof of collapse: Suppose one of the 30 firms is an atypical technology corporation with extreme leverage of \textbf{$H_{ii} = 0.90$}, while its ordinary OLS residual is only $e_i = 1.50$ (giving the false impression of an excellent fit in ordinary $R^2$).
 		When that single firm is removed to evaluate its blind LOOCV forecast, the true predictive residual undergoes severe amplification:
 		\begin{align}
 			\hat{\varepsilon}_{(-i)} = \frac{1.50}{1 - 0.90} = \frac{1.50}{0.10} = 15.00.
 		\end{align}
-		The forecasting residual **multiplies exactly by a factor of 10 ($15.00$ vs $1.50$)**! Upon squaring that single validation deviation ($15.00^2 = 225.00$), its individual contribution to the $\text{PRESS}$ sum completely dwarfs the entire residual sum of squares of the full model ($\text{SSD} = 13.00 \implies R^2 = 1 - 13/150 = 91.33\%$).
+		The forecasting residual \textbf{multiplies exactly by a factor of 10 ($15.00$ vs $1.50$)}! Upon squaring that single validation deviation ($15.00^2 = 225.00$), its individual contribution to the $\text{PRESS}$ sum completely dwarfs the entire residual sum of squares of the full model ($\text{SSD} = 13.00 \implies R^2 = 1 - 13/150 = 91.33\%$).
 		With $\text{PRESS} = 225.00 + \dots > 225.00$, the Predictive Cross-Validation Coefficient plunges into disastrous negative territory:
 		\begin{align}
 			Q^2 = 1 - \frac{225.00 + \text{others}}{150.00} < 1 - 1.50 = -0.50 \quad (-50.0\%).
@@ -566,7 +566,7 @@
 
 \begin{solucion}
 	\begin{enumerate}
-		\item **Matrix analytical derivation of Sherman-Morrison-Woodbury updating:**
+		\item \textbf{Matrix analytical derivation of Sherman-Morrison-Woodbury updating:}
 		Let the incomplete symmetric cross-product tensor formed by subtracting the dyadic vector of the $i$-th observation $\mathbf{x}_i \mathbf{x}_i^T$ be:
 		\begin{align}
 			\mathbf{A}_{(-i)} = \mathbf{X}_{(-i)}^T \mathbf{X}_{(-i)} = \mathbf{X}^T \mathbf{X} - \mathbf{x}_i \mathbf{x}_i^T.
@@ -584,7 +584,7 @@
 			\left(\mathbf{X}_{(-i)}^T \mathbf{X}_{(-i)}\right)^{-1} = (\mathbf{X}^T \mathbf{X})^{-1} + \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i \mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}}{1 - H_{ii}}. \quad (\text{Q.E.D.})
 		\end{align}
 		
-		\item **Vector proof of the leave-one-out estimator $\hat{\boldsymbol{\beta}}_{(-i)}$:**
+		\item \textbf{Vector proof of the leave-one-out estimator $\hat{\boldsymbol{\beta}}_{(-i)}$:}
 		We pre-multiply the derived inverse by the excluded projection vector $\mathbf{X}_{(-i)}^T \mathbf{Y}_{(-i)} = \mathbf{X}^T \mathbf{Y} - \mathbf{x}_i Y_i$:
 		\begin{align}
 			\hat{\boldsymbol{\beta}}_{(-i)} &= \left(\mathbf{X}_{(-i)}^T \mathbf{X}_{(-i)}\right)^{-1} \mathbf{X}_{(-i)}^T \mathbf{Y}_{(-i)} \\
@@ -609,7 +609,7 @@
 			\hat{\boldsymbol{\beta}}_{(-i)} = \hat{\boldsymbol{\beta}} - \frac{(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i e_i}{1 - H_{ii}}. \quad (\text{Q.E.D.})
 		\end{align}
 		
-		\item **Proof of the Allen-PRESS Theorem:**
+		\item \textbf{Proof of the Allen-PRESS Theorem:}
 		To compute the forecast for excluded observation $i$, we pre-multiply the leave-one-out estimator by its design vector $\mathbf{x}_i^T$:
 		\begin{align}
 			\hat{Y}_{(-i)} = \mathbf{x}_i^T \hat{\boldsymbol{\beta}}_{(-i)} = \mathbf{x}_i^T \hat{\boldsymbol{\beta}} - \frac{\mathbf{x}_i^T (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_i e_i}{1 - H_{ii}} = \hat{Y}_i - \frac{H_{ii} e_i}{1 - H_{ii}}.
@@ -624,14 +624,14 @@
 			\text{PRESS} = \sum_{i=1}^n \hat{\varepsilon}_{(-i)}^2 = \sum_{i=1}^n \left( \frac{e_i}{1 - H_{ii}} \right)^2. \quad (\text{Allen Identity proven}).
 		\end{align}
 		
-		**Catastrophic Instability from Extreme Leverage:** Geometrically, $H_{ii}$ represents Mahalanobis distance in explanatory space $\mathbf{X}$ measuring how isolated point $i$ is from the multivariable centroid of the sample. When an observation is a hyper-leverage extreme ($H_{ii} \to 1^-$), the denominator collapses to zero ($1 - H_{ii} \to 0^+$).
+		\textbf{Catastrophic Instability from Extreme Leverage:} Geometrically, $H_{ii}$ represents Mahalanobis distance in explanatory space $\mathbf{X}$ measuring how isolated point $i$ is from the multivariable centroid of the sample. When an observation is a hyper-leverage extreme ($H_{ii} \to 1^-$), the denominator collapses to zero ($1 - H_{ii} \to 0^+$).
 		This causes any non-zero elementary residual at that position ($e_i \neq 0$) to be divided by an infinitesimal quantity, inflating the predictive residual to infinity ($\hat{\varepsilon}_{(-i)} \to \infty$). Physically, because that single anomalous row is solely responsible for anchoring the tilt of the regression hyperplane in that region of space, removing it during LOOCV causes the regression plane to collapse or rotate abruptly, yielding a catastrophic generalization error at that point.
 	\end{enumerate}
 \end{solucion}
 
 \begin{solucion}
 	\begin{enumerate}
-		\item **Analytical derivation of the Bias-Variance-Noise Decomposition:**
+		\item \textbf{Analytical derivation of the Bias-Variance-Noise Decomposition:}
 		For a specific point in design space $\mathbf{x}_0$, let the true generating process value be $Y_0 = f(\mathbf{x}_0) + \varepsilon_0$, where $\varepsilon_0$ is random noise with zero mean and variance $\sigma_{\varepsilon}^2$, statistically independent of calibration sample $\mathcal{D}$.
 		The Expected Prediction Mean Squared Error when predicting $Y_0$ evaluated across all noise realizations and all random training sets of size $n$ is formulated as:
 		\begin{align}
@@ -658,7 +658,7 @@
 			&= \left( \text{Bias}\left[\hat{f}(\mathbf{x}_0)\right] \right)^2 + \text{Var}\left( \hat{f}(\mathbf{x}_0) \right) + \sigma_{\varepsilon}^2. \quad (\text{Q.E.D.})
 		\end{align}
 		
-		\item **Optimization of the Bias-Variance trade-off via Ridge Regression ($\lambda^* > 0$):**
+		\item \textbf{Optimization of the Bias-Variance trade-off via Ridge Regression ($\lambda^* > 0$):}
 		In OLS linear regression, estimator $\hat{\boldsymbol{\beta}}_{\text{OLS}} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{Y}$ has $\text{Bias} = 0$, meaning its population predictive error consists purely of its variance plus irreducible noise. However, if design matrix $\mathbf{X}^T \mathbf{X}$ is ill-conditioned (multicollinearity), its small eigenvalues ($\gamma_{\min} \to 0^+$) cause the trace of the spatial variance tensor to explode:
 		\begin{align}
 			\text{Var}\left( \hat{Y}_{\text{OLS}}(\mathbf{x}_0) \right) = \sigma^2 \mathbf{x}_0^T (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{x}_0 = \sigma^2 \sum_{j=1}^{p+1} \frac{(\mathbf{x}_0^T \mathbf{v}_j)^2}{\gamma_j} \to \infty.
@@ -669,8 +669,8 @@
 		\end{align}
 		Let us evaluate in matrix form the analytical behavior of squared Bias and Variance as functions of parameter $\lambda$:
 		\begin{itemize}
-			\item **Decreasing Variance:** The variance matrix of the regularized Ridge estimator is $\text{Var}(\hat{\boldsymbol{\beta}}_{\text{Ridge}}) = \sigma^2 (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{X} (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}$. Its derivative with respect to $\lambda$ evaluated at origin $\lambda = 0^+$ yields a strictly negative slope proportional to $-2\sigma^2 (\mathbf{X}^T \mathbf{X})^{-2}$, proving that **variance drops at an accelerated linear rate** with even a tiny injection of $\lambda$.
-			\item **Increasing Quadratic Bias:** The expected value of the Ridge estimator is $E[\hat{\boldsymbol{\beta}}_{\text{Ridge}}] = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}\mathbf{X}^T \mathbf{X}\boldsymbol{\beta}$, meaning vector bias is $\text{Bias}[\hat{\boldsymbol{\beta}}_{\text{Ridge}}] = -\lambda (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}\boldsymbol{\beta}$. When evaluating squared bias at critical point $\lambda = 0^+$, since bias itself is of order $O(\lambda)$, its square is of higher infinitesimal order $O(\lambda^2)$. Consequently, the first derivative of squared bias with respect to $\lambda$ at the origin is **exactly zero**:
+			\item \textbf{Decreasing Variance:} The variance matrix of the regularized Ridge estimator is $\text{Var}(\hat{\boldsymbol{\beta}}_{\text{Ridge}}) = \sigma^2 (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{X} (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}$. Its derivative with respect to $\lambda$ evaluated at origin $\lambda = 0^+$ yields a strictly negative slope proportional to $-2\sigma^2 (\mathbf{X}^T \mathbf{X})^{-2}$, proving that \textbf{variance drops at an accelerated linear rate} with even a tiny injection of $\lambda$.
+			\item \textbf{Increasing Quadratic Bias:} The expected value of the Ridge estimator is $E[\hat{\boldsymbol{\beta}}_{\text{Ridge}}] = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}\mathbf{X}^T \mathbf{X}\boldsymbol{\beta}$, meaning vector bias is $\text{Bias}[\hat{\boldsymbol{\beta}}_{\text{Ridge}}] = -\lambda (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1}\boldsymbol{\beta}$. When evaluating squared bias at critical point $\lambda = 0^+$, since bias itself is of order $O(\lambda)$, its square is of higher infinitesimal order $O(\lambda^2)$. Consequently, the first derivative of squared bias with respect to $\lambda$ at the origin is \textbf{exactly zero}:
 			\begin{align}
 				\frac{\partial}{\partial \lambda} \left[ \text{Bias}^2\left( \hat{Y}_{\text{Ridge}} \right) \right]_{\lambda = 0^+} = 0.
 			\end{align}
@@ -679,6 +679,6 @@
 		\begin{align}
 			\frac{\partial}{\partial \lambda} \left[ \text{Expected Prediction MSE} \right]_{\lambda = 0^+} = \frac{\partial \text{Var}}{\partial \lambda}\Bigg|_{0^+} + \frac{\partial \text{Bias}^2}{\partial \lambda}\Bigg|_{0^+} = (\text{Strictly Negative Value}) + 0 < 0.
 		\end{align}
-		This demonstration proves indisputably the **Optimal Regularization Hyperparameter Existence Theorem ($\exists \lambda^* > 0$)**: for any imperfectly orthogonal linear model, introducing a controlled artificial bias via Ridge regularization always reduces sample variance by a greater amount than the added bias, minimizing the generalization loss function. $k$-Fold cross-validation serves as the empirical mechanism that explores this convex bias-variance curve to locate precisely that optimal valley $\lambda^*$.
+		This demonstration proves indisputably the \textbf{Optimal Regularization Hyperparameter Existence Theorem ($\exists \lambda^* > 0$)}: for any imperfectly orthogonal linear model, introducing a controlled artificial bias via Ridge regularization always reduces sample variance by a greater amount than the added bias, minimizing the generalization loss function. $k$-Fold cross-validation serves as the empirical mechanism that explores this convex bias-variance curve to locate precisely that optimal valley $\lambda^*$.
 	\end{enumerate}
 \end{solucion}

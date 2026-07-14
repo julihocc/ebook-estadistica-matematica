@@ -96,8 +96,8 @@
 	The server response time for transaction processing at a fintech follows a normal distribution with known population standard deviation $\sigma = 15$ milliseconds. The operating standard requires that mean latency not exceed $100$ ms ($H_0: \mu \le 100$ vs. $H_a: \mu > 100$). A random daily sample of $n = 25$ transactions is monitored at a significance level of $\alpha = 0.05$.
 	\begin{enumerate}
 		\item Determine the decision rule on the original scale of the sample mean latency ($\bar{X}_c = \mu_0 + Z_\alpha \frac{\sigma}{\sqrt{n}}$).
-		\item Suppose that due to network congestion, the true mean latency of the population silently increased to $\mu_a = 108$ ms. Calculate the exact probability of committing a **Type II Error ($\beta$)**—failing to detect the congestion—and determine the exact value of the **Power of the test ($1-\beta$)**.
-		\item If the VP of Engineering demands that the test maintain risk $\alpha = 0.05$ while being capable of detecting a true congestion of $\mu_a = 108$ ms with a **Statistical Power of $90\%$** ($1-\beta = 0.90 \implies Z_\beta = 1.282$), derive and precisely calculate what sample size $n$ the system must process in each audit.
+		\item Suppose that due to network congestion, the true mean latency of the population silently increased to $\mu_a = 108$ ms. Calculate the exact probability of committing a \textbf{Type II Error ($\beta$)}—failing to detect the congestion—and determine the exact value of the \textbf{Power of the test ($1-\beta$)}.
+		\item If the VP of Engineering demands that the test maintain risk $\alpha = 0.05$ while being capable of detecting a true congestion of $\mu_a = 108$ ms with a \textbf{Statistical Power of $90\%$} ($1-\beta = 0.90 \implies Z_\beta = 1.282$), derive and precisely calculate what sample size $n$ the system must process in each audit.
 	\end{enumerate}
 \end{problema}
 
@@ -117,7 +117,7 @@
 		\begin{align}
 			-2 \ln \Lambda = n_1 \ln\left( \frac{\hat{\sigma}_0^2}{\hat{\sigma}_1^2} \right) + n_2 \ln\left( \frac{\hat{\sigma}_0^2}{\hat{\sigma}_2^2} \right).
 		\end{align}
-		\item Explain why, under the null hypothesis, the sampling distribution of $-2 \ln \Lambda$ converges asymptotically to $\chi^2_1$ according to **Samuel S. Wilks' Theorem**, justifying the computation of lost parametric dimension between $\Theta$ and $\Theta_0$.
+		\item Explain why, under the null hypothesis, the sampling distribution of $-2 \ln \Lambda$ converges asymptotically to $\chi^2_1$ according to \textbf{Samuel S. Wilks' Theorem}, justifying the computation of lost parametric dimension between $\Theta$ and $\Theta_0$.
 	\end{enumerate}
 \end{problema}
 
@@ -127,9 +127,9 @@
 	In the data science literature, it is common to confuse the observed $p$-value with the posterior probability of the null hypothesis ($P(H_0 \mid \text{data})$). Formalize the true nature of the $p$-value by treating it as a random variable $P(X)$ over the space of observed samples:
 	\begin{enumerate}
 		\item Consider a continuous univariate test whose test statistic $T(X)$ has a strictly monotonic continuous distribution function $F_0(t) = P_{H_0}(T \le t)$ and survival function $S_0(t) = 1 - F_0(t) = P_{H_0}(T \ge t)$ under the null hypothesis. The random $p$-value for upper-tailed tests is defined by $P = S_0(T)$.
-		Rigorously prove using differentiation and the Probability Integral Transform Theorem that, **when $H_0$ is true, the random variable $p$-value $P$ is distributed exactly Uniformly over the unit interval $[0, 1]$** ($P \sim U(0,1)$), satisfying $P_{H_0}(P \le \alpha) = \alpha$ for all $\alpha \in (0,1)$.
-		\item When the alternative hypothesis $H_a$ is true (a true effect size exists in nature), the statistic adopts a different alternative distribution $F_a(t) = P_{H_a}(T \le t)$. Algebraically prove that the cumulative distribution function of the $p$-value under $H_a$, denoted by $G_P(u) = P_{H_a}(P \le u)$ for $u \in (0,1)$, is a **strictly concave** function that stochastically dominates the uniform diagonal ($G_P(u) > u$).
-		\item Prove why the differential density of the $p$-value at the boundary of absolute rejection $\lim_{u \to 0^+} g_P(u) = \lim_{u \to 0^+} G_P'(u)$ is directly proportional to the **monotone likelihood ratio** $\dfrac{f_a(t)}{f_0(t)}$ in the extreme region $t \to \infty$, justifying why, in the presence of any real effect, experimental $p$-values massively concentrate in the immediate neighborhood of zero.
+		Rigorously prove using differentiation and the Probability Integral Transform Theorem that, \textbf{when $H_0$ is true, the random variable $p$-value $P$ is distributed exactly Uniformly over the unit interval $[0, 1]$} ($P \sim U(0,1)$), satisfying $P_{H_0}(P \le \alpha) = \alpha$ for all $\alpha \in (0,1)$.
+		\item When the alternative hypothesis $H_a$ is true (a true effect size exists in nature), the statistic adopts a different alternative distribution $F_a(t) = P_{H_a}(T \le t)$. Algebraically prove that the cumulative distribution function of the $p$-value under $H_a$, denoted by $G_P(u) = P_{H_a}(P \le u)$ for $u \in (0,1)$, is a \textbf{strictly concave} function that stochastically dominates the uniform diagonal ($G_P(u) > u$).
+		\item Prove why the differential density of the $p$-value at the boundary of absolute rejection $\lim_{u \to 0^+} g_P(u) = \lim_{u \to 0^+} G_P'(u)$ is directly proportional to the \textbf{monotone likelihood ratio} $\dfrac{f_a(t)}{f_0(t)}$ in the extreme region $t \to \infty$, justifying why, in the presence of any real effect, experimental $p$-values massively concentrate in the immediate neighborhood of zero.
 	\end{enumerate}
 \end{problema}
 
@@ -163,7 +163,7 @@
 	For a two-tailed test with $\alpha = 0.05$ and $\nu = 32$ degrees of freedom, the critical value in the $t$-table is $t_{0.025, \, 32} \approx 2.037$.
 	The rejection region consists of values $t < -2.037$ or $t > 2.037$.
 	
-	Since our calculated statistic $t = -3.017$ clearly falls into the left-tailed rejection region ($-3.017 < -2.037$), **we reject $H_0$**. We conclude at the $5\%$ level that there is a statistically significant difference in mean response times between the two platforms, with Platform 1 being significantly faster.
+	Since our calculated statistic $t = -3.017$ clearly falls into the left-tailed rejection region ($-3.017 < -2.037$), \textbf{we reject $H_0$}. We conclude at the $5\%$ level that there is a statistically significant difference in mean response times between the two platforms, with Platform 1 being significantly faster.
 \end{solucion}
 
 \begin{solucion}
@@ -185,7 +185,7 @@
 	\begin{align}
 		t_{0.01, \, 11} = 2.718.
 	\end{align}
-	The rejection region is $t > 2.718$. Given that our observed value $t = 6.268 \gg 2.718$, **we categorically reject $H_0$**. There is overwhelming statistical evidence at the $1\%$ level to affirm that the high-altitude training program produces a real increase in athletes' maximum $\text{VO}_2$.
+	The rejection region is $t > 2.718$. Given that our observed value $t = 6.268 \gg 2.718$, \textbf{we categorically reject $H_0$}. There is overwhelming statistical evidence at the $1\%$ level to affirm that the high-altitude training program produces a real increase in athletes' maximum $\text{VO}_2$.
 \end{solucion}
 
 \begin{solucion}
@@ -219,7 +219,7 @@
 	\begin{align}
 		-Z_{0.02} = -2.054.
 	\end{align}
-	Since the observed statistic $Z = -3.881$ falls into the rejection region ($Z < -2.054$, with $p$-value $< 0.0001$), **we reject $H_0$**. We demonstrate at the $2\%$ significance level that the new AI Model has a superior detection rate compared to the Classical Filter.
+	Since the observed statistic $Z = -3.881$ falls into the rejection region ($Z < -2.054$, with $p$-value $< 0.0001$), \textbf{we reject $H_0$}. We demonstrate at the $2\%$ significance level that the new AI Model has a superior detection rate compared to the Classical Filter.
 \end{solucion}
 
 \subsubsection*{2. Operational Level (Intermediate / Developmental)}
@@ -275,7 +275,7 @@
 	
 	\textbf{Step 4: Degrees of freedom and decision.}
 	For a $3 \times 3$ table, $\nu = (3-1)(3-1) = 4$. The critical value at $\alpha = 0.01$ is $\chi^2_{0.01, \, 4} = 13.277$.
-	Since $\chi^2 = 56.147 \gg 13.277$ ($p$-value $< 0.00001$), **we reject $H_0$**. The distribution of monetization preferences is not identical; Generation X strongly prefers one-time payment ($70$ vs. $41.25$ expected) while Gen Z overwhelmingly favors the Freemium model ($90$ vs. $63.33$ expected).
+	Since $\chi^2 = 56.147 \gg 13.277$ ($p$-value $< 0.00001$), \textbf{we reject $H_0$}. The distribution of monetization preferences is not identical; Generation X strongly prefers one-time payment ($70$ vs. $41.25$ expected) while Gen Z overwhelmingly favors the Freemium model ($90$ vs. $63.33$ expected).
 \end{solucion}
 
 \begin{solucion}
@@ -301,7 +301,7 @@
 			t = \frac{\bar{X}_1 - \bar{X}_2}{\text{SE}_W} = \frac{10.7}{3.4282} \approx 3.1212.
 		\end{align}
 		For a two-tailed test with $\alpha = 0.05$ and $\nu = 18$, Student's quantile is $t_{0.025, \, 18} = 2.101$.
-		Because $t = 3.121 > 2.101$, **we reject $H_0$**. We conclude at 95\% confidence that Algorithm 2 consumes a significantly lower mean execution time than Algorithm 1.
+		Because $t = 3.121 > 2.101$, \textbf{we reject $H_0$}. We conclude at 95\% confidence that Algorithm 2 consumes a significantly lower mean execution time than Algorithm 1.
 	\end{enumerate}
 \end{solucion}
 
@@ -329,7 +329,7 @@
 		\chi^2 = 6.8571 + 1.7143 + 1.4286 + 8.5714 = 18.5714.
 	\end{align}
 	The degrees of freedom are $\nu = k - 1 = 4 - 1 = 3$. For $\alpha = 0.05$, the quantile is $\chi^2_{0.05, \, 3} = 7.815$.
-	Since $\chi^2 = 18.5714 > 7.815$, **we reject $H_0$**. Ethical compliance rates differ significantly among the four companies.
+	Since $\chi^2 = 18.5714 > 7.815$, \textbf{we reject $H_0$}. Ethical compliance rates differ significantly among the four companies.
 	
 	\textbf{Part 2: Marascuilo post-hoc procedure.}
 	The Marascuilo critical value uses the square root of the omnibus statistic: $\sqrt{\chi^2_{0.05, \, 3}} = \sqrt{7.815} \approx 2.7955$.
@@ -337,7 +337,7 @@
 	\begin{itemize}
 		\item \textbf{A vs. B:} $|\hat{p}_1 - \hat{p}_2| = |0.82 - 0.64| = 0.180$.
 		$r_{12} = 2.7955 \sqrt{\frac{0.82(0.18)}{100} + \frac{0.64(0.36)}{100}} = 2.7955 \sqrt{0.00378} \approx 0.1719$.
-		Since $0.180 > 0.1719$, **the A vs. B difference is statistically significant**.
+		Since $0.180 > 0.1719$, \textbf{the A vs. B difference is statistically significant}.
 		\item \textbf{A vs. C:} $|\hat{p}_1 - \hat{p}_3| = |0.82 - 0.75| = 0.070$.
 		$r_{13} = 2.7955 \sqrt{0.001476 + \frac{0.75(0.25)}{120}} \approx 0.1541$. ($0.070 \le 0.1541 \implies \text{Not significant}$).
 		\item \textbf{A vs. D:} $|\hat{p}_1 - \hat{p}_4| = |0.82 - 0.55| = 0.270$.
@@ -349,7 +349,7 @@
 		\item \textbf{C vs. D:} $|\hat{p}_3 - \hat{p}_4| = |0.75 - 0.55| = 0.200$.
 		$r_{34} = 2.7955 \sqrt{\frac{0.75(0.25)}{120} + \frac{0.55(0.45)}{80}} = 2.7955 \sqrt{0.004656} \approx 0.1908$. ($0.200 > 0.1908 \implies \textbf{Significant}$).
 	\end{itemize}
-	**Conclusion:** The pairs showing proven real differences are **A vs. B** ($82\%$ vs. $64\%$), **A vs. D** ($82\%$ vs. $55\%$), and **C vs. D** ($75\%$ vs. $55\%$).
+	\textbf{Conclusion:} The pairs showing proven real differences are \textbf{A vs. B} ($82\%$ vs. $64\%$), \textbf{A vs. D} ($82\%$ vs. $55\%$), and \textbf{C vs. D} ($75\%$ vs. $55\%$).
 \end{solucion}
 
 \begin{solucion}
@@ -361,10 +361,10 @@
 		\begin{align}
 			\bar{X}_c = \mu_0 + Z_{0.05} \cdot \text{SE}(\bar{X}) = 100 + 1.645(3) = 100 + 4.935 = 104.935 \text{ ms.}
 		\end{align}
-		**Operational rule:** If in any daily audit the sample mean transaction latency exceeds $104.935$ ms ($\bar{X} > 104.935$), the system rejects $H_0$ and triggers a network congestion alert.
+		\textbf{Operational rule:} If in any daily audit the sample mean transaction latency exceeds $104.935$ ms ($\bar{X} > 104.935$), the system rejects $H_0$ and triggers a network congestion alert.
 		
 		\item \textbf{Calculation of Type II Error probability ($\beta$) and Power ($1-\beta$) when $\mu_a = 108$ ms:}
-		A **Type II Error ($\beta$)** occurs when we erroneously accept $H_0$ ($\bar{X} \le \bar{X}_c$) while in the real world the alternative hypothesis is true ($\mu = 108$ ms):
+		A \textbf{Type II Error ($\beta$)} occurs when we erroneously accept $H_0$ ($\bar{X} \le \bar{X}_c$) while in the real world the alternative hypothesis is true ($\mu = 108$ ms):
 		\begin{align}
 			\beta = P\left(\bar{X} \le 104.935 \mid \mu = 108\right).
 		\end{align}
@@ -376,7 +376,7 @@
 		\begin{align}
 			\beta = \Phi(-1.0217) = 1 - \Phi(1.0217) \approx 1 - 0.8465 = 0.1535 \text{ (15.35\%).}
 		\end{align}
-		The **Statistical Power ($1-\beta$)**—the real probability of successfully detecting the congestion—is obtained by direct subtraction:
+		The \textbf{Statistical Power ($1-\beta$)}—the real probability of successfully detecting the congestion—is obtained by direct subtraction:
 		\begin{align}
 			\text{Power} = 1 - \beta = 1 - 0.1535 = 0.8465 \text{ (84.65\%).}
 		\end{align}
@@ -455,14 +455,14 @@
 		Wilks' parametric identity is thus formally derived.
 		
 		\item \textbf{Asymptotic invocation of Wilks' Theorem and comparison with Snedecor's $F$-test:}
-		**Samuel S. Wilks' Theorem** proves that under parametric regularity conditions (where the true null parameter resides in the interior of subspace $\Theta_0$), the statistic $-2\ln\Lambda$ converges in distribution as sample sizes grow infinitely ($n_1, n_2 \to \infty$) to a central Chi-square distribution ($\chi^2_\nu$).
-		The degrees of freedom $\nu$ correspond exactly to the **geometric difference in the dimension of parameter spaces**:
+		\textbf{Samuel S. Wilks' Theorem} proves that under parametric regularity conditions (where the true null parameter resides in the interior of subspace $\Theta_0$), the statistic $-2\ln\Lambda$ converges in distribution as sample sizes grow infinitely ($n_1, n_2 \to \infty$) to a central Chi-square distribution ($\chi^2_\nu$).
+		The degrees of freedom $\nu$ correspond exactly to the \textbf{geometric difference in the dimension of parameter spaces}:
 		\begin{align}
 			\nu = \dim(\Theta) - \dim(\Theta_0) = 4 - 3 = 1 \text{ degree of freedom.}
 		\end{align}
 		(In $\Theta$, the four free parameters were $(\mu_1, \mu_2, \sigma_1^2, \sigma_2^2)$, whereas in $\Theta_0$ they were restricted to three: $(\mu_1, \mu_2, \sigma_0^2)$).
 		
-		**Conceptual comparison with Snedecor's $F$:** While the Likelihood Ratio Test (LRT) invoked via Wilks is an **asymptotic** statistic valid only in large samples and extremely sensitive to the normality assumption, **Snedecor's $F$-test ($F = s_1^2 / s_2^2$) is the exact finite-sample test** that is Uniformly Most Powerful Unbiased (UMPU), making it the gold standard choice for small- or medium-sized experimental designs in analytical testing.
+		\textbf{Conceptual comparison with Snedecor's $F$:} While the Likelihood Ratio Test (LRT) invoked via Wilks is an \textbf{asymptotic} statistic valid only in large samples and extremely sensitive to the normality assumption, \textbf{Snedecor's $F$-test ($F = s_1^2 / s_2^2$) is the exact finite-sample test} that is Uniformly Most Powerful Unbiased (UMPU), making it the gold standard choice for small- or medium-sized experimental designs in analytical testing.
 	\end{enumerate}
 \end{solucion}
 
@@ -486,7 +486,7 @@
 		\begin{align}
 			P_{H_0}(P \le x) = x.
 		\end{align}
-		This is uniquely and exclusively the cumulative distribution function of a **Standard Uniform random variable $U(0,1)$**. The theorem irrefutably demonstrates that if the null hypothesis is true, $p$-values spread across the interval with complete flatness ($f_P(p) = 1$). A $p$-value is not the probability of the true parameter ($P(H_0 \mid D)$), but rather a uniform random quantile generated by the testing procedure under null conditions.
+		This is uniquely and exclusively the cumulative distribution function of a \textbf{Standard Uniform random variable $U(0,1)$}. The theorem irrefutably demonstrates that if the null hypothesis is true, $p$-values spread across the interval with complete flatness ($f_P(p) = 1$). A $p$-value is not the probability of the true parameter ($P(H_0 \mid D)$), but rather a uniform random quantile generated by the testing procedure under null conditions.
 		
 		\item \textbf{Rigorous concavity and stochastic dominance under $H_a$ ($G_P(u) > u$):}
 		When an experiment is conducted under a true alternative hypothesis $H_a$ where the true population parameter exceeds the null point ($\mu_a > \mu_0$), the new distribution of statistic $T$ is governed by $F_a(t) = P_{H_a}(T \le t)$. We evaluate the distribution function of $p$-values in this scenario ($G_P(u) = P_{H_a}(P \le u)$):
@@ -501,7 +501,7 @@
 		\begin{align}
 			G_P(u) = 1 - F_a\left( S_0^{-1}(u) \right) > S_0\left( S_0^{-1}(u) \right) = u \implies G_P(u) > u \quad \forall u \in (0,1).
 		\end{align}
-		Moreover, differentiating $G_P(u)$ twice using the chain rule with respect to quantile $u$ verifies that the second derivative is strictly negative ($G_P''(u) < 0$), proving that the accumulation curve of $p$-values under $H_a$ is a **strictly concave-upward function that rises at the origin, stochastically and absolutely dominating the unit diagonal segment of null uniformity**.
+		Moreover, differentiating $G_P(u)$ twice using the chain rule with respect to quantile $u$ verifies that the second derivative is strictly negative ($G_P''(u) < 0$), proving that the accumulation curve of $p$-values under $H_a$ is a \textbf{strictly concave-upward function that rises at the origin, stochastically and absolutely dominating the unit diagonal segment of null uniformity}.
 		
 		\item \textbf{Limiting differential density and monotone likelihood ratio:}
 		We differentiate the $p$-value distribution function under $H_a$ ($G_P(u) = 1 - F_a(S_0^{-1}(u))$) using the chain rule to find the true marginal probability density function of the $p$-value, $g_P(u) = G_P'(u)$:
@@ -516,7 +516,7 @@
 		\begin{align}
 			g_P(u) = -f_a\left( S_0^{-1}(u) \right) \cdot \left( \frac{-1}{f_0\left( S_0^{-1}(u) \right)} \right) = \frac{f_a\left( S_0^{-1}(u) \right)}{f_0\left( S_0^{-1}(u) \right)}.
 		\end{align}
-		This establishes the exact identity: **the density in $p$-value space at any point $u$ is identically the Likelihood Ratio evaluated at the corresponding test quantile ($t = S_0^{-1}(u)$)**.
+		This establishes the exact identity: \textbf{the density in $p$-value space at any point $u$ is identically the Likelihood Ratio evaluated at the corresponding test quantile ($t = S_0^{-1}(u)$)}.
 		Evaluating the density at the extreme rejection boundary where the $p$-value approaches zero from the right ($u \to 0^+$):
 		\begin{align}
 			\lim_{u \to 0^+} g_P(u) = \lim_{t \to \infty} \frac{f_a(t)}{f_0(t)}.
