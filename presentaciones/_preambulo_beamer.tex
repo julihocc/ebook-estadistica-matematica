@@ -1,5 +1,5 @@
-% Preámbulo modular para presentaciones Beamer (Modelación Estadística)
-% Diseño y paleta institucional del Tecnológico de Monterrey
+% Preámbulo modular y moderno para presentaciones Beamer (Modelación Estadística)
+% Tema minimalista Metropolis + Diseño y paleta institucional del Tecnológico de Monterrey
 
 \documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
 
@@ -13,52 +13,53 @@
 \usetikzlibrary{matrix,arrows,decorations.pathmorphing,shapes.geometric,positioning}
 
 % Paleta Institucional Tecnológico de Monterrey
-\definecolor{TecAzul}{HTML}{0039A6}       % Azul TEC: color primario institucional
-\definecolor{TecAzulOscuro}{HTML}{1A2E51} % Azul marino oscuro
+\definecolor{TecAzul}{HTML}{0039A6}       % Azul TEC: color primario secundario
+\definecolor{TecAzulOscuro}{HTML}{1A2E51} % Azul marino oscuro: color dominante
 \definecolor{TecRojo}{HTML}{EC2661}       % Rojo de acento (paleta miTec)
 \definecolor{TecGris}{HTML}{646464}       % Gris neutro para comentarios y subtítulos
 \definecolor{TecFondoBloque}{HTML}{F4F6F9}% Fondo suave para bloques
 
-% Configuración de Tema Beamer
-\usetheme{Boadilla}
-\usecolortheme[named=TecAzulOscuro]{structure}
+% Configuración de Tema Beamer: Metropolis (mtheme) moderno y limpio
+\usetheme[progressbar=frametitle,block=fill]{metropolis}
+
+% Asignación de Paleta Institucional al Tema Metropolis
+\setbeamercolor{normal text}{fg=TecAzulOscuro!92!black, bg=white}
+\setbeamercolor{frametitle}{bg=TecAzulOscuro, fg=white}
+\setbeamercolor{title separator}{fg=TecRojo}
+\setbeamercolor{progress bar}{fg=TecRojo, bg=TecAzulOscuro!40}
 \setbeamercolor{alerted text}{fg=TecRojo}
-\setbeamercolor{palette primary}{bg=TecAzulOscuro,fg=white}
-\setbeamercolor{palette secondary}{bg=TecAzul,fg=white}
-\setbeamercolor{palette tertiary}{bg=TecAzulOscuro!80!black,fg=white}
-\setbeamercolor{title}{fg=TecAzulOscuro,bg=TecFondoBloque}
-\setbeamercolor{frametitle}{fg=TecAzulOscuro,bg=TecFondoBloque}
 
-% Bloques personalizados elegantes
-\setbeamercolor{block title}{bg=TecAzulOscuro,fg=white}
-\setbeamercolor{block body}{bg=TecFondoBloque,fg=black}
-\setbeamercolor{block title alerted}{bg=TecRojo,fg=white}
-\setbeamercolor{block body alerted}{bg=TecRojo!8,fg=black}
-\setbeamercolor{block title example}{bg=TecAzul,fg=white}
-\setbeamercolor{block body example}{bg=TecAzul!8,fg=black}
+% Configuración visual de Bloques y Cajas (Máximo 1 por diapositiva para limpieza)
+\setbeamercolor{block title}{bg=TecAzulOscuro, fg=white}
+\setbeamercolor{block body}{bg=TecFondoBloque, fg=black}
+\setbeamercolor{block title alerted}{bg=TecRojo, fg=white}
+\setbeamercolor{block body alerted}{bg=TecRojo!8, fg=black}
+\setbeamercolor{block title example}{bg=TecAzul, fg=white}
+\setbeamercolor{block body example}{bg=TecAzul!8, fg=black}
 
-% Redondear bordes y añadir sombra sutil
-\setbeamertemplate{blocks}[rounded][shadow=true]
+% Viñetas y Bullets Geométricos Modernos
+\setbeamertemplate{itemize item}{\color{TecRojo}\footnotesize$\blacksquare$}
+\setbeamertemplate{itemize subitem}{\color{TecAzulOscuro}\scriptsize$\blacktriangleright$}
+\setbeamertemplate{itemize subsubitem}{\color{TecAzul}\tiny$\bullet$}
 \setbeamertemplate{navigation symbols}{}
 
-% Pie de página limpio con número de diapositiva
+% Pie de página discreto con numeración clara
 \setbeamertemplate{footline}{
   \leavevmode%
   \hbox{%
-  \begin{beamercolorbox}[wd=.7\paperwidth,ht=2.25ex,dp=1ex,left]{author in head/foot}%
-    \hspace*{2ex}\insertshortauthor~~(\insertshortinstitute) \hfill \insertshorttitle
+  \begin{beamercolorbox}[wd=.75\paperwidth,ht=2.2ex,dp=1ex,left]{author in head/foot}%
+    \hspace*{2ex}\footnotesize\color{TecGris}\insertshortauthor~~(\insertshortinstitute) \hfill \insertshorttitle
   \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
-    \insertshortdate{}\hspace*{2em}
-    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+  \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.2ex,dp=1ex,right]{date in head/foot}%
+    \footnotesize\color{TecGris}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
   \end{beamercolorbox}}%
   \vskip0pt%
 }
 
-% Configuración de Listings de Python para visualización pedagógica de código
+% Configuración de Listings de Python para visualización pedagógica y limpia
 \lstset{
     language=Python,
-    basicstyle=\ttfamily\footnotesize,
+    basicstyle=\ttfamily\scriptsize,
     keywordstyle=\color{TecAzulOscuro}\bfseries,
     stringstyle=\color{TecRojo},
     commentstyle=\color{TecGris}\itshape,
@@ -67,8 +68,8 @@
     frame=lines,
     rulecolor=\color{TecAzulOscuro!30},
     backgroundcolor=\color{TecFondoBloque},
-    aboveskip=0.5em,
-    belowskip=0.5em,
+    aboveskip=0.4em,
+    belowskip=0.4em,
     literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
              {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
              {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1 {¡}{{!`}}1
