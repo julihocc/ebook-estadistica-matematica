@@ -1,0 +1,249 @@
+\input{../../_preambulo_beamer.tex}
+
+\title{Measures of Central Tendency}
+\subtitle{Section 1.2 — Statistical Modeling for Data Science}
+\author{Julio César Hernández Castro}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Chapter Roadmap and Position Indicator
+\begin{frame}{Roadmap — Chapter 01: Descriptive Statistics}
+  Where are we on our journey through foundational statistics? \pause
+  \begin{itemize}
+    \item \textbf{01.01 Introduction to Descriptive Statistics} \emph{(Completed)} \pause
+    \item \color{TecRojo}\textbf{01.02 Measures of Central Tendency \emph{(Today)}}\color{black} \pause
+    \item \textbf{01.03 Measures of Dispersion} \emph{(Next Session)}
+  \end{itemize}
+  \vspace{1em}
+  \begin{block}{Section 1.2 Objective}
+    Understand and calculate the center of a dataset mathematically (mean and pivot) and robustly in the presence of extreme noise (median and mode).
+  \end{block}
+\end{frame}
+
+% Slide 3: Quick Team Challenge (Trigger Question)
+\begin{frame}{Quick Team Challenge}
+  \begin{alertblock}{Workplace Scenario (Trigger Question)}
+    At a small artificial intelligence startup, four developers earn $\$30,000$ MXN per month each. Today, the company hires a new executive director with a monthly salary of $\$380,000$ MXN.
+    \vspace{0.6em}
+    \begin{enumerate}
+      \item What is the average salary of all 5 company employees? \pause
+      \item If human resources reports that average in job postings, are they giving an honest impression of what a typical employee earns? \pause
+      \item What alternative descriptive measure would more honestly reflect the real office compensation?
+    \end{enumerate}
+  \end{alertblock}
+\end{frame}
+
+% Slide 4A: Classroom Reflection Conclusions (Analysis)
+\begin{frame}{Classroom Reflection Conclusions — Analysis}
+  \begin{itemize}
+    \item \textbf{The Arithmetic Average:} Computation yields $\frac{4(30,000) + 380,000}{5} = \$100,000$ MXN per month. \pause
+    \item \textbf{Outlier Distortion:} Not a single developer earns $\$100,000$. The executive's salary pulls the mean upward drastically, creating a statistical mirage. \pause
+    \item \textbf{The Value of the Median:} Ordering salaries ($30, 30, \mathbf{30}, 30, 380$), the central value ($\$30,000$) represents the true employee experience. \pause
+    \item \textbf{Key Lesson:} In Data Science, the mean alone is insufficient; we must know when to deploy robust measures.
+  \end{itemize}
+\end{frame}
+
+% Slide 4B: Classroom Reflection Conclusions (Answers)
+\begin{frame}{Classroom Reflection Conclusions — Answers}
+  \begin{block}{Formal Answers to Quick Team Challenge}
+    \begin{enumerate}
+      \item \textbf{Arithmetic mean:} $\$100,000$ MXN per month. \pause
+      \item \textbf{Is it representative?} No, it does not reflect the typical employee; $80\%$ of staff earn less than one-third of that figure. \pause
+      \item \textbf{Honest metric:} The \textbf{Median ($\tilde{X}$)} or the \textbf{Mode ($M_o$)}, since they are immune to distortion by the star executive.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 5: Arithmetic Mean and Fundamental Property
+\begin{frame}{The Arithmetic Mean ($\bar{X}$)}
+  The \textbf{arithmetic mean} is the standard average of a set of $N$ observations $X_1, X_2, \dots, X_N$:
+  \begin{align}
+    \bar{X} = \dfrac{1}{N} \sum_{i=1}^{N} X_i
+  \end{align}
+  \pause
+  \begin{block}{Center of Gravity Property}
+    The algebraic sum of all deviations around the arithmetic mean is exactly equal to zero:
+    \begin{align}
+      \sum_{i=1}^{N} (X_i - \bar{X}) = 0
+    \end{align}
+    This proves that $\bar{X}$ acts as the exact physical balancing point (center of mass) of the distribution.
+  \end{block}
+\end{frame}
+
+% Slide 6: The Pivot Concept (P)
+\begin{frame}{The Pivot Concept ($P$)}
+  When data values are large or clustered close together, we can simplify arithmetic operations using an arbitrary reference value called a \textbf{Pivot ($P$)}. \pause
+  \begin{itemize}
+    \item Let $d_i = X_i - P$ denote the deviation of each observation from the pivot $P$. \pause
+    \item We can reconstruct the exact mean by adding the average of those deviations to the pivot:
+  \end{itemize}
+  \begin{align}
+    \bar{X} = P + \dfrac{1}{N} \sum_{i=1}^{N} d_i
+  \end{align}
+  \pause
+  \begin{block}{Algorithmic Advantage}
+    This formula prevents floating-point overflow when summing millions of large numbers in computing, forming the basis for iterative mean algorithms in Big Data pipelines.
+  \end{block}
+\end{frame}
+
+% Slide 7: Median and Mode
+\begin{frame}{Robust Measures: Median and Mode}
+  \begin{itemize}
+    \item \textbf{The Median ($\tilde{X}$):} The value that divides the ordered sample into two exact halves ($50\%$ lower and $50\%$ upper).
+      \begin{itemize}
+        \item If $N$ is odd, it is the exact middle observation.
+        \item If $N$ is even, it is the average of the two middle observations.
+      \end{itemize}
+    \pause
+    \item \textbf{The Mode ($M_o$):} The value that appears most frequently in the dataset. It may not exist or there may be multiple modes (bimodal, multimodal). \pause
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{block}{Breakdown Point}
+    The median features a $50\%$ breakdown point: up to half of the data can be corrupted or extreme outliers without distorting the median infinitely. The mean has a $0\%$ breakdown point.
+  \end{block}
+\end{frame}
+
+% Slide 8: Central Tendency for Grouped Data
+\begin{frame}{Central Tendency for Grouped Data}
+  When processing frequency tables with $K$ classes or bins of relative/absolute frequencies: \pause
+  \begin{itemize}
+    \item Let $f_i$ be the absolute frequency of class $i$, and let $X_i$ be the \textbf{class mark} (interval midpoint). \pause
+    \item The approximate mean for grouped data is weighted by each class frequency:
+  \end{itemize}
+  \begin{align}
+    \bar{X}_{\text{grouped}} = \dfrac{\sum_{i=1}^{K} f_i X_i}{\sum_{i=1}^{K} f_i} = \dfrac{1}{n} \sum_{i=1}^{K} f_i X_i
+  \end{align}
+  \pause
+  \begin{alertblock}{Practical Note}
+    Grouped calculation is a highly accurate approximation to raw calculation, ideal when only aggregated histograms are preserved due to privacy or storage constraints.
+  \end{alertblock}
+\end{frame}
+
+% Slide 9A: Live Python Lab (Classical Measures)
+\begin{frame}{Python Lab: Classical Measures}
+  Exploratory calculation of Arithmetic Mean, Median, and Mode using NumPy and SciPy.
+  \\ Script: \texttt{\footnotesize presentations/code/01\_estadistica\_descriptiva/01.02\_media\_mediana\_moda.py}
+  
+  \vspace{0.4em}
+  {\lstset{basicstyle=\ttfamily\tiny, aboveskip=0.2em, belowskip=0.2em}
+  \lstinputlisting[firstline=1,lastline=16]{../../code/01_estadistica_descriptiva/01.02_media_mediana_moda.py}
+  }
+\end{frame}
+
+% Slide 9B: Live Python Lab (Pivot Calculation)
+\begin{frame}{Python Lab: Pivot Calculation and Output}
+  Algorithmic verification of the pivot formula ($P=9$).
+  \\ Script: \texttt{\footnotesize presentations/code/01\_estadistica\_descriptiva/01.02\_media\_mediana\_moda.py}
+  
+  \vspace{0.2em}
+  {\lstset{basicstyle=\ttfamily\tiny, aboveskip=0.2em, belowskip=0.2em}
+  \lstinputlisting[firstline=18,lastline=27]{../../code/01_estadistica_descriptiva/01.02_media_mediana_moda.py}
+  }
+
+  \vspace{0.2em}
+  \begin{block}{\footnotesize Verified Output (Console)}
+    {\fontsize{6.5pt}{7.5pt}\selectfont
+    \texttt{--- Classical Measures ---} \\
+    \texttt{Arithmetic mean: 9.38 | Median: 9.50 | Mode: 5} \\
+    \texttt{--- Pivot Calculation (P = 9) ---} \\
+    \texttt{Deviations (d\_i): [-4 -1  2  0  3 -3  5  1] => Sum: 3} \\
+    \texttt{Mean via pivot:   9 + (3/8) = 9.38}
+    }
+  \end{block}
+\end{frame}
+
+% Slide 10: Course Exercises - Level 1
+\begin{frame}{Course Exercises — Level 1: Fundamental}
+  \begin{block}{Problem 1.2.1 (Simple / Direct)}
+    Write out the individual terms of each of the following summations:
+    \begin{enumerate}
+      \item $\displaystyle\sum_{j=0}^{6}X_{j}=$ 
+      \item $\displaystyle\sum_{k=1}^{4}\left( Y_{k}-3 \right)^{2}=$ 
+      \item $\displaystyle\sum_{k=1}^{N}a=$ 
+      \item $\displaystyle\sum_{n=2}^{5}{f_{n}}X_{n}= $ 
+      \item $\displaystyle\sum_{m=0}^{3}\left( X_{m}-a \right)=$
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 11: Course Exercises - Level 2
+\begin{frame}{Course Exercises — Level 2: Operational}
+  \begin{block}{Problem 1.2.8 (Intermediate / Analytical Development)}
+    Find the arithmetic mean of the numbers 5, 8, 11, 9, 12, 6, 14, and 10 by choosing as a \emph{pivot}:
+    \begin{enumerate}
+      \item $P=9$
+      \item $P=20$
+    \end{enumerate}
+    \vspace{0.5em}
+    Verify that in both cases the result matches exactly with the arithmetic mean calculated directly ($\bar{X} = 9.375$).
+  \end{block}
+\end{frame}
+
+% Slide 12: Course Exercises - Level 3
+\begin{frame}{Course Exercises — Level 3: Analytical}
+  \begin{block}{Problem 1.2.5 (Advanced / Theoretical Connection)}
+    If the deviations of $N$ numbers $X_{1}, X_{2}, \dots, X_{N}$ from a \emph{pivot} $P$ are given by $d_{i} = X_{i} - P, \; i = 1, \dots, N$ respectively, prove algebraically that:
+    \begin{align}
+      \bar{X} = P + \dfrac{\sum_{i=1}^{N} d_{i}}{N}.
+    \end{align}
+  \end{block}
+\end{frame}
+
+% Slide 13: Course Exercises - Level 4
+\begin{frame}{Course Exercises — Level 4: Challenging}
+  \begin{columns}[c]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Problem 1.2.9 (Expert)}
+        Use the class mark of the middle interval as a pivot to calculate the mean height of the students reported in Table \ref{tab:en:1.2.1}. Verify that your result coincides exactly with the direct computation.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{figure}[ht]
+        \centering
+        \includegraphics[width=5.8cm,keepaspectratio=true]{../../../latex/images/tab0301.png}
+        \caption{Distribution of student heights}
+        \label{tab:en:1.2.1}
+      \end{figure}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 14: Section 1.2 Summary
+\begin{frame}{Section 1.2 Summary}
+  \begin{block}{Mastered Concepts}
+    \begin{itemize}
+      \item \textbf{Numerical Center:} The arithmetic mean is the balance point ($\sum(X_i - \bar{X}) = 0$), but is vulnerable to extreme outliers. \pause
+      \item \textbf{Pivot Efficiency:} $\bar{X} = P + \frac{\sum d_i}{N}$ simplifies manual calculation and stabilizes numerical computing algorithms. \pause
+      \item \textbf{Statistical Robustness:} The median and mode isolate anomalies in skewed or outlier-heavy distributions.
+    \end{itemize}
+  \end{block}
+  \pause
+  \vspace{0.8em}
+  \begin{center}
+    \color{TecAzulOscuro}\textbf{Assimilation Pause:} Any questions regarding pivot calculation or choosing between mean and median?
+    \color{black}
+  \end{center}
+\end{frame}
+
+% Slide 15: Connection to Next Topic
+\begin{frame}{Connection to the Next Topic}
+  \begin{alertblock}{Next Section: 01.03 Measures of Dispersion}
+    Two datasets can have exactly the same mean ($\bar{X} = 50$) yet behave completely differently ($[50, 50, 50]$ vs $[0, 50, 100]$).
+    \vspace{0.6em}
+    \\ In \textbf{Section 1.3}, we will measure how dispersed, variable, or spread out our data points are using:
+    \begin{itemize}
+      \item The Variance ($S^2$)
+      \item The Standard Deviation ($S$)
+      \item The Coefficient of Variation ($CV$)
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
