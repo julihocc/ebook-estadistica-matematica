@@ -1,460 +1,411 @@
 % !TeX program = pdflatex
-\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+\documentclass[10pt, aspectratio=169]{beamer}
 
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title{Distribuciones de Bernoulli y Binomial}
-\subtitle{Sección 03.04 --- Procesos Dicotómicos e Inferencia Combinatoria}
+\title[Bernoulli y Binomial]{Sección 03.04: Bernoulli y Binomial}
+\subtitle{Procesos Dicotómicos e Inferencia Combinatoria}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute[Tec de Monterrey]{Tecnológico de Monterrey}
-\date{\vspace{-1.2cm}}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-2.0cm}}
 
 \begin{document}
 
-% SLIDE 01: Portada
+% Slide 1: Portada
 \begin{frame}[plain]
-	\titlepage
+  \vspace{-0.5cm}
+  \titlepage
 \end{frame}
 
-% SLIDE 02: Hoja de Ruta
-\begin{frame}{Hoja de Ruta --- Capítulo 03: Variables Aleatorias Discretas}
-	\begin{block}{Estructura Curricular de la Unidad 2}
-		\small
-		\begin{enumerate}
-			\itemsep=0.04cm
-			\item \textcolor{gray}{Sección 03.01: Funciones de Probabilidad Discretas (PMF y Soporte)}
-			\item \textcolor{gray}{Sección 03.02: Función de Distribución Acumulada (CDF Discreta)}
-			\item \textcolor{gray}{Sección 03.03: Esperanza Matemática, Varianza y Momentos}
-			\item \textbf{\textcolor{TecRojo}{Sección 03.04: Distribuciones de Bernoulli y Binomial}} $\leftarrow$ \emph{Foco actual}
-			\item \textcolor{gray}{Sección 03.05: Distribuciones Geométrica y Binomial Negativa}
-		\end{enumerate}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{alertblock}{Objetivo Didáctico}
-		\footnotesize
-		Dominar la fundamentación algebraica, propiedades de momentos y modelación combinatoria de ensayos dicotómicos independientes, aplicando la distribución Binomial en problemas de control de calidad, muestreo y fiabilidad de sistemas.
-	\end{alertblock}
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta — Capítulo 03: Variables Aleatorias Discretas}
+  \begin{block}{Estructura Curricular del Capítulo 03}
+    \footnotesize
+    \begin{enumerate}\itemsep=0.08cm
+      \item \textcolor{gray}{Sección 03.01: Funciones de Probabilidad Discretas (PMF y Soporte)}
+      \item \textcolor{gray}{Sección 03.02: Función de Distribución Acumulada (CDF Discreta)}
+      \item \textcolor{gray}{Sección 03.03: Esperanza Matemática, Varianza y Momentos}
+      \item \textbf{\textcolor{TecRojo}{Sección 03.04: Distribuciones de Bernoulli y Binomial}} $\leftarrow$ \emph{Foco actual}
+      \item \textcolor{gray}{Sección 03.05: Distribuciones Geométrica y Binomial Negativa}
+      \item \textcolor{gray}{Sección 03.06: Distribución Hipergeométrica}
+    \end{enumerate}
+  \end{block}
+  \vspace{-0.05cm}
+  \pause
+  \begin{alertblock}{Objetivo Curricular de la Sección}
+    \footnotesize
+    Dominar la fundamentación algebraica, propiedades de momentos y modelación combinatoria de ensayos dicotómicos independientes, aplicando la distribución Binomial en control de calidad e ingeniería de sistemas.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 03: Motivación e Intuición
-\begin{frame}{Motivación --- De la Dicotomía Elemental al Muestreo Repetido}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{El Ladrillo Fundamental de la Probabilidad}
-				\small
-				\begin{itemize}
-					\itemsep=0.08cm
-					\item En ciencia y tecnología, innumerables fenómenos se reducen a dos estados incompatibles: **Éxito / Fracaso**, **Apto / Defectuoso**, **1 / 0**.
-					\item Un experimento elemental con dos salidas posibles se denomina **Ensayo de Bernoulli**.
-					\item Modelar un solo ensayo permite cuantificar el riesgo de un componente individual.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{La Necesidad de la Agregación}
-				\small
-				\begin{itemize}
-					\itemsep=0.08cm
-					\item La ingeniería rara vez evalúa piezas aisladas: inspecciona lotes de tamaño $n$, transmite paquetes de $n$ bits o realiza $n$ ensayos clínicos.
-					\item Al repetir $n$ ensayos de Bernoulli de forma **independiente**, surge de manera natural la **Distribución Binomial**, que cuenta el número de éxitos acumulados.
-				\end{itemize}
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 3: Motivación e Intuición
+\begin{frame}{Motivación — De la Dicotomía Elemental al Muestreo Repetido}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{El Ladrillo Elemental de la Probabilidad}
+        \footnotesize
+        \begin{itemize}\itemsep=0.1cm
+          \item En ciencia y tecnología, innumerables fenómenos se reducen a dos estados incompatibles: \textbf{Éxito / Fracaso}, \textbf{Apto / Defectuoso}, \textbf{1 / 0}.
+          \item Un experimento elemental con dos salidas posibles se denomina \textbf{Ensayo de Bernoulli}.
+          \item Modelar un solo ensayo permite cuantificar el riesgo elemental de un componente individual.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \pause
+      \begin{alertblock}{La Necesidad de la Agregación}
+        \footnotesize
+        \begin{itemize}\itemsep=0.1cm
+          \item La ingeniería rara vez evalúa piezas aisladas: inspecciona lotes de tamaño $n$, transmite paquetes de $n$ bits o realiza $n$ ensayos de estrés.
+          \item Al repetir $n$ ensayos de Bernoulli de forma \textbf{independiente}, surge de manera natural la \textbf{Distribución Binomial}, que cuenta el número de éxitos acumulados en el sistema.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 04: El Ensayo de Bernoulli
-\begin{frame}{El Ensayo de Bernoulli --- Definición Formal}
-	\begin{block}{Variable Aleatoria de Bernoulli ($X \sim \text{Bernoulli}(p)$)}
-		\small
-		Una variable aleatoria discreta $X$ sigue una distribución de Bernoulli con parámetro de éxito $p \in (0, 1)$ si su soporte es $\mathcal{S}_X = \set{0, 1}$ y su función de masa de probabilidad está dada por:
-		\begin{align*}
-			f_X(x) = P(X = x) = p^x (1-p)^{1-x}, \quad \text{para } x \in \set{0, 1}.
-		\end{align*}
-		Donde $q = 1-p$ representa la probabilidad complementaria de fracaso ($X=0$).
-	\end{block}
-	\vspace{-0.1cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Propiedad Indicadora}
-				\footnotesize
-				$X$ actúa como la función indicadora de un evento $A \subset \Omega$: toma el valor $1$ si $\omega \in A$ y $0$ si $\omega \notin A$.
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Normalización Exacta}
-				\footnotesize
-				La suma sobre el soporte verifica el axioma de probabilidad total: $f_X(0) + f_X(1) = (1-p) + p = 1$.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 4: El Ensayo de Bernoulli
+\begin{frame}{El Ensayo de Bernoulli — Definición Formal}
+  \begin{block}{Variable Aleatoria de Bernoulli ($X \sim \text{Bernoulli}(p)$)}
+    \footnotesize
+    Una variable aleatoria discreta $X$ sigue una distribución de Bernoulli con parámetro de éxito $p \in (0, 1)$ si su soporte es $\mathcal{S}_X = \{0, 1\}$ y su función de masa de probabilidad está dada por:
+    $$f_X(x) = P(X = x) = p^x (1-p)^{1-x}, \quad \text{para } x \in \{0, 1\}.$$
+    Donde $q = 1-p$ representa la probabilidad complementaria de fracaso ($X=0$).
+  \end{block}
+  \vspace{-0.05cm}
+  \pause
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{exampleblock}{Propiedad Indicadora}
+        \footnotesize
+        $X$ actúa como la función indicadora de un evento $A \subset \Omega$: toma el valor $1$ si $\omega \in A$ y $0$ si $\omega \notin A$.
+      \end{exampleblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Normalización Exacta}
+        \footnotesize
+        La suma sobre el soporte verifica la probabilidad total: $f_X(0) + f_X(1) = (1-p) + p = 1$.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 05: Momentos del Ensayo de Bernoulli
+% Slide 5: Momentos del Ensayo de Bernoulli
 \begin{frame}{Momentos del Ensayo de Bernoulli}
-	\begin{block}{Deducción del Primer y Segundo Momento}
-		\small
-		Aplicando la definición de valor esperado y momentos brutos al soporte dicotómico $\set{0, 1}$:
-		\begin{align*}
-			\mathbb{E}[X] &= \sum_{x=0}^1 x \cdot P(X=x) = 0 \cdot (1-p) + 1 \cdot p = p, \\
-			\mathbb{E}[X^2] &= \sum_{x=0}^1 x^2 \cdot P(X=x) = 0^2 \cdot (1-p) + 1^2 \cdot p = p.
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Varianza de Bernoulli}
-				\footnotesize
-				Por la identidad de König-Huygens:
-				\begin{align*}
-					\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = p - p^2 = pq.
-				\end{align*}
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Máxima Incertidumbre}
-				\footnotesize
-				La varianza $pq = p(1-p)$ alcanza su máximo absoluto $\sigma^2 = 0.25$ justamente cuando $p = 0.50$ (máxima entropía del sistema).
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+  \begin{block}{Primer y Segundo Momento Bruto}
+    \footnotesize
+    Aplicando la definición de valor esperado al soporte dicotómico $\{0, 1\}$:
+    $$\E[X] = \sum_{x=0}^1 x \cdot P(X=x) = 0 \cdot (1-p) + 1 \cdot p = p$$
+    $$\E[X^2] = \sum_{x=0}^1 x^2 \cdot P(X=x) = 0^2 \cdot (1-p) + 1^2 \cdot p = p$$
+  \end{block}
+  \vspace{-0.05cm}
+  \pause
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Varianza y Desviación Estándar}
+        \footnotesize
+        $$\Var(X) = \E[X^2] - (\E[X])^2 = p - p^2 = p(1-p) = pq$$
+        $$\sigma_X = \sqrt{pq}$$
+      \end{alertblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Máxima Incertidumbre}
+        \footnotesize
+        La varianza alcanza su máximo absoluto en $p = 0.5$ ($\Var(X) = 0.25$). Si $p \to 0$ o $p \to 1$, el resultado se vuelve casi determinista y la varianza tiende a cero.
+      \end{block}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 06: Génesis de la Distribución Binomial
-\begin{frame}{Génesis de la Distribución Binomial --- Suma de Ensayos i.i.d.}
-	\begin{block}{Construcción Aditiva ($X \sim \text{Bin}(n, p)$)}
-		\small
-		Sean $Y_1, Y_2, \dots, Y_n$ variables aleatorias independientes e idénticamente distribuidas (i.i.d.) con $Y_i \sim \text{Bernoulli}(p)$. La variable aleatoria que cuenta el número total de éxitos en los $n$ ensayos se define como:
-		\begin{align*}
-			X = \sum_{i=1}^n Y_i.
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Espacio Muestral y Soporte}
-				\footnotesize
-				\begin{itemize}
-					\itemsep=0.04cm
-					\item El espacio muestral $\Omega$ consta de $2^n$ secuencias ordenadas de ceros y unos.
-					\item El soporte de $X$ es el conjunto discreto finito $\mathcal{S}_X = \set{0, 1, 2, \dots, n}$.
-				\end{itemize}
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Independencia Estocástica}
-				\footnotesize
-				La probabilidad conjunta de una secuencia específica con $k$ éxitos y $n-k$ fracasos es exactamente $p^k (1-p)^{n-k}$ debido a la independencia mutua.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 6: Génesis de la Distribución Binomial
+\begin{frame}{Génesis de la Distribución Binomial — Suma de Ensayos Independientes}
+  \begin{block}{Definición Constructiva ($X \sim \text{Bin}(n, p)$)}
+    \footnotesize
+    Sea $I_1, I_2, \dots, I_n$ una secuencia de $n$ ensayos de Bernoulli mutuamente independientes e idénticamente distribuidos (i.i.d.), donde $P(I_k = 1) = p$ para todo $k$. La variable aleatoria Binomial $X$ se define como la suma indicadora de éxitos:
+    $$X = \sum_{k=1}^n I_k \implies \mathcal{S}_X = \{0, 1, 2, \dots, n\}.$$
+  \end{block}
+  \vspace{-0.05cm}
+  \pause
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{exampleblock}{Independencia y Probabilidad Conjunta}
+        \footnotesize
+        Una secuencia particular con $x$ éxitos y $n-x$ fracasos (ej. $1, 1, 0, 1, \dots, 0$) tiene probabilidad individual exacta $p^x (1-p)^{n-x}$ por independencia pura.
+      \end{exampleblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{El Factor Combinatorio}
+        \footnotesize
+        Existen exactamente $\comb{n}{x} = \dfrac{n!}{x!(n-x)!}$ formas distintas de permutar los $x$ éxitos en las $n$ posiciones del experimento.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 07: Función de Masa de Probabilidad Binomial
-\begin{frame}{Función de Masa de Probabilidad (PMF Binomial)}
-	\begin{block}{Fórmula Exacta de la PMF ($X \sim \text{Bin}(n, p)$)}
-		\small
-		Para cualquier entero $k \in \mathcal{S}_X = \set{0, 1, \dots, n}$, el número de secuencias distintas que contienen exactamente $k$ éxitos es el coeficiente binomial $\comb{n}{k} = \dfrac{n!}{k!(n-k)!}$. Por tanto:
-		\begin{align*}
-			f_X(k) = P(X = k) = \comb{n}{k} p^k (1-p)^{n-k}.
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Teorema del Binomio de Newton}
-				\footnotesize
-				La normalización se garantiza algebraicamente por la expansión del binomio:
-				$\sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = (p+q)^n = 1^n = 1$.
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Simetría Combinatoria}
-				\footnotesize
-				Si $X \sim \text{Bin}(n, p)$, el conteo de fracasos $n-X$ sigue exactamente una distribución $\text{Bin}(n, 1-p)$.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 7: Función de Masa de Probabilidad Binomial
+\begin{frame}{Función de Masa de Probabilidad Binomial (PMF)}
+  \begin{block}{Teorema de la PMF Binomial}
+    \footnotesize
+    La función de masa de probabilidad de $X \sim \text{Bin}(n, p)$ es:
+    $$f_X(x) = P(X = x) = \comb{n}{x} p^x (1-p)^{n-x}, \quad \text{para } x \in \{0, 1, \dots, n\}.$$
+  \end{block}
+  \vspace{-0.05cm}
+  \pause
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{exampleblock}{Normalización vía Teorema del Binomio}
+        \footnotesize
+        $$\sum_{x=0}^n \comb{n}{x} p^x q^{n-x} = (p + q)^n = 1^n = 1$$
+        Esto garantiza formalmente la validez axiomática del modelo para todo $n \ge 1$ y $p \in (0, 1)$.
+      \end{exampleblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Simetría y Complementariedad}
+        \footnotesize
+        Contar éxitos ($X$) con probabilidad $p$ es matemáticamente idéntico a contar fracasos ($Y = n - X$) con probabilidad $1-p$:
+        $$X \sim \text{Bin}(n, p) \iff n-X \sim \text{Bin}(n, 1-p)$$
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 08: Función de Distribución Acumulada (CDF Binomial)
-\begin{frame}{Función de Distribución Acumulada (CDF Binomial)}
-	\begin{block}{Definición Analítica de $F_X(x) = P(X \le x)$}
-		\small
-		La función de distribución acumulada para una variable $X \sim \text{Bin}(n, p)$ evaluada en $x \in [0, n]$ es la función escalonada dada por la sumatoria de términos binomiales:
-		\begin{align*}
-			F_X(x) = \sum_{k=0}^{\lfloor x \rfloor} \comb{n}{k} p^k (1-p)^{n-k}.
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Propiedades Escalables}
-				\footnotesize
-				\begin{itemize}
-					\itemsep=0.04cm
-					\item Monotonía no decreciente: $F_X(a) \le F_X(b)$ si $a \le b$.
-					\item Límite superior: $F_X(n) = 1.0000$.
-				\end{itemize}
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Cálculo de Intervalos}
-				\footnotesize
-				Para enteros $a \le b$, la masa en el intervalo es $P(a \le X \le b) = F_X(b) - F_X(a-1)$.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 8: Momentos y Asimetría de la Binomial
+\begin{frame}{Momentos, Asimetría y Forma de la Distribución Binomial}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Aditividad de Momentos}
+        \footnotesize
+        Al ser $X = \sum_{k=1}^n I_k$ suma de independientes:
+        $$\mu_X = \E[X] = \sum_{k=1}^n \E[I_k] = np$$
+        $$\sigma_X^2 = \Var(X) = \sum_{k=1}^n \Var(I_k) = np(1-p)$$
+        $$\sigma_X = \sqrt{np(1-p)}$$
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \pause
+      \begin{alertblock}{Asimetría ($\gamma_1$) y Curtosis Excess ($\gamma_2$)}
+        \footnotesize
+        $$\gamma_1 = \dfrac{1 - 2p}{\sqrt{np(1-p)}}, \quad \gamma_2 = \dfrac{1 - 6p(1-p)}{np(1-p)}$$
+        \begin{itemize}\itemsep=0.06cm
+          \item Si $p = 0.5$, la PMF es perfectamente simétrica ($\gamma_1 = 0$).
+          \item Si $p < 0.5$, asimetría positiva hacia la derecha; si $p > 0.5$, hacia la izquierda.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 09: Momentos de la Distribución Binomial
-\begin{frame}{Momentos de la Distribución Binomial}
-	\begin{block}{Teorema de Momentos de $X \sim \text{Bin}(n, p)$}
-		\small
-		Como $X = \sum_{i=1}^n Y_i$ es la suma de $n$ variables de Bernoulli independientes con $\mathbb{E}[Y_i]=p$ y $\text{Var}(Y_i)=pq$, la linealidad de la esperanza y la aditividad de la varianza implican:
-		\begin{align*}
-			\mathbb{E}[X] &= \sum_{i=1}^n \mathbb{E}[Y_i] = np, \\
-			\text{Var}(X) &= \sum_{i=1}^n \text{Var}(Y_i) = np(1-p) = npq.
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Desviación Estándar ($\sigma_X$)}
-				\footnotesize
-				La dispersión absoluta crece con la raíz del tamaño de muestra: $\sigma_X = \sqrt{npq}$.
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Dispersión Relativa (CV)}
-				\footnotesize
-				El coeficiente de variación disminuye al aumentar $n$: $\text{CV} = \dfrac{\sigma_X}{\mu_X} = \sqrt{\dfrac{q}{np}} \propto \dfrac{1}{\sqrt{n}}$.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 9A: Laboratorio en Python — PMF y CDF
+\begin{frame}[fragile]{Laboratorio en Python: Validación Exacta PMF y CDF (`scipy.stats`)}
+  \lstinputlisting[language=Python, firstline=12, lastline=36, basicstyle=\fontsize{6pt}{7pt}\selectfont\ttfamily]{../../code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py}
 \end{frame}
 
-% SLIDE 10: Forma de la Distribución, Asimetría y Moda
-\begin{frame}{Forma de la Distribución, Asimetría y Moda Binomial}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Teorema de la Moda Binomial}
-				\small
-				El valor o valores $k^* \in \mathcal{S}_X$ que maximizan la probabilidad $f_X(k)$ cumplen:
-				\begin{align*}
-					k^* = \lfloor (n+1)p \rfloor.
-				\end{align*}
-				Si $(n+1)p \in \mathbb{Z}^+$, la distribución es **bimodal** en $k^* - 1$ y $k^*$.
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Asimetría (*Skewness* $\gamma_1$)}
-				\small
-				El tercer momento central estandarizado mide el sesgo de la distribución:
-				\begin{align*}
-					\gamma_1 = \dfrac{q - p}{\sqrt{npq}} = \dfrac{1 - 2p}{\sqrt{np(1-p)}}.
-				\end{align*}
-				Es simétrica ($\gamma_1=0$) si y solo si $p=0.5$.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 9B: Laboratorio en Python — Monte Carlo
+\begin{frame}[fragile]{Laboratorio en Python: Simulación Monte Carlo y Momentos}
+  \lstinputlisting[language=Python, firstline=38, lastline=57, basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily]{../../code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py}
 \end{frame}
 
-% SLIDE 11: Ejercicios Nivel Fundamental --- Problemas 3.4.1 a 3.4.3
-\begin{frame}{Ejercicios Nivel Fundamental --- Problemas 3.4.1 a 3.4.3}
-	\begin{block}{Problemas Directos de Inspección y Cálculo Combinatorio}
-		\footnotesize
-		\begin{itemize}
-			\itemsep=0.08cm
-			\item \textbf{Problema 3.4.1 (Inspección de Bernoulli):} Para $p=0.85$, $f(1)=0.85$ y $f(0)=0.15$. Su esperanza es $\mu = 0 \cdot 0.15 + 1 \cdot 0.85 = 0.85$, y su varianza $\sigma^2 = 0.85 \times 0.15 = 0.1275$.
-			\item \textbf{Problema 3.4.2 (Sensores de Precisión):} Con $X \sim \text{Bin}(8, 0.90)$, la probabilidad de exactamente $7$ aptos es $\comb{8}{7}(0.90)^7(0.10)^1 \approx 0.3826$. Que haya a lo sumo $1$ sensor defectuoso equivale a $P(X \ge 7) = P(X=7) + P(X=8) \approx 0.8131$.
-			\item \textbf{Problema 3.4.3 (Conteo Combinatorio):} Al sumar $n$ variables Bernoulli independientes, existen $\comb{n}{k}$ secuencias equiprobables con probabilidad individual $p^k q^{n-k}$, por lo que $P(Y=k) = \comb{n}{k}p^k q^{n-k}$.
-		\end{itemize}
-	\end{block}
+% Slide 9C: Laboratorio en Python — Moda y Asimetría
+\begin{frame}[fragile]{Laboratorio en Python: Verificación de Moda y Asimetría}
+  \lstinputlisting[language=Python, firstline=59, lastline=75, basicstyle=\fontsize{6.5pt}{7.5pt}\selectfont\ttfamily]{../../code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py}
 \end{frame}
 
-% SLIDE 12: Ejercicios Nivel Operativo --- Problemas 3.4.4 y 3.4.5
-\begin{frame}{Ejercicios Nivel Operativo --- Problemas 3.4.4 y 3.4.5}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problema 3.4.4 (Ciberseguridad)}
-				\footnotesize
-				Sea $X \sim \text{Bin}(12, 0.15)$.
-				\begin{itemize}
-					\itemsep=0.04cm
-					\item $P(X \le 2) = P(0) + P(1) + P(2) \approx 0.1422 + 0.3012 + 0.2924 = 0.7358$.
-					\item Para la probabilidad condicional:
-					$P(X \ge 4 \mid X \ge 1) = \dfrac{1 - P(X \le 3)}{1 - P(0)} \approx \dfrac{0.0922}{0.8578} \approx 0.1075$.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Problema 3.4.5 (Tamaño de Muestra)}
-				\footnotesize
-				Para detectar una secuencia ($p=0.08$) con mínimo $99\%$ de confianza:
-				\begin{align*}
-					P(X \ge 1) \ge 0.99 &\implies 1 - (0.92)^n \ge 0.99 \\
-					&\implies (0.92)^n \le 0.01 \\
-					&\implies n \ge \dfrac{\ln(0.01)}{\ln(0.92)} \approx 55.23.
-				\end{align*}
-				Se requieren exactamente $n^* = 56$ muestras.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 9D: Laboratorio en Python — Salida en Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \begin{block}{Ejecución en Consola (\texttt{python 03.04\_bernoulli\_binomial.py})}
+    \fontsize{6pt}{7pt}\selectfont\ttfamily
+=== Section 03.04: Bernoulli and Binomial Lab ===\\[0.08cm]
+{[1]} Vectorized PMF \& CDF Validation (n=15, p=0.2):\\
+\ \ \ \ Total Support Mass P(X<=n): 1.000000 (Target: 1.0)\\
+\ \ \ \ Max PMF Error vs. Scipy\ \ : 6.66e-16\\
+\ \ \ \ Max CDF Error vs. Scipy\ \ : 2.78e-15\\[0.08cm]
+{[2]} Monte Carlo LLN Simulation (N=100,000):\\
+\ \ \ \ Empirical Mean bar(X)\ \ \ \ : 2.9970 (Target: 3.0000, Err: 0.003020)\\
+\ \ \ \ Empirical Variance S\^{}2\ \ \ \ : 2.3827 (Target: 2.4000, Err: 0.017289)\\[0.08cm]
+{[3]} Mode Verification \& Skewness Analysis:\\
+\ \ \ \ Computational Mode argmax : 3 (Theoretical floor((n+1)p): 3)\\
+\ \ \ \ Exact Skewness gamma\_1\ \ \ \ : 0.387298 (Scipy Target: 0.387298)\\[0.08cm]
+=== All numerical verifications passed exact tolerances. ===
+  \end{block}
 \end{frame}
 
-% SLIDE 13: Ejercicios Nivel Operativo --- Problema 3.4.6
-\begin{frame}{Ejercicios Nivel Operativo --- Problema 3.4.6 (Costos de Garantía)}
-	\begin{block}{Modelación de Costo No Lineal en Válvulas Aeroespaciales}
-		\small
-		Sea $X \sim \text{Bin}(n=20, p=0.05)$ el número de válvulas defectuosas. El costo de garantía en dólares es $C(X) = 500 X^2 + 150 X + 1000$.
-		\begin{align*}
-			\mathbb{E}[X] = 20(0.05) = 1.0, \quad \text{Var}(X) = 20(0.05)(0.95) = 0.95.
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Costo Esperado Global}
-				\footnotesize
-				Como $\mathbb{E}[X^2] = \text{Var}(X) + \mu^2 = 0.95 + 1.0 = 1.95$:
-				$\mathbb{E}[C(X)] = 500(1.95) + 150(1.0) + 1000 = \$2,125$.
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Impacto de la Dispersión}
-				\footnotesize
-				El término cuadrático aporta $\$975$ al costo total ($45.88\%$). La variabilidad pura ($\sigma^2 = 0.95$) genera un sobrecosto no lineal masivo.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 10A: Ejercicio en Clase — Nivel 1: Fundamental (Enunciado)
+\begin{frame}{Ejercicio en Clase — Nivel 1: Fundamental (1/2)}
+  \begin{block}{Problema 3.4.2 — Control de Calidad de Sensores}
+    \footnotesize
+    En un proceso automático de control de calidad, se inspeccionan $n = 8$ sensores de temperatura fabricados en condiciones idénticas e independientes. La probabilidad de que un sensor individual cumpla con los estándares de precisión es $p = 0.90$. Sea $X$ el número total de sensores que cumplen con los estándares entre los $8$ inspeccionados.
+    \begin{enumerate}\itemsep=0.12cm
+      \item Identifique la distribución exacta de $X$ junto con sus parámetros y calcule la probabilidad de que exactamente $7$ sensores cumplan con los estándares ($P(X=7)$).
+      \item Calcule la probabilidad de que a lo sumo $1$ sensor resulte no apto en la muestra inspeccionada ($X \ge 7$).
+    \end{enumerate}
+  \end{block}
+  \vspace{-0.05cm}
+  \pause
+  \begin{alertblock}{Metodología Sugerida}
+    \footnotesize
+    Plantee el coeficiente combinatorio $\comb{8}{7}$ y reconozca que "a lo sumo 1 no apto" equivale a tener $7$ u $8$ sensores aptos ($P(X=7) + P(X=8)$).
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 14: Ejercicios Nivel Analítico --- Problemas 3.4.7 y 3.4.8
-\begin{frame}{Ejercicios Nivel Analítico --- Problemas 3.4.7 y 3.4.8}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problema 3.4.7 (Cierre y Media por Newton)}
-				\footnotesize
-				\begin{itemize}
-					\itemsep=0.04cm
-					\item **Normalización:** $\sum \comb{n}{k}p^k q^{n-k} = (p+q)^n = 1^n = 1$.
-					\item **Media por derivación:** Derivando $(p+q)^n$ respecto a $p$ obtenemos $n(p+q)^{n-1} = \sum k\comb{n}{k}p^{k-1}q^{n-k}$. Multiplicando por $p$ y evaluando en $q=1-p$, queda $\mathbb{E}[X] = np$.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Problema 3.4.8 (Momento Factorial)}
-				\footnotesize
-				\begin{itemize}
-					\itemsep=0.04cm
-					\item **2do Momento Factorial:** $k(k-1)\comb{n}{k} = n(n-1)\comb{n-2}{k-2}$. Sumando sobre $k \ge 2$, se obtiene $\mathbb{E}[X(X-1)] = n(n-1)p^2$.
-					\item **Varianza:** Como $\text{Var}(X) = \mathbb{E}[X(X-1)] + \mu - \mu^2$, sustituyendo queda $\text{Var}(X) = n^2 p^2 - np^2 + np - n^2 p^2 = np(1-p)$.
-				\end{itemize}
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 10B: Ejercicio en Clase — Nivel 1: Fundamental (Resolución)
+\begin{frame}{Ejercicio en Clase — Nivel 1: Fundamental (2/2)}
+  \fontsize{7.5pt}{9pt}\selectfont
+  Identificamos el modelo exacto: $X \sim \text{Bin}(n=8, \, p=0.90)$ con $q = 0.10$. \pause
+
+  \vspace{-0.05cm}
+  \begin{block}{1. Probabilidad Exacta de 7 Sensores Aptos ($x=7$)}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Evaluamos la función de masa de probabilidad binomial:
+    $$P(X = 7) = \comb{8}{7} (0.90)^7 (0.10)^1 = 8 \cdot (0.4782969) \cdot (0.10) \approx \mathbf{0.382637}$$
+  \end{block}
+
+  \vspace{-0.1cm}
+  \pause
+  \begin{alertblock}{2. Probabilidad de a lo Sumo 1 Sensor Defectuoso ($X \ge 7$)}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Si el número de defectuosos es $D = 8 - X \le 1$, entonces $X \in \{7, 8\}$:
+    $$P(X = 8) = \comb{8}{8} (0.90)^8 (0.10)^0 = 1 \cdot (0.4304672) \cdot 1 \approx 0.430467$$
+    $$P(D \le 1) = P(X \ge 7) = P(X=7) + P(X=8) = 0.382637 + 0.430467 = \mathbf{0.813104}$$
+    \textbf{Conclusión:} Existe una probabilidad del $81.31\%$ de que el lote pase la inspección de alta exigencia.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 15: Ejercicios Nivel Desafiante --- Problema 3.4.9
-\begin{frame}{Ejercicios Nivel Desafiante --- Problema 3.4.9 (Demostración de la Moda)}
-	\begin{block}{Análisis del Cociente de Probabilidades Adyacentes}
-		\small
-		Investigamos la condición de crecimiento $R(k) = \dfrac{P(X=k)}{P(X=k-1)} \ge 1$ para $k \in \mathcal{S}_X$:
-		\begin{align*}
-			R(k) = \dfrac{\comb{n}{k} p^k q^{n-k}}{\comb{n}{k-1} p^{k-1} q^{n-k+1}} = \dfrac{n-k+1}{k} \cdot \dfrac{p}{1-p} \ge 1.
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Caracterización Exacta de la Moda}
-				\footnotesize
-				Despejando $k$ obtenemos $k \le (n+1)p$. Por tanto, el punto máximo entero único es la parte entera inferior:
-				$k^* = \lfloor (n+1)p \rfloor$.
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Condición Bimodal}
-				\footnotesize
-				Si $(n+1)p = m \in \mathbb{Z}^+$, entonces $R(m) = 1$. La masa es idéntica y máxima en dos enteros adyacentes: $m-1$ y $m$.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 11A: Ejercicio en Clase — Nivel 2: Operativo (Enunciado)
+\begin{frame}{Ejercicio en Clase — Nivel 2: Operativo (1/2)}
+  \begin{block}{Problema 3.4.6 — Costo Operativo y Función de Pérdida Cuadrática}
+    \footnotesize
+    Un fabricante de componentes aeroespaciales suministra lotes de $n = 20$ válvulas hidráulicas. La probabilidad de que una válvula defectuosa escape al control interno es $p = 0.05$. El contrato establece un costo operativo de garantía modelado por la función de pérdida no lineal:
+    $$C(X) = 500 X^2 + 150 X + 1000 \quad \text{(en dólares)},$$
+    donde $X$ representa el número de válvulas defectuosas en el lote entregado.
+    \begin{enumerate}\itemsep=0.1cm
+      \item Determine la esperanza matemática del costo de garantía $\E[C(X)]$ utilizando las propiedades de los momentos binomiales.
+      \item Calcule la desviación estándar del número de defectos $\sigma_X$ y discuta el impacto del término cuadrático $X^2$ en el costo esperado global.
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 16: Ejercicios Nivel Desafiante --- Problema 3.4.10
-\begin{frame}{Ejercicios Nivel Desafiante --- Problema 3.4.10 (Identidad de Vandermonde)}
-	\begin{block}{Convolución y Aditividad de Binomiales Independientes}
-		\small
-		Sean $X \sim \text{Bin}(n_1, p)$ y $Y \sim \text{Bin}(n_2, p)$ independientes. Por convolución discreta:
-		\begin{align*}
-			P(X+Y = m) = \sum_{j=0}^m P(X=j)P(Y=m-j) = p^m q^{(n_1+n_2)-m} \sum_{j=0}^m \comb{n_1}{j}\comb{n_2}{m-j}.
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Identidad de Vandermonde}
-				\footnotesize
-				Seleccionar $m$ objetos de dos grupos de tamaños $n_1$ y $n_2$ equivale a $\sum \comb{n_1}{j}\comb{n_2}{m-j} = \comb{n_1+n_2}{m}$.
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Cierre under Suma}
-				\footnotesize
-				Concluye que $X+Y \sim \text{Bin}(n_1+n_2, p)$, preservando aditividad: $\mu_Z = \mu_X+\mu_Y$ y $\sigma^2_Z = \sigma^2_X+\sigma^2_Y$.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 11B: Ejercicio en Clase — Nivel 2: Operativo (Resolución)
+\begin{frame}{Ejercicio en Clase — Nivel 2: Operativo (2/2)}
+  \fontsize{7.5pt}{9pt}\selectfont
+  Para $X \sim \text{Bin}(20, 0.05)$, calculamos los dos primeros momentos centrales:
+  $$\mu_X = \E[X] = np = 20(0.05) = 1.0, \qquad \sigma_X^2 = \Var(X) = np(1-p) = 20(0.05)(0.95) = 0.95$$ \pause
+
+  \vspace{-0.1cm}
+  \begin{block}{1. Segundo Momento Bruto y Costo Esperado $\E[C(X)]$}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Por la identidad fundamental de varianza, $\E[X^2] = \Var(X) + (\E[X])^2 = 0.95 + 1.0^2 = \mathbf{1.95}$.
+    Aplicando linealidad al operador esperanza:
+    $$\E[C(X)] = 500 \E[X^2] + 150 \E[X] + 1000 = 500(1.95) + 150(1.0) + 1000 = 975 + 150 + 1000 = \mathbf{\$2,125\text{ USD}}$$
+  \end{block}
+
+  \vspace{-0.1cm}
+  \pause
+  \begin{alertblock}{2. Discusión de Impacto del Término Cuadrático}
+    \fontsize{7.5pt}{9pt}\selectfont
+    La desviación estándar es $\sigma_X = \sqrt{0.95} \approx 0.9747$ defectos. Si la pérdida fuera lineal ($C_{\text{lin}} = 150X + 1000$), el costo esperado sería sólo $\$1,150$. El término $500X^2$ añade $\$975$ adicionales debido al costo de variabilidad ($\Var(X)$), castigando de forma agresiva las fluctuaciones extremas del proceso.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 17: Lab Python --- Validación Vectorizada de PMF y CDF
-\begin{frame}[fragile]{Laboratorio Python --- Validación Vectorizada de PMF y CDF (`numpy`)}
-	\vspace{-0.15cm}
-	\begin{block}{Implementación en \texttt{03.04\_bernoulli\_binomial.py}}
-		\lstinputlisting[language=Python, firstline=13, lastline=34, basicstyle=\fontsize{5.8pt}{6.8pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py}
-	\end{block}
+% Slide 12A: Ejercicio en Clase — Nivel 3: Analítico (Enunciado)
+\begin{frame}{Ejercicio en Clase — Nivel 3: Analítico (1/2)}
+  \begin{block}{Problema 3.4.7 — Teorema del Binomio y Derivación del Primer Momento}
+    \footnotesize
+    Sea $X \sim \text{Bin}(n, p)$ con $q = 1-p$.
+    \begin{enumerate}\itemsep=0.15cm
+      \item Demuestre rigurosamente, utilizando el Teorema del Binomio de Newton, la identidad de normalización absoluta:
+      $$\sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = 1.$$
+      \item Aplicando el operador diferencial $\dfrac{\partial}{\partial p}$ a la identidad analítica $(p+q)^n = \sum_{k=0}^n \comb{n}{k} p^k q^{n-k}$ antes de sustituir $q=1-p$, demuestre analíticamente que $\E[X] = np$.
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 18: Lab Python --- Simulación Monte Carlo y Momentos Empíricos
-\begin{frame}[fragile]{Laboratorio Python --- Simulación Monte Carlo y Momentos (`numpy`)}
-	\begin{block}{Simulación a Gran Escala ($N=100,000$ Ensayos)}
-		\lstinputlisting[language=Python, firstline=39, lastline=56, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py}
-	\end{block}
+% Slide 12B: Ejercicio en Clase — Nivel 3: Analítico (Resolución)
+\begin{frame}{Ejercicio en Clase — Nivel 3: Analítico (2/2)}
+  \fontsize{6.5pt}{7.8pt}\selectfont
+  \begin{block}{1. Normalización por Teorema del Binomio}
+    \fontsize{6.5pt}{7.8pt}\selectfont
+    El Teorema del Binomio establece que $(a+b)^n = \sum_{k=0}^n \comb{n}{k} a^k b^{n-k}$. Tomando $a=p$ y $b=q$:
+    $$\sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = (p+q)^n = (p + 1 - p)^n = 1^n = 1. \quad \checkmark$$
+  \end{block}
+
+  \vspace{-0.1cm}
+  \pause
+  \begin{alertblock}{2. Derivación Paramétrica del Valor Esperado $\E[X]$}
+    \fontsize{6.5pt}{7.8pt}\selectfont
+    Derivamos ambos miembros de la identidad $(p+q)^n = \sum_{k=0}^n \comb{n}{k} p^k q^{n-k}$ con respecto al parámetro $p$:
+    $$n(p+q)^{n-1} = \sum_{k=0}^n k \comb{n}{k} p^{k-1} q^{n-k}$$
+    Multiplicando toda la ecuación por $p$, obtenemos $np(p+q)^{n-1} = \sum_{k=0}^n k \comb{n}{k} p^k q^{n-k} = \E[X]$.
+    Finalmente, imponemos la condición $q = 1-p \implies p+q = 1$:
+    $$\E[X] = np(1)^{n-1} = \mathbf{np}. \quad \blacksquare$$
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 19: Lab Python --- Análisis de Moda y Asimetría
-\begin{frame}[fragile]{Laboratorio Python --- Análisis de Moda y Asimetría (`scipy.stats`)}
-	\begin{block}{Verificación Computacional de Moda y Sesgo}
-		\lstinputlisting[language=Python, firstline=61, lastline=75, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py}
-	\end{block}
+% Slide 13A: Ejercicio en Clase — Nivel 4: Desafiante (Enunciado)
+\begin{frame}{Ejercicio en Clase — Nivel 4: Desafiante (1/2)}
+  \begin{block}{Problema 3.4.9 — Moda de la Distribución Binomial}
+    \footnotesize
+    Sea $X \sim \text{Bin}(n, p)$ una variable binomial con probabilidad de éxito $0 < p < 1$. Se define la moda de la distribución como el valor o los valores $k^* \in \{0, 1, \dots, n\}$ que maximizan la probabilidad $P(X = k^*)$.
+    \begin{enumerate}\itemsep=0.12cm
+      \item Analice el cociente de probabilidades adyacentes $R(k) = \dfrac{P(X = k)}{P(X = k-1)}$ para todo $k \in \{1, 2, \dots, n\}$.
+      \item Demuestre analíticamente que la moda cumple $k^* = \lfloor (n+1)p \rfloor$ cuando $(n+1)p$ no es entero.
+      \item Determine qué ocurre con la distribución cuando $(n+1)p = m \in \mathbb{Z}^+$ (caso bimodal).
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 20: Cierre y Síntesis Estocástica
-\begin{frame}{Cierre --- Síntesis Estocástica y Puente Didáctico}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Síntesis Conceptual}
-				\small
-				\begin{itemize}
-					\itemsep=0.08cm
-					\item **Bernoulli ($p$):** Bloque fundamental dicotómico, $\mu = p$, $\sigma^2 = pq$.
-					\item **Binomial ($n, p$):** Suma de $n$ ensayos independientes, $\mu = np$, $\sigma^2 = npq$.
-					\item **Invarianza:** La simulación Monte Carlo en Python confirmó convergencia con errores $< 10^{-4}$.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Puente a la Sección 03.05}
-				\small
-				¿Qué sucede si en lugar de fijar el número total de ensayos $n$ y contar los éxitos, **fijamos el número de éxitos deseados $r$ y contamos cuántos ensayos se requieren**?
-				
-				$\to$ Esto da lugar a la **Distribución Geométrica** ($r=1$) y la **Distribución Binomial Negativa** ($r \ge 1$).
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 13B: Ejercicio en Clase — Nivel 4: Desafiante (Resolución)
+\begin{frame}{Ejercicio en Clase — Nivel 4: Desafiante (2/2)}
+  \fontsize{7pt}{8.5pt}\selectfont
+  Formamos el cociente adyacente para ver dónde la probabilidad crece ($R(k) \ge 1$):
+  $$R(k) = \dfrac{\comb{n}{k} p^k q^{n-k}}{\comb{n}{k-1} p^{k-1} q^{n-k+1}} = \dfrac{\frac{n!}{k!(n-k)!} p}{\frac{n!}{(k-1)!(n-k+1)!} q} = \dfrac{n-k+1}{k} \dfrac{p}{1-p}$$ \pause
+
+  \vspace{-0.1cm}
+  \begin{block}{1. Condición de Crecimiento y Unimodalidad}
+    \fontsize{7pt}{8.5pt}\selectfont
+    Imponemos $R(k) \ge 1 \iff (n-k+1)p \ge k(1-p) \iff np - kp + p \ge k - kp \iff \mathbf{k \le (n+1)p}$.
+    Por tanto, $P(X=k)$ crece estrictamente mientras $k < (n+1)p$ y decrece cuando $k > (n+1)p$. Si $(n+1)p$ no es entero, el único punto máximo ocurre en la parte entera:
+    $$\mathbf{k^* = \lfloor (n+1)p \rfloor}$$
+  \end{block}
+
+  \vspace{-0.1cm}
+  \pause
+  \begin{alertblock}{2. Caso Especial Bimodal ($m = (n+1)p \in \mathbb{Z}^+$)}
+    \fontsize{7pt}{8.5pt}\selectfont
+    Si el producto $(n+1)p$ es exactamente un número entero $m$, entonces en el punto $k = m$ el cociente es igual a la unidad ($R(m) = 1 \implies P(X=m) = P(X=m-1)$). La distribución posee exactamente **dos modas adyacentes** con idéntica masa máxima:
+    $$k_1^* = m - 1 = (n+1)p - 1 \quad \text{y} \quad k_2^* = m = (n+1)p$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 14: Cierre de Sección
+\begin{frame}{Cierre de Sección y Síntesis Estocástica}
+  \begin{block}{Resumen de Competencias en Modelación Binomial}
+    \footnotesize
+    \begin{itemize}\itemsep=0.1cm
+      \item \textbf{Ensayo de Bernoulli ($X \sim \text{Bernoulli}(p)$):} El ladrillo elemental del análisis de riesgo e indicadores dicotómicos, con media $\mu = p$ y varianza máxima $\sigma^2 = pq \le 0.25$.
+      \item \textbf{Agregación Combinatoria ($X \sim \text{Bin}(n, p)$):} El conteo de éxitos en $n$ ensayos independientes requiere el factor $\comb{n}{x}$ para dar cuenta de las permutaciones algebraicas del espacio muestral.
+      \item \textbf{Aditividad de Momentos:} Por linealidad de sumas i.i.d., $\E[X] = np$ y $\Var(X) = npq$, sirviendo como patrón comparativo para detectar sobredispersión en modelos empíricos.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 15: Perspectiva Modular
+\begin{frame}{Perspectiva Modular — El Próximo Reto}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{El Límite del Conteo Fijo ($n$ Constante)}
+        \footnotesize
+        Hasta ahora, el número de ensayos $n$ se ha mantenido **fijo de antemano**, mientras que el número de éxitos $X \in \{0, \dots, n\}$ es la variable aleatoria. ¿Qué ocurre si invertimos el paradigma experimental?
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \pause
+      \begin{alertblock}{Hacia la Sección 03.05: Tiempos de Espera}
+        \footnotesize
+        En la **Sección 03.05**, fijaremos el número de éxitos deseados ($r \ge 1$) y dejaremos que el número de ensayos necesarios sea la variable aleatoria. Estudiaremos la **Distribución Geométrica** ($r=1$) y la **Binomial Negativa** ($r>1$), descubriendo la fascinante propiedad de pérdida de memoria.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \end{document}
