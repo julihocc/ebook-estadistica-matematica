@@ -1,0 +1,158 @@
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Estadística Descriptiva]{Sección 1.1: Introducción a la Estadística Descriptiva}
+\subtitle{De los Datos Crudos al Conocimiento en Ciencia de Datos}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Slide 2: Motivación del Mundo Real
+\begin{frame}{¿Por qué necesitamos la Estadística Descriptiva?}
+  \begin{motivacion}
+    Imagina que eres Científico de Datos en \textbf{Mercado Libre} o \textbf{Netflix}. 
+    Cada segundo se generan cientos de miles de clics, compras y tiempos de reproducción.
+    
+    \vspace{0.3em}
+    \textbf{El problema:} Ningún ser humano ni tomador de decisiones puede inspeccionar visualmente una tabla SQL con \textbf{10 millones de filas} para decidir una estrategia.
+  \end{motivacion}
+  
+  \vspace{0.5em}
+  La \textbf{Estadística Descriptiva} es nuestra herramienta de compresión de información:
+  \begin{itemize}
+    \item \textbf{Resumir:} Convierte gigabytes de datos brutos en 3 o 4 métricas interpretables.
+    \item \textbf{Detectar:} Saca a la luz patrones ocultos, anomalías graves o fraudes (*outliers*).
+    \item \textbf{Comunicar:} Permite reportar hallazgos de forma clara a directivos e ingenieros.
+  \end{itemize}
+\end{frame}
+
+% Slide 3: Pregunta Gatillo / Discusión en Aula
+\begin{frame}{Piénsalo y Discútelo con tu Compañero (2 min)}
+  \begin{pregunta}
+    Un analista quiere conocer el salario promedio de los ingenieros de software en México. Como no tiene acceso a la nómina de todas las empresas del país, entrevista a \textbf{200 ingenieros} afuera de una torre corporativa en Polanco o San Pedro Garza García.
+    \vspace{0.5em}
+    \\ \textbf{¿Qué problemas observas en esta metodología?}
+    \\ \textbf{¿El resultado representará fielmente la realidad del país?}
+  \end{pregunta}
+  
+  \vspace{0.8em}
+  \begin{center}
+    \textit{\color{TecAzulOscuro} Reflexión clave: La diferencia entre lo que queremos medir (Población) y lo que realmente podemos observar (Muestra).}
+  \end{center}
+\end{frame}
+
+% Slide 4: Conceptos Clave - Descriptiva vs Inferencial
+\begin{frame}{Dos Ramas Complementarias del Análisis de Datos}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Estadística Descriptiva}
+        \textbf{¿Qué pasó en estos datos?}
+        \begin{itemize}
+          \item Se enfoca exclusivamente en \textbf{resumir y organizar} el conjunto de datos observado.
+          \item Herramientas: tablas, gráficas de barras, histogramas, promedios, dispersión.
+          \item \textbf{Certeza:} 100\% sobre los datos medidos (no hace adivinanzas sobre el futuro).
+        \end{itemize}
+      \end{block}
+    \end{column}
+    
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Estadística Inferencial}
+        \textbf{¿Qué podemos generalizar?}
+        \begin{itemize}
+          \item Utiliza los datos medidos para hacer \textbf{predicciones y generalizaciones} sobre lo que no vimos.
+          \item Herramientas: intervalos de confianza, pruebas de hipótesis, regresiones.
+          \item \textbf{Incertidumbre:} Cuantifica el margen de error y la probabilidad.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 5: Población vs Muestra & Parámetro vs Estadístico
+\begin{frame}{Población vs. Muestra \& Parámetro vs. Estadístico}
+  Para no perdernos en la notación matemática, recordemos este puente fundamental:
+  
+  \vspace{0.4em}
+  \begin{center}
+    \footnotesize
+    \begin{tabular}{p{2.3cm} p{5.5cm} p{5.3cm}}
+      \toprule
+      \textbf{Concepto} & \textbf{Población (El Universo Total)} & \textbf{Muestra (El Subconjunto Observado)} \\
+      \midrule
+      \textbf{Definición} & Todos los individuos u objetos de interés & Parte selecta y representativa \\
+      \textbf{Medida asociada} & \textbf{Parámetro} (Valor fijo, casi siempre desconocido) & \textbf{Estadístico} (Valor calculado, aleatorio) \\
+      \textbf{Media (Promedio)} & $\mu$ (Letra griega mu) & $\bar{X}$ o $\bar{x}$ (X barra) \\
+      \textbf{Varianza} & $\sigma^2$ (Sigma al cuadrado) & $S^2$ o $s^2$ (S al cuadrado) \\
+      \textbf{Proporción} & $p$ o $\pi$ & $\hat{p}$ (p gorro) \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+
+  \vspace{0.4em}
+  \begin{alertblock}{Regla de oro}
+    \textbf{Nunca} calculamos $\mu$ exactamente a menos que hagamos un censo global. ¡Usamos $\bar{X}$ como un telescopio para estimar $\mu$!
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Live Coding / Exploración en Python
+\begin{frame}[fragile]{Laboratorio en Python: Exploración de Muestras}
+  ¿Cómo se traduce esto a código en un flujo real de Ciencia de Datos usando \texttt{numpy} y \texttt{pandas}?
+  
+  \begin{lstlisting}
+import numpy as np
+import pandas as pd
+
+# 1. Simulamos una POBLACION oculta de 100,000 usuarios (ej. tiempo en app)
+poblacion_mu = 45.0
+poblacion_sigma = 12.0
+poblacion = np.random.normal(loc=poblacion_mu, scale=poblacion_sigma, size=100000)
+
+# Parametro real (oculto en la practica):
+print(f"Parametro poblacional real (mu): {np.mean(poblacion):.2f} min")
+
+# 2. Extraemos una MUESTRA aleatoria de solo 150 usuarios
+muestra = np.random.choice(poblacion, size=150, replace=False)
+
+# Estadistico calculado (nuestro estimador):
+x_barra = np.mean(muestra)
+print(f"Estadistico muestral (X-barra):  {x_barra:.2f} min")
+  \end{lstlisting}
+\end{frame}
+
+% Slide 7: Quiz / Reto en el Aula
+\begin{frame}{Reto Rápido en Equipo: ¿Parámetro o Estadístico?}
+  \begin{retoclase}
+    Clasifica cada número de los siguientes enunciados como un \textbf{Parámetro ($\mu, \sigma^2, p$)} o un \textbf{Estadístico ($\bar{X}, S^2, \hat{p}$)}:
+  \end{retoclase}
+  
+  \vspace{0.4em}
+  \begin{enumerate}
+    \item Se escogen al azar 50 transacciones bancarias en un servidor y se encuentra que el monto promedio es de \textbf{\$1,450 MXN}.
+    \item El Instituto Nacional de Estadística censó las 35,000 secundarias del país y determinó que el \textbf{12\%} no tiene laboratorio de cómputo.
+    \item Un algoritmo de ML entrena con un batch de 512 imágenes y calcula una pérdida (*loss*) promedio de \textbf{0.34}.
+    \item Por diseño de ingeniería, una máquina embotelladora llena latas con un volumen promedio teórico exacto de \textbf{355 ml}.
+  \end{enumerate}
+\end{frame}
+
+% Slide 8: Resumen y Siguientes Pasos
+\begin{frame}{Resumen y Conexión con la Sesión 1.2}
+  \begin{block}{Lo que debemos recordar hoy (*Takeaways*)}
+    \begin{itemize}
+      \item La **Estadística Descriptiva** organiza y resume el pasado/presente observado sin incertidumbre.
+      \item Siempre debemos distinguir entre el **Parámetro** (la verdad oculta de la Población) y el **Estadístico** (el resumen que obtenemos de nuestra Muestra).
+      \item La calidad del análisis depende críticamente de que la muestra sea **representativa** y no sesgada.
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.5em}
+  \begin{exampleblock}{¿Qué veremos en la Sección 1.2?}
+    ¿Cuál es el mejor "resumen de un solo número" para nuestros datos?
+    \\ Mañana exploraremos las **Medidas de Tendencia Central** (\textit{Media, Mediana y Moda}) y por qué el promedio puede engañarnos drásticamente cuando hay multimillonarios o valores extremos (*outliers*).
+  \end{exampleblock}
+\end{frame}
+
+\end{document}
