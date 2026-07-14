@@ -151,7 +151,7 @@
 
 \subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
 
-\begin{solucion}
+\begin{solproblema}
 	\textbf{Paso 1: Planteamiento formal de hipótesis.}
 	\begin{align}
 		H_0&: \mu_1 = \mu_2 = \mu_3 = \mu_4 \quad (\text{Los cuatro algoritmos tienen idéntico rendimiento medio}). \\
@@ -218,9 +218,9 @@
 		F_{0.05, \, 3, \, 16} = 3.239.
 	\end{align}
 	Dado que nuestro estadístico calculado $F = 6.843 \gg 3.239$ ($p-\text{valor} \approx 0.0035$), \textbf{rechazamos categóricamente la hipótesis nula $H_0$}. Demostramos con más del $99.6\%$ de confianza que existe una diferencia altamente significativa en la precisión media ($F_1$-score) de al menos uno de los cuatro algoritmos de aprendizaje automático sobre los conjuntos de datos evaluados.
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\textbf{Paso 1: Obtención del cuantil del rango estandarizado ($q$).}
 	De la tabla ANOVA del Problema \ref{prob:anova_un_factor_ml}, tenemos que el Cuadrado Medio del Error es $\text{CME} = 10.315$ con $\nu_E = 16$ grados de libertad, y contamos con $k = 4$ tratamientos. Todos con igual número de réplicas $n = 5$.
 	
@@ -254,9 +254,9 @@
 		\item \textbf{Random Forest vs SVM:} $|\bar{Y}_{\text{RF}} - \bar{Y}_{\text{SVM}}| = |84.2 - 79.8| = 4.40\% \leq 5.811\%$ $\implies$ No significativo.
 	\end{enumerate}
 	\textbf{Conclusión técnica del análisis post-hoc:} El procedimiento de Tukey HSD revela y aisla con precisión la causa de significancia del ANOVA: \textbf{tanto XGBoost ($88.6\%$) como las Redes Neuronales Profundas ($86.4\%$) superan de manera estadísticamente probada a SVM ($79.8\%$)} en el $F_1$-score. Entre XGBoost, Redes Neuronales y Bosques Aleatorios no existen diferencias estadísticamente discernibles para el tamaño de muestra del estudio.
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Cálculo de la Suma de Cuadrados de Tratamientos ($\text{SCTR}$):}
 		Por el teorema de aditividad cuadrática ($\text{SCT} = \text{SCTR} + \text{SCE}$), despejamos de forma elemental:
@@ -287,11 +287,11 @@
 		El cuantil crítico en la distribución $F$ con $3$ y $26$ grados de libertad al $1\%$ es $F_{0.01, \, 3, \, 26} = 4.637$.
 		Puesto que nuestro estadístico muestral excede por un margen abrumador a la frontera ($16.370 \gg 4.637$), \textbf{se rechaza la hipótesis nula de igualdad de resistencias al nivel de significancia del 1\%}. El tipo de formulación química altera decisiva y significativamente la resistencia mecánica del polímero.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
 
-\begin{solucion}
+\begin{solproblema}
 	\textbf{Parte 1: Partición de Sumas de Cuadrados y Tabla ANOVA DBCA.}
 	La media general o gran media es $\bar{Y}_{..} = 16.6667$ s ($N = k \times b = 3 \times 4 = 12$ observaciones).
 	
@@ -371,9 +371,9 @@
 		F_{\text{un factor}} = \frac{26.333}{42.77} = 0.615 \quad (\text{que es mucho menor al crítico } F_{0.05, 2, 9} = 4.26).
 	\end{align}
 	El bloqueo \textbf{rescató por completo el experimento de un falso negativo masivo (error Tipo II)} al purgar el ruido del hardware.
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\textbf{Parte 1: Cálculo del LSD de Fisher.}
 	Para $k = 5$ tratamientos, el número total de comparaciones por pares es $m = \binom{5}{2} = \frac{5 \times 4}{2} = 10$.
 	El cuantil de la distribución $t$ de Student para una prueba individual de dos colas con $\alpha = 0.05$ ($\alpha/2 = 0.025$) y $\nu_E = 25$ grados de libertad es:
@@ -406,9 +406,9 @@
 		\item \textbf{LSD de Fisher} es una herramienta de alta sensibilidad experimental (bajo error Tipo II): detectará fácilmente diferencias sutiles entre protocolos (como $5.2$ ms), pero al no ajustar por las 10 comparaciones de la familia, su probabilidad real de declarar al menos un falso positivo en todo el experimento asciende a más del $35\%$.
 		\item \textbf{Bonferroni} garantiza una especificidad férrea ($\text{FWER} \leq 5\%$), impidiendo falsas alarmas. Sin embargo, su rigidez cobra un precio en potencia estadística (elevado error Tipo II): diferencias reales y operativamente valiosas entre $5.1$ ms y $7.5$ ms pasarán inadvertidas como no significativas. En analítica computacional, cuando $k \geq 5$, se prefiere el término medio equilibrado que ofrece HSD de Tukey.
 	\end{itemize}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Cálculo de la gran media general ponderada ($\bar{Y}_{..}$):}
 		En diseños con tamaños de muestra heterogéneos ($n_j \neq n$), el promedio general no es simple, sino el promedio ponderado por el número de réplicas grupales ($N = \sum n_j = 6 + 8 + 5 = 19$):
@@ -456,11 +456,11 @@
 			R_{\text{ajustado}}^2 = 1 - \left[ \frac{\text{CME}}{\text{CMT}} \right] = 1 - \left[ \frac{\text{SCE}/\nu_E}{\text{SCT}/\nu_T} \right] = 1 - \left[ \frac{12.8125}{818.7897 / 18} \right] = 1 - \left[ \frac{12.8125}{45.4883} \right] = 1 - 0.28166 \approx 0.7183 \quad (71.83\%).
 		\end{align}
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
 
-\begin{solucion}
+\begin{solproblema}
 	La afirmación del analista es \textbf{peligrosamente incompleta en el escenario analizado}. Es un hecho matemático que el ANOVA goza de robustez estructural frente a desviaciones leves a moderadas de homoscedasticidad cuando las muestras están balanceadas ($n_1 = n_2 = n_3$). Sin embargo, dicha robustez \textbf{no soporta disparidades extremas} en las varianzas grupales.
 	
 	En nuestro caso, la varianza del Tratamiento 3 ($S_3^2 = 8.9$) es más de \textbf{siete veces superior} a la varianza del Tratamiento 1 ($S_1^2 = 1.2$, cociente $8.9 / 1.2 = 7.41$). Esta heterogeneidad severa indica que el Tratamiento 3 opera con una inestabilidad sistémica muy superior o contiene valores atípicos severos.
@@ -471,9 +471,9 @@
 		\item \textbf{Prueba formal de Levene o Brown-Forsythe:} Se debe someter la muestra a la prueba de Levene ($\alpha = 0.05$). Ante una disparidad de razón $7.4:1$, la prueba de Levene rechazará de forma contundente la hipótesis nula $H_0: \sigma_1^2 = \sigma_2^2 = \sigma_3^2$.
 		\item \textbf{Alternativa analítica adecuada:} Dado el fallo confirmado de homoscedasticidad, el analista debe desestimar el estadístico $F$ convencional y emplear el \textbf{ANOVA de Welch (o prueba $F$ de Welch)}, que pondera inversamente los cuadrados medios grupales por las varianzas individuales $S_i^2/n_i$ y ajusta los grados de libertad del denominador, o bien aplicar una transformación logarítmica ($\log Y_{ij}$) si los datos son positivos y asimétricos a la derecha.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\textbf{Paso 1: Estimación del tamaño del efecto bajo la configuración más adversa.}
 	Para un número fijo de tratamientos $k = 4$ con una diferencia máxima especificada $\Delta = 5$ ms y una dispersión de error $\sigma = 4$ ms, la configuración poblacional más difícil de detectar (la que minimiza la suma de cuadrados de los tratamientos $\sum \tau_i^2$) ocurre cuando dos tratamientos están en los extremos distanciados por $\Delta$ y los otros $k-2$ tratamientos se ubican exactamente en el punto medio de ambos.
 	
@@ -500,11 +500,11 @@
 	\end{align}
 	
 	\textbf{Conclusión de diseño experimental:} Redondeando al entero superior inmediato para garantizar el cumplimiento estricto del poder deseado, se requiere asignar un tamaño de muestra de \textbf{$n = 14$ réplicas por cada lenguaje de backend}, lo que implica un tamaño total de experimento de \textbf{$N = k \times n = 4 \times 14 = 56$ peticiones de API auditadas}.
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Demostración algebraica de la partición cuadrática e identidad del doble producto:}
 		Sea la identidad de descomposición observacional exacta:
@@ -567,9 +567,9 @@
 			F = \frac{\dfrac{\text{SCTR}/\sigma^2}{k-1}}{\dfrac{\text{SCE}/\sigma^2}{N-k}} = \frac{\text{CMTR}}{\text{CME}} \sim F_{k-1, \, N-k}.
 		\end{align}
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Deducción sistemática del valor esperado de los Cuadrados Medios ($E[\text{CM}]$):}
 		Sea el modelo en bloques completos al azar $Y_{ij} = \mu + \tau_i + \beta_j + \varepsilon_{ij}$.
@@ -645,4 +645,4 @@
 		\end{align}
 		\textbf{Conclusión teórica:} El Diseño en Bloques Completos al Azar \textbf{aporta una ganancia estricta y real de eficiencia en estimación ($\text{ER} > 1$) siempre que el Cuadrado Medio del Bloque supere al Cuadrado Medio del Error ($F_{\text{Bloque}} > 1$)}. Si el factor de bloqueo fue irrelevante o mal escogido de modo que $\text{CMB} < \text{CME}$, el bloqueo habrá sido un lastre analítico que habrá destruido innecesariamente grados de libertad del error sin absorber varianza de la infraestructura.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}

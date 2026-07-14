@@ -226,7 +226,7 @@
 
 \subsubsection*{1. Fundamental Level (Simple / Direct)}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Empirical Overfitting Diagnosis:}
 		Overfitting occurs when a predictive model learns idiosyncratic random patterns or measurement noise present exclusively in the specific calibration sample, losing generality on new data from the same market. Let us evaluate the observed sample gaps:
@@ -263,9 +263,9 @@
 		\end{enumerate}
 		\textbf{Superior Alternative:} Implement a \textbf{$k$-Fold Cross-Validation protocol ($k=5$ or $k=10$)}. This method systematically rotates the sample into 5 or 10 partitions, ensuring that $100\%$ of the original data is used exactly once for holdout testing and that errors are averaged, definitively stabilizing inference regarding generalization capacity.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Exact computation of Test Mean Squared Error (\emph{Test MSE}):}
 		We tabulate the residual errors and their squares across the $n_{\text{test}} = 4$ forecasting observations:
@@ -306,9 +306,9 @@
 		\textbf{Geometric Penalty of RMSE:} By squaring each residual error ($e_i^2$) before taking the average, the $\text{MSE}$ metric (and consequently $\text{RMSE}$) assigns an exponentially aggressive, disproportionate weight to \textbf{extreme predictive deviations or large outliers}. For example, a single forecast error of $10\text{ MWh}$ contributes $100$ units to the sum of squares (equal to the total penalty of one hundred individual small errors of $1\text{ MWh}$).
 		For this reason, $\text{RMSE}$ is used as the standard validation benchmark in engineering and finance when committing a severe forecasting error generates catastrophic operational costs, whereas $\text{MAE}$ is preferred when assessing average robust performance in distributions prone to spurious outliers.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Computation of Mean Cross-Validation Coefficient of Determination and its standard deviation across folds:}
 		We sum and average the coefficients obtained across all $k = 5$ rotations:
@@ -347,11 +347,11 @@
 		\end{align}
 		An inter-fold coefficient of variation below $5\%$ guarantees \textbf{outstanding stability, structural robustness, and high sample homogeneity}. It formally confirms that the algorithm is not erratic and does not depend on idiosyncratic client subsets; the data are distributed harmoniously across parameter space, ensuring that the model will maintain uniform predictive accuracy in daily banking operations.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{2. Operational Level (Intermediate / Development)}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Comparison of mean explanatory power and stability via Coefficient of Variation:}
 		\begin{itemize}
@@ -386,9 +386,9 @@
 		
 		Therefore, we \textbf{unanimously and strongly recommend adopting Model A (Parsimonious)}. Its simplicity, elegance, high fold-to-fold stability, and virtually identical retail forecasting accuracy protect the corporation against overfitting while maximizing decision-making reliability.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Computation of quantitative out-of-sample degradation ratios:}
 		\begin{itemize}
@@ -425,9 +425,9 @@
 			Audit the normality of the dependent transaction variable ($Y$) using logarithmic or Box-Cox transformations ($\ln Y$), and identify observations with anomalous leverage via Cook's distance to refit with robust regression models (such as Huber $M$-estimators that minimize the quadratic impact of outliers).
 		\end{enumerate}
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Operational accounting of Leave-One-Out Cross-Validation (LOOCV):}
 		In LOOCV executed across a finite sample of size $n = 50$:
@@ -461,11 +461,11 @@
 			\label{tab:loocv_vs_kfold_sol}
 		\end{table}
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{3. Analytical Level (Advanced / Synthesis)}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Rigorous manual computation of Akaike ($\text{AIC}$) and Schwarz ($\text{BIC}$) Information Criteria:}
 		We apply algebraic definitions $\text{AIC} = n\ln(\text{SSD}/n) + 2p$ and $\text{BIC} = n\ln(\text{SSD}/n) + p\ln(n)$ for a sample of size $n = 100$ with $\ln(100) = 4.6052$:
@@ -519,9 +519,9 @@
 		
 		\textbf{Critical Implications in Big Data:} In massive datasets with $n = 1,000,000$ rows ($\ln n \approx 13.82$), AIC chronically and inconsistently selects oversized models packed with redundant variables whose effects are statistically significant only at the hundredth decimal place. \textbf{BIC possesses the theoretical property of asymptotic model selection consistency}: as the probability of selecting the true underlying model converges to $1$ when $n \to \infty$, BIC serves as the definitive selection criterion in large-scale modern analytics.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Computation of parametric validation via Mallows' $C_p$ Statistic:}
 		For the sample of $n = 30$ firms, with the unbiased residual variance of the full master model ($p_{\text{max}} = 6$) being $\hat{\sigma}^2 = 4.00$, and the residual sum of squares of the evaluated sub-model ($p = 3$) being $\text{SSD}_p = 13.00$:
@@ -560,11 +560,11 @@
 		\end{align}
 		This demonstration conclusively proves why ordinary $R^2$ is highly vulnerable and blind to high-leverage points that anchor the regression line to themselves, whereas the $\text{PRESS}$-based $Q^2$ metric acts as an uncompromising detector of geometric instability, warning analysts whenever model predictions depend precariously on a handful of extreme observations.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{4. Challenging Level (Expert / Deep Deduction)}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Matrix analytical derivation of Sherman-Morrison-Woodbury updating:}
 		Let the incomplete symmetric cross-product tensor formed by subtracting the dyadic vector of the $i$-th observation $\mathbf{x}_i \mathbf{x}_i^T$ be:
@@ -627,9 +627,9 @@
 		\textbf{Catastrophic Instability from Extreme Leverage:} Geometrically, $H_{ii}$ represents Mahalanobis distance in explanatory space $\mathbf{X}$ measuring how isolated point $i$ is from the multivariable centroid of the sample. When an observation is a hyper-leverage extreme ($H_{ii} \to 1^-$), the denominator collapses to zero ($1 - H_{ii} \to 0^+$).
 		This causes any non-zero elementary residual at that position ($e_i \neq 0$) to be divided by an infinitesimal quantity, inflating the predictive residual to infinity ($\hat{\varepsilon}_{(-i)} \to \infty$). Physically, because that single anomalous row is solely responsible for anchoring the tilt of the regression hyperplane in that region of space, removing it during LOOCV causes the regression plane to collapse or rotate abruptly, yielding a catastrophic generalization error at that point.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Analytical derivation of the Bias-Variance-Noise Decomposition:}
 		For a specific point in design space $\mathbf{x}_0$, let the true generating process value be $Y_0 = f(\mathbf{x}_0) + \varepsilon_0$, where $\varepsilon_0$ is random noise with zero mean and variance $\sigma_{\varepsilon}^2$, statistically independent of calibration sample $\mathcal{D}$.
@@ -681,4 +681,4 @@
 		\end{align}
 		This demonstration proves indisputably the \textbf{Optimal Regularization Hyperparameter Existence Theorem ($\exists \lambda^* > 0$)}: for any imperfectly orthogonal linear model, introducing a controlled artificial bias via Ridge regularization always reduces sample variance by a greater amount than the added bias, minimizing the generalization loss function. $k$-Fold cross-validation serves as the empirical mechanism that explores this convex bias-variance curve to locate precisely that optimal valley $\lambda^*$.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}

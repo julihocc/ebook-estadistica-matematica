@@ -61,20 +61,32 @@
 \renewcommand{\theremark}{\theobservacion}
 \renewcommand{\theclaim}{\fmtnum{claim}}
 
-% Numbered solucion environment
-\newcounter{sol}[section]
-\renewcommand{\thesol}{\fmtnum{sol}}
+% Unnumbered solution environment (for theory / immediate examples)
 \newenvironment{solucion}[1][]{
 	\medskip
-	\refstepcounter{sol}%
 	\ifx&#1&\else\label{sol:#1}\fi
-		\bgroup\color{TecRojo}
-		{\textbf{Solution \thesol.}}
-	}{%
-		\egroup
+	\bgroup\color{TecRojo}
+	\ifx&#1&{\textbf{Solution.}}\else{\textbf{Solution (#1).}}\fi
+}{%
+	\egroup
 	\medskip
-	}
+}
 \newenvironment{solution}[1][]{\begin{solucion}[#1]}{\end{solucion}}
+
+% Numbered solution environment for problems (for (p).tex problem files)
+\newcounter{solprob}[section]
+\renewcommand{\thesolprob}{\fmtnum{solprob}}
+\newenvironment{solproblema}[1][]{
+	\medskip
+	\refstepcounter{solprob}%
+	\ifx&#1&\else\label{solprob:#1}\fi
+	\bgroup\color{TecRojo}
+	\ifx&#1&{\textbf{Solution to Problem \thesolprob.}}\else{\textbf{Solution to Problem \thesolprob~(#1).}}\fi
+}{%
+	\egroup
+	\medskip
+}
+\newenvironment{solproblem}[1][]{\begin{solproblema}[#1]}{\end{solproblema}}
 
 \newenvironment{algoritmo}[1]{
 	\medskip

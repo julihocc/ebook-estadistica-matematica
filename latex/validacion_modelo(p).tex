@@ -226,7 +226,7 @@
 
 \subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Diagnóstico empírico de sobreajuste (\emph{Overfitting}):}
 		El sobreajuste ocurre cuando un modelo predictivo aprende con excesiva fidelidad los patrones aleatorios idiosincrásicos o el ``ruido de medición'' presente exclusivamente en la muestra particular de calibración, perdiendo generalidad ante nuevos datos del mismo mercado. Evaluemos las brechas muestrales obtenidas:
@@ -263,9 +263,9 @@
 		\end{enumerate}
 		\textbf{Alternativa superadora:} Implementar un protocolo de \textbf{Validación Cruzada de $k$ pliegues ($k$-fold Cross-Validation con $k=5$ o $k=10$)}. Este método rota iterativamente la muestra en 5 o 10 particiones, garantizando que el $100\%$ de los datos originales se emplee exactamente una vez como prueba oculta y que los errores se promedien, estabilizando de forma definitiva la inferencia sobre la capacidad de generalización.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Cálculo exacto del Error Cuadrático Medio de Prueba (\emph{Test MSE}):}
 		Tabulamos los errores residuales y sus cuadrados sobre las $n_{\text{test}} = 4$ observaciones de pronóstico:
@@ -306,9 +306,9 @@
 		\textbf{Penalización geométrica del RMSE:} Al elevar al cuadrado cada error residual ($e_i^2$) antes de computar el promedio, la métrica $\text{MSE}$ (y en consecuencia el $\text{RMSE}$) otorga una ponderación exponencialmente agresiva y desproporcionada a las \textbf{desviaciones predictivas extremas o grandes aberraciones (\emph{outliers})}. Por ejemplo, un único error predictivo de $10$ MWh contribuye con $100$ unidades a la suma de cuadrados (equivalente a la penalización total de cien pequeños errores individuales de $1$ MWh).
 		Por esta razón, el $\text{RMSE}$ se utiliza como estándar de validación en ingeniería y finanzas cuando cometer un error de pronóstico severo genera costos catastróficos para el sistema, mientras que el $\text{MAE}$ se prefiere para evaluar el rendimiento robusto medio ante distribuciones que presentan valores atípicos espurios.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Cálculo del Coeficiente de Determinación Medio y su desviación estándar entre pliegues:}
 		Sumamos y promediamos los coeficientes obtenidos a lo largo de las $k = 5$ rotaciones:
@@ -347,11 +347,11 @@
 		\end{align}
 		Un coeficiente de variación inter-pliegues inferior al $5\%$ es garantía de una \textbf{sobresaliente estabilidad, robustez estructural y gran homogeneidad muestral}. Demuestra formalmente que el algoritmo no es errático ni depende de combinaciones idiosincrásicas de clientes; los datos están distribuidos armónicamente a través del espacio paramétrico, asegurando que el modelo mantendrá su nivel de exactitud predictiva de manera uniforme en la práctica diaria del banco.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Comparación de poder explicativo medio y estabilidad por Coeficiente de Variación:}
 		\begin{itemize}
@@ -386,9 +386,9 @@
 		
 		Por tanto, se \textbf{recomienda de manera rotunda y unánime adoptar el Modelo A (Parsimonioso)}. Su simplicidad, elegancia, notable estabilidad en todos los pliegues y virtualmente idéntica precisión en pronóstico minorista protegen a la corporación del sobreajuste e incrementan la confiabilidad de la toma de decisiones.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Cálculo de las razones cuantitativas de degradación extra-muestra:}
 		\begin{itemize}
@@ -425,9 +425,9 @@
 			Auditar la normalidad de la variable dependiente de transacciones corporativas ($Y$) mediante transformaciones logarítmicas o de Box-Cox ($\ln Y$), e identificar observaciones con apalancamiento anómalo mediante la distancia de Cook para reajustar con modelos de regresión robusta (como estimadores $M$ de Huber que minimizan el impacto cuadrático de los \emph{outliers}).
 		\end{enumerate}
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Contabilidad operacional de la Validación Cruzada Dejando Uno Fuera (LOOCV):}
 		En la metodología LOOCV ejecutada sobre una muestra de tamaño finito $n = 50$:
@@ -461,11 +461,11 @@
 			\label{tab:loocv_vs_kfold_sol}
 		\end{table}
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Cálculo manual riguroso de los Criterios de Información de Akaike ($\text{AIC}$) y Schwarz ($\text{BIC}$):}
 		Aplicamos las definiciones algebraicas $\text{AIC} = n\ln(\text{SCE}/n) + 2p$ y $\text{BIC} = n\ln(\text{SCE}/n) + p\ln(n)$ para la muestra de tamaño $n = 100$ con $\ln(100) = 4.6052$:
@@ -519,9 +519,9 @@
 		
 		\textbf{Implicaciones críticas en \emph{Big Data}:} En bases de datos masivas con $n = 1,000,000$ de filas ($\ln n \approx 13.82$), el AIC tiende de manera crónica e inconsistente a seleccionar modelos mastodónticos llenos de variables redundantes con efectos significativos al centésimo decimal. El \textbf{BIC goza de la propiedad de consistencia paramétrica asintótica}: si la probabilidad de seleccionar al modelo verdadero converge a $1$ cuando $n \to \infty$, el BIC es el árbitro supremo de selección en analítica moderna a gran escala.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Cálculo de la validación paramétrica por el Estadístico $C_p$ de Mallows:}
 		Para la muestra de $n = 30$ empresas, con la varianza residual insesgada del modelo maestro completo ($p_{\text{max}} = 6$) siendo $\hat{\sigma}^2 = 4.00$, y la suma residual del sub-modelo evaluado ($p = 3$) siendo $\text{SCE}_p = 13.00$:
@@ -560,11 +560,11 @@
 		\end{align}
 		Esta demostración prueba incontrovertiblemente por qué el $R^2$ ordinario es altamente vulnerable y ciego ante puntos de gran apalancamiento que secuestran la línea de regresión hacia ellos, mientras que la métrica $Q^2$ basada en el estadístico $\text{PRESS}$ actúa como un implacable detector de inestabilidad geométrica, advirtiendo al analista cuando las predicciones de un modelo dependen peligrosamente de unas pocas observaciones extremas.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Deducción analítica matricial de la actualización por Sherman-Morrison-Woodbury:}
 		Sea el tensor simétrico incompleto de productos cruzados al sustraer el vector diádico de la $i$-ésima observación $\mathbf{x}_i \mathbf{x}_i^T$:
@@ -627,9 +627,9 @@
 		\textbf{Inestabilidad catastrófica por apalancamiento extremo:} Geométricamente, $H_{ii}$ es una distancia de Mahalanobis en el espacio explicativo $\mathbf{X}$ que mide qué tan aislado se encuentra el punto $i$ del centroide multivariable de toda la muestra. Cuando una observación es un extremo hiper-apalancado ($H_{ii} \to 1^-$), el divisor se colapsa a cero ($1 - H_{ii} \to 0^+$).
 		Esto provoca que cualquier residuo elemental no nulo en esa posición ($e_i \neq 0$) se divida por un infinitesimal, inflando el residuo predictivo al infinito ($\hat{\varepsilon}_{(-i)} \to \infty$). Físicamente, como esa única fila anómala es la única responsable de anclar la inclinación de la recta hiperplana en esa región del espacio, al retirarla del ajuste para validación por LOOCV, el plano de regresión se derrumba o gira abruptamente, produciendo un error catastrófico de generalización sobre dicho punto.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Deducción analítica de la Descomposición Sesgo-Varianza-Ruido:}
 		Para un punto concreto del espacio de diseño $\mathbf{x}_0$, sea el valor real del proceso generador $Y_0 = f(\mathbf{x}_0) + \varepsilon_0$, donde $\varepsilon_0$ es el ruido con media $0$ y varianza $\sigma_{\varepsilon}^2$, estadísticamente independiente de la muestra de calibración $\mathcal{D}$.
@@ -681,4 +681,4 @@
 		\end{align}
 		Esta demostración prueba de forma incontestable el \textbf{Teorema de Existencia del Hiperparámetro Óptimo de Regularización ($\exists \lambda^* > 0$)}: para cualquier modelo lineal imperfectamente ortogonal, introducir un sesgo artificial controlado mediante regularización Ridge siempre reduce en mayor cuantía la varianza muestral que el sesgo añadido, minimizando la función de pérdida del error de generalización. La validación cruzada $k$-fold actúa como la herramienta empírica que explora esta curva convexa de sesgo-varianza hasta localizar con precisión ese valle óptimo $\lambda^*$.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}

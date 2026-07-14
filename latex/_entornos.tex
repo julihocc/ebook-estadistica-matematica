@@ -31,19 +31,30 @@
 \newtheorem*{sugerencia}{Sugerencia}
 \renewcommand{\theobservacion}{\fmtnum{observacion}}
 
-% Numbered solucion environment
-\newcounter{sol}[section]
-\renewcommand{\thesol}{\fmtnum{sol}}
+% Entorno de solución no numerada (para ejemplos y teoría inmediata)
 \newenvironment{solucion}[1][]{
 	\medskip
-	\refstepcounter{sol}%
 	\ifx&#1&\else\label{sol:#1}\fi
-		\bgroup\color{TecRojo}
-		{\textbf{Solución \thesol.}}
-	}{%
-		\egroup
+	\bgroup\color{TecRojo}
+	\ifx&#1&{\textbf{Solución.}}\else{\textbf{Solución (#1).}}\fi
+}{%
+	\egroup
 	\medskip
-	}
+}
+
+% Entorno de solución numerada al problema (para subsección de soluciones en archivos (p).tex)
+\newcounter{solprob}[section]
+\renewcommand{\thesolprob}{\fmtnum{solprob}}
+\newenvironment{solproblema}[1][]{
+	\medskip
+	\refstepcounter{solprob}%
+	\ifx&#1&\else\label{solprob:#1}\fi
+	\bgroup\color{TecRojo}
+	\ifx&#1&{\textbf{Solución al Problema \thesolprob.}}\else{\textbf{Solución al Problema \thesolprob~(#1).}}\fi
+}{%
+	\egroup
+	\medskip
+}
 
 \newenvironment{algoritmo}[1]{
 	\medskip

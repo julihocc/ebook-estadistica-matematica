@@ -151,7 +151,7 @@
 
 \subsubsection*{1. Fundamental Level (Simple / Direct)}
 
-\begin{solucion}
+\begin{solproblema}
 	\textbf{Step 1: Formal hypothesis formulation.}
 	\begin{align}
 		H_0&: \mu_1 = \mu_2 = \mu_3 = \mu_4 \quad (\text{All four algorithms have identical average performance}). \\
@@ -218,9 +218,9 @@
 		F_{0.05, \, 3, \, 16} = 3.239.
 	\end{align}
 	Since our calculated statistic $F = 6.843 \gg 3.239$ ($p\text{-value} \approx 0.0035$), \textbf{we categorically reject the null hypothesis $H_0$}. We demonstrate with greater than $99.6\%$ confidence that there is a highly significant difference in the mean accuracy ($F_1$-score) of at least one of the four machine learning algorithms across the evaluated datasets.
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\textbf{Step 1: Obtaining the Studentized range quantile ($q$).}
 	From the ANOVA table in Problem \ref{prob:anova_un_factor_ml}, our Mean Square Error is $\text{CME} = 10.315$ with $\nu_E = 16$ degrees of freedom, and we have $k = 4$ treatments, all with equal replicate sizes $n = 5$.
 	
@@ -254,9 +254,9 @@
 		\item \textbf{Random Forest vs SVM:} $|\bar{Y}_{\text{RF}} - \bar{Y}_{\text{SVM}}| = |84.2 - 79.8| = 4.40\% \leq 5.811\%$ $\implies$ Not significant.
 	\end{enumerate}
 	\textbf{Technical post-hoc conclusion:} Tukey's HSD procedure reveals and isolates precisely the source of ANOVA significance: \textbf{both XGBoost ($88.6\%$) and Deep Neural Networks ($86.4\%$) significantly outperform SVM ($79.8\%$)} in $F_1$-score. Between XGBoost, Neural Networks, and Random Forests, there are no statistically discernible differences given the study's sample size.
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Calculation of Treatment Sum of Squares ($\text{SCTR}$):}
 		By the quadratic additivity theorem ($\text{SCT} = \text{SCTR} + \text{SCE}$), we solve directly:
@@ -287,11 +287,11 @@
 		The critical quantile in the $F$-distribution with $3$ and $26$ degrees of freedom at the $1\%$ level is $F_{0.01, \, 3, \, 26} = 4.637$.
 		Because our sample statistic exceeds the boundary by an overwhelming margin ($16.370 \gg 4.637$), \textbf{we reject the null hypothesis of equal strengths at the 1\% significance level}. Chemical formulation type decisively alters the mechanical tensile strength of the polymer.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{2. Operational Level (Intermediate / Developmental)}
 
-\begin{solucion}
+\begin{solproblema}
 	\textbf{Part 1: Sum of Squares Partitioning and RCBD ANOVA Table.}
 	The grand mean is $\bar{Y}_{..} = 16.6667$ s ($N = k \times b = 3 \times 4 = 12$ observations).
 	
@@ -371,9 +371,9 @@
 		F_{\text{one-way}} = \frac{26.333}{42.77} = 0.615 \quad (\text{far below the critical value } F_{0.05, 2, 9} = 4.26).
 	\end{align}
 	Blocking \textbf{completely rescued the experiment from a massive false negative (Type II error)} by purging hardware noise.
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\textbf{Part 1: Calculation of Fisher's LSD.}
 	For $k = 5$ treatments, the total number of pairwise comparisons is $m = \binom{5}{2} = \frac{5 \times 4}{2} = 10$.
 	The quantile of Student's $t$-distribution for a two-tailed individual test with $\alpha = 0.05$ ($\alpha/2 = 0.025$) and $\nu_E = 25$ degrees of freedom is:
@@ -406,9 +406,9 @@
 		\item \textbf{Fisher's LSD} provides high experimental sensitivity (low Type II error): it easily detects subtle differences across protocols (such as $5.2$ ms), but because it does not adjust for the 10 family comparisons, its true probability of declaring at least one false positive across the entire experiment exceeds $35\%$.
 		\item \textbf{Bonferroni} guarantees ironclad specificity ($\text{FWER} \leq 5\%$), preventing false alarms. However, its rigidity comes at a cost to statistical power (high Type II error): true, operationally valuable differences between $5.1$ ms and $7.5$ ms will pass unnoticed as non-significant. In computational analytics, when $k \geq 5$, researchers prefer the balanced middle ground offered by Tukey's HSD.
 	\end{itemize}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Calculation of the weighted grand mean ($\bar{Y}_{..}$):}
 		In designs with heterogeneous sample sizes ($n_j \neq n$), the grand average is not simple, but weighted by group replicate counts ($N = \sum n_j = 6 + 8 + 5 = 19$):
@@ -456,11 +456,11 @@
 			R_{\text{adjusted}}^2 = 1 - \left[ \frac{\text{CME}}{\text{CMT}} \right] = 1 - \left[ \frac{\text{SCE}/\nu_E}{\text{SCT}/\nu_T} \right] = 1 - \left[ \frac{12.8125}{818.7897 / 18} \right] = 1 - \left[ \frac{12.8125}{45.4883} \right] = 1 - 0.28166 \approx 0.7183 \quad (71.83\%).
 		\end{align}
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{3. Analytical Level (Advanced / Connection)}
 
-\begin{solucion}
+\begin{solproblema}
 	The analyst's assertion is \textbf{dangerously incomplete under the analyzed scenario}. It is a mathematical fact that ANOVA possesses structural robustness against mild-to-moderate homoscedasticity deviations when sample sizes are balanced ($n_1 = n_2 = n_3$). However, this robustness \textbf{does not withstand extreme disparities} across group variances.
 	
 	In our case, the variance of Treatment 3 ($S_3^2 = 8.9$) is more than \textbf{seven times larger} than the variance of Treatment 1 ($S_1^2 = 1.2$, ratio $8.9 / 1.2 = 7.41$). This severe heterogeneity indicates that Treatment 3 operates with vastly higher systemic instability or contains severe outliers.
@@ -471,9 +471,9 @@
 		\item \textbf{Formal Levene or Brown-Forsythe test:} Subject the sample to Levene's test ($\alpha = 0.05$). Given a variance ratio of $7.4:1$, Levene's test will decisively reject the null hypothesis $H_0: \sigma_1^2 = \sigma_2^2 = \sigma_3^2$.
 		\item \textbf{Appropriate analytical alternative:} Given the confirmed homoscedasticity failure, the analyst must discard the conventional $F$ statistic and employ \textbf{Welch's ANOVA (or Welch's $F$-test)}, which inversely weights group mean squares by individual variances $S_i^2/n_i$ and adjusts denominator degrees of freedom, or alternatively apply a logarithmic transformation ($\log Y_{ij}$) if data are positive and right-skewed.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\textbf{Step 1: Effect size estimation under the most adverse configuration.}
 	For a fixed number of treatments $k = 4$ with a specified maximum difference $\Delta = 5$ ms and error dispersion $\sigma = 4$ ms, the hardest population configuration to detect (the one minimizing treatment sum of squares $\sum \tau_i^2$) occurs when two treatments lie at the extremes separated by $\Delta$, and the remaining $k-2$ treatments sit exactly at the midpoint between them.
 	
@@ -500,11 +500,11 @@
 	\end{align}
 	
 	\textbf{Experimental design conclusion:} Rounding up to the next integer to strictly guarantee achieving the desired target power, we must assign a sample size of \textbf{$n = 14$ replicates per backend language}, resulting in a total experiment size of \textbf{$N = k \times n = 4 \times 14 = 56$ audited API requests}.
-\end{solucion}
+\end{solproblema}
 
 \subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Algebraic proof of quadratic partitioning and cross-product identity:}
 		Let the exact observational error decomposition identity be:
@@ -567,9 +567,9 @@
 			F = \frac{\dfrac{\text{SCTR}/\sigma^2}{k-1}}{\dfrac{\text{SCE}/\sigma^2}{N-k}} = \frac{\text{CMTR}}{\text{CME}} \sim F_{k-1, \, N-k}.
 		\end{align}
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
+\begin{solproblema}
 	\begin{enumerate}
 		\item \textbf{Systematic derivation of expected Mean Squares ($E[\text{CM}]$):}
 		Consider the randomized complete block model $Y_{ij} = \mu + \tau_i + \beta_j + \varepsilon_{ij}$.
@@ -645,4 +645,4 @@
 		\end{align}
 		\textbf{Theoretical conclusion:} The Randomized Complete Block Design \textbf{yields a strict, tangible gain in estimation efficiency ($\text{ER} > 1$) whenever the Block Mean Square exceeds the Error Mean Square ($F_{\text{Block}} > 1$)}. If the blocking factor was irrelevant or poorly chosen such that $\text{CMB} < \text{CME}$, blocking acts as an analytical drag that unnecessarily wastes error degrees of freedom without absorbing infrastructure variance.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
