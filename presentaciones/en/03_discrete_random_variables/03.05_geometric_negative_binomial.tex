@@ -1,0 +1,484 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title{Geometric and Negative Binomial Distributions}
+\subtitle{Section 03.05 --- Waiting Times, Memoryless Property, and Overdispersion}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
+	\begin{block}{Curricular Structure of Unit 2}
+		\small
+		\begin{enumerate}
+			\itemsep=0.04cm
+			\item \textcolor{gray}{Section 03.01: Discrete Probability Functions (PMF and Support)}
+			\item \textcolor{gray}{Section 03.02: Cumulative Distribution Function (Discrete CDF)}
+			\item \textcolor{gray}{Section 03.03: Mathematical Expectation, Variance, and Moments}
+			\item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions}
+			\item \textbf{\textcolor{TecRojo}{Section 03.05: Geometric and Negative Binomial Distributions}} $\leftarrow$ \emph{Current focus}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Learning Objective}
+		\footnotesize
+		Analyze the modeling of waiting times until the $r$-th success in independent Bernoulli trials, mastering the memoryless property for $r=1$ and the overdispersion phenomenon ($\sigma^2 > \mu$) for $r \ge 1$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivation and Intuition
+\begin{frame}{Motivation --- From Counting Successes to Measuring Waiting Times}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{The Binomial Perspective (Fixed Trials)}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item We fix beforehand the sample size or total number of trials ($n$).
+					\item The random variable is the number of observed successes ($X \in \set{0, 1, \dots, n}$).
+					\item Typical query: \emph{How many defective packages will appear in a batch of 100?}
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{The Waiting Time Perspective (Fixed Successes)}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item We fix beforehand the number of target successes required ($r$).
+					\item The random variable is the total number of trials needed ($X \in \set{r, r+1, \dots}$).
+					\item Typical query: \emph{How many attempts are needed until detecting the first failure ($r=1$) or the fourth ($r=4$)?}
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: The Geometric Distribution
+\begin{frame}{The Geometric Distribution ($X \sim \text{Geom}(p)$)}
+	\begin{block}{Formal Definition --- Time Until the First Success}
+		\small
+		Let $X$ be the total number of i.i.d. Bernoulli trials required to obtain the **first success** with probability $p \in (0, 1)$ and failure probability $q = 1-p$. Its probability mass function (PMF) and support are:
+		\begin{align*}
+			f_X(k) = P(X = k) = q^{k-1}p = (1-p)^{k-1}p, \quad k \in \mathcal{S}_X = \set{1, 2, 3, \dots}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Exact Normalization}
+				\footnotesize
+				By the sum of infinite geometric series with ratio $q \in (0, 1)$:
+				$\sum_{k=1}^{\infty} q^{k-1}p = p \sum_{j=0}^{\infty} q^j = p \left(\frac{1}{1-q}\right) = \frac{p}{p} = 1$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Cumulative Function (CDF)}
+				\footnotesize
+				The upper tail probability is $P(X > k) = q^k$. Thus, for any integer $k \ge 1$:
+				$F_X(k) = P(X \le k) = 1 - q^k$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Geometric Moments
+\begin{frame}{Moments of the Geometric Distribution}
+	\begin{block}{Mathematical Expectation ($\mu$) and Variance ($\sigma^2$)}
+		\small
+		Using power series differentiation or the moment generating function $M_X(t) = \frac{pe^t}{1-qe^t}$:
+		\begin{align*}
+			\mathbb{E}[X] = \dfrac{1}{p}, \qquad \text{Var}(X) = \dfrac{q}{p^2} = \dfrac{1-p}{p^2}, \qquad \sigma_X = \dfrac{\sqrt{1-p}}{p}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Mean Interpretation}
+				\footnotesize
+				If the probability of success in a single attempt is $p = 0.20$ (1 in 5), on average it takes $\mathbb{E}[X] = \frac{1}{0.20} = 5$ attempts to achieve the first success.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Positive Skewness}
+				\footnotesize
+				The mode is always exactly $k=1$ ($f_X(1)=p > qp = f_X(2)$). The distribution is strictly decreasing with a heavy right tail.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Memoryless Property
+\begin{frame}{The Memoryless Property (Discrete Markovianity)}
+	\begin{block}{Time-Invariance Theorem ($X \sim \text{Geom}(p)$)}
+		\small
+		For any pair of positive integers $m, n \in \set{1, 2, \dots}$, the conditional probability of requiring $n$ additional trials given survival past the first $m$ failed attempts satisfies:
+		\begin{align*}
+			P(X > m+n \mid X > m) = P(X > n) = q^n.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Proof via Tail Probabilities}
+				\scriptsize
+				By conditional definition for $m, n \ge 1$:
+				\begin{align*}
+					P(X > m+n \mid X > m) &= \dfrac{P(X > m+n)}{P(X > m)} \\
+					&= \dfrac{q^{m+n}}{q^m} = q^n.
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Unique Characterization}
+				\footnotesize
+				The geometric distribution is the **only** discrete law on $\set{1, 2, \dots}$ lacking memory. The system "does not age" nor remember past failures.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 07: The Negative Binomial Distribution
+\begin{frame}{The Negative Binomial Distribution ($X \sim \text{BN}(r, p)$)}
+	\begin{block}{Combinatorial Generalization --- Time Until the $r$-th Success}
+		\small
+		Let $X$ be the total number of trials required to accumulate **exactly $r$ successes** ($r \ge 1$). For the $r$-th success to happen on trial $k$, there must be $(r-1)$ successes in the first $(k-1)$ trials combined with success on trial $k$:
+		\begin{align*}
+			f_X(k) = P(X = k) = \comb{k-1}{r-1} p^r q^{k-r}, \quad k \in \mathcal{S}_X = \set{r, r+1, r+2, \dots}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Pascal's Relation}
+				\footnotesize
+				When $r=1$, the combinatorial coefficient reduces to $\comb{k-1}{0} = 1$, exactly recovering the elementary Geometric law $P(X=k)=q^{k-1}p$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Alternative Parameterization}
+				\footnotesize
+				In statistical software (`scipy`), it is modeled via failure counts $Y = X - r \in \set{0, 1, \dots}$ with PMF $P(Y=y) = \comb{y+r-1}{y}p^r q^y$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 08: Negative Binomial Moments
+\begin{frame}{Negative Binomial Moments and Stochastic Additivity}
+	\begin{block}{Decomposition as a Sum of Independent Geometric RVs}
+		\small
+		The total time $X$ until the $r$-th success is the stochastic sum of independent inter-success waiting times $Y_i \sim \text{Geom}(p)$: $X = \sum_{i=1}^r Y_i$. By linearity of expectation and variance:
+		\begin{align*}
+			\mathbb{E}[X] = \sum_{i=1}^r \mathbb{E}[Y_i] = \dfrac{r}{p}, \qquad \text{Var}(X) = \sum_{i=1}^r \text{Var}(Y_i) = \dfrac{rq}{p^2} = \dfrac{r(1-p)}{p^2}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Moment Generating Function}
+				\footnotesize
+				By independence, the MGF is the exact product:
+				$M_X(t) = \prod_{i=1}^r M_{Y_i}(t) = \left(\frac{pe^t}{1-qe^t}\right)^r$ for $t < -\ln(q)$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Standard Deviation}
+				\footnotesize
+				The standard deviation of the total counting process is $\sigma_X = \frac{\sqrt{r(1-p)}}{p}$, scaling as $\sqrt{r}$ with increasing success target $r$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 09: Overdispersion Analysis
+\begin{frame}{Overdispersion Analysis --- Comparison of Counting Models}
+	\begin{block}{The Variance-to-Mean Ratio in Discrete Processes}
+		\small
+		When comparing the three major discrete counting distributions for observed failures ($Y \in \set{0, 1, \dots}$), the dispersion index $\mathcal{I} = \frac{\sigma^2}{\mu}$ dictates the structural fit:
+	\end{block}
+	\vspace{-0.1cm}
+	\begin{columns}[T]
+		\begin{column}{0.32\textwidth}
+			\begin{exampleblock}{Binomial ($\mathcal{I} < 1$)}
+				\footnotesize
+				$\mu = np, \; \sigma^2 = npq$.
+				
+				Ratio $\frac{\sigma^2}{\mu} = q < 1$.
+				
+				**Underdispersion:** Bounded trial processes with controlled variability.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.32\textwidth}
+			\begin{block}{Poisson ($\mathcal{I} = 1$)}
+				\footnotesize
+				$\mu = \lambda, \; \sigma^2 = \lambda$.
+				
+				Ratio $\frac{\sigma^2}{\mu} = 1$.
+				
+				**Equidispersion:** Rare events occurring homogeneously in continuous time.
+			\end{block}
+		\end{column}
+		\begin{column}{0.32\textwidth}
+			\begin{alertblock}{Neg. Binomial ($\mathcal{I} > 1$)}
+				\footnotesize
+				$\mu = \frac{rq}{p}, \; \sigma^2 = \frac{rq}{p^2}$.
+				
+				Ratio $\frac{\sigma^2}{\mu} = \frac{1}{p} > 1$.
+				
+				**Overdispersion:** Clustered arrivals or unobserved individual heterogeneity.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 10: Asymptotic Relation
+\begin{frame}{Asymptotic Relation --- From Pascal to Poisson}
+	\begin{block}{Convergence of Failure Counts ($r \to \infty, p \to 1$)}
+		\small
+		If the required successes grow indefinitely ($r \to \infty$) while single-trial probability approaches certainty ($p \to 1$), holding the mean failure rate $(1-p)r = \lambda > 0$ constant:
+		\begin{align*}
+			\lim_{r \to \infty} P(Y = y) = \lim_{r \to \infty} \comb{y+r-1}{y} p^r (1-p)^y = \dfrac{\lambda^y e^{-\lambda}}{y!}, \quad \forall y \in \set{0, 1, \dots}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Combinatorial Mechanism}
+				\footnotesize
+				The combinatorial factor $\frac{r(r+1)\cdots(r+y-1)}{y! r^y} \to \frac{1}{y!}$, while the probability term $\left(1 - \frac{\lambda}{r}\right)^r \to e^{-\lambda}$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Theoretical Synthesis}
+				\footnotesize
+				The Negative Binomial absorbs extra variance; as dispersion diminishes ($\frac{1}{p} \to 1$), it collapses exactly into the Poisson distribution.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 11: Fundamental Level Exercises
+\begin{frame}{Fundamental Level Exercises --- Problems 3.5.1 to 3.5.3}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problem 3.5.1: Geom. PMF and Tails}
+				\scriptsize
+				**Statement:** For $X \sim \text{Geom}(p)$, derive $P(X > k)$ and the CDF $F_X(k)$.
+				
+				**Solution:** Summing tail terms yields $P(X > k) = \sum_{j=k+1}^{\infty} q^{j-1}p = q^k$. Hence, $F_X(k) = 1 - q^k$.
+			\end{exampleblock}
+			\begin{exampleblock}{Problem 3.5.2: Memoryless Check}
+				\scriptsize
+				**Statement:** With $p=0.04$, verify $P(X > 8 \mid X > 5)$.
+				
+				**Solution:** $P(X > 8 \mid X > 5) = \frac{q^8}{q^5} = q^3 = P(X > 3) = 0.000064$. The process retains no memory.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Problem 3.5.3: Audit ($r=3$)}
+				\scriptsize
+				**Statement:** With $p=0.10$, find the probability that the 3rd irregularity occurs on trial 20 ($X=20$).
+				
+				**Solution:** In the first 19 trials, $r-1=2$ defects must happen, followed by defect on trial 20:
+				$P(X=20) = \comb{19}{2}(0.10)^3(0.90)^{17} \approx 0.0285$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 12: Operational Level Exercises I
+\begin{frame}{Operational Level Exercises I --- Problems 3.5.4 and 3.5.5}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problem 3.5.4: Line Stoppage ($r=4$)}
+				\footnotesize
+				**Statement:** With $p=0.02$, compute $\mu_X$, $\sigma_X$, and $P(X \ge 100)$.
+				
+				**Solution:**
+				$\mu_X = \frac{4}{0.02} = 200$, $\sigma_X = \frac{\sqrt{4(0.98)}}{0.02} \approx 98.99$.
+				Exceeding 99 trials equals $\le 3$ defects in 99 parts (Binomial $W \sim \text{Bin}(99, 0.02)$):
+				$P(X \ge 100) = P(W \le 3) \approx 0.8625$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Problem 3.5.5: Biotech MLE}
+				\footnotesize
+				**Statement:** If the 5th viable embryo ($r=5$) occurs on injection $25$, find $\hat{p}_{\text{MLE}}$.
+				
+				**Solution:** Maximizing $\ell(p) = \ln \comb{24}{4} + 5\ln p + 20\ln(1-p)$ via first-order derivative:
+				$\frac{5}{p} - \frac{20}{1-p} = 0 \implies \hat{p}_{\text{MLE}} = \frac{5}{25} = 0.20$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 13: Operational Level Exercises II
+\begin{frame}{Operational Level Exercises II --- Problem 3.5.6}
+	\begin{block}{Problem 3.5.6: Network Traffic Overdispersion and Method of Moments}
+		\small
+		**Statement:** Modeling connection retries on a central server yields sample mean $\bar{x} = 3.2$ and sample variance $s^2 = 13.44$. Explain why Poisson fails and estimate $\hat{r}, \hat{p}$ via Method of Moments for a Negative Binomial ($Y \sim \text{BN}(r, p)$ on failures).
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Poisson Inadequacy}
+				\footnotesize
+				Sample dispersion index is $\frac{s^2}{\bar{x}} = \frac{13.44}{3.2} = 4.2 \gg 1$. Poisson requires $\sigma^2 = \mu$, thus severely underestimating tail risk in bursty network traffic.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Algebraic Method of Moments}
+				\footnotesize
+				Ratio of theoretical moments:
+				$\frac{\sigma_Y^2}{\mu_Y} = \frac{1}{p} = 4.2 \implies \hat{p} = \frac{5}{21} \approx 0.2381$.
+				
+				Substituting into mean:
+				$\frac{\hat{r}(1-p)}{p} = \hat{r}(3.2) = 3.2 \implies \hat{r} = 1.0$. The optimal model is a Geometric law.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 14: Analytical Level Exercises
+\begin{frame}{Analytical Level Exercises --- Problems 3.5.7 and 3.5.8}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problem 3.5.7: Neg. Binomial MGF}
+				\footnotesize
+				**Statement:** Prove that $X \sim \text{BN}(r, p)$ has MGF $M_X(t) = \left(\frac{pe^t}{1-qe^t}\right)^r$.
+				
+				**Solution:** For a single Geometric $Y_1$, $M_{Y_1}(t) = \sum_{k=1}^{\infty} e^{tk} q^{k-1}p = \frac{pe^t}{1-qe^t}$. Because $X = \sum_{i=1}^r Y_i$ is a sum of independents, $M_X(t) = [M_{Y_1}(t)]^r$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Problem 3.5.8: Moment Derivation}
+				\footnotesize
+				**Statement:** Derive $\mu_X = \frac{r}{p}$ and $\sigma_X^2 = \frac{rq}{p^2}$ via cumulant generating function $\kappa(t) = \ln M_X(t)$.
+				
+				**Solution:**
+				$\kappa'(0) = \frac{d}{dt}\left[r\ln p + rt - r\ln(1-qe^t)\right]_{t=0} = r + \frac{rq}{p} = \frac{r}{p}$.
+				Second derivative yields: $\kappa''(0) = \frac{rq}{p^2} = \text{Var}(X)$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 15: Challenging Level Exercises I
+\begin{frame}{Challenging Level Exercises I --- Problem 3.5.9}
+	\begin{block}{Problem 3.5.9: Discrete Memoryless Characterization Theorem}
+		\small
+		**Statement:** Prove rigorously that for a discrete random variable on $\mathbb{Z}^+$:
+		$P(X > m+n \mid X > m) = P(X > n) \; \forall m, n \ge 1 \iff X \sim \text{Geom}(p)$.
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Cauchy Functional Equation}
+				\footnotesize
+				Let $G(k) = P(X > k)$. The conditional hypothesis implies: $\frac{G(m+n)}{G(m)} = G(n) \implies G(m+n) = G(m)G(n)$.
+				By finite induction: $G(n) = [G(1)]^n$ for all $n \ge 0$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{PMF Reconstruction}
+				\footnotesize
+				Let $q \equiv G(1) \in (0, 1)$ and $p \equiv 1-q$. Taking first backward differences:
+				$P(X = k) = G(k-1) - G(k) = q^{k-1} - q^k = q^{k-1}(1-q) = q^{k-1}p$.
+				Mathematical uniqueness is proven.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 16: Challenging Level Exercises II
+\begin{frame}{Challenging Level Exercises II --- Problem 3.5.10}
+	\begin{block}{Problem 3.5.10: Asymptotic Proof from Pascal to Poisson}
+		\small
+		**Statement:** Let $Y = X - r \sim \text{BN}(r, p)$. Prove that if $(1-p)r = \lambda$ as $r \to \infty$, the probability mass function converges pointwise to $\frac{\lambda^y e^{-\lambda}}{y!}$.
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Algebraic Factorization}
+				\footnotesize
+				Substituting $1-p = \frac{\lambda}{r}$ and $p = 1 - \frac{\lambda}{r}$:
+				$P(Y=y) = \frac{(r+y-1)\cdots r}{y!} \left(\frac{\lambda}{r}\right)^y \left(1 - \frac{\lambda}{r}\right)^r$.
+				
+				The polynomial quotient $\frac{(r+y-1)\cdots r}{r^y} \to 1$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Exponential Limit}
+				\footnotesize
+				By Euler's second notable limit, $\left(1 - \frac{\lambda}{r}\right)^r \to e^{-\lambda}$.
+				Multiplying both convergent factors:
+				$\lim_{r \to \infty} P(Y=y) = \frac{\lambda^y e^{-\lambda}}{y!}$.
+				Overdispersed counts converge to equidispersion.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 17: Python Lab --- PMF/CDF Validation
+\begin{frame}[fragile]{Python Lab --- Vectorized PMF/CDF Validation (`scipy.stats`)}
+	\vspace{-0.15cm}
+	\begin{block}{Implementation in \texttt{03.05\_geometric\_negative\_binomial.py}}
+		\lstinputlisting[language=Python, firstline=16, lastline=37, basicstyle=\fontsize{5.8pt}{6.8pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 18: Python Lab --- Memoryless Property
+\begin{frame}[fragile]{Python Lab --- Memoryless Property via Monte Carlo ($N=250,000$)}
+	\begin{block}{Empirical Simulation of Conditional Invariance}
+		\lstinputlisting[language=Python, firstline=42, lastline=58, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 19: Python Lab --- Overdispersion
+\begin{frame}[fragile]{Python Lab --- Overdispersion and Stochastic Sum (`numpy`)}
+	\begin{block}{Verification of Additivity and Variance-to-Mean Ratio ($>1.0$)}
+		\lstinputlisting[language=Python, firstline=63, lastline=77, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 20: Closing and Stochastic Synthesis
+\begin{frame}{Closing --- Stochastic Synthesis and Didactic Bridge}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Conceptual Summary}
+				\small
+				\begin{itemize}
+					\itemsep=0.08cm
+					\item **Geometric ($p$):** Time to 1st success, $\mu = \frac{1}{p}$, $\sigma^2 = \frac{q}{p^2}$, unique memoryless discrete law.
+					\item **Negative Binomial ($r, p$):** Sum of $r$ independent geometrics, $\mu = \frac{r}{p}$, natural **overdispersion** absorber ($\sigma^2 > \mu$).
+					\item **Limit:** Converges to Poisson as $r \to \infty$.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Bridge to Section 03.06}
+				\small
+				So far, all Bernoulli trials assumed mutual independence (**sampling with replacement** from finite populations).
+				
+				What happens when we draw samples **without replacement** from a finite population partitioned into two distinct sub-populations?
+				
+				$\to$ This leads naturally to the **Hypergeometric Distribution**.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\end{document}

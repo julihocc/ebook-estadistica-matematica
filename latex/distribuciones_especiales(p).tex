@@ -433,3 +433,452 @@
 		El teorema combinatorio y aditivo queda rigurosamente demostrado.
 	\end{enumerate}
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 03.05: DISTRIBUCIONES GEOMÉTRICA Y BINOMIAL NEGATIVA
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 03.05}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:3.5.1}
+	Considere una secuencia infinita de ensayos de Bernoulli independientes con probabilidad constante de éxito $p \in (0, 1)$ en cada intento y probabilidad de fracaso $q = 1-p$. Sea $X$ la variable aleatoria discreta que denota el número total de ensayos requeridos hasta obtener el **primer éxito** (incluyendo el ensayo exitoso).
+	\begin{enumerate}
+		\item Especifique la función de masa de probabilidad $f_X(k) = P(X = k)$ y determine su soporte $\mathcal{S}_X$.
+		\item Demuestre analíticamente que la suma sobre todo el soporte es igual a la unidad ($\sum_{k=1}^{\infty} f_X(k) = 1$) mediante series geométricas.
+		\item Calcule la probabilidad de cola superior $P(X > k)$ para un entero $k \ge 1$ y obtenga una expresión cerrada para la función de distribución acumulada $F_X(k) = P(X \le k)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.2}
+	En un servidor de base de datos de alta concurrencia, las transacciones independientes experimentan fallas de bloqueo por concurrencia con probabilidad constante $p = 0.04$. Sea $X$ el número de intentos necesarios para que una transacción compleja logre ejecutarse con éxito por primera vez.
+	\begin{enumerate}
+		\item Calcule la probabilidad exacta de que la transacción requiera a lo sumo $3$ intentos para ejecutarse exitosamente.
+		\item Si la transacción ya ha fallado en sus primeros $5$ intentos, ¿cuál es la probabilidad condicional de que requiera más de $8$ intentos en total para tener éxito ($P(X > 8 \mid X > 5)$)?
+		\item Compare el resultado condicional anterior con la probabilidad no condicional de requerir más de $3$ intentos ($P(X > 3)$) e interprete el resultado en términos de la propiedad intrínseca del proceso.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.3}
+	Una firma de auditoría contable inspecciona transacciones corporativas de manera secuencial e independiente. Históricamente, se sabe que una fracción $p = 0.10$ de las transacciones presenta alguna irregularidad fiscal. Los auditores deciden continuar inspeccionando hasta encontrar **exactamente $r = 3$ transacciones irregulares**. Sea $X$ el número total de transacciones inspeccionadas.
+	\begin{enumerate}
+		\item Argumente por qué la probabilidad de que la tercera irregularidad sea detectada exactamente en la vigésima inspección ($X = 20$) adopta la forma combinatoria $P(X = 20) = \comb{19}{2} (0.10)^3 (0.90)^{17}$.
+		\item Escriba la función de masa general para $X \sim \text{BN}(r, p)$ sobre su soporte $\mathcal{S}_X = \set{r, r+1, \dots}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:3.5.4}
+	En una línea de soldadura láser automatizada para componentes de automoción, los defectos críticos ocurren de manera independiente con probabilidad $p = 0.02$ por pieza. Por protocolo de seguridad industrial, la línea se detiene para un recalibrado mayor en el instante exacto en que se detecta la **cuarta pieza defectuosa** ($r = 4$). Sea $X$ el número total de piezas producidas hasta el paro de la línea.
+	\begin{enumerate}
+		\item Calcule el número esperado de piezas producidas hasta el recalibrado ($\mathbb{E}[X]$) y la desviación estándar de la producción ($\sigma_X$).
+		\item Calcule la probabilidad de que la línea de soldadura logre producir al menos $100$ piezas antes de ser detenida por el cuarto defecto ($P(X \ge 100)$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.5}
+	Un equipo de biotecnología realiza microinyecciones en ovocitos de ratón para desarrollar un modelo transgénico. La probabilidad de éxito de cada microinyección es un parámetro desconocido $p \in (0, 1)$. El equipo planea inyectar ovocitos uno tras otro hasta obtener exactamente $r = 5$ embriones viables. Suponga que en el experimento real, el quinto embrión viable se obtuvo exactamente en la microinyección número $25$ ($X = 25$).
+	\begin{enumerate}
+		\item Escriba la función de verosimilitud $L(p \mid X = 25)$ basada en la distribución Binomial Negativa.
+		\item Calcule el estimador de máxima verosimilitud $\hat{p}_{\text{MLE}}$ para la probabilidad de viabilidad e interprete su relación intuitiva con la proporción observada de éxitos.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.6}
+	Un ingeniero en telecomunicaciones analiza el número de reintentos de conexión por usuario en una hora punta del servidor central. Al ajustar el número de fallas previas al primer éxito con un modelo discreto, observa que la media muestral es $\bar{x} = 3.2$ fallas y la varianza muestral es $s^2 = 13.44$.
+	\begin{enumerate}
+		\item Explique teóricamente por qué un modelo de distribución de Poisson pura resulta estructuralmente inadecuado para modelar este tráfico de reintentos.
+		\item Si se modela el número de fallas $Y = X - r \sim \text{BN}(r, p)$ (donde $Y \in \set{0, 1, \dots}$ tiene media $\mu_Y = \frac{rq}{p}$ y varianza $\sigma_Y^2 = \frac{rq}{p^2}$), utilice el método de momentos igualando $\mu_Y = 3.2$ y $\sigma_Y^2 = 13.44$ para estimar los parámetros poblacionales $\hat{p}$ y $\hat{r}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:3.5.7}
+	Sea un experimento secuencial donde $X \sim \text{BN}(r, p)$ cuenta el número total de ensayos de Bernoulli necesarios para acumular $r$ éxitos independientes.
+	\begin{enumerate}
+		\item Demuestre rigurosamente por descomposición estocástica que $X$ puede expresarse como la suma de $r$ variables aleatorias geométricas independientes e idénticamente distribuidas ($X = \sum_{i=1}^r Y_i$, donde $Y_i \sim \text{Geom}(p)$).
+		\item Demuestre por diferenciación de series de potencias que para una única variable $Y_1 \sim \text{Geom}(p)$, la función generadora de momentos es $M_{Y_1}(t) = \dfrac{p e^t}{1 - q e^t}$ para $t < -\ln(q)$.
+		\item Utilizando la propiedad de independencia, deduzca la función generadora de momentos $M_X(t)$ de la distribución Binomial Negativa.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.8}
+	Utilizando las propiedades analíticas del operador diferencial sobre series formales de potencias o la función generadora de momentos $M_X(t) = \left(\dfrac{p e^t}{1 - q e^t}\right)^r$ obtenida en el Problema \ref{prob:3.5.7}:
+	\begin{enumerate}
+		\item Demuestre de manera exacta que la esperanza matemática del número total de ensayos en una Binomial Negativa es $\mathbb{E}[X] = \dfrac{r}{p}$.
+		\item Demuestre algebraicamente que la varianza está dada por $\text{Var}(X) = \dfrac{r q}{p^2} = \dfrac{r(1-p)}{p^2}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:3.5.9}
+	Se afirma que la distribución geométrica es la **única distribución discreta con soporte en los enteros positivos $\mathbb{Z}^+$** que posee la propiedad de pérdida de memoria. Demuestre formalmente este teorema de caracterización:
+	\begin{align*}
+		P(X > m+n \mid X > m) = P(X > n) \quad \forall m, n \in \mathbb{Z}^+ \iff X \sim \text{Geom}(p).
+	\end{align*}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.10}
+	Considere la parametrización del número de fracasos observados antes de obtener $r$ éxitos: $Y = X - r \sim \text{BN}(r, p)$ con soporte $Y \in \set{0, 1, 2, \dots}$ y función de masa $P(Y = y) = \comb{y+r-1}{y} p^r (1-p)^y$. Suponga que el requisito de éxitos crece ilimitadamente ($r \to \infty$) mientras que la probabilidad de éxito de cada ensayo individual tiende a la certeza ($p \to 1$), de tal forma que el número medio esperado de fracasos se mantiene constante e igual a una tasa fija $\lambda > 0$. Esto es, $(1-p)r = \lambda \implies 1-p = \frac{\lambda}{r}$.
+	\begin{enumerate}
+		\item Demuestre analíticamente mediante límites combinatorios y exponenciales que para cualquier entero no negativo fijo $y \in \set{0, 1, \dots}$:
+		\begin{align*}
+			\lim_{r \to \infty} P(Y = y) = \dfrac{\lambda^y e^{-\lambda}}{y!}.
+		\end{align*}
+		\item Interprete físicamente este límite en el contexto del modelado de fenómenos raros y la transición del esquema combinatorio de Pascal al proceso puntual de Poisson.
+	\end{enumerate}
+\end{problema}
+
+% ------------------------------------------------------------------------------
+% SUGERENCIAS --- SECCIÓN 03.05
+% ------------------------------------------------------------------------------
+
+\subsection*{Sugerencias de los problemas --- Sección 03.05}
+
+\begin{sugerencia}
+	\label{sug:3.5.1}
+	Para la suma en el soporte, recuerde la serie geométrica infinita $\sum_{k=0}^{\infty} x^k = \frac{1}{1-x}$ válida cuando $|x| < 1$. Para la cola superior $P(X > k)$, sume la serie desde $j = k+1$ hasta $\infty$ factorizando la potencia común $q^k$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.2}
+	Exprese la probabilidad condicional utilizando la definición básica: $P(A \mid B) = \frac{P(A \cap B)}{P(B)}$. Note que el evento $\set{X > m+n} \cap \set{X > m}$ es simplemente $\set{X > m+n}$. Sustituya $P(X > j) = q^j$ deducido en el Problema \ref{prob:3.5.1}.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.3}
+	Para que el $r$-ésimo éxito ocurra en el intento exacto $k$, deben cumplirse dos condiciones simultáneas e independientes: (1) haber acumulado exactamente $r-1$ éxitos en los primeros $k-1$ intentos, y (2) que el intento $k$ sea un éxito. Multiplique ambas probabilidades combinando la Binomial y Bernoulli.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.4}
+	Aplique las fórmulas teóricas de momentos de la Binomial Negativa: $\mathbb{E}[X] = \frac{r}{p}$ y $\text{Var}(X) = \frac{rq}{p^2}$. Para la probabilidad $P(X \ge 100)$, reconozca la equivalencia con el conteo binomial: necesitar al menos $100$ ensayos para lograr $4$ defectos equivale a observar a lo sumo $3$ defectos en los primeros $99$ ensayos fabricados.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.5}
+	Tome el logaritmo natural de la verosimilitud $\ln L(p) = \ln \comb{k-1}{r-1} + r \ln(p) + (k-r)\ln(1-p)$. Derive respecto a $p$, iguale a cero y despeje $p$ en términos de $r$ y $k$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.6}
+	Recuerde que en una distribución de Poisson pura $\mu = \sigma^2$. Para el sistema de ecuaciones con $\text{BN}$, observe el cociente $\frac{\sigma_Y^2}{\mu_Y} = \frac{rq/p^2}{rq/p} = \frac{1}{p} = 1 + \frac{q}{p}$. Despeje $p$ del cociente varianza-media y luego sustitúyalo en $\mu_Y$ para obtener $r$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.7}
+	El tiempo hasta el $r$-ésimo éxito es la suma del tiempo hasta el 1er éxito ($Y_1$), más el tiempo adicional entre el 1er y el 2do éxito ($Y_2$), y así sucesivamente hasta $Y_r$. Para la FGM, sume la serie $\sum_{k=1}^{\infty} e^{tk} q^{k-1} p$ reescribiéndola como $p e^t \sum_{j=0}^{\infty} (q e^t)^j$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.8}
+	Puede derivar $M_X(t) = \left(\frac{p e^t}{1-qe^t}\right)^r$ una y dos veces respecto a $t$ y evaluar en $t=0$, o de manera más ágil, aprovechar la independencia y linealidad de momentos proveniente de $X = \sum_{i=1}^r Y_i$ usando los momentos de la geométrica elemental.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.9}
+	Defina la función de cola discreta $G(k) = P(X > k)$. La hipótesis de pérdida de memoria se traduce en la ecuación funcional discreta $G(m+n) = G(m)G(n)$ para todo $m, n \ge 1$. Por inducción sobre $n$, demuestre que $G(n) = [G(1)]^n$ y relacione $G(1)$ con la probabilidad de fracaso $q = 1-p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.10}
+	Sustituya $p = 1 - \frac{\lambda}{r}$ en la PMF binomial negativa. Expanda el coeficiente combinatorio $\comb{y+r-1}{y} = \frac{(r+y-1)(r+y-2)\cdots r}{y!}$ y agrupe los $y$ términos que crecen con $r$. Utilice el límite exponencial fundamental $\lim_{r\to\infty} \left(1 - \frac{\lambda}{r}\right)^r = e^{-\lambda}$.
+\end{sugerencia}
+
+% ------------------------------------------------------------------------------
+% SOLUCIONES --- SECCIÓN 03.05
+% ------------------------------------------------------------------------------
+
+\subsection*{Soluciones de los problemas --- Sección 03.05}
+
+\begin{solucion}
+	\label{sol:3.5.1}
+	Para el Problema \ref{prob:3.5.1}:
+	\begin{enumerate}
+		\item Para que el primer éxito ocurra exactamente en el ensayo $k \ge 1$, los primeros $k-1$ ensayos debieron resultar en fracasos consecutivos (probabilidad $q^{k-1}$ por independencia mutua) y el ensayo $k$ debe ser un éxito (probabilidad $p$). Por lo tanto:
+		\begin{align*}
+			f_X(k) = P(X = k) = q^{k-1}p = (1-p)^{k-1}p, \quad \text{para } k \in \mathcal{S}_X = \set{1, 2, 3, \dots}.
+		\end{align*}
+		\item Sumamos la probabilidad sobre todo el soporte de números enteros positivos:
+		\begin{align*}
+			\sum_{k=1}^{\infty} f_X(k) &= \sum_{k=1}^{\infty} q^{k-1}p = p \sum_{j=0}^{\infty} q^j, \quad \text{haciendo el cambio de índice } j = k-1.
+		\end{align*}
+		Como $p \in (0, 1)$, se tiene $q = 1-p \in (0, 1)$. Aplicando la suma exacta de la serie geométrica convergente:
+		\begin{align*}
+			\sum_{j=0}^{\infty} q^j = \dfrac{1}{1 - q} = \dfrac{1}{1 - (1-p)} = \dfrac{1}{p}.
+		\end{align*}
+		Sustituyendo en la sumatoria original, obtenemos $p \cdot \dfrac{1}{p} = 1$, lo que demuestra la normalización absoluta de la distribución.
+		\item La probabilidad de cola superior $P(X > k)$ representa el evento de que los primeros $k$ intentos sean todos fracasos continuos. Sumando la serie analítica:
+		\begin{align*}
+			P(X > k) &= \sum_{j=k+1}^{\infty} q^{j-1}p = p q^k \sum_{m=0}^{\infty} q^m = p q^k \left(\dfrac{1}{1-q}\right) = p q^k \left(\dfrac{1}{p}\right) = q^k.
+		\end{align*}
+		Por complementariedad, la función de distribución acumulada para cualquier entero $k \ge 1$ es:
+		\begin{align*}
+			F_X(k) = P(X \le k) = 1 - P(X > k) = 1 - q^k = 1 - (1-p)^k.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.2}
+	Para el Problema \ref{prob:3.5.2}:
+	\begin{enumerate}
+		\item Con probabilidad de éxito $p = 1 - 0.04 = 0.96$ y fracaso $q = 0.04$:
+		\begin{align*}
+			P(X \le 3) = F_X(3) = 1 - q^3 = 1 - (0.04)^3 = 1 - 0.000064 = 0.999936.
+		\end{align*}
+		Existe una certeza práctica de que la transacción se procesará en máximo $3$ intentos.
+		\item Aplicando la probabilidad condicional con los eventos de cola deducidos en el Problema \ref{prob:3.5.1} ($P(X > k) = q^k$):
+		\begin{align*}
+			P(X > 8 \mid X > 5) &= \dfrac{P(\set{X > 8} \cap \set{X > 5})}{P(X > 5)} = \dfrac{P(X > 8)}{P(X > 5)} \\
+			&= \dfrac{q^8}{q^5} = q^{8-5} = q^3 = (0.04)^3 = 0.000064.
+		\end{align*}
+		\item Observamos que la probabilidad no condicional de requerir más de $3$ intentos desde el inicio del proceso es idéntica:
+		\begin{align*}
+			P(X > 3) = q^3 = 0.000064 = P(X > 5 + 3 \mid X > 5).
+		\end{align*}
+		Este resultado ilustra la **propiedad de pérdida de memoria**: el sistema no acumula fatiga ni registra su historial de fallas pasadas. Haber fallado ya $5$ veces no aumenta ni disminuye la probabilidad de requerir $3$ o más intentos adicionales para lograr el éxito.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.3}
+	Para el Problema \ref{prob:3.5.3}:
+	\begin{enumerate}
+		\item Para que la tercera irregularidad ($r=3$) sea descubierta exactamente en la vigésima auditoría ($X=20$), el evento se divide en dos fases independientes e ineludibles:
+		\begin{itemize}
+			\item **Fase A (Primeras 19 inspecciones):** Deben haberse detectado exactamente $r-1 = 2$ irregularidades en los primeros $k-1 = 19$ documentos revisados (en cualquier orden). El número de tales combinaciones es el coeficiente binomial $\comb{19}{2}$, y cada una ocurre con probabilidad conjunta $p^2 q^{17}$.
+			\item **Fase B (Inspección 20):** El vigésimo documento auditado debe ser obligatoriamente irregular, lo cual tiene probabilidad $p$.
+		\end{itemize}
+		Por el principio combinatorio multiplicativo:
+		\begin{align*}
+			P(X = 20) = \left[\comb{19}{2} p^2 q^{17}\right] \times p = \comb{19}{2} p^3 q^{17} = \comb{19}{2} (0.10)^3 (0.90)^{17} \approx 0.0285.
+		\end{align*}
+		\item Generalizando el argumento anterior para $r$ éxitos en $k$ intentos totales:
+		\begin{align*}
+			f_X(k) = P(X = k) = \comb{k-1}{r-1} p^r q^{k-r}, \quad \text{para } k \in \mathcal{S}_X = \set{r, r+1, r+2, \dots}.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.4}
+	Para el Problema \ref{prob:3.5.4}:
+	\begin{enumerate}
+		\item Con parámetros de defecto $p = 0.02$, $q = 0.98$ y requisito de paro $r = 4$, aplicamos las expresiones analíticas de momentos:
+		\begin{align*}
+			\mathbb{E}[X] &= \dfrac{r}{p} = \dfrac{4}{0.02} = 200 \text{ piezas producidas en promedio antes del paro.} \\
+			\text{Var}(X) &= \dfrac{rq}{p^2} = \dfrac{4(0.98)}{(0.02)^2} = \dfrac{3.92}{0.0004} = 9,800. \\
+			\sigma_X &= \sqrt{\text{Var}(X)} = \sqrt{9,800} \approx 98.9949 \text{ piezas.}
+		\end{align*}
+		\item El evento de que la línea logre fabricar al menos $100$ piezas antes de ser detenida ($X \ge 100$) equivale al evento dual de que en las primeras $99$ piezas producidas se hayan observado **a lo sumo $3$ defectos**. Sea $W \sim \text{Bin}(n=99, p=0.02)$ el conteo de piezas defectuosas en ese intervalo inicial:
+		\begin{align*}
+			P(X \ge 100) &= P(W \le 3) = \sum_{j=0}^3 \comb{99}{j} (0.02)^j (0.98)^{99-j} \\
+			&= P(W=0) + P(W=1) + P(W=2) + P(W=3).
+		\end{align*}
+		Calculando los términos individuales algebraicamente:
+		\begin{align*}
+			P(W=0) &= (0.98)^{99} \approx 0.1353, \\
+			P(W=1) &= 99(0.02)(0.98)^{98} \approx 0.2734, \\
+			P(W=2) &= 4851(0.0004)(0.98)^{97} \approx 0.2734, \\
+			P(W=3) &= 156849(0.000008)(0.98)^{96} \approx 0.1804.
+		\end{align*}
+		Sumando todas las probabilidades: $P(X \ge 100) \approx 0.1353 + 0.2734 + 0.2734 + 0.1804 = 0.8625$. Existe un $86.25\%$ de probabilidad de superar las $99$ piezas continuas de producción.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.5}
+	Para el Problema \ref{prob:3.5.5}:
+	\begin{enumerate}
+		\item Para una observación muestral única $X = k = 25$ y $r = 5$, la función de verosimilitud de la probabilidad de viabilidad $p$ es:
+		\begin{align*}
+			L(p \mid X = 25) = \comb{24}{4} p^5 (1-p)^{20} = 10626 p^5 (1-p)^{20}, \quad \text{para } p \in (0, 1).
+		\end{align*}
+		\item Tomamos la función de log-verosimilitud $\ell(p) = \ln L(p)$ para simplificar la maximización:
+		\begin{align*}
+			\ell(p) = \ln(10626) + 5 \ln(p) + 20 \ln(1-p).
+		\end{align*}
+		Derivamos respecto al parámetro $p$ e igualamos a cero para encontrar la condición de primer orden:
+		\begin{align*}
+			\dfrac{d \ell(p)}{dp} = \dfrac{5}{p} - \dfrac{20}{1-p} = 0 &\implies 5(1-p) = 20p \\
+			&\implies 5 - 5p = 20p \implies 25p = 5 \\
+			&\implies \hat{p}_{\text{MLE}} = \dfrac{5}{25} = 0.20.
+		\end{align*}
+		En el caso general para datos $(r, k)$, el estimador puntual es exactamente $\hat{p}_{\text{MLE}} = \dfrac{r}{k}$, el cual coincide de manera intuitiva y directa con la proporción empírica del número de éxitos deseados sobre el total de intentos realizados.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.6}
+	Para el Problema \ref{prob:3.5.6}:
+	\begin{enumerate}
+		\item En un proceso puntiforme o de conteo regido por la distribución de Poisson ($\text{Poisson}(\lambda)$), la varianza teórica es idéntica a su esperanza ($\sigma^2 = \mu = \lambda$). Sin embargo, en el tráfico de red de este servidor observamos un cociente de dispersión empírico:
+		\begin{align*}
+			\text{Índice de Dispersión} = \dfrac{s^2}{\bar{x}} = \dfrac{13.44}{3.2} = 4.2 \gg 1.
+		\end{align*}
+		La variabilidad empírica es más de $4$ veces superior a la media. Esta **sobredispersión intrínseca** viola frontalmente el supuesto de equidispersión de Poisson, el cual conduciría a subestimar drásticamente las colas y a dimensionar de manera insegura los búferes de conexión.
+		\item Utilizando la parametrización en función del conteo de fracasos $Y = X - r \sim \text{BN}(r, p)$, igualamos los momentos teóricos con los muestrales ($\mu_Y = 3.2$ y $\sigma_Y^2 = 13.44$):
+		\begin{align*}
+			\mu_Y &= \dfrac{r(1-p)}{p} = 3.2, \qquad \sigma_Y^2 = \dfrac{r(1-p)}{p^2} = 13.44.
+		\end{align*}
+		Tomamos el cociente exacto entre la ecuación de varianza y la ecuación de media:
+		\begin{align*}
+			\dfrac{\sigma_Y^2}{\mu_Y} = \dfrac{\dfrac{r(1-p)}{p^2}}{\dfrac{r(1-p)}{p}} = \dfrac{1}{p} \implies \dfrac{13.44}{3.2} = \dfrac{1}{\hat{p}} \implies 4.2 = \dfrac{1}{\hat{p}} \implies \hat{p} = \dfrac{1}{4.2} = \dfrac{5}{21} \approx 0.2381.
+		\end{align*}
+		Sustituyendo $\hat{p} = \frac{5}{21}$ en la ecuación de la media muestral para despejar $\hat{r}$:
+		\begin{align*}
+			\dfrac{\hat{r}\left(1 - \frac{5}{21}\right)}{\frac{5}{21}} = 3.2 &\implies \hat{r}\left(\dfrac{16/21}{5/21}\right) = 3.2 \implies \hat{r}\left(\dfrac{16}{5}\right) = 3.2 \\
+			&\implies \hat{r} = 3.2 \left(\dfrac{5}{16}\right) = \dfrac{16.0}{16} = 1.0.
+		\end{align*}
+		Los estimadores por el método de momentos son $\hat{r} = 1$ y $\hat{p} \approx 0.2381$. Al ser $r=1$, el modelo que mejor absorbe la sobredispersión de estos datos resulta ser justamente una **Distribución Geométrica** contando reintentos fallidos.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.7}
+	Para el Problema \ref{prob:3.5.7}:
+	\begin{enumerate}
+		\item Sea $X$ el tiempo total de ensayos hasta el éxito número $r$. Descomponemos el proceso estocástico en incrementos de espera entre éxitos consecutivos:
+		\begin{itemize}
+			\item Sea $Y_1$ el número de ensayos necesarios para obtener el primer éxito ($\implies Y_1 \sim \text{Geom}(p)$).
+			\item Sea $Y_2$ el número adicional de ensayos transcurridos *después* del 1er éxito hasta obtener el 2do éxito. Por la propiedad de pérdida de memoria y la independencia mutua de los ensayos de Bernoulli, la variable del intervalo $Y_2$ es independiente de $Y_1$ y sigue idéntica distribución geométrica $Y_2 \sim \text{Geom}(p)$.
+			\item Por inducción finita, para el intervalo $i$-ésimo ($1 \le i \le r$), sea $Y_i$ el número de ensayos adicionales entre el éxito $(i-1)$ y el éxito $i$.
+		\end{itemize}
+		Sumando todos los intervalos sucesivos, el tiempo total hasta el $r$-ésimo éxito es la suma exacta de las duraciones individuales:
+		\begin{align*}
+			X = Y_1 + Y_2 + \dots + Y_r = \sum_{i=1}^r Y_i, \quad \text{donde } Y_i \sim \text{Geom}(p) \text{ son i.i.d.}
+		\end{align*}
+		\item Evaluamos por definición la función generadora de momentos para $Y_1 \sim \text{Geom}(p)$ para un parámetro auxiliar $t$:
+		\begin{align*}
+			M_{Y_1}(t) &= \mathbb{E}[e^{t Y_1}] = \sum_{k=1}^{\infty} e^{t k} P(Y_1 = k) = \sum_{k=1}^{\infty} e^{t k} q^{k-1} p \\
+			&= p e^t \sum_{k=1}^{\infty} e^{t(k-1)} q^{k-1} = p e^t \sum_{j=0}^{\infty} (q e^t)^j, \quad \text{donde } j = k-1.
+		\end{align*}
+		La sumatoria resultante es una serie geométrica pura de razón $\rho = q e^t$. Para que converga de manera finita, se requiere que $|\rho| < 1 \implies q e^t < 1 \implies t < -\ln(q)$. Bajo esta región de convergencia, sumamos:
+		\begin{align*}
+			M_{Y_1}(t) = p e^t \left(\dfrac{1}{1 - q e^t}\right) = \dfrac{p e^t}{1 - q e^t}.
+		\end{align*}
+		\item Por el teorema fundamental de convolución e independencia de FGM, si una variable $X = \sum_{i=1}^r Y_i$ es suma de $r$ variables independientes, su FGM es el producto multiplicativo exacto de las FGM individuales:
+		\begin{align*}
+			M_X(t) &= \prod_{i=1}^r M_{Y_i}(t) = \prod_{i=1}^r \left(\dfrac{p e^t}{1 - q e^t}\right) = \left(\dfrac{p e^t}{1 - q e^t}\right)^r, \quad \text{para } t < -\ln(q).
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.8}
+	Para el Problema \ref{prob:3.5.8}:
+	\begin{enumerate}
+		\item Para obtener la esperanza matemática $\mu_X$, podemos derivar la FGM $M_X(t) = \left(\frac{p e^t}{1 - q e^t}\right)^r$ y evaluarla en $t=0$, o de manera algebraicamente directa por la linealidad del operador esperanza sobre la suma de variables independientes $X = \sum_{i=1}^r Y_i$:
+		\begin{align*}
+			\mathbb{E}[X] &= \sum_{i=1}^r \mathbb{E}[Y_i] = \sum_{i=1}^r \left(\dfrac{1}{p}\right) = \dfrac{r}{p}.
+		\end{align*}
+		*(Demostración alternativa por derivación logarítmica de la FGM):* Sea $\ln M_X(t) = r \ln(p) + r t - r \ln(1 - q e^t)$. Derivando respecto a $t$:
+		\begin{align*}
+			\dfrac{d \ln M_X(t)}{dt} = \dfrac{M_X'(t)}{M_X(t)} = r + \dfrac{r q e^t}{1 - q e^t}.
+		\end{align*}
+		Evaluando en el origen $t = 0$ donde por definición $M_X(0) = 1$:
+		\begin{align*}
+			M_X'(0) &= r + \dfrac{r q}{1 - q} = r + \dfrac{r(1-p)}{p} = r + \dfrac{r}{p} - r = \dfrac{r}{p} \implies \mathbb{E}[X] = \dfrac{r}{p}.
+		\end{align*}
+		\item Por la aditividad de la varianza sobre sumas de variables estocásticamente independientes:
+		\begin{align*}
+			\text{Var}(X) &= \sum_{i=1}^r \text{Var}(Y_i) = \sum_{i=1}^r \left(\dfrac{q}{p^2}\right) = \dfrac{r q}{p^2} = \dfrac{r(1-p)}{p^2}.
+		\end{align*}
+		*(Verificación por segunda derivada logarítmica):* Derivando por segunda vez el cumulante $\kappa(t) = \ln M_X(t)$:
+		\begin{align*}
+			\kappa''(t) &= \dfrac{d}{dt} \left[ r + \dfrac{r q e^t}{1 - q e^t} \right] = \dfrac{r q e^t (1 - q e^t) - (-q e^t) r q e^t}{(1 - q e^t)^2} = \dfrac{r q e^t}{(1 - q e^t)^2}.
+		\end{align*}
+		Evaluando la segunda derivada del cumulante en el origen $t = 0$, obtenemos de forma unificada y exacta la varianza:
+		\begin{align*}
+			\text{Var}(X) = \kappa''(0) = \dfrac{r q}{(1 - q)^2} = \dfrac{r q}{p^2}.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.9}
+	Para el Problema \ref{prob:3.5.9}:
+	\begin{enumerate}
+		\item Sea $X$ una variable aleatoria discreta con soporte en $\mathbb{Z}^+ = \set{1, 2, 3, \dots}$ y función de cola de supervivencia de probabilidad definida como $G(k) = P(X > k)$ para $k \ge 0$. Por el axioma de certeza total para el soporte estrictamente positivo, sabemos que $G(0) = P(X > 0) = 1$.
+		\item La condición fundamental de pérdida de memoria establece que para todo par de enteros positivos $m, n \in \mathbb{Z}^+$:
+		\begin{align*}
+			P(X > m+n \mid X > m) = P(X > n) &\implies \dfrac{P(\set{X > m+n} \cap \set{X > m})}{P(X > m)} = P(X > n) \\
+			&\implies \dfrac{P(X > m+n)}{P(X > m)} = P(X > n) \\
+			&\implies G(m+n) = G(m) G(n).
+		\end{align*}
+		\item Resolvemos esta ecuación funcional discreta de Cauchy por inducción finita sobre $n$:
+		\begin{itemize}
+			\item Para $n = 1$: $G(m+1) = G(m) G(1)$ para cualquier entero $m \ge 0$.
+			\item Evaluando paso a paso desde el origen:
+			\begin{align*}
+				G(1) &= G(0+1) = G(0) G(1) = 1 \cdot G(1), \\
+				G(2) &= G(1+1) = G(1) G(1) = [G(1)]^2, \\
+				G(3) &= G(2+1) = [G(1)]^2 G(1) = [G(1)]^3, \\
+				&\vdots \\
+				G(k) &= [G(1)]^k, \quad \text{para todo entero } k \ge 0.
+			\end{itemize}
+		\end{itemize}
+		\item Dado que la probabilidad debe decaer para una variable aleatoria propia ($0 < G(1) < 1$), denotamos a la constante de supervivencia de un paso como $q \equiv G(1) = P(X > 1)$. En consecuencia, la función de supervivencia es de forma única $P(X > k) = q^k$.
+		\item Finalmente, reconstruimos la función de masa de probabilidad en cada entero puntual $k \ge 1$ mediante la diferencia finita de colas:
+		\begin{align*}
+			P(X = k) &= P(X > k-1) - P(X > k) = G(k-1) - G(k) \\
+			&= q^{k-1} - q^k = q^{k-1}(1 - q).
+		\end{align*}
+		Definiendo el parámetro de éxito como $p \equiv 1 - q$, obtenemos unívocamente:
+		\begin{align*}
+			P(X = k) = q^{k-1} p = (1-p)^{k-1} p, \quad \text{para } k \in \set{1, 2, 3, \dots}.
+		\end{align*}
+		Lo que concluye la demostración formal: en el dominio de las variables aleatorias discretas sobre enteros positivos, la propiedad sin memoria caracteriza de forma exclusiva y necesaria a la **Distribución Geométrica**.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.10}
+	Para el Problema \ref{prob:3.5.10}:
+	\begin{enumerate}
+		\item Partiendo de la función de masa binomial negativa en su parametrización de conteo de fracasos $Y \sim \text{BN}(r, p)$:
+		\begin{align*}
+			P(Y = y) = \comb{y+r-1}{y} p^r (1-p)^y, \quad \text{para } y \in \set{0, 1, 2, \dots}.
+		\end{align*}
+		Bajo el régimen asintótico fijado por $(1-p)r = \lambda$, sustituimos la probabilidad de fracaso $1-p = \frac{\lambda}{r}$ y la de éxito $p = 1 - \frac{\lambda}{r}$:
+		\begin{align*}
+			P(Y = y) = \comb{y+r-1}{y} \left(1 - \dfrac{\lambda}{r}\right)^r \left(\dfrac{\lambda}{r}\right)^y.
+		\end{align*}
+		Expandimos el coeficiente combinatorio y reordenamos algebraicamente los factores:
+		\begin{align*}
+			\comb{y+r-1}{y} \left(\dfrac{\lambda}{r}\right)^y &= \dfrac{(r+y-1)(r+y-2)\cdots(r+1)r}{y!} \cdot \dfrac{\lambda^y}{r^y} \\
+			&= \dfrac{\lambda^y}{y!} \left[ \left(\dfrac{r+y-1}{r}\right)\left(\dfrac{r+y-2}{r}\right)\cdots\left(\dfrac{r+1}{r}\right)\left(\dfrac{r}{r}\right) \right].
+		\end{align*}
+		Observe que dentro del corchete existen exactamente $y$ factores que dependen de $r$. Tomando el límite cuando $r \to \infty$ para un número de fracasos observado $y$ fijo:
+		\begin{align*}
+			\lim_{r \to \infty} \comb{y+r-1}{y} \left(\dfrac{\lambda}{r}\right)^y &= \dfrac{\lambda^y}{y!} \cdot \left[ 1 \cdot 1 \cdots 1 \cdot 1 \right] = \dfrac{\lambda^y}{y!}.
+		\end{align*}
+		Por otro lado, por el segundo límite notable de Euler, el factor exponencial acoplado converge a:
+		\begin{align*}
+			\lim_{r \to \infty} \left(1 - \dfrac{\lambda}{r}\right)^r = e^{-\lambda}.
+		\end{align*}
+		Multiplicando ambos límites puntuales convergentes, obtenemos de manera exacta la función de probabilidad de Poisson:
+		\begin{align*}
+			\lim_{r \to \infty} P(Y = y) = \dfrac{\lambda^y e^{-\lambda}}{y!}.
+		\end{align*}
+		\item **Interpretación Física y Transición de Modelos:**
+		La distribución binomial negativa (o ley de Pascal) describe un proceso con una alta tasa de variación individual debido a la espera de un número finito $r$ de eventos macroscópicos. Cuando el número de éxitos exigidos se vuelve infinitamente grande ($r \to \infty$), pero cada ensayo individual es casi invariablemente un éxito ($p \to 1$), la ocurrencia de un fracaso en el transcurso del proceso se convierte en un **evento raro** e independiente.
+		
+		En este régimen límite, el carácter secuencial y sobredisperso de las sumas geométricas de Pascal ($\sigma^2 > \mu$) se homogeniza perfectamente: la varianza empuja su valor asintótico hacia la media ($\lim_{r \to \infty} \sigma_Y^2 = \lim_{r \to \infty} \frac{\lambda}{p} = \frac{\lambda}{1} = \lambda = \mu_Y$). La ley combinatoria de Pascal colapsa entonces en el **Proceso Puntual de Poisson**, proporcionando el puente teórico unificado entre el conteo discreto de esperas reiteradas y los eventos raros en tiempo continuo.
+	\end{enumerate}
+\end{solucion}

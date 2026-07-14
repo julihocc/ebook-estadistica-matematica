@@ -1,0 +1,483 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title{Distribuciones Geométrica y Binomial Negativa}
+\subtitle{Sección 03.05 --- Tiempos de Espera, Pérdida de Memoria y Sobredispersión}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% SLIDE 01: Portada
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 03: Variables Aleatorias Discretas}
+	\begin{block}{Estructura Curricular de la Unidad 2}
+		\small
+		\begin{enumerate}
+			\itemsep=0.04cm
+			\item \textcolor{gray}{Sección 03.01: Funciones de Probabilidad Discretas (PMF y Soporte)}
+			\item \textcolor{gray}{Sección 03.02: Función de Distribución Acumulada (CDF Discreta)}
+			\item \textcolor{gray}{Sección 03.03: Esperanza Matemática, Varianza y Momentos}
+			\item \textcolor{gray}{Sección 03.04: Distribuciones de Bernoulli y Binomial}
+			\item \textbf{\textcolor{TecRojo}{Sección 03.05: Distribuciones Geométrica y Binomial Negativa}} $\leftarrow$ \emph{Foco actual}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Objetivo Didáctico}
+		\footnotesize
+		Analizar el modelado de tiempos de espera hasta el $r$-ésimo éxito en ensayos de Bernoulli, dominando la propiedad de pérdida de memoria para $r=1$ y el fenómeno de sobredispersión ($\sigma^2 > \mu$) para $r \ge 1$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivación e Intuición
+\begin{frame}{Motivación --- De Contar Éxitos a Medir Tiempos de Espera}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{El Enfoque Binomial (Ensayos Fijos)}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item Fijamos de antemano el tamaño de la muestra o número total de ensayos ($n$).
+					\item La variable aleatoria es el número de éxitos observados ($X \in \set{0, 1, \dots, n}$).
+					\item Pregunta típica: \emph{¿Cuántos paquetes defectuosos habrá en un lote de 100?}
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{El Enfoque de Espera (Éxitos Fijos)}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item Fijamos de antemano el número de éxitos que requerimos alcanzar ($r$).
+					\item La variable aleatoria es el número total de ensayos necesarios ($X \in \set{r, r+1, \dots}$).
+					\item Pregunta típica: \emph{¿Cuántos intentos se requieren hasta detectar la primera falla ($r=1$) o la cuarta ($r=4$)?}
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: La Distribución Geométrica
+\begin{frame}{La Distribución Geométrica ($X \sim \text{Geom}(p)$)}
+	\begin{block}{Definición Formal --- Tiempo hasta el Primer Éxito}
+		\small
+		Sea $X$ el número total de ensayos de Bernoulli i.i.d. requeridos para obtener el **primer éxito** con probabilidad $p \in (0, 1)$ y fracaso $q = 1-p$. Su función de masa de probabilidad (PMF) y soporte son:
+		\begin{align*}
+			f_X(k) = P(X = k) = q^{k-1}p = (1-p)^{k-1}p, \quad k \in \mathcal{S}_X = \set{1, 2, 3, \dots}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Normalización Exacta}
+				\footnotesize
+				Por la suma de series geométricas infinitas de razón $q \in (0, 1)$:
+				$\sum_{k=1}^{\infty} q^{k-1}p = p \sum_{j=0}^{\infty} q^j = p \left(\frac{1}{1-q}\right) = \frac{p}{p} = 1$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Función Acumulada (CDF)}
+				\footnotesize
+				La probabilidad de cola superior es $P(X > k) = q^k$. Por tanto, para todo entero $k \ge 1$:
+				$F_X(k) = P(X \le k) = 1 - q^k$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Momentos Geométricos
+\begin{frame}{Momentos de la Distribución Geométrica}
+	\begin{block}{Esperanza Matemática ($\mu$) y Varianza ($\sigma^2$)}
+		\small
+		Mediante series de potencias o derivación de la función generadora de momentos $M_X(t) = \frac{pe^t}{1-qe^t}$:
+		\begin{align*}
+			\mathbb{E}[X] = \dfrac{1}{p}, \qquad \text{Var}(X) = \dfrac{q}{p^2} = \dfrac{1-p}{p^2}, \qquad \sigma_X = \dfrac{\sqrt{1-p}}{p}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Interpretación de la Media}
+				\footnotesize
+				Si la probabilidad de éxito en un intento es $p = 0.20$ (1 de cada 5), en promedio se requerirán $\mathbb{E}[X] = \frac{1}{0.20} = 5$ intentos para lograr el primer éxito.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Asimetría Positiva}
+				\footnotesize
+				La moda siempre es exactamente $k=1$ ($f_X(1)=p > qp = f_X(2)$). La distribución es estrictamente decreciente y con larga cola a la derecha.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Propiedad de Pérdida de Memoria
+\begin{frame}{Propiedad de Pérdida de Memoria (Markoviana Discreta)}
+	\begin{block}{Teorema de Invarianza Temporal ($X \sim \text{Geom}(p)$)}
+		\small
+		Para cualquier par de enteros positivos $m, n \in \set{1, 2, \dots}$, la probabilidad condicional de requerir $n$ ensayos adicionales dado que ya se ha sobrevivido a los primeros $m$ ensayos fallidos cumple:
+		\begin{align*}
+			P(X > m+n \mid X > m) = P(X > n) = q^n.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Demostración por Colas}
+				\scriptsize
+				Por definición condicional para $m, n \ge 1$:
+				\begin{align*}
+					P(X > m+n \mid X > m) &= \dfrac{P(X > m+n)}{P(X > m)} \\
+					&= \dfrac{q^{m+n}}{q^m} = q^n.
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Caracterización Única}
+				\footnotesize
+				La distribución geométrica es la **única** ley discreta sobre $\set{1, 2, \dots}$ sin memoria. El sistema "no envejece" ni recuerda fracasos pasados.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 07: La Distribución Binomial Negativa
+\begin{frame}{La Distribución Binomial Negativa ($X \sim \text{BN}(r, p)$)}
+	\begin{block}{Generalización combinatoria --- Tiempo hasta el $r$-ésimo éxito}
+		\small
+		Sea $X$ el número total de ensayos requeridos para acumular **exactamente $r$ éxitos** ($r \ge 1$). Para que el $r$-ésimo éxito ocurra en el intento $k$, debe haber $(r-1)$ éxitos en los primeros $(k-1)$ ensayos combinados con éxito en el intento $k$:
+		\begin{align*}
+			f_X(k) = P(X = k) = \comb{k-1}{r-1} p^r q^{k-r}, \quad k \in \mathcal{S}_X = \set{r, r+1, r+2, \dots}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Relación de Pascal}
+				\footnotesize
+				Cuando $r=1$, el coeficiente combinatorio se reduce a $\comb{k-1}{0} = 1$, recuperando con exactitud la ley Geométrica elemental $P(X=k)=q^{k-1}p$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Parametrización Alternativa}
+				\footnotesize
+				En software estadístico (`scipy`), se modela con el conteo de fracasos $Y = X - r \in \set{0, 1, \dots}$ con PMF $P(Y=y) = \comb{y+r-1}{y}p^r q^y$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 08: Momentos de la Binomial Negativa
+\begin{frame}{Momentos de la Binomial Negativa y Aditividad Estocástica}
+	\begin{block}{Descomposición como Suma de Geométricas Independientes}
+		\small
+		El tiempo total $X$ hasta el $r$-ésimo éxito es la suma estocástica de los tiempos de espera inter-éxito $Y_i \sim \text{Geom}(p)$ independientes: $X = \sum_{i=1}^r Y_i$. Por la linealidad de la esperanza y varianza:
+		\begin{align*}
+			\mathbb{E}[X] = \sum_{i=1}^r \mathbb{E}[Y_i] = \dfrac{r}{p}, \qquad \text{Var}(X) = \sum_{i=1}^r \text{Var}(Y_i) = \dfrac{rq}{p^2} = \dfrac{r(1-p)}{p^2}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Función Generadora de Momentos}
+				\footnotesize
+				Por independencia, la FGM es el producto exacto:
+				$M_X(t) = \prod_{i=1}^r M_{Y_i}(t) = \left(\frac{pe^t}{1-qe^t}\right)^r$ para $t < -\ln(q)$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Desviación Estándar}
+				\footnotesize
+				La desviación estándar del proceso de conteo total es $\sigma_X = \frac{\sqrt{r(1-p)}}{p}$, creciendo como $\sqrt{r}$ al aumentar el requisito de éxitos.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 09: Análisis de Sobredispersión
+\begin{frame}{Análisis de Sobredispersión --- Comparación de Modelos de Conteo}
+	\begin{block}{El Cociente Varianza-Media en Procesos Discretos}
+		\small
+		Al comparar las tres grandes distribuciones de conteo para el número de fracasos observados ($Y \in \set{0, 1, \dots}$), el índice de dispersión $\mathcal{I} = \frac{\sigma^2}{\mu}$ determina el modelo estructural adecuado:
+	\end{block}
+	\vspace{-0.1cm}
+	\begin{columns}[T]
+		\begin{column}{0.32\textwidth}
+			\begin{exampleblock}{Binomial ($\mathcal{I} < 1$)}
+				\footnotesize
+				$\mu = np, \; \sigma^2 = npq$.
+				
+				Cociente $\frac{\sigma^2}{\mu} = q < 1$.
+				
+				**Subdispersión:** Procesos de ensayos acotados de variabilidad controlada.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.32\textwidth}
+			\begin{block}{Poisson ($\mathcal{I} = 1$)}
+				\footnotesize
+				$\mu = \lambda, \; \sigma^2 = \lambda$.
+				
+				Cociente $\frac{\sigma^2}{\mu} = 1$.
+				
+				**Equidispersión:** Eventos raros y completamente homogéneos en el tiempo.
+			\end{block}
+		\end{column}
+		\begin{column}{0.32\textwidth}
+			\begin{alertblock}{Bin. Negativa ($\mathcal{I} > 1$)}
+				\footnotesize
+				$\mu = \frac{rq}{p}, \; \sigma^2 = \frac{rq}{p^2}$.
+				
+				Cociente $\frac{\sigma^2}{\mu} = \frac{1}{p} > 1$.
+				
+				**Sobredispersión:** Clústeres o heterogeneidad individual no observable.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 10: Relación Asintótica y Casos Límite
+\begin{frame}{Relación Asintótica --- De Pascal a Poisson}
+	\begin{block}{Convergencia del Conteo de Fracasos ($r \to \infty, p \to 1$)}
+		\small
+		Si el número de éxitos exigidos crece indefinidamente ($r \to \infty$) pero la probabilidad individual tiende a la certeza ($p \to 1$), manteniendo constante la tasa media de fracasos $(1-p)r = \lambda > 0$:
+		\begin{align*}
+			\lim_{r \to \infty} P(Y = y) = \lim_{r \to \infty} \comb{y+r-1}{y} p^r (1-p)^y = \dfrac{\lambda^y e^{-\lambda}}{y!}, \quad \forall y \in \set{0, 1, \dots}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Mecanismo Combinatorio}
+				\footnotesize
+				El término combinatorio $\frac{r(r+1)\cdots(r+y-1)}{y! r^y} \to \frac{1}{y!}$, mientras que el factor de probabilidad $\left(1 - \frac{\lambda}{r}\right)^r \to e^{-\lambda}$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Síntesis Teórica}
+				\footnotesize
+				La Binomial Negativa absorbe la varianza extra de fenómenos complejos; al reducirse la dispersión ($\frac{1}{p} \to 1$), colapsa con exactitud en Poisson.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 11: Ejercicios Nivel Fundamental
+\begin{frame}{Ejercicios Nivel Fundamental --- Problemas 3.5.1 a 3.5.3}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problema 3.5.1: PMF y Colas Geom.}
+				\footnotesize
+				**Enunciado:** Para $X \sim \text{Geom}(p)$, deduzca $P(X > k)$ y la CDF $F_X(k)$.
+				
+				**Solución:** La suma infinita de colas da $P(X > k) = \sum_{j=k+1}^{\infty} q^{j-1}p = q^k$. Por tanto, $F_X(k) = 1 - q^k$.
+			\end{exampleblock}
+			\begin{exampleblock}{Problema 3.5.2: Pérdida Memoria}
+				\footnotesize
+				**Enunciado:** Con $p=0.04$, verifique $P(X > 8 \mid X > 5)$.
+				
+				**Solución:** $P(X > 8 \mid X > 5) = \frac{q^8}{q^5} = q^3 = P(X > 3) = 0.000064$. El sistema no acumula historial.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Problema 3.5.3: Auditoría ($r=3$)}
+				\footnotesize
+				**Enunciado:** Con $p=0.10$, halle la probabilidad de que la tercera irregularidad sea el ensayo 20 ($X=20$).
+				
+				**Solución:** En los primeros 19 ensayos debe haber $r-1=2$ fallas y el ensayo 20 debe ser irregular:
+				$P(X=20) = \comb{19}{2}(0.10)^3(0.90)^{17} \approx 0.0285$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 12: Ejercicios Nivel Operativo I
+\begin{frame}{Ejercicios Nivel Operativo I --- Problemas 3.5.4 y 3.5.5}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problema 3.5.4: Paro de Línea ($r=4$)}
+				\footnotesize
+				**Enunciado:** Con $p=0.02$, calcule $\mu_X$, $\sigma_X$ y $P(X \ge 100)$.
+				
+				**Solución:**
+				$\mu_X = \frac{4}{0.02} = 200$, $\sigma_X = \frac{\sqrt{4(0.98)}}{0.02} \approx 98.99$.
+				Superar 99 ensayos equivale a $\le 3$ defectos en 99 piezas (Binomial $W \sim \text{Bin}(99, 0.02)$):
+				$P(X \ge 100) = P(W \le 3) \approx 0.8625$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Problema 3.5.5: MLE en Biotecnología}
+				\footnotesize
+				**Enunciado:** Si el quinto embrión viable ($r=5$) se obtiene en la inyección $25$, halle $\hat{p}_{\text{MLE}}$.
+				
+				**Solución:** Maximizando $\ell(p) = \ln \comb{24}{4} + 5\ln p + 20\ln(1-p)$ derivando e igualando a cero:
+				$\frac{5}{p} - \frac{20}{1-p} = 0 \implies \hat{p}_{\text{MLE}} = \frac{5}{25} = 0.20$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 13: Ejercicios Nivel Operativo II
+\begin{frame}{Ejercicios Nivel Operativo II --- Problema 3.5.6}
+	\begin{block}{Problema 3.5.6: Sobredispersión en Tráfico de Red y Método de Momentos}
+		\small
+		**Enunciado:** Al modelar reintentos fallidos en un servidor central, se observa media muestral $\bar{x} = 3.2$ y varianza muestral $s^2 = 13.44$. Explique por qué falla Poisson y estime $\hat{r}, \hat{p}$ por el método de momentos para una Binomial Negativa ($Y \sim \text{BN}(r, p)$ sobre fracasos).
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Inviabilidad del Modelo Poisson}
+				\footnotesize
+				El índice de dispersión muestral es $\frac{s^2}{\bar{x}} = \frac{13.44}{3.2} = 4.2 \gg 1$. Poisson exige $\sigma^2 = \mu$, por lo que subestimaría el riesgo extremo del tráfico de red.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Estimación Algebraica por Momentos}
+				\footnotesize
+				Cociente de momentos teóricos:
+				$\frac{\sigma_Y^2}{\mu_Y} = \frac{1}{p} = 4.2 \implies \hat{p} = \frac{5}{21} \approx 0.2381$.
+				
+				Sustituyendo en la media:
+				$\frac{\hat{r}(1-p)}{p} = \hat{r}(3.2) = 3.2 \implies \hat{r} = 1.0$. El modelo óptimo es una Geométrica.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 14: Ejercicios Nivel Analítico
+\begin{frame}{Ejercicios Nivel Analítico --- Problemas 3.5.7 y 3.5.8}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Problema 3.5.7: FGM de Bin. Negativa}
+				\footnotesize
+				**Enunciado:** Demuestre que $X \sim \text{BN}(r, p)$ tiene FGM $M_X(t) = \left(\frac{pe^t}{1-qe^t}\right)^r$.
+				
+				**Solución:** Para una variable geométrica $Y_1$, $M_{Y_1}(t) = \sum_{k=1}^{\infty} e^{tk} q^{k-1}p = \frac{pe^t}{1-qe^t}$. Como $X = \sum_{i=1}^r Y_i$ es suma de independientes, $M_X(t) = [M_{Y_1}(t)]^r$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Problema 3.5.8: Deducción de Momentos}
+				\footnotesize
+				**Enunciado:** Deduzca $\mu_X = \frac{r}{p}$ y $\sigma_X^2 = \frac{rq}{p^2}$ usando el cumulante $\kappa(t) = \ln M_X(t)$.
+				
+				**Solución:**
+				$\kappa'(0) = \frac{d}{dt}\left[r\ln p + rt - r\ln(1-qe^t)\right]_{t=0} = r + \frac{rq}{p} = \frac{r}{p}$.
+				Derivando por segunda vez: $\kappa''(0) = \frac{rq}{p^2} = \text{Var}(X)$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 15: Ejercicios Nivel Desafiante I
+\begin{frame}{Ejercicios Nivel Desafiante I --- Problema 3.5.9}
+	\begin{block}{Problema 3.5.9: Teorema de Caracterización Discreta Sin Memoria}
+		\small
+		**Enunciado:** Demuestre formalmente que para una variable discreta sobre $\mathbb{Z}^+$:
+		$P(X > m+n \mid X > m) = P(X > n) \; \forall m, n \ge 1 \iff X \sim \text{Geom}(p)$.
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Ecuación Funcional de Cauchy}
+				\footnotesize
+				Sea $G(k) = P(X > k)$. La hipótesis condicional implica: $\frac{G(m+n)}{G(m)} = G(n) \implies G(m+n) = G(m)G(n)$.
+				Por inducción finita: $G(n) = [G(1)]^n$ para $n \ge 0$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Reconstrucción de la PMF}
+				\footnotesize
+				Sea $q \equiv G(1) \in (0, 1)$ y $p \equiv 1-q$. Por diferencia finita de la supervivencia:
+				$P(X = k) = G(k-1) - G(k) = q^{k-1} - q^k = q^{k-1}(1-q) = q^{k-1}p$.
+				Se demuestra la unicidad matemática.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 16: Ejercicios Nivel Desafiante II
+\begin{frame}{Ejercicios Nivel Desafiante II --- Problema 3.5.10}
+	\begin{block}{Problema 3.5.10: Demostración Asintótica de Pascal a Poisson}
+		\small
+		**Enunciado:** Sea $Y = X - r \sim \text{BN}(r, p)$. Demuestre que si $(1-p)r = \lambda$ cuando $r \to \infty$, la función de masa converge puntualmente a $\frac{\lambda^y e^{-\lambda}}{y!}$.
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Descomposición Algebraica}
+				\footnotesize
+				Sustituyendo $1-p = \frac{\lambda}{r}$ y $p = 1 - \frac{\lambda}{r}$:
+				$P(Y=y) = \frac{(r+y-1)\cdots r}{y!} \left(\frac{\lambda}{r}\right)^y \left(1 - \frac{\lambda}{r}\right)^r$.
+				
+				El cociente polinomial $\frac{(r+y-1)\cdots r}{r^y} \to 1$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Límite Exponencial}
+				\footnotesize
+				Por el segundo límite de Euler, $\left(1 - \frac{\lambda}{r}\right)^r \to e^{-\lambda}$.
+				Multiplicando ambos factores:
+				$\lim_{r \to \infty} P(Y=y) = \frac{\lambda^y e^{-\lambda}}{y!}$.
+				El modelo sobre-disperso converge a equidispersión.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 17: Lab Python --- Validación de PMF y CDF
+\begin{frame}[fragile]{Laboratorio Python --- Validación Vectorizada de PMF/CDF (`scipy.stats`)}
+	\vspace{-0.15cm}
+	\begin{block}{Implementación en \texttt{03.05\_geometric\_negative\_binomial.py}}
+		\lstinputlisting[language=Python, firstline=16, lastline=37, basicstyle=\fontsize{5.8pt}{6.8pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 18: Lab Python --- Pérdida de Memoria
+\begin{frame}[fragile]{Laboratorio Python --- Pérdida de Memoria por Monte Carlo ($N=250,000$)}
+	\begin{block}{Simulación Empírica de Invarianza Condicional}
+		\lstinputlisting[language=Python, firstline=42, lastline=58, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 19: Lab Python --- Sobredispersión
+\begin{frame}[fragile]{Laboratorio Python --- Sobredispersión y Suma Estocástica (`numpy`)}
+	\begin{block}{Verificación de Aditividad y Cociente Varianza-Media ($>1.0$)}
+		\lstinputlisting[language=Python, firstline=63, lastline=77, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 20: Cierre y Síntesis Estocástica
+\begin{frame}{Cierre --- Síntesis Estocástica y Puente Didáctico}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Síntesis Conceptual}
+				\small
+				\begin{itemize}
+					\itemsep=0.08cm
+					\item **Geométrica ($p$):** Tiempo hasta el 1er éxito, $\mu = \frac{1}{p}$, $\sigma^2 = \frac{q}{p^2}$, única ley discreta sin memoria.
+					\item **Binomial Negativa ($r, p$):** Suma de $r$ geométricas independientes, $\mu = \frac{r}{p}$, absorbente natural de **sobredispersión** ($\sigma^2 > \mu$).
+					\item **Límite:** Converge a Poisson cuando $r \to \infty$.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Puente a la Sección 03.06}
+				\small
+				Hasta ahora, todos los ensayos de Bernoulli han asumido independencia mutua (muestreo **con reemplazo** en poblaciones finitas).
+				
+				¿Qué ocurre cuando extraemos muestras **sin reemplazo** de una población finita dividida en dos subpoblaciones?
+				
+				$\to$ Esto da lugar a la **Distribución Hipergeométrica**.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\end{document}
