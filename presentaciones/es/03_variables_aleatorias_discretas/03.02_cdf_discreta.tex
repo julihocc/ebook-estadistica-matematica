@@ -1,0 +1,429 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title{Funciones de Probabilidad Discretas}
+\subtitle{Sección 03.02 --- Función de Distribución Acumulada (CDF Discreta)}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% SLIDE 01: Portada
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 03: Variables Aleatorias Discretas}
+	\begin{block}{Estructura Curricular de la Unidad 2}
+		\small
+		\begin{enumerate}
+			\itemsep=0.04cm
+			\item \textcolor{gray}{Sección 03.01: Funciones de Probabilidad Discretas (PMF y Soporte)}
+			\item \textbf{\textcolor{TecRojo}{Sección 03.02: Función de Distribución Acumulada (CDF Discreta)}} $\leftarrow$ \emph{Foco actual}
+			\item \textcolor{gray}{Sección 03.03: Esperanza Matemática, Varianza y Momentos}
+			\item \textcolor{gray}{Sección 03.04: Distribuciones Especiales I (Binomial, Geométrica e Hipergeométrica)}
+			\item \textcolor{gray}{Sección 03.05: Distribuciones Especiales II (Poisson, Binomial Negativa y Multinomial)}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Objetivo Didáctico}
+		\footnotesize
+		Dominar la fundamentación analítica, geométrica y computacional de la Función de Distribución Acumulada $F(x)$ para variables discretas, caracterizando sus mesetas de acumulación, saltos de discontinuidad y operadores de inversión en el cálculo de probabilidades de intervalos y cuantiles.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivación e Intuición
+\begin{frame}{Motivación --- ¿Por qué Acumular Probabilidad?}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Limitación de Consultas Puntuales}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item La PMF $f(x) = P(X=x)$ responde únicamente a eventos de \emph{igualdad exacta}.
+					\item En aplicaciones de ingeniería, gestión de riesgo y confiabilidad, las preguntas críticas son de \textbf{umbral} o de \textbf{intervalo}:
+					\begin{itemize}
+						\item \scriptsize ¿Probabilidad de que el servidor falle en $t \le 5$ ms?
+						\item \scriptsize ¿Probabilidad de tener a lo sumo $3$ paquetes perdidos?
+					\end{itemize}
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{El Operador Acumulativo}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item En lugar de sumar masas puntuales repetidamente, definimos una función global $F(x)$ que almacena la \emph{historia probabilística total} hasta el punto $x$.
+					\item Esta función transforma el cálculo de sumatorias en simples evaluaciones y restas algebraicas en los extremos de interés.
+				\end{itemize}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Consultas de Umbral vs. Puntuales
+\begin{frame}{Consultas de Umbral vs. Consultas Puntuales}
+	\begin{table}
+		\centering
+		\scriptsize
+		\begin{tabular}{p{3.1cm}|p{4.5cm}|p{4.7cm}}
+			\hline
+			\textbf{Característica} & \textbf{Función de Masa (PMF) $f(x)$} & \textbf{Función Acumulada (CDF) $F(x)$} \\
+			\hline \hline
+			\textbf{Definición formal} & $f(x) = P(X = x)$ & $F(x) = P(X \le x) = \sum_{u \le x} f(u)$ \\
+			\hline
+			\textbf{Pregunta canónica} & ¿Exactamente cuántos? & ¿A lo sumo cuántos? \\
+			\hline
+			\textbf{Dominio e imagen} & $\mathbb{R} \to [0, 1]$, nula fuera de $\mathcal{S}_X$ & $\mathbb{R} \to [0, 1]$, definida $\forall x \in \mathbb{R}$ \\
+			\hline
+			\textbf{Geometría gráfica} & Diagrama de barras o bastones & Función escalonada (mesetas y saltos) \\
+			\hline
+			\textbf{Condición global} & $\sum_{x \in \mathcal{S}_X} f(x) = 1$ & $\lim_{x \to -\infty} F(x) = 0$, $\lim_{x \to \infty} F(x) = 1$ \\
+			\hline
+		\end{tabular}
+	\end{table}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Síntesis Conceptual}
+		\footnotesize
+		La CDF encapsula toda la información probabilística del sistema: conocer $F(x)$ para todo $x \in \mathbb{R}$ es estrictamente equivalente a conocer la distribución completa de $X$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 05: Definición Formal de la CDF
+\begin{frame}{Definición Formal de la Función de Distribución Acumulada}
+	\begin{block}{Definición Analítica (Ecuación 2.6.2 del Libro Maestro)}
+		\scriptsize
+		La \textbf{Función de Distribución Acumulada} (CDF) de una variable aleatoria discreta $X$ se define para todo $x \in \mathbb{R}$ como:
+		\vspace{-0.15cm}
+		\begin{align*}
+			F(x) = P(X \le x) = \sum_{u \le x} f(u)
+		\end{align*}
+		\vspace{-0.25cm}
+		donde la sumatoria se extiende sobre todos los elementos del soporte $u \in \mathcal{S}_X$ con $u \le x$.
+	\end{block}
+	\vspace{-0.4cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Soporte Finito Ordenado}
+				\scriptsize
+				Si $x_1 < x_2 < \dots < x_n$, entonces:
+				\vspace{-0.15cm}
+				\begin{align*}
+					F(x) = \begin{cases}
+						0 & x < x_1 \\
+						f(x_1) & x_1 \le x < x_2 \\
+						f(x_1) + f(x_2) & x_2 \le x < x_3 \\
+						\vdots & \vdots \\
+						1 & x \ge x_n
+					\end{cases}
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Interpretación Geométrica}
+				\scriptsize
+				\begin{itemize}
+					\itemsep=0.02cm
+					\item $F(x)$ avanza por \textbf{mesetas horizontales} sin masa.
+					\item En cada punto $x_k \in \mathcal{S}_X$, la función da un \textbf{salto vertical} de magnitud $f(x_k)$.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Propiedades Fundamentales I (Monotonía y Continuidad)
+\begin{frame}{Propiedades Fundamentales --- Monotonía y Continuidad por la Derecha}
+	\begin{block}{Propiedad 1: Monotonía No Decreciente}
+		\footnotesize
+		Para cualesquiera dos números reales $a, b \in \mathbb{R}$ tales que $a \le b$, se cumple rigurosamente que:
+		\begin{align*}
+			a \le b \implies \set{\omega : X(\omega) \le a} \subseteq \set{\omega : X(\omega) \le b} \implies F(a) \le F(b)
+		\end{align*}
+		La acumulación de probabilidades jamás puede decrecer, ya que las masas puntuales son no negativas ($f(x) \ge 0$).
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{block}{Propiedad 2: Continuidad por la Derecha (cadlág)}
+		\footnotesize
+		En todo punto $x \in \mathbb{R}$, el límite por la derecha coincide exactamente con el valor evaluado de la función:
+		\begin{align*}
+			F(x^+) = \lim_{u \to x^+} F(u) = F(x)
+		\end{align*}
+		En los puntos de salto $x_k \in \mathcal{S}_X$, el límite por la izquierda es estrictamente menor: $F(x_k^-) = F(x_k) - f(x_k)$. Por convención matemática universal, el punto superior del escalón se incluye (cierre por la derecha).
+	\end{block}
+\end{frame}
+
+% SLIDE 07: Propiedades Fundamentales II (Límites Asintóticos)
+\begin{frame}{Propiedades Fundamentales --- Límites Asintóticos y Normalización}
+	\begin{block}{Propiedad 3: Condiciones de Frontera Asintóticas}
+		\small
+		Toda función de distribución acumulada legítima debe satisfacer las dos condiciones de contorno en el infinito:
+		\begin{align*}
+			\lim_{x \to -\infty} F(x) = 0 \quad \text{y} \quad \lim_{x \to \infty} F(x) = 1
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Límite Inferior ($\to -\infty$)}
+				\footnotesize
+				A medida que retrocedemos hacia la izquierda de la recta real, dejamos atrás todos los puntos del soporte $\mathcal{S}_X$. La masa acumulada tiende a cero (evento imposible).
+			\end{alertblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Límite Superior ($\to \infty$)}
+				\footnotesize
+				Al avanzar infinitamente hacia la derecha, englobamos todo el espacio muestral $\Omega$. La suma total de los saltos converge exactamente a la normalización unitaria $1$.
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 08: Teorema de Inversión (Recuperación de la PMF)
+\begin{frame}{Teorema de Inversión --- Recuperación de la PMF desde la CDF}
+	\begin{block}{Teorema de Diferencia Finita (Ecuación 2.6.4 del Libro Maestro)}
+		\small
+		La función de masa de probabilidad $f(x)$ puede reconstruirse de manera única a partir de la función de distribución acumulada $F(x)$ mediante la magnitud exacto-algebraica del salto en el punto $x$:
+		\begin{align*}
+			f(x) = F(x) - \lim_{u \to x^-} F(u) \equiv F(x) - F(x^-)
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Soporte Discreto Ordenado}
+				\scriptsize
+				Si $\mathcal{S}_X = \set{x_1, x_2, \dots, x_n}$ con $x_1 < x_2 < \dots$:
+				\begin{align*}
+					f(x_1) &= F(x_1) - 0 = F(x_1), \\
+					f(x_k) &= F(x_k) - F(x_{k-1}) \quad (k > 1).
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Puntos Fuera del Soporte}
+				\scriptsize
+				Si $x \notin \mathcal{S}_X$, la función $F(u)$ es localmente constante alrededor de $x$ (está en el interior de una meseta horizontal). Por tanto:
+				\begin{align*}
+					F(x) = F(x^-) \implies f(x) = 0.
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 09: Álgebra de Probabilidades en Intervalos
+\begin{frame}{Álgebra de Probabilidades en Intervalos}
+	\begin{block}{Cálculo en Intervalos Semiabiertos por la Izquierda}
+		\footnotesize
+		Para cualquier par de números reales $a, b \in \mathbb{R}$ con $a \le b$, la probabilidad de que la variable caiga en $(a, b]$ es la diferencia exacta de sus acumulaciones:
+		\begin{align*}
+			P(a < X \le b) = P(X \le b) - P(X \le a) = F(b) - F(a)
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{block}{Tipología Completa de Intervalos para Variables Discretas}
+		\scriptsize
+		En variables discretas, la inclusión o exclusión de los extremos de frontera altera el resultado según la presencia de masa en $a$ y $b$:
+		\begin{table}
+			\centering
+			\begin{tabular}{l|l|l}
+				\hline
+				\textbf{Tipo de Intervalo} & \textbf{Expresión de Probabilidad} & \textbf{Descomposición en CDF} \\
+				\hline \hline
+				Semiabierto $(a, b]$ & $P(a < X \le b)$ & $F(b) - F(a)$ \\
+				\hline
+				Cerrado $[a, b]$ & $P(a \le X \le b) = P(X=a) + P(a < X \le b)$ & $F(b) - F(a^-)$ \\
+				\hline
+				Abierto $(a, b)$ & $P(a < X < b) = P(a < X \le b) - P(X=b)$ & $F(b^-) - F(a)$ \\
+				\hline
+				Semiabierto $[a, b)$ & $P(a \le X < b) = P(a \le X \le b) - P(X=b)$ & $F(b^-) - F(a^-)$ \\
+				\hline
+			\end{tabular}
+		\end{table}
+	\end{block}
+\end{frame}
+
+% SLIDE 10: Cuantiles Discretos y la Mediana
+\begin{frame}{Cuantiles Discretos e Inversión Generalizada}
+	\begin{block}{Definición de Cuantil de Orden $\alpha$}
+		\small
+		Dado un nivel de probabilidad $\alpha \in (0, 1)$, el \textbf{cuantil discreto} $q_\alpha$ se define formalmente como el ínfimo de los números reales donde el acumulado alcanza o sobrepasa el umbral $\alpha$:
+		\begin{align*}
+			q_\alpha = \inf \set{x \in \mathbb{R} : F(x) \ge \alpha}
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{La Mediana ($q_{0.50}$)}
+				\footnotesize
+				Es el valor $x_{\text{med}}$ del soporte que divide a la distribución en dos mitades equilibradas:
+				\begin{align*}
+					P(X \le x_{\text{med}}) \ge 0.50 \text{ y } P(X \ge x_{\text{med}}) \ge 0.50
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Inversa Generalizada}
+				\footnotesize
+				Como las funciones escalonadas no son biyectivas (tienen tramos planos), la función ínfimo opera como una pseudo-inversa única $F^{-1}(\alpha)$ que mapea probabilidades a valores del soporte.
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 11: Lab Python --- Parte 1: Construcción de CDF
+\begin{frame}[fragile]{Lab Computacional --- Parte 1: Construcción de la CDF}
+	\begin{block}{Acumulación Programática de Probabilidades (\texttt{compute\_step\_cdf})}
+		\scriptsize
+		El siguiente bloque en Python ordena el soporte vectorial y aplica la suma acumulativa (\texttt{np.cumsum}) para generar las alturas exactas de las mesetas escalonadas de $F(x)$.
+	\end{block}
+	\vspace{-0.1cm}
+	\lstinputlisting[language=Python, firstline=9, lastline=21, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.02_discrete_cdf.py}
+\end{frame}
+
+% SLIDE 12: Lab Python --- Parte 2: Inversión de Saltos PMF
+\begin{frame}[fragile]{Lab Computacional --- Parte 2: Inversión de Saltos y PMF}
+	\begin{block}{Algoritmo de Diferencia Finita (\texttt{extract\_pmf\_from\_cdf})}
+		\scriptsize
+		Mediante el operador de diferencia hacia atrás (\texttt{np.diff} con \texttt{prepend=0.0}), el script reconstruye exactamente la masa puntual de cada salto y verifica el error de normalización.
+	\end{block}
+	\vspace{-0.1cm}
+	\lstinputlisting[language=Python, firstline=23, lastline=35, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.02_discrete_cdf.py}
+\end{frame}
+
+% SLIDE 13: Lab Python --- Parte 3: Probabilidad en Intervalos y Cuantiles
+\begin{frame}[fragile]{Lab Computacional --- Parte 3: Consultas de Intervalo y Cuantiles}
+	\begin{block}{Evaluación de Subconjuntos y Percentiles (\texttt{evaluate\_interval\_and\_quantiles})}
+		\scriptsize
+		El código utiliza búsqueda binaria eficiente (\texttt{np.searchsorted}) para restar acumulaciones en intervalos y determina la mediana y el percentil 85 inspeccionando umbrales lógicos.
+	\end{block}
+	\vspace{-0.1cm}
+	\lstinputlisting[language=Python, firstline=37, lastline=52, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.02_discrete_cdf.py}
+\end{frame}
+
+% SLIDE 14: Lab Python --- Parte 4: Simulación y Convergencia ECDF
+\begin{frame}[fragile]{Lab Computacional --- Parte 4: Simulación Monte Carlo y ECDF}
+	\begin{block}{Convergencia de la Distribución Empírica (\texttt{simulate\_empirical\_ecdf})}
+		\scriptsize
+		Se simulan $N=100,000$ lanzamientos de dos dados para construir la ECDF $F_n(x)$ y comprobar por el Teorema de Glivenko-Cantelli una desviación máxima inferior a $0.005$.
+	\end{block}
+	\vspace{-0.2cm}
+	\lstinputlisting[language=Python, firstline=54, lastline=73, basicstyle=\fontsize{5.4pt}{6.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.02_discrete_cdf.py}
+\end{frame}
+
+% SLIDE 15: Problemas --- Nivel Fundamental
+\begin{frame}{Problemas del Libro Maestro --- Nivel Fundamental}
+	\begin{block}{Ejercicios Directos de Conceptualización (Taxonomía 3-3-2-2)}
+		\small
+		\begin{itemize}
+			\itemsep=0.08cm
+			\item \textbf{Problema 3.2.1 (Dado justo y saltos uniformes):} Construcción explícita en siete intervalos disjuntos de $F(x)$ para un dado equilibrado y evaluación numérica exacta en puntos ordinarios ($2.8$), saltos de frontera ($4$) y colas asintóticas ($-1, 10$).
+			\item \textbf{Problema 3.2.2 (Reconstrucción desde tabla escalonada):} Cálculo de probabilidades en intervalos semiabiertos $P(0 < Y \le 5) = F(5) - F(0) = 0.70$ y acotados cerrados $P(2 \le Y \le 8) = 0.85$, deduciendo la tabla PMF por diferencias finitas en cada salto.
+			\item \textbf{Problema 3.2.3 (Demostración de monotonía y cadlág):} Justificación analítica rigurosa del crecimiento no decreciente basada en la inclusión de eventos medibles $\set{X \le a} \subseteq \set{X \le b}$ y convergencia por arriba de límites por la derecha.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% SLIDE 16: Problemas --- Nivel Operativo
+\begin{frame}{Problemas del Libro Maestro --- Nivel Operativo}
+	\begin{block}{Aplicaciones en Ingeniería y Ciberseguridad}
+		\small
+		\begin{itemize}
+			\itemsep=0.08cm
+			\item \textbf{Problema 3.2.4 (Control de calidad en obleas de silicio):} Modelado a trozos del número de soldaduras defectuosas por oblea ($X \in \set{0,1,2,3}$) y evaluación directa de la probabilidad operativa de rechazo industrial: $P(X \ge 2) = 1 - F_X(1) = 0.30$.
+			\item \textbf{Problema 3.2.5 (Pruebas de penetración e intentos geométricos):} Deducción en forma cerrada de la CDF de ensayos hasta el primer éxito $F_N(n) = 1 - (1-p)^n$ y determinación de la cuota mínima de intentos de auditoría ($n^* = 14$ para $p=0.20$ con $95\%$ de certeza).
+			\item \textbf{Problema 3.2.6 (Aprovisionamiento en centros de datos):} Determinación por el operador ínfimo de la mediana diaria de demanda ($q_{0.50} = 30$ servidores) y el cuantil de seguridad de orden superior ($q_{0.85} = 40$ servidores para SLA del $85\%$).
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% SLIDE 17: Problemas --- Nivel Analítico
+\begin{frame}{Problemas del Libro Maestro --- Nivel Analítico}
+	\begin{block}{Demostraciones Teóricas y Transformaciones de Variables}
+		\small
+		\begin{itemize}
+			\itemsep=0.1cm
+			\item \textbf{Problema 3.2.7 (Diferencias sobre enteros):} Demostración formal de que para variables con soporte en $\mathbb{Z}$, el intervalo cerrado equivale exactamente a la diferencia retardada:
+			\begin{align*}
+				P(a \le X \le b) = F_X(b) - F_X(a - 1) \quad \text{y} \quad f_X(k) = \Delta F_X(k).
+			\end{align*}
+			\item \textbf{Problema 3.2.8 (Transformaciones monótonas):} Demostración de invarianza estructural de escalones al transformar variables $Y = g(X)$ creciente ($F_Y(y) = F_X(g^{-1}(y))$) y deducción formal para funciones decrecientes $Z = h(X)$:
+			\begin{align*}
+				F_Z(z) = 1 - \lim_{u \to (h^{-1}(z))^-} F_X(u).
+			\end{align*}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% SLIDE 18: Problemas --- Nivel Desafiante
+\begin{frame}{Problemas del Libro Maestro --- Nivel Desafiante}
+	\begin{block}{Teoría de Distribuciones y Cotas Bivariadas Extremas}
+		\small
+		\begin{itemize}
+			\itemsep=0.1cm
+			\item \textbf{Problema 3.2.9 (Distribuciones generalizadas y escalones de Heaviside):} Representación de la CDF discreta pura como combinación de escalones $F(x) = \sum p_k H(x - x_k)$ y demostración topológica en Sobolev-Schwartz de que su derivada distribucional reproduce impulsos de Dirac: $f(x) = \sum p_k \delta(x - x_k)$.
+			\item \textbf{Problema 3.2.10 (Cotas conjuntas de Fréchet-Hoeffding en enrutadores):} Deducción del cálculo de masa en rectángulos por segundas diferencias y demostración de las cotas universales que confinan toda CDF conjunta entre sus marginales:
+			\begin{align*}
+				\max\left( 0, F_X(x) + F_Y(y) - 1 \right) \le F_{X,Y}(x, y) \le \min\left( F_X(x), F_Y(y) \right).
+			\end{align*}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% SLIDE 19: Conclusiones y Síntesis
+\begin{frame}{Conclusiones --- La CDF como Pilar del Análisis Discreto}
+	\begin{block}{Resumen de Competencias Adquiridas}
+		\small
+		\begin{enumerate}
+			\itemsep=0.06cm
+			\item \textbf{Equivalencia Estructural:} La Función de Distribución Acumulada $F(x)$ encapsula la totalidad de la información de un experimento aleatorio con igual rigor y unicidad que la PMF $f(x)$.
+			\item \textbf{Geometría de Escalones:} En el caso discreto, $F(x)$ se caracteriza por tramos constantes (mesetas) intercalados por saltos verticales exactos en los puntos del soporte $\mathcal{S}_X$.
+			\item \textbf{Inversión y Operaciones:} El operador de diferencia hacia atrás $f(x) = F(x) - F(x^-)$ y las fórmulas de intervalos permiten evaluar riesgos sin recurrir a sumatorias tediosas.
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Verificación Computacional}
+		\footnotesize
+		La simulación Monte Carlo confirmó que la distribución empírica (ECDF) converge uniformemente a la CDF teórica, validando el Teorema Fundamental de Glivenko-Cantelli.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 20: Puente Didáctico
+\begin{frame}{Puente Didáctico --- Hacia la Esperanza Matemática y Momentos}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Lo que hemos logrado (03.01 y 03.02)}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item Dominamos la descripción \emph{completa} y micro-analítica de variables discretas mediante $f(x)$ (masas puntuales) y $F(x)$ (acumulaciones escalonadas).
+					\item Podemos responder consultas exactas, de intervalos, cuantiles y colas superiores/inferiores.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Lo que sigue: Sección 03.03}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item ¿Cómo resumir toda la distribución en un solo número representativo de tendencia central y dispersión?
+					\item Introduciremos el operador de \textbf{Esperanza Matemática} $\mathbb{E}[X] = \sum x f(x)$, la \textbf{Varianza} $\text{Var}(X)$ y la teoría general de momentos y funciones generadoras.
+				\end{itemize}
+			\end{block}
+		\end{column}
+	\end{columns}
+	\vspace{0.2cm}
+	\begin{center}
+		\textbf{\textcolor{TecAzul}{\Large ¡Felicidades por completar la Sección 03.02!}}
+	\end{center}
+\end{frame}
+
+\end{document}

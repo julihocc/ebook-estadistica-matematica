@@ -436,3 +436,582 @@
 		Queda demostrado que la variable aleatoria $T$ sigue de manera exacta una **distribución geométrica**, cuyo parámetro de probabilidad de falla es $p_{\text{eq}} = p_A + p_B - p_A p_B$.
 	\end{enumerate}
 \end{solucion}
+
+
+% ==============================================================================
+% SECCIÓN 03.02: FUNCIONES DE DISTRIBUCIÓN ACUMULADA (CDF DISCRETA)
+% ==============================================================================
+\subsection{Problemas sobre Funciones de Distribución Acumulada (CDF)}
+
+\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
+
+\begin{problema}
+	\label{prob:3.2.1}
+	Considere un dado justo de seis caras equilibradas cuyo resultado se denota por la variable aleatoria discreta $X \in \set{1, 2, 3, 4, 5, 6}$.
+	\begin{enumerate}
+		\item Construya la expresión analítica exhaustiva de la función de distribución acumulada $F(x) = P(X \le x)$ para todo $x \in \mathbb{R}$.
+		\item Calcule los valores numéricos de $F(2.8)$, $F(-1)$, $F(4)$ y $F(10)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.2.2}
+	Una variable aleatoria discreta $Y$ posee la siguiente función de distribución acumulada escalonada:
+	\begin{align*}
+		F(y) = \begin{cases}
+			0 & \text{si } y < 0, \\
+			0.15 & \text{si } 0 \le y < 2, \\
+			0.55 & \text{si } 2 \le y < 5, \\
+			0.85 & \text{si } 5 \le y < 8, \\
+			1.00 & \text{si } y \ge 8.
+		\end{cases}
+	\end{align*}
+	\begin{enumerate}
+		\item Determine las probabilidades de intervalo $P(0 < Y \le 5)$ y $P(2 \le Y \le 8)$.
+		\item Encuentre el soporte $\mathcal{S}_Y$ y construya la tabla completa de la función de masa de probabilidad $p_Y(y)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.2.3}
+	Sea $X$ una variable aleatoria discreta con función de distribución acumulada $F_X(x)$.
+	\begin{enumerate}
+		\item Explique rigurosamente por qué $F_X(x)$ debe ser una función no decreciente en toda la recta real ($\forall a \le b \implies F_X(a) \le F_X(b)$).
+		\item Demuestre formalmente el comportamiento de continuidad por la derecha en cada punto del soporte ($x_k \in \mathcal{S}_X$), verificando que $\lim_{u \to x_k^+} F_X(u) = F_X(x_k)$.
+	\end{enumerate}
+\end{problema}
+
+
+\subsubsection*{2. Nivel Operativo (Intermedios / Aplicados)}
+
+\begin{problema}
+	\label{prob:3.2.4}
+	En un proceso automático de manufactura de circuitos integrados, el número de soldaduras defectuosas por oblea, $X$, presenta la función de masa de probabilidad:
+	\begin{align*}
+		p_X(x) = \begin{cases}
+			0.40 & \text{si } x = 0, \\
+			0.30 & \text{si } x = 1, \\
+			0.20 & \text{si } x = 2, \\
+			0.10 & \text{si } x = 3, \\
+			0 & \text{en otro caso.}
+		\end{cases}
+	\end{align*}
+	\begin{enumerate}
+		\item Escriba la función de distribución acumulada $F_X(x)$ en forma de partes (función a trozos) para todo $x \in \mathbb{R}$.
+		\item Si una oblea es rechazada cuando presenta $2$ o más defectos, calcule la probabilidad de rechazo utilizando exclusivamente los valores de $F_X(x)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.2.5}
+	Un equipo de ciberseguridad realiza intentos de penetración sobre un servidor web hasta encontrar la primera vulnerabilidad. Suponga que los intentos son independientes y que la probabilidad de éxito en cada intento individual es $p \in (0, 1)$. Sea $N$ el número total de intentos hasta el primer éxito inclusive.
+	\begin{enumerate}
+		\item Deduzca la expresión exacta en forma cerrada para la función de distribución acumulada $F_N(n) = P(N \le n)$ para cualquier entero $n \ge 1$.
+		\item Si la probabilidad de vulnerar el servidor en un intento es $p = 0.20$, calcule el número mínimo de ensayos necesarios $n^*$ para que la probabilidad de éxito acumulado sea de al menos el $95\%$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.2.6}
+	El cuantil de orden $\alpha \in (0, 1)$ para una variable aleatoria discreta $X$ se define convencionalmente como el ínfimo del conjunto de números reales donde la CDF supera o iguala a $\alpha$:
+	\begin{align*}
+		q_\alpha = \inf \set{x \in \mathbb{R} : F_X(x) \ge \alpha}.
+	\end{align*}
+	Considere que $X$ representa la demanda diaria de servidores en un centro de datos con distribución:
+	$P(X=10)=0.10$, $P(X=20)=0.25$, $P(X=30)=0.35$, $P(X=40)=0.20$ y $P(X=50)=0.10$.
+	\begin{enumerate}
+		\item Calcule e interprete la mediana de la demanda diaria ($q_{0.50}$).
+		\item Determine el cuantil de orden $0.85$ ($q_{0.85}$) y verifique su significado operativo en la gestión de capacidad del centro de datos.
+	\end{enumerate}
+\end{problema}
+
+
+\subsubsection*{3. Nivel Analítico (Avanzados / Demostraciones)}
+
+\begin{problema}
+	\label{prob:3.2.7}
+	Sea $X$ una variable aleatoria discreta cuyo soporte es un subconjunto de los números enteros ($\mathcal{S}_X \subset \mathbb{Z}$).
+	\begin{enumerate}
+		\item Demuestre rigurosamente que para cualesquiera dos enteros $a, b \in \mathbb{Z}$ con $a \le b$, la probabilidad del intervalo cerrado se expresa exactamente como:
+		\begin{align*}
+			P(a \le X \le b) = F_X(b) - F_X(a - 1).
+		\end{align*}
+		\item Demuestre que si $X$ es entera, la magnitud del salto en cualquier entero $k \in \mathbb{Z}$ satisface la relación de diferencia finita $p_X(k) = \Delta F_X(k) = F_X(k) - F_X(k-1)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.2.8}
+	Considere una variable aleatoria discreta $X$ con soporte $\mathcal{S}_X = \set{x_1, x_2, \dots}$ ordenado de manera estrictamente creciente ($x_1 < x_2 < \dots$) y función de distribución $F_X(x)$. Sea $g: \mathbb{R} \to \mathbb{R}$ una función estrictamente monótona creciente en el soporte de $X$, y definamos la nueva variable $Y = g(X)$.
+	\begin{enumerate}
+		\item Demuestre teóricamente que la función de distribución de la variable transformada, $F_Y(y)$, preserva la estructura escalonada de $F_X$ y se relaciona mediante:
+		\begin{align*}
+			F_Y(y) = F_X\left( g^{-1}(y) \right) \quad \text{para todo } y \in g(\mathcal{S}_X).
+		\end{align*}
+		\item Si en cambio $h: \mathbb{R} \to \mathbb{R}$ es una función estrictamente decreciente y $Z = h(X)$, deduzca la fórmula analítica para $F_Z(z)$ en términos de $F_X$.
+	\end{enumerate}
+\end{problema}
+
+
+\subsubsection*{4. Nivel Desafiante (Expertos / Paradojas)}
+
+\begin{problema}
+	\label{prob:3.2.9}
+	En la teoría de la medida y probabilidad avanzada, se distinguen las distribuciones discretas puras de las distribuciones absolutamente continuas y de las singulares continuas (como la escalera de Cantor).
+	\begin{enumerate}
+		\item Demuestre analíticamente que la función de distribución acumulada $F(x)$ de cualquier variable aleatoria discreta pura se puede expresar como una serie convergente de funciones escalón unitarias de Heaviside $H(x - x_k)$:
+		\begin{align*}
+			F(x) = \sum_{k} p_k\, H(x - x_k), \quad \text{donde } H(t) = \begin{cases} 1 & \text{si } t \ge 0, \\ 0 & \text{si } t < 0. \end{cases}
+		\end{align*}
+		\item Explique por qué la derivada ordinaria $F'(x)$ es idéntica a cero en casi todas partes ($\text{c.t.p.}$) respecto a la medida de Lebesgue en $\mathbb{R}$, y cómo la teoría de distribuciones (o funciones generalizadas) recupera la masa puntual en el sentido de la delta de Dirac: $f(x) = \sum p_k \delta(x - x_k)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.2.10}
+	Considere un par de variables aleatorias discretas $(X, Y)$ que representan el tráfico de paquetes de entrada y salida en un enrutador óptico en intervalos discretos de tiempo, con función de distribución acumulada conjunta discreta $F_{X,Y}(x, y) = P(X \le x, Y \le y)$.
+	\begin{enumerate}
+		\item Demuestre algebraicamente que la probabilidad de que el par $(X, Y)$ caiga dentro de un rectángulo semiabierto $(x_1, x_2] \times (y_1, y_2]$ se expresa mediante las segundas diferencias de la CDF conjunta:
+		\begin{align*}
+			P(x_1 < X \le x_2, y_1 < Y \le y_2) = F_{X,Y}(x_2, y_2) - F_{X,Y}(x_1, y_2) - F_{X,Y}(x_2, y_1) + F_{X,Y}(x_1, y_1).
+		\end{align*}
+		\item Demuestre que para cualquier par de variables discretas, la CDF conjunta está fundamentalmente acotada en todo punto $(x, y) \in \mathbb{R}^2$ por las cotas de Fréchet-Hoeffding:
+		\begin{align*}
+			\max\left( 0, F_X(x) + F_Y(y) - 1 \right) \le F_{X,Y}(x, y) \le \min\left( F_X(x), F_Y(y) \right).
+		\end{align*}
+	\end{enumerate}
+\end{problema}
+
+
+% ==============================================================================
+% SUGERENCIAS PARA LA SECCIÓN 03.02
+% ==============================================================================
+\subsection{Sugerencias para los problemas de la Sección 03.02}
+
+\begin{sugerencia}
+	\label{sug:3.2.1}
+	Para el Problema \ref{prob:3.2.1}: Divida la recta real en 7 intervalos disjuntos: $(-\infty, 1)$, $[1, 2)$, $[2, 3)$, $[3, 4)$, $[4, 5)$, $[5, 6)$ y $[6, \infty)$. En cada intervalo, sume las probabilidades $f(u) = 1/6$ de las caras que sean menores o iguales a $x$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.2.2}
+	Para el Problema \ref{prob:3.2.2}: Recuerde la identidad fundamental $P(a < Y \le b) = F(b) - F(a)$. Para reconstruir la PMF, identifique los puntos donde $F(y)$ experimenta saltos e inspeccione las diferencias $F(y_k) - F(y_k^-)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.2.3}
+	Para el Problema \ref{prob:3.2.3}: Utilice el hecho de que si $a \le b$, el evento $\set{\omega : X(\omega) \le a}$ es un subconjunto del evento $\set{\omega : X(\omega) \le b}$. Aplique la monotonía de la medida de probabilidad y el axioma de continuidad por arriba sobre secuencias decrecientes de intervalos.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.2.4}
+	Para el Problema \ref{prob:3.2.4}: Sume progresivamente las probabilidades $p_X(x)$ para $x=0, 1, 2, 3$. Exprese la probabilidad de rechazo como la probabilidad del complemento de aceptar, es decir, $P(X \ge 2) = 1 - P(X \le 1) = 1 - F_X(1)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.2.5}
+	Para el Problema \ref{prob:3.2.5}: El evento complementario $\set{N > n}$ equivale a que los primeros $n$ ensayos consecutivos hayan resultado en fracasos independientes, cuya probabilidad es $(1-p)^n$. Luego, plantee la inecuación $1 - (1-p)^n \ge 0.95$ y resuelva usando logaritmos naturales.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.2.6}
+	Para el Problema \ref{prob:3.2.6}: Calcule la tabla de acumulaciones $F_X(x)$ para $x \in \set{10, 20, 30, 40, 50}$. Inspeccione cuál es el menor valor $x_k$ en el cual la probabilidad acumulada alcanza o sobrepasa $0.50$ (para la mediana) y $0.85$ (para el percentil superior).
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.2.7}
+	Para el Problema \ref{prob:3.2.7}: Si $X$ solo toma valores enteros, el conjunto de números enteros en el intervalo cerrado $[a, b]$ es exactamente la diferencia de conjuntos entre $(-\infty, b] \cap \mathbb{Z}$ y $(-\infty, a-1] \cap \mathbb{Z}$. Exprese esto mediante probabilidades algebraicas.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.2.8}
+	Para el Problema \ref{prob:3.2.8}: Si $g$ es estrictamente creciente en la recta real o sobre el soporte de $X$, la desigualdad $Y \le y \iff g(X) \le y$ es lógicamente equivalente a $X \le g^{-1}(y)$. Para el caso decreciente, invierta el sentido de la desigualdad y preste atención estricta al límite por la izquierda.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.2.9}
+	Para el Problema \ref{prob:3.2.9}: Una función escalón de Heaviside $H(x - x_k)$ vale $0$ para $x < x_k$ y $1$ para $x \ge x_k$. Verifique que al ponderar cada escalón por $p_k = P(X = x_k)$ se reproduce exactamente la suma de masa $\sum_{x_k \le x} p_k$. Para la derivada, recuerde que una constante a trozos tiene pendiente cero en todo el interior de cada subintervalo continuo.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.2.10}
+	Para el Problema \ref{prob:3.2.10}: Para el inciso 1, dibuje el rectángulo en el plano cartesiano $(x, y)$ y exprese la masa interna restando las CDFs de las regiones exteriores inframarginales. Para el inciso 2, utilice el hecho de que la probabilidad conjunta nunca puede exceder ninguna de las dos marginales ni ser inferior a la suma combinada menos la unidad.
+\end{sugerencia}
+
+
+% ==============================================================================
+% SOLUCIONES PARA LA SECCIÓN 03.02
+% ==============================================================================
+\subsection{Soluciones a los problemas de la Sección 03.02}
+
+\begin{solucion}
+	\label{sol:3.2.1}
+	Para el Problema \ref{prob:3.2.1}:
+	\begin{enumerate}
+		\item Para un dado justo con soporte $\mathcal{S}_X = \set{1, 2, 3, 4, 5, 6}$, cada cara tiene probabilidad puntual constante $f(k) = \frac{1}{6}$.
+		La función de distribución acumulada se define analíticamente sobre todo el eje real como la suma de las masas a la izquierda o en la frontera de $x$:
+		\begin{align*}
+			F(x) = P(X \le x) = \sum_{k \le x} f(k) = \begin{cases}
+				0 & \text{si } x < 1, \\[3pt]
+				\frac{1}{6} & \text{si } 1 \le x < 2, \\[3pt]
+				\frac{2}{6} = \frac{1}{3} & \text{si } 2 \le x < 3, \\[3pt]
+				\frac{3}{6} = \frac{1}{2} & \text{si } 3 \le x < 4, \\[3pt]
+				\frac{4}{6} = \frac{2}{3} & \text{si } 4 \le x < 5, \\[3pt]
+				\frac{5}{6} & \text{si } 5 \le x < 6, \\[3pt]
+				1 & \text{si } x \ge 6.
+			\end{cases}
+		\end{align*}
+		Esta función escalonada presenta saltos de magnitud idéntica a $\frac{1}{6}$ exactamente en cada entero del soporte.
+		
+		\item Evaluando numéricamente $F(x)$ en cada punto requerido observando el intervalo correspondiente de la función a trozos:
+		\begin{itemize}
+			\item Para $x = 2.8$: Como $2 \le 2.8 < 3$, el valor acumulado es $F(2.8) = \dfrac{2}{6} = \dfrac{1}{3} \approx 0.3333$.
+			\item Para $x = -1$: Como $-1 < 1$, se encuentra en la región de acumulación nula, por lo que $F(-1) = 0$.
+			\item Para $x = 4$: Al ser exactamente un punto de discontinuidad (salto), aplicamos la continuidad por la derecha ($4 \le 4 < 5$), obteniendo $F(4) = \dfrac{4}{6} = \dfrac{2}{3} \approx 0.6667$.
+			\item Para $x = 10$: Como $10 \ge 6$, el acumulado ha saturado el espacio muestral total, por lo que $F(10) = 1$.
+		\end{itemize}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.2.2}
+	Para el Problema \ref{prob:3.2.2}:
+	\begin{enumerate}
+		\item Utilizando la relación analítica para intervalos semiabiertos en variables aleatorias cualesquiera:
+		\begin{align*}
+			P(a < Y \le b) = P(Y \le b) - P(Y \le a) = F(b) - F(a).
+		\end{align*}
+		Evaluando cada intervalo solicitado directamente sobre los valores explícitos de la CDF:
+		\begin{align*}
+			P(0 < Y \le 5) &= F(5) - F(0) = 0.85 - 0.15 = 0.70. \\
+			P(2 \le Y \le 8) &= P(Y = 2) + P(2 < Y \le 8) \\
+			&= \left[ F(2) - F(2^-) \right] + \left[ F(8) - F(2) \right] = F(8) - F(2^-).
+		\end{align*}
+		Como el límite por la izquierda en el salto es $F(2^-) = \lim_{u \to 2^-} F(u) = 0.15$, obtenemos:
+		\begin{align*}
+			P(2 \le Y \le 8) = 1.00 - 0.15 = 0.85.
+		\end{align*}
+		
+		\item El soporte $\mathcal{S}_Y$ está conformado por los puntos exactos de discontinuidad (saltos) de $F(y)$, ya que son los únicos números reales donde se concentra masa positiva ($f(y_k) > 0$).
+		Observando los cambios de meseta en la función a trozos, identificamos que los saltos ocurren en $y \in \set{0, 2, 5, 8}$. Por tanto:
+		\begin{align*}
+			\mathcal{S}_Y = \set{0, 2, 5, 8}.
+		\end{align*}
+		Las magnitudes de las masas puntuales se obtienen por diferencia finita $p_Y(y_k) = F(y_k) - F(y_k^-)$:
+		\begin{align*}
+			p_Y(0) &= F(0) - F(0^-) = 0.15 - 0 = 0.15, \\
+			p_Y(2) &= F(2) - F(2^-) = 0.55 - 0.15 = 0.40, \\
+			p_Y(5) &= F(5) - F(5^-) = 0.85 - 0.55 = 0.30, \\
+			p_Y(8) &= F(8) - F(8^-) = 1.00 - 0.85 = 0.15.
+		\end{align*}
+		La tabla completa de la función de masa de probabilidad verifica el axioma de normalización unitaria:
+		\begin{center}
+			\small
+			\begin{tabular}{c|cccc|c}
+				$y$ & $0$ & $2$ & $5$ & $8$ & Suma \\
+				\hline
+				$p_Y(y)$ & $0.15$ & $0.40$ & $0.30$ & $0.15$ & $1.00$
+			\end{tabular}
+		\end{center}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.2.3}
+	Para el Problema \ref{prob:3.2.3}:
+	\begin{enumerate}
+		\item Sean $a, b \in \mathbb{R}$ tales que $a \le b$. Por definición formal de relación de orden sobre los números reales, cualquier realización elemental $\omega \in \Omega$ que satisfaga la condición de pertenencia al evento anterior ($X(\omega) \le a$) satisface automáticamente la condición de pertenencia al evento posterior ($X(\omega) \le b$).
+		En términos de teoría de conjuntos medibles:
+		\begin{align*}
+			A = \set{\omega \in \Omega : X(\omega) \le a} \subseteq B = \set{\omega \in \Omega : X(\omega) \le b}.
+		\end{align*}
+		Por la propiedad de monotonía de cualquier medida de probabilidad legítima (Axiomas de Kolmogorov), si $A \subseteq B$, entonces sus medidas cumplen $P(A) \le P(B)$. En consecuencia directa:
+		\begin{align*}
+			F_X(a) = P(X \le a) \le P(X \le b) = F_X(b).
+		\end{align*}
+		Por lo tanto, la función de distribución acumulada es estrictamente monotónica no decreciente en todo su dominio.
+		
+		\item Para demostrar la continuidad por la derecha en un punto arbitrario $x \in \mathbb{R}$, considere una sucesión decreciente de números reales $\set{x_n}_{n=1}^\infty$ que converja hacia $x$ desde la derecha ($x_n \downarrow x$, es decir, $x_1 > x_2 > \dots > x_n > \dots$ con $\lim_{n \to \infty} x_n = x$).
+		Definamos la familia de eventos medibles decrecientes:
+		\begin{align*}
+			E_n = \set{\omega \in \Omega : X(\omega) \le x_n}.
+		\end{align*}
+		Como $x_1 > x_2 > \dots$, se tiene la inclusión anidada $E_1 \supseteq E_2 \supseteq \dots \supseteq E_n \supseteq \dots$. La intersección numerable de todos estos conjuntos es precisamente el evento en el límite de convergencia:
+		\begin{align*}
+			\bigcap_{n=1}^\infty E_n = \set{\omega \in \Omega : X(\omega) \le x}.
+		\end{align*}
+		Por la propiedad fundamental de continuidad de la medida de probabilidad por arriba sobre secuencias anidadas de eventos medibles:
+		\begin{align*}
+			\lim_{n \to \infty} F_X(x_n) = \lim_{n \to \infty} P(E_n) = P\left( \bigcap_{n=1}^\infty E_n \right) = P(X \le x) = F_X(x).
+		\end{align*}
+		Como este resultado es independiente de la sucesión decreciente particular $\set{x_n}$ elegida, se demuestra algebraicamente que $\lim_{u \to x^+} F_X(u) = F_X(x)$ para todo $x \in \mathbb{R}$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.2.4}
+	Para el Problema \ref{prob:3.2.4}:
+	\begin{enumerate}
+		\item Acumulando progresivamente las probabilidades puntuales dadas por $p_X(x)$ sobre los intervalos definidos por el soporte $\mathcal{S}_X = \set{0, 1, 2, 3}$:
+		\begin{align*}
+			F_X(x) = \sum_{u \le x} p_X(u) = \begin{cases}
+				0 & \text{si } x < 0, \\[3pt]
+				0.40 & \text{si } 0 \le x < 1, \\[3pt]
+				0.40 + 0.30 = 0.70 & \text{si } 1 \le x < 2, \\[3pt]
+				0.70 + 0.20 = 0.90 & \text{si } 2 \le x < 3, \\[3pt]
+				0.90 + 0.10 = 1.00 & \text{si } x \ge 3.
+			\end{cases}
+		\end{align*}
+		
+		\item La probabilidad operativa de rechazo en manufactura corresponde al suceso de que la oblea presente dos o más soldaduras defectuosas ($X \ge 2$).
+		Utilizando el principio del evento complementario y evaluando en la CDF:
+		\begin{align*}
+			P(\text{Rechazo}) &= P(X \ge 2) = 1 - P(X < 2).
+		\end{align*}
+		Dado que la variable solo toma valores enteros discretos, el suceso estricto $X < 2$ es idéntico al suceso acotado $X \le 1$. Por ende:
+		\begin{align*}
+			P(\text{Rechazo}) = 1 - F_X(1) = 1 - 0.70 = 0.30.
+		\end{align*}
+		Existe un $30\%$ de probabilidad exacta de que una oblea sea descartada por fallas de soldadura en cada lote de control de calidad.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.2.5}
+	Para el Problema \ref{prob:3.2.5}:
+	\begin{enumerate}
+		\item Sea $N$ el número de intentos independientes hasta el primer éxito, el cual sigue por construcción una distribución geométrica sobre $\mathcal{S}_N = \set{1, 2, 3, \dots}$ con probabilidades puntuales $P(N = k) = (1-p)^{k-1}\, p$.
+		Para deducir la forma cerrada elegante de la función de distribución acumulada $F_N(n) = P(N \le n)$ para $n \ge 1$, recurrimos al evento complementario: el suceso $\set{N > n}$ significa formal y físicamente que los primeros $n$ intentos consecutivos resultaron infructuosos (fracasos).
+		Como los intentos son eventos independientes entre sí y la probabilidad de fallo por intento es $1 - p$:
+		\begin{align*}
+			P(N > n) = P(\text{Fracaso en ensayo } 1 \text{ y } \dots \text{ y Fracaso en ensayo } n) = (1 - p)^n.
+		\end{align*}
+		Tomando el complemento para encontrar la probabilidad de acumulación o éxito en los primeros $n$ intentos:
+		\begin{align*}
+			F_N(n) = P(N \le n) = 1 - P(N > n) = 1 - (1 - p)^n, \quad \text{para todo } n \in \set{1, 2, 3, \dots}.
+		\end{align*}
+		
+		\item Evaluando para un parámetro de penetración de ciberseguridad $p = 0.20$, el complemento de fallo es $1 - p = 0.80$. Requerimos encontrar el entero mínimo $n^*$ tal que:
+		\begin{align*}
+			F_N(n) \ge 0.95 \implies 1 - (0.80)^n \ge 0.95.
+		\end{align*}
+		Despejando el término exponencial:
+		\begin{align*}
+			(0.80)^n \le 0.05.
+		\end{align*}
+		Aplicando el logaritmo natural a ambos miembros de la inecuación (recordando que $\ln(0.80) < 0$, por lo que el sentido de la desigualdad se invierte al dividir):
+		\begin{align*}
+			n \ln(0.80) \le \ln(0.05) \implies n \ge \frac{\ln(0.05)}{\ln(0.80)}.
+		\end{align*}
+		Calculando numéricamente con precisión:
+		\begin{align*}
+			n \ge \frac{-2.99573}{-0.22314} \approx 13.425.
+		\end{align*}
+		Como el número de ensayos es estrictamente un número entero positivo, aplicamos la función techo:
+		\begin{align*}
+			n^* = \lceil 13.425 \rceil = 14.
+		\end{align*}
+		El equipo de ciberseguridad debe ejecutar al menos $14$ intentos independientes para garantizar con una confianza acumulada del $95\%$ o superior la detección de la primera vulnerabilidad.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.2.6}
+	Para el Problema \ref{prob:3.2.6}:
+	\begin{enumerate}
+		\item Primero, construimos la tabla completa de la función de distribución acumulada de la demanda diaria en el centro de datos sumando progresivamente las probabilidades:
+		\begin{center}
+			\small
+			\begin{tabular}{c|ccccc}
+				$x$ (Demanda en Servidores) & $10$ & $20$ & $30$ & $40$ & $50$ \\
+				\hline
+				$p_X(x)$ & $0.10$ & $0.25$ & $0.35$ & $0.20$ & $0.10$ \\
+				$F_X(x)$ & $0.10$ & $0.35$ & $0.70$ & $0.90$ & $1.00$
+			\end{tabular}
+		\end{center}
+		La mediana o cuantil $50$ ($q_{0.50}$) se obtiene identificando el menor valor de demanda para el cual el acumulado $F_X(x)$ alcanza o supera a $0.50$:
+		\begin{align*}
+			q_{0.50} = \inf \set{x \in \mathcal{S}_X : F_X(x) \ge 0.50}.
+		\end{align*}
+		Inspeccionando la tabla: $F_X(10) = 0.10 < 0.50$, $F_X(20) = 0.35 < 0.50$, y $F_X(30) = 0.70 \ge 0.50$.
+		Por lo tanto:
+		\begin{align*}
+			q_{0.50} = 30 \text{ servidores}.
+		\end{align*}
+		Interpretación: El $50\%$ o más de los días hábiles operativos del centro de datos requieren como máximo 30 servidores activos para abastecer toda la demanda de cómputo diario, y el otro $50\%$ de los días requieren como mínimo dicha cantidad.
+		
+		\item Para calcular el cuantil de orden $0.85$ ($q_{0.85}$):
+		\begin{align*}
+			q_{0.85} = \inf \set{x \in \mathcal{S}_X : F_X(x) \ge 0.85}.
+		\end{align*}
+		Observando las acumulaciones sucesivas: $F_X(30) = 0.70 < 0.85$, mientras que $F_X(40) = 0.90 \ge 0.85$.
+		En consecuencia directa:
+		\begin{align*}
+			q_{0.85} = 40 \text{ servidores}.
+		\end{align*}
+		Significado operativo: Si el equipo de ingeniería de infraestructura asigna y aprovisiona una capacidad estática constante de 40 servidores por día, el centro de datos operará sin saturación de recursos ni pérdidas de servicio en el $90\%$ de los días (satisfaciendo con amplio margen el requerimiento operativo de un nivel de servicio del $85\%$).
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.2.7}
+	Para el Problema \ref{prob:3.2.7}:
+	\begin{enumerate}
+		\item Sean $a, b \in \mathbb{Z}$ tales que $a \le b$. Consideremos la descomposición en conjuntos algebraicos disjuntos del suceso acotado superiormente por $b$:
+		\begin{align*}
+			\set{\omega \in \Omega : X(\omega) \le b} = \set{\omega \in \Omega : X(\omega) \le a - 1} \cup \set{\omega \in \Omega : a \le X(\omega) \le b}.
+		\end{align*}
+		Esta igualdad de conjuntos es algebraicamente exacta bajo la hipótesis de que $X$ es una variable con soporte exclusivamente entero ($\mathcal{S}_X \subset \mathbb{Z}$), dado que no existen números enteros estrictamente comprendidos en el intervalo abierto $(a-1, a)$.
+		Como la unión anterior es sobre eventos mutuamente excluyentes, el tercer axioma de Kolmogorov establece la aditividad de la probabilidad:
+		\begin{align*}
+			P(X \le b) = P(X \le a - 1) + P(a \le X \le b).
+		\end{align*}
+		Sustituido en términos de la definición de la CDF ($F_X(x) = P(X \le x)$) y despejando la probabilidad del intervalo cerrado:
+		\begin{align*}
+			P(a \le X \le b) = F_X(b) - F_X(a - 1).
+		\end{align*}
+		Queda rigurosamente demostrada la fórmula de diferencia finita para intervalos sobre el conjunto de los enteros.
+		
+		\item Para encontrar la magnitud del salto en un punto entero cualquiera $k \in \mathbb{Z}$, evaluamos la fórmula del intervalo cerrado obtenida en el inciso previo haciendo $a = b = k$:
+		\begin{align*}
+			p_X(k) = P(X = k) = P(k \le X \le k) = F_X(k) - F_X(k - 1) = \Delta F_X(k).
+		\end{align*}
+		Esta relación demuestra explícitamente que la función de masa de probabilidad en cualquier entero es idéntica al operador de primera diferencia finita hacia atrás aplicado a la función de distribución acumulada.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.2.8}
+	Para el Problema \ref{prob:3.2.8}:
+	\begin{enumerate}
+		\item Sea $g: \mathbb{R} \to \mathbb{R}$ una función estrictamente monótona creciente en el soporte de $X$. Por la definición formal de monotonía estricta creciente, para cualquier par de números reales $x, y$, la relación de desigualdad se preserva bajo la aplicación del operador inverso:
+		\begin{align*}
+			g(x) \le y \iff x \le g^{-1}(y).
+		\end{align*}
+		Definiendo la variable aleatoria transformada $Y = g(X)$, calculamos su función de distribución acumulada en cualquier punto del recorrido $y \in \mathbb{R}$:
+		\begin{align*}
+			F_Y(y) = P(Y \le y) = P(g(X) \le y) = P(X \le g^{-1}(y)) = F_X\left( g^{-1}(y) \right).
+		\end{align*}
+		Como la composición de una función escalonada por la derecha ($F_X$) con una función biyectiva creciente ($g^{-1}$) produce una nueva función escalonada con puntos de salto exactamente en $y_k = g(x_k)$, se comprueba formalmente la conservación de la estructura discreta y la identidad teórica.
+		
+		\item Sea $h: \mathbb{R} \to \mathbb{R}$ una función estrictamente monótona decreciente en el soporte de $X$, y definamos $Z = h(X)$.
+		Al aplicar una transformación estrictamente decreciente, el sentido de la desigualdad matemática se invierte en el dominio de la preimagen:
+		\begin{align*}
+			h(X) \le z \iff X \ge h^{-1}(z).
+		\end{align*}
+		Evaluando la probabilidad acumulada para la variable $Z$:
+		\begin{align*}
+			F_Z(z) = P(Z \le z) = P(h(X) \le z) = P(X \ge h^{-1}(z)).
+		\end{align*}
+		Para expresar el suceso $X \ge h^{-1}(z)$ a partir de la función de distribución acumulada (la cual por definición acumula hacia la izquierda estrictamente como $P(X \le x)$), utilizamos la probabilidad del evento complementario y su límite por la izquierda:
+		\begin{align*}
+			P(X \ge h^{-1}(z)) &= 1 - P(X < h^{-1}(z)) \\
+			&= 1 - \lim_{u \to (h^{-1}(z))^-} F_X(u) = 1 - F_X\left( \left[h^{-1}(z)\right]^- \right).
+		\end{align*}
+		En conclusión, para una transformación decreciente, la función de distribución acumulada de la nueva variable discreta se rige algebraicamente por la fórmula exacto-analítica:
+		\begin{align*}
+			F_Z(z) = 1 - F_X\left( \left[h^{-1}(z)\right]^- \right).
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.2.9}
+	Para el Problema \ref{prob:3.2.9}:
+	\begin{enumerate}
+		\item Sea $X$ una variable aleatoria discreta pura cuyo soporte medible es $\mathcal{S}_X = \set{x_k}_{k \in \mathcal{K}}$, donde el índice $\mathcal{K}$ es a lo sumo infinito numerable y cada punto concentra probabilidad $p_k = P(X = x_k) > 0$ con $\sum_k p_k = 1$.
+		La función de distribución acumulada en cualquier punto $x \in \mathbb{R}$ se escribe como la suma de las masas de probabilidad sobre los puntos del soporte menores o iguales a $x$:
+		\begin{align*}
+			F(x) = \sum_{x_k \le x} p_k.
+		\end{align*}
+		Considere ahora la función escalón unitario de Heaviside $H(t)$, que satisface:
+		\begin{align*}
+			H(x - x_k) = \begin{cases}
+				1 & \text{si } x - x_k \ge 0 \iff x \ge x_k, \\
+				0 & \text{si } x - x_k < 0 \iff x < x_k.
+			\end{cases}
+		\end{align*}
+		Multiplicando cada término de la serie infinita por el indicador $H(x - x_k)$, todo sumando donde $x < x_k$ se anula automáticamente (por valer cero el escalón), mientras que todo sumando donde $x \ge x_k$ contribuye íntegramente con su masa $p_k \cdot 1 = p_k$:
+		\begin{align*}
+			\sum_{k \in \mathcal{K}} p_k\, H(x - x_k) = \sum_{k : x_k \le x} p_k \cdot 1 + \sum_{k : x_k > x} p_k \cdot 0 = \sum_{x_k \le x} p_k = F(x).
+		\end{align*}
+		Dado que por el segundo axioma de Kolmogorov la serie de probabilidades es absolutamente convergente ($\sum |p_k| = \sum p_k = 1 < \infty$), esta serie de funciones de Heaviside converge uniformemente en todo $\mathbb{R}$, demostrando la representación estructural discreta.
+		
+		\item En el sentido del cálculo diferencial ordinario (análisis real sobre la medida de Lebesgue en $\mathbb{R}$), el complemento del soporte numerable $\mathbb{R} \setminus \mathcal{S}_X$ es un conjunto abierto de medida total, constituido por una unión numerable de intervalos disjuntos dentro de los cuales la función escalonada $F(x)$ es local y absolutamente constante (mesetas horizontales).
+		Por consiguiente, la derivada ordinaria en cada meseta es idénticamente nula:
+		\begin{align*}
+			F'(x) = 0 \quad \text{para todo } x \notin \mathcal{S}_X.
+		\end{align*}
+		Como la cardinalidad de los puntos de discontinuidad $\mathcal{S}_X$ es numerable (medida de Lebesgue igual a cero, $\mu_L(\mathcal{S}_X) = 0$), se concluye en el análisis de variables reales que $F'(x) = 0$ casi en todas partes ($\text{c.t.p.}$).
+		
+		Sin embargo, para preservar la coherencia y rigurosidad analítica en ingeniería y física teórica sin perder la masa de probabilidad total, se invoca la **teoría de distribuciones (o funciones generalizadas de Sobolev-Schwartz)**. En este marco topológico, la derivada distribucional de la función escalón unitaria de Heaviside $H(t)$ se define como la medida de masa puntual de Dirac centrada en el origen, $\delta(t)$, cuya integral satisface $\int_{-\infty}^\infty \delta(t) dt = 1$.
+		Al derivar término a término la serie convergente deducida en el inciso anterior en el sentido de las distribuciones, obtenemos:
+		\begin{align*}
+			f(x) = \frac{d}{dx} F(x) = \frac{d}{dx} \left[ \sum_{k \in \mathcal{K}} p_k\, H(x - x_k) \right] = \sum_{k \in \mathcal{K}} p_k\, \frac{d}{dx} H(x - x_k) = \sum_{k \in \mathcal{K}} p_k\, \delta(x - x_k).
+		\end{align*}
+		Esta hermosa identidad generalizada reconcilia el cálculo diferencial continuo con la probabilidad discreta, demostrando que la densidad generalizada de una variable aleatoria discreta pura es una superposición lineal de impulsos de Dirac ponderados por sus probabilidades de masa.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.2.10}
+	Para el Problema \ref{prob:3.2.10}:
+	\begin{enumerate}
+		\item Sea el rectángulo semiabierto $\mathcal{R} = (x_1, x_2] \times (y_1, y_2]$ en el plano cartesiano con $x_1 < x_2$ y $y_1 < y_2$. La probabilidad conjunta de que el vector aleatorio $(X, Y)$ caiga dentro de este recinto se denota por $P((X,Y) \in \mathcal{R})$.
+		Por la geometría de los conjuntos medibles en $\mathbb{R}^2$, podemos expresar el cuadrante infinito inferior izquierdo con vértice en $(x_2, y_2)$ como la unión disjunta de cuatro regiones rectangulares:
+		\begin{align*}
+			(-\infty, x_2] \times (-\infty, y_2] &= \mathcal{R} \cup \left[ (-\infty, x_1] \times (y_1, y_2] \right] \\
+			&\quad \cup \left[ (x_1, x_2] \times (-\infty, y_1] \right] \cup \left[ (-\infty, x_1] \times (-\infty, y_1] \right].
+		\end{align*}
+		Evaluando la medida de probabilidad conjunta en el cuadrante total exterior (que por definición formal constituye $F_{X,Y}(x_2, y_2)$):
+		\begin{align*}
+			F_{X,Y}(x_2, y_2) &= P((X,Y) \in \mathcal{R}) + P(X \le x_1, y_1 < Y \le y_2) \\
+			&\quad + P(x_1 < X \le x_2, Y \le y_1) + P(X \le x_1, Y \le y_1).
+		\end{align*}
+		Descomponiendo los términos intermedios mediante restas de funciones de distribución:
+		\begin{align*}
+			P(X \le x_1, y_1 < Y \le y_2) &= P(X \le x_1, Y \le y_2) - P(X \le x_1, Y \le y_1) \\
+			&= F_{X,Y}(x_1, y_2) - F_{X,Y}(x_1, y_1), \\[4pt]
+			P(x_1 < X \le x_2, Y \le y_1) &= P(X \le x_2, Y \le y_1) - P(X \le x_1, Y \le y_1) \\
+			&= F_{X,Y}(x_2, y_1) - F_{X,Y}(x_1, y_1).
+		\end{align*}
+		Sustituyendo ambas identidades algebraicas en la ecuación de conservación original y agrupando términos:
+		\begin{align*}
+			F_{X,Y}(x_2, y_2) &= P((X,Y) \in \mathcal{R}) + \left[ F_{X,Y}(x_1, y_2) - F_{X,Y}(x_1, y_1) \right] \\
+			&\quad + \left[ F_{X,Y}(x_2, y_1) - F_{X,Y}(x_1, y_1) \right] + F_{X,Y}(x_1, y_1) \\
+			&= P((X,Y) \in \mathcal{R}) + F_{X,Y}(x_1, y_2) + F_{X,Y}(x_2, y_1) - F_{X,Y}(x_1, y_1).
+		\end{align*}
+		Despejando finalmente la masa de probabilidad contenida en el interior del rectángulo $\mathcal{R}$:
+		\begin{align*}
+			P(x_1 < X \le x_2, y_1 < Y \le y_2) = F_{X,Y}(x_2, y_2) - F_{X,Y}(x_1, y_2) - F_{X,Y}(x_2, y_1) + F_{X,Y}(x_1, y_1).
+		\end{align*}
+		Esta expresión representa la segunda diferencia mixta o enésima variación del operador acumulativo bidimensional.
+		
+		\item Para demostrar la cota superior de Fréchet-Hoeffding en cualquier punto $(x, y) \in \mathbb{R}^2$, notemos que el evento bivariado de intersección está contenido trivialmente dentro de cada uno de los dos eventos marginales por separado:
+		\begin{align*}
+			\set{\omega \in \Omega : X(\omega) \le x \text{ y } Y(\omega) \le y} \subseteq \set{\omega \in \Omega : X(\omega) \le x}, \\
+			\set{\omega \in \Omega : X(\omega) \le x \text{ y } Y(\omega) \le y} \subseteq \set{\omega \in \Omega : Y(\omega) \le y}.
+		\end{align*}
+		Por la monotonía de la medida de probabilidad, la probabilidad del subconjunto no puede exceder la probabilidad de ninguno de los superconjuntos que lo contienen:
+		\begin{align*}
+			F_{X,Y}(x, y) \le F_X(x) \quad \text{y} \quad F_{X,Y}(x, y) \le F_Y(y) \implies F_{X,Y}(x, y) \le \min\left( F_X(x), F_Y(y) \right).
+		\end{align*}
+		Para demostrar la cota inferior, invocamos la Desigualdad de Boole para la unión de eventos complementarios: la suma de las probabilidades de dos sucesos cualesquiera se relaciona con la probabilidad de su intersección mediante $P(A \cap B) = P(A) + P(B) - P(A \cup B)$.
+		Haciendo $A = \set{X \le x}$ y $B = \set{Y \le y}$:
+		\begin{align*}
+			F_{X,Y}(x, y) = P(A \cap B) = F_X(x) + F_Y(y) - P(X \le x \text{ o } Y \le y).
+		\end{align*}
+		Como la medida de la unión de eventos en un espacio de probabilidad está axiomáticamente acotada por la unidad ($P(A \cup B) \le 1$), al restar un número menor o igual a $1$ se obtiene una cota inferior al sustituir por el valor extremo $1$:
+		\begin{align*}
+			F_{X,Y}(x, y) \ge F_X(x) + F_Y(y) - 1.
+		\end{align*}
+		Además, como por el primer axioma de Kolmogorov ninguna probabilidad acumulada puede ser estrictamente negativa ($F_{X,Y}(x, y) \ge 0$), combinamos ambas restricciones en un solo operador de máximo:
+		\begin{align*}
+			F_{X,Y}(x, y) \ge \max\left( 0, F_X(x) + F_Y(y) - 1 \right).
+		\end{align*}
+		En conclusión, la función de distribución acumulada conjunta discreta (y de cualquier tipo general) queda invariablemente confinada entre las dos cotas extremas universales de Fréchet-Hoeffding:
+		\begin{align*}
+			\max\left( 0, F_X(x) + F_Y(y) - 1 \right) \le F_{X,Y}(x, y) \le \min\left( F_X(x), F_Y(y) \right).
+		\end{align*}
+	\end{enumerate}
+\end{solucion}

@@ -1,0 +1,429 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title{Discrete Probability Mass Functions}
+\subtitle{Section 03.02 --- Cumulative Distribution Functions (Discrete CDF)}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% SLIDE 01: Cover Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
+	\begin{block}{Curricular Structure of Unit 2}
+		\small
+		\begin{enumerate}
+			\itemsep=0.04cm
+			\item \textcolor{gray}{Section 03.01: Discrete Probability Functions (PMF and Support)}
+			\item \textbf{\textcolor{TecRojo}{Section 03.02: Cumulative Distribution Functions (Discrete CDF)}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 03.03: Mathematical Expectation, Variance, and Moments}
+			\item \textcolor{gray}{Section 03.04: Special Distributions I (Binomial, Geometric, and Hypergeometric)}
+			\item \textcolor{gray}{Section 03.05: Special Distributions II (Poisson, Negative Binomial, and Multinomial)}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Didactic Objective}
+		\footnotesize
+		Master the analytical, geometric, and computational foundations of the Cumulative Distribution Function (CDF) $F(x)$ for discrete variables, characterizing step plateaus, jump discontinuities, and inversion operators for interval probabilities and quantile queries.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivation and Intuition
+\begin{frame}{Motivation --- Why Accumulate Probability?}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Limitations of Point Queries}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item The PMF $f(x) = P(X=x)$ answers only questions of \emph{exact equality}.
+					\item In engineering applications, risk management, and reliability analysis, critical queries involve \textbf{thresholds} or \textbf{intervals}:
+					\begin{itemize}
+						\item \scriptsize What is the probability that a server fails within $t \le 5$ ms?
+						\item \scriptsize What is the probability of having at most $3$ dropped packets?
+					\end{itemize}
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{The Cumulative Operator}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item Instead of repeatedly summing point masses across vast domains, we define a global function $F(x)$ that stores the \emph{total probabilistic history} up to point $x$.
+					\item This function transforms complex summation tasks into simple evaluations and algebraic subtractions at boundary points.
+				\end{itemize}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Threshold Queries vs. Point Queries
+\begin{frame}{Threshold Queries vs. Point Queries}
+	\begin{table}
+		\centering
+		\scriptsize
+		\begin{tabular}{p{3.1cm}|p{4.5cm}|p{4.7cm}}
+			\hline
+			\textbf{Property} & \textbf{Probability Mass Function (PMF) $f(x)$} & \textbf{Cumulative Distribution (CDF) $F(x)$} \\
+			\hline \hline
+			\textbf{Formal definition} & $f(x) = P(X = x)$ & $F(x) = P(X \le x) = \sum_{u \le x} f(u)$ \\
+			\hline
+			\textbf{Canonical question} & Exactly how many? & At most how many? \\
+			\hline
+			\textbf{Domain \& image} & $\mathbb{R} \to [0, 1]$, null outside $\mathcal{S}_X$ & $\mathbb{R} \to [0, 1]$, defined $\forall x \in \mathbb{R}$ \\
+			\hline
+			\textbf{Geometric shape} & Bar or stick diagram (stem plot) & Step function (flat plateaus and vertical jumps) \\
+			\hline
+			\textbf{Global condition} & $\sum_{x \in \mathcal{S}_X} f(x) = 1$ & $\lim_{x \to -\infty} F(x) = 0$, $\lim_{x \to \infty} F(x) = 1$ \\
+			\hline
+		\end{tabular}
+	\end{table}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Conceptual Synthesis}
+		\footnotesize
+		The CDF encapsulates all probabilistic information of the system: knowing $F(x)$ for all $x \in \mathbb{R}$ is strictly equivalent to knowing the complete probability distribution of $X$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 05: Formal Definition of the CDF
+\begin{frame}{Formal Definition of the Cumulative Distribution Function}
+	\begin{block}{Analytical Definition (Equation 2.6.2 of Master Book)}
+		\scriptsize
+		The \textbf{Cumulative Distribution Function} (CDF) of a discrete random variable $X$ is defined for any real number $x \in \mathbb{R}$ as:
+		\vspace{-0.15cm}
+		\begin{align*}
+			F(x) = P(X \le x) = \sum_{u \le x} f(u)
+		\end{align*}
+		\vspace{-0.25cm}
+		where the summation extends over all elements of the support $u \in \mathcal{S}_X$ satisfying $u \le x$.
+	\end{block}
+	\vspace{-0.4cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Ordered Finite Support}
+				\scriptsize
+				If $x_1 < x_2 < \dots < x_n$, then:
+				\vspace{-0.15cm}
+				\begin{align*}
+					F(x) = \begin{cases}
+						0 & x < x_1 \\
+						f(x_1) & x_1 \le x < x_2 \\
+						f(x_1) + f(x_2) & x_2 \le x < x_3 \\
+						\vdots & \vdots \\
+						1 & x \ge x_n
+					\end{cases}
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Geometric Interpretation}
+				\scriptsize
+				\begin{itemize}
+					\itemsep=0.02cm
+					\item $F(x)$ advances via \textbf{horizontal plateaus} where probability mass is absent.
+					\item At each support point $x_k \in \mathcal{S}_X$, the function undergoes a \textbf{vertical jump} of exact height $f(x_k)$.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Fundamental Properties I (Monotonicity & Continuity)
+\begin{frame}{Fundamental Properties --- Monotonicity and Right-Continuity}
+	\begin{block}{Property 1: Non-Decreasing Monotonicity}
+		\footnotesize
+		For any two real numbers $a, b \in \mathbb{R}$ such that $a \le b$, it holds rigorously that:
+		\begin{align*}
+			a \le b \implies \set{\omega : X(\omega) \le a} \subseteq \set{\omega : X(\omega) \le b} \implies F(a) \le F(b)
+		\end{align*}
+		The accumulation of probabilities can never decrease, since point masses are non-negative ($f(x) \ge 0$).
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{block}{Property 2: Right-Continuity (cadlág)}
+		\footnotesize
+		At every point $x \in \mathbb{R}$, the right-hand limit coincides precisely with the evaluated function value:
+		\begin{align*}
+			F(x^+) = \lim_{u \to x^+} F(u) = F(x)
+		\end{align*}
+		At jump discontinuities $x_k \in \mathcal{S}_X$, the left-hand limit is strictly lower: $F(x_k^-) = F(x_k) - f(x_k)$. By universal mathematical convention, the upper point of the step is included (right-closure).
+	\end{block}
+\end{frame}
+
+% SLIDE 07: Fundamental Properties II (Asymptotic Limits)
+\begin{frame}{Fundamental Properties --- Asymptotic Limits and Normalization}
+	\begin{block}{Property 3: Asymptotic Boundary Conditions}
+		\small
+		Every legitimate cumulative distribution function must satisfy two fundamental boundary conditions at infinity:
+		\begin{align*}
+			\lim_{x \to -\infty} F(x) = 0 \quad \text{and} \quad \lim_{x \to \infty} F(x) = 1
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Lower Limit ($\to -\infty$)}
+				\footnotesize
+				As we move infinitely to the left on the real line, we leave behind all support points $\mathcal{S}_X$. Accumulated probability vanishes to zero (an impossible event).
+			\end{alertblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Upper Limit ($\to \infty$)}
+				\footnotesize
+				Advancing infinitely to the right encompasses the entire sample space $\Omega$. The total sum of all jumps converges exactly to unit normalization $1$.
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 08: Inversion Theorem (PMF Recovery)
+\begin{frame}{Inversion Theorem --- Recovering the PMF from the CDF}
+	\begin{block}{Finite Difference Theorem (Equation 2.6.4 of Master Book)}
+		\small
+		The probability mass function $f(x)$ can be uniquely reconstructed from the cumulative distribution function $F(x)$ via the exact magnitude of the jump discontinuity at point $x$:
+		\begin{align*}
+			f(x) = F(x) - \lim_{u \to x^-} F(u) \equiv F(x) - F(x^-)
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Ordered Discrete Support}
+				\scriptsize
+				If $\mathcal{S}_X = \set{x_1, x_2, \dots, x_n}$ with $x_1 < x_2 < \dots$:
+				\begin{align*}
+					f(x_1) &= F(x_1) - 0 = F(x_1), \\
+					f(x_k) &= F(x_k) - F(x_{k-1}) \quad (k > 1).
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Points Outside the Support}
+				\scriptsize
+				If $x \notin \mathcal{S}_X$, the function $F(u)$ is locally constant around $x$ (lying strictly within a horizontal plateau). Therefore:
+				\begin{align*}
+					F(x) = F(x^-) \implies f(x) = 0.
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 09: Probability Algebra over Intervals
+\begin{frame}{Probability Algebra over Intervals}
+	\begin{block}{Left-Open, Right-Closed Intervals}
+		\footnotesize
+		For any pair of real numbers $a, b \in \mathbb{R}$ with $a \le b$, the probability that the random variable falls within $(a, b]$ equals the exact difference of their accumulations:
+		\begin{align*}
+			P(a < X \le b) = P(X \le b) - P(X \le a) = F(b) - F(a)
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{block}{Complete Typology of Discrete Intervals}
+		\scriptsize
+		In discrete variables, strict vs. non-strict boundary inequalities alter the probability depending on whether mass exists at $a$ and $b$:
+		\begin{table}
+			\centering
+			\begin{tabular}{l|l|l}
+				\hline
+				\textbf{Interval Type} & \textbf{Probability Expression} & \textbf{CDF Decomposition} \\
+				\hline \hline
+				Half-open $(a, b]$ & $P(a < X \le b)$ & $F(b) - F(a)$ \\
+				\hline
+				Closed $[a, b]$ & $P(a \le X \le b) = P(X=a) + P(a < X \le b)$ & $F(b) - F(a^-)$ \\
+				\hline
+				Open $(a, b)$ & $P(a < X < b) = P(a < X \le b) - P(X=b)$ & $F(b^-) - F(a)$ \\
+				\hline
+				Half-open $[a, b)$ & $P(a \le X < b) = P(a \le X \le b) - P(X=b)$ & $F(b^-) - F(a^-)$ \\
+				\hline
+			\end{tabular}
+		\end{table}
+	\end{block}
+\end{frame}
+
+% SLIDE 10: Discrete Quantiles & Generalized Inversion
+\begin{frame}{Discrete Quantiles and Generalized Inversion}
+	\begin{block}{Definition of Quantile of Order $\alpha$}
+		\small
+		Given a probability threshold $\alpha \in (0, 1)$, the \textbf{discrete quantile} $q_\alpha$ is formally defined as the infimum over all real numbers where the accumulated probability reaches or exceeds $\alpha$:
+		\begin{align*}
+			q_\alpha = \inf \set{x \in \mathbb{R} : F(x) \ge \alpha}
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{The Median ($q_{0.50}$)}
+				\footnotesize
+				It is the support value $x_{\text{med}}$ dividing the distribution into two balanced halves:
+				\begin{align*}
+					P(X \le x_{\text{med}}) \ge 0.50 \text{ and } P(X \ge x_{\text{med}}) \ge 0.50
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Generalized Inverse}
+				\footnotesize
+				Since step functions are not bijective (exhibiting flat plateaus), the infimum operator acts as a unique pseudo-inverse $F^{-1}(\alpha)$ mapping probability levels to support values.
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 11: Python Lab --- Part 1: CDF Construction
+\begin{frame}[fragile]{Computational Lab --- Part 1: Step CDF Construction}
+	\begin{block}{Programmatic Probability Accumulation (\texttt{compute\_step\_cdf})}
+		\scriptsize
+		The following Python block sorts the vector support and applies cumulative summation (\texttt{np.cumsum}) to compute the exact plateau heights of $F(x)$.
+	\end{block}
+	\vspace{-0.1cm}
+	\lstinputlisting[language=Python, firstline=9, lastline=21, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.02_discrete_cdf.py}
+\end{frame}
+
+% SLIDE 12: Python Lab --- Part 2: PMF Jump Inversion
+\begin{frame}[fragile]{Computational Lab --- Part 2: Jump Inversion and PMF Recovery}
+	\begin{block}{Finite Difference Algorithm (\texttt{extract\_pmf\_from\_cdf})}
+		\scriptsize
+		Using the backward difference operator (\texttt{np.diff} with \texttt{prepend=0.0}), the script extracts exact jump masses and verifies numerical normalization exactness.
+	\end{block}
+	\vspace{-0.1cm}
+	\lstinputlisting[language=Python, firstline=23, lastline=35, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.02_discrete_cdf.py}
+\end{frame}
+
+% SLIDE 13: Python Lab --- Part 3: Interval Queries & Quantiles
+\begin{frame}[fragile]{Computational Lab --- Part 3: Interval Queries and Quantiles}
+	\begin{block}{Subset Evaluation and Percentile Lookup (\texttt{evaluate\_interval\_and\_quantiles})}
+		\scriptsize
+		The code leverages binary search (\texttt{np.searchsorted}) to evaluate interval probabilities via CDF subtractions and determines the median and 85th percentile using logical thresholds.
+	\end{block}
+	\vspace{-0.1cm}
+	\lstinputlisting[language=Python, firstline=37, lastline=52, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.02_discrete_cdf.py}
+\end{frame}
+
+% SLIDE 14: Python Lab --- Part 4: Monte Carlo ECDF Simulation
+\begin{frame}[fragile]{Computational Lab --- Part 4: Monte Carlo Simulation and ECDF}
+	\begin{block}{Empirical Distribution Convergence (\texttt{simulate\_empirical\_ecdf})}
+		\scriptsize
+		We simulate $N=100,000$ double-dice rolls to construct the ECDF $F_n(x)$ and confirm via the Glivenko-Cantelli Theorem a supremum absolute deviation below $0.005$.
+	\end{block}
+	\vspace{-0.2cm}
+	\lstinputlisting[language=Python, firstline=54, lastline=73, basicstyle=\fontsize{5.4pt}{6.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.02_discrete_cdf.py}
+\end{frame}
+
+% SLIDE 15: Problems --- Fundamental Level
+\begin{frame}{Master Book Problems --- Fundamental Level}
+	\begin{block}{Direct Conceptualization Exercises (3-3-2-2 Taxonomy)}
+		\small
+		\begin{itemize}
+			\itemsep=0.08cm
+			\item \textbf{Problem 3.2.1 (Fair die and uniform steps):} Explicit construction of $F(x)$ across seven disjoint intervals for a balanced die, and exact numerical evaluation at ordinary points ($2.8$), boundary jumps ($4$), and asymptotic tails ($-1, 10$).
+			\item \textbf{Problem 3.2.2 (Reconstruction from step table):} Evaluation of interval probabilities in half-open $P(0 < Y \le 5) = F(5) - F(0) = 0.70$ and closed sets $P(2 \le Y \le 8) = 0.85$, deriving the PMF table via finite differences across jumps.
+			\item \textbf{Problem 3.2.3 (Proof of monotonicity and cadlág):} Rigorous analytical justification of non-decreasing growth based on measurable subset inclusion $\set{X \le a} \subseteq \set{X \le b}$ and upper convergence of right-hand limits.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% SLIDE 16: Problems --- Operational Level
+\begin{frame}{Master Book Problems --- Operational Level}
+	\begin{block}{Engineering and Cybersecurity Applications}
+		\small
+		\begin{itemize}
+			\itemsep=0.08cm
+			\item \textbf{Problem 3.2.4 (Quality control in silicon wafers):} Piecewise modeling of defective solder joints per wafer ($X \in \set{0,1,2,3}$) and direct calculation of industrial rejection rates: $P(X \ge 2) = 1 - F_X(1) = 0.30$.
+			\item \textbf{Problem 3.2.5 (Penetration testing and geometric attempts):} Closed-form derivation of the CDF for trials until first success $F_N(n) = 1 - (1-p)^n$ and determination of the minimum audit trial quota ($n^* = 14$ for $p=0.20$ at $95\%$ confidence).
+			\item \textbf{Problem 3.2.6 (Data center server provisioning):} Determination of daily demand median ($q_{0.50} = 30$ servers) and higher-order safety quantiles ($q_{0.85} = 40$ servers for an $85\%$ SLA) via the infimum operator.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% SLIDE 17: Problems --- Analytical Level
+\begin{frame}{Master Book Problems --- Analytical Level}
+	\begin{block}{Theoretical Proofs and Variable Transformations}
+		\small
+		\begin{itemize}
+			\itemsep=0.1cm
+			\item \textbf{Problem 3.2.7 (Differences over integers):} Formal proof showing that for integer-valued variables ($\mathcal{S}_X \subseteq \mathbb{Z}$), closed interval evaluations reduce to lagged differences:
+			\begin{align*}
+				P(a \le X \le b) = F_X(b) - F_X(a - 1) \quad \text{and} \quad f_X(k) = \Delta F_X(k).
+			\end{align*}
+			\item \textbf{Problem 3.2.8 (Monotone transformations):} Proof of step-invariance when transforming variables $Y = g(X)$ for increasing $g$ ($F_Y(y) = F_X(g^{-1}(y))$) and formal derivation for decreasing functions $Z = h(X)$:
+			\begin{align*}
+				F_Z(z) = 1 - \lim_{u \to (h^{-1}(z))^-} F_X(u).
+			\end{align*}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% SLIDE 18: Problems --- Challenging Level
+\begin{frame}{Master Book Problems --- Challenging Level}
+	\begin{block}{Distribution Theory and Extreme Bivariate Bounds}
+		\small
+		\begin{itemize}
+			\itemsep=0.1cm
+			\item \textbf{Problem 3.2.9 (Generalized distributions and Heaviside steps):} Representation of pure discrete CDFs as linear combinations of step functions $F(x) = \sum p_k H(x - x_k)$ and topological proof in Sobolev-Schwartz space showing its distributional derivative yields Dirac impulses: $f(x) = \sum p_k \delta(x - x_k)$.
+			\item \textbf{Problem 3.2.10 (Fréchet-Hoeffding joint bounds in routers):} Derivation of rectangle probability mass via second differences and proof of universal bounds confining any joint CDF between its marginals:
+			\begin{align*}
+				\max\left( 0, F_X(x) + F_Y(y) - 1 \right) \le F_{X,Y}(x, y) \le \min\left( F_X(x), F_Y(y) \right).
+			\end{align*}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% SLIDE 19: Conclusions and Synthesis
+\begin{frame}{Conclusions --- The CDF as a Pillar of Discrete Analysis}
+	\begin{block}{Summary of Acquired Competencies}
+		\small
+		\begin{enumerate}
+			\itemsep=0.06cm
+			\item \textbf{Structural Equivalence:} The Cumulative Distribution Function $F(x)$ captures the entirety of an aleatory experiment with the exact same uniqueness and rigor as the PMF $f(x)$.
+			\item \textbf{Step Geometry:} For discrete systems, $F(x)$ is characterized by flat plateaus interspersed with exact vertical jumps at support points $\mathcal{S}_X$.
+			\item \textbf{Inversion and Algebra:} Backward finite differences $f(x) = F(x) - F(x^-)$ and interval formulas evaluate risk without tedious summation loops.
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Computational Verification}
+		\footnotesize
+		Monte Carlo simulations confirmed that empirical distributions (ECDF) converge uniformly to theoretical step CDFs, validating the Fundamental Glivenko-Cantelli Theorem.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 20: Didactic Bridge
+\begin{frame}{Didactic Bridge --- Toward Mathematical Expectation and Moments}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{What We Have Achieved (03.01 \& 03.02)}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item We mastered the complete micro-analytical description of discrete variables via $f(x)$ (point masses) and $F(x)$ (step plateaus).
+					\item We can answer exact, interval, quantile, and tail queries with precision.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{What Lies Ahead: Section 03.03}
+				\small
+				\begin{itemize}
+					\itemsep=0.06cm
+					\item How can we summarize the entire distribution into a single representative number of central tendency and dispersion?
+					\item We will introduce the \textbf{Expected Value} operator $\mathbb{E}[X] = \sum x f(x)$, the \textbf{Variance} $\text{Var}(X)$, and the theory of moments and generating functions.
+				\end{itemize}
+			\end{block}
+		\end{column}
+	\end{columns}
+	\vspace{0.2cm}
+	\begin{center}
+		\textbf{\textcolor{TecAzul}{\Large Congratulations on completing Section 03.02!}}
+	\end{center}
+\end{frame}
+
+\end{document}
