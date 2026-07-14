@@ -1,0 +1,460 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title{Bernoulli and Binomial Distributions}
+\subtitle{Section 03.04 --- Dichotomous Processes and Combinatorial Inference}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
+	\begin{block}{Curricular Structure of Unit 2}
+		\small
+		\begin{enumerate}
+			\itemsep=0.04cm
+			\item \textcolor{gray}{Section 03.01: Discrete Probability Functions (PMF and Support)}
+			\item \textcolor{gray}{Section 03.02: Cumulative Distribution Function (Discrete CDF)}
+			\item \textcolor{gray}{Section 03.03: Mathematical Expectation, Variance, and Moments}
+			\item \textbf{\textcolor{TecRojo}{Section 03.04: Bernoulli and Binomial Distributions}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Didactic Objective}
+		\footnotesize
+		Master the algebraic foundations, moment properties, and combinatorial modeling of independent binary trials, applying the Binomial distribution to quality control, sampling, and system reliability problems.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivation and Intuition
+\begin{frame}{Motivation --- From Simple Dichotomy to Repeated Sampling}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{The Fundamental Building Block}
+				\small
+				\begin{itemize}
+					\itemsep=0.08cm
+					\item In science and engineering, countless processes reduce to two incompatible states: **Success / Failure**, **Functional / Defective**, **1 / 0**.
+					\item A single binary experiment is called a **Bernoulli Trial**.
+					\item Modeling a single trial quantifies the baseline risk of an individual component.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{The Need for Aggregation}
+				\small
+				\begin{itemize}
+					\itemsep=0.08cm
+					\item Engineers rarely assess isolated components: they inspect lots of size $n$, transmit $n$-bit packets, or conduct $n$ clinical trials.
+					\item Repeating $n$ **independent** Bernoulli trials naturally gives rise to the **Binomial Distribution**, counting total accumulated successes.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: The Bernoulli Trial
+\begin{frame}{The Bernoulli Trial --- Formal Definition}
+	\begin{block}{Bernoulli Random Variable ($X \sim \text{Bernoulli}(p)$)}
+		\small
+		A discrete random variable $X$ follows a Bernoulli distribution with success parameter $p \in (0, 1)$ if its support is $\mathcal{S}_X = \set{0, 1}$ and its probability mass function is given by:
+		\begin{align*}
+			f_X(x) = P(X = x) = p^x (1-p)^{1-x}, \quad \text{for } x \in \set{0, 1}.
+		\end{align*}
+		Where $q = 1-p$ denotes the complementary failure probability ($X=0$).
+	\end{block}
+	\vspace{-0.1cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Indicator Property}
+				\footnotesize
+				$X$ acts as the indicator function of an event $A \subset \Omega$: taking value $1$ if $\omega \in A$ and $0$ otherwise.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Exact Normalization}
+				\footnotesize
+				Summing over the binary support verifies total probability: $f_X(0) + f_X(1) = (1-p) + p = 1$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Moments of the Bernoulli Trial
+\begin{frame}{Moments of the Bernoulli Trial}
+	\begin{block}{Derivation of First and Second Moments}
+		\small
+		Applying expectation and raw moment definitions over the dichotomous support $\set{0, 1}$:
+		\begin{align*}
+			\mathbb{E}[X] &= \sum_{x=0}^1 x \cdot P(X=x) = 0 \cdot (1-p) + 1 \cdot p = p, \\
+			\mathbb{E}[X^2] &= \sum_{x=0}^1 x^2 \cdot P(X=x) = 0^2 \cdot (1-p) + 1^2 \cdot p = p.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Bernoulli Variance}
+				\footnotesize
+				By the König-Huygens identity:
+				\begin{align*}
+					\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = p - p^2 = pq.
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Maximum Uncertainty}
+				\footnotesize
+				The variance $pq = p(1-p)$ reaches its absolute maximum $\sigma^2 = 0.25$ precisely when $p = 0.50$ (maximum entropy).
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Genesis of the Binomial Distribution
+\begin{frame}{Genesis of the Binomial Distribution --- Sum of i.i.d. Trials}
+	\begin{block}{Additive Construction ($X \sim \text{Bin}(n, p)$)}
+		\small
+		Let $Y_1, Y_2, \dots, Y_n$ be independent and identically distributed (i.i.d.) random variables with $Y_i \sim \text{Bernoulli}(p)$. The variable counting total successes across all $n$ trials is defined as:
+		\begin{align*}
+			X = \sum_{i=1}^n Y_i.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Sample Space and Support}
+				\footnotesize
+				\begin{itemize}
+					\itemsep=0.04cm
+					\item The sample space $\Omega$ contains $2^n$ ordered binary sequences.
+					\item The support of $X$ is the finite discrete set $\mathcal{S}_X = \set{0, 1, 2, \dots, n}$.
+				\end{itemize}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Stochastic Independence}
+				\footnotesize
+				The joint probability of any specific sequence with $k$ successes and $n-k$ failures is exactly $p^k (1-p)^{n-k}$ due to mutual independence.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 07: Binomial Probability Mass Function
+\begin{frame}{Binomial Probability Mass Function (PMF)}
+	\begin{block}{Exact PMF Formula ($X \sim \text{Bin}(n, p)$)}
+		\small
+		For any integer $k \in \mathcal{S}_X = \set{0, 1, \dots, n}$, the number of distinct sequences containing exactly $k$ successes is the binomial coefficient $\comb{n}{k} = \dfrac{n!}{k!(n-k)!}$. Thus:
+		\begin{align*}
+			f_X(k) = P(X = k) = \comb{n}{k} p^k (1-p)^{n-k}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Binomial Theorem}
+				\footnotesize
+				Normalization is algebraically guaranteed by polynomial expansion:
+				$\sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = (p+q)^n = 1^n = 1$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Combinatorial Symmetry}
+				\footnotesize
+				If $X \sim \text{Bin}(n, p)$, the failure count $n-X$ follows an exact $\text{Bin}(n, 1-p)$ distribution.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 08: Binomial Cumulative Distribution Function (CDF)
+\begin{frame}{Binomial Cumulative Distribution Function (CDF)}
+	\begin{block}{Analytical Definition of $F_X(x) = P(X \le x)$}
+		\small
+		The cumulative distribution function for $X \sim \text{Bin}(n, p)$ evaluated at $x \in [0, n]$ is the step function given by summing lower tail binomial probabilities:
+		\begin{align*}
+			F_X(x) = \sum_{k=0}^{\lfloor x \rfloor} \comb{n}{k} p^k (1-p)^{n-k}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Step Properties}
+				\footnotesize
+				\begin{itemize}
+					\itemsep=0.04cm
+					\item Non-decreasing monotonicity: $F_X(a) \le F_X(b)$ whenever $a \le b$.
+					\item Upper boundary: $F_X(n) = 1.0000$.
+				\end{itemize}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Interval Probabilities}
+				\footnotesize
+				For integers $a \le b$, the mass inside the interval is $P(a \le X \le b) = F_X(b) - F_X(a-1)$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 09: Moments of the Binomial Distribution
+\begin{frame}{Moments of the Binomial Distribution}
+	\begin{block}{Moment Theorem for $X \sim \text{Bin}(n, p)$}
+		\small
+		Since $X = \sum_{i=1}^n Y_i$ is the sum of $n$ independent Bernoulli variables with $\mathbb{E}[Y_i]=p$ and $\text{Var}(Y_i)=pq$, linearity of expectation and additivity of variance yield:
+		\begin{align*}
+			\mathbb{E}[X] &= \sum_{i=1}^n \mathbb{E}[Y_i] = np, \\
+			\text{Var}(X) &= \sum_{i=1}^n \text{Var}(Y_i) = np(1-p) = npq.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Standard Deviation ($\sigma_X$)}
+				\footnotesize
+				Absolute dispersion scales with the square root of sample size: $\sigma_X = \sqrt{npq}$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Relative Dispersion (CV)}
+				\footnotesize
+				The coefficient of variation shrinks as $n$ grows: $\text{CV} = \dfrac{\sigma_X}{\mu_X} = \sqrt{\dfrac{q}{np}} \propto \dfrac{1}{\sqrt{n}}$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 10: Shape of the Distribution, Skewness, and Mode
+\begin{frame}{Distribution Shape, Skewness, and Binomial Mode}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Binomial Mode Theorem}
+				\small
+				The integer $k^* \in \mathcal{S}_X$ that maximizes the probability $f_X(k)$ satisfies:
+				\begin{align*}
+					k^* = \lfloor (n+1)p \rfloor.
+				\end{align*}
+				If $(n+1)p \in \mathbb{Z}^+$, the distribution is **bimodal** across $k^* - 1$ and $k^*$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Skewness ($\gamma_1$)}
+				\small
+				The standardized third central moment measures asymmetry around the mean:
+				\begin{align*}
+					\gamma_1 = \dfrac{q - p}{\sqrt{npq}} = \dfrac{1 - 2p}{\sqrt{np(1-p)}}.
+				\end{align*}
+				It is perfectly symmetric ($\gamma_1=0$) iff $p=0.5$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 11: Fundamental Level Exercises --- Problems 3.4.1 to 3.4.3
+\begin{frame}{Fundamental Level Exercises --- Problems 3.4.1 to 3.4.3}
+	\begin{block}{Direct Inspection and Combinatorial Calculation Problems}
+		\footnotesize
+		\begin{itemize}
+			\itemsep=0.08cm
+			\item \textbf{Problem 3.4.1 (Bernoulli Inspection):} For $p=0.85$, $f(1)=0.85$ and $f(0)=0.15$. Its mean is $\mu = 0(0.15) + 1(0.85) = 0.85$, and variance $\sigma^2 = 0.85 \times 0.15 = 0.1275$.
+			\item \textbf{Problem 3.4.2 (Precision Sensors):} With $X \sim \text{Bin}(8, 0.90)$, the probability of exactly $7$ functional sensors is $\comb{8}{7}(0.90)^7(0.10)^1 \approx 0.3826$. Having at most $1$ defective sensor equals $P(X \ge 7) = P(X=7) + P(X=8) \approx 0.8131$.
+			\item \textbf{Problem 3.4.3 (Combinatorial Counting):} Summing $n$ independent Bernoulli variables produces $\comb{n}{k}$ equiprobable sequences each with mass $p^k q^{n-k}$, giving $P(Y=k) = \comb{n}{k}p^k q^{n-k}$.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+% SLIDE 12: Operational Level Exercises --- Problems 3.4.4 and 3.4.5
+\begin{frame}{Operational Level Exercises --- Problems 3.4.4 and 3.4.5}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.4.4 (Cybersecurity)}
+				\footnotesize
+				Let $X \sim \text{Bin}(12, 0.15)$.
+				\begin{itemize}
+					\itemsep=0.04cm
+					\item $P(X \le 2) = P(0) + P(1) + P(2) \approx 0.1422 + 0.3012 + 0.2924 = 0.7358$.
+					\item For the conditional probability:
+					$P(X \ge 4 \mid X \ge 1) = \dfrac{1 - P(X \le 3)}{1 - P(0)} \approx \dfrac{0.0922}{0.8578} \approx 0.1075$.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Problem 3.4.5 (Sample Sizing)}
+				\footnotesize
+				To detect a sequence ($p=0.08$) with $\ge 99\%$ confidence:
+				\begin{align*}
+					P(X \ge 1) \ge 0.99 &\implies 1 - (0.92)^n \ge 0.99 \\
+					&\implies (0.92)^n \le 0.01 \\
+					&\implies n \ge \dfrac{\ln(0.01)}{\ln(0.92)} \approx 55.23.
+				\end{align*}
+				Exactly $n^* = 56$ samples are required.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 13: Operational Level Exercises --- Problem 3.4.6
+\begin{frame}{Operational Level Exercises --- Problem 3.4.6 (Warranty Costs)}
+	\begin{block}{Nonlinear Cost Modeling in Aerospace Valves}
+		\small
+		Let $X \sim \text{Bin}(n=20, p=0.05)$ be the number of defective valves. Warranty cost in dollars is $C(X) = 500 X^2 + 150 X + 1000$.
+		\begin{align*}
+			\mathbb{E}[X] = 20(0.05) = 1.0, \quad \text{Var}(X) = 20(0.05)(0.95) = 0.95.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Global Expected Cost}
+				\footnotesize
+				Since $\mathbb{E}[X^2] = \text{Var}(X) + \mu^2 = 0.95 + 1.0 = 1.95$:
+				$\mathbb{E}[C(X)] = 500(1.95) + 150(1.0) + 1000 = \$2,125$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Impact of Dispersion}
+				\footnotesize
+				The quadratic term contributes $\$975$ to total cost ($45.88\%$). Pure randomness ($\sigma^2 = 0.95$) generates massive nonlinear financial penalties.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 14: Analytical Level Exercises --- Problems 3.4.7 and 3.4.8
+\begin{frame}{Analytical Level Exercises --- Problems 3.4.7 and 3.4.8}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem 3.4.7 (Newton Closure \& Mean)}
+				\footnotesize
+				\begin{itemize}
+					\itemsep=0.04cm
+					\item **Normalization:** $\sum \comb{n}{k}p^k q^{n-k} = (p+q)^n = 1^n = 1$.
+					\item **Derivation Mean:** Differentiating $(p+q)^n$ wrt $p$ yields $n(p+q)^{n-1} = \sum k\comb{n}{k}p^{k-1}q^{n-k}$. Multiplying by $p$ at $q=1-p$ proves $\mathbb{E}[X] = np$.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Problem 3.4.8 (Factorial Moments)}
+				\footnotesize
+				\begin{itemize}
+					\itemsep=0.04cm
+					\item **2nd Factorial Moment:** $k(k-1)\comb{n}{k} = n(n-1)\comb{n-2}{k-2}$. Summing across $k \ge 2$ gives $\mathbb{E}[X(X-1)] = n(n-1)p^2$.
+					\item **Variance:** Using $\text{Var}(X) = \mathbb{E}[X(X-1)] + \mu - \mu^2$, substitution yields $\text{Var}(X) = n^2 p^2 - np^2 + np - n^2 p^2 = np(1-p)$.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 15: Challenging Level Exercises --- Problem 3.4.9
+\begin{frame}{Challenging Level Exercises --- Problem 3.4.9 (Mode Proof)}
+	\begin{block}{Analysis of the Adjacent Probability Ratio}
+		\small
+		We inspect the upward growth condition $R(k) = \dfrac{P(X=k)}{P(X=k-1)} \ge 1$ for $k \in \mathcal{S}_X$:
+		\begin{align*}
+			R(k) = \dfrac{\comb{n}{k} p^k q^{n-k}}{\comb{n}{k-1} p^{k-1} q^{n-k+1}} = \dfrac{n-k+1}{k} \cdot \dfrac{p}{1-p} \ge 1.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Exact Mode Characterization}
+				\footnotesize
+				Solving for $k$ yields $k \le (n+1)p$. Thus, the unique integer peak occurs at the lower floor:
+				$k^* = \lfloor (n+1)p \rfloor$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Bimodal Condition}
+				\footnotesize
+				If $(n+1)p = m \in \mathbb{Z}^+$, then $R(m) = 1$. Exact equal maximum probability occurs across two adjacent integers: $m-1$ and $m$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 16: Challenging Level Exercises --- Problem 3.4.10
+\begin{frame}{Challenging Level Exercises --- Problem 3.4.10 (Vandermonde Identity)}
+	\begin{block}{Convolution and Additivity of Independent Binomials}
+		\small
+		Let $X \sim \text{Bin}(n_1, p)$ and $Y \sim \text{Bin}(n_2, p)$ be independent. By discrete convolution:
+		\begin{align*}
+			P(X+Y = m) = \sum_{j=0}^m P(X=j)P(Y=m-j) = p^m q^{(n_1+n_2)-m} \sum_{j=0}^m \comb{n_1}{j}\comb{n_2}{m-j}.
+		\end{align*}
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Vandermonde Identity}
+				\footnotesize
+				Selecting $m$ items from two groups of sizes $n_1$ and $n_2$ satisfies $\sum \comb{n_1}{j}\comb{n_2}{m-j} = \comb{n_1+n_2}{m}$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Closure under Addition}
+				\footnotesize
+				Concludes that $X+Y \sim \text{Bin}(n_1+n_2, p)$, perfectly preserving additivity: $\mu_Z = \mu_X+\mu_Y$ and $\sigma^2_Z = \sigma^2_X+\sigma^2_Y$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 17: Python Lab --- Vectorized PMF and CDF Validation
+\begin{frame}[fragile]{Python Lab --- Vectorized PMF and CDF Validation (`numpy`)}
+	\vspace{-0.15cm}
+	\begin{block}{Single Source of Truth Implementation (\texttt{03.04\_bernoulli\_binomial.py})}
+		\lstinputlisting[language=Python, firstline=13, lastline=34, basicstyle=\fontsize{5.8pt}{6.8pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 18: Python Lab --- Monte Carlo Simulation and Moments
+\begin{frame}[fragile]{Python Lab --- Monte Carlo Simulation and Moments (`numpy`)}
+	\begin{block}{Large-Scale Simulation ($N=100,000$ Bernoulli Trials)}
+		\lstinputlisting[language=Python, firstline=39, lastline=56, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 19: Python Lab --- Mode and Skewness Analysis
+\begin{frame}[fragile]{Python Lab --- Mode and Skewness Analysis (`scipy.stats`)}
+	\begin{block}{Computational Verification of Peak and Asymmetry}
+		\lstinputlisting[language=Python, firstline=61, lastline=75, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py}
+	\end{block}
+\end{frame}
+
+% SLIDE 20: Conclusion & Stochastic Synthesis
+\begin{frame}{Conclusion --- Stochastic Synthesis and Didactic Bridge}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Conceptual Summary}
+				\small
+				\begin{itemize}
+					\itemsep=0.08cm
+					\item **Bernoulli ($p$):** Basic binary building block, $\mu = p$, $\sigma^2 = pq$.
+					\item **Binomial ($n, p$):** Sum of $n$ independent trials, $\mu = np$, $\sigma^2 = npq$.
+					\item **Invariance:** Python Monte Carlo simulations verified theoretical moments with $< 10^{-4}$ error.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Bridge to Section 03.05}
+				\small
+				What happens if instead of fixing total trials $n$ and counting successes, **we fix the desired number of successes $r$ and count the required trials**?
+				
+				$\to$ This leads directly to the **Geometric Distribution** ($r=1$) and the **Negative Binomial Distribution** ($r \ge 1$).
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\end{document}

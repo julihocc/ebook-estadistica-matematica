@@ -1,0 +1,435 @@
+% ==============================================================================
+% SECCIÓN 03.04: DISTRIBUCIONES DE BERNOULLI Y BINOMIAL
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 03.04}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:3.4.1}
+	Considere un experimento aleatorio elemental consistente en la inspección de un único componente electrónico en una línea de montaje, donde la probabilidad de que el componente sea apto para su uso es $p = 0.85$. Sea $X$ la variable aleatoria que toma el valor $1$ si el componente es apto (éxito) y $0$ si resulta defectuoso (fracaso).
+	\begin{enumerate}
+		\item Especifique formalmente la función de masa de probabilidad $f_X(x)$ utilizando la forma compacta del ensayo de Bernoulli: $f_X(x) = p^x (1-p)^{1-x}$ para $x \in \set{0, 1}$.
+		\item Demuestre directamente a partir de la definición que $\mathbb{E}[X] = p$ y $\text{Var}(X) = p(1-p)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.2}
+	En un proceso automático de control de calidad, se inspeccionan $n = 8$ sensores de temperatura fabricados en condiciones idénticas e independientes. La probabilidad de que un sensor individual cumpla con los estándares de precisión es $p = 0.90$. Sea $X$ el número total de sensores que cumplen con los estándares entre los $8$ inspeccionados.
+	\begin{enumerate}
+		\item Identifique la distribución exacta de $X$ junto con sus parámetros paramétricos y calcule la probabilidad de que exactamente $7$ sensores cumplan con los estándares.
+		\item Calcule la probabilidad de que a lo sumo $1$ sensor resulte no apto en la muestra inspeccionada.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.3}
+	Sea un conjunto de ensayos independientes de Bernoulli $X_1, X_2, \dots, X_n$, donde cada variable aleatoria cumple que $P(X_i = 1) = p$ y $P(X_i = 0) = q = 1-p$ para todo $i \in \set{1, 2, \dots, n}$.
+	\begin{enumerate}
+		\item Defina la variable sumatoria $Y = \sum_{i=1}^n X_i$. Explique argumentativamente por qué el número de secuencias en el espacio muestral $\Omega$ que producen exactamente $k$ éxitos ($Y = k$) está dado por el coeficiente combinatorio $\comb{n}{k}$.
+		\item Utilice este razonamiento para deducir de primeros principios la función de masa de probabilidad $P(Y = k) = \comb{n}{k} p^k q^{n-k}$ y verifique explícitamente su suma sobre el soporte $\mathcal{S}_Y = \set{0, 1, \dots, n}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:3.4.4}
+	Una firma de ciberseguridad monitorea una red de servidores donde la probabilidad de que un intento de acceso externo sea clasificado como malicioso es $p = 0.15$. En un intervalo de tiempo dado se registran $n = 12$ intentos de acceso independientes. Sea $X \sim \text{Bin}(12, 0.15)$ el número de accesos maliciosos detectados.
+	\begin{enumerate}
+		\item Calcule la probabilidad de que se detecten a lo sumo $2$ accesos maliciosos ($P(X \le 2)$).
+		\item Calcule la probabilidad condicional de que se detecten al menos $4$ accesos maliciosos dado que se detectó al menos uno ($P(X \ge 4 \mid X \ge 1)$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.5}
+	Un equipo de investigación en bioinformática desarrolla un algoritmo para la detección de una secuencia genética rara en muestras clínicas. La probabilidad de que una muestra positiva sea correctamente identificada en un ensayo individual es $p = 0.08$. Si los ensayos se realizan de manera totalmente independiente sobre muestras distintas:
+	\begin{enumerate}
+		\item Plantee la inecuación logarítmica que permite determinar el número mínimo de muestras independientes $n$ que deben procesarse para que la probabilidad de detectar la secuencia al menos una vez sea de mínimo $99\%$ ($P(X \ge 1) \ge 0.99$).
+		\item Resuelva numéricamente para obtener el valor entero exacto de $n^*$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.6}
+	Un fabricante de componentes aeroespaciales suministra lotes de $n = 20$ válvulas hidráulicas. La probabilidad de que una válvula defectuosa escape al control interno es $p = 0.05$. El contrato contractual establece un costo operativo de garantía modelado por la función de pérdida no lineal:
+	\begin{align*}
+		C(X) = 500 X^2 + 150 X + 1000 \quad \text{(en dólares)},
+	\end{align*}
+	donde $X$ representa el número de válvulas defectuosas en el lote entregado.
+	\begin{enumerate}
+		\item Determine la esperanza matemática del costo de garantía $\mathbb{E}[C(X)]$ utilizando las propiedades de los momentos binomiales.
+		\item Calcule la desviación estándar del número de defectos $\sigma_X$ y discuta el impacto del término cuadrático $X^2$ en el costo esperado global.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:3.4.7}
+	Sea $X \sim \text{Bin}(n, p)$ con $q = 1-p$.
+	\begin{enumerate}
+		\item Demuestre rigurosamente, utilizando el Teorema del Binomio de Newton, la identidad de normalización absoluta:
+		\begin{align*}
+			\sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = 1.
+		\end{align*}
+		\item Aplicando el operador diferencial $\frac{\partial}{\partial p}$ a la identidad analítica $(p+q)^n = \sum_{k=0}^n \comb{n}{k} p^k q^{n-k}$ antes de sustituir $q=1-p$, demuestre analíticamente que $\mathbb{E}[X] = np$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.8}
+	Para una variable aleatoria discreta $X \sim \text{Bin}(n, p)$, el segundo momento factorial se define como el valor esperado del producto descendente $\mathbb{E}[X(X-1)]$.
+	\begin{enumerate}
+		\item Deduzca analíticamente la fórmula cerrada de $\mathbb{E}[X(X-1)]$ manipulando los coeficientes combinatorios de la suma $\sum_{k=2}^n k(k-1)\comb{n}{k} p^k q^{n-k}$.
+		\item A partir de la identidad algebraica $\text{Var}(X) = \mathbb{E}[X(X-1)] + \mathbb{E}[X] - (\mathbb{E}[X])^2$, demuestre de forma exacta que $\text{Var}(X) = np(1-p)$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:3.4.9}
+	Sea $X \sim \text{Bin}(n, p)$ una variable binomial con probabilidad de éxito $0 < p < 1$. Se define la moda de la distribución como el valor o los valores $k^* \in \set{0, 1, \dots, n}$ que maximizan la probabilidad $P(X = k^*)$.
+	\begin{enumerate}
+		\item Analice el cociente de probabilidades adyacentes $R(k) = \dfrac{P(X = k)}{P(X = k-1)}$ para todo $k \in \set{1, 2, \dots, n}$.
+		\item Demuestre analíticamente que la moda de la distribución cumple que $k^* = \lfloor (n+1)p \rfloor$ cuando $(n+1)p$ no es un número entero.
+		\item Determine exactamente qué ocurre con la distribución cuando $(n+1)p = m \in \mathbb{Z}^+$ (caso bimodal).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.10}
+	Considere dos variables aleatorias binomiales mutuamente independientes: $X \sim \text{Bin}(n_1, p)$ y $Y \sim \text{Bin}(n_2, p)$, ambas compartiendo exactamente la misma probabilidad de éxito $p$ en cada ensayo.
+	\begin{enumerate}
+		\item Demuestre combinatoriamente, utilizando la convolución discreta y la Identidad de Vandermonde, que la suma $Z = X + Y$ sigue una distribución exacta $\text{Bin}(n_1 + n_2, p)$.
+		\item Compruebe que la aditividad de la esperanza y la varianza se conserva de manera exacta bajo esta suma de distribuciones independientes.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 03.04}
+
+\begin{sugerencia}
+	\label{sug:3.4.1}
+	Para el Problema \ref{prob:3.4.1}, evalúe la expresión compacta $p^x(1-p)^{1-x}$ en $x=0$ y $x=1$ para verificar que coincide con la definición de probabilidad de éxito y fracaso. Para los momentos, aplique la suma directa $\mathbb{E}[X^k] = 0^k \cdot (1-p) + 1^k \cdot p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.2}
+	Para el Problema \ref{prob:3.4.2}, recuerde que la condición "a lo sumo $1$ sensor no apto" equivale exactamente a que al menos $7$ sensores cumplan con los estándares ($X \ge 7$), lo cual implica evaluar $P(X=7) + P(X=8)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.3}
+	Para el Problema \ref{prob:3.4.3}, cada secuencia particular de $k$ éxitos y $n-k$ fracasos tiene una probabilidad individual de $p^k q^{n-k}$ por independencia. El número total de configuraciones distintas para ubicar los $k$ éxitos en las $n$ posiciones es $\comb{n}{k}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.4}
+	Para el Problema \ref{prob:3.4.4}, en la parte condicional utilice la definición de probabilidad condicional: $P(X \ge 4 \mid X \ge 1) = \dfrac{P(X \ge 4 \cap X \ge 1)}{P(X \ge 1)} = \dfrac{1 - P(X \le 3)}{1 - P(X = 0)}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.5}
+	Para el Problema \ref{prob:3.4.5}, el evento complementario a "detectar al menos una vez" es "cero detecciones en $n$ ensayos" ($X=0$), cuya probabilidad es exactamente $(1-p)^n$. Exprese la condición como $1 - (1-p)^n \ge 0.99$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.6}
+	Para el Problema \ref{prob:3.4.6}, por linealidad del operador esperanza, $\mathbb{E}[C(X)] = 500 \mathbb{E}[X^2] + 150 \mathbb{E}[X] + 1000$. Recuerde que el segundo momento bruto se obtiene como $\mathbb{E}[X^2] = \text{Var}(X) + (\mathbb{E}[X])^2 = np(1-p) + n^2 p^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.7}
+	Para el Problema \ref{prob:3.4.7}, al derivar $(p+q)^n$ respecto a $p$ obtenemos $n(p+q)^{n-1}$. Al derivar el lado derecho de la suma obtenemos $\sum k \comb{n}{k} p^{k-1} q^{n-k}$. Multiplique por $p$ a ambos lados y luego sustituya $q = 1-p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.8}
+	Para el Problema \ref{prob:3.4.8}, note que para $k \ge 2$, $k(k-1)\comb{n}{k} = n(n-1)\comb{n-2}{k-2}$. Factorice $n(n-1)p^2$ fuera de la suma y reconozca la normalización de una binomial con parámetros $n-2$ y $p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.9}
+	Para el Problema \ref{prob:3.4.9}, plantee la condición de crecimiento $R(k) = \dfrac{\comb{n}{k} p^k q^{n-k}}{\comb{n}{k-1} p^{k-1} q^{n-k+1}} = \dfrac{(n-k+1)p}{kq} \ge 1$. Despeje la variable $k$ en función de $(n+1)p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.10}
+	Para el Problema \ref{prob:3.4.10}, exprese la masa de probabilidad del suma como $P(Z = m) = \sum_{j=0}^m P(X = j) P(Y = m-j) = \sum_{j=0}^m \comb{n_1}{j}\comb{n_2}{m-j} p^m q^{(n_1+n_2)-m}$. Aplique la Identidad de Vandermonde: $\sum_{j=0}^m \comb{n_1}{j}\comb{n_2}{m-j} = \comb{n_1+n_2}{m}$.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 03.04}
+
+\begin{solucion}
+	\label{sol:3.4.1}
+	Para el Problema \ref{prob:3.4.1}:
+	\begin{enumerate}
+		\item Para el componente electrónico, el soporte discreto es $\mathcal{S}_X = \set{0, 1}$. Evaluar la forma paramétrica compacta arroja:
+		\begin{align*}
+			f_X(1) &= p^1 (1-p)^{1-1} = p = 0.85, \\
+			f_X(0) &= p^0 (1-p)^{1-0} = 1-p = 0.15.
+		\end{align*}
+		La suma sobre el soporte es $\sum_{x \in \set{0,1}} f_X(x) = p + (1-p) = 1$, confirmando su normalización exacta.
+		\item Calculamos el primer momento bruto (esperanza matemática):
+		\begin{align*}
+			\mathbb{E}[X] &= \sum_{x \in \set{0,1}} x \cdot f_X(x) = 0 \cdot (1-p) + 1 \cdot p = p.
+		\end{align*}
+		Para el segundo momento bruto, al ser $x^2 = x$ para todo $x \in \set{0, 1}$:
+		\begin{align*}
+			\mathbb{E}[X^2] &= \sum_{x \in \set{0,1}} x^2 \cdot f_X(x) = 0^2 \cdot (1-p) + 1^2 \cdot p = p.
+		\end{align*}
+		Por la identidad de König-Huygens, la varianza es:
+		\begin{align*}
+			\text{Var}(X) &= \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = p - p^2 = p(1-p).
+		\end{align*}
+		Sustituyendo $p = 0.85$, obtenemos $\mathbb{E}[X] = 0.85$ y $\text{Var}(X) = 0.85 \times 0.15 = 0.1275$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.2}
+	Para el Problema \ref{prob:3.4.2}:
+	\begin{enumerate}
+		\item La variable aleatoria que cuenta éxitos independientes entre un número fijo de ensayos sigue una distribución binomial: $X \sim \text{Bin}(n=8, p=0.90)$. La probabilidad exacta de obtener $7$ sensores aptos es:
+		\begin{align*}
+			P(X = 7) &= \comb{8}{7} (0.90)^7 (0.10)^{8-7} \\
+			&= 8 \times 0.4782969 \times 0.10 \approx 0.3826.
+		\end{align*}
+		\item Que haya a lo sumo $1$ sensor no apto significa que el número de sensores defectuosos ($8-X$) es $\le 1$, lo cual ocurre si y solo si los sensores aptos son exactamente $7$ u $8$:
+		\begin{align*}
+			P(X \ge 7) &= P(X = 7) + P(X = 8) \\
+			&= 0.38263752 + \comb{8}{8} (0.90)^8 (0.10)^0 \\
+			&= 0.38263752 + 1 \times 0.43046721 \approx 0.8131.
+		\end{align*}
+		Existe un $81.31\%$ de probabilidad de que el lote inspeccionado tenga a lo sumo un fallo.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.3}
+	Para el Problema \ref{prob:3.4.3}:
+	\begin{enumerate}
+		\item El espacio muestral completo del experimento consta de $2^n$ secuencias ordenadas de ceros y unos de la forma $\omega = (x_1, x_2, \dots, x_n)$. Como cada variable es independiente, la probabilidad de cualquier secuencia particular que contenga exactamente $k$ unos (éxitos) y $n-k$ ceros (fracasos) está dada por el producto de sus probabilidades marginales:
+		\begin{align*}
+			P(\omega) &= \prod_{i=1}^n P(X_i = x_i) = p^k q^{n-k}.
+		\end{align*}
+		El número total de secuencias en $\Omega$ que contienen exactamente $k$ éxitos es el problema combinatorio de elegir las $k$ posiciones de los éxitos entre los $n$ lugares disponibles, lo cual es el coeficiente combinatorio $\comb{n}{k} = \dfrac{n!}{k!(n-k)!}$.
+		\item Dado que las secuencias que producen $Y=k$ son eventos mutuamente excluyentes y equiprobables entre sí con probabilidad $p^k q^{n-k}$, sumando sobre las $\comb{n}{k}$ configuraciones obtenemos la función de masa de probabilidad binomial:
+		\begin{align*}
+			P(Y = k) = \comb{n}{k} p^k q^{n-k}, \quad k \in \set{0, 1, \dots, n}.
+		\end{align*}
+		Su suma sobre todo el soporte $\mathcal{S}_Y$ es:
+		\begin{align*}
+			\sum_{k=0}^n P(Y = k) = \sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = (p + q)^n = 1^n = 1,
+		\end{align*}
+		lo cual confirma que es una función de masa de probabilidad matemáticamente completa.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.4}
+	Para el Problema \ref{prob:3.4.4}:
+	\begin{enumerate}
+		\item Con $X \sim \text{Bin}(12, 0.15)$, calculamos las probabilidades acumuladas hasta $k=2$:
+		\begin{align*}
+			P(X = 0) &= \comb{12}{0} (0.15)^0 (0.85)^{12} = (0.85)^{12} \approx 0.14224, \\
+			P(X = 1) &= \comb{12}{1} (0.15)^1 (0.85)^{11} = 12 \times 0.15 \times 0.16734 \approx 0.30121, \\
+			P(X = 2) &= \comb{12}{2} (0.15)^2 (0.85)^{10} = 66 \times 0.0225 \times 0.19687 \approx 0.29236.
+		\end{align*}
+		Sumando las tres probabilidades elementales:
+		\begin{align*}
+			P(X \le 2) = 0.14224 + 0.30121 + 0.29236 = 0.7358.
+		\end{align*}
+		\item Para la probabilidad condicional de al menos $4$ detecciones dado al menos una, calculamos primero $P(X = 3)$:
+		\begin{align*}
+			P(X = 3) &= \comb{12}{3} (0.15)^3 (0.85)^9 = 220 \times 0.003375 \times 0.23162 \approx 0.17197.
+		\end{align*}
+		Por lo tanto, la probabilidad de tener $3$ o menos detecciones es $P(X \le 3) = 0.73581 + 0.17197 = 0.90778$. La probabilidad condicional requerida es:
+		\begin{align*}
+			P(X \ge 4 \mid X \ge 1) &= \dfrac{P(X \ge 4 \cap X \ge 1)}{P(X \ge 1)} = \dfrac{P(X \ge 4)}{P(X \ge 1)} = \dfrac{1 - P(X \le 3)}{1 - P(X = 0)} \\
+			&= \dfrac{1 - 0.90778}{1 - 0.14224} = \dfrac{0.09222}{0.85776} \approx 0.1075.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.5}
+	Para el Problema \ref{prob:3.4.5}:
+	\begin{enumerate}
+		\item Sea $X \sim \text{Bin}(n, p=0.08)$ el número de secuencias detectadas. Queremos garantizar que:
+		\begin{align*}
+			P(X \ge 1) \ge 0.99.
+		\end{align*}
+		Utilizando el evento complementario, $P(X \ge 1) = 1 - P(X = 0) = 1 - (1-p)^n = 1 - (0.92)^n$. Sustituyendo en la desigualdad:
+		\begin{align*}
+			1 - (0.92)^n \ge 0.99 \implies (0.92)^n \le 0.01.
+		\end{align*}
+		Aplicando logaritmo natural (y dado que $\ln(0.92) < 0$, el signo de la desigualdad se invierte):
+		\begin{align*}
+			n \cdot \ln(0.92) \le \ln(0.01) \implies n \ge \dfrac{\ln(0.01)}{\ln(0.92)}.
+		\end{align*}
+		\item Evaluando los logaritmos numéricamente con alta precisión:
+		\begin{align*}
+			\ln(0.01) \approx -4.605170, \quad \ln(0.92) \approx -0.083382.
+		\end{align*}
+		El cociente exacto es:
+		\begin{align*}
+			n \ge \dfrac{-4.605170}{-0.083382} \approx 55.2299.
+		\end{align*}
+		Como el tamaño de muestra $n$ debe ser un número entero positivo, aplicamos la función techo:
+		\begin{align*}
+			n^* = \lceil 55.2299 \rceil = 56.
+		\end{align*}
+		Se requieren exactamente $56$ muestras independientes para asegurar el nivel de detección deseado.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.6}
+	Para el Problema \ref{prob:3.4.6}:
+	\begin{enumerate}
+		\item Para $X \sim \text{Bin}(n=20, p=0.05)$, calculamos primero la media $\mathbb{E}[X]$ y la varianza $\text{Var}(X)$:
+		\begin{align*}
+			\mathbb{E}[X] &= np = 20 \times 0.05 = 1.0, \\
+			\text{Var}(X) &= np(1-p) = 20 \times 0.05 \times 0.95 = 0.95.
+		\end{align*}
+		El segundo momento bruto es $\mathbb{E}[X^2] = \text{Var}(X) + (\mathbb{E}[X])^2 = 0.95 + (1.0)^2 = 1.95$. Aplicando linealidad al costo de garantía $C(X)$:
+		\begin{align*}
+			\mathbb{E}[C(X)] &= 500 \mathbb{E}[X^2] + 150 \mathbb{E}[X] + 1000 \\
+			&= 500(1.95) + 150(1.0) + 1000 = 975 + 150 + 1000 = \$2,125.
+		\end{align*}
+		\item La desviación estándar del número de componentes defectuosos en el lote es:
+		\begin{align*}
+			\sigma_X = \sqrt{\text{Var}(X)} = \sqrt{0.95} \approx 0.9747.
+		\end{align*}
+		Si el costo fuera puramente lineal en la media ($150 \mathbb{E}[X] + 1000$), el costo esperado sería de $\$1,150$. Sin embargo, la no linealidad cuadrática ($500 X^2$) penaliza fuertemente la variabilidad inherente del lote: aun cuando el número promedio de fallas es solo una unidad ($\mu=1$), la dispersión intrínseca agrega un costo esperado de $500 \times 1.95 = \$975$, lo cual representa el $45.88\%$ del costo global.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.7}
+	Para el Problema \ref{prob:3.4.7}:
+	\begin{enumerate}
+		\item El Teorema del Binomio de Newton establece que para cualquier par de números reales $a, b \in \mathbb{R}$ y entero positivo $n \in \mathbb{Z}^+$:
+		\begin{align*}
+			(a + b)^n = \sum_{k=0}^n \comb{n}{k} a^k b^{n-k}.
+		\end{align*}
+		Sustituyendo directamente $a = p$ y $b = q$, obtenemos el lado derecho idéntico a la suma total de probabilidades de la función de masa binomial:
+		\begin{align*}
+			\sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = (p + q)^n.
+		\end{align*}
+		Como por definición de probabilidad de fracaso se cumple que $p + q = 1$, la expresión se reduce a $1^n = 1$, demostrando formalmente la normalización absoluta.
+		\item Tratando a $p$ y $q$ como variables independientes en la identidad general $(p+q)^n = \sum_{k=0}^n \comb{n}{k} p^k q^{n-k}$ y aplicando el operador diferencial respecto a $p$:
+		\begin{align*}
+			\dfrac{\partial}{\partial p} (p+q)^n &= \sum_{k=0}^n \comb{n}{k} \dfrac{\partial}{\partial p} (p^k q^{n-k}) \\
+			n(p+q)^{n-1} &= \sum_{k=1}^n k \comb{n}{k} p^{k-1} q^{n-k}.
+		\end{align*}
+		Multiplicamos ambos lados de la ecuación por el parámetro $p$:
+		\begin{align*}
+			np(p+q)^{n-1} = \sum_{k=1}^n k \comb{n}{k} p^k q^{n-k} = \sum_{k=0}^n k \comb{n}{k} p^k q^{n-k}.
+		\end{align*}
+		El lado derecho de esta ecuación coincide exactamente con la definición analítica del valor esperado $\mathbb{E}[X] = \sum_{k=0}^n k P(X = k)$. Al sustituir la condición geométrica $q = 1-p \implies p+q=1$ en el lado izquierdo, concluimos la demostración:
+		\begin{align*}
+			\mathbb{E}[X] = np(1)^{n-1} = np.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.8}
+	Para el Problema \ref{prob:3.4.8}:
+	\begin{enumerate}
+		\item Evaluamos la definición formal de segundo momento factorial $\mathbb{E}[X(X-1)]$:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] &= \sum_{k=0}^n k(k-1) P(X = k) = \sum_{k=2}^n k(k-1) \comb{n}{k} p^k q^{n-k}.
+		\end{align*}
+		Desarrollamos el coeficiente combinatorio y cancelamos los factores algebraicos:
+		\begin{align*}
+			k(k-1) \comb{n}{k} &= k(k-1) \dfrac{n!}{k!(n-k)!} = \dfrac{n!}{(k-2)!(n-k)!} \\
+			&= n(n-1) \dfrac{(n-2)!}{(k-2)!((n-2)-(k-2))!} = n(n-1) \comb{n-2}{k-2}.
+		\end{align*}
+		Sustituyendo este desarrollo combinatorio en la sumatoria y factorizando $n(n-1)p^2$:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] &= \sum_{k=2}^n n(n-1)\comb{n-2}{k-2} p^2 p^{k-2} q^{(n-2)-(k-2)} \\
+			&= n(n-1)p^2 \sum_{j=0}^{n-2} \comb{n-2}{j} p^j q^{(n-2)-j}, \quad \text{donde } j = k-2.
+		\end{align*}
+		Por el Teorema del Binomio demostrado previamente, la sumatoria interna vale exactamente $(p+q)^{n-2} = 1$. Por lo tanto:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] = n(n-1)p^2.
+		\end{align*}
+		\item Desarrollamos el momento factorial relacionándolo con la varianza de la distribución:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] &= \mathbb{E}[X^2 - X] = \mathbb{E}[X^2] - \mathbb{E}[X] \\
+			\implies \mathbb{E}[X^2] &= \mathbb{E}[X(X-1)] + \mathbb{E}[X].
+		\end{align*}
+		Sustituyendo $\mathbb{E}[X(X-1)] = n(n-1)p^2$ y $\mathbb{E}[X] = np$, obtenemos el segundo momento bruto:
+		\begin{align*}
+			\mathbb{E}[X^2] = n(n-1)p^2 + np = n^2 p^2 - np^2 + np.
+		\end{align*}
+		Finalmente, calculamos la varianza operacional:
+		\begin{align*}
+			\text{Var}(X) &= \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = (n^2 p^2 - np^2 + np) - (np)^2 \\
+			&= np - np^2 = np(1-p),
+		\end{align*}
+		concluyendo la deducción de la varianza binomial de manera exacta.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.9}
+	Para el Problema \ref{prob:3.4.9}:
+	\begin{enumerate}
+		\item Para determinar dónde alcanza su máximo la función de masa binomial, investigamos cuándo la probabilidad crece de un término al siguiente ($P(X=k) \ge P(X=k-1)$). Evaluamos el cociente adyacente $R(k)$:
+		\begin{align*}
+			R(k) = \dfrac{P(X=k)}{P(X=k-1)} &= \dfrac{\comb{n}{k} p^k q^{n-k}}{\comb{n}{k-1} p^{k-1} q^{n-k+1}} = \dfrac{\dfrac{n!}{k!(n-k)!}}{\dfrac{n!}{(k-1)!(n-k+1)!}} \cdot \dfrac{p}{q} \\
+			&= \dfrac{(k-1)!(n-k+1)!}{k!(n-k)!} \cdot \dfrac{p}{q} = \dfrac{n-k+1}{k} \cdot \dfrac{p}{1-p}.
+		\end{align*}
+		\item La probabilidad binomial es creciente en el paso $k$ si y solo si $R(k) \ge 1$:
+		\begin{align*}
+			\dfrac{n-k+1}{k} \cdot \dfrac{p}{1-p} \ge 1 &\implies (n-k+1)p \ge k(1-p) \\
+			&\implies np - kp + p \ge k - kp \\
+			&\implies (n+1)p \ge k.
+		\end{align*}
+		Por lo tanto, las probabilidades son estrictamente crecientes en los enteros $k$ tales que $k \le (n+1)p$, y estrictamente decrecientes para los enteros $k > (n+1)p$. Cuando la cantidad $(n+1)p$ no es un número entero, existe un único número entero $k^*$ que satisface la condición de máximo, el cual se obtiene tomando la parte entera inferior:
+		\begin{align*}
+			k^* = \lfloor (n+1)p \rfloor.
+		\end{align*}
+		\item Si el valor admisible $(n+1)p = m$ resulta ser un entero positivo exacto, entonces en el punto de transición $k = m$ se tiene una igualdad en el cociente adyacente:
+		\begin{align*}
+			R(m) = 1 \implies P(X = m) = P(X = m-1).
+		\end{align*}
+		En este caso extraordinario la distribución es exactamente **bimodal**, alcanzando su máximo valor idéntico en dos puntos enteros contiguos del soporte: $k^* = m-1$ y $k^* = m$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.10}
+	Para el Problema \ref{prob:3.4.10}:
+	\begin{enumerate}
+		\item Al ser $X$ y $Y$ independientes con el mismo éxito $p$, la probabilidad de que la suma tome un valor entero $Z = X+Y = m$ para $m \in \set{0, 1, \dots, n_1+n_2}$ se obtiene mediante la fórmula de convolución discreta:
+		\begin{align*}
+			P(Z = m) &= \sum_{j=0}^m P(X = j \cap Y = m-j) = \sum_{j=0}^m P(X = j)P(Y = m-j) \\
+			&= \sum_{j=0}^m \left[ \comb{n_1}{j} p^j q^{n_1-j} \right] \left[ \comb{n_2}{m-j} p^{m-j} q^{n_2-(m-j)} \right] \\
+			&= p^m q^{(n_1+n_2)-m} \sum_{j=0}^m \comb{n_1}{j} \comb{n_2}{m-j}.
+		\end{align*}
+		La sumatoria combinatoria remanente se resuelve mediante la célebre **Identidad combinatoria de Vandermonde**, la cual establece que al seleccionar un subconjunto de tamaño $m$ de un grupo combinado de $n_1 + n_2$ elementos divididos en dos subgrupos disjuntos:
+		\begin{align*}
+			\sum_{j=0}^m \comb{n_1}{j} \comb{n_2}{m-j} = \comb{n_1+n_2}{m}.
+		\end{align*}
+		Sustituyendo la Identidad de Vandermonde en la convolución, obtenemos de forma cerrada:
+		\begin{align*}
+			P(Z = m) = \comb{n_1+n_2}{m} p^m q^{(n_1+n_2)-m},
+		\end{align*}
+		lo que demuestra que $Z \sim \text{Bin}(n_1+n_2, p)$.
+		\item Verificamos la aditividad de momentos sobre la suma binomial:
+		\begin{align*}
+			\mathbb{E}[Z] &= (n_1 + n_2)p = n_1 p + n_2 p = \mathbb{E}[X] + \mathbb{E}[Y], \\
+			\text{Var}(Z) &= (n_1 + n_2)p(1-p) = n_1 p(1-p) + n_2 p(1-p) = \text{Var}(X) + \text{Var}(Y).
+		\end{align*}
+		El teorema combinatorio y aditivo queda rigurosamente demostrado.
+	\end{enumerate}
+\end{solucion}
