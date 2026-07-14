@@ -1,0 +1,539 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title{Random Sampling and Central Limit Theorem}
+\subtitle{Section 02.06 --- Fundamentals of Sampling and Asymptotic Inference}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+
+% SLIDE 01: Title
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 02: Probability Theory}
+	\begin{block}{Curricular Structure of Unit 1}
+		\small
+		\begin{enumerate}
+			\itemsep=0.04cm
+			\item \textcolor{gray}{Section 02.01: Introduction to Probability and Random Phenomena}
+			\item \textcolor{gray}{Section 02.02: Set Theory and Kolmogorov's Axioms}
+			\item \textcolor{gray}{Section 02.03: Fundamentals of Probability and Counting Techniques}
+			\item \textcolor{gray}{Section 02.04: Conditional Probability and Statistical Independence}
+			\item \textcolor{gray}{Section 02.05: Bayes' Theorem and Conditional Inversion}
+			\item \textbf{\textcolor{TecRojo}{Section 02.06: Random Sampling and Central Limit Theorem}} $\leftarrow$ \emph{Current focus}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.1cm}
+	\begin{alertblock}{Didactic Objective}
+		\footnotesize
+		Understand how to draw valid statistical inferences about massive or infinite populations from finite samples, formalizing the Law of Large Numbers (LLN) and the Central Limit Theorem (CLT).
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivation
+\begin{frame}{Motivation: From Brute Force to Random Sampling}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{The Census Dilemma (Brute Force)}
+				\footnotesize
+				Determining exact parameters of a massive population by measuring every single item is economically unfeasible and logistically destructive.
+			\end{block}
+			\vspace{-0.1cm}
+			\begin{alertblock}{Statistical Solution: Sampling}
+				\footnotesize
+				We extract a representative subset of size $n \ll N$ and compute a \textbf{sample statistic} ($\bar{X}, S^2$) to approximate the unknown \textbf{population parameter} ($\mu, \sigma^2$).
+			\end{alertblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Parameter vs. Statistic}
+				\footnotesize
+				\begin{center}
+				\begin{tabular}{lcc}
+					\toprule
+					\textbf{Measure} & \textbf{Population ($N$)} & \textbf{Sample ($n$)} \\
+					\midrule
+					\textbf{Mean} & $\mu$ (constant) & $\bar{X}$ (variable) \\
+					\textbf{Variance} & $\sigma^2$ (constant) & $S^2$ (variable) \\
+					\textbf{Proportion} & $p$ (constant) & $\hat{p}$ (variable) \\
+					\bottomrule
+				\end{tabular}
+				\end{center}
+				\vspace{-0.1cm}
+				Repeating the sampling process $100$ times yields means $A_1, \ldots, A_{100}$. Studying their collective behavior constitutes the \textbf{sampling distribution}.
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: With vs Without Replacement
+\begin{frame}{Sampling With vs. Without Replacement (FPC Factor)}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Sampling With Replacement ($C/R$)}
+				\footnotesize
+				Each selected element is returned to the population before the next draw.
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item \textbf{Sample space:} $N^n$ ordered samples.
+					\item \textbf{Independence:} Draws are i.i.d. events with constant selection probability $1/N$.
+					\item \textbf{Mean Variance:} $\text{Var}(\bar{X}) = \frac{\sigma^2}{n}$.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Sampling Without Replacement ($S/R$)}
+				\footnotesize
+				A selected element cannot be chosen again in the same sample.
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item \textbf{Sample space:} $\binom{N}{n}$ possible samples.
+					\item \textbf{Dependence:} Hypergeometric model.
+					\item \textbf{Correction (FPC):} When $n/N > 0.05$:
+					  $\text{Var}(\bar{X}) = \frac{\sigma^2}{n} \left(\frac{N-n}{N-1}\right)$.
+				\end{itemize}
+			\end{block}
+		\end{column}
+	\end{columns}
+	\vspace{-0.1cm}
+	\begin{alertblock}{Infinite Population Asymptotics ($N \to \infty$)}
+		\footnotesize
+		When the population size $N$ is immense compared to the sample $n$, the correction factor $\frac{N-n}{N-1} \to 1$. Both schemes become probabilistically indistinguishable.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 05: Expected Value and Variance of Sample Mean
+\begin{frame}{Expected Value and Variance of the Sample Mean}
+	\small
+	Let $X_1, \ldots, X_n$ be a simple random sample (SRS) drawn from a population with mean $\mu$ and variance $\sigma^2$. The sample average is defined as $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$.
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Unbiasedness of Sample Mean ($E(\bar{X})$)}
+				\footnotesize
+				Applying the linearity of expectation:
+				\begin{align*}
+					E(\bar{X}) = E\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n}\sum_{i=1}^n E(X_i) = \mu
+				\end{align*}
+				\textbf{Interpretation:} On average, the sample mean targets the exact parameter $\mu$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Standard Error ($\sigma_{\bar{X}}$)}
+				\footnotesize
+				By independence across observations:
+				\begin{align*}
+					\text{Var}(\bar{X}) = \frac{\sigma^2}{n} \implies \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}
+				\end{align*}
+				\textbf{Square Root Law:} To halve the estimation error ($\sigma_{\bar{X}}/2$), we must quadruple the sample size ($n \to 4n$).
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Law of Large Numbers
+\begin{frame}{The Law of Large Numbers (LLN)}
+	\begin{block}{Theorem of the Law of Large Numbers (Weak Form)}
+		\small
+		If $X_1, \ldots, X_n$ are i.i.d. with finite mean $\mu$, the sample mean $\bar{X}_n$ converges in probability to the true population mean $\mu$ as $n \to \infty$. For any $\epsilon > 0$:
+		\begin{align*}
+			\lim_{n \to \infty} P(|\bar{X}_n - \mu| < \epsilon) = 1
+		\end{align*}
+	\end{block}
+	\vspace{-0.1cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Empirical Stability}
+				\footnotesize
+				The LLN ensures that by accumulating enough data points, random fluctuations mutually cancel out. Foundation of insurance risk models and Monte Carlo simulations.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Chebyshev's Upper Bound}
+				\footnotesize
+				Regardless of population distribution:
+				\begin{align*}
+					P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{\sigma^2}{n \epsilon^2} \xrightarrow{n \to \infty} 0
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 07: Central Limit Theorem
+\begin{frame}{The Central Limit Theorem (CLT)}
+	\begin{alertblock}{Central Limit Theorem (Lindeberg-Lévy)}
+		\small
+		If $X_1, \ldots, X_n$ is an i.i.d. sample with mean $\mu$ and variance $0 < \sigma^2 < \infty$, the standardized random variable $Z_n$ converges in distribution to a standard normal variable:
+		\begin{align*}
+			Z_n = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1) \quad \text{as } n \to \infty
+		\end{align*}
+	\end{alertblock}
+	\vspace{-0.1cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{The Magic of Inference}
+				\footnotesize
+				\textbf{Original distribution shape is irrelevant!} Whether Exponential, Uniform, or skewed: the sample average follows a predictable Gaussian curve for large $n$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Practical Approximation}
+				\footnotesize
+				For large sample sizes ($n \ge 30$), we directly model:
+				\begin{align*}
+					\bar{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right), \quad \sum X_i \sim N(n\mu, n\sigma^2)
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 08: Practical Implications
+\begin{frame}{Practical Implications in Engineering \& Data Science}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{1. Universal Normality}
+				\footnotesize
+				Most macroscopic phenomena (measurement errors, electronic noise, human height) result from summing many independent small factors, naturally yielding normal distributions.
+			\end{block}
+			\vspace{-0.1cm}
+			\begin{block}{2. Rule of Thumb $n \ge 30$}
+				\footnotesize
+				In quality control, $n = 30$ is the minimum benchmark for $Z$-test applicability. If the population has heavy skewness, $n > 100$ is required.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{3. Unbiased Sample Variance ($S^2$)}
+				\footnotesize
+				To estimate population variance $\sigma^2$ from sample data, we must divide by $n-1$ degrees of freedom to prevent systematic underestimation:
+				\begin{align*}
+					S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2 \implies E(S^2) = \sigma^2
+				\end{align*}
+			\end{exampleblock}
+			\vspace{-0.1cm}
+			\begin{alertblock}{4. Confidence Intervals}
+				\footnotesize
+				The CLT justifies estimating $\mu$ via the interval $\bar{X} \pm z_{\alpha/2} (\sigma/\sqrt{n})$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 09: Textbook Illustrative Example
+\begin{frame}{Textbook Illustrative Example: Rolling $n=36$ Dice}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Problem Statement}
+				\footnotesize
+				For a fair 6-sided die: $\mu = 3.5, \, \sigma^2 = \frac{35}{12} \approx 2.9167$.
+				If we roll the die $n = 36$ times, what is the probability that average score $\bar{X}_{36}$ falls between $3.1$ and $3.9$?
+			\end{block}
+			\vspace{-0.1cm}
+			\begin{exampleblock}{Step 1: Standard Error}
+				\footnotesize
+				\begin{align*}
+					\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} = \sqrt{\frac{35/12}{36}} = \sqrt{0.08102} \approx 0.2846
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Step 2: Standardization $Z$ and Calculation}
+				\footnotesize
+				Standardizing the endpoints $3.1$ and $3.9$:
+				\begin{align*}
+					z_1 &= \frac{3.1 - 3.5}{0.2846} = \frac{-0.4}{0.2846} \approx -1.405 \\
+					z_2 &= \frac{3.9 - 3.5}{0.2846} = \frac{+0.4}{0.2846} \approx +1.405
+				\end{align*}
+				Using the standard normal table:
+				\begin{align*}
+					P(3.1 < \bar{X}_{36} < 3.9) &\approx P(-1.405 < Z < 1.405) \\
+					&= 2\Phi(1.405) - 1 \\
+					&\approx 2(0.9200) - 1 = 84.00\%
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 10: Limitations of CLT
+\begin{frame}{Limitations and Critical Assumptions of the CLT}
+	\begin{block}{When Does the Central Limit Theorem Fail?}
+		\footnotesize
+		While the CLT is exceptionally robust, its convergence strictly relies on 3 structural hypotheses that must not be violated:
+	\end{block}
+	\vspace{-0.1cm}
+	\begin{columns}[T]
+		\begin{column}{0.32\textwidth}
+			\begin{alertblock}{1. Infinite Variance}
+				\scriptsize
+				In heavy-tailed distributions (Cauchy or Pareto $\alpha \le 2$), variance is infinite ($\sigma^2 = \infty$). The average $\bar{X}_n$ neither normalizes nor reduces dispersion. The CLT collapses!
+			\end{alertblock}
+		\end{column}
+		\begin{column}{0.32\textwidth}
+			\begin{exampleblock}{2. Strong Dependence}
+				\scriptsize
+				If observations are highly correlated (spatial autocorrelation or long-memory time series), variance of the sum scales as $O(n^2)$ rather than $O(n)$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.32\textwidth}
+			\begin{block}{3. Extreme Skewness at Small $n$}
+				\scriptsize
+				If the population is severely skewed ($>3$), samples of $n=30$ retain significant skewness. Berry-Esseen bound evaluation is required.
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 11: Lab 1
+\begin{frame}[fragile]{Python Lab (1/4): Sampling With vs. Without Replacement (FPC)}
+	\begin{block}{Numerical Simulation of Finite Population Correction}
+		\footnotesize Verification of how drawing $n=50$ from $N=500$ without replacement reduces variance by $\frac{N-n}{N-1} \approx 0.9018$.
+	\end{block}
+	\vspace{-0.2cm}
+	\lstinputlisting[language=Python, firstline=9, lastline=29, basicstyle=\fontsize{5.2pt}{6.1pt}\ttfamily]{../../code/02_teoria_probabilidad/02.06_random_sampling.py}
+\end{frame}
+
+% SLIDE 12: Lab 2
+\begin{frame}[fragile]{Python Lab (2/4): Law of Large Numbers Convergence}
+	\begin{block}{Verification of Unbiasedness and Absolute Error Reduction}
+		\footnotesize
+		Simulating the sample mean of fair die rolls for sample sizes increasing $n \in \{10, 50, 200, 1000, 5000\}$, contrasting empirical error against Chebyshev's analytical upper bound ($P \le \frac{\sigma^2}{n\epsilon^2}$).
+	\end{block}
+	\vspace{-0.15cm}
+	\lstinputlisting[language=Python, firstline=31, lastline=46, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/02_teoria_probabilidad/02.06_random_sampling.py}
+\end{frame}
+
+% SLIDE 13: Lab 3
+\begin{frame}[fragile]{Python Lab (3/4): Monte Carlo Simulation of the CLT}
+	\begin{block}{Normalizing an Exponential Population ($n=36$)}
+		\footnotesize Simulation of $50,000$ samples ($\text{Exp}(\mu=2, \sigma=2)$) confirming $Z$-scores against $N(0,1)$.
+	\end{block}
+	\vspace{-0.2cm}
+	\lstinputlisting[language=Python, firstline=48, lastline=72, basicstyle=\fontsize{5.0pt}{5.8pt}\ttfamily]{../../code/02_teoria_probabilidad/02.06_random_sampling.py}
+\end{frame}
+
+% SLIDE 14: Lab 4
+\begin{frame}[fragile]{Python Lab (4/4): Empirical Verification --- Console Output}
+	\begin{block}{Terminal Execution Output (`python 02.06\_random\_sampling.py`)}
+		\fontsize{6.0pt}{7.1pt}\selectfont
+		\begin{verbatim}
+--- 1. Sampling With vs Without Replacement (Finite Population) ---
+Population N = 500, Sample n = 50, True Sigma = 19.6054
+Empirical Var(X_bar) With Replacement    : 7.6989 | Empirical Without : 7.0123
+Theoretical FPC Factor [(N-n)/(N-1)]     : 0.9018 | Ratio Without/With: 0.9108
+
+--- 2. Law of Large Numbers (LLN) Convergence ---
+Sample Size (n) | Empirical Mean | Absolute Error | Chebyshev Upper Bound (e=0.1)
+             10 |         3.8000 |         0.3000 |                       1.0000
+            200 |         3.4400 |         0.0600 |                       1.0000
+           1000 |         3.4990 |         0.0010 |                       0.2917
+           5000 |         3.5200 |         0.0200 |                       0.0583
+
+--- 3. Central Limit Theorem (CLT) Standardization (Exponential Pop) ---
+Empirical P(|Z| <= 1.00) : 0.6821 (Theoretical N(0,1): 0.6827)
+Empirical P(|Z| <= 1.96) : 0.9510 (Theoretical N(0,1): 0.9500)
+Empirical P(|Z| <= 2.00) : 0.9556 (Theoretical N(0,1): 0.9545)
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 15: Exercises Level 1
+\begin{frame}{Exercises --- Level 1: Fundamental (Direct/Simple)}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Prob. 2.6.1: Sample Counting ($N=6, n=3$)}
+				\footnotesize
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item \textbf{With replacement:} $N^n = 6^3 = 216$ ordered samples.
+					\item \textbf{Without replacement:} $\binom{6}{3} = 20$ samples.
+					\item \textbf{Limit:} As $N \to \infty$, $\frac{N-n}{N-1} \to 1$ (equivalence).
+				\end{itemize}
+			\end{block}
+			\vspace{-0.1cm}
+			\begin{alertblock}{Prob. 2.6.2: Unbiasedness of $\bar{X}$}
+				\footnotesize
+				Applying linearity to an i.i.d. SRS:
+				\begin{align*}
+					E(\bar{X}) = \frac{1}{n}\sum_{i=1}^n E(X_i) = \frac{n\mu}{n} = \mu \quad \checkmark
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Prob. 2.6.3: Error Reduction Rate ($\sigma=12$)}
+				\footnotesize
+				Standard error $\sigma_{\bar{X}} = \frac{12}{\sqrt{n}}$ shrinks as $\sqrt{n}$:
+				\begin{itemize}
+					\itemsep=0.04cm
+					\item $n=9 \implies \sigma_{\bar{X}} = 4.0\text{ min}$
+					\item $n=36 \implies \sigma_{\bar{X}} = 2.0\text{ min}$
+					\item $n=144 \implies \sigma_{\bar{X}} = 1.0\text{ min}$
+					\item $n=576 \implies \sigma_{\bar{X}} = 0.5\text{ min}$
+				\end{itemize}
+				Quadrupling sample size halves the error.
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 16: Exercises Level 2
+\begin{frame}{Exercises --- Level 2: Operational (Applied)}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Prob. 2.6.4: Auditing \& FPC ($N=400, n=64$)}
+				\footnotesize
+				With $\sigma = \$15,000$ MXN:
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item \textbf{With replacement:} $\text{Var}_{C/R} = \frac{15,000^2}{64} = 3,515,625$.
+					\item \textbf{Without replacement (FPC):} Multiply by $\frac{400-64}{399} \approx 0.8421$:
+					\begin{align*}
+						\text{Var}_{S/R} \approx 2,960,156 \text{ MXN}^2
+					\end{align*}
+					\item \textbf{Savings:} $15.79\%$ variance reduction.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Prob. 2.6.5: Dice ($n=36, P(3.1 < \bar{X} < 3.9)$)}
+				\footnotesize
+				With $\mu=3.5, \sigma_{\bar{X}} \approx 0.2846$:
+				\begin{align*}
+					z &= \pm \frac{0.4}{0.2846} \approx \pm 1.405 \\
+					P &\approx 2\Phi(1.405) - 1 = 84.00\%
+				\end{align*}
+			\end{alertblock}
+			\vspace{-0.1cm}
+			\begin{exampleblock}{Prob. 2.6.6: Minimum Sample ($E=1.5$ ml)}
+				\footnotesize
+				With $\sigma=8$ ml, $95\%$ confidence ($z=1.96$):
+				\begin{align*}
+					n \ge \left(\frac{1.96 \times 8}{1.5}\right)^2 \approx 109.27 \implies n_{\text{min}} = 110
+				\end{align*}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 17: Exercises Level 3
+\begin{frame}{Exercises --- Level 3: Analytical (Theoretical Proofs)}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Prob. 2.6.7: WLLN Proof (Chebyshev)}
+				\footnotesize
+				Applying Chebyshev to $\bar{X}_n$ with mean $\mu$ and variance $\sigma^2/n$:
+				\begin{align*}
+					P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{\text{Var}(\bar{X}_n)}{\epsilon^2} = \frac{\sigma^2}{n \epsilon^2}
+				\end{align*}
+				Taking the limit as sample size grows:
+				\begin{align*}
+					\lim_{n \to \infty} P(|\bar{X}_n - \mu| \ge \epsilon) \le \lim_{n \to \infty} \frac{\sigma^2}{n \epsilon^2} = 0
+				\end{align*}
+				By squeeze theorem, $\bar{X}_n \xrightarrow{p} \mu$ rigorously.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Prob. 2.6.8: Unbiasedness of $S^2$}
+				\footnotesize
+				To prove $E(S^2) = \sigma^2$, add and subtract $\mu$ inside the sum of squares:
+				\begin{align*}
+					\sum_{i=1}^n (X_i - \bar{X})^2 &= \sum_{i=1}^n (X_i - \mu)^2 - n(\bar{X} - \mu)^2 \\
+					E\left[\sum (X_i - \bar{X})^2\right] &= n\sigma^2 - n\left(\frac{\sigma^2}{n}\right) = (n-1)\sigma^2
+				\end{align*}
+				Dividing by $n-1$:
+				\begin{align*}
+					E(S^2) = \frac{(n-1)\sigma^2}{n-1} = \sigma^2 \quad \checkmark
+				\end{align*}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 18: Exercises Level 4
+\begin{frame}{Exercises --- Level 4: Challenging (Expert/Paradoxes)}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Prob. 2.6.9: Heavy Tails (Standard Cauchy)}
+				\footnotesize
+				The Cauchy density $f(x) = \frac{1}{\pi(1+x^2)}$ has divergent variance ($\sigma^2 = \infty$).
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item Characteristic function: $\varphi_X(t) = e^{-|t|}$.
+					\item For the sample average $\bar{X}_n$:
+					\begin{align*}
+						\varphi_{\bar{X}_n}(t) = \left[e^{-|t/n|}\right]^n = e^{-|t|}
+					\end{align*}
+					\item \textbf{Conclusion:} $\bar{X}_n \sim \text{Cauchy}(0,1)$. Averaging yields zero variance reduction nor CLT convergence. The CLT collapses!
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Prob. 2.6.10: Berry-Esseen Bound}
+				\footnotesize
+				The maximum error between standardized empirical distribution $F_n(z)$ and $\Phi(z)$ is bounded by:
+				\begin{align*}
+					\sup_{z} |F_n(z) - \Phi(z)| \le \frac{C \rho_3}{\sigma^3 \sqrt{n}}
+				\end{align*}
+				For Exponential ($\rho_3 \approx 3.6, C=0.4784$) with $n=100$:
+				\begin{align*}
+					\text{Max Error} \le \frac{0.4784 \times 3.6}{1^3 \times \sqrt{100}} \approx 17.22\%
+				\end{align*}
+				Explains why heavily skewed data require $n \gg 30$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 19: Chapter Synthesis
+\begin{frame}{Theoretical Synthesis of Chapter 02: Probability Theory}
+	\begin{block}{The 6 Pillars of Probability Modeling (Book Unit 1)}
+		\small
+		\begin{enumerate}
+			\itemsep=0.04cm
+			\item \textbf{Random Phenomena \& Sample Space ($\Omega$):} The set-theoretic foundation.
+			\item \textbf{Kolmogorov's Axioms:} Unitary measure, non-negativity, and countable additivity.
+			\item \textbf{Counting \& Combinatorics:} Permutations and combinations in equiprobable spaces.
+			\item \textbf{Conditional Probability ($P(A|B)$):} Sample space updating and statistical independence.
+			\item \textbf{Bayes' Theorem:} Cause-effect inversion via total probability and priors.
+			\item \textbf{Random Sampling \& CLT ($\bar{X} \to N(\mu, \sigma^2/n)$):} The asymptotic bridge to inference.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+% SLIDE 20: Didactic Bridge
+\begin{frame}{Didactic Bridge to Unit 2 (Chapters 3 and 4)}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{What we have conquered (Chapter 02)}
+				\footnotesize
+				We have established the universal laws of random events, set algebra, conditional updating rates, and the limiting behavior of massive sample averages.
+			\end{block}
+			\vspace{-0.1cm}
+			\begin{alertblock}{The Next Conceptual Leap}
+				\footnotesize
+				To model real-world complex systems (queueing lines, network packet drops, financial portfolios), we must assign numerical real values to dynamic outcomes.
+			\end{alertblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Unit 2: Discrete Random Variables}
+				\footnotesize
+				In \textbf{Chapter 03} we will formalize discrete variables ($X \in \mathbb{Z}$):
+				\begin{itemize}
+					\itemsep=0.03cm
+					\item \textbf{Probability Mass Functions ($p_X(x)$):} Bernoulli, Binomial, and Poisson models.
+					\item \textbf{Expected Value \& Operational Variance:} Moment Generating Functions (MGFs).
+					\item \textbf{Direct Application:} Using Python to simulate counting processes and server traffic.
+				\end{itemize}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\end{document}
