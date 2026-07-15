@@ -1,539 +1,427 @@
 % !TeX program = pdflatex
-\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+\documentclass[10pt, aspectratio=169]{beamer}
 
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title{Muestreo Aleatorio y Teorema del Límite Central}
-\subtitle{Sección 02.06 --- Fundamentos del Muestreo e Inferencia Asintótica}
+\title[Muestreo Aleatorio y TLC]{Sección 02.06: Muestreo Aleatorio y Teorema del Límite Central}
+\subtitle{De la Fuerza Bruta a la Inferencia Asintótica: MAS, LGN y TLC}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute[Tec de Monterrey]{Tecnológico de Monterrey}
-\date{}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-2.0cm}}
 
 \begin{document}
 
-% SLIDE 01: Portada
+% Slide 01: Portada
 \begin{frame}[plain]
-	\titlepage
+  \vspace{-0.5cm}
+  \titlepage
 \end{frame}
 
-% SLIDE 02: Hoja de Ruta
+% Slide 02: Hoja de Ruta
 \begin{frame}{Hoja de Ruta --- Capítulo 02: Teoría de la Probabilidad}
-	\begin{block}{Estructura Curricular de la Unidad 1}
-		\small
-		\begin{enumerate}
-			\itemsep=0.04cm
-			\item \textcolor{gray}{Sección 02.01: Introducción a la Probabilidad y Fenómenos Aleatorios}
-			\item \textcolor{gray}{Sección 02.02: Teoría de Conjuntos y Axiomas de Kolmogorov}
-			\item \textcolor{gray}{Sección 02.03: Fundamentos de Probabilidad y Técnicas de Conteo}
-			\item \textcolor{gray}{Sección 02.04: Probabilidad Condicional e Independencia Estadística}
-			\item \textcolor{gray}{Sección 02.05: Teorema de Bayes e Inversión Condicional}
-			\item \textbf{\textcolor{TecRojo}{Sección 02.06: Muestreo Aleatorio y Teorema del Límite Central}} $\leftarrow$ \emph{Foco actual}
-		\end{enumerate}
-	\end{block}
-	\vspace{-0.1cm}
-	\begin{alertblock}{Objetivo Didáctico}
-		\footnotesize
-		Comprender cómo extraer inferencias válidas sobre poblaciones infinitas a partir de muestras finitas, formalizando la Ley de los Grandes Números (LGN) y el Teorema del Límite Central (TLC).
-	\end{alertblock}
+  \begin{block}{Estructura Curricular de la Unidad 1}
+    \footnotesize
+    \begin{enumerate}\itemsep=0.08cm
+      \item \textcolor{gray}{Sección 02.01: Introducción a la Probabilidad y Fenómenos Aleatorios}
+      \item \textcolor{gray}{Sección 02.02: Teoría de Conjuntos y Axiomas de Kolmogorov}
+      \item \textcolor{gray}{Sección 02.03: Fundamentos de Probabilidad y Técnicas de Conteo}
+      \item \textcolor{gray}{Sección 02.04: Probabilidad Condicional e Independencia Estadística}
+      \item \textcolor{gray}{Sección 02.05: Teorema de Bayes e Inversión Condicional}
+      \item \textbf{\textcolor{TecRojo}{Sección 02.06: Muestreo Aleatorio y Teorema del Límite Central (TLC)}} $\leftarrow$ \emph{Foco actual}
+    \end{enumerate}
+  \end{block}
+  \vspace{-0.05cm}
+  \pause
+  \begin{alertblock}{Objetivo Didáctico de la Sección 02.06}
+    \footnotesize
+    Comprender los fundamentos rigurosos del muestreo aleatorio simple (MAS), cuantificar el factor de corrección en poblaciones finitas ($\text{FPC}$), y dominar las leyes asintóticas del comportamiento muestral: la Ley de los Grandes Números (LGN) y el Teorema del Límite Central (TLC).
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 03: Motivación
-\begin{frame}{Motivación: De la Fuerza Bruta al Muestreo Aleatorio}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{El Dilema del Censo (Fuerza Bruta)}
-				\footnotesize
-				Determinar parámetros exactos de una población masiva midiendo cada elemento es económicamente inviable y logísticamente destructivo.
-			\end{block}
-			\vspace{-0.1cm}
-			\begin{alertblock}{Solución Estadística: Muestreo}
-				\footnotesize
-				Extraemos un subconjunto de tamaño $n \ll N$ y calculamos un \textbf{estadístico muestral} ($\bar{X}, S^2$) para aproximar el \textbf{parámetro poblacional} ($\mu, \sigma^2$).
-			\end{alertblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Parámetro vs. Estadístico}
-				\footnotesize
-				\begin{center}
-				\begin{tabular}{lcc}
-					\toprule
-					\textbf{Medida} & \textbf{Población ($N$)} & \textbf{Muestra ($n$)} \\
-					\midrule
-					\textbf{Media} & $\mu$ (constante) & $\bar{X}$ (variable) \\
-					\textbf{Varianza} & $\sigma^2$ (constante) & $S^2$ (variable) \\
-					\textbf{Proporción} & $p$ (constante) & $\hat{p}$ (variable) \\
-					\bottomrule
-				\end{tabular}
-				\end{center}
-				\vspace{-0.1cm}
-				Al repetir el muestreo $100$ veces, obtenemos promedios $A_1, \ldots, A_{100}$. Su estudio formal constituye la \textbf{distribución muestral}.
-			\end{exampleblock}
-		\end{column}
-	\end{columns}
+% Slide 03: Motivación — Del Dilema del Censo al Muestreo
+\begin{frame}{Motivación --- Del Dilema del Censo al Muestreo Aleatorio}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{El Dilema de la Fuerza Bruta (Censo)}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item En ingeniería, economía y ciencias biológicas, determinar parámetros exactos de una población masiva midiendo cada elemento es inviable:
+          \begin{itemize}
+            \item Costos logísticos y computacionales prohibitivos.
+            \item Pruebas de calidad destructivas (por ejemplo, resistencia a la tensión de vigas).
+            \item Poblaciones conceptualmente infinitas.
+          \end{itemize}
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{La Solución Estadística: Inferencia por MAS}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item Extraemos un subconjunto representativo de tamaño $n \ll N$ bajo condiciones estrictas de aleatoriedad.
+          \item Calculamos un \textbf{estadístico muestral} ($\bar{X}, S^2$) para aproximar y acotar con probabilidad conocida el \textbf{parámetro poblacional} ($\mu, \sigma^2$).
+          \item Transformamos la incertidumbre en riesgo cuantificable y acotado.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 04: Con vs Sin Reemplazo
-\begin{frame}{Muestreo Con vs. Sin Reemplazo (Factor FPC)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Muestreo Con Reemplazo ($C/R$)}
-				\footnotesize
-				Cada elemento extraído regresa a la población antes de la siguiente selección.
-				\begin{itemize}
-					\itemsep=0.03cm
-					\item \textbf{Espacio muestral:} $N^n$ muestras ordenadas.
-					\item \textbf{Independencia:} Observaciones i.i.d. con probabilidad constante $1/N$.
-					\item \textbf{Varianza Media:} $\text{Var}(\bar{X}) = \frac{\sigma^2}{n}$.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Muestreo Sin Reemplazo ($S/R$)}
-				\footnotesize
-				Un elemento seleccionado no puede repetirse en la misma muestra.
-				\begin{itemize}
-					\itemsep=0.03cm
-					\item \textbf{Espacio muestral:} $\binom{N}{n}$ muestras posibles.
-					\item \textbf{Dependencia:} Modelo Hipergeométrico.
-					\item \textbf{Corrección (FPC):} Si $n/N > 0.05$:
-					  $\text{Var}(\bar{X}) = \frac{\sigma^2}{n} \left(\frac{N-n}{N-1}\right)$.
-				\end{itemize}
-			\end{block}
-		\end{column}
-	\end{columns}
-	\vspace{-0.1cm}
-	\begin{alertblock}{Asintótica de Población Infinita ($N \to \infty$)}
-		\footnotesize
-		Cuando el tamaño poblacional $N$ es inmenso respecto a la muestra $n$, el factor de corrección $\frac{N-n}{N-1} \to 1$. Ambos métodos se vuelven probabilísticamente indistinguibles.
-	\end{alertblock}
+% Slide 04: Muestreo Aleatorio Simple (MAS) e Independencia
+\begin{frame}{Muestreo Aleatorio Simple (MAS) e Independencia Estadística}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Definición Formal de Muestreo Aleatorio Simple (MAS)}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Una colección de variables aleatorias $X_1, X_2, \ldots, X_n$ constituye una \textbf{muestra aleatoria simple de tamaño $n$} extraída de la población $f_X(x)$ si cumplen dos condiciones axiomáticas simultáneas:
+    \begin{enumerate}\itemsep=0.1cm
+      \item \textbf{Idéntica Distribución:} Cada variable individual $X_i$ comparte exactamente la misma distribución marginal, densidad poblacional y momentos teóricos que $X$: $f_{X_i}(x) = f_X(x)$, con $E(X_i) = \mu$ y $\text{Var}(X_i) = \sigma^2$.
+      \item \textbf{Independencia Mutua:} El resultado u observación de cualquier subconjunto de variables no altera en absoluto la distribución condicional del resto. La densidad conjunta factoriza perfectamente:
+      $$f_{X_1, X_2, \ldots, X_n}(x_1, x_2, \ldots, x_n) = \prod_{i=1}^n f_X(x_i)$$
+    \end{enumerate}
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Estadísticos vs. Parámetros}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Un \textbf{parámetro} es una constante real fija pero desconocida de la población ($\mu, \sigma^2$). Un \textbf{estadístico} es una función medible de la muestra aleatoria $T(X_1, \ldots, X_n)$ que no depende de constantes desconocidas ($\bar{X}, S^2$). Al ser función de variables aleatorias, todo estadístico es en sí mismo una variable aleatoria con su propia distribución computacional llamada \emph{distribución muestral}.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 05: Esperanza y Varianza de la Media Muestral
-\begin{frame}{Esperanza y Varianza de la Media Muestral}
-	\small
-	Sea $X_1, \ldots, X_n$ una muestra aleatoria simple (MAS) con media $\mu$ y varianza $\sigma^2$. Definimos el promedio muestral como $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$.
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Insesgo del Estimador Media ($E(\bar{X})$)}
-				\footnotesize
-				Aplicando linealidad de la esperanza:
-				\begin{align*}
-					E(\bar{X}) = E\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n}\sum_{i=1}^n E(X_i) = \mu
-				\end{align*}
-				\textbf{Interpretación:} En promedio, $\bar{X}$ acierta exactamente al parámetro $\mu$.
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Error Estándar ($\sigma_{\bar{X}}$)}
-				\footnotesize
-				Por independencia de las observaciones:
-				\begin{align*}
-					\text{Var}(\bar{X}) = \frac{\sigma^2}{n} \implies \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}
-				\end{align*}
-				\textbf{Ley $\sqrt{n}$:} Para reducir el error a la mitad, es obligatorio cuadruplicar el tamaño muestral ($n \to 4n$).
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 05: Muestreo Con y Sin Reemplazo (Factor FPC)
+\begin{frame}{Muestreo Con y Sin Reemplazo (Factor FPC)}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Esperanza y Varianza en Poblaciones Infinitas (o Con Reemplazo)}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Si el muestreo se realiza con reemplazo o sobre una población infinita ($N \to \infty$), las variables $X_i$ son estrictamente i.i.d. Por linealidad y aditividad de la varianza para variables independientes:
+    $$E(\bar{X}) = E\left[\frac{1}{n}\sum_{i=1}^n X_i\right] = \frac{1}{n}(n\mu) = \mu, \qquad \text{Var}(\bar{X}) = \text{Var}\left[\frac{1}{n}\sum_{i=1}^n X_i\right] = \frac{1}{n^2}(n\sigma^2) = \frac{\sigma^2}{n}$$
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{El Factor de Corrección por Población Finita (FPC)}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Cuando extraemos una muestra sin reemplazo de una población finita de tamaño $N$, las variables $X_i$ exhiben una ligera correlación negativa provocada por el agotamiento del censo ($\text{Cov}(X_i, X_j) = -\frac{\sigma^2}{N-1}$). Esta dependencia reduce rigurosamente la varianza muestral mediante el \textbf{Factor de Corrección por Población Finita (FPC)}:
+    $$\text{Var}_{S/R}(\bar{X}) = \frac{\sigma^2}{n} \cdot \left(\frac{N-n}{N-1}\right) \implies \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} \sqrt{\frac{N-n}{N-1}}$$
+    Si la fracción de muestreo $n/N \le 0.05$ ($5\%$), el factor $(N-n)/(N-1) \approx 1$ y el FPC se omite en la práctica.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 06: Ley de los Grandes Números
+% Slide 06: La Ley de los Grandes Números (LGN)
 \begin{frame}{La Ley de los Grandes Números (LGN)}
-	\begin{block}{Teorema de la Ley de los Grandes Números (Forma Débil)}
-		\small
-		Si $X_1, \ldots, X_n$ son i.i.d. con media finita $\mu$, el promedio muestral $\bar{X}_n$ converge en probabilidad a la media poblacional $\mu$ cuando $n \to \infty$. Para todo $\epsilon > 0$:
-		\begin{align*}
-			\lim_{n \to \infty} P(|\bar{X}_n - \mu| < \epsilon) = 1
-		\end{align*}
-	\end{block}
-	\vspace{-0.1cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Estabilidad Empírica}
-				\footnotesize
-				La LGN garantiza que al acumular suficientes datos, las fluctuaciones aleatorias se cancelan. Es la base del seguro y simulación Monte Carlo.
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Cota de Chebyshev}
-				\footnotesize
-				Sin importar la distribución poblacional:
-				\begin{align*}
-					P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{\sigma^2}{n \epsilon^2} \xrightarrow{n \to \infty} 0
-				\end{align*}
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Ley Débil de los Grandes Números (WLLN — Khinchin)}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria simple i.i.d. extraída de una población con media teórica finita $\mu < \infty$. Para cualquier margen de tolerancia arbitrariamente pequeño $\epsilon > 0$, la probabilidad de que la media muestral $\bar{X}_n$ difiera del parámetro poblacional $\mu$ en $\epsilon$ o más tiende rigurosamente a cero al crecer el tamaño muestral $n$:
+    $$\lim_{n \to \infty} P(|\bar{X}_n - \mu| \ge \epsilon) = 0 \quad \iff \quad \bar{X}_n \xrightarrow{p} \mu \quad \text{(Convergencia en Probabilidad)}$$
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Ley Fuerte de los Grandes Números (SLLN — Kolmogorov)}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Bajo los mismos supuestos de momento de primer orden finito, la sucesión de medias muestrales converge al verdadero valor del parámetro poblacional $\mu$ con probabilidad exactamente igual a uno:
+    $$P\left(\lim_{n \to \infty} \bar{X}_n = \mu\right) = 1 \quad \iff \quad \bar{X}_n \xrightarrow{a.s.} \mu \quad \text{(Convergencia Casi Segura)}$$
+    \textbf{Significado Operativo:} La incertidumbre empírica sobre el centro de gravedad de un fenómeno desaparece asintóticamente al acumular suficientes datos independientes.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 07: Teorema del Límite Central
+% Slide 07: El Teorema del Límite Central (TLC)
 \begin{frame}{El Teorema del Límite Central (TLC)}
-	\begin{alertblock}{Teorema del Límite Central (Lindeberg-Lévy)}
-		\small
-		Si $X_1, \ldots, X_n$ es una muestra i.i.d. con media $\mu$ y varianza $0 < \sigma^2 < \infty$, la variable estandarizada $Z_n$ converge en distribución a una normal estándar:
-		\begin{align*}
-			Z_n = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1) \quad \text{cuando } n \to \infty
-		\end{align*}
-	\end{alertblock}
-	\vspace{-0.1cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Magia de la Inferencia}
-				\footnotesize
-				\textbf{¡No importa la distribución original!} Exponencial, Uniforme o sesgada: el promedio muestral seguirá una campana de Gauss predecible para $n$ grande.
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Aproximación Práctica}
-				\footnotesize
-				Para muestras grandes ($n \ge 30$), modelamos:
-				\begin{align*}
-					\bar{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right), \quad \sum X_i \sim N(n\mu, n\sigma^2)
-				\end{align*}
-			\end{exampleblock}
-		\end{column}
-	\end{columns}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Enunciado Clásico de Lindeberg-Lévy}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria simple i.i.d. de una población con media teórica $\mu$ y varianza estrictamente positiva y finita $0 < \sigma^2 < \infty$. Cuando el tamaño de muestra $n$ crece indefinidamente, la variable aleatoria estandarizada $Z_n$ asociada a la media muestral converge en distribución a la distribución normal estándar $N(0,1)$, \textbf{independientemente de la forma o asimetría de la distribución poblacional subyacente}:
+    $$\lim_{n \to \infty} P\left(Z_n \le z\right) = \lim_{n \to \infty} P\left(\frac{\bar{X}_n - \mu}{\sigma / \sqrt{n}} \le z\right) = \Phi(z) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{z} e^{-t^2/2} \, dt$$
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{El Alcance Universal del TLC}
+    \fontsize{7.5pt}{9pt}\selectfont
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Aproximación Asintótica de la Media:} Para $n$ suficientemente grande ($n \ge 30$ como regla empírica estándar), podemos aproximar la distribución de $\bar{X}_n$ como normal: $\bar{X}_n \dot{\sim} N\left(\mu, \frac{\sigma^2}{n}\right)$.
+      \item \textbf{Aproximación de la Suma Muestral:} Análogamente, la suma total $S_n = \sum_{i=1}^n X_i$ converge a una normal: $S_n \dot{\sim} N(n\mu, n\sigma^2)$.
+    \end{itemize}
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 08: Implicaciones Prácticas
-\begin{frame}{Implicaciones Prácticas en Ingeniería y Ciencia de Datos}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{1. Universalidad Normativa}
-				\footnotesize
-				Fenómenos físicos y mediciones complejas (errores, ruido, estatura) son la suma de factores independientes, siguiendo distribuciones normales.
-			\end{block}
-			\vspace{-0.1cm}
-			\begin{block}{2. Regla Empírica $n \ge 30$}
-				\footnotesize
-				En control de calidad, $n = 30$ es el estándar mínimo para aplicar pruebas $Z$. En poblaciones muy asimétricas, se recomiendan $n > 100$.
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{3. Insesgo de la Varianza ($S^2$)}
-				\footnotesize
-				Al estimar la varianza muestral, es obligatorio dividir entre $n-1$ para corregir el sesgo:
-				\begin{align*}
-					S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2 \implies E(S^2) = \sigma^2
-				\end{align*}
-			\end{exampleblock}
-			\vspace{-0.1cm}
-			\begin{alertblock}{4. Intervalos de Confianza}
-				\footnotesize
-				El TLC legitima estimar $\mu$ mediante $\bar{X} \pm z_{\alpha/2} (\sigma/\sqrt{n})$.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 08: Anatomía Asintótica y Cota de Berry-Esseen
+\begin{frame}{Anatomía Asintótica y Velocidad de Convergencia}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Regla Empírica del $n \ge 30$}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item Si la población original es normal, $\bar{X}_n \sim N(\mu, \sigma^2/n)$ para cualquier $n \ge 1$.
+          \item Si la población es uniforme, simétrica o continua con varianza finita, $n \ge 15$ suele bastar para una normalidad excelente.
+          \item Si la población es muy asimétrica o sesgada (exponencial, Pareto), se requieren $n \ge 30$ a $n \ge 100$ para estabilizar las colas.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Cota Universal de Berry-Esseen}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item Para evaluar matemáticamente el máximo error entre la función empírica estandarizada $F_n(z)$ y $\Phi(z)$, se exige el tercer momento absoluto central $\rho_3 = E[|X - \mu|^3] < \infty$:
+          $$\sup_{z \in \mathbb{R}} |F_n(z) - \Phi(z)| \le \frac{C \cdot \rho_3}{\sigma^3 \sqrt{n}}$$
+          \item El error decrece a velocidad $O(1/\sqrt{n})$, donde $C < 0.4784$.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 09: Ejemplo Ilustrativo del Libro
-\begin{frame}{Ejemplo Ilustrativo del Libro: Lanzamiento de $n=36$ Dados}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Planteamiento}
-				\footnotesize
-				Para un dado justo: $\mu = 3.5, \, \sigma^2 = \frac{35}{12} \approx 2.9167$.
-				Al lanzar $n = 36$ veces, ¿cuál es la probabilidad de que el promedio $\bar{X}_{36}$ caiga entre $3.1$ y $3.9$?
-			\end{block}
-			\vspace{-0.1cm}
-			\begin{exampleblock}{Paso 1: Error Estándar}
-				\footnotesize
-				\begin{align*}
-					\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} = \sqrt{\frac{35/12}{36}} = \sqrt{0.08102} \approx 0.2846
-				\end{align*}
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Paso 2: Estandarización $Z$ y Cálculo}
-				\footnotesize
-				Estandarizamos los extremos $3.1$ y $3.9$:
-				\begin{align*}
-					z_1 &= \frac{3.1 - 3.5}{0.2846} = \frac{-0.4}{0.2846} \approx -1.405 \\
-					z_2 &= \frac{3.9 - 3.5}{0.2846} = \frac{+0.4}{0.2846} \approx +1.405
-				\end{align*}
-				Consultando la normal estándar:
-				\begin{align*}
-					P(3.1 < \bar{X}_{36} < 3.9) &\approx P(-1.405 < Z < 1.405) \\
-					&= 2\Phi(1.405) - 1 \\
-					&\approx 2(0.9200) - 1 = 84.00\%
-				\end{align*}
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 09A: Laboratorio Python — Muestreo Con vs Sin Reemplazo
+\begin{frame}[fragile]{Laboratorio Python --- Muestreo con vs sin Reemplazo (1/4)}
+  \vspace{-0.1cm}
+  \begin{block}{Código Fuente: \texttt{compare\_sampling\_schemes} (\texttt{02.06\_random\_sampling.py})}
+    \lstinputlisting[language=Python, basicstyle=\fontsize{4.6pt}{5.4pt}\selectfont\ttfamily, firstline=10, lastline=28]{../../code/02_teoria_probabilidad/02.06_random_sampling.py}
+  \end{block}
 \end{frame}
 
-% SLIDE 10: Limitaciones del TLC
-\begin{frame}{Limitaciones e Hipótesis Críticas del TLC}
-	\begin{block}{¿Cuándo Falla el Teorema del Límite Central?}
-		\footnotesize
-		Aunque el TLC es sumamente robusto, su convergencia depende de 3 hipótesis estructurales que no deben violarse:
-	\end{block}
-	\vspace{-0.1cm}
-	\begin{columns}[T]
-		\begin{column}{0.32\textwidth}
-			\begin{alertblock}{1. Varianza Infinita}
-				\scriptsize
-				En distribuciones con colas extremas (Cauchy o Pareto $\alpha \le 2$), la varianza es infinita ($\sigma^2 = \infty$). El promedio $\bar{X}_n$ no se normaliza ni reduce su dispersión. ¡El TLC se fractura!
-			\end{alertblock}
-		\end{column}
-		\begin{column}{0.32\textwidth}
-			\begin{exampleblock}{2. Dependencia Fuerte}
-				\scriptsize
-				Si las observaciones poseen alta correlación (autocorrelación espacial o series de tiempo con memoria), la varianza de la suma escala al orden de $n^2$ en vez de $n$.
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.32\textwidth}
-			\begin{block}{3. Sesgo Severo en $n$ Pequeño}
-				\scriptsize
-				Si la población posee sesgo severo ($>3$), una muestra de $n=30$ conserva asimetría notable. Se requiere evaluar la cota del Teorema de Berry-Esseen.
-			\end{block}
-		\end{column}
-	\end{columns}
+% Slide 09B: Laboratorio Python — Ley de los Grandes Números
+\begin{frame}[fragile]{Laboratorio Python --- Ley de los Grandes Números (2/4)}
+  \vspace{-0.1cm}
+  \begin{block}{Código Fuente: \texttt{verify\_law\_of\_large\_numbers} (\texttt{02.06\_random\_sampling.py})}
+    \lstinputlisting[language=Python, basicstyle=\fontsize{5.5pt}{6.5pt}\selectfont\ttfamily, firstline=32, lastline=46]{../../code/02_teoria_probabilidad/02.06_random_sampling.py}
+  \end{block}
 \end{frame}
 
-% SLIDE 11: Lab 1
-\begin{frame}[fragile]{Lab Python (1/4): Muestreo Con vs. Sin Reemplazo (FPC)}
-	\begin{block}{Simulación del Factor de Corrección por Población Finita}
-		\footnotesize Verificación de cómo extraer $n=50$ de $N=500$ sin reemplazo reduce la varianza en $\frac{N-n}{N-1} \approx 0.9018$.
-	\end{block}
-	\vspace{-0.2cm}
-	\lstinputlisting[language=Python, firstline=9, lastline=29, basicstyle=\fontsize{5.2pt}{6.1pt}\ttfamily]{../../code/02_teoria_probabilidad/02.06_random_sampling.py}
+% Slide 09C: Laboratorio Python — Teorema del Límite Central
+\begin{frame}[fragile]{Laboratorio Python --- Teorema del Límite Central (3/4)}
+  \vspace{-0.1cm}
+  \begin{block}{Código Fuente: \texttt{verify\_central\_limit\_theorem} (\texttt{02.06\_random\_sampling.py})}
+    \lstinputlisting[language=Python, basicstyle=\fontsize{4.6pt}{5.4pt}\selectfont\ttfamily, firstline=50, lastline=72]{../../code/02_teoria_probabilidad/02.06_random_sampling.py}
+  \end{block}
 \end{frame}
 
-% SLIDE 12: Lab 2
-\begin{frame}[fragile]{Lab Python (2/4): Convergencia de la Ley de Grandes Números}
-	\begin{block}{Verificación de Insesgo y Reducción de Error Absoluto}
-		\footnotesize
-		Simulación del promedio muestral de dados al crecer $n \in \{10, 50, 200, 1000, 5000\}$, contrastando el error empírico contra la cota de Chebyshev ($P \le \frac{\sigma^2}{n\epsilon^2}$).
-	\end{block}
-	\vspace{-0.15cm}
-	\lstinputlisting[language=Python, firstline=31, lastline=46, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/02_teoria_probabilidad/02.06_random_sampling.py}
-\end{frame}
-
-% SLIDE 13: Lab 3
-\begin{frame}[fragile]{Lab Python (3/4): Simulación Monte Carlo del TLC}
-	\begin{block}{Normalización de Población Exponencial ($n=36$)}
-		\footnotesize Simulación de $50,000$ muestras ($\text{Exp}(\mu=2, \sigma=2)$) confirming $Z$-scores contra $N(0,1)$.
-	\end{block}
-	\vspace{-0.2cm}
-	\lstinputlisting[language=Python, firstline=48, lastline=72, basicstyle=\fontsize{5.0pt}{5.8pt}\ttfamily]{../../code/02_teoria_probabilidad/02.06_random_sampling.py}
-\end{frame}
-
-% SLIDE 14: Lab 4
-\begin{frame}[fragile]{Lab Python (4/4): Verificación Empírica --- Salida en Consola}
-	\begin{block}{Salida Numérica en Terminal (`python 02.06\_random\_sampling.py`)}
-		\fontsize{6.0pt}{7.1pt}\selectfont
-		\begin{verbatim}
---- 1. Sampling With vs Without Replacement (Finite Population) ---
+% Slide 09D: Laboratorio Python — Salida Verificada por Consola
+\begin{frame}[fragile]{Laboratorio Python --- Salida Verificada por Consola (4/4)}
+  \vspace{-0.1cm}
+  \begin{columns}[T]
+    \begin{column}{0.54\textwidth}
+      \begin{block}{1. MAS con vs sin Reemplazo y 2. LGN}
+        \fontsize{4.4pt}{5.2pt}\selectfont
+\begin{verbatim}
+--- 1. Sampling With vs Without Replacement ---
 Population N = 500, Sample n = 50, True Sigma = 19.6054
-Empirical Var(X_bar) With Replacement    : 7.6989 | Empirical Without : 7.0123
-Theoretical FPC Factor [(N-n)/(N-1)]     : 0.9018 | Ratio Without/With: 0.9108
+Empirical Var(X_bar) With Replacement    : 7.6989
+Empirical Var(X_bar) Without Replacement : 7.0123
+Theoretical FPC Factor [(N-n)/(N-1)]     : 0.9018
+Empirical Variance Ratio (Without / With): 0.9108
 
 --- 2. Law of Large Numbers (LLN) Convergence ---
-Sample Size (n) | Empirical Mean | Absolute Error | Chebyshev Upper Bound (e=0.1)
-             10 |         3.8000 |         0.3000 |                       1.0000
-            200 |         3.4400 |         0.0600 |                       1.0000
-           1000 |         3.4990 |         0.0010 |                       0.2917
-           5000 |         3.5200 |         0.0200 |                       0.0583
+Sample Size (n) | Empirical Mean | Absolute Error
+-------------------------------------------------
+             10 |         3.8000 |         0.3000
+             50 |         3.5400 |         0.0400
+            200 |         3.4400 |         0.0600
+           1000 |         3.4990 |         0.0010
+           5000 |         3.5200 |         0.0200
+\end{verbatim}
+      \end{block}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \begin{block}{3. Estandarización TLC}
+        \fontsize{4.4pt}{5.2pt}\selectfont
+\begin{verbatim}
+--- 3. Central Limit Theorem (CLT) ---
+Population: Exponential(mu=2, sigma=2), n=36
+Empirical P(|Z| <= 1.00) : 0.6821
+Theoretical N(0,1)       : 0.6827
 
---- 3. Central Limit Theorem (CLT) Standardization (Exponential Pop) ---
-Empirical P(|Z| <= 1.00) : 0.6821 (Theoretical N(0,1): 0.6827)
-Empirical P(|Z| <= 1.96) : 0.9510 (Theoretical N(0,1): 0.9500)
-Empirical P(|Z| <= 2.00) : 0.9556 (Theoretical N(0,1): 0.9545)
-		\end{verbatim}
-	\end{block}
+Empirical P(|Z| <= 1.96) : 0.9510
+Theoretical N(0,1)       : 0.9500
+
+Empirical P(|Z| <= 2.00) : 0.9556
+Theoretical N(0,1)       : 0.9545
+\end{verbatim}
+      \end{block}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 15: Ejercicios Nivel 1
-\begin{frame}{Ejercicios --- Nivel 1: Fundamental (Directos)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Prob. 2.6.1: Conteo Muestral ($N=6, n=3$)}
-				\footnotesize
-				\begin{itemize}
-					\itemsep=0.03cm
-					\item \textbf{Con reemplazo:} $N^n = 6^3 = 216$ muestras posibles.
-					\item \textbf{Sin reemplazo:} $\binom{6}{3} = 20$ muestras posibles.
-					\item \textbf{Límite:} Si $N \to \infty$, $\frac{N-n}{N-1} \to 1$ (equivalencia).
-				\end{itemize}
-			\end{block}
-			\vspace{-0.1cm}
-			\begin{alertblock}{Prob. 2.6.2: Insesgo de $\bar{X}$}
-				\footnotesize
-				Aplicando linealidad a una MAS i.i.d.:
-				\begin{align*}
-					E(\bar{X}) = \frac{1}{n}\sum_{i=1}^n E(X_i) = \frac{n\mu}{n} = \mu \quad \checkmark
-				\end{align*}
-			\end{alertblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Prob. 2.6.3: Reducción del Error ($\sigma=12$)}
-				\footnotesize
-				El error estándar $\sigma_{\bar{X}} = \frac{12}{\sqrt{n}}$ decrece como $\sqrt{n}$:
-				\begin{itemize}
-					\itemsep=0.04cm
-					\item $n=9 \implies \sigma_{\bar{X}} = 4.0\text{ min}$
-					\item $n=36 \implies \sigma_{\bar{X}} = 2.0\text{ min}$
-					\item $n=144 \implies \sigma_{\bar{X}} = 1.0\text{ min}$
-					\item $n=576 \implies \sigma_{\bar{X}} = 0.5\text{ min}$
-				\end{itemize}
-				Cuadruplicar muestra divide el error entre 2.
-			\end{exampleblock}
-		\end{column}
-	\end{columns}
+% Slide 10A: Ejercicio en Clase — Nivel 1: Fundamental (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \begin{block}{Problema 2.6.3 --- Reducción del Error Estándar de la Media}
+    \footnotesize
+    El tiempo de ensamblaje de un componente mecánico fino en una línea industrial automotriz sigue una distribución de probabilidad teórica con media poblacional $\mu = 45$ minutos y desviación estándar $\sigma = 12$ minutos. Si un ingeniero de procesos extrae una muestra aleatoria de tamaño $n$ para estimar la productividad media del turno:
+    \begin{enumerate}\itemsep=0.15cm
+      \item Calcula de forma exacta el error estándar de la media muestral, denotado algebraicamente por $\text{DE}(\bar{X}) = \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}$, para cada uno de los siguientes tamaños de muestra:
+      $$n \in \{9, 36, 144, 576\}$$
+      \item Explica formalmente por qué cuadruplicar el tamaño muestral no divide por cuatro la incertidumbre del estimador, identificando la tasa matemática de decrecimiento.
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 16: Ejercicios Nivel 2
-\begin{frame}{Ejercicios --- Nivel 2: Operativo (Aplicados)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Prob. 2.6.4: Auditoría y FPC ($N=400, n=64$)}
-				\footnotesize
-				Con $\sigma = \$15,000$ MXN:
-				\begin{itemize}
-					\itemsep=0.03cm
-					\item \textbf{Con reemplazo:} $\text{Var}_{C/R} = \frac{15,000^2}{64} = 3,515,625$.
-					\item \textbf{Sin reemplazo (FPC):} Multiplicamos por $\frac{400-64}{399} \approx 0.8421$:
-					\begin{align*}
-						\text{Var}_{S/R} \approx 2,960,156 \text{ MXN}^2
-					\end{align*}
-					\item \textbf{Ahorro:} $15.79\%$ menos varianza.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Prob. 2.6.5: Dados ($n=36, P(3.1 < \bar{X} < 3.9)$)}
-				\footnotesize
-				Con $\mu=3.5, \sigma_{\bar{X}} \approx 0.2846$:
-				\begin{align*}
-					z &= \pm \frac{0.4}{0.2846} \approx \pm 1.405 \\
-					P &\approx 2\Phi(1.405) - 1 = 84.00\%
-				\end{align*}
-			\end{alertblock}
-			\vspace{-0.1cm}
-			\begin{exampleblock}{Prob. 2.6.6: Tamaño Mínimo ($E=1.5$ ml)}
-				\footnotesize
-				Con $\sigma=8$ ml, confianza al $95\%$ ($z=1.96$):
-				\begin{align*}
-					n \ge \left(\frac{1.96 \times 8}{1.5}\right)^2 \approx 109.27 \implies n_{\text{mín}} = 110
-				\end{align*}
-			\end{exampleblock}
-		\end{column}
-	\end{columns}
+% Slide 10B: Ejercicio en Clase — Nivel 1: Fundamental (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \fontsize{6.8pt}{8.2pt}\selectfont
+  \begin{block}{1. Cálculo Exacto del Error Estándar ($\sigma_{\bar{X}} = \sigma / \sqrt{n}$)}
+    \fontsize{6.8pt}{8.2pt}\selectfont
+    Sustituimos directamente $\sigma = 12$ y extraemos la raíz cuadrada exacta para cada tamaño muestral:
+    \begin{itemize}\itemsep=0.06cm
+      \item Para $n = 9$: $\displaystyle \sigma_{\bar{X}} = \frac{12}{\sqrt{9}} = \frac{12}{3} = \mathbf{4.00 \text{ min}}$.
+      \item Para $n = 36$: $\displaystyle \sigma_{\bar{X}} = \frac{12}{\sqrt{36}} = \frac{12}{6} = \mathbf{2.00 \text{ min}}$.
+      \item Para $n = 144$: $\displaystyle \sigma_{\bar{X}} = \frac{12}{\sqrt{144}} = \frac{12}{12} = \mathbf{1.00 \text{ min}}$.
+      \item Para $n = 576$: $\displaystyle \sigma_{\bar{X}} = \frac{12}{\sqrt{576}} = \frac{12}{24} = \mathbf{0.50 \text{ min}}$.
+    \end{itemize}
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{2. Ley de Rendimientos Decrecientes ($1/\sqrt{n}$)}
+    \fontsize{6.8pt}{8.2pt}\selectfont
+    Al observar la secuencia $(4 \to 2 \to 1 \to 0.5)$, notamos que cada vez que el tamaño de muestra $n$ se multiplica por el factor de $4$ ($9 \times 4 = 36$, $36 \times 4 = 144$, etc.), el error estándar se reduce únicamente a la mitad ($\sigma_{\bar{X}}/2$). Esto se debe al denominador en raíz cuadrada ($\sqrt{4n} = 2\sqrt{n}$). En ingeniería, lograr una precisión del doble exige una inversión en recolección de datos cuatro veces mayor.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 17: Ejercicios Nivel 3
-\begin{frame}{Ejercicios --- Nivel 3: Analítico (Demostraciones Teóricas)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Prob. 2.6.7: Demostración WLLN (Chebyshev)}
-				\footnotesize
-				Aplicando Chebyshev a $\bar{X}_n$ con media $\mu$ y varianza $\sigma^2/n$:
-				\begin{align*}
-					P(|\bar{X}_n - \mu| \ge \epsilon) \le \frac{\text{Var}(\bar{X}_n)}{\epsilon^2} = \frac{\sigma^2}{n \epsilon^2}
-				\end{align*}
-				Al tomar el límite cuando $n \to \infty$:
-				\begin{align*}
-					\lim_{n \to \infty} P(|\bar{X}_n - \mu| \ge \epsilon) \le \lim_{n \to \infty} \frac{\sigma^2}{n \epsilon^2} = 0
-				\end{align*}
-				Por compresión, $\bar{X}_n \xrightarrow{p} \mu$ rigurosamente.
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Prob. 2.6.8: Insesgo del Estimador $S^2$}
-				\footnotesize
-				Para probar que $E(S^2) = \sigma^2$, sumamos y restamos $\mu$ en la suma de cuadrados:
-				\begin{align*}
-					\sum_{i=1}^n (X_i - \bar{X})^2 &= \sum_{i=1}^n (X_i - \mu)^2 - n(\bar{X} - \mu)^2 \\
-					E\left[\sum (X_i - \bar{X})^2\right] &= n\sigma^2 - n\left(\frac{\sigma^2}{n}\right) = (n-1)\sigma^2
-				\end{align*}
-				Al dividir entre $n-1$:
-				\begin{align*}
-					E(S^2) = \frac{(n-1)\sigma^2}{n-1} = \sigma^2 \quad \checkmark
-				\end{align*}
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 11A: Ejercicio en Clase — Nivel 2: Operativo (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \begin{block}{Problema 2.6.4 --- Auditoría Gubernamental y Factor FPC}
+    \footnotesize
+    Una auditoría gubernamental evalúa los ingresos mensuales de un gremio comercial cerrado que cuenta con exactamente $N = 400$ empresas registradas. La desviación estándar poblacional se conoce históricamente por censos pasados y es de $\sigma = \$15,000$ MXN. Un equipo de auditores selecciona al azar una muestra de $n = 64$ empresas.
+    \begin{enumerate}\itemsep=0.15cm
+      \item Calcula la varianza del estimador media muestral $\text{Var}(\bar{X})$ bajo el supuesto de muestreo \textbf{con reemplazo} ($\text{Var}_{C/R}$).
+      \item Calcula la varianza del estimador $\text{Var}(\bar{X})$ bajo muestreo real \textbf{sin reemplazo}, aplicando el factor de corrección por población finita $\text{FPC} = \frac{N-n}{N-1}$ ($\text{Var}_{S/R}$).
+      \item ¿Qué porcentaje exacto de reducción en la varianza muestral del ingreso se logra gracias al factor correctivo en este escenario auditor?
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 18: Ejercicios Nivel 4
-\begin{frame}{Ejercicios --- Nivel 4: Desafiante (Expertos / Paradojas)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Prob. 2.6.9: Colas Pesadas (Cauchy Estándar)}
-				\footnotesize
-				La densidad de Cauchy $f(x) = \frac{1}{\pi(1+x^2)}$ tiene varianza indefinida.
-				\begin{itemize}
-					\itemsep=0.03cm
-					\item Función característica: $\varphi_X(t) = e^{-|t|}$.
-					\item Para el promedio $\bar{X}_n$:
-					\begin{align*}
-						\varphi_{\bar{X}_n}(t) = \left[e^{-|t/n|}\right]^n = e^{-|t|}
-					\end{align*}
-					\item \textbf{Conclusión:} $\bar{X}_n \sim \text{Cauchy}(0,1)$. El promedio no reduce varianza ni converge a $N(0,1)$. ¡El TLC se fractura!
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Prob. 2.6.10: Cota de Berry-Esseen}
-				\footnotesize
-				El máximo error entre la distribución empírica estandarizada $F_n(z)$ y $\Phi(z)$ está acotado por:
-				\begin{align*}
-					\sup_{z} |F_n(z) - \Phi(z)| \le \frac{C \rho_3}{\sigma^3 \sqrt{n}}
-				\end{align*}
-				Para una Exponencial ($\rho_3 \approx 3.6, C=0.4784$) con $n=100$:
-				\begin{align*}
-					\text{Error Máximo} \le \frac{0.4784 \times 3.6}{1^3 \times \sqrt{100}} \approx 17.22\%
-				\end{align*}
-				Explica por qué datos muy sesgados requieren $n \gg 30$.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% Slide 11B: Ejercicio en Clase — Nivel 2: Operativo (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Varianza Con Reemplazo ($\text{Var}_{C/R}$)}
+        \fontsize{6.5pt}{7.8pt}\selectfont
+        Aplicando la fórmula estándar de variables independientes:
+        $$\text{Var}_{C/R}(\bar{X}) = \frac{\sigma^2}{n} = \frac{(15,000)^2}{64}$$
+        $$\text{Var}_{C/R}(\bar{X}) = \frac{225,000,000}{64} = \mathbf{3,515,625 \text{ MXN}^2}$$
+        Su error estándar asociado es $\sigma_{\bar{X}} = \sqrt{3,515,625} = \$1,875$ MXN.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{2. Varianza Sin Reemplazo con FPC ($\text{Var}_{S/R}$)}
+        \fontsize{6.5pt}{7.8pt}\selectfont
+        Calculamos el factor FPC para $N=400, n=64$:
+        $$\text{FPC} = \frac{N-n}{N-1} = \frac{400-64}{400-1} = \frac{336}{399} \approx 0.842105$$
+        Multiplicamos por la varianza original:
+        $$\text{Var}_{S/R}(\bar{X}) = 3,515,625 \times \frac{336}{399} = \mathbf{2,960,150.38 \text{ MXN}^2}$$
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+  \vspace{-0.1cm}
+  \pause
+  \begin{exampleblock}{3. Porcentaje de Reducción en la Varianza del Estimador}
+    \fontsize{6.5pt}{7.8pt}\selectfont
+    La fracción reducida por el factor correctivo es directamente $1 - \text{FPC}$:
+    $$\Delta\% = \left(1 - \frac{336}{399}\right) \times 100\% = \frac{63}{399} \times 100\% = \frac{3}{19} \times 100\% \approx \mathbf{15.79\%}$$
+    Al muestrear el $16\%$ del padrón de empresas ($64/400$), la correlación negativa entre selecciones elimina un $15.79\%$ de la varianza de estimación respecto a un muestreo infinito.
+  \end{exampleblock}
 \end{frame}
 
-% SLIDE 19: Síntesis del Capítulo
-\begin{frame}{Síntesis Teórica del Capítulo 02: Teoría de la Probabilidad}
-	\begin{block}{Los 6 Pilares de la Modelación Probabilística (Unidad 1 del Libro)}
-		\small
-		\begin{enumerate}
-			\itemsep=0.04cm
-			\item \textbf{Fenómenos Aleatorios y Espacio Muestral ($\Omega$):} La base conjuntista y medible.
-			\item \textbf{Axiomas de Kolmogorov:} Proporcionalidad unitaria, no negatividad y aditividad numerable.
-			\item \textbf{Conteo y Combinatoria:} Permutaciones y combinaciones en espacios equiprobables.
-			\item \textbf{Probabilidad Condicional ($P(A|B)$):} Actualización del espacio de probabilidad e independencia.
-			\item \textbf{Teorema de Bayes:} Inversión de causas y efectos mediante probabilidad total y priors.
-			\item \textbf{Muestreo y TLC ($\bar{X} \to N(\mu, \sigma^2/n)$):} El puente asintótico entre probabilidad e inferencia.
-		\end{enumerate}
-	\end{block}
+% Slide 12A: Ejercicio en Clase — Nivel 3: Analítico (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \begin{block}{Problema 2.6.8 --- Demostración del Insesgo de la Varianza Muestral $S^2$}
+    \footnotesize
+    Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria simple (MAS) de variables independientes e idénticamente distribuidas con media teórica finita $E(X_i) = \mu$ y varianza teórica finita $\text{Var}(X_i) = \sigma^2$. Definimos la varianza muestral dividiendo entre los $n-1$ grados de libertad:
+    $$S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$$
+    \begin{enumerate}\itemsep=0.15cm
+      \item Demuestra algebraicamente paso a paso, aplicando las propiedades del operador esperanza matemática, que $S^2$ es un \textbf{estimador insesgado} de la varianza poblacional, es decir, que $E(S^2) = \sigma^2$.
+      \item \emph{Sugerencia algebraíca:} Suma y resta la verdadera media poblacional $\mu$ dentro del término cuadrático: $(X_i - \bar{X})^2 = [(X_i - \mu) - (\bar{X} - \mu)]^2$.
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 20: Puente Didáctico
-\begin{frame}{Puente Didáctico hacia la Unidad 2 (Capítulos 3 y 4)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Lo que hemos conquistado (Capítulo 02)}
-				\footnotesize
-				Hemos establecido las leyes generales de los eventos aleatorios, el álgebra de conjuntos, las tasas de actualización condicional y el comportamiento límite de promedios masivos.
-			\end{block}
-			\vspace{-0.1cm}
-			\begin{alertblock}{El Siguiente Salto Conceptual}
-				\footnotesize
-				Para modelar sistemas reales complejos (colas de espera, fallas de red, portafolios financieros), debemos asignar números reales a los eventos dinámicos.
-			\end{alertblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Unidad 2: Variables Aleatorias Discretas}
-				\footnotesize
-				En el \textbf{Capítulo 03} formalizaremos las variables discretas ($X \in \mathbb{Z}$):
-				\begin{itemize}
-					\itemsep=0.03cm
-					\item \textbf{Funciones de Masa ($p_X(x)$):} Bernoulli, Binomial y Poisson.
-					\item \textbf{Esperanza y Varianza Operacional:} Funciones generadoras de momentos (MGF).
-					\item \textbf{Aplicación directa:} Uso de Python para modelar procesos de conteo y tráfico en servidores.
-				\end{itemize}
-			\end{exampleblock}
-		\end{column}
-	\end{columns}
+% Slide 12B: Ejercicio en Clase — Nivel 3: Analítico (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Expansión Algebraica}
+        \fontsize{6.2pt}{7.4pt}\selectfont
+        Desarrollamos el binomio dentro de la sumatoria total sumando y restando $\mu$:
+        $$\sum_{i=1}^n (X_i - \bar{X})^2 = \sum_{i=1}^n [(X_i - \mu) - (\bar{X} - \mu)]^2$$
+        Al expandir y distribuir la sumatoria, dado que $(\bar{X}-\mu)$ es factor común en los términos centrales:
+        $$= \sum_{i=1}^n (X_i - \mu)^2 - 2(\bar{X} - \mu)\sum_{i=1}^n (X_i - \mu) + n(\bar{X} - \mu)^2$$
+        Como $\sum (X_i - \mu) = n(\bar{X} - \mu)$, sustituimos:
+        $$\sum_{i=1}^n (X_i - \bar{X})^2 = \sum_{i=1}^n (X_i - \mu)^2 - n(\bar{X} - \mu)^2$$
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{2. Operador Esperanza y Grados de Libertad}
+        \fontsize{6.2pt}{7.4pt}\selectfont
+        Aplicamos esperanza sabiendo que $E[(X_i - \mu)^2] = \sigma^2$ y $E[(\bar{X} - \mu)^2] = \text{Var}(\bar{X}) = \frac{\sigma^2}{n}$:
+        $$E\left[ \sum_{i=1}^n (X_i - \bar{X})^2 \right] = n\sigma^2 - n\left(\frac{\sigma^2}{n}\right) = (n - 1)\sigma^2$$
+        Sustituimos en la definición de $S^2$:
+        $$E(S^2) = \frac{1}{n-1} E\left[ \sum_{i=1}^n (X_i - \bar{X})^2 \right] = \frac{(n-1)\sigma^2}{n-1} = \mathbf{\sigma^2 \quad \blacksquare}$$
+        Dividir entre $n$ subestimaría el parámetro en $\frac{n-1}{n}\sigma^2$.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 13A: Ejercicio en Clase — Nivel 4: Desafiante (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \begin{block}{Problema 2.6.9 --- Fractura del TLC en Colas Pesadas (Distribución de Cauchy)}
+    \footnotesize
+    El Teorema del Límite Central postula que la media muestral estandarizada de variables independientes convergerá hacia una distribución normal siempre que el momento central de segundo orden ($\sigma^2$) sea finito. Considera una población regida por la \textbf{Distribución de Cauchy Estándar}, cuya función de densidad es:
+    $$f(x) = \frac{1}{\pi(1+x^2)}, \quad x \in (-\infty, \infty)$$
+    \begin{enumerate}\itemsep=0.15cm
+      \item Demuestra analíticamente por qué la integral que define la esperanza poblacional $E(X) = \int_{-\infty}^{\infty} x f(x) \, dx$ no converge absolutamente y su varianza es infinita.
+      \item Sabiendo que la función característica de Cauchy es $\varphi_X(t) = e^{-|t|}$, determina la distribución exacta de la media muestral $\bar{X}_n$ y concluye si ocurre convergencia hacia la normal al crecer $n \to \infty$.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 13B: Ejercicio en Clase — Nivel 4: Desafiante (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \fontsize{6.5pt}{7.8pt}\selectfont
+  \begin{block}{1. Divergencia de la Integral de la Esperanza y Colas Pesadas}
+    \fontsize{6.5pt}{7.8pt}\selectfont
+    Evaluamos la convergencia absoluta de la integral sobre la mitad positiva del dominio real $[0, \infty)$:
+    $$\int_{0}^{\infty} |x| f(x) \, dx = \frac{1}{\pi} \int_{0}^{\infty} \frac{x}{1+x^2} \, dx = \lim_{M \to \infty} \left[ \frac{1}{2\pi} \ln(1+x^2) \right]_{0}^{M} = \lim_{M \to \infty} \frac{\ln(1+M^2)}{2\pi} = +\infty$$
+    Como la integral absoluta diverge, la integral impropia de $E(X)$ es indetermnible. Al decrecer como $O(1/x^2)$, las colas generan valores extremos masivos con tanta frecuencia que la varianza teórica diverge a infinito ($\sigma^2 = \infty$).
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{2. Invariancia de la Media Muestral ($\bar{X}_n \sim \text{Cauchy}(0,1)$)}
+    \fontsize{6.5pt}{7.8pt}\selectfont
+    Por independencia, la función característica de la suma $S_n = \sum X_i$ factoriza: $\varphi_{S_n}(t) = [\varphi_X(t)]^n = [e^{-|t|}]^n = e^{-n|t|}$.
+    Para el promedio $\bar{X}_n = S_n / n$, aplicamos la propiedad de escalamiento en el argumento de la transformada:
+    $$\varphi_{\bar{X}_n}(t) = \varphi_{S_n}\left(\frac{t}{n}\right) = e^{-n\left|\frac{t}{n}\right|} = e^{-|t|} = \varphi_X(t)$$
+    \textbf{Conclusión Matemática:} La media muestral tiene exactamente la misma distribución Cauchy que una sola observación del fenómeno ($\mathbf{\bar{X}_n \sim \text{Cauchy}(0,1)}$). Promediar $n=1,000,000$ de observaciones \textbf{no reduce en absoluto la dispersión del error ni converge a la normalidad}. ¡El TLC se fractura totalmente ante varianza infinita!
+  \end{alertblock}
+\end{frame}
+
+% Slide 14: Síntesis y Conclusión
+\begin{frame}{Síntesis y Conclusión --- Muestreo Aleatorio y TLC}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Pilares Conceptuales de la Sección 02.06}
+    \fontsize{7.5pt}{9pt}\selectfont
+    \begin{itemize}\itemsep=0.12cm
+      \item \textbf{Muestreo Aleatorio Simple (MAS):} Una muestra $X_1, \ldots, X_n$ i.i.d. permite construir estadísticos muestrales insesgados para acotar la incertidumbre sobre los parámetros poblacionales.
+      \item \textbf{Factor FPC en Poblaciones Finitas:} Muestrear sin reemplazo una fracción del censo reduce la varianza muestral por un factor correctivo riguroso: $\text{FPC} = \frac{N-n}{N-1}$.
+      \item \textbf{Estabilidad Asintótica (LGN):} La Ley de los Grandes Números garantiza que la media muestral $\bar{X}_n$ converge en probabilidad (WLLN) y casi seguramente (SLLN) hacia $\mu$.
+      \item \textbf{Normalidad Universal (TLC):} Si $\sigma^2 < \infty$, las medias muestrales estandarizadas $Z_n$ convergen a $N(0,1)$ para grandes muestras ($n \ge 30$), independientemente del sesgo original.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 15: Transición Curricular y Próximo Tema
+\begin{frame}{Transición Curricular hacia la Próxima Sección}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Conexión Curricular Hacia Atrás y Hacia Adelante}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Con la formalización del Muestreo Aleatorio y los Teoremas Asintóticos del Límite, cerramos el marco estructural de la \textbf{Teoría Clásica de la Probabilidad (Capítulo 02)}.
+    \begin{itemize}\itemsep=0.1cm
+      \item El muestreo empírico nos proporciona la evidencia muestral (verosimilitud) para actualizar nuestro conocimiento previo sobre un fenómeno.
+      \item Para integrar formalmente esta información muestral con creencias o probabilidades a priori, requerimos la poderosa herramienta de la \textbf{inversión de probabilidades condicionales}.
+    \end{itemize}
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Próxima Parada en la Remediación Curricular: Sección 02.05}
+    \fontsize{7.5pt}{9pt}\selectfont
+    En nuestro recorrido de remediación, avanzaremos a la \textbf{Sección 02.05: Teorema de Bayes e Inversión Condicional}, donde estudiaremos cómo el teorema de particiones de probabilidad total se combina con la ley del producto para calcular probabilidades a posteriori $P(A_i \mid B)$ en sistemas de diagnóstico técnico e ingeniería.
+  \end{alertblock}
 \end{frame}
 
 \end{document}
