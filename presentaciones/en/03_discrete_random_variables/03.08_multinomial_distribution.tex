@@ -1,0 +1,335 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Multinomial Distribution}
+\subtitle{Section 03.08 --- Polytomous Trials, Negative Covariances and Contingency Tables}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 2}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 03.01 to 03.03: Foundations, PMF, CDF, Expectation, and Variance}
+			\item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions}
+			\item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions}
+			\item \textcolor{gray}{Section 03.06: Hypergeometric Distribution}
+			\item \textcolor{gray}{Section 03.07: Poisson Distribution}
+			\item \textbf{\textcolor{TecRojo}{Section 03.08: Multinomial Distribution}} $\leftarrow$ \emph{Current focus}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Extend the Binomial distribution to trials with $k \ge 3$ mutually exclusive categories, exploit the negative covariance structure induced by the constraint $\sum_{i} X_{i} = n$, and apply the conditional Multinomial distribution to contingency table analysis.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivation and Formal Definition
+\begin{frame}{From Binomial to Multinomial: Polytomous Trials}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Formal Definition}
+				\footnotesize
+				A random vector $\bm{X} = (X_{1}, \dots, X_{k})$ follows a Multinomial distribution $\text{Mult}(n, p_{1}, \dots, p_{k})$ if:
+				$$P(\bm{X} = \bm{x}) = \dfrac{n!}{x_{1}! \cdots x_{k}!} p_{1}^{x_{1}} \cdots p_{k}^{x_{k}}$$
+				with $\sum_{i=1}^{k} x_{i} = n$ and $\sum_{i=1}^{k} p_{i} = 1$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Marginal Binomial Theorem}
+				\footnotesize
+				Each component is marginally Binomial: $X_{i} \sim \text{Bin}(n, p_{i})$. The Multinomial generalizes the Binomial by accounting for joint probabilities across multiple categories.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Covariance Structure
+\begin{frame}{Negative Covariance Structure: $\cov(X_{i}, X_{j}) = -n p_{i} p_{j}$}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Derivation via Indicators}
+				\footnotesize
+				Represent $X_{i} = \sum_{r=1}^{n} I_{r}^{(i)}$ with $I_{r}^{(i)} = 1$ if trial $r$ yields category $i$. By bilinearity and independence between trials:
+				$$\cov(X_{i}, X_{j}) = n \cdot (-p_{i} p_{j}) = -n p_{i} p_{j}$$
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Singular Covariance Matrix}
+				\footnotesize
+				The covariance matrix $\bm{\Sigma}$ has diagonal $np_{i}(1-p_{i})$ and off-diagonal $-np_{i}p_{j}$. It is \emph{singular} (rank $k-1$) because $\sum_{i} X_{i} = n$ imposes a linear constraint.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Conditional Multinomial
+\begin{frame}{Conditional Multinomial Distribution}
+	\vspace{-0.15cm}
+	\begin{block}{Theorem: Sub-vector given Marginal}
+		\scriptsize
+		If $\bm{X} = (X_{1}, \dots, X_{k}) \sim \text{Mult}(n, p_{1}, \dots, p_{k})$ and $X_{k} = m_{k}$ is fixed, then:
+		$$(X_{1}, \dots, X_{k-1}) \mid (X_{k} = m_{k}) \sim \text{Mult}\left(n - m_{k}, \dfrac{p_{1}}{1 - p_{k}}, \dots, \dfrac{p_{k-1}}{1 - p_{k}}\right)$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Special Case: Conditional Binomial}
+		\scriptsize
+		For $k = 3$, conditioning on $X_{2} + X_{3} = m$ produces:
+		$$X_{2} \mid (X_{2} + X_{3} = m) \sim \text{Bin}\left(m, \dfrac{p_{2}}{p_{2} + p_{3}}\right)$$
+		This is the foundation of Fisher's exact test in contingency tables.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 06: Applications
+\begin{frame}{Applications in Data Science and Multivariate Analysis}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Opinion Surveys and Political Science:} Distribution of preferences across multiple candidates in a sample of voters. \pause
+		\item \textbf{Industrial Quality Management:} Classification of manufactured items into multiple quality categories (Premium, Standard, Defective). \pause
+		\item \textbf{Population Genomics:} Genotype distribution under Hardy-Weinberg equilibrium with three genotypes (homozygous dominant, heterozygous, homozygous recessive). \pause
+		\item \textbf{Natural Language Processing:} Frequency distribution of words or grammatical categories in a text corpus.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: PMF and Marginalization}
+	\vspace{-0.05cm}
+	\scriptsize
+	Computational verification in SciPy (\texttt{03.08\_multinomial\_distribution.py}) of the Multinomial PMF, normalization, and marginal Binomial reduction:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{5pt}{6pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=15, lastline=39]{../../code/03_variables_aleatorias_discretas/03.08_multinomial_distribution.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Negative Covariances}
+	\vspace{-0.05cm}
+	\scriptsize
+	Monte Carlo simulation with $250{,}000$ trials verifying $\cov(X_{i}, X_{j}) = -n p_{i} p_{j}$:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=43, lastline=68]{../../code/03_variables_aleatorias_discretas/03.08_multinomial_distribution.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Conditional Multinomial}
+	\vspace{-0.05cm}
+	\scriptsize
+	Numerical verification that $X_{3} \mid (X_{3} + X_{4} = m) \sim \text{Bin}(m, p_{3}/(p_{3} + p_{4}))$:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=83, lastline=108]{../../code/03_variables_aleatorias_discretas/03.08_multinomial_distribution.py}}
+\end{frame}
+
+% SLIDE 10: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: Multinomial PMF & Marginalization ===
+n=100, p=[0.45, 0.35, 0.20], target=(50, 30, 20)
+P(X=(50,30,20)) = 4.79e-03
+PMF normalization: 1.000000
+Marginal X_1 ~ Bin(100, 0.45): P(X_1=50) theo=0.048152 | joint=0.048152
+
+=== Block 2: Covariance Structure & Negative Correlations ===
+Theoretical: E[X]=(50,30,20) | Var=(25,21,16)
+  Cov(X_1,X_2)=-15 | Cov(X_1,X_3)=-10 | Cov(X_2,X_3)=-6
+Empirical (N=250,000): E[X]=(50.0,30.0,20.0)
+  Cov(X_1,X_2)=-14.96 | Cov(X_1,X_3)=-10.12 | Cov(X_2,X_3)=-5.93
+
+=== Block 3: Conditional Distributions ===
+Mult(100, [0.4, 0.3, 0.2, 0.1]) | p_cond = 0.6667
+Conditional X_3 | (X_3+X_4=30) ~ Bin(30, 0.6667)
+Theoretical Bin(30, 0.6667):
+  k=18: 0.1101 | k=19: 0.1391 | k=20: 0.1530 | k=21: 0.1457
+Empirical conditional (N=500,000, |filter|=43,324):
+  k=18: emp=0.1109 | theo=0.1101 | k=20: emp=0.1497 | theo=0.1530
+Problem 3.8.9 verification: P(X_3=18 | X_3+X_4=30) = 0.1101
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.8.1 --- Rolling a Fair Die $n = 6$ Times (Statement)}
+		Consider a random experiment of rolling a fair die $n = 6$ times independently. Let $\bm{X} = (X_{1}, X_{2}, \dots, X_{6})$ be the random vector counting the number of times each face appears.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item The vector follows $\text{Mult}(n = 6, p_{i} = 1/6)$.
+			\item Constraint: $X_{1} + X_{2} + \cdots + X_{6} = 6$.
+			\item Calculate the probability that each face appears exactly once.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	With $x_{i} = 1$ for all $i$, the multinomial coefficient is $6!/(1!)^{6} = 720$: \pause
+	\begin{block}{Multinomial Probability Calculation}
+		\begin{align*}
+			P(X_{1} = 1, \dots, X_{6} = 1) &= \dfrac{6!}{1!^{6}} \cdot \left(\dfrac{1}{6}\right)^{6} \\
+			&= 720 \cdot \dfrac{1}{46{,}656} = \dfrac{720}{46{,}656} \approx 0.01543
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Combinatorial Interpretation}
+		\scriptsize
+		The probability of obtaining all 6 different faces in 6 rolls is approximately $1.54\%$. There are $6! = 720$ permutations of the result, each with individual probability $(1/6)^{6}$, totaling the above.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.8.4 --- Marginal Reduction to Binomial (Statement)}
+		Consider an experiment with $n = 100$ independent trials where each trial can result in one of three categories with probabilities $p_{1} = 0.5$, $p_{2} = 0.3$ and $p_{3} = 0.2$. Prove that the marginal $X_{1} \sim \text{Bin}(100, 0.5)$ by summing over all values of $X_{2}$ and $X_{3}$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Marginal Moment Calculation}
+		\scriptsize
+		Calculate $\E[X_{1}]$, $\Var(X_{1})$ and $P(X_{1} = 50)$ using the marginal Binomial property.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Summing over $X_{2}$ and $X_{3}$ with the constraint $X_{2} + X_{3} = 100 - X_{1}$: \pause
+	\begin{block}{Marginal Calculation}
+		\scriptsize
+		$P(X_{1} = x_{1}) = \binom{n}{x_{1}} p_{1}^{x_{1}} (p_{2} + p_{3})^{n - x_{1}} \cdot \sum_{x_{2}} \binom{n-x_{1}}{x_{2}} \left(\dfrac{p_{2}}{p_{2}+p_{3}}\right)^{x_{2}} \left(\dfrac{p_{3}}{p_{2}+p_{3}}\right)^{n-x_{1}-x_{2}}$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Marginalization Result}
+		\scriptsize
+		The internal sum equals $1$ by the Binomial Theorem, so $P(X_{1} = x_{1}) = \binom{n}{x_{1}} p_{1}^{x_{1}} (1 - p_{1})^{n - x_{1}}$. Therefore:
+		\begin{itemize}\itemsep=0.04cm
+			\item $X_{1} \sim \text{Bin}(100, 0.5)$
+			\item $\E[X_{1}] = 50$, $\Var(X_{1}) = 25$
+			\item $P(X_{1} = 50) = \binom{100}{50} (0.5)^{100} \approx 0.0798$
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.8.7 --- Negative Multinomial Covariances (Statement)}
+		Let $\bm{X} = (X_{1}, \dots, X_{k}) \sim \text{Mult}(n, p_{1}, \dots, p_{k})$. Prove analytically that:
+		$$\cov(X_{i}, X_{j}) = -n p_{i} p_{j}, \quad \text{for } i \neq j$$
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Deduction Strategy}
+		\scriptsize
+		Represent $X_{i} = \sum_{r=1}^{n} I_{r}^{(i)}$ where $I_{r}^{(i)} = 1$ if trial $r$ yields category $i$. Use bilinearity of covariance and mutual exclusion within each trial.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	By bilinearity and decomposition of covariance into indicators: \pause
+	\begin{block}{Covariance Calculation}
+		\scriptsize
+		$\cov(X_{i}, X_{j}) = \sum_{r=1}^{n} \sum_{s=1}^{n} \cov(I_{r}^{(i)}, I_{s}^{(j)})$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Case $r \neq s$ and Case $r = s$}
+		\scriptsize
+		For $r \neq s$, independence between trials: $\cov(I_{r}^{(i)}, I_{s}^{(j)}) = 0$. For $r = s$, mutual exclusion:
+		$$I_{r}^{(i)} I_{r}^{(j)} = 0 \implies \E[I_{r}^{(i)} I_{r}^{(j)}] = 0 \implies \cov(I_{r}^{(i)}, I_{r}^{(j)}) = -p_{i} p_{j}$$
+		Summing the $n$ terms with $r = s$:
+		$$\cov(X_{i}, X_{j}) = n \cdot (-p_{i} p_{j}) = -n p_{i} p_{j} \quad \blacksquare$$
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.8.9 --- Conditional Multinomial Distribution (Statement)}
+		Let $\bm{X} = (X_{1}, X_{2}, X_{3}, X_{4}) \sim \text{Mult}(n, p_{1}, p_{2}, p_{3}, p_{4})$. Prove that, conditional on the total $X_{3} + X_{4} = m$, the joint distribution collapses to a Binomial in the count of $X_{3}$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Numerical Application}
+		\scriptsize
+		With $n = 100$, $p_{1} = 0.4$, $p_{2} = 0.3$, $p_{3} = 0.2$, $p_{4} = 0.1$: if in a sample of 100 trials we observe $X_{3} + X_{4} = 30$, calculate $P(X_{3} = 18, X_{4} = 12)$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.1cm}
+	\scriptsize
+	By conditional probability and simplification of the PMF ratio: \pause
+	\begin{block}{Formal Proof}
+		\scriptsize
+		\begin{align*}
+			P(X_{3} = k \mid X_{3} + X_{4} = m) &= \binom{m}{k} \left(\dfrac{p_{3}}{p_{3} + p_{4}}\right)^{k} \left(\dfrac{p_{4}}{p_{3} + p_{4}}\right)^{m-k}
+		\end{align*}
+	\end{block}
+	\vspace{0.02cm}
+	\pause
+	\begin{alertblock}{Numerical Application}
+		\scriptsize
+		With $n = 100$, $p_{3} = 0.2$, $p_{4} = 0.1$, $m = 30$, $k = 18$:
+		\begin{align*}
+			P(X_{3} = 18 \mid X_{3} + X_{4} = 30) &= \binom{30}{18} \left(\dfrac{2}{3}\right)^{18} \left(\dfrac{1}{3}\right)^{12} \\
+			&\approx 86{,}493{,}225 \cdot 6.76 \times 10^{-4} \cdot 1.87 \times 10^{-6} \\
+			&\approx \mathbf{0.1094} \quad (10.94\%)
+		\end{align*}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 19: Closing and Next Steps
+\begin{frame}{Closing Section and Modular Perspective}
+	\vspace{-0.15cm}
+	\begin{block}{Synthesis on Multivariate Categorical Distributions}
+		\scriptsize
+		The Multinomial distribution teaches us that extending the Binomial to multiple categories preserves the marginals (each $X_{i} \sim \text{Bin}(n, p_{i})$) but introduces new structured dependencies: the negative covariances $\cov(X_{i}, X_{j}) = -n p_{i} p_{j}$ encode the fundamental constraint $\sum X_{i} = n$.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Preserved Marginals:} Each $X_{i} \sim \text{Bin}(n, p_{i})$ individually, but joint dependencies are essential.
+			\item \textbf{Negative Covariances:} Reflect the $\sum X_{i} = n$ constraint; excess in $i$ implies deficit in some $j$.
+			\item \textbf{Conditional Multinomial:} Under fixed marginals, distributions collapse to Multinomials with fewer categories.
+			\item \textbf{Next Session:} \textcolor{TecRojo}{Normal Distribution and Continuous Approximation of Discrete Variables}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}

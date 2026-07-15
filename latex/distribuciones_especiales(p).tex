@@ -1627,3 +1627,362 @@
 		Con $A_{1}/A = 4/10 = 0.4$, obtenemos $X_{1} \mid (X_{1} + X_{2} = n) \sim \text{Bin}(n, 0.4)$. Este resultado es intuitivo: dado un número fijo $n$ de defectos distribuidos al azar en un área total, la proporción que cae en una sub-región es proporcional a su área relativa. \qedhere
 	\end{enumerate}
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 03.08: DISTRIBUCIÓN MULTINOMIAL Y ENSAYOS POLITÓMICOS
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 03.08}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:3.8.1}
+	Considere un experimento aleatorio consistente en lanzar un dado cúbico justo $n = 6$ veces de manera independiente. Sea $\bm{X} = (X_{1}, X_{2}, \dots, X_{6})$ el vector aleatorio que cuenta el número de veces que aparece cada cara, donde $X_{i}$ es el número de veces que sale la cara $i$ en los $6$ lanzamientos.
+	\begin{enumerate}
+		\item Especifique formalmente la distribución del vector $\bm{X}$ utilizando la distribución multinomial con parámetros $n = 6$ y probabilidades $p_{i} = 1/6$ para todo $i$.
+		\item Calcule explícitamente la probabilidad de que cada una de las 6 caras aparezca exactamente una vez.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.2}
+	Una encuesta de opinión política se aplica a $n = 100$ votantes seleccionados al azar, donde cada votante elige uno de tres candidatos con probabilidades $p_{1} = 0.45$, $p_{2} = 0.35$ y $p_{3} = 0.20$. Sea $\bm{X} = (X_{1}, X_{2}, X_{3})$ el número de votos获得的 por cada candidato.
+	\begin{enumerate}
+		\item Calcule la probabilidad de que el candidato 1 reciba exactamente $X_{1} = 50$ votos, el candidato 2 reciba $X_{2} = 30$ y el candidato 3 reciba $X_{3} = 20$.
+		\item Calcule la probabilidad de que el candidato 1 obtenga mayoría absoluta ($X_{1} \ge 51$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.3}
+	Una empresa de manufactura produce lotes de chips en los que cada chip se clasifica en tres categorías mutuamente excluyentes: ``Premium'' ($p_{1} = 0.70$), ``Estándar'' ($p_{2} = 0.25$) y ``Defectuoso'' ($p_{3} = 0.05$). En un lote de $n = 10$ chips, sea $\bm{X} = (X_{1}, X_{2}, X_{3})$ el vector de conteos por categoría.
+	\begin{enumerate}
+		\item Calcule el número total de configuraciones distintas en las que pueden distribuirse los 10 chips en las 3 categorías: $\binom{10 + 3 - 1}{3 - 1} = \binom{12}{2}$.
+		\item Calcule la probabilidad de que en un lote de 10 chips se obtengan exactamente 7 Premium, 2 Estándar y 1 Defectuoso.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:3.8.4}
+	Considere un experimento con $n = 100$ ensayos independientes donde cada ensayo puede resultar en una de tres categorías con probabilidades $p_{1} = 0.5$, $p_{2} = 0.3$ y $p_{3} = 0.2$.
+	\begin{enumerate}
+		\item Demuestre que la marginal $X_{1} \sim \text{Bin}(100, 0.5)$ sumando sobre todos los valores posibles de $X_{2}$ y $X_{3}$.
+		\item Calcule $\E[X_{1}]$, $\Var(X_{1})$ y la probabilidad $P(X_{1} = 50)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.5}
+	En un estudio de genómica de poblaciones, se analizan $n = 200$ sitios genéticos independientes donde cada sitio puede presentar uno de tres genotipos con probabilidades $p_{1} = 0.36$ (homocigoto dominante), $p_{2} = 0.48$ (heterocigoto) y $p_{3} = 0.16$ (homocigoto recesivo) bajo equilibrio de Hardy-Weinberg.
+	\begin{enumerate}
+		\item Calcule la esperanza y la varianza del número de sitios homocigotos recesivos $X_{3}$.
+		\item Calcule la probabilidad de observar al menos 40 sitios homocigotos recesivos, $P(X_{3} \ge 40)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.6}
+	Una compañía de seguros clasifica su cartera de $n = 1000$ pólizas en tres categorías de riesgo: bajo ($p_{1} = 0.60$), medio ($p_{2} = 0.30$) y alto ($p_{3} = 0.10$). Sea $\bm{X} = (X_{1}, X_{2}, X_{3})$ el vector de conteos.
+	\begin{enumerate}
+		\item Simule computacionalmente (usando `numpy.random.multinomial`) una realización de $\bm{X}$ y reporte los conteos obtenidos.
+		\item Repita la simulación 250{,}000 veces y calcule las medias y varianzas empíricas de $X_{1}, X_{2}, X_{3}$ para verificar que coincidan con los valores teóricos.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:3.8.7}
+	Sea $\bm{X} = (X_{1}, X_{2}, \dots, X_{k}) \sim \text{Mult}(n, p_{1}, p_{2}, \dots, p_{k})$ un vector aleatorio con distribución multinomial.
+	\begin{enumerate}
+		\item Demuestre analíticamente que la covarianza entre dos componentes distintas es:
+		\begin{align*}
+			\cov(X_{i}, X_{j}) = -n p_{i} p_{j}, \quad \text{para } i \neq j.
+		\end{align*}
+		\item Interprete el signo negativo de la covarianza: ¿por qué un exceso en la categoría $i$ implica necesariamente un déficit en la categoría $j$?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.8}
+	Sea $\bm{X} = (X_{1}, X_{2}, X_{3}) \sim \text{Mult}(n, p_{1}, p_{2}, p_{3})$ con $n$ ensayos independientes.
+	\begin{enumerate}
+		\item Deduzca analíticamente el momento factorial conjunto $\E[X_{1}(X_{1}-1)]$ aplicando propiedades de la expansión del multinomio.
+		\item Generalice el resultado al caso de $k$ categorías: demuestre que $\E[X_{i}(X_{i}-1)] = n(n-1)p_{i}^{2}$ y $\E[X_{i} X_{j}] = n(n-1)p_{i} p_{j}$ para $i \neq j$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:3.8.9}
+	Sea $\bm{X} = (X_{1}, X_{2}, X_{3}, X_{4}) \sim \text{Mult}(n, p_{1}, p_{2}, p_{3}, p_{4})$ con cuatro categorías mutuamente excluyentes.
+	\begin{enumerate}
+		\item Demuestre que, condicionada al total $X_{3} + X_{4} = m$, la distribución conjunta del sub-vector $(X_{3}, X_{4})$ colapsa a una distribución binomial $\text{Bin}(m, p_{3}/(p_{3} + p_{4}))$ en el conteo de $X_{3}$.
+		\item Aplique el resultado a un caso con $n = 100$, $p_{1} = 0.4$, $p_{2} = 0.3$, $p_{3} = 0.2$, $p_{4} = 0.1$: si en una muestra de 100 ensayos se observa que $X_{3} + X_{4} = 30$, calcule la probabilidad de que $X_{3} = 18$ y $X_{4} = 12$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.10}
+	En un estudio de mercado se quiere evaluar la independencia entre la preferencia de marca (A, B, C) y el grupo etario (joven, adulto) en una muestra de $n = 500$ consumidores. Sea $X_{ij}$ el conteo en la celda $(i, j)$ de la tabla de contingencia $3 \times 2$.
+	\begin{enumerate}
+		\item Plantee la hipótesis nula $H_{0}$ de independencia entre marca y grupo etario, especificando las probabilidades conjuntas $p_{ij} = p_{i}^{\text{marca}} \cdot p_{j}^{\text{edad}}$ bajo $H_{0}$.
+		\item Bajo $H_{0}$ con probabilidades marginales $p_{1}^{\text{marca}} = 0.4$, $p_{2}^{\text{marca}} = 0.35$, $p_{3}^{\text{marca}} = 0.25$ y $p_{1}^{\text{edad}} = 0.6$ (joven), $p_{2}^{\text{edad}} = 0.4$ (adulto), calcule el valor esperado de cada celda: $E_{ij} = n p_{i}^{\text{marca}} p_{j}^{\text{edad}}$.
+		\item Demuestre que, condicionada a los marginales fijos de fila y columna, la distribución de las celdas sigue una distribución multinomial condicional análoga al Problema \ref{prob:3.8.9}.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 03.08}
+
+\begin{sugerencia}
+	\label{sug:3.8.1}
+	Para el Problema \ref{prob:3.8.1}, use la PMF multinomial $P(\bm{X} = \bm{x}) = \dfrac{n!}{x_{1}!\cdots x_{k}!} p_{1}^{x_{1}} \cdots p_{k}^{x_{k}}$ con $n=6$, $k=6$, $p_{i} = 1/6$ y $x_{i} = 1$ para todo $i$. El coeficiente multinomial vale $6!/(1!)^{6} = 720$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.2}
+	Para el Problema \ref{prob:3.8.2}, evalúe el coeficiente multinomial $\binom{100}{50, 30, 20} = \dfrac{100!}{50! \cdot 30! \cdot 20!}$ con `scipy.special.multinomial`. Para la mayoría absoluta, sume $P(X_{1} = k)$ sobre $k \ge 51$ marginalizando sobre las otras categorías.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.3}
+	Para el Problema \ref{prob:3.8.3}, use que el número de formas de distribuir $n$ objetos en $k$ categorías con orden interno es el coeficiente multinomial $\dfrac{n!}{x_{1}! \cdots x_{k}!}$, no el de estrellas y barras. El coeficiente multinomial de $n=10$ en $(7, 2, 1)$ vale $10!/(7! \cdot 2! \cdot 1!) = 360$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.4}
+	Para el Problema \ref{prob:3.8.4}, la marginalización se realiza sumando $P(X_{1} = x_{1}, X_{2} = x_{2}, X_{3} = x_{3})$ sobre todos los $x_{2} \in \set{0, \dots, n - x_{1}}$ con $x_{3} = n - x_{1} - x_{2}$. Use el Teorema del Binomio: $\sum_{x_{2}=0}^{n-x_{1}} \binom{n - x_{1}}{x_{2}} (p_{2}/(1-p_{1}))^{x_{2}} = (1-p_{1})^{n-x_{1}} \cdot (1/(1-p_{1}))^{n-x_{1}} = 1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.5}
+	Para el Problema \ref{prob:3.8.5}, use que $X_{3}$ es marginalmente binomial: $X_{3} \sim \text{Bin}(n = 200, p_{3} = 0.16)$. Entonces $\E[X_{3}] = np_{3} = 32$, $\Var(X_{3}) = np_{3}(1-p_{3}) = 26.88$, y $P(X_{3} \ge 40) = 1 - \text{stats.binom.cdf}(39, 200, 0.16)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.6}
+	Para el Problema \ref{prob:3.8.6}, use `np.random.seed(42)` y `np.random.multinomial(n=1000, pvals=[0.6, 0.3, 0.1])` para una sola realización. Para la simulación masiva, genere un array de $250{,}000$ realizaciones y calcule `np.mean(axis=0)` y `np.var(axis=0, ddof=1)` para obtener las medias y varianzas empíricas.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.7}
+	Para el Problema \ref{prob:3.8.7}, use la representación $X_{i} = \sum_{r=1}^{n} I_{r}^{(i)}$ donde $I_{r}^{(i)} = 1$ si el ensayo $r$ produce categoría $i$. Entonces $\cov(X_{i}, X_{j}) = \sum_{r=1}^{n} \sum_{s=1}^{n} \cov(I_{r}^{(i)}, I_{s}^{(j)})$. Para $r = s$, $\cov(I_{r}^{(i)}, I_{r}^{(j)}) = -p_{i} p_{j}$ por exclusión mutua; para $r \neq s$, la covarianza es cero por independencia entre ensayos. Por lo tanto $\cov(X_{i}, X_{j}) = -n p_{i} p_{j}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.8}
+	Para el Problema \ref{prob:3.8.8}, exprese la suma multinomial $\sum_{x_{1}+x_{2}+x_{3}=n} \dfrac{n!}{x_{1}! x_{2}! x_{3}!} p_{1}^{x_{1}} p_{2}^{x_{2}} p_{3}^{x_{3}}$. Para $\E[X_{1}(X_{1}-1)]$, multiplique el sumando por $x_{1}(x_{1}-1)$ y use la identidad $x_{1}(x_{1}-1) \dfrac{n!}{x_{1}!} = n(n-1) \dfrac{(n-2)!}{(x_{1}-2)!}$, reconociendo una nueva distribución multinomial con $n-2$ ensayos.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.9}
+	Para el Problema \ref{prob:3.8.9}, use probabilidad condicional y la PMF multinomial: $P(X_{3} = k \mid X_{3} + X_{4} = m) = \dfrac{P(X_{3} = k, X_{4} = m-k)}{P(X_{3} + X_{4} = m)}$. El numerador es el término de la multinomial con $(n, p_{1}, p_{2}, p_{3}, p_{4})$ y $X_{1}, X_{2}$ absorbidos por marginalización. El denominador es el término binomial con $n$ ensayos y probabilidad $p_{3} + p_{4}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.10}
+	Para el Problema \ref{prob:3.8.10}, bajo $H_{0}$, las celdas $\{X_{ij}\}$ siguen una distribución multinomial con $n = 500$ ensayos y probabilidades $p_{ij} = p_{i}^{\text{marca}} p_{j}^{\text{edad}}$. Los valores esperados son $E_{ij} = 500 p_{ij}$. La distribución condicional de una celda dado los marginales fijos es hipergeométrica multivariada (generalización de la prueba exacta de Fisher).
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 03.08}
+
+\begin{solucion}
+	\label{sol:3.8.1}
+	Para el Problema \ref{prob:3.8.1}:
+	\begin{enumerate}
+		\item El vector $\bm{X} = (X_{1}, \dots, X_{6})$ sigue una distribución multinomial con parámetros $n = 6$, $k = 6$ categorías y probabilidades $p_{i} = 1/6$ para todo $i$:
+		\begin{align*}
+			P(X_{1} = x_{1}, \dots, X_{6} = x_{6}) = \dfrac{6!}{x_{1}! \cdots x_{6}!} \left(\dfrac{1}{6}\right)^{6}, \quad \sum_{i=1}^{6} x_{i} = 6.
+		\end{align*}
+		\item Para el evento de que cada cara aparezca exactamente una vez, tenemos $x_{i} = 1$ para todo $i$:
+		\begin{align*}
+			P(X_{1} = 1, \dots, X_{6} = 1) &= \dfrac{6!}{1! \cdot 1! \cdot 1! \cdot 1! \cdot 1! \cdot 1!} \cdot \left(\dfrac{1}{6}\right)^{6} \\
+			&= 720 \cdot \dfrac{1}{46{,}656} = \dfrac{720}{46{,}656} \approx 0.01543.
+		\end{align*}
+		Por lo tanto, la probabilidad de obtener las 6 caras diferentes en 6 lanzamientos es aproximadamente $1.54\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.2}
+	Para el Problema \ref{prob:3.8.2}:
+	\begin{enumerate}
+		\item Con $\bm{X} \sim \text{Mult}(n = 100, p = (0.45, 0.35, 0.20))$ y vector de conteos $(50, 30, 20)$:
+		\begin{align*}
+			P(X_{1} = 50, X_{2} = 30, X_{3} = 20) &= \binom{100}{50, 30, 20} \cdot (0.45)^{50} \cdot (0.35)^{30} \cdot (0.20)^{20} \\
+			&\approx 2.34 \times 10^{27} \cdot 9.13 \times 10^{-18} \cdot 1.93 \times 10^{-14} \cdot 1.05 \times 10^{-14} \\
+			&\approx 4.32 \times 10^{-18}.
+		\end{align*}
+		\item Para la mayoría absoluta del candidato 1, marginalizamos sobre $X_{2}$ y $X_{3}$ con la restricción $X_{2} + X_{3} = 100 - X_{1}$:
+		\begin{align*}
+			P(X_{1} \ge 51) &= \sum_{x_{1}=51}^{100} \binom{100}{x_{1}} (0.45)^{x_{1}} (0.55)^{100-x_{1}} \\
+			&\approx 1 - \Phi\left(\dfrac{50.5 - 45}{\sqrt{100 \cdot 0.45 \cdot 0.55}}\right) \\
+			&\approx 1 - \Phi(1.099) \approx 1 - 0.864 = 0.136.
+		\end{align*}
+		La probabilidad de mayoría absoluta del candidato 1 es aproximadamente $13.6\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.3}
+	Para el Problema \ref{prob:3.8.3}:
+	\begin{enumerate}
+		\item El número de configuraciones distintas en que se pueden distribuir $n = 10$ chips en $k = 3$ categorías ordenadas (cada chip pertenece a una categoría específica) está dado por el coeficiente multinomial cuando se enumeran los chips:
+		\begin{align*}
+			\sum_{x_{1}+x_{2}+x_{3}=10} \binom{10}{x_{1}, x_{2}, x_{3}} = 3^{10} = 59{,}049.
+		\end{align*}
+		Esto se debe a que cada uno de los 10 chips puede asignarse a 3 categorías independientemente. El número de estrellas y barras $\binom{12}{2} = 66$ cuenta únicamente las particiones sin identidad de chips, no las configuraciones etiquetadas.
+		\item Para la probabilidad específica del conteo $(7, 2, 1)$:
+		\begin{align*}
+			P(X_{1} = 7, X_{2} = 2, X_{3} = 1) &= \binom{10}{7, 2, 1} (0.70)^{7} (0.25)^{2} (0.05)^{1} \\
+			&= \dfrac{10!}{7! \cdot 2! \cdot 1!} \cdot (0.0824) \cdot (0.0625) \cdot (0.05) \\
+			&= 360 \cdot 2.575 \times 10^{-4} \approx 0.0927.
+		\end{align*}
+		La probabilidad es aproximadamente $9.27\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.4}
+	Para el Problema \ref{prob:3.8.4}:
+	\begin{enumerate}
+		\item Marginalizamos la distribución multinomial sobre $X_{2}$ y $X_{3}$ con la restricción $X_{2} + X_{3} = n - X_{1}$:
+		\begin{align*}
+			P(X_{1} = x_{1}) &= \sum_{x_{2}=0}^{n-x_{1}} P(X_{1} = x_{1}, X_{2} = x_{2}, X_{3} = n - x_{1} - x_{2}) \\
+			&= \sum_{x_{2}=0}^{n-x_{1}} \dfrac{n!}{x_{1}! x_{2}! (n - x_{1} - x_{2})!} p_{1}^{x_{1}} p_{2}^{x_{2}} p_{3}^{n-x_{1}-x_{2}} \\
+			&= \dfrac{n!}{x_{1}! (n-x_{1})!} p_{1}^{x_{1}} (p_{2} + p_{3})^{n-x_{1}} \sum_{x_{2}=0}^{n-x_{1}} \binom{n-x_{1}}{x_{2}} \left(\dfrac{p_{2}}{p_{2}+p_{3}}\right)^{x_{2}} \left(\dfrac{p_{3}}{p_{2}+p_{3}}\right)^{n-x_{1}-x_{2}}.
+		\end{align*}
+		La suma final es exactamente $1$ por el Teorema del Binomio, por lo que:
+		\begin{align*}
+			P(X_{1} = x_{1}) = \binom{n}{x_{1}} p_{1}^{x_{1}} (1 - p_{1})^{n - x_{1}} \implies X_{1} \sim \text{Bin}(n, p_{1}).
+		\end{align*}
+		\item Con $n = 100$ y $p_{1} = 0.5$:
+		\begin{align*}
+			\E[X_{1}] &= 100 \cdot 0.5 = 50, \quad \Var(X_{1}) = 100 \cdot 0.5 \cdot 0.5 = 25, \\
+			P(X_{1} = 50) &= \binom{100}{50} (0.5)^{100} \approx \dfrac{1}{\sqrt{2\pi \cdot 25}} \approx 0.0798.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.5}
+	Para el Problema \ref{prob:3.8.5}:
+	\begin{enumerate}
+		\item Por el resultado del Problema \ref{prob:3.8.4}, $X_{3} \sim \text{Bin}(n = 200, p_{3} = 0.16)$ es marginalmente binomial:
+		\begin{align*}
+			\E[X_{3}] &= np_{3} = 200 \cdot 0.16 = 32, \\
+			\Var(X_{3}) &= np_{3}(1 - p_{3}) = 200 \cdot 0.16 \cdot 0.84 = 26.88.
+		\end{align*}
+		\item Para la cola derecha:
+		\begin{align*}
+			P(X_{3} \ge 40) &= 1 - P(X_{3} \le 39) = 1 - \text{stats.binom.cdf}(39, 200, 0.16) \\
+			&\approx 1 - 0.910 = 0.090.
+		\end{align*}
+		Por lo tanto, la probabilidad de observar al menos 40 sitios homocigotos recesivos es aproximadamente $9.0\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.6}
+	Para el Problema \ref{prob:3.8.6}:
+	\begin{enumerate}
+		\item Con `np.random.seed(42)` y `np.random.multinomial(1000, [0.6, 0.3, 0.1])`, una realización típica es, por ejemplo, $\bm{X} = (598, 305, 97)$.
+		\item Con 250{,}000 simulaciones, los momentos empíricos convergen a los teóricos:
+		\begin{align*}
+			\bar{X}_{1} &\approx 600.0, \quad s_{X_{1}}^{2} \approx 240.0 \quad (\text{teórico: } \E = 600, \Var = 240) \\
+			\bar{X}_{2} &\approx 300.0, \quad s_{X_{2}}^{2} \approx 210.0 \quad (\text{teórico: } \E = 300, \Var = 210) \\
+			\bar{X}_{3} &\approx 100.0, \quad s_{X_{3}}^{2} \approx 90.0 \quad (\text{teórico: } \E = 100, \Var = 90)
+		\end{align*}
+		donde $\Var(X_{i}) = np_{i}(1-p_{i})$. Adicionalmente, las covarianzas empíricas deberían coincidir con $\cov(X_{i}, X_{j}) = -np_{i}p_{j}$: por ejemplo, $\widehat{\cov}(X_{1}, X_{2}) \approx -1000 \cdot 0.6 \cdot 0.3 = -180$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.7}
+	Para el Problema \ref{prob:3.8.7}:
+	\begin{enumerate}
+		\item Representamos cada componente como suma de indicadores: $X_{i} = \sum_{r=1}^{n} I_{r}^{(i)}$ donde $I_{r}^{(i)} = 1$ si el ensayo $r$ resulta en categoría $i$. Por bilinealidad de la covarianza:
+		\begin{align*}
+			\cov(X_{i}, X_{j}) &= \sum_{r=1}^{n} \sum_{s=1}^{n} \cov(I_{r}^{(i)}, I_{s}^{(j)}).
+		\end{align*}
+		Si $r \neq s$, los ensayos son independientes y $\cov(I_{r}^{(i)}, I_{s}^{(j)}) = 0$. Si $r = s$, la covarianza es:
+		\begin{align*}
+			\cov(I_{r}^{(i)}, I_{r}^{(j)}) &= \E[I_{r}^{(i)} I_{r}^{(j)}] - \E[I_{r}^{(i)}] \E[I_{r}^{(j)}].
+		\end{align*}
+		Por la exclusión mutua, no es posible que un ensayo produzca simultáneamente las categorías $i$ y $j$ con $i \neq j$, así que $I_{r}^{(i)} I_{r}^{(j)} = 0$ y $\E[I_{r}^{(i)} I_{r}^{(j)}] = 0$. Entonces:
+		\begin{align*}
+			\cov(I_{r}^{(i)}, I_{r}^{(j)}) = 0 - p_{i} p_{j} = -p_{i} p_{j}.
+		\end{align*}
+		Sumando sobre los $n$ términos con $r = s$:
+		\begin{align*}
+			\cov(X_{i}, X_{j}) = n \cdot (-p_{i} p_{j}) = -n p_{i} p_{j} \quad \text{para } i \neq j. \quad \blacksquare
+		\end{align*}
+		\item El signo negativo se interpreta por la restricción $\sum_{i} X_{i} = n$: si el conteo de la categoría $i$ excede su valor esperado $np_{i}$ (es decir, hay ``exceso'' en $i$), entonces necesariamente algún conteo $X_{j}$ con $j \neq i$ debe estar por debajo de su valor esperado, ya que el total permanece fijo en $n$. Esta es la firma algebraica de la restricción lineal en el soporte del vector multinomial.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.8}
+	Para el Problema \ref{prob:3.8.8}:
+	\begin{enumerate}
+		\item Para $\E[X_{1}(X_{1}-1)]$, multiplicamos el sumando multinomial por $x_{1}(x_{1}-1)$:
+		\begin{align*}
+			\E[X_{1}(X_{1}-1)] &= \sum_{x_{1}+x_{2}+x_{3}=n} x_{1}(x_{1}-1) \cdot \dfrac{n!}{x_{1}! x_{2}! x_{3}!} p_{1}^{x_{1}} p_{2}^{x_{2}} p_{3}^{x_{3}}.
+		\end{align*}
+		Usando la identidad $x_{1}(x_{1}-1) \cdot \dfrac{n!}{x_{1}!} = n(n-1) \cdot \dfrac{(n-2)!}{(x_{1}-2)!}$, factorizamos:
+		\begin{align*}
+			\E[X_{1}(X_{1}-1)] &= n(n-1) p_{1}^{2} \sum_{x_{1}+x_{2}+x_{3}=n} \dfrac{(n-2)!}{(x_{1}-2)! x_{2}! x_{3}!} p_{1}^{x_{1}-2} p_{2}^{x_{2}} p_{3}^{x_{3}}.
+		\end{align*}
+		Con el cambio de variable $y_{1} = x_{1} - 2$ y reconociendo la suma como una distribución multinomial con $n - 2$ ensayos:
+		\begin{align*}
+			\E[X_{1}(X_{1}-1)] = n(n-1) p_{1}^{2}.
+		\end{align*}
+		\item Para $k$ categorías, análogamente:
+		\begin{align*}
+			\E[X_{i}(X_{i}-1)] &= n(n-1) p_{i}^{2}, \\
+			\E[X_{i} X_{j}] &= n(n-1) p_{i} p_{j} \quad (i \neq j).
+		\end{align*}
+		Combinando ambos resultados: $\Var(X_{i}) = \E[X_{i}(X_{i}-1)] + \E[X_{i}] - (\E[X_{i}])^{2} = n(n-1)p_{i}^{2} + np_{i} - n^{2}p_{i}^{2} = np_{i}(1-p_{i})$, confirmando la varianza binomial marginal. \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.9}
+	Para el Problema \ref{prob:3.8.9}:
+	\begin{enumerate}
+		\item Por probabilidad condicional, marginalización y la independencia de la suma $X_{3} + X_{4}$ respecto al complemento:
+		\begin{align*}
+			P(X_{3} = k \mid X_{3} + X_{4} = m) &= \dfrac{P(X_{3} = k, X_{4} = m-k)}{P(X_{3} + X_{4} = m)} \\
+			&= \dfrac{\binom{n}{k, m-k, n-m} p_{3}^{k} p_{4}^{m-k} (1 - p_{3} - p_{4})^{n-m}}{\binom{n}{m} (p_{3} + p_{4})^{m} (1 - p_{3} - p_{4})^{n-m}} \\
+			&= \binom{m}{k} \left(\dfrac{p_{3}}{p_{3} + p_{4}}\right)^{k} \left(\dfrac{p_{4}}{p_{3} + p_{4}}\right)^{m-k}.
+		\end{align*}
+		Esta es la PMF de una distribución $\text{Bin}(m, p_{3}/(p_{3}+p_{4}))$.
+		\item Con $n = 100$, $p_{3} = 0.2$, $p_{4} = 0.1$, $m = 30$, $k = 18$:
+		\begin{align*}
+			P(X_{3} = 18 \mid X_{3} + X_{4} = 30) &= \binom{30}{18} \left(\dfrac{0.2}{0.3}\right)^{18} \left(\dfrac{0.1}{0.3}\right)^{12} \\
+			&= 86\,493\,225 \cdot (2/3)^{18} \cdot (1/3)^{12} \\
+			&\approx 86\,493\,225 \cdot 6.76 \times 10^{-4} \cdot 1.87 \times 10^{-6} \\
+			&\approx 0.1094.
+		\end{align*}
+		Por lo tanto, dado que $X_{3} + X_{4} = 30$, la probabilidad de que $X_{3} = 18$ y $X_{4} = 12$ es aproximadamente $10.94\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.10}
+	Para el Problema \ref{prob:3.8.10}:
+	\begin{enumerate}
+		\item Bajo $H_{0}$ de independencia, las probabilidades conjuntas factorizan: $p_{ij} = p_{i}^{\text{marca}} \cdot p_{j}^{\text{edad}}$. Las celdas siguen una distribución multinomial con $n = 500$ ensayos y $6$ categorías (3 marcas $\times$ 2 grupos etarios). La hipótesis nula se evalúa comparando conteos observados $X_{ij}$ con valores esperados $E_{ij} = 500 p_{ij}$.
+		\item Calculamos los valores esperados de las 6 celdas con las marginales dadas:
+		\begin{align*}
+			E_{11} = 500 \cdot 0.4 \cdot 0.6 = 120, \quad E_{12} &= 500 \cdot 0.4 \cdot 0.4 = 80, \\
+			E_{21} = 500 \cdot 0.35 \cdot 0.6 = 105, \quad E_{22} &= 500 \cdot 0.35 \cdot 0.4 = 70, \\
+			E_{31} = 500 \cdot 0.25 \cdot 0.6 = 75, \quad E_{32} &= 500 \cdot 0.25 \cdot 0.4 = 50.
+		\end{align*}
+		\item Condicionada a los marginales de fila $\bm{X}_{i \bullet} = (X_{i1} + X_{i2})$ y de columna $\bm{X}_{\bullet j} = (X_{1j} + X_{2j} + X_{3j})$, la distribución conjunta de las celdas es la \emph{multinomial condicional} (o distribución hipergeométrica multivariada): cada celda $X_{ij}$ dado los marginales sigue una distribución hipergeométrica con parámetros poblacionales iguales a los marginales observados. Este es el análogo multivariado de la prueba exacta de Fisher para tablas $r \times c$. \qedhere
+	\end{enumerate}
+\end{solucion}

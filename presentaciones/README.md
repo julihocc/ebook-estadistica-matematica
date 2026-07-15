@@ -30,7 +30,8 @@ presentaciones/
 │   │   ├── 03.04_bernoulli_binomial.py
 │   │   ├── 03.05_geometric_negative_binomial.py
 │   │   ├── 03.06_hypergeometric.py
-│   │   └── 03.07_poisson_distribution.py
+│   │   ├── 03.07_poisson_distribution.py
+│   │   └── 03.08_multinomial_distribution.py
 │   └── <proximas_unidades>/
 ├── es/                             ← Presentaciones en español (p. ej. es/02_teoria_probabilidad/)
 │   └── 02_teoria_probabilidad/
@@ -177,10 +178,11 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | **03.05** | [03.05 Geométrica y Binomial Negativa](es/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.tex) ([PDF](es/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.pdf)) | [03.05 Geometric & Negative Binomial](en/03_discrete_random_variables/03.05_geometric_negative_binomial.tex) ([PDF](en/03_discrete_random_variables/03.05_geometric_negative_binomial.pdf)) | `03.05_geometric_negative_binomial.py` | $\checkmark$ **Completado** |
 | **03.06** | [03.06 Hipergeométrica](es/03_variables_aleatorias_discretas/03.06_hipergeometrica.tex) ([PDF](es/03_variables_aleatorias_discretas/03.06_hipergeometrica.pdf)) | [03.06 Hypergeometric](en/03_discrete_random_variables/03.06_hypergeometric.tex) ([PDF](en/03_discrete_random_variables/03.06_hypergeometric.pdf)) | `03.06_hypergeometric.py` | $\checkmark$ **Completado** |
 | **03.07** | [03.07 Poisson](es/03_variables_aleatorias_discretas/03.07_poisson_distribution.tex) ([PDF](es/03_variables_aleatorias_discretas/03.07_poisson_distribution.pdf)) | [03.07 Poisson Distribution](en/03_discrete_random_variables/03.07_poisson_distribution.tex) ([PDF](en/03_discrete_random_variables/03.07_poisson_distribution.pdf)) | `03.07_poisson_distribution.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
+| **03.08** | [03.08 Multinomial](es/03_variables_aleatorias_discretas/03.08_multinomial_distribution.tex) ([PDF](es/03_variables_aleatorias_discretas/03.08_multinomial_distribution.pdf)) | [03.08 Multinomial Distribution](en/03_discrete_random_variables/03.08_multinomial_distribution.tex) ([PDF](en/03_discrete_random_variables/03.08_multinomial_distribution.pdf)) | `03.08_multinomial_distribution.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 03.08: Distribución Multinomial y Ensayos Politómicos**), consulta el documento oficial de planificación:
+Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 03.09: Distribución Normal y Aproximación Continua de Variables Discretas**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

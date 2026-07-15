@@ -1,0 +1,402 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Distribución Multinomial]{Sección 03.08: Distribución Multinomial}
+\subtitle{Ensayos Politómicos, Covarianzas Negativas y Tablas de Contingencia}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 03: Variables Aleatorias Discretas}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular de la teoría? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{03.01} Concepto, Notación y Definición de Variable Aleatoria \pause
+    \item \textbf{03.02} Funciones de Probabilidad (PMF) y Distribución Acumulada (CDF) \pause
+    \item \textbf{03.03} Esperanza Matemática y Varianza Operativa \pause
+    \item \textbf{03.04} Distribución Binomial y Ensayos de Bernoulli \pause
+    \item \textbf{03.05} Distribuciones Geométrica y Binomial Negativa \pause
+    \item \textbf{03.06} Distribución Hipergeométrica \pause
+    \item \textbf{03.07} Distribución de Poisson y Procesos de Llegada \pause
+    \item \color{TecRojo}\textbf{03.08 Distribución Multinomial \emph{(Hoy)}}\color{black}
+  \end{itemize}
+  \vspace{-0.1cm}
+  \begin{block}{Objetivo de la Sesión}
+    Extender la distribución Binomial a ensayos con $k \ge 3$ categorías mutuamente excluyentes, explotar la estructura de covarianzas negativas inducida por la restricción $\sum_{i} X_{i} = n$, y aplicar la distribución condicional multinomial al análisis de tablas de contingencia.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De la Binomial a la Multinomial: Ensayos con $k$ Categorías}
+  \footnotesize
+  \begin{motivacion}[¿Por qué generalizar la Binomial?]
+    En muchas aplicaciones reales, cada ensayo no tiene solo dos resultados posibles (éxito/fracaso), sino $k \ge 2$ categorías mutuamente excluyentes. Por ejemplo, en una encuesta política los votantes eligen entre 3 candidatos; en genómica, los genotipos pueden ser homocigoto dominante, heterocigoto u homocigoto recesivo; en un dado, hay 6 caras. La distribución \emph{multinomial} generaliza la Binomial a este escenario vectorial.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Vector aleatorio:} $\bm{X} = (X_{1}, X_{2}, \dots, X_{k})$ cuenta cuántos ensayos caen en cada categoría, con $\sum_{i=1}^{k} X_{i} = n$. \pause
+    \item \textbf{Parámetros:} Número de ensayos $n$ y probabilidades $p_{1}, p_{2}, \dots, p_{k}$ con $\sum p_{i} = 1$. \pause
+    \item \textbf{Marginales binomiales:} Cada $X_{i} \sim \text{Bin}(n, p_{i})$; las dependencias se manifiestan en las covarianzas negativas.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición Formal
+\begin{frame}{Definición Formal de la Distribución Multinomial}
+  \footnotesize
+  Un vector aleatorio $\bm{X} = (X_{1}, \dots, X_{k})$ sigue una distribución multinomial $\text{Mult}(n, p_{1}, \dots, p_{k})$ con $n$ ensayos y probabilidades $p_{i}$ si su PMF conjunta es: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Función de Masa de Probabilidad Conjunta}
+    $$P(X_{1} = x_{1}, \dots, X_{k} = x_{k}) = \dfrac{n!}{x_{1}! \cdots x_{k}!} p_{1}^{x_{1}} \cdots p_{k}^{x_{k}}, \quad \sum_{i=1}^{k} x_{i} = n$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Interpretación y Parametrización en SciPy}
+    \begin{itemize}\itemsep=0.06cm
+      \item \textbf{Coeficiente multinomial:} $\dfrac{n!}{x_{1}! \cdots x_{k}!}$ cuenta las configuraciones etiquetadas (cada ensayo es distinguible).
+      \item \textbf{Normalización:} $\sum_{\bm{x}} P(\bm{X} = \bm{x}) = (p_{1} + \cdots + p_{k})^{n} = 1$ por el Multinomio de Newton.
+      \item \textbf{En SciPy:} \texttt{multinomial.pmf(x, n, p)} con $\bm{x}$ y $\bm{p}$ vectores; \texttt{np.random.multinomial(n, p, size)} para muestreo.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Marginales Binomiales
+\begin{frame}{Reducción Marginal: Cada $X_{i} \sim \text{Bin}(n, p_{i})$}
+  \footnotesize
+  La distribución multinomial es univariadamente binomial: cada componente marginal es una Binomial. La demostración procede sumando sobre las demás componentes. \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Teorema de Marginalización}
+    $$P(X_{i} = x_{i}) = \binom{n}{x_{i}} p_{i}^{x_{i}} (1 - p_{i})^{n - x_{i}}, \quad X_{i} \sim \text{Bin}(n, p_{i})$$
+    La demostración usa el Teorema del Binomio al sumar sobre todas las configuraciones de las demás $k - 1$ componentes.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Esperanza y Varianza Marginales}
+    \begin{itemize}\itemsep=0.05cm
+      \item $\E[X_{i}] = n p_{i}$
+      \item $\Var(X_{i}) = n p_{i} (1 - p_{i})$
+      \item Las marginales \emph{no capturan} las dependencias; se requiere la matriz de covarianzas para el análisis conjunto.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Covarianzas Negativas
+\begin{frame}{Estructura de Covarianzas: $\cov(X_{i}, X_{j}) = -n p_{i} p_{j}$}
+  \footnotesize
+  A diferencia de las marginales, las covarianzas conjuntas codifican las dependencias inducidas por la restricción $\sum_{i} X_{i} = n$. \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Teorema de Covarianzas Multinomiales}
+    $$\cov(X_{i}, X_{j}) = -n p_{i} p_{j}, \quad i \neq j$$
+    Representamos $X_{i} = \sum_{r=1}^{n} I_{r}^{(i)}$ (indicadores por ensayo). Por independencia entre ensayos, solo los términos $r = s$ contribuyen, donde $\cov(I_{r}^{(i)}, I_{r}^{(j)}) = -p_{i} p_{j}$ por exclusión mutua.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Matriz de Covarianzas Completa}
+    La matriz $\bm{\Sigma}$ tiene diagonal $np_{i}(1-p_{i})$ y fuera de la diagonal $-np_{i}p_{j}$. Es \emph{singular} de rango $k - 1$ porque $\sum_{i} X_{i} = n$ impone una restricción lineal.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Distribución Condicional Multinomial
+\begin{frame}{Distribución Condicional: Sub-vector dado Marginal Fijo}
+  \footnotesize
+  Si $\bm{X} = (X_{1}, \dots, X_{k}) \sim \text{Mult}(n, p_{1}, \dots, p_{k})$ y fijamos $X_{k} = m_{k}$, la distribución del sub-vector $(X_{1}, \dots, X_{k-1})$ es multinomial con $n - m_{k}$ ensayos y probabilidades renormalizadas: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Teorema de Condicional Multinomial}
+    $$(X_{1}, \dots, X_{k-1}) \mid (X_{k} = m_{k}) \sim \text{Mult}(n - m_{k}, p_{1}', \dots, p_{k-1}'), \quad p_{i}' = \dfrac{p_{i}}{1 - p_{k}}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Caso Particular: Condicional Binomial}
+    Para $k = 3$, condicionar en $X_{2} + X_{3} = m$ produce:
+    $$X_{2} \mid (X_{2} + X_{3} = m) \sim \text{Bin}(m, p_{2}/(p_{2} + p_{3}))$$
+    Esta es la base de la prueba exacta de Fisher en tablas de contingencia.
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Aplicaciones
+\begin{frame}{Aplicaciones en Ciencia de Datos y Análisis Multivariado}
+  \footnotesize
+  La distribución multinomial es la columna vertebral del análisis de datos categóricos: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.15cm
+    \item \textbf{Encuestas de opinión y ciencia política:} Distribución de preferencias entre múltiples candidatos o partidos en una muestra de votantes. \pause
+    \item \textbf{Gestión de calidad industrial:} Clasificación de artículos manufacturados en múltiples categorías de calidad (Premium, Estándar, Defectuoso, etc.). \pause
+    \item \textbf{Genómica de poblaciones:} Distribución de genotipos bajo equilibrio de Hardy-Weinberg con tres genotipos (homocigoto dominante, heterocigoto, homocigoto recesivo). \pause
+    \item \textbf{Procesamiento de lenguaje natural:} Distribución de frecuencias de palabras o categorías gramaticales en un corpus de documentos.
+  \end{itemize}
+\end{frame}
+
+% Slide 12A-1: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: PMF y Marginalización}
+  \scriptsize
+  Verificación computacional en SciPy (\texttt{03.08\_multinomial\_distribution.py}) de la PMF multinomial, normalización y reducción marginal a Binomial:
+  \vspace{0.05cm}
+  {\lstset{basicstyle=\fontsize{5pt}{6pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=15, lastline=39]{../../code/03_variables_aleatorias_discretas/03.08_multinomial_distribution.py}}
+\end{frame}
+
+% Slide 12A-2: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Covarianzas Negativas}
+  \scriptsize
+  Simulación Monte Carlo con $250{,}000$ ensayos verificando $\cov(X_{i}, X_{j}) = -n p_{i} p_{j}$:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=43, lastline=72]{../../code/03_variables_aleatorias_discretas/03.08_multinomial_distribution.py}}
+\end{frame}
+
+% Slide 12B: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Distribución Condicional Multinomial}
+  \scriptsize
+  Verificación numérica de que $X_{3} \mid (X_{3} + X_{4} = m) \sim \text{Bin}(m, p_{3}/(p_{3} + p_{4}))$:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=83, lastline=108]{../../code/03_variables_aleatorias_discretas/03.08_multinomial_distribution.py}}
+\end{frame}
+
+% Slide 12C: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Multinomial PMF & Marginalization ===
+n=100, p=[0.45, 0.35, 0.20], target=(50, 30, 20)
+P(X=(50,30,20)) = 4.79e-03
+PMF normalization: 1.000000
+Marginal X_1 ~ Bin(100, 0.45): P(X_1=50) theo=0.048152 | joint=0.048152
+
+=== Block 2: Covariance Structure & Negative Correlations ===
+Theoretical: E[X]=(50,30,20) | Var=(25,21,16)
+  Cov(X_1,X_2)=-15 | Cov(X_1,X_3)=-10 | Cov(X_2,X_3)=-6
+Empirical (N=250,000): E[X]=(50.0,30.0,20.0)
+  Cov(X_1,X_2)=-14.96 | Cov(X_1,X_3)=-10.12 | Cov(X_2,X_3)=-5.93
+
+=== Block 3: Conditional Distributions ===
+Mult(100, [0.4, 0.3, 0.2, 0.1]) | p_cond = 0.6667
+Conditional X_3 | (X_3+X_4=30) ~ Bin(30, 0.6667)
+
+Theoretical Bin(30, 0.6667):
+  k=18: 0.1101 | k=19: 0.1391 | k=20: 0.1530 | k=21: 0.1457
+
+Empirical conditional (N=500,000, |filter|=43,324):
+  k=18: emp=0.1109 | theo=0.1101 | k=20: emp=0.1497 | theo=0.1530
+
+Problem 3.8.9 verification: P(X_3=18 | X_3+X_4=30) = 0.1101
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.8.1 --- Lanzamiento de un Dado $n = 6$ Veces (Enunciado)}
+    Considere un experimento aleatorio consistente en lanzar un dado cúbico justo $n = 6$ veces de manera independiente. Sea $\bm{X} = (X_{1}, X_{2}, \dots, X_{6})$ el vector aleatorio que cuenta el número de veces que aparece cada cara.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento del Modelo}
+    \begin{itemize}\itemsep=0.04cm
+      \item El vector sigue una $\text{Mult}(n = 6, p_{i} = 1/6)$.
+      \item Restricción: $X_{1} + X_{2} + \cdots + X_{6} = 6$.
+      \item Calcule la probabilidad de que cada cara aparezca exactamente una vez.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Con $x_{i} = 1$ para todo $i$, el coeficiente multinomial vale $6!/(1!)^{6} = 720$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo de la Probabilidad Multinomial}
+    \begin{align*}
+      P(X_{1} = 1, \dots, X_{6} = 1) &= \dfrac{6!}{1! \cdot 1! \cdot 1! \cdot 1! \cdot 1! \cdot 1!} \cdot \left(\dfrac{1}{6}\right)^{6} \\
+      &= 720 \cdot \dfrac{1}{46{,}656} = \dfrac{720}{46{,}656} \approx 0.01543
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación Combinatoria}
+    \scriptsize
+    La probabilidad de obtener las 6 caras diferentes en 6 lanzamientos es aproximadamente $1.54\%$. Existen $6! = 720$ permutaciones del resultado, cada una con probabilidad individual $(1/6)^{6}$, totalizando el resultado anterior.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.8.4 --- Reducción Marginal a Binomial (Enunciado)}
+    Considere un experimento con $n = 100$ ensayos independientes donde cada ensayo puede resultar en una de tres categorías con probabilidades $p_{1} = 0.5$, $p_{2} = 0.3$ y $p_{3} = 0.2$. Demuestre que la marginal $X_{1} \sim \text{Bin}(100, 0.5)$ sumando sobre todos los valores de $X_{2}$ y $X_{3}$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Cálculo de Momentos Marginales}
+    \scriptsize
+    Calcule $\E[X_{1}]$, $\Var(X_{1})$ y la probabilidad $P(X_{1} = 50)$ usando la propiedad de marginalización binomial.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \footnotesize
+  Sumamos sobre $X_{2}$ y $X_{3}$ con la restricción $X_{2} + X_{3} = 100 - X_{1}$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo de la Marginal}
+    \scriptsize
+    $P(X_{1} = x_{1}) = \binom{n}{x_{1}} p_{1}^{x_{1}} (p_{2} + p_{3})^{n - x_{1}} \cdot \sum_{x_{2}} \binom{n-x_{1}}{x_{2}} \left(\dfrac{p_{2}}{p_{2}+p_{3}}\right)^{x_{2}} \left(\dfrac{p_{3}}{p_{2}+p_{3}}\right)^{n-x_{1}-x_{2}}$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Resultado de la Marginalización}
+    \scriptsize
+    La suma interna es exactamente $1$ por el Teorema del Binomio, así que $P(X_{1} = x_{1}) = \binom{n}{x_{1}} p_{1}^{x_{1}} (1 - p_{1})^{n - x_{1}}$. Por lo tanto:
+    \begin{itemize}\itemsep=0.04cm
+      \item $X_{1} \sim \text{Bin}(100, 0.5)$
+      \item $\E[X_{1}] = 50$, $\Var(X_{1}) = 25$
+      \item $P(X_{1} = 50) = \binom{100}{50} (0.5)^{100} \approx 0.0798$
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.8.7 --- Covarianzas Negativas Multinomiales (Enunciado)}
+    Sea $\bm{X} = (X_{1}, \dots, X_{k}) \sim \text{Mult}(n, p_{1}, \dots, p_{k})$. Demuestre analíticamente que:
+    $$\cov(X_{i}, X_{j}) = -n p_{i} p_{j}, \quad \text{para } i \neq j$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia de Deducción}
+    \scriptsize
+    Represente $X_{i} = \sum_{r=1}^{n} I_{r}^{(i)}$ donde $I_{r}^{(i)} = 1$ si el ensayo $r$ produce categoría $i$. Use bilinealidad de la covarianza y exclusión mutua dentro de cada ensayo.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Por bilinealidad y descomposición de la covarianza en indicadores: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo de la Covarianza}
+    \scriptsize
+    $\cov(X_{i}, X_{j}) = \sum_{r=1}^{n} \sum_{s=1}^{n} \cov(I_{r}^{(i)}, I_{s}^{(j)})$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Caso $r \neq s$ y Caso $r = s$}
+    \scriptsize
+    Para $r \neq s$, independencia entre ensayos: $\cov(I_{r}^{(i)}, I_{s}^{(j)}) = 0$. Para $r = s$, exclusión mutua:
+    $$I_{r}^{(i)} I_{r}^{(j)} = 0 \implies \E[I_{r}^{(i)} I_{r}^{(j)}] = 0 \implies \cov(I_{r}^{(i)}, I_{r}^{(j)}) = -p_{i} p_{j}$$
+    Sumando los $n$ términos con $r = s$:
+    $$\cov(X_{i}, X_{j}) = n \cdot (-p_{i} p_{j}) = -n p_{i} p_{j} \quad \blacksquare$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 16A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.8.9 --- Distribución Condicional Multinomial (Enunciado)}
+    Sea $\bm{X} = (X_{1}, X_{2}, X_{3}, X_{4}) \sim \text{Mult}(n, p_{1}, p_{2}, p_{3}, p_{4})$. Demuestre que, condicionada al total $X_{3} + X_{4} = m$, la distribución conjunta colapsa a una Binomial en el conteo de $X_{3}$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Aplicación Numérica}
+    \scriptsize
+    Con $n = 100$, $p_{1} = 0.4$, $p_{2} = 0.3$, $p_{3} = 0.2$, $p_{4} = 0.1$: si en una muestra de 100 ensayos se observa $X_{3} + X_{4} = 30$, calcule $P(X_{3} = 18, X_{4} = 12)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Por probabilidad condicional y simplificación del cociente de PMFs: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Demostración Formal}
+    \scriptsize
+    \begin{align*}
+      P(X_{3} = k \mid X_{3} + X_{4} = m) &= \dfrac{\binom{n}{k, m-k, n-m} p_{3}^{k} p_{4}^{m-k} (1 - p_{3} - p_{4})^{n-m}}{\binom{n}{m} (p_{3} + p_{4})^{m} (1 - p_{3} - p_{4})^{n-m}} \\
+      &= \binom{m}{k} \left(\dfrac{p_{3}}{p_{3} + p_{4}}\right)^{k} \left(\dfrac{p_{4}}{p_{3} + p_{4}}\right)^{m-k}
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Aplicación Numérica}
+    \scriptsize
+    Con $n = 100$, $p_{3} = 0.2$, $p_{4} = 0.1$, $m = 30$, $k = 18$:
+    \begin{align*}
+      P(X_{3} = 18 \mid X_{3} + X_{4} = 30) &= \binom{30}{18} \left(\dfrac{2}{3}\right)^{18} \left(\dfrac{1}{3}\right)^{12} \\
+      &\approx 86\,493\,225 \cdot 6.76 \times 10^{-4} \cdot 1.87 \times 10^{-6} \\
+      &\approx \mathbf{0.1094} \quad (10.94\%)
+    \end{align*}
+  \end{alertblock}
+\end{frame}
+
+% Slide 17: Cierre
+\begin{frame}{Cierre de Sección y Síntesis sobre Distribuciones Multivariadas}
+  \begin{reflexion}[El Poder de las Categorías Múltiples]
+    La distribución multinomial nos enseña que, al extender la Binomial a múltiples categorías, las marginales se preservan (cada $X_{i}$ sigue siendo binomial) pero emergen nuevas dependencias estructuradas: las covarianzas negativas $\cov(X_{i}, X_{j}) = -n p_{i} p_{j}$ codifican la restricción fundamental $\sum X_{i} = n$.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave de la Modelación Multinomial}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Marginales preservadas:} Cada $X_{i} \sim \text{Bin}(n, p_{i})$ individualmente, pero las dependencias son esenciales para el análisis conjunto.
+      \item \textbf{Covarianzas negativas:} Reflejan la restricción $\sum X_{i} = n$; un exceso en $i$ implica déficit en alguna $j$.
+      \item \textbf{Condicional multinomial:} Bajo marginales fijos, las distribuciones colapsan a multinomiales con menos categorías, base de la prueba exacta de Fisher.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 18: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}[Para la próxima sesión: Distribución Normal y Aproximación Continua]
+    Hasta ahora hemos estudiado distribuciones de probabilidad para variables aleatorias \emph{discretas} que toman valores enteros. Pero muchos fenómenos naturales (altura, peso, errores de medición) varían continuamente y siguen una distribución en forma de campana. Introduciremos la \emph{Distribución Normal} y su papel como límite continuo de la Binomial (De Moivre-Laplace).
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa el concepto de función de densidad de probabilidad (PDF) y su diferencia con la PMF.
+      \item Reflexiona sobre la conexión asintótica entre la Binomial y la Normal cuando $n$ crece manteniendo $p$ fija.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
