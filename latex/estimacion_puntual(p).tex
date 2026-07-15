@@ -520,3 +520,193 @@
 		Se demuestra concluyentemente que condicionar en el estadístico suficiente reduce drásticamente la varianza del estimador ingenuo desde $\lambda$ hasta $\dfrac{\lambda}{n}$ (un factor de mejora exacto de $n$ veces), produciendo el estimador insesgado de mínima varianza posible.
 	\end{enumerate}
 \end{solproblema}
+
+% ==============================================================================
+% SECCIÓN 06.01: ESTIMACIÓN PUNTUAL, INSESGADEZ, EFICIENCIA Y CONSISTENCIA
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 06.01}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:6.1.1}
+	Sean $X_1, X_2$ iid con $E(X_i)=\mu$. Considere el estimador ponderado $\hat{\theta}_w = 0.3X_1 + 0.7X_2$. Demuestre que $\hat{\theta}_w$ es insesgado para $\mu$, y explique en general qué condición deben cumplir los pesos para que cualquier combinación lineal $\hat{\theta}=\sum w_i X_i$ sea insesgada.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.2}
+	Un estimador $\hat{\theta}_n$ de un parámetro $\theta=10$ tiene sesgo exacto $\text{Sesgo}(\hat{\theta}_n) = -\theta/n$. Calcule el sesgo numérico para una muestra de tamaño $n=20$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.3}
+	Un estimador $\hat{\theta}$ tiene $\Var(\hat{\theta})=2.3$ y $\text{Sesgo}(\hat{\theta})=1.1$. Calcule el Error Cuadrático Medio $\text{ECM}(\hat{\theta})$.
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:6.1.4}
+	Dos estimadores insesgados de $\theta$ satisfacen $\Var(\hat{\theta}_1)=4.5$ y $\Var(\hat{\theta}_2)=6.0$. Calcule la eficiencia relativa $\text{Ef}(\hat{\theta}_1,\hat{\theta}_2)$ e indique cuál estimador es preferible.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.5}
+	Un estimador bayesiano de la tasa de Poisson $\lambda$ se define como $\hat{\theta}_n = \dfrac{n\bar{X}+1}{n+2}$, con sesgo exacto $\text{Sesgo}(\hat{\theta}_n) = \dfrac{1-2\lambda}{n+2}$. Para $\lambda=3$ y $n=10$, calcule el sesgo numérico y verifique que $\lim_{n\to\infty}\text{Sesgo}(\hat{\theta}_n)=0$ (insesgadez asintótica).
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.6}
+	Un estimador insesgado $\hat{\theta}_n$ tiene $\Var(\hat{\theta}_n) = 16/n$. Use la desigualdad de Chebyshev para acotar $P(|\hat{\theta}_n-\theta|\ge 1)$ cuando $n=64$, y explique por qué esta cota confirma que $\hat{\theta}_n$ es consistente.
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:6.1.7}
+	Sea $X_1,\ldots,X_n$ una muestra iid $N(\mu,\sigma^2)$ con $\sigma^2$ \emph{conocida}. Calcule la Información de Fisher $I(\mu)$ de una observación, derive la Cota de Cramér-Rao para $\Var(\hat{\mu})$, y demuestre que $\bar{X}$ la alcanza exactamente, concluyendo que $\bar{X}$ es UMVUE para $\mu$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.8}
+	Sea $\hat{\theta}$ un estimador insesgado de $\theta$ con $\Var(\hat{\theta})=v$, y considere el estimador ``encogido'' (\emph{shrinkage}) $\hat{\theta}_c = c\hat{\theta}$ para una constante $c\in(0,1]$. Derive expresiones para $\text{Sesgo}(\hat{\theta}_c)$, $\Var(\hat{\theta}_c)$, y $\text{ECM}(\hat{\theta}_c)$ en términos de $c$, $v$ y $\theta$. Encuentre el valor $c^*$ que minimiza el ECM.
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:6.1.9}
+	Usando el resultado general del Problema \ref{prob:6.1.8}, evalúe numéricamente $c^*$ y compare $\text{ECM}(\hat{\theta}_{c^*})$ contra $\text{ECM}(\hat{\theta})=v$ (el caso insesgado, $c=1$) para $v=5$ y $\theta=3$. ¿Qué tanto se reduce el ECM al permitir un sesgo controlado?
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.10}
+	Sea $\hat{p}_n$ la proporción muestral de una Bernoulli$(p)$. Demuestre que $\hat{p}_n$ es insesgado y consistente para $p$. Luego, para el caso de máxima varianza $p=0.5$, use la desigualdad de Chebyshev (no el TLC) para encontrar el tamaño de muestra mínimo $n$ tal que $P(|\hat{p}_n-p|\ge 0.05) \le 0.10$.
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 06.01}
+
+\begin{sugerencia}
+	\label{sug:6.1.1}
+	Para el Problema \ref{prob:6.1.1}, calcule $E(\hat{\theta}_w)=0.3E(X_1)+0.7E(X_2)$ y observe que los pesos $0.3+0.7=1$; en general, $\sum w_i=1$ es la condición necesaria y suficiente.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.2}
+	Para el Problema \ref{prob:6.1.2}, sustituya $\theta=10$, $n=20$ en $-\theta/n$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.3}
+	Para el Problema \ref{prob:6.1.3}, use $\text{ECM}=\Var+\text{Sesgo}^2$ con los valores dados.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.4}
+	Para el Problema \ref{prob:6.1.4}, calcule $6.0/4.5$; el estimador con menor varianza ($\hat{\theta}_1$) es el más eficiente.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.5}
+	Para el Problema \ref{prob:6.1.5}, sustituya $\lambda=3$, $n=10$ en $(1-2\lambda)/(n+2)$; para el límite, observe que el denominador crece sin cota mientras el numerador es constante.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.6}
+	Para el Problema \ref{prob:6.1.6}, la desigualdad de Chebyshev da $P(|\hat\theta_n-\theta|\ge\varepsilon)\le \Var(\hat\theta_n)/\varepsilon^2$; sustituya $\Var=16/64$ y $\varepsilon=1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.7}
+	Para el Problema \ref{prob:6.1.7}, derive $\ln f(x\mid\mu)$ dos veces respecto a $\mu$ para obtener $I(\mu)=1/\sigma^2$; la CRLB es $1/(nI(\mu))=\sigma^2/n$, que coincide con $\Var(\bar X)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.8}
+	Para el Problema \ref{prob:6.1.8}, $\text{Sesgo}(\hat\theta_c)=(c-1)\theta$, $\Var(\hat\theta_c)=c^2v$, $\text{ECM}(c)=c^2v+(c-1)^2\theta^2$; derive respecto a $c$ e iguale a cero.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.9}
+	Para el Problema \ref{prob:6.1.9}, sustituya $v=5,\theta=3$ en $c^*=\theta^2/(v+\theta^2)$ y luego en la fórmula de $\text{ECM}(c)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.10}
+	Para el Problema \ref{prob:6.1.10}, use $\Var(\hat p_n)=p(1-p)/n=0.25/n$ en la cota de Chebyshev y despeje $n$ de $\frac{0.25/n}{0.0025}\le 0.10$.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 06.01}
+
+\begin{solucion}
+	\label{sol:6.1.1}
+	Para el Problema \ref{prob:6.1.1}: $E(\hat\theta_w) = 0.3E(X_1)+0.7E(X_2) = 0.3\mu+0.7\mu = (0.3+0.7)\mu = \mu$. En general, para $\hat\theta=\sum_i w_i X_i$ con $E(X_i)=\mu$ para todo $i$, $E(\hat\theta)=\left(\sum_i w_i\right)\mu$, así que $\hat\theta$ es insesgado si y solo si $\sum_i w_i=1$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.2}
+	Para el Problema \ref{prob:6.1.2}: $\text{Sesgo}(\hat\theta_{20}) = -10/20 = -0.5$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.3}
+	Para el Problema \ref{prob:6.1.3}: $\text{ECM}(\hat\theta) = 2.3 + 1.1^2 = 2.3+1.21 = 3.51$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.4}
+	Para el Problema \ref{prob:6.1.4}: $\text{Ef}(\hat\theta_1,\hat\theta_2) = 6.0/4.5 \approx 1.333$. Como $\text{Ef}>1$, $\hat\theta_1$ es más eficiente (tiene menor varianza) y por tanto preferible. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.5}
+	Para el Problema \ref{prob:6.1.5}: con $\lambda=3$, $n=10$: $\text{Sesgo} = (1-6)/12 = -5/12 \approx -0.417$. Cuando $n\to\infty$, el denominador $n+2\to\infty$ mientras el numerador $1-2\lambda$ permanece constante, así que $\text{Sesgo}(\hat\theta_n)\to 0$: el estimador es asintóticamente insesgado. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.6}
+	Para el Problema \ref{prob:6.1.6}: $P(|\hat\theta_{64}-\theta|\ge 1) \le \dfrac{16/64}{1^2} = 0.25$. Como esta cota (y, en general, $16/n$) tiende a $0$ cuando $n\to\infty$ para cualquier $\varepsilon$ fijo, se confirma que $\hat\theta_n$ converge en probabilidad a $\theta$, es decir, es consistente. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.7}
+	Para el Problema \ref{prob:6.1.7}: $\ln f(x\mid\mu) = -\frac{1}{2}\ln(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}$. Derivando dos veces respecto a $\mu$: $\frac{\partial}{\partial\mu}\ln f = \frac{x-\mu}{\sigma^2}$, $\frac{\partial^2}{\partial\mu^2}\ln f = -\frac{1}{\sigma^2}$. Por lo tanto $I(\mu) = -E[-1/\sigma^2] = 1/\sigma^2$. La CRLB es
+	\begin{align*}
+		\Var(\hat\mu) \ge \frac{1}{nI(\mu)} = \frac{\sigma^2}{n}.
+	\end{align*}
+	Como $\Var(\bar X) = \sigma^2/n$ exactamente, $\bar X$ alcanza la cota y es UMVUE para $\mu$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.8}
+	Para el Problema \ref{prob:6.1.8}: $\text{Sesgo}(\hat\theta_c) = E(c\hat\theta)-\theta = c\theta-\theta = (c-1)\theta$. $\Var(\hat\theta_c) = c^2\Var(\hat\theta) = c^2v$. Por lo tanto,
+	\begin{align*}
+		\text{ECM}(c) = c^2v + (c-1)^2\theta^2.
+	\end{align*}
+	Derivando respecto a $c$ e igualando a cero:
+	\begin{align*}
+		\frac{d}{dc}\text{ECM}(c) = 2cv+2(c-1)\theta^2 = 0 \implies c(v+\theta^2) = \theta^2 \implies c^* = \frac{\theta^2}{v+\theta^2}.
+	\end{align*}
+	Como $v>0$, siempre $c^*<1$: el ECM óptimo se alcanza con un estimador \emph{sesgado} (encogido hacia $0$). \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.9}
+	Para el Problema \ref{prob:6.1.9} con $v=5$, $\theta=3$ ($\theta^2=9$): $c^* = 9/(5+9) = 9/14 \approx 0.643$.
+	\begin{align*}
+		\text{ECM}(c^*) = (0.643)^2(5) + (0.643-1)^2(9) \approx 2.066 + 1.148 = 3.214.
+	\end{align*}
+	Comparado con $\text{ECM}(c=1)=v=5$ (el estimador insesgado), el ECM se reduce en aproximadamente $\left(1-\dfrac{3.214}{5}\right)\times100\% \approx 35.7\%$ al permitir un sesgo controlado. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.10}
+	Para el Problema \ref{prob:6.1.10}: $E(\hat p_n)=p$ (insesgado) y $\Var(\hat p_n)=p(1-p)/n \to 0$ cuando $n\to\infty$; por la desigualdad de Chebyshev y el criterio ECM$\to 0$, $\hat p_n$ es consistente.
+
+	Para $p=0.5$: $\Var(\hat p_n)=0.25/n$. La cota de Chebyshev es
+	\begin{align*}
+		P(|\hat p_n-p|\ge 0.05) \le \frac{0.25/n}{0.05^2} = \frac{0.25/n}{0.0025} = \frac{100}{n}.
+	\end{align*}
+	Requiriendo que esta cota sea $\le 0.10$: $100/n \le 0.10 \implies n \ge 1000$. Se necesitan al menos $1000$ observaciones según esta cota conservadora de Chebyshev (una cota basada en el TLC, como las del Capítulo 05, requeriría un $n$ considerablemente menor para la misma garantía). \quad \qedhere
+\end{solucion}

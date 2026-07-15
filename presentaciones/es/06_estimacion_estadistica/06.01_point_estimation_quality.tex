@@ -1,0 +1,340 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Calidad de Estimadores]{Sección 06.01: Estimación Puntual, Insesgadez, Eficiencia y Consistencia}
+\subtitle{Sesgo, Error Cuadrático Medio, y la Cota de Cramér-Rao}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 06: Estimación y su Relación con Ciencia de Datos}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{06.01} Estimación Puntual, Insesgadez, Eficiencia y Consistencia \emph{(Hoy)} \pause
+    \item \textbf{06.02} Método de Momentos (MoM) \pause
+    \item \textbf{06.03} Estimación por Máxima Verosimilitud (MLE) y Score \pause
+    \item \textbf{06.04} Intervalos de Confianza para Medias Poblacionales ($Z$ y $t$) \pause
+    \item \textbf{06.05} Intervalos de Confianza para Varianzas ($\chi^2$) y Proporciones
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Formalizar los criterios que definen a un ``buen'' estimador --- sesgo, error cuadrático medio, eficiencia relativa y consistencia --- y establecer la Cota de Cramér-Rao como el límite teórico de precisión que ningún estimador insesgado puede superar.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De las Distribuciones de Muestreo a la Teoría de Estimación}
+  \footnotesize
+  \begin{motivacion}
+    En el Capítulo 05 estudiamos la distribución muestral de $\bar X$ y $S^2$. Ahora damos un paso atrás: ¿qué hace que un estimador sea ``bueno''? Antes de construir estimadores (Secciones 06.02-06.03), necesitamos un marco formal para \emph{evaluarlos}.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Insesgadez:} ¿el estimador acierta ``en promedio''? \pause
+    \item \textbf{Eficiencia:} entre varios estimadores insesgados, ¿cuál tiene menor varianza? \pause
+    \item \textbf{Consistencia:} ¿mejora el estimador conforme crece la muestra?
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Sesgo y ECM
+\begin{frame}{Sesgo y Error Cuadrático Medio}
+  \footnotesize
+  Sea $\hat\theta$ un estimador puntual de $\theta$. \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Definiciones}
+    $$\text{Sesgo}(\hat\theta) = E(\hat\theta)-\theta, \qquad \text{ECM}(\hat\theta) = E\left[(\hat\theta-\theta)^2\right]$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Descomposición Sesgo-Varianza}
+    $$\text{ECM}(\hat\theta) = \Var(\hat\theta) + \left[\text{Sesgo}(\hat\theta)\right]^2$$
+    Un estimador ligeramente sesgado puede tener menor ECM que uno insesgado si reduce suficientemente la varianza --- la base del \emph{trade-off sesgo-varianza} en Ridge/Lasso.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Eficiencia y Cramér-Rao
+\begin{frame}{Eficiencia Relativa y la Cota de Cramér-Rao}
+  \footnotesize
+  Para comparar estimadores insesgados: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Eficiencia Relativa}
+    $$\text{Ef}(\hat\theta_1,\hat\theta_2) = \dfrac{\Var(\hat\theta_2)}{\Var(\hat\theta_1)}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Cota Inferior de Cramér-Rao (CRLB)}
+    $$\Var(\hat\theta) \geq \dfrac{1}{n\,I(\theta)}, \qquad I(\theta) = -E\left[\dfrac{\partial^2}{\partial\theta^2}\ln f(X\mid\theta)\right]$$
+    Un estimador que alcanza esta cota es \textbf{UMVUE} (Estimador Insesgado de Varianza Mínima Uniformemente): el mejor posible.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Consistencia
+\begin{frame}{Consistencia}
+  \footnotesize
+  Una propiedad asintótica: ¿mejora el estimador con más datos? \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Definición}
+    $$\hat\theta_n \xrightarrow{P} \theta \iff \forall\varepsilon>0,\ \lim_{n\to\infty} P(|\hat\theta_n-\theta|\ge\varepsilon) = 0$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Condición Suficiente Práctica}
+    Por Chebyshev, $P(|\hat\theta_n-\theta|\ge\varepsilon) \le \text{ECM}(\hat\theta_n)/\varepsilon^2$. Si $\text{ECM}(\hat\theta_n)\to 0$ (sesgo y varianza $\to 0$), entonces $\hat\theta_n$ es consistente. Esta es la vía más común para demostrar consistencia.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Aplicaciones
+\begin{frame}{Aplicaciones en Ciencia de Datos}
+  \footnotesize
+  Estos criterios son el lenguaje común de toda la estadística inferencial y el aprendizaje automático: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Regularización (Ridge/Lasso):} acepta sesgo controlado a cambio de menor varianza y mejor error de generalización. \pause
+    \item \textbf{Validación cruzada:} estima el ECM de un modelo fuera de muestra. \pause
+    \item \textbf{Selección de estimadores:} la eficiencia relativa guía la elección entre métodos (MoM vs. MLE, Secciones 06.02-06.03). \pause
+    \item \textbf{Big data:} la consistencia garantiza que más datos siempre ayudan, incluso con modelos aproximados.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Sesgo, ECM y Eficiencia}
+  \scriptsize
+  Descomposición sesgo-varianza y eficiencia relativa comparando $\bar X$ contra un estimador ingenuo (\texttt{06.01\_point\_estimation\_quality.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=36]{../../code/06_estimacion_estadistica/06.01_point_estimation_quality.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Estimador de Encogimiento}
+  \scriptsize
+  Cálculo del factor de encogimiento óptimo $c^*$ que minimiza el ECM, verificado por búsqueda en malla:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=39, lastline=59]{../../code/06_estimacion_estadistica/06.01_point_estimation_quality.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Consistencia vía Chebyshev}
+  \scriptsize
+  Cota de Chebyshev vs. probabilidad empírica Monte Carlo para la proporción muestral:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=62, lastline=82]{../../code/06_estimacion_estadistica/06.01_point_estimation_quality.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Bias-Variance-MSE Decomposition and Relative Efficiency ===
+Xbar: bias=0.009, Var=6.24, MSE=6.24 | T1: bias=0.023, Var=100.22, MSE=100.22
+Relative efficiency Ef(Xbar, T1) = 16.07 (theoretical: n=16)
+
+=== Block 2: Shrinkage Estimator ===
+c*=0.6429 | MSE(c=1)=5.00 | MSE(c*)=3.21 | reduction: 35.7%
+
+=== Block 3: Consistency via Chebyshev ===
+n=100: bound=1.00, empirical=0.319 | n=1000: bound=0.10, empirical=0.001
+Minimum n for bound<=0.10: n>=1000
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 6.1.1 --- Insesgadez de Combinaciones Lineales (Enunciado)}
+    Sean $X_1, X_2$ iid con $E(X_i)=\mu$. Considere $\hat\theta_w = 0.3X_1+0.7X_2$. Demuestre que $\hat\theta_w$ es insesgado para $\mu$, y generalice la condición sobre los pesos.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    \begin{itemize}\itemsep=0.04cm
+      \item Use linealidad de la esperanza: $E(\hat\theta_w)=0.3E(X_1)+0.7E(X_2)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Aplicamos linealidad: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$E(\hat\theta_w) = 0.3\mu + 0.7\mu = (0.3+0.7)\mu = \mu$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Generalización}
+    \scriptsize
+    Para $\hat\theta=\sum_i w_i X_i$ con $E(X_i)=\mu$ para todo $i$: $E(\hat\theta)=\left(\sum_i w_i\right)\mu$. El estimador es insesgado si y solo si $\sum_i w_i = 1$ --- la media muestral ($w_i=1/n$) es solo un caso particular de esta familia.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 6.1.6 --- Consistencia vía Chebyshev (Enunciado)}
+    Un estimador insesgado $\hat\theta_n$ tiene $\Var(\hat\theta_n)=16/n$. Use Chebyshev para acotar $P(|\hat\theta_n-\theta|\ge 1)$ cuando $n=64$, y explique por qué esto confirma consistencia.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    $P(|\hat\theta_n-\theta|\ge\varepsilon) \le \Var(\hat\theta_n)/\varepsilon^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Sustituimos en la cota de Chebyshev: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$P(|\hat\theta_{64}-\theta|\ge 1) \le \frac{16/64}{1^2} = 0.25$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $16/n \to 0$ cuando $n\to\infty$ para cualquier $\varepsilon$ fijo, la cota de Chebyshev tiende a $0$, confirmando que $\hat\theta_n \xrightarrow{P} \theta$: el estimador es consistente.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 6.1.7 --- CRLB para la Media Normal (Enunciado)}
+    Sea $X_1,\ldots,X_n \sim N(\mu,\sigma^2)$ con $\sigma^2$ conocida. Calcule $I(\mu)$, derive la CRLB para $\Var(\hat\mu)$, y demuestre que $\bar X$ la alcanza exactamente.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Derive $\ln f(x\mid\mu)$ dos veces respecto a $\mu$ para obtener $I(\mu)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Calculamos la Información de Fisher: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Derivación}
+    \scriptsize
+    \begin{align*}
+      \frac{\partial}{\partial\mu}\ln f = \frac{x-\mu}{\sigma^2}, \qquad \frac{\partial^2}{\partial\mu^2}\ln f = -\frac{1}{\sigma^2} \implies I(\mu) = \frac{1}{\sigma^2}.
+    \end{align*}
+    \begin{align*}
+      \text{CRLB} = \frac{1}{nI(\mu)} = \frac{\sigma^2}{n} = \Var(\bar X). \quad \qedhere
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $\bar X$ alcanza la CRLB exactamente, es el UMVUE para $\mu$: ningún estimador insesgado puede tener menor varianza.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 6.1.9 --- Estimador de Encogimiento Óptimo (Enunciado)}
+    Con $\Var(\hat\theta)=v=5$ y $\theta=3$, evalúe numéricamente el factor óptimo $c^*=\theta^2/(v+\theta^2)$ y compare $\text{ECM}(\hat\theta_{c^*})$ contra $\text{ECM}(\hat\theta)=v$ (caso insesgado).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Sustituya $v=5$, $\theta=3$ en $c^*$ y luego en $\text{ECM}(c)=c^2v+(c-1)^2\theta^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Sustituimos numéricamente: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    \begin{align*}
+      c^* = \frac{9}{5+9} = \frac{9}{14} \approx 0.643, \qquad \text{ECM}(c^*) \approx 2.066+1.148 = 3.214.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Comparado con $\text{ECM}(c=1)=5$, el ECM se reduce aproximadamente un $35.7\%$ al aceptar un sesgo controlado: un ejemplo concreto de por qué la regularización (Ridge/Lasso) sacrifica insesgadez por menor error total.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: Criterios de Calidad de Estimadores}
+  \begin{reflexion}
+    Antes de aprender a construir estimadores (MoM, MLE), necesitábamos el lenguaje para evaluarlos. Sesgo, ECM, eficiencia y consistencia son los cuatro pilares que usaremos --- explícita o implícitamente --- en cada método del resto del capítulo.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{ECM = Varianza + Sesgo$^2$:} un pequeño sesgo puede reducir el error total.
+      \item \textbf{Cramér-Rao:} $\Var(\hat\theta) \ge 1/(nI(\theta))$; alcanzarla define al UMVUE.
+      \item \textbf{Consistencia:} si $\text{ECM}(\hat\theta_n)\to 0$, entonces $\hat\theta_n \xrightarrow{P} \theta$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Con los criterios de calidad establecidos, la Sección 06.02 introducirá el Método de Momentos: un procedimiento sistemático para \emph{construir} estimadores igualando momentos muestrales y poblacionales. La Sección 06.03 hará lo propio con el Método de Máxima Verosimilitud, el método más poderoso y ampliamente usado en ciencia de datos moderna.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la definición de momentos poblacionales y muestrales (Capítulo 03/04).
+      \item Reflexiona sobre por qué distintos métodos de construcción pueden producir el mismo estimador (como ocurre con la Exponencial) o estimadores distintos (como con la Uniforme).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

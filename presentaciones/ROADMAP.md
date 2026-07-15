@@ -148,6 +148,14 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/05_distribuciones_muestreo/05.05_fisher_f_distribution.tex` (17 frames) y `presentaciones/en/05_sampling_distributions/05.05_fisher_f_distribution.tex` (19 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
   - *Libro Maestro:* Recompilado limpiamente a 644 páginas (`[Modelación Estadística].tex`); también se recompiló `[Statistical Modeling].tex` (452 páginas) sin errores.
 
+### Unidad 5 / Capítulo 06: Estimación y su Relación con Ciencia de Datos (`Avance actual: 1 de 5 secciones completadas`)
+- $\checkmark$ **06.01 Estimación Puntual, Insesgadez, Eficiencia y Consistencia:** 100% completado (**APERTURA DEL CAPÍTULO 06**).
+  - *Teoría del Libro Maestro:* `latex/estimacion_puntual.tex` (ES) y `latex/en_estimacion_puntual.tex` (EN) ya contenían un desarrollo extenso y avanzado de MLE y Método de Momentos, pero el texto introductorio hacía referencia a una "sección anterior" que definía los criterios de calidad de un estimador — contenido que en realidad nunca se había escrito. Se agregó la subsección faltante "Criterios de Calidad de un Estimador Puntual": definición formal de estimador, sesgo, ECM con demostración de la descomposición sesgo-varianza, eficiencia relativa, la Cota Inferior de Cramér-Rao, y consistencia (con la vía práctica vía Chebyshev).
+  - *Cuaderno de Problemas:* 10 problemas nuevos 3-3-2-2 (Problemas 6.1.1 al 6.1.10) agregados a `latex/estimacion_puntual(p).tex` (que ya contenía 10 problemas avanzados preexistentes sobre MLE/MoM/Cramér-Rao/Rao-Blackwell, dejados intactos): insesgadez de combinaciones lineales, cálculo numérico de sesgo y ECM, eficiencia relativa, insesgadez asintótica, consistencia vía Chebyshev, derivación de la CRLB para la media normal, y el estimador de encogimiento (\emph{shrinkage}) óptimo que minimiza el ECM.
+  - *Laboratorio Python:* `presentaciones/code/06_estimacion_estadistica/06.01_point_estimation_quality.py` (descomposición sesgo-varianza-ECM y eficiencia relativa $\bar X$ vs. $T_1$ ($\text{Ef}\approx 16.07$, teórico $n=16$); estimador de encogimiento óptimo $c^*\approx 0.643$ con reducción de ECM del $35.7\%$, verificado por búsqueda en malla; consistencia de la proporción muestral verificada vía cota de Chebyshev vs. Monte Carlo).
+  - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/06_estimacion_estadistica/06.01_point_estimation_quality.tex` (17 frames) y `presentaciones/en/06_estimation_data_science/06.01_point_estimation_quality.tex` (19 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
+  - *Libro Maestro:* Recompilado limpiamente a 650 páginas (`[Modelación Estadística].tex`); también se recompiló `[Statistical Modeling].tex` (454 páginas) sin errores.
+
 ---
 
 ## 3. Plan de Armonización Estructural y Curricular (Notas y Presentaciones ES/EN)
@@ -280,7 +288,7 @@ Directorio base Python: `presentaciones/code/05_distribuciones_muestreo/`
 
 ### Unidad 5 / Capítulo 06: Estimación y Ciencia de Datos
 Directorio base Python: `presentaciones/code/06_estimacion_estadistica/`
-- **Sección 06.01:** Estimación Puntual, Insesgadez, Eficiencia y Consistencia (`06.01_point_estimation_quality.py`).
+- **Sección 06.01:** Estimación Puntual, Insesgadez, Eficiencia y Consistencia (`06.01_point_estimation_quality.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 - **Sección 06.02:** Método de Momentos (MoM) (`06.02_method_of_moments.py`).
 - **Sección 06.03:** Estimación por Máxima Verosimilitud (MLE) y Score (`06.03_maximum_likelihood_estimation.py`).
 - **Sección 06.04:** Intervalos de Confianza para Medias Poblacionales ($Z$ y $t$) (`06.04_confidence_intervals_means.py`).

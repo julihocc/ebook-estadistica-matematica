@@ -48,6 +48,12 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/05_distribuciones_muestreo/05.05_fisher_f_distribution.py` (propiedades, recíproco, identidad $T^2\sim F_{1,\nu}$, prueba $F$ con IC, y ANOVA verificado contra `scipy.stats.f_oneway`).
   - Mazos Beamer bilingües en `presentaciones/es/05_distribuciones_muestreo/05.05_fisher_f_distribution.tex` (17 diapositivas) y `presentaciones/en/05_sampling_distributions/05.05_fisher_f_distribution.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 05 (Distribuciones de Muestreo) queda 100% finalizado (5 de 5 secciones).
+- **Sección 06.01: Estimación Puntual, Insesgadez, Eficiencia y Consistencia (Apertura del Capítulo 06)**:
+  - Nueva subsección "Criterios de Calidad de un Estimador Puntual" (sesgo, ECM con descomposición sesgo-varianza, eficiencia relativa, Cota de Cramér-Rao, consistencia) agregada a `latex/estimacion_puntual.tex` y su espejo `latex/en_estimacion_puntual.tex`, que ya contenían un desarrollo extenso de MLE y Método de Momentos pero carecían de esta base teórica previa.
+  - 10 problemas nuevos bajo la taxonomía 3-3-2-2 (Problemas 6.1.1 a 6.1.10) agregados a `latex/estimacion_puntual(p).tex`, que ya contenía 10 problemas avanzados preexistentes sobre MLE/MoM/Cramér-Rao/Rao-Blackwell (dejados intactos).
+  - Script de laboratorio en Python `presentaciones/code/06_estimacion_estadistica/06.01_point_estimation_quality.py` (descomposición sesgo-varianza-ECM, eficiencia relativa, estimador de encogimiento óptimo, y consistencia vía Chebyshev).
+  - Mazos Beamer bilingües en `presentaciones/es/06_estimacion_estadistica/06.01_point_estimation_quality.tex` (17 diapositivas) y `presentaciones/en/06_estimation_data_science/06.01_point_estimation_quality.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 06 (Estimación y su Relación con Ciencia de Datos) inicia su desarrollo: 1 de 5 secciones completadas.
 
 ## 2026-07-14
 

@@ -4,6 +4,96 @@ En la sección anterior definimos un \emph{estimador} como una función de la mu
 
 En esta sección estudiaremos los dos métodos de estimación puntual más fundamentales de la teoría estadística moderna: el \emph{Método de Máxima Verosimilitud} (MLE) y el \emph{Método de Momentos} (MoM). Asimismo, analizaremos su papel en el diseño y entrenamiento de modelos en ciencia de datos y aprendizaje automático.
 
+\subsection{Criterios de Calidad de un Estimador Puntual}
+
+Antes de estudiar cómo \emph{construir} estimadores, formalizamos los criterios que usamos para \emph{evaluarlos}: insesgadez, eficiencia y consistencia.
+
+\begin{definicion}[Estimador puntual]
+Sea $X_1, \ldots, X_n$ una muestra aleatoria de una población con parámetro desconocido $\theta \in \Theta$. Un \emph{estimador puntual} de $\theta$ es cualquier estadístico $\hat{\theta} = T(X_1, \ldots, X_n)$, es decir, una función de la muestra que no depende de $\theta$. Al ser una función de variables aleatorias, $\hat{\theta}$ es en sí mismo una variable aleatoria con su propia distribución muestral.
+\end{definicion}
+
+\begin{definicion}[Sesgo]
+ \label{eq:6.1.1}
+El \emph{sesgo} de un estimador $\hat{\theta}$ respecto al parámetro $\theta$ se define como
+\begin{align}
+ \text{Sesgo}(\hat{\theta}) = E(\hat{\theta}) - \theta.
+\end{align}
+Si $\text{Sesgo}(\hat{\theta}) = 0$ para todo $\theta \in \Theta$, decimos que $\hat{\theta}$ es \emph{insesgado}.
+\end{definicion}
+
+\begin{definicion}[Error Cuadrático Medio]
+ \label{eq:6.1.2}
+El \emph{error cuadrático medio} (ECM, o MSE por sus siglas en inglés) de un estimador es
+\begin{align}
+ \text{ECM}(\hat{\theta}) = E\left[(\hat{\theta}-\theta)^2\right].
+\end{align}
+\end{definicion}
+
+\begin{teorema}[Descomposición sesgo-varianza]
+ \label{eq:6.1.3}
+Para cualquier estimador $\hat{\theta}$,
+\begin{align}
+ \text{ECM}(\hat{\theta}) = \text{Var}(\hat{\theta}) + \left[\text{Sesgo}(\hat{\theta})\right]^2.
+\end{align}
+\end{teorema}
+
+\begin{proof}
+Sumando y restando $E(\hat{\theta})$ dentro del cuadrado:
+\begin{align}
+ E\left[(\hat{\theta}-\theta)^2\right] &= E\left[\left((\hat{\theta}-E(\hat{\theta})) + (E(\hat{\theta})-\theta)\right)^2\right] \nonumber \\
+ &= E\left[(\hat{\theta}-E(\hat{\theta}))^2\right] + 2(E(\hat{\theta})-\theta)\underbrace{E\left[\hat{\theta}-E(\hat{\theta})\right]}_{=0} + (E(\hat{\theta})-\theta)^2 \nonumber \\
+ &= \text{Var}(\hat{\theta}) + \left[\text{Sesgo}(\hat{\theta})\right]^2. \qedhere
+\end{align}
+\end{proof}
+
+\begin{observacion}[El compromiso sesgo-varianza]
+La descomposición anterior explica por qué, en ocasiones, un estimador ligeramente sesgado puede ser preferible a uno insesgado: si el sesgo introducido es pequeño pero reduce sustancialmente la varianza, el ECM total puede disminuir. Este \emph{trade-off sesgo-varianza} es central en la regularización de modelos de aprendizaje automático (Ridge, Lasso), donde se acepta un sesgo controlado a cambio de una reducción de varianza y, por tanto, un mejor error de generalización.
+\end{observacion}
+
+\begin{definicion}[Eficiencia relativa]
+ \label{eq:6.1.4}
+Si $\hat{\theta}_1$ y $\hat{\theta}_2$ son dos estimadores insesgados de $\theta$, la \emph{eficiencia relativa} de $\hat{\theta}_1$ respecto a $\hat{\theta}_2$ es
+\begin{align}
+ \text{Ef}(\hat{\theta}_1, \hat{\theta}_2) = \frac{\text{Var}(\hat{\theta}_2)}{\text{Var}(\hat{\theta}_1)}.
+\end{align}
+Si $\text{Ef}(\hat{\theta}_1,\hat{\theta}_2) > 1$, $\hat{\theta}_1$ es más eficiente (tiene menor varianza).
+\end{definicion}
+
+\begin{teorema}[Cota Inferior de Cramér-Rao]
+ \label{eq:6.1.5}
+Sea $\hat{\theta}$ un estimador insesgado de $\theta$ basado en una muestra iid de tamaño $n$, y sea $I(\theta) = -E\left[\dfrac{\partial^2}{\partial\theta^2}\ln f(X\mid\theta)\right]$ la Información de Fisher de una sola observación. Bajo condiciones de regularidad,
+\begin{align}
+ \text{Var}(\hat{\theta}) \geq \frac{1}{n\,I(\theta)}.
+\end{align}
+Un estimador insesgado que alcanza esta cota exactamente se llama \emph{Estimador Insesgado de Varianza Mínima Uniformemente} (UMVUE, por sus siglas en inglés) y se considera \emph{eficiente} en el sentido absoluto.
+\end{teorema}
+
+\begin{definicion}[Consistencia]
+ \label{eq:6.1.6}
+Una sucesión de estimadores $\hat{\theta}_n$ (indexada por el tamaño de muestra $n$) es \emph{consistente} para $\theta$ si converge en probabilidad al parámetro verdadero:
+\begin{align}
+ \hat{\theta}_n \xrightarrow{P} \theta \quad \text{cuando } n \to \infty,
+\end{align}
+es decir, para todo $\varepsilon > 0$, $\lim_{n\to\infty} P(|\hat{\theta}_n - \theta| \geq \varepsilon) = 0$.
+\end{definicion}
+
+\begin{observacion}[Condición suficiente de consistencia]
+Por la desigualdad de Chebyshev, $P(|\hat{\theta}_n-\theta|\ge\varepsilon) \le \text{ECM}(\hat{\theta}_n)/\varepsilon^2$. Por lo tanto, si $\text{ECM}(\hat{\theta}_n) \to 0$ cuando $n\to\infty$ (equivalentemente, si tanto el sesgo como la varianza tienden a cero), entonces $\hat{\theta}_n$ es consistente. Esta es la vía más común para demostrar consistencia en la práctica.
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:6.1.1}
+Para una muestra iid $X_1,\ldots,X_n$ de una población con media $\mu$ y varianza $\sigma^2$, compare el ECM de dos estimadores de $\mu$: la media muestral $\bar{X}$ y el estimador ingenuo de un solo dato $T_1 = X_1$.
+\end{ejemplo}
+
+\begin{solucion}
+Ambos son insesgados: $E(\bar{X})=\mu$ y $E(T_1)=\mu$, así que $\text{ECM}=\text{Var}$ en ambos casos.
+\begin{align}
+ \text{Var}(\bar{X}) = \frac{\sigma^2}{n}, \qquad \text{Var}(T_1) = \sigma^2.
+\end{align}
+La eficiencia relativa es $\text{Ef}(\bar{X}, T_1) = \sigma^2/(\sigma^2/n) = n$: la media muestral es $n$ veces más eficiente que usar una sola observación, y es consistente ($\text{Var}(\bar{X})\to 0$), mientras que $T_1$ no lo es (su varianza no depende de $n$).
+\end{solucion}
+
 \subsection{Método de Máxima Verosimilitud (MLE)}
 
 El principio de máxima verosimilitud, desarrollado formalmente por Ronald A. Fisher a principios del siglo XX, sostiene que, dado un conjunto de observaciones muestrales, debemos elegir como estimador aquel valor del parámetro $\theta$ que haga que la muestra observada sea lo más probable posible.

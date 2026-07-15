@@ -1,0 +1,298 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Point Estimation, Unbiasedness, Efficiency, and Consistency}
+\subtitle{Section 06.01 --- Bias, Mean Squared Error, and the Cramer-Rao Bound}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 06: Estimation and Data Science}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 5}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textbf{\textcolor{TecRojo}{Section 06.01: Point Estimation, Unbiasedness, Efficiency, and Consistency}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 06.02: Method of Moments (MoM)}
+			\item \textcolor{gray}{Section 06.03: Maximum Likelihood Estimation (MLE) and Score}
+			\item \textcolor{gray}{Section 06.04: Confidence Intervals for Population Means ($Z$ and $t$)}
+			\item \textcolor{gray}{Section 06.05: Confidence Intervals for Variances ($\chi^2$) and Proportions}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Formalize the criteria that define a ``good'' estimator --- bias, mean squared error, relative efficiency, and consistency --- and establish the Cramer-Rao bound as the theoretical precision limit no unbiased estimator can beat.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Bias and MSE
+\begin{frame}{Bias and Mean Squared Error}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Definitions}
+				\footnotesize
+				$\text{Bias}(\hat\theta) = E(\hat\theta)-\theta$, $\text{MSE}(\hat\theta) = E[(\hat\theta-\theta)^2]$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Bias-Variance Decomposition}
+				\footnotesize
+				$\text{MSE}(\hat\theta) = \Var(\hat\theta) + [\text{Bias}(\hat\theta)]^2$. A slightly biased estimator can have lower MSE than an unbiased one.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Efficiency and Cramer-Rao
+\begin{frame}{Relative Efficiency and the Cramer-Rao Bound}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Relative Efficiency}
+				\footnotesize
+				$\text{Eff}(\hat\theta_1,\hat\theta_2) = \Var(\hat\theta_2)/\Var(\hat\theta_1)$ for unbiased estimators.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Cramer-Rao Lower Bound (CRLB)}
+				\footnotesize
+				$\Var(\hat\theta) \geq 1/(nI(\theta))$. An estimator attaining this bound is a UMVUE: the best possible.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Consistency
+\begin{frame}{Consistency}
+	\vspace{-0.15cm}
+	\begin{block}{Definition}
+		$$\hat\theta_n \xrightarrow{P} \theta \iff \forall\varepsilon>0,\ \lim_{n\to\infty} P(|\hat\theta_n-\theta|\ge\varepsilon) = 0$$
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Practical Sufficient Condition}
+		By Chebyshev, $P(|\hat\theta_n-\theta|\ge\varepsilon) \le \text{MSE}(\hat\theta_n)/\varepsilon^2$. If $\text{MSE}(\hat\theta_n)\to 0$, then $\hat\theta_n$ is consistent --- the most common way to prove it in practice.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 06: Applications
+\begin{frame}{Applications in Data Science}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Regularization (Ridge/Lasso):} accepts controlled bias in exchange for lower variance and better generalization error. \pause
+		\item \textbf{Cross-validation:} estimates a model's out-of-sample MSE. \pause
+		\item \textbf{Estimator selection:} relative efficiency guides the choice between methods (MoM vs. MLE, Sections 06.02--06.03). \pause
+		\item \textbf{Big data:} consistency guarantees that more data always helps, even with approximate models.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: Bias, MSE, and Efficiency}
+	\vspace{-0.05cm}
+	\scriptsize
+	Bias-variance decomposition and relative efficiency comparing $\bar X$ against a naive estimator (\texttt{06.01\_point\_estimation\_quality.py}):
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=17, lastline=36]{../../code/06_estimacion_estadistica/06.01_point_estimation_quality.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Shrinkage Estimator}
+	\vspace{-0.05cm}
+	\scriptsize
+	Computing the optimal shrinkage factor $c^*$ that minimizes MSE, verified via grid search:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=39, lastline=59]{../../code/06_estimacion_estadistica/06.01_point_estimation_quality.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Consistency via Chebyshev}
+	\vspace{-0.05cm}
+	\scriptsize
+	Chebyshev bound vs. Monte Carlo empirical probability for the sample proportion:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=62, lastline=82]{../../code/06_estimacion_estadistica/06.01_point_estimation_quality.py}}
+\end{frame}
+
+% SLIDE 10: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: Bias-Variance-MSE Decomposition and Relative Efficiency ===
+Xbar: bias=0.009, Var=6.24, MSE=6.24 | T1: bias=0.023, Var=100.22, MSE=100.22
+Relative efficiency Ef(Xbar, T1) = 16.07 (theoretical: n=16)
+
+=== Block 2: Shrinkage Estimator ===
+c*=0.6429 | MSE(c=1)=5.00 | MSE(c*)=3.21 | reduction: 35.7%
+
+=== Block 3: Consistency via Chebyshev ===
+n=100: bound=1.00, empirical=0.319 | n=1000: bound=0.10, empirical=0.001
+Minimum n for bound<=0.10: n>=1000
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.1.1 --- Unbiasedness of Linear Combinations (Statement)}
+		Let $X_1, X_2$ be iid with $E(X_i)=\mu$. Consider $\hat\theta_w = 0.3X_1+0.7X_2$. Prove that $\hat\theta_w$ is unbiased for $\mu$, and generalize the condition on the weights.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item Use linearity of expectation: $E(\hat\theta_w)=0.3E(X_1)+0.7E(X_2)$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Apply linearity: \pause
+	\begin{block}{Calculation}
+		$$E(\hat\theta_w) = 0.3\mu + 0.7\mu = (0.3+0.7)\mu = \mu$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Generalization}
+		\scriptsize
+		For $\hat\theta=\sum_i w_i X_i$ with $E(X_i)=\mu$ for all $i$: $E(\hat\theta)=\left(\sum_i w_i\right)\mu$. The estimator is unbiased if and only if $\sum_i w_i = 1$ --- the sample mean ($w_i=1/n$) is just one particular case of this family.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.1.6 --- Consistency via Chebyshev (Statement)}
+		An unbiased estimator $\hat\theta_n$ has $\Var(\hat\theta_n)=16/n$. Use Chebyshev to bound $P(|\hat\theta_n-\theta|\ge 1)$ for $n=64$, and explain why this confirms consistency.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		$P(|\hat\theta_n-\theta|\ge\varepsilon) \le \Var(\hat\theta_n)/\varepsilon^2$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Substitute into the Chebyshev bound: \pause
+	\begin{block}{Calculation}
+		$$P(|\hat\theta_{64}-\theta|\ge 1) \le \frac{16/64}{1^2} = 0.25$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		Since $16/n \to 0$ as $n\to\infty$ for any fixed $\varepsilon$, the Chebyshev bound tends to $0$, confirming that $\hat\theta_n \xrightarrow{P} \theta$: the estimator is consistent.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.1.7 --- CRLB for the Normal Mean (Statement)}
+		Let $X_1,\ldots,X_n \sim N(\mu,\sigma^2)$ with known $\sigma^2$. Compute $I(\mu)$, derive the CRLB for $\Var(\hat\mu)$, and show that $\bar X$ attains it exactly.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Differentiate $\ln f(x\mid\mu)$ twice with respect to $\mu$ to obtain $I(\mu)$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compute the Fisher information: \pause
+	\begin{block}{Derivation}
+		\scriptsize
+		\begin{align*}
+			\frac{\partial}{\partial\mu}\ln f = \frac{x-\mu}{\sigma^2}, \qquad \frac{\partial^2}{\partial\mu^2}\ln f = -\frac{1}{\sigma^2} \implies I(\mu) = \frac{1}{\sigma^2}.
+		\end{align*}
+		\begin{align*}
+			\text{CRLB} = \frac{1}{nI(\mu)} = \frac{\sigma^2}{n} = \Var(\bar X). \quad \qedhere
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		Since $\bar X$ attains the CRLB exactly, it is the UMVUE for $\mu$: no unbiased estimator can have lower variance.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.1.9 --- Optimal Shrinkage Estimator (Statement)}
+		With $\Var(\hat\theta)=v=5$ and $\theta=3$, numerically evaluate the optimal factor $c^*=\theta^2/(v+\theta^2)$ and compare $\text{MSE}(\hat\theta_{c^*})$ against $\text{MSE}(\hat\theta)=v$ (unbiased case).
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Substitute $v=5$, $\theta=3$ into $c^*$ and then into $\text{MSE}(c)=c^2v+(c-1)^2\theta^2$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Substitute numerically: \pause
+	\begin{block}{Calculation}
+		\scriptsize
+		\begin{align*}
+			c^* = \frac{9}{5+9} = \frac{9}{14} \approx 0.643, \qquad \text{MSE}(c^*) \approx 2.066+1.148 = 3.214.
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		Compared to $\text{MSE}(c=1)=5$, the MSE decreases by roughly $35.7\%$ by accepting a controlled bias: a concrete example of why regularization (Ridge/Lasso) sacrifices unbiasedness for lower total error.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 19: Closing and Chapter Perspective
+\begin{frame}{Closing Section and Chapter Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: Estimator Quality Criteria}
+		\scriptsize
+		Before learning to construct estimators (MoM, MLE), we needed a language to evaluate them. Bias, MSE, efficiency, and consistency are the four pillars we will use --- explicitly or implicitly --- throughout the rest of the chapter.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{MSE = Variance + Bias$^2$:} a small bias can reduce total error.
+			\item \textbf{Cramer-Rao:} $\Var(\hat\theta) \ge 1/(nI(\theta))$; attaining it defines the UMVUE.
+			\item \textbf{Consistency:} if $\text{MSE}(\hat\theta_n)\to 0$, then $\hat\theta_n \xrightarrow{P} \theta$.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Method of Moments (MoM)}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}

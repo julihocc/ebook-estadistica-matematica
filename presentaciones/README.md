@@ -216,7 +216,17 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
+## 5d. Catálogo e Índice de Presentaciones --- Capítulo 06 (En Curso)
+
+A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 5 / Capítulo 06: Estimación y su Relación con Ciencia de Datos**:
+
+| Sección | Título en Español | Título en Inglés | Script Python (en `code/06_estimacion_estadistica/`) | Estado |
+| :---: | :--- | :--- | :--- | :---: |
+| **06.01** | [06.01 Calidad de Estimadores](es/06_estimacion_estadistica/06.01_point_estimation_quality.tex) ([PDF](es/06_estimacion_estadistica/06.01_point_estimation_quality.pdf)) | [06.01 Point Estimation Quality](en/06_estimation_data_science/06.01_point_estimation_quality.tex) ([PDF](en/06_estimation_data_science/06.01_point_estimation_quality.pdf)) | `06.01_point_estimation_quality.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 06** |
+
+---
+
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-El Capítulo 04 (Variables Aleatorias Continuas) y el Capítulo 05 (Distribuciones de Muestreo) están 100% completos. Para ver la planificación del siguiente hito curricular del proyecto (**Capítulo 06: Estimación y su Relación con Ciencia de Datos**, iniciando con la Sección 06.01), consulta el documento oficial de planificación:
+Los Capítulos 04 (Variables Aleatorias Continuas) y 05 (Distribuciones de Muestreo) están 100% completos. El Capítulo 06 (Estimación y su Relación con Ciencia de Datos) está en curso (1 de 5 secciones completadas). Para ver la planificación del siguiente hito curricular del proyecto (**Sección 06.02: Método de Momentos**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.
