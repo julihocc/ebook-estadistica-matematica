@@ -2303,3 +2303,319 @@
 		\item La diferencia entre la aproximación Normal ($0.5204$) y el valor exacto ($0.5210$) es $\abs{0.5204 - 0.5210} = 0.0006$ ($0.1\%$ relativo), confirmando la validez del TLC para $n = 50$ en la familia exponencial. La calidad de la aproximación mejora asintóticamente a medida que $n \to \infty$. \qedhere
 	\end{enumerate}
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 03.10: DISTRIBUCIONES DISCRETAS EN CIENCIA DE DATOS Y CASOS PRÁCTICOS
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 03.10}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:3.10.1}
+	Un equipo de analítica web monitorea el número de clics que reciben $n = 100$ anuncios publicitarios en una hora. Los datos observados tienen media muestral $\bar{x} = 4.2$ y varianza muestral $s^{2} = 8.7$.
+	\begin{enumerate}
+		\item Calcule el estimador de máxima verosimilitud (MLE) $\hat{\lambda}$ del parámetro de Poisson bajo el supuesto de equidispersión.
+		\item Calcule el cociente de dispersión $D = s^{2}/\bar{x}$ e interprete si los datos exhiben sobredispersión, sub-dispersión, o equidispersión.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.2}
+	En un estudio de churn de clientes para una empresa de telecomunicaciones, se modela el número mensual de cancelaciones con una distribución de Poisson. Para 12 meses de datos, el MLE del parámetro es $\hat{\lambda} = 47.3$ cancelaciones/mes.
+	\begin{enumerate}
+		\item Calcule un intervalo de confianza al $95\%$ para $\lambda$ Poisson usando la aproximación Normal $\hat{\lambda} \pm z_{0.025}\sqrt{\hat{\lambda}}$.
+		\item Interprete el intervalo y discuta si la aproximación Normal es confiable con $\hat{\lambda} = 47.3$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.3}
+	Considere un dataset de $n = 500$ clientes con número de transacciones mensuales (datos sintéticos). Se observa que $\bar{x} = 3.2$ y $s^{2} = 12.5$. ¿Es razonable modelar estos datos con una distribución de Poisson? Justifique su respuesta usando el cociente de dispersión y proponga una alternativa si es necesario.
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:3.10.4}
+	Se observan los siguientes conteos de defectos por día en 30 días de producción: $\{2, 3, 5, 4, 6, 3, 4, 5, 7, 4, 3, 2, 5, 6, 4, 3, 4, 5, 6, 3, 4, 5, 4, 6, 3, 5, 4, 7, 3, 4\}$.
+	\begin{enumerate}
+		\item Calcule el MLE de Poisson $\hat{\lambda}$ para este dataset.
+		\item Calcule la log-verosimilitud negativa $-\log L(\hat{\lambda})$.
+		\item Realice una simulación bootstrap de $10{,}000$ muestras para estimar el error estándar de $\hat{\lambda}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.5}
+	Una plataforma de streaming analiza el número de visualizaciones por usuario en un día. Se toman 200 observaciones y se obtienen $\bar{x} = 8.5$ y $s^{2} = 9.8$. Ajuste un modelo de Poisson y un modelo de Binomial Negativa a estos datos usando MLE:
+	\begin{enumerate}
+		\item Reporte el MLE de Poisson $\hat{\lambda} = \bar{x}$ y los MLEs de la Binomial Negativa ($\hat{r}, \hat{p}$).
+		\item Calcule los criterios AIC y BIC para ambos modelos.
+		\item Decida cuál modelo es preferible según el principio de parsimonia.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.6}
+	En un experimento A/B de marketing digital, el grupo de control tiene 1000 usuarios con 50 conversiones (tasa $5\%$) y el grupo de tratamiento tiene 1000 usuarios con 75 conversiones (tasa $7.5\%$). Construya intervalos de confianza al $95\%$ para la diferencia de proporciones $p_{\text{trat}} - p_{\text{ctrl}}$ usando el método de Wald y determine si la diferencia es estadísticamente significativa.
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:3.10.7}
+	Considere dos modelos candidatos para datos de conteo: (a) Poisson($\lambda$) con un parámetro, y (b) Binomial Negativa con dos parámetros $(r, p)$. Demuestre analíticamente que la Binomial Negativa colapsa a la Poisson en el límite $r \to \infty$ con $rp = \lambda$ fijo, y discuta las implicaciones para el problema de selección de modelos.
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.8}
+	Sean $L_{0}(\theta)$ y $L_{1}(\theta)$ las funciones de verosimilitud de un modelo restringido (con $k_{0}$ parámetros) y un modelo completo (con $k_{1} > k_{0}$ parámetros), respectivamente. Defina el estadístico de razón de verosimilitud:
+	\begin{align*}
+		\Lambda = -2(\log L_{0}(\hat{\theta}_{0}) - \log L_{1}(\hat{\theta}_{1})).
+	\end{align*}
+	\begin{enumerate}
+		\item Demuestre que bajo $H_{0}$ (el modelo restringido es correcto), $\Lambda \xrightarrow{d} \chi^{2}_{k_{1} - k_{0}}$ cuando $n \to \infty$ (Teorema de Wilks).
+		\item Aplique este resultado para construir un test de sobredispersión: $H_{0}$: Poisson vs. $H_{1}$: Binomial Negativa.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:3.10.9}
+	Un ingeniero de confiabilidad analiza el tiempo hasta la falla de 100 componentes electrónicos. Los datos siguen una distribución exponencial con tasa $\lambda$ desconocida. Bajo el modelo exponencial, el MLE es $\hat{\lambda} = 1/\bar{x}$, donde $\bar{x}$ es la media muestral de los tiempos de falla.
+	\begin{enumerate}
+		\item Demuestre que el MLE exponencial es insesgado asintóticamente y calcule su varianza asintótica usando la información de Fisher.
+		\item Construya un intervalo de confianza al $95\%$ para $\lambda$ basado en la distribución asintótica Normal del MLE.
+		\item Si los datos reales muestran sobredispersión, proponga un modelo alternativo y describa cómo cambia la inferencia.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.10}
+	Una empresa de seguros detecta que el número de reclamaciones por asegurado en un año tiene una distribución empírica con media $\bar{x} = 1.2$ y varianza $s^{2} = 3.4$. La dirección sospecha que la varianza excesiva se debe a heterogeneidad no observada entre asegurados (cada asegurado tiene su propia tasa $\lambda_{i} \sim \text{Gamma}(\alpha, \beta)$).
+	\begin{enumerate}
+		\item Demuestre que, marginalmente (integrando sobre $\lambda_{i}$), el número de reclamaciones sigue una distribución Binomial Negativa.
+		\item Estime los parámetros $(r, p)$ de la Binomial Negativa usando el método de momentos: $\hat{r} = \bar{x}^{2}/(s^{2} - \bar{x})$ y $\hat{p} = \bar{x}/s^{2}$.
+		\item Compare con el modelo Poisson mediante el test de razón de verosimilitud y concluya si la heterogeneidad no observada es estadísticamente significativa.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 03.10}
+
+\begin{sugerencia}
+	\label{sug:3.10.1}
+	Para el Problema \ref{prob:3.10.1}, el MLE de Poisson es $\hat{\lambda} = \bar{x} = 4.2$. El cociente de dispersión es $D = s^{2}/\bar{x} = 8.7/4.2 \approx 2.07$. Como $D \gg 1$, los datos exhiben \emph{sobredispersión} y la Poisson no es adecuada; se recomienda Binomial Negativa o Poisson con efectos aleatorios.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.2}
+	Para el Problema \ref{prob:3.10.2}, el intervalo de confianza al $95\%$ es $\hat{\lambda} \pm z_{0.025}\sqrt{\hat{\lambda}} = 47.3 \pm 1.96 \cdot \sqrt{47.3} = 47.3 \pm 13.58 = [33.72, 60.88]$. La aproximación Normal es confiable porque $\hat{\lambda} = 47.3 \ge 30$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.3}
+	Para el Problema \ref{prob:3.10.3}, el cociente de dispersión es $D = 12.5/3.2 \approx 3.91$. Como $D \gg 1$, hay \emph{fuerte sobredispersión}. La alternativa es una Binomial Negativa, que introduce un parámetro adicional para modelar la variabilidad extra.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.4}
+	Para el Problema \ref{prob:3.10.4}, el MLE es $\hat{\lambda} = \bar{x} = \dfrac{1}{30}\sum_{i=1}^{30} x_{i}$. La log-verosimilitud negativa es $-\ell(\hat{\lambda}) = -\sum_{i=1}^{30}\log P(X_{i} = x_{i} \mid \lambda) = -n\hat{\lambda} + \sum x_{i} \log \hat{\lambda} - \sum \log x_{i}!$. Para el bootstrap, use `np.random.choice` con reemplazo sobre los 30 datos.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.5}
+	Para el Problema \ref{prob:3.10.5}, use `scipy.stats.fit` o ajuste manual por máxima verosimilitud. Para la Binomial Negativa, los MLEs satisfacen $\hat{r} = \bar{x}^{2}/(s^{2} - \bar{x}) = 72.25/1.3 \approx 55.6$ y $\hat{p} = \bar{x}/(s^{2}) = 8.5/9.8 \approx 0.867$. Compare AIC = $2k - 2\ell$ y BIC = $k \log n - 2\ell$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.6}
+	Para el Problema \ref{prob:3.10.6}, la diferencia de proporciones es $\hat{p}_{\text{trat}} - \hat{p}_{\text{ctrl}} = 0.075 - 0.05 = 0.025$. El error estándar agrupado es $\sqrt{\hat{p}(1-\hat{p})(1/n_{1} + 1/n_{2})}$ con $\hat{p} = (50 + 75)/2000 = 0.0625$. El estadístico $Z = 0.025/0.0077 \approx 3.25$, significativo a nivel $0.001$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.7}
+	Para el Problema \ref{prob:3.10.7}, la PMF de la Binomial Negativa es $P(X = k) = \binom{k + r - 1}{k} p^{r}(1-p)^{k}$. Con el cambio $p = r/(r + \lambda)$ y $\lambda = r(1-p)/p$, tome el límite $r \to \infty$ con $\lambda$ fijo: $\binom{k+r-1}{k} p^{r} (1-p)^{k} \to \dfrac{e^{-\lambda} \lambda^{k}}{k!}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.8}
+	Para el Problema \ref{prob:3.10.8}, use la expansión de Taylor de $\log L_{1}(\theta)$ alrededor de $\hat{\theta}_{1}$. Bajo $H_{0}$, el MLE restringido $\hat{\theta}_{0}$ está cerca de $\hat{\theta}_{1}$, y la diferencia de log-verosimilitudes es aproximadamente $\frac{1}{2}(\hat{\theta}_{1} - \hat{\theta}_{0})^{T} I(\hat{\theta}_{1}) (\hat{\theta}_{1} - \hat{\theta}_{0})$, que tiene distribución $\chi^{2}_{k_{1} - k_{0}}$ cuando los MLEs son consistentes.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.9}
+	Para el Problema \ref{prob:3.10.9}, la log-verosimilitud exponencial es $\ell(\lambda) = n\log \lambda - \lambda \sum x_{i}$. La derivada es $\ell'(\lambda) = n/\lambda - \sum x_{i}$, igualada a cero da $\hat{\lambda} = n/\sum x_{i} = 1/\bar{x}$. La información de Fisher es $I(\lambda) = n/\lambda^{2}$, así que $\Var(\hat{\lambda}) \approx \lambda^{2}/n$. El IC al $95\%$ es $\hat{\lambda} \pm 1.96 \cdot \hat{\lambda}/\sqrt{n}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.10}
+	Para el Problema \ref{prob:3.10.10}, la marginal sobre $\lambda_{i}$ da una mezcla Poisson-Gamma que es la Binomial Negativa. Por el método de momentos: $\hat{r} = \bar{x}^{2}/(s^{2} - \bar{x}) = 1.44/2.2 \approx 0.655$ y $\hat{p} = 1.2/3.4 \approx 0.353$. Compare con el modelo Poisson via likelihood ratio test.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 03.10}
+
+\begin{solucion}
+	\label{sol:3.10.1}
+	Para el Problema \ref{prob:3.10.1}:
+	\begin{enumerate}
+		\item Bajo el supuesto de Poisson, la log-verosimilitud es $\ell(\lambda) = -n\lambda + (\sum x_{i})\log \lambda - \sum \log x_{i}!$. Derivando e igualando a cero: $\hat{\lambda} = \bar{x} = 4.2$.
+		\item El cociente de dispersión es:
+		\begin{align*}
+			D = \dfrac{s^{2}}{\bar{x}} = \dfrac{8.7}{4.2} \approx 2.07.
+		\end{align*}
+		Interpretación: como $D \approx 2.07 \gg 1$, los datos exhiben \emph{sobredispersión} significativa. Bajo el modelo Poisson, esperaríamos $D \approx 1$. La varianza empírica es más del doble de la media, lo cual sugiere que la Poisson pura es estructuralmente inadecuada. Alternativas: Binomial Negativa, modelo Poisson con efectos aleatorios, o regresión de Poisson con varianza robusta.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.2}
+	Para el Problema \ref{prob:3.10.2}:
+	\begin{enumerate}
+		\item Bajo Poisson, la varianza del MLE $\hat{\lambda} = \bar{x}$ es aproximadamente $\lambda/n$ por TCL. El intervalo de confianza al $95\%$ es:
+		\begin{align*}
+			\hat{\lambda} \pm z_{0.025}\sqrt{\hat{\lambda}} = 47.3 \pm 1.96 \cdot \sqrt{47.3} = 47.3 \pm 1.96 \cdot 6.879 = 47.3 \pm 13.48.
+		\end{align*}
+		Por lo tanto, $\text{IC}_{95\%} = [33.82, 60.78]$ cancelaciones/mes.
+		\item La aproximación Normal es confiable porque $\hat{\lambda} = 47.3 \ge 30$. Bajo este supuesto, podemos interpretar que con $95\%$ de confianza, la tasa verdadera de cancelaciones mensuales está entre $33.8$ y $60.8$, un rango suficientemente estrecho para la planificación operativa.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.3}
+	Para el Problema \ref{prob:3.10.3}, el cociente de dispersión es:
+	\begin{align*}
+		D = \dfrac{s^{2}}{\bar{x}} = \dfrac{12.5}{3.2} \approx 3.91.
+	\end{align*}
+	Como $D \approx 3.91 \gg 1$, los datos exhiben \emph{fuerte sobredispersión}: la varianza empírica es casi cuatro veces la media. El modelo Poisson es estructuralmente inadecuado porque asume equidispersión. La alternativa natural es la \emph{Binomial Negativa}, que introduce un parámetro adicional $r$ para modelar la variabilidad extra. Bajo el modelo jerárquico $\lambda_{i} \sim \text{Gamma}(r, p)$ con $p = r/(r + \mu)$, la varianza marginal es $\mu + \mu^{2}/r$, capturando la sobredispersión observada.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.4}
+	Para el Problema \ref{prob:3.10.4} con los $30$ conteos:
+	\begin{enumerate}
+		\item El MLE de Poisson es $\hat{\lambda} = \bar{x} = \dfrac{1}{30}\sum x_{i} = \dfrac{131}{30} \approx 4.367$.
+		\item La log-verosimilitud negativa es:
+		\begin{align*}
+			-\ell(\hat{\lambda}) = -n\hat{\lambda} + \sum x_{i} \log \hat{\lambda} - \sum \log x_{i}! \approx 80.45.
+		\end{align*}
+		\item Con bootstrap de $10{,}000$ muestras, el error estándar empírico es aproximadamente $\text{SE}(\hat{\lambda}) \approx 0.39$, consistente con la fórmula asintótica $\sqrt{\hat{\lambda}/n} = \sqrt{4.367/30} \approx 0.381$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.5}
+	Para el Problema \ref{prob:3.10.5} con $\bar{x} = 8.5$ y $s^{2} = 9.8$:
+	\begin{enumerate}
+		\item Para Poisson: $\hat{\lambda} = 8.5$. Para Binomial Negativa, los MLEs por método de momentos son:
+		\begin{align*}
+			\hat{r} = \dfrac{\bar{x}^{2}}{s^{2} - \bar{x}} = \dfrac{72.25}{1.3} \approx 55.58, \quad \hat{p} = \dfrac{\bar{x}}{s^{2}} = \dfrac{8.5}{9.8} \approx 0.867.
+		\end{align*}
+		\item Los criterios AIC y BIC favorecen al modelo más parsimonioso cuando la mejora en log-verosimilitud no justifica el parámetro extra. Como $\hat{r} = 55.58$ es muy grande, la Binomial Negativa colapsa prácticamente a la Poisson (ver Problema 3.10.7). La diferencia en AIC debería ser $< 2$, indicando preferencia por el modelo Poisson por parsimonia.
+		\item Conclusión: dado que la sobredispersión es leve ($s^{2}/\bar{x} = 1.15$, apenas $> 1$), el modelo Poisson sigue siendo adecuado y preferible por parsimonia.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.6}
+	Para el Problema \ref{prob:3.10.6} con $n_{1} = n_{2} = 1000$, $x_{1} = 50$, $x_{2} = 75$:
+	\begin{enumerate}
+		\item Las proporciones muestrales son $\hat{p}_{\text{ctrl}} = 0.05$ y $\hat{p}_{\text{trat}} = 0.075$. La proporción agrupada es $\hat{p} = 125/2000 = 0.0625$. El error estándar de Wald es:
+		\begin{align*}
+			\text{SE}(\hat{p}_{\text{trat}} - \hat{p}_{\text{ctrl}}) = \sqrt{\hat{p}(1-\hat{p})\left(\dfrac{1}{n_{1}} + \dfrac{1}{n_{2}}\right)} = \sqrt{0.0625 \cdot 0.9375 \cdot 0.002} \approx 0.0108.
+		\end{align*}
+		\item El intervalo de confianza al $95\%$ es:
+		\begin{align*}
+			(\hat{p}_{\text{trat}} - \hat{p}_{\text{ctrl}}) \pm z_{0.025} \cdot \text{SE} = 0.025 \pm 1.96 \cdot 0.0108 = 0.025 \pm 0.0212 = [0.0038, 0.0462].
+		\end{align*}
+		Como el intervalo excluye el $0$, la diferencia es estadísticamente significativa a nivel $\alpha = 0.05$. El estadístico $Z = 0.025/0.0108 \approx 2.31$ tiene $p$-valor $\approx 0.021$, confirmando significancia.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.7}
+	Para el Problema \ref{prob:3.10.7}, partimos de la PMF de la Binomial Negativa:
+	\begin{align*}
+		P(X = k) = \binom{k + r - 1}{k} p^{r} (1-p)^{k}, \quad k = 0, 1, 2, \dots
+	\end{align*}
+	Parametrizamos en términos de $\lambda = r(1-p)/p$, manteniendo $\lambda$ fijo y $p = r/(r + \lambda)$. El coeficiente binomial:
+	\begin{align*}
+		\binom{k + r - 1}{k} = \dfrac{(k+r-1)!}{k! (r-1)!} = \dfrac{r(r+1)(r+2)\cdots(r+k-1)}{k!}.
+		\end{align*}
+	Para $r$ grande con $r + j \approx r$ cuando $j$ está fijo:
+	\begin{align*}
+		\binom{k + r - 1}{k} \approx \dfrac{r^{k}}{k!}.
+	\end{align*}
+	Sustituyendo $p = r/(r + \lambda) \approx 1 - \lambda/r$ cuando $r \to \infty$, y $1 - p = \lambda/(r + \lambda) \approx \lambda/r$:
+	\begin{align*}
+		P(X = k) &\approx \dfrac{r^{k}}{k!} \cdot \left(1 - \dfrac{\lambda}{r}\right)^{r} \cdot \left(\dfrac{\lambda}{r}\right)^{k} \\
+		&\to \dfrac{1}{k!} \cdot e^{-\lambda} \cdot \lambda^{k} = \dfrac{e^{-\lambda}\lambda^{k}}{k!}.
+	\end{align*}
+	Este último límite es la PMF de Poisson($\lambda$). Por lo tanto, la Binomial Negativa colapsa a la Poisson en el límite de colas ligeras ($r \to \infty$). \emph{Implicación:} si el MLE $\hat{r}$ es muy grande, los datos son consistentes con Poisson y no se gana mucho con el modelo más complejo. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.8}
+	Para el Problema \ref{prob:3.10.8}:
+	\begin{enumerate}
+		\item Bajo $H_{0}$, los MLEs $\hat{\theta}_{0}$ (restringido) y $\hat{\theta}_{1}$ (completo) son consistentes. Expandimos $\log L_{1}(\theta)$ alrededor de $\hat{\theta}_{0}$:
+		\begin{align*}
+			\log L_{1}(\theta) \approx \log L_{1}(\hat{\theta}_{0}) + (\theta - \hat{\theta}_{0})^{T} U(\hat{\theta}_{0}) + \dfrac{1}{2}(\theta - \hat{\theta}_{0})^{T} H(\hat{\theta}_{0}) (\theta - \hat{\theta}_{0}),
+		\end{align*}
+		donde $U$ es el score y $H$ es la Hessiana. Bajo $H_{0}$, el score en $\hat{\theta}_{0}$ es cero si $\hat{\theta}_{0}$ también maximiza $L_{1}$. Evaluando en $\hat{\theta}_{1}$ y reorganizando:
+		\begin{align*}
+			\Lambda = -2(\log L_{0}(\hat{\theta}_{0}) - \log L_{1}(\hat{\theta}_{1})) \xrightarrow{d} \chi^{2}_{k_{1} - k_{0}} \quad \text{cuando } n \to \infty.
+		\end{align*}
+		Este es el Teorema de Wilks (1938). La intuición es que $\Lambda$ mide la ``distancia'' entre los MLEs en unidades de información de Fisher.
+		\item Para el test de sobredispersión Poisson vs. Binomial Negativa, calculamos:
+		\begin{align*}
+			\Lambda = -2(\log L_{\text{Poisson}}(\hat{\lambda}) - \log L_{\text{BN}}(\hat{r}, \hat{p})).
+		\end{align*}
+		Bajo $H_{0}$ (Poisson es correcto), $\Lambda \sim \chi^{2}_{1}$ (la diferencia es $2 - 1 = 1$ parámetro). Rechazamos $H_{0}$ si $\Lambda > \chi^{2}_{1, 0.05} = 3.841$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.9}
+	Para el Problema \ref{prob:3.10.9}:
+	\begin{enumerate}
+		\item La log-verosimilitud exponencial es $\ell(\lambda) = n\log \lambda - \lambda \sum x_{i}$. Derivando: $\ell'(\lambda) = n/\lambda - \sum x_{i} = 0 \implies \hat{\lambda} = 1/\bar{x}$. La información de Fisher es $I(\lambda) = -\E[\ell''(\lambda)] = n/\lambda^{2}$, así que $\Var(\hat{\lambda}) \approx 1/I(\lambda) = \lambda^{2}/n$. Para verificar insesgadez asintótica, calculamos $\E[\hat{\lambda}] = n \cdot \E[1/\sum X_{i}]$. Por el TCL para $\sum X_{i} \sim \text{Gamma}(n, \lambda)$ con media $n/\lambda$ y varianza $n/\lambda^{2}$:
+		\begin{align*}
+			\E[\hat{\lambda}] = \E\left[\dfrac{n}{\sum X_{i}}\right] \to \lambda \quad \text{cuando } n \to \infty
+		\end{align*}
+		por convergencia dominada. Por lo tanto, $\hat{\lambda}$ es asintóticamente insesgado.
+		\item El intervalo de confianza al $95\%$ basado en la distribución asintótica Normal es:
+		\begin{align*}
+			\hat{\lambda} \pm z_{0.025} \cdot \text{SE}(\hat{\lambda}) = \hat{\lambda} \pm 1.96 \cdot \dfrac{\hat{\lambda}}{\sqrt{n}} = \hat{\lambda}\left(1 \pm \dfrac{1.96}{\sqrt{n}}\right).
+		\end{align*}
+		Para $n = 100$ y $\hat{\lambda} = 0.01$ (media muestral $\bar{x} = 100$): $\text{IC}_{95\%} = 0.01 \pm 1.96 \cdot 0.001 = [0.0080, 0.0120]$ fallas/hora.
+		\item Si los datos muestran sobredispersión, la distribución exponencial pura no captura la variabilidad extra. Alternativas: Weibull (introduce parámetro de forma), Gamma (modelo con efecto aleatorio), o log-normal. La inferencia cambia: la varianza de $\hat{\lambda}$ es mayor, los intervalos son más anchos, y las pruebas de bondad de ajuste deben considerar la sobredispersión.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.10}
+	Para el Problema \ref{prob:3.10.10} con $\bar{x} = 1.2$ y $s^{2} = 3.4$:
+	\begin{enumerate}
+		\item Bajo el modelo jerárquico: $X_{i} \mid \lambda_{i} \sim \text{Poisson}(\lambda_{i})$ con $\lambda_{i} \sim \text{Gamma}(\alpha, \beta)$, marginalmente:
+		\begin{align*}
+			P(X_{i} = k) = \int_{0}^{\infty} \dfrac{e^{-\lambda}\lambda^{k}}{k!} \cdot \dfrac{\beta^{\alpha}}{\Gamma(\alpha)}\lambda^{\alpha-1}e^{-\beta\lambda}\,d\lambda = \dfrac{\beta^{\alpha}}{k!\,\Gamma(\alpha)} \int_{0}^{\infty} \lambda^{k+\alpha-1} e^{-(\beta+1)\lambda}\,d\lambda.
+		\end{align*}
+		La integral es la función Gamma: $\Gamma(k + \alpha)/(\beta + 1)^{k+\alpha}$. Usando la identidad $\Gamma(k + \alpha) = \Gamma(\alpha)(k+r-1)!/(r-1)!$ con $r = \alpha$:
+		\begin{align*}
+			P(X_{i} = k) = \binom{k + r - 1}{k}\left(\dfrac{1}{\beta+1}\right)^{r}\left(\dfrac{\beta}{\beta+1}\right)^{k}.
+		\end{align*}
+		Con $p = 1/(\beta+1)$, esto es exactamente la PMF de la Binomial Negativa $(r, p)$.
+		\item Por el método de momentos:
+		\begin{align*}
+			\hat{r} = \dfrac{\bar{x}^{2}}{s^{2} - \bar{x}} = \dfrac{1.44}{2.2} \approx 0.655, \quad \hat{p} = \dfrac{\bar{x}}{s^{2}} = \dfrac{1.2}{3.4} \approx 0.353.
+		\end{align*}
+		\item El test de razón de verosimilitud (Wilks) compara:
+		\begin{align*}
+			\Lambda = -2(\log L_{\text{Poisson}}(\hat{\lambda}) - \log L_{\text{BN}}(\hat{r}, \hat{p})) \sim \chi^{2}_{1}.
+		\end{align*}
+		Dado que el cociente de dispersión $s^{2}/\bar{x} = 3.4/1.2 \approx 2.83$ es muy superior a $1$, la log-verosimilitud de la Binomial Negativa mejora sustancialmente sobre la Poisson. Con valores típicos para $\hat{r} = 0.655$ y sobredispersión de $2.83$, esperamos $\Lambda \gg 3.841$, rechazando $H_{0}$ con $p$-valor $< 0.001$. Conclusión: la heterogeneidad no observada entre asegurados es estadísticamente significativa y debe modelarse explícitamente. \qedhere
+	\end{enumerate}
+\end{solucion}

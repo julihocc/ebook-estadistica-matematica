@@ -1,0 +1,459 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Distribuciones en Ciencia de Datos]{Sección 03.10: Distribuciones Discretas en Ciencia de Datos}
+\subtitle{Ajuste por MLE, Detección de Sobredispersión y Criterios de Información}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 03: Variables Aleatorias Discretas}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular de la teoría? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{03.01} PMF y Soporte \pause
+    \item \textbf{03.02} CDF Discreta \pause
+    \item \textbf{03.03} Esperanza y Varianza \pause
+    \item \textbf{03.04} Bernoulli y Binomial \pause
+    \item \textbf{03.05} Geométrica y Binomial Negativa \pause
+    \item \textbf{03.06} Hipergeométrica \pause
+    \item \textbf{03.07} Poisson \pause
+    \item \textbf{03.08} Multinomial \pause
+    \item \textbf{03.09} Normal y Aproximación Continua \pause
+    \item \color{TecRojo}\textbf{03.10 Distribuciones Discretas en Ciencia de Datos \emph{(Hoy y Cierre del Cap. 03)}}\color{black}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Integrar todas las distribuciones discretas en aplicaciones modernas: ajuste por máxima verosimilitud, detección de sobredispersión, criterios de información para selección de modelos, e inferencia basada en razón de verosimilitud.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De la Teoría a la Práctica: Distribuciones en Datos Reales}
+  \footnotesize
+  \begin{motivacion}[¿Por qué ajustar distribuciones a datos empíricos?]
+    En la práctica, rara vez sabemos con certeza qué distribución generó nuestros datos. Lo que observamos son conteos (clics, defectos, cancelaciones, llamadas) y，我们需要 inferir el modelo que mejor los describe. La \emph{máxima verosimilitud} (MLE) es el método estándar: dada una familia paramétrica, elegimos los parámetros que maximizan la probabilidad de observar los datos.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Ajuste paramétrico:} La Poisson asume equidispersión; si la varianza empírica es mayor, la Binomial Negativa es preferible. \pause
+    \item \textbf{Selección de modelos:} AIC, BIC y likelihood ratio test balancean bondad de ajuste y parsimonia. \pause
+    \item \textbf{Incertidumbre:} Los intervalos de confianza y el bootstrap cuantifican la variabilidad de los estimadores puntuales.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: MLE para Poisson
+\begin{frame}{Estimación por Máxima Verosimilitud (MLE) para Poisson}
+  \footnotesize
+  Para datos de conteo $x_{1}, \dots, x_{n}$ asumiendo $X_{i} \sim \text{Pois}(\lambda)$ independientes, la función de verosimilitud es: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Función de Verosimilitud Poisson}
+    $$L(\lambda) = \prod_{i=1}^{n} \dfrac{e^{-\lambda}\lambda^{x_{i}}}{x_{i}!} = \dfrac{e^{-n\lambda}\lambda^{\sum x_{i}}}{\prod x_{i}!}$$
+    La log-verosimilitud es $\ell(\lambda) = -n\lambda + (\sum x_{i})\log \lambda - \sum \log x_{i}!$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Derivación del MLE}
+    \begin{itemize}\itemsep=0.05cm
+      \item Derivando: $\ell'(\lambda) = -n + \dfrac{\sum x_{i}}{\lambda} = 0 \implies \hat{\lambda} = \bar{x}$.
+      \item El MLE de Poisson es simplemente la media muestral: la estimación más natural para un parámetro de tasa.
+      \item Por el TCL, $\hat{\lambda} \pm z_{0.025}\sqrt{\hat{\lambda}/n}$ es un intervalo de confianza al $95\%$ asintótico.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Detección de Sobredispersión
+\begin{frame}{Detección de Sobredispersión: Índice de Dispersión $D = s^{2}/\bar{x}$}
+  \footnotesize
+  La \emph{sobredispersión} ocurre cuando la varianza muestral excede la media muestral, violando el supuesto de equidispersión de Poisson. El diagnóstico estándar es el \emph{índice de dispersión}: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Estadístico de Diagnóstico}
+    $$D = \dfrac{s^{2}}{\bar{x}}, \quad \text{con } s^{2} = \dfrac{1}{n-1}\sum_{i=1}^{n}(x_{i} - \bar{x})^{2}$$
+    Bajo $H_{0}$: Poisson (equidispersión), $D \approx 1$. La regla práctica:
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Interpretación del Cociente de Dispersión}
+    \begin{itemize}\itemsep=0.05cm
+      \item $D \approx 1$: equidispersión; Poisson es adecuada.
+      \item $D > 1.5$: sobredispersión fuerte; se recomienda Binomial Negativa o regresión de Poisson con varianza robusta.
+      \item $D < 0.8$: sub-dispersión; considerar distribución de Conway-Maxwell-Poisson.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Binomial Negativa como Alternativa
+\begin{frame}{Binomial Negativa: La Alternativa Natural para Sobredispersión}
+  \footnotesize
+  La distribución Binomial Negativa introduce un parámetro adicional $r > 0$ para modelar la variabilidad extra: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{PMF de la Binomial Negativa}
+    $$P(X = k) = \binom{k + r - 1}{k} p^{r} (1-p)^{k}, \quad k = 0, 1, 2, \dots$$
+    Media: $\E[X] = r(1-p)/p = \mu$. Varianza: $\Var(X) = \mu + \mu^{2}/r$, capturando la sobredispersión.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Interpretación Jerárquica}
+    \begin{itemize}\itemsep=0.05cm
+      \item Bajo el modelo $\lambda_{i} \sim \text{Gamma}(r, p)$ con $X_{i} \mid \lambda_{i} \sim \text{Poisson}(\lambda_{i})$, marginalmente $X_{i} \sim \text{NegBin}(r, p)$.
+      \item MLE por método de momentos: $\hat{r} = \bar{x}^{2}/(s^{2} - \bar{x})$ y $\hat{p} = \bar{x}/s^{2}$.
+      \item Cuando $r \to \infty$, la Binomial Negativa colapsa a la Poisson (Problema 3.10.7).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Criterios de Información
+\begin{frame}{Criterios de Información: AIC y BIC para Selección de Modelos}
+  \footnotesize
+  Para comparar modelos con diferente número de parámetros, los criterios de información penalizan la complejidad: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Criterio de Información de Akaike (AIC) y Bayesiano (BIC)}
+    $$\text{AIC} = 2k - 2\ell(\hat{\theta}), \quad \text{BIC} = k \log n - 2\ell(\hat{\theta})$$
+    donde $k$ es el número de parámetros, $n$ el tamaño muestral, y $\ell(\hat{\theta})$ la log-verosimilitud maximizada.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Regla de Decisión}
+    \begin{itemize}\itemsep=0.05cm
+      \item Se prefiere el modelo con menor AIC (o BIC).
+      \item Diferencias $|\Delta\text{AIC}| < 2$ son insignificantes; $4 < \Delta\text{AIC} < 7$ son sustanciales; $\Delta\text{AIC} > 10$ son muy fuertes.
+      \item BIC penaliza más la complejidad que AIC; para muestras grandes favorece modelos más parsimoniosos.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Test de Razón de Verosimilitud
+\begin{frame}{Test de Razón de Verosimilitud (Wilks) y Sobredispersión}
+  \footnotesize
+  El test de razón de verosimilitud compara un modelo restringido $L_{0}$ contra uno completo $L_{1}$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Estadístico de Razón de Verosimilitud}
+    $$\Lambda = -2(\log L_{0}(\hat{\theta}_{0}) - \log L_{1}(\hat{\theta}_{1})) \xrightarrow{d} \chi^{2}_{k_{1} - k_{0}}$$
+    Bajo $H_{0}$ (modelo restringido correcto), $\Lambda$ converge en distribución a chi-cuadrado con $k_{1} - k_{0}$ grados de libertad.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Aplicación: Test de Sobredispersión}
+    Para $H_{0}$: Poisson vs. $H_{1}$: Binomial Negativa, calculamos:
+    $$\Lambda = -2(\log L_{\text{Poisson}}(\hat{\lambda}) - \log L_{\text{BN}}(\hat{r}, \hat{p})) \sim \chi^{2}_{1}$$
+    Rechazamos $H_{0}$ si $\Lambda > \chi^{2}_{1, 0.05} = 3.841$, concluyendo sobredispersión significativa.
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Intervalos de Confianza
+\begin{frame}{Intervalos de Confianza: Wald, Exacto y Bootstrap}
+  \footnotesize
+  Para cuantificar la incertidumbre en la estimación de $\lambda$, existen tres métodos principales: \pause
+
+  \vspace{0.1cm}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Método de Wald}
+        \scriptsize
+        $\hat{\lambda} \pm z_{0.025}\sqrt{\hat{\lambda}/n}$. Válido para $\hat{\lambda} \ge 30$.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Método Exacto (Garwood)}
+        \scriptsize
+        $\left[\dfrac{1}{2n}\chi^{2}_{0.025, 2k}, \dfrac{1}{2n}\chi^{2}_{0.975, 2(k+1)}\right]$ con $k = \sum x_{i}$. Válido para todo $\lambda$.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Bootstrap No Paramétrico}
+    \begin{itemize}\itemsep=0.04cm
+      \item Muestreo con reemplazo de los datos observados: $B$ muestras, cada una de tamaño $n$.
+      \item Estimación del error estándar como la desviación estándar de los B MLEs bootstrap.
+      \item Intervalo de confianza por percentiles: $[\hat{\lambda}^{*}_{0.025}, \hat{\lambda}^{*}_{0.975}]$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 10: Aplicaciones
+\begin{frame}{Aplicaciones en Ciencia de Datos y Negocios}
+  \footnotesize
+  El ajuste de distribuciones discretas tiene aplicaciones directas en analytics empresarial: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Análisis de Churn:} Modelado de cancelaciones de clientes con Poisson y Binomial Negativa para identificar factores de riesgo en cohortes. \pause
+    \item \textbf{Detección de Fraude:} Conteo de transacciones sospechosas; la sobredispersión señala comportamiento anormal. \pause
+    \item \textbf{Experimentación A/B:} Comparación de tasas de conversión (Binomial) y conteos de eventos (Poisson/NegBin) entre variantes. \pause
+    \item \textbf{Confiabilidad Industrial:} Tiempo hasta la falla (Exponencial/Weibull) y número de defectos por unidad (Poisson/NegBin).
+  \end{itemize}
+\end{frame}
+
+% Slide 12A-1: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: MLE y Sobredispersión}
+  \scriptsize
+  Ajuste de modelos Poisson y Binomial Negativa, comparación vía AIC/BIC (\texttt{03.10\_discrete\_distributions\_data\_science.py}):
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=15, lastline=40]{../../code/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.py}}
+\end{frame}
+
+% Slide 12A-2: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Test de Wilks y Sobredispersión}
+  \scriptsize
+  Aplicación del test de razón de verosimilitud para detectar sobredispersión significativa:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=48, lastline=72]{../../code/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.py}}
+\end{frame}
+
+% Slide 12B: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: IC y Bootstrap}
+  \scriptsize
+  Tres métodos de intervalo de confianza (Wald, exacto, bootstrap) y bootstrap para parámetros de Binomial Negativa:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=81, lastline=108]{../../code/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.py}}
+\end{frame}
+
+% Slide 12C: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: MLE Fitting & Overdispersion ===
+NegBin(r=2, p=0.4) | mean=2.95 | var=5.24 | D=1.78
+  -> Strong overdispersion (D > 1.5): NegBin recommended
+Poisson: logLik=-220.16, AIC=442.31, BIC=444.92
+NegBin:  logLik=-211.05, AIC=426.10, BIC=431.31
+  Delta AIC (P-NB): 16.21 | Delta BIC: 13.60
+
+=== Block 2: Likelihood Ratio Test & Wilks ===
+NegBin(r=3, p=0.5) n=200: mean=2.83, var=5.29
+  Poisson logLik=-444.31 | NegBin logLik=-421.64
+  Lambda = 45.34 | p-value = 0.000000
+  Decision: Reject H0. NegBin significantly better.
+LR vs overdispersion (n=100):
+  r=10.0 (v/m=1.33): LR=4.24, p=0.040
+  r=2.0  (v/m=1.58): LR=12.81, p=0.000
+  r=1.0  (v/m=2.85): LR=78.66, p=0.000
+  r=0.5  (v/m=7.99): LR=310.80, p=0.000
+
+=== Block 3: Confidence Intervals & Bootstrap ===
+12 months claims: sample mean=46.50
+  Wald 95% CI: [42.64, 50.36]
+  Exact 95% CI: [42.72, 50.52]
+  Bootstrap SE: 1.97 | Wald SE: 1.97
+  Bootstrap 95% CI: [42.75, 50.42]
+NegBin bootstrap (n=200 churn data):
+  Method of moments: r=2.03, p=0.40
+  Bootstrap mean: r=2.13 +- 0.42 | p=0.41 +- 0.05
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.10.1 --- Detección de Sobredispersión en Anuncios (Enunciado)}
+    Un equipo de analítica web monitorea el número de clics que reciben $n = 100$ anuncios publicitarios en una hora. Los datos observados tienen media muestral $\bar{x} = 4.2$ y varianza muestral $s^{2} = 8.7$. Calcule el MLE de Poisson $\hat{\lambda}$ y el cociente de dispersión $D = s^{2}/\bar{x}$, e interprete si los datos exhiben sobredispersión, sub-dispersión, o equidispersión.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento del Modelo}
+    \begin{itemize}\itemsep=0.04cm
+      \item Bajo Poisson, la log-verosimilitud es $\ell(\lambda) = -n\lambda + (\sum x_{i})\log \lambda - \sum \log x_{i}!$.
+      \item Derivando e igualando a cero: $\hat{\lambda} = \bar{x} = 4.2$.
+      \item Diagnóstico: $D = s^{2}/\bar{x} = 8.7/4.2 \approx 2.07$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  El MLE de Poisson es la media muestral, y el cociente de dispersión detecta sobredispersión: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Estimación Puntual}
+    \begin{align*}
+      \hat{\lambda} = \bar{x} = 4.2 \quad \text{(MLE de Poisson)}
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Cociente de Dispersión e Interpretación}
+    \scriptsize
+    $D = s^{2}/\bar{x} = 8.7/4.2 \approx 2.07 \gg 1$. Los datos exhiben \textbf{sobredispersión significativa}: la varianza empírica es más del doble de la media. Bajo Poisson, esperaríamos $D \approx 1$. La Poisson pura es estructuralmente inadecuada. Alternativas: Binomial Negativa, regresión de Poisson con varianza robusta, o modelo jerárquico con efectos aleatorios.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.10.5 --- Comparación Poisson vs. Binomial Negativa (Enunciado)}
+    Una plataforma de streaming analiza el número de visualizaciones por usuario en un día. Se toman 200 observaciones con $\bar{x} = 8.5$ y $s^{2} = 9.8$. Ajuste modelos Poisson y Binomial Negativa, calcule AIC y BIC, y decida cuál es preferible.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Métricas de Comparación}
+    \scriptsize
+    Use los criterios AIC $= 2k - 2\ell(\hat{\theta})$ y BIC $= k\log n - 2\ell(\hat{\theta})$. Recuerde que el modelo con menor AIC (o BIC) es preferible por parsimonia. Diferencias $\Delta\text{AIC} < 2$ son insignificantes; $\Delta\text{AIC} > 10$ son muy fuertes.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \footnotesize
+  Calculamos los MLEs y los criterios de información: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{MLEs de los Modelos}
+    \scriptsize
+    Poisson: $\hat{\lambda} = 8.5$. Binomial Negativa (método de momentos):
+    $$\hat{r} = \dfrac{\bar{x}^{2}}{s^{2} - \bar{x}} = \dfrac{72.25}{1.3} \approx 55.58, \quad \hat{p} = \dfrac{\bar{x}}{s^{2}} \approx 0.867$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Decisión por Parsimonia}
+    \scriptsize
+    Con $\hat{r} = 55.58 \gg 1$, la Binomial Negativa colapsa prácticamente a la Poisson (Problema 3.10.7). El cociente de dispersión $s^{2}/\bar{x} = 1.15$ indica sobredispersión leve. La diferencia esperada en AIC es $< 2$, sugiriendo preferencia por el modelo Poisson por parsimonia. \emph{Conclusión:} con sobredispersión leve, el modelo más simple (Poisson) es preferible.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.10.7 --- Colapso de Binomial Negativa a Poisson (Enunciado)}
+    Demuestre analíticamente que la Binomial Negativa $\text{NB}(r, p)$ colapsa a la distribución $\text{Pois}(\lambda)$ cuando $r \to \infty$ con $\lambda = r(1-p)/p$ fijo, y discuta las implicaciones para la selección de modelos en la práctica.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia de Deducción}
+    \scriptsize
+    Parta de la PMF de la Binomial Negativa, sustituya $p = r/(r + \lambda)$ y tome el límite $r \to \infty$ con $\lambda$ fijo. Use que para $r$ grande con $j$ fijo, $r(r+1)\cdots(r+j-1) \approx r^{j}$ y $(1 - \lambda/r)^{r} \to e^{-\lambda}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Tomamos el límite $r \to \infty$ con $\lambda$ fijo: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Expansión Asintótica}
+    \scriptsize
+    Con $p = r/(r + \lambda) \approx 1 - \lambda/r$ y $1 - p = \lambda/(r + \lambda) \approx \lambda/r$ cuando $r \to \infty$:
+    \begin{align*}
+      P(X = k) &= \binom{k + r - 1}{k} p^{r} (1-p)^{k} \\
+      &\approx \dfrac{r^{k}}{k!} \cdot \left(1 - \dfrac{\lambda}{r}\right)^{r} \cdot \left(\dfrac{\lambda}{r}\right)^{k} \to \dfrac{1}{k!} \cdot e^{-\lambda} \cdot \lambda^{k} = \dfrac{e^{-\lambda}\lambda^{k}}{k!}
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Implicación para Selección de Modelos}
+    \scriptsize
+    Si el MLE $\hat{r}$ es muy grande, los datos son consistentes con Poisson y no se gana mucho con la Binomial Negativa. El AIC/BIC penalizarán correctamente el parámetro extra. Regla práctica: si $\hat{r} > 100$, usar Poisson por parsimonia. \qedhere
+  \end{alertblock}
+\end{frame}
+
+% Slide 16A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.10.10 --- Modelo Jerárquico Poisson-Gamma (Enunciado)}
+    Una empresa de seguros detecta que el número de reclamaciones por asegurado en un año tiene distribución empírica con $\bar{x} = 1.2$ y $s^{2} = 3.4$. La dirección sospecha heterogeneidad no observada: cada asegurado tiene su propia tasa $\lambda_{i} \sim \text{Gamma}(\alpha, \beta)$. Demuestre que marginalmente $X_{i} \sim \text{NB}(r, p)$ y estime los parámetros por método de momentos.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Aplicación}
+    \scriptsize
+    Calcule el estimador de razón de verosimilitud para comparar con la Poisson y concluya si la heterogeneidad no observada es estadísticamente significativa.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Integramos sobre la mezcla Poisson-Gamma para obtener la Binomial Negativa: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Derivación de la Marginal}
+    \scriptsize
+    $P(X = k) = \int_{0}^{\infty} \dfrac{e^{-\lambda}\lambda^{k}}{k!} \cdot \dfrac{\beta^{\alpha}}{\Gamma(\alpha)}\lambda^{\alpha-1}e^{-\beta\lambda}\,d\lambda = \binom{k + \alpha - 1}{k}\left(\dfrac{1}{\beta+1}\right)^{\alpha}\left(\dfrac{\beta}{\beta+1}\right)^{k}$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Estimación por Momentos}
+    \scriptsize
+    Con $r = \alpha$ y $p = 1/(\beta+1)$:
+    \begin{align*}
+      \hat{r} = \dfrac{\bar{x}^{2}}{s^{2} - \bar{x}} = \dfrac{1.44}{2.2} \approx 0.655, \quad \hat{p} = \dfrac{\bar{x}}{s^{2}} = \dfrac{1.2}{3.4} \approx 0.353.
+    \end{align*}
+    Con $s^{2}/\bar{x} = 3.4/1.2 \approx 2.83 \gg 1$, el test de Wilks da $\Lambda \gg 3.841$ ($p < 0.001$). \emph{Conclusión:} la heterogeneidad no observada es estadísticamente significativa; la Binomial Negativa es preferible a la Poisson. \qedhere
+  \end{alertblock}
+\end{frame}
+
+% Slide 17: Cierre
+\begin{frame}{Cierre del Capítulo 03 y Síntesis Final}
+  \begin{reflexion}[El Viaje desde Binomial hasta Ciencia de Datos]
+    A lo largo de 10 secciones, hemos dominado el ecosistema completo de distribuciones discretas: Binomial, Geométrica, Hipergeométrica, Poisson, Multinomial, y su aproximación Normal. Ahora cerramos con las herramientas de inferencia que conectan estos modelos con datos empíricos: MLE, criterios de información, tests de razón de verosimilitud, e inferencia por bootstrap.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones del Capítulo 03: Variables Aleatorias Discretas}
+    \begin{itemize}\itemsep=0.06cm
+      \item \textbf{Familia completa:} Binomial, Geométrica, Hipergeométrica, Poisson, Multinomial, Normal.
+      \item \textbf{Equidispersión vs. Sobredispersión:} La Poisson asume $\E[X] = \Var(X)$; la Binomial Negativa relaja este supuesto.
+      \item \textbf{Inferencia rigurosa:} AIC/BIC balancean bondad de ajuste y parsimonia; Wilks valida modelos anidados.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 18: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- Hacia el Capítulo 04}
+  \scriptsize
+  \begin{retoclase}[Próximo Capítulo: Variables Aleatorias Continuas]
+    Las distribuciones discretas modelan conteos, pero muchos fenómenos en ingeniería (tiempos de falla, errores de medición, señales) varían continuamente. En el Capítulo 04 introduciremos las \emph{distribuciones continuas fundamentales}: Uniforme, Exponencial, Normal, Gamma, Beta y Weibull, junto con sus aplicaciones en procesos continuos sin memoria y análisis de confiabilidad.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa el concepto de función de densidad de probabilidad (PDF) y la diferencia con la PMF.
+      \item Reflexiona sobre cómo el tiempo entre eventos Poisson se distribuye exponencialmente (proceso de Poisson).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

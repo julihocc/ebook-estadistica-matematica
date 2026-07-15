@@ -37,7 +37,7 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Laboratorio Python:* `presentaciones/code/02_teoria_probabilidad/02.06_random_sampling.py` (simulación MAS con vs sin reemplazo, verificación empírica de FPC, evolución del error en LGN con cota de Chebyshev, y estandarización CLT en población exponencial $N=50,000$).
   - *Mazos Beamer:* 22 diapositivas pedagógicas simétricas en `presentaciones/es/02_teoria_probabilidad/02.06_muestreo_aleatorio.tex` y `en/02_probability_theory/02.06_random_sampling.tex` (revelado progresivo `\pause`, puente computacional Python de 4 diapositivas, 4 problemas en clase desarrollados en Enunciado $\to$ Resolución, cero marcado informal y compilación certificada con **0 `Overfull \vbox` y 0 `Overfull \hbox`**).
 
-### Unidad 2 / Capítulo 03: Variables Aleatorias Discretas (`Avance actual: 9 de 10 secciones completadas`)
+### Unidad 2 / Capítulo 03: Variables Aleatorias Discretas (`Avance actual: 10 de 10 secciones completadas --- 100% FINALIZADO`)
 - $\checkmark$ **03.01 PMF y Soporte:** 100% completado (Remediación modular total).
   - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/variables_aleatorias_discretas(p).tex` (Problemas 3.1.1 al 3.1.10).
   - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py` (normalización polinomial, probabilidad condicional en soporte discreto, simulación Monte Carlo de suma de dados y transformación no lineal $|X-1|$ con sumas por preimágenes).
@@ -78,6 +78,11 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.09_normal_approximation.py` (verificación de PDF Normal con integración numérica $\int f = 1$, estandarización $Z$ y regla empírica, aproximación Binomial-Normal con y sin Yates mostrando reducción de error de $0.0112$ a $0.0021$, Poisson-Normal con error $< 0.001$, TLC para suma de 50 exponenciales verificado por Monte Carlo con $N=250{,}000$).
   - *Mazos Beamer:* mazos pedagógicos y modulares ES/EN en `presentaciones/es/03_variables_aleatorias_discretas/03.09_normal_approximation.tex` (24 frames) y `presentaciones/en/03_discrete_random_variables/03.09_normal_approximation.tex` (20 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido.
   - *Libro Maestro:* Recompilado limpiamente a 568 páginas (`[Modelación Estadística].tex`).
+- $\checkmark$ **03.10 Distribuciones Discretas en Ciencia de Datos:** 100% completado (**CIERRE DEL CAPÍTULO 03**).
+  - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/distribuciones_especiales(p).tex` (Problemas 3.10.1 al 3.10.10): MLE de Poisson, detección de sobredispersión por cociente $D = s^{2}/\bar{x}$, intervalos de Wald/exacto/bootstrap, ajuste de Binomial Negativa por momentos, comparación de modelos vía AIC/BIC, test de razón de verosimilitud de Wilks, modelo jerárquico Poisson-Gamma, inferencia en confiabilidad exponencial.
+  - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.py` (ajuste MLE de Poisson y Binomial Negativa con $\Delta$AIC $= 16.21$ a favor de NegBin, test de Wilks con $\Lambda = 45.34$ y $p < 10^{-6}$ para $n = 200$ de NegBin, intervalos de Wald/exacto/bootstrap para $\lambda$ Poisson con 12 meses de reclamaciones, bootstrap de parámetros de Binomial Negativa con $B = 10{,}000$ muestras).
+  - *Mazos Beamer:* mazos pedagógicos y modulares ES/EN en `presentaciones/es/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.tex` (24 frames) y `presentaciones/en/03_discrete_random_variables/03.10_discrete_distributions_data_science.tex` (20 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido.
+  - *Libro Maestro:* Recompilado limpiamente a 576 páginas (`[Modelación Estadística].tex`).
 
 ---
 
@@ -120,41 +125,41 @@ Con el nuevo ordenamiento consolidado, el desarrollo de temas restantes del Cap�
 
 ---
 
-## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 03.10`)
+## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 04.01`)
 
-Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 03.10: Distribuciones Discretas en Ciencia de Datos y Casos Prácticos** siguiendo este protocolo exacto de 6 pasos:
+**Capítulo 03 (Variables Aleatorias Discretas) 100% finalizado.** Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 04.01: Función de Densidad de Probabilidad (PDF) y Soporte Continuo**, abriendo el Capítulo 04 sobre Variables Aleatorias Continuas. El protocolo exacto de 6 pasos es:
 
 ### Paso 1: Auditoría de Teoría y Creación/Integración de `(p).tex`
-1. Consultar el archivo `latex/distribuciones_especiales.tex` (donde se ubica la teoría de aplicaciones de distribuciones discretas en ciencia de datos).
-2. Verificar si en `distribuciones_especiales(p).tex` existen los problemas de la 03.10. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2` usando los entornos institucionales (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`):
-   - **Nivel Fundamental (3):** Ajuste de distribuciones por máxima verosimilitud (MLE), comparación de modelos Poisson vs. Binomial Negativa, detección de sobredispersión (`3.10.1` a `3.10.3`).
-   - **Nivel Operativo (3):** Estimación de parámetros con datos empíricos, bootstrap e intervalos de confianza para $\lambda$ y $p$, validación cruzada de modelos (`3.10.4` a `3.10.6`).
-   - **Nivel Analítico (2):** Función de log-verosimilitud negativa, criterios de información AIC/BIC, y likelihood ratio test (`3.10.7` y `3.10.8`).
-   - **Nivel Desafiante (2):** Regresión de Poisson y Binomial Negativa, predicción con incertidumbre, y aplicación a un caso real de detección de fraude o análisis de churn (`3.10.9` y `3.10.10`).
+1. Consultar el archivo `latex/variables_aleatorias_continuas.tex` (donde se ubica la teoría de la PDF y el soporte continuo).
+2. Verificar si en `variables_aleatorias_continuas(p).tex` existen los problemas de la 04.01. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2`:
+   - **Nivel Fundamental (3):** Definición de PDF, condiciones de normalización $\int f = 1$, cálculo de probabilidades por integración (`4.1.1` a `4.1.3`).
+   - **Nivel Operativo (3):** Soporte continuo y complementarios, $F(x) = \int_{-\infty}^{x} f(t)\,dt$, cálculo de $P(a \le X \le b)$ (`4.1.4` a `4.1.6`).
+   - **Nivel Analítico (2):** Esperanza continua $\E[X] = \int x f(x)\,dx$, LOTUS continuo, varianza por integral de $(x - \mu)^{2}$ (`4.1.7` y `4.1.8`).
+   - **Nivel Desafiante (2):** Distribución mixta continua-discreta, convolución de densidades, y aplicación a señales de telecomunicación (`4.1.9` y `4.1.10`).
 3. Compilar el libro maestro dos veces para comprobar que no se rompen índices ni referencias.
 
-### Paso 2: Desarrollo de Script Python en Inglés (`03.10_discrete_distributions_data_science.py`)
-Crear el archivo en `presentaciones/code/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.py` con `numpy` y `scipy.stats`:
-- **Block 1: MLE Fitting & Overdispersion Detection:** Ajuste de Poisson y Binomial Negativa a datos de conteo empíricos; cálculo del índice de dispersión $D = s^{2}/\bar{x}$.
-- **Block 2: Likelihood Ratio Test & Information Criteria:** Comparación de modelos vía log-verosimilitud, AIC, BIC, y test de sobredispersión.
-- **Block 3: Confidence Intervals & Bootstrap:** Intervalos de confianza para $\lambda$ Poisson, intervalos bootstrap no paramétricos, y aplicación a un dataset sintético de churn.
+### Paso 2: Desarrollo de Script Python en Inglés (`04.01_pdf_and_support.py`)
+Crear el archivo en `presentaciones/code/04_variables_aleatorias_continuas/04.01_pdf_and_support.py` con `numpy` y `scipy.stats`:
+- **Block 1: PDF Validation & Normalization:** Verificación numérica de $\int f = 1$ con `scipy.integrate.quad`, comparación con casos discretos.
+- **Block 2: CDF Computation & Interval Probabilities:** Cálculo de $F(x)$ y $P(a \le X \le b)$ vía integración numérica.
+- **Block 3: Continuous LOTUS & Moments:** Verificación de $\E[X] = \int x f(x)\,dx$ y $\Var(X) = \int (x - \mu)^{2} f(x)\,dx$ para varias distribuciones.
 
-### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`03.10_discrete_distributions_data_science.tex`)
-1. Crear los mazos espejos en `presentaciones/es/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.tex` (24 frames) y `presentaciones/en/03_discrete_random_variables/03.10_discrete_distributions_data_science.tex` (20 frames).
+### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`04.01_pdf_and_support.tex`)
+1. Crear los mazos espejos en `presentaciones/es/04_variables_aleatorias_continuas/04.01_pdf_and_support.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.01_pdf_and_support.tex` (20 frames).
 2. Usar `\date{\vspace{-1.2cm}}` en la portada ES y `\date{\vspace{-1.5cm}}` en la portada EN.
-3. Importar los bloques del script con `\lstinputlisting[language=Python, ...]{../../code/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.py}`.
+3. Importar los bloques del script con `\lstinputlisting[language=Python, ...]{../../code/04_variables_aleatorias_continuas/04.01_pdf_and_support.py}`.
 4. Ajustar tablas teóricas y espaciados para prevenir `Overfull`.
 
 ### Paso 4: Compilación y Doble Verificación (*Zero Overfull Check*)
 Ejecutar los siguientes comandos en la terminal y comprobar que la búsqueda de `Overfull` arroje cero coincidencias en las diapositivas 2+:
 ```bash
-cd presentaciones/es/03_variables_aleatorias_discretas
-pdflatex -interaction=nonstopmode 03.10_discrete_distributions_data_science.tex && pdflatex -interaction=nonstopmode 03.10_discrete_distributions_data_science.tex
-grep "Overfull" 03.10_discrete_distributions_data_science.log
+cd presentaciones/es/04_variables_aleatorias_continuas
+pdflatex -interaction=nonstopmode 04.01_pdf_and_support.tex && pdflatex -interaction=nonstopmode 04.01_pdf_and_support.tex
+grep "Overfull" 04.01_pdf_and_support.log
 
-cd ../../en/03_discrete_random_variables
-pdflatex -interaction=nonstopmode 03.10_discrete_distributions_data_science.tex && pdflatex -interaction=nonstopmode 03.10_discrete_distributions_data_science.tex
-grep "Overfull" 03.10_discrete_distributions_data_science.log
+cd ../../en/04_continuous_random_variables
+pdflatex -interaction=nonstopmode 04.01_pdf_and_support.tex && pdflatex -interaction=nonstopmode 04.01_pdf_and_support.tex
+grep "Overfull" 04.01_pdf_and_support.log
 ```
 
 ### Paso 5: Sincronización de Ebook Principal (`[Modelación Estadística].tex`)
@@ -164,7 +169,7 @@ pdflatex -interaction=nonstopmode "[Modelación Estadística].tex" && pdflatex -
 ```
 
 ### Paso 6: Actualización de Documentación y Cierre de Tarea (Sin Auto-Commits)
-Actualizar este archivo (`ROADMAP.md`) marcando la 03.10 como completada y verificando que el Capítulo 03 (Variables Aleatorias Discretas) esté 100% finalizado. Verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
+Actualizar este archivo (`ROADMAP.md`) marcando la 04.01 como completada y apuntando a la 04.02 como el nuevo foco. Verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
 
 ---
 

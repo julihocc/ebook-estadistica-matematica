@@ -32,7 +32,8 @@ presentaciones/
 │   │   ├── 03.06_hypergeometric.py
 │   │   ├── 03.07_poisson_distribution.py
 │   │   ├── 03.08_multinomial_distribution.py
-│   │   └── 03.09_normal_approximation.py
+│   │   ├── 03.09_normal_approximation.py
+│   │   └── 03.10_discrete_distributions_data_science.py
 │   └── <proximas_unidades>/
 ├── es/                             ← Presentaciones en español (p. ej. es/02_teoria_probabilidad/)
 │   └── 02_teoria_probabilidad/
@@ -181,10 +182,11 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | **03.07** | [03.07 Poisson](es/03_variables_aleatorias_discretas/03.07_poisson_distribution.tex) ([PDF](es/03_variables_aleatorias_discretas/03.07_poisson_distribution.pdf)) | [03.07 Poisson Distribution](en/03_discrete_random_variables/03.07_poisson_distribution.tex) ([PDF](en/03_discrete_random_variables/03.07_poisson_distribution.pdf)) | `03.07_poisson_distribution.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
 | **03.08** | [03.08 Multinomial](es/03_variables_aleatorias_discretas/03.08_multinomial_distribution.tex) ([PDF](es/03_variables_aleatorias_discretas/03.08_multinomial_distribution.pdf)) | [03.08 Multinomial Distribution](en/03_discrete_random_variables/03.08_multinomial_distribution.tex) ([PDF](en/03_discrete_random_variables/03.08_multinomial_distribution.pdf)) | `03.08_multinomial_distribution.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
 | **03.09** | [03.09 Normal](es/03_variables_aleatorias_discretas/03.09_normal_approximation.tex) ([PDF](es/03_variables_aleatorias_discretas/03.09_normal_approximation.pdf)) | [03.09 Normal Distribution](en/03_discrete_random_variables/03.09_normal_approximation.tex) ([PDF](en/03_discrete_random_variables/03.09_normal_approximation.pdf)) | `03.09_normal_approximation.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
+| **03.10** | [03.10 Discretas en Ciencia de Datos](es/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.tex) ([PDF](es/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.pdf)) | [03.10 Discrete Distributions in Data Science](en/03_discrete_random_variables/03.10_discrete_distributions_data_science.tex) ([PDF](en/03_discrete_random_variables/03.10_discrete_distributions_data_science.pdf)) | `03.10_discrete_distributions_data_science.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings) --- CIERRE DEL CAPÍTULO 03** |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 03.10: Distribuciones Discretas en Ciencia de Datos y Casos Prácticos**), consulta el documento oficial de planificación:
+Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 04.01: Función de Densidad de Probabilidad y Soporte Continuo, abriendo el Capítulo 04: Variables Aleatorias Continuas**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.
