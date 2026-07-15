@@ -202,7 +202,7 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
-## 5c. Catálogo e Índice de Presentaciones --- Capítulo 05 (En Curso)
+## 5c. Catálogo e Índice de Presentaciones --- Capítulo 05 (100% Completado)
 
 A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 4 / Capítulo 05: Distribuciones de Muestreo**:
 
@@ -212,10 +212,11 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | **05.02** | [05.02 TLC Asintótico](es/05_distribuciones_muestreo/05.02_central_limit_theorem.tex) ([PDF](es/05_distribuciones_muestreo/05.02_central_limit_theorem.pdf)) | [05.02 Asymptotic Central Limit Theorem](en/05_sampling_distributions/05.02_central_limit_theorem.tex) ([PDF](en/05_sampling_distributions/05.02_central_limit_theorem.pdf)) | `05.02_central_limit_theorem.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
 | **05.03** | [05.03 Chi-Cuadrada y Varianza Muestral](es/05_distribuciones_muestreo/05.03_chi_squared_distribution.tex) ([PDF](es/05_distribuciones_muestreo/05.03_chi_squared_distribution.pdf)) | [05.03 Chi-Squared Distribution and Sample Variance](en/05_sampling_distributions/05.03_chi_squared_distribution.tex) ([PDF](en/05_sampling_distributions/05.03_chi_squared_distribution.pdf)) | `05.03_chi_squared_distribution.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
 | **05.04** | [05.04 $t$ de Student](es/05_distribuciones_muestreo/05.04_student_t_distribution.tex) ([PDF](es/05_distribuciones_muestreo/05.04_student_t_distribution.pdf)) | [05.04 Student's t-Distribution](en/05_sampling_distributions/05.04_student_t_distribution.tex) ([PDF](en/05_sampling_distributions/05.04_student_t_distribution.pdf)) | `05.04_student_t_distribution.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
+| **05.05** | [05.05 $F$ de Fisher-Snedecor](es/05_distribuciones_muestreo/05.05_fisher_f_distribution.tex) ([PDF](es/05_distribuciones_muestreo/05.05_fisher_f_distribution.pdf)) | [05.05 Fisher-Snedecor F-Distribution](en/05_sampling_distributions/05.05_fisher_f_distribution.tex) ([PDF](en/05_sampling_distributions/05.05_fisher_f_distribution.pdf)) | `05.05_fisher_f_distribution.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings) --- CIERRE DEL CAPÍTULO 05** |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-El Capítulo 04 (Variables Aleatorias Continuas) está 100% completo. El Capítulo 05 (Distribuciones de Muestreo) está en curso (4 de 5 secciones completadas). Para ver la planificación del siguiente hito curricular del proyecto (**Sección 05.05: Distribución $F$ de Fisher-Snedecor --- Cierre del Capítulo 05**), consulta el documento oficial de planificación:
+El Capítulo 04 (Variables Aleatorias Continuas) y el Capítulo 05 (Distribuciones de Muestreo) están 100% completos. Para ver la planificación del siguiente hito curricular del proyecto (**Capítulo 06: Estimación y su Relación con Ciencia de Datos**, iniciando con la Sección 06.01), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

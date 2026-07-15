@@ -818,3 +818,194 @@
 	\end{align*}
 	ligeramente superior a los $1.5$ deseados. Esto ilustra que, para muestras pequeñas/moderadas, la estimación inicial basada en $z$ subestima levemente el tamaño de muestra necesario, y en la práctica se requiere uno o más pasos de refinamiento con el cuantil $t$ correspondiente. \quad \qedhere
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 05.05: DISTRIBUCIÓN F DE FISHER-SNEDECOR
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 05.05}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:5.5.1}
+	Sea $F \sim F_{5,10}$. Calcule $E(F)$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.2}
+	Sea $F \sim F_{5,8}$. Identifique la distribución de $1/F$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.3}
+	Dos muestras independientes de tamaños $n_1=10$ y $n_2=8$ producen varianzas muestrales $S_1^2=25$ y $S_2^2=16$. Calcule el estadístico $F=S_1^2/S_2^2$ y sus grados de libertad.
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:5.5.4}
+	Dos líneas de producción se comparan: la línea 1 ($n_1=13$) tiene $S_1^2=45$, y la línea 2 ($n_2=11$) tiene $S_2^2=20$. Pruebe $H_0:\sigma_1^2=\sigma_2^2$ a nivel $\alpha=0.05$ (bilateral), usando $F_{12,10,0.025}\approx 3.62$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.5}
+	En un experimento con $k=4$ grupos de $n_i=6$ observaciones cada uno ($n=24$), se obtiene $\text{SC}_{\text{trat}}=180$ y $\text{SC}_{\text{error}}=276$. Calcule el estadístico $F$ de ANOVA y decida, a nivel $\alpha=0.05$, si se rechaza $H_0:\mu_1=\cdots=\mu_4$, usando $F_{3,20,0.05}\approx 3.10$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.6}
+	Usando los datos del Problema \ref{prob:5.5.4} ($n_1=13$, $S_1^2=45$, $n_2=11$, $S_2^2=20$), construya un intervalo de confianza del $95\%$ para $\sigma_1^2/\sigma_2^2$, usando $F_{12,10,0.025}\approx 3.62$ y $F_{10,12,0.025}\approx 3.37$.
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:5.5.7}
+	Sea $T \sim t_\nu$. Demuestre que $T^2 \sim F_{1,\nu}$, partiendo de la definición $T=Z/\sqrt{\chi^2_\nu/\nu}$ con $Z\sim N(0,1)$ y $Z\perp\chi^2_\nu$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.8}
+	Partiendo de $F=(\chi^2_{d_1}/d_1)/(\chi^2_{d_2}/d_2)$ con $\chi^2_{d_1}\perp\chi^2_{d_2}$, y usando $E(\chi^2_{d_1})=d_1$ y $E(1/\chi^2_{d_2})=1/(d_2-2)$ (para $d_2>2$), derive $E(F)=d_2/(d_2-2)$.
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:5.5.9}
+	Se comparan tres métodos de enseñanza con $n=4$ estudiantes por grupo:
+	\begin{align*}
+		\text{Grupo A: } 10, 12, 14, 12 \qquad \text{Grupo B: } 8, 9, 11, 8 \qquad \text{Grupo C: } 15, 16, 14, 15.
+	\end{align*}
+	Calcule $\text{SC}_{\text{trat}}$, $\text{SC}_{\text{error}}$, el estadístico $F$, y decida a nivel $\alpha=0.05$ si hay diferencias entre los métodos, usando $F_{2,9,0.05}\approx 4.26$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.10}
+	Dos muestras independientes tienen $n_1=15$, $S_1^2=50$ y $n_2=12$, $S_2^2=48$. Primero pruebe $H_0:\sigma_1^2=\sigma_2^2$ con la prueba $F$ (use $F_{14,11,0.025}\approx 3.36$). Con base en el resultado, indique si sería apropiado usar la prueba $t$ agrupada (\emph{pooled}) o la prueba $t$ de Welch (varianzas desiguales) para comparar las medias, y justifique.
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 05.05}
+
+\begin{sugerencia}
+	\label{sug:5.5.1}
+	Para el Problema \ref{prob:5.5.1}, use directamente $E(F)=d_2/(d_2-2)$ con $d_2=10$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.2}
+	Para el Problema \ref{prob:5.5.2}, use la propiedad $1/F_{d_1,d_2}\sim F_{d_2,d_1}$ con $d_1=5$, $d_2=8$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.3}
+	Para el Problema \ref{prob:5.5.3}, $F=S_1^2/S_2^2=25/16$, con grados de libertad $(n_1-1,n_2-1)=(9,7)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.4}
+	Para el Problema \ref{prob:5.5.4}, calcule $F=45/20$ y compárelo contra $3.62$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.5}
+	Para el Problema \ref{prob:5.5.5}, calcule $F=(180/(4-1))/(276/(24-4))$ y compárelo contra $3.10$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.6}
+	Para el Problema \ref{prob:5.5.6}, use la fórmula $\left[\frac{S_1^2}{S_2^2}\cdot\frac{1}{F_{12,10,0.025}},\ \frac{S_1^2}{S_2^2}\cdot F_{10,12,0.025}\right]$ con $S_1^2/S_2^2=2.25$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.7}
+	Para el Problema \ref{prob:5.5.7}, escriba $T^2=Z^2/(\chi^2_\nu/\nu)$ y reconozca que $Z^2\sim\chi^2_1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.8}
+	Para el Problema \ref{prob:5.5.8}, reescriba $F=(d_2/d_1)(\chi^2_{d_1}/\chi^2_{d_2})$, use independencia para factorizar $E(F)$, y sustituya las esperanzas dadas.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.9}
+	Para el Problema \ref{prob:5.5.9}, calcule primero las medias de grupo ($12$, $9$, $15$) y la media global ($12$), luego $\text{SC}_{\text{trat}}$ y $\text{SC}_{\text{error}}$ por separado.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.10}
+	Para el Problema \ref{prob:5.5.10}, calcule $F=50/48$ y compárelo contra $3.36$; si no se rechaza $H_0$, las varianzas se consideran aproximadamente iguales.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 05.05}
+
+\begin{solucion}
+	\label{sol:5.5.1}
+	Para el Problema \ref{prob:5.5.1} con $d_2=10$: $E(F) = 10/(10-2) = 10/8 = 1.25$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.2}
+	Para el Problema \ref{prob:5.5.2}: $1/F \sim F_{8,5}$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.3}
+	Para el Problema \ref{prob:5.5.3}: $F = 25/16 = 1.5625$, con grados de libertad $(9,7)$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.4}
+	Para el Problema \ref{prob:5.5.4}: $F = 45/20 = 2.25$. Como $2.25 < 3.62 = F_{12,10,0.025}$, \textbf{no se rechaza} $H_0:\sigma_1^2=\sigma_2^2$: no hay evidencia suficiente de que las varianzas difieran. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.5}
+	Para el Problema \ref{prob:5.5.5}: $F = \dfrac{180/3}{276/20} = \dfrac{60}{13.8} \approx 4.35$. Como $4.35 > 3.10 = F_{3,20,0.05}$, \textbf{se rechaza} $H_0$: hay evidencia de que al menos una media difiere. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.6}
+	Para el Problema \ref{prob:5.5.6}: con $S_1^2/S_2^2 = 45/20 = 2.25$,
+	\begin{align*}
+		\left[2.25\cdot\frac{1}{3.62},\ 2.25\cdot 3.37\right] = [0.622,\ 7.583].
+	\end{align*}
+	Con $95\%$ de confianza, el cociente $\sigma_1^2/\sigma_2^2$ está entre aproximadamente $0.62$ y $7.58$; como este intervalo contiene a $1$, es consistente con $\sigma_1^2=\sigma_2^2$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.7}
+	Para el Problema \ref{prob:5.5.7}: $T^2 = \dfrac{Z^2}{\chi^2_\nu/\nu}$. Como $Z\sim N(0,1)$, $Z^2\sim\chi^2_1$ por definición de la chi-cuadrada. Por lo tanto,
+	\begin{align*}
+		T^2 = \frac{\chi^2_1/1}{\chi^2_\nu/\nu},
+	\end{align*}
+	que es exactamente la definición de $F_{1,\nu}$ (cociente de dos chi-cuadradas independientes, cada una dividida entre sus grados de libertad). \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.8}
+	Para el Problema \ref{prob:5.5.8}: reescribiendo $F=(d_2/d_1)(\chi^2_{d_1}/\chi^2_{d_2})$ y usando independencia,
+	\begin{align*}
+		E(F) = \frac{d_2}{d_1}\, E(\chi^2_{d_1})\, E\!\left(\frac{1}{\chi^2_{d_2}}\right) = \frac{d_2}{d_1}\cdot d_1 \cdot \frac{1}{d_2-2} = \frac{d_2}{d_2-2}. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.9}
+	Para el Problema \ref{prob:5.5.9}: las medias de grupo son $\bar X_A=12$, $\bar X_B=9$, $\bar X_C=15$, con media global $\bar X = 12$.
+	\begin{align*}
+		\text{SC}_{\text{trat}} = 4(12-12)^2+4(9-12)^2+4(15-12)^2 = 0+36+36 = 72.
+	\end{align*}
+	Desviaciones intra-grupo: Grupo A: $4+0+4+0=8$; Grupo B: $1+0+4+1=6$; Grupo C: $0+1+1+0=2$. Así, $\text{SC}_{\text{error}}=8+6+2=16$.
+	\begin{align*}
+		F = \frac{72/(3-1)}{16/(12-3)} = \frac{36}{1.778} \approx 20.25.
+	\end{align*}
+	Como $20.25 > 4.26 = F_{2,9,0.05}$, \textbf{se rechaza} $H_0$: hay fuerte evidencia de que los métodos producen resultados diferentes. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.10}
+	Para el Problema \ref{prob:5.5.10}: $F = 50/48 \approx 1.042$. Como $1.042 < 3.36 = F_{14,11,0.025}$, \textbf{no se rechaza} $H_0:\sigma_1^2=\sigma_2^2$: las varianzas muestrales son consistentes con varianzas poblacionales iguales. En consecuencia, es apropiado usar la prueba $t$ \textbf{agrupada} (\emph{pooled}), que asume varianzas iguales y usa una varianza combinada $S_p^2$; no es necesario recurrir a la corrección de Welch, diseñada para el caso en que las varianzas son significativamente distintas. \quad \qedhere
+\end{solucion}

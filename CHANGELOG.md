@@ -42,6 +42,12 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/05_distribuciones_muestreo/05.04_student_t_distribution.py` (propiedades y convergencia de la $t$, comparación de intervalos $t$ vs. $z$, prueba $t$ de una muestra, cobertura empírica del IC).
   - Mazos Beamer bilingües en `presentaciones/es/05_distribuciones_muestreo/05.04_student_t_distribution.tex` (17 diapositivas) y `presentaciones/en/05_sampling_distributions/05.04_student_t_distribution.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 05 (Distribuciones de Muestreo): 4 de 5 secciones completadas.
+- **Sección 05.05: Distribución $F$ de Fisher-Snedecor (Cierre del Capítulo 05)**:
+  - Intervalo de confianza para $\sigma_1^2/\sigma_2^2$ y la identidad $T^2\sim F_{1,\nu}$ agregados a `latex/distribuciones_muestreo_avanzado.tex` y su espejo `latex/en_distribuciones_muestreo_avanzado.tex` (la teoría base de $F$, prueba de varianzas y ANOVA ya existía y era sólida).
+  - 10 problemas bajo la taxonomía 3-3-2-2 (Problemas 5.5.1 a 5.5.10) en `latex/distribuciones_muestreo_avanzado(p).tex`, incluyendo un ANOVA completo con datos crudos.
+  - Script de laboratorio en Python `presentaciones/code/05_distribuciones_muestreo/05.05_fisher_f_distribution.py` (propiedades, recíproco, identidad $T^2\sim F_{1,\nu}$, prueba $F$ con IC, y ANOVA verificado contra `scipy.stats.f_oneway`).
+  - Mazos Beamer bilingües en `presentaciones/es/05_distribuciones_muestreo/05.05_fisher_f_distribution.tex` (17 diapositivas) y `presentaciones/en/05_sampling_distributions/05.05_fisher_f_distribution.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 05 (Distribuciones de Muestreo) queda 100% finalizado (5 de 5 secciones).
 
 ## 2026-07-14
 

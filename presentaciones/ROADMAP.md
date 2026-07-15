@@ -115,7 +115,7 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.tex` (23 frames) y `presentaciones/en/04_continuous_random_variables/04.07_gamma_beta_weibull.tex` (19 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
   - *Libro Maestro:* Recompilado limpiamente a 622 páginas (`[Modelación Estadística].tex`).
 
-### Unidad 4 / Capítulo 05: Distribuciones de Muestreo (`Avance actual: 4 de 5 secciones completadas`)
+### Unidad 4 / Capítulo 05: Distribuciones de Muestreo (`Avance actual: 5 de 5 secciones completadas --- 100% FINALIZADO`)
 - $\checkmark$ **05.01 Muestreo Aleatorio Simple, Media y Varianza Muestral Insesgada:** 100% completado (**APERTURA DEL CAPÍTULO 05**).
   - *Teoría del Libro Maestro:* Se auditó `latex/distribuciones_muestreo_avanzado.tex` (ES) y su espejo `latex/en_distribuciones_muestreo_avanzado.tex` (EN) — la subsección "Distribuciones muestrales de medias" ya cubría $E(\bar X)=\mu$ y $\Var(\bar X)=\sigma^2/n$, pero no la insesgadez de la varianza muestral. Se agregó la subsección nueva "Estadísticos y Varianza Muestral Insesgada" con la definición formal de estadístico, la corrección de Bessel y su demostración completa.
   - *Cuaderno de Problemas:* Se creó `latex/distribuciones_muestreo_avanzado(p).tex` (no existía previamente) con 10 problemas 3-3-2-2 (Problemas 5.1.1 al 5.1.10): media/varianza muestral, distinción estadístico vs. parámetro, derivación de $\Var(\bar X)=\sigma^2/n$, comparación de estimadores sesgado/insesgado, demostración formal de $E(S^2)=\sigma^2$, consistencia de $\bar X$, fórmula abreviada de $S^2$, y corrección por población finita (FPC). Archivo conectado al libro maestro vía `\input{distribuciones_muestreo_avanzado(p)}`.
@@ -141,6 +141,12 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Laboratorio Python:* `presentaciones/code/05_distribuciones_muestreo/05.04_student_t_distribution.py` (varianza y convergencia de cuantiles verificadas exactas; comparación de intervalos $t$ vs. $z$ mostrando una diferencia del $17.7\%$ para $n=9$; prueba $t$ de una muestra; cobertura empírica del IC del $95.09\%$ vs. $95\%$ nominal).
   - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/05_distribuciones_muestreo/05.04_student_t_distribution.tex` (17 frames) y `presentaciones/en/05_sampling_distributions/05.04_student_t_distribution.tex` (19 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
   - *Libro Maestro:* Recompilado limpiamente a 640 páginas (`[Modelación Estadística].tex`); también se recompiló `[Statistical Modeling].tex` (452 páginas) sin errores.
+- $\checkmark$ **05.05 Distribución $F$ de Fisher-Snedecor:** 100% completado (**CIERRE DEL CAPÍTULO 05**).
+  - *Teoría del Libro Maestro:* La subsección "Distribución $F$ de Snedecor" en `latex/distribuciones_muestreo_avanzado.tex` (ES) y su espejo EN ya era muy completa (definición, PDF, propiedades, prueba de igualdad de varianzas, y un ANOVA completamente resuelto). Se agregó el **intervalo de confianza para $\sigma_1^2/\sigma_2^2$** y la **identidad $T^2\sim F_{1,\nu}$**, que conecta formalmente las tres distribuciones del capítulo ($\chi^2$, $t$, $F$).
+  - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/distribuciones_muestreo_avanzado(p).tex` (Problemas 5.5.1 al 5.5.10): propiedades básicas, propiedad recíproca, prueba $F$ de varianzas, ANOVA a partir de estadísticos resumidos, intervalo de confianza para el cociente de varianzas, demostración de $T^2\sim F_{1,\nu}$, derivación de $E(F)=d_2/(d_2-2)$, un ANOVA completo con datos crudos, y un problema de decisión que conecta la prueba $F$ con la elección entre prueba $t$ agrupada o de Welch.
+  - *Laboratorio Python:* `presentaciones/code/05_distribuciones_muestreo/05.05_fisher_f_distribution.py` (propiedades, recíproco y la identidad $T^2\sim F_{1,\nu}$ verificados vía KS test; prueba $F$ e IC para $\sigma_1^2/\sigma_2^2$ con cobertura empírica de $94.97\%$; ANOVA completo verificado exacto contra `scipy.stats.f_oneway`).
+  - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/05_distribuciones_muestreo/05.05_fisher_f_distribution.tex` (17 frames) y `presentaciones/en/05_sampling_distributions/05.05_fisher_f_distribution.tex` (19 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
+  - *Libro Maestro:* Recompilado limpiamente a 644 páginas (`[Modelación Estadística].tex`); también se recompiló `[Statistical Modeling].tex` (452 páginas) sin errores.
 
 ---
 
@@ -268,7 +274,7 @@ Directorio base Python: `presentaciones/code/05_distribuciones_muestreo/`
 - **Sección 05.02:** Teorema del Límite Central (TLC) Asintótico (`05.02_central_limit_theorem.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 - **Sección 05.03:** Distribución Chi-Cuadrada ($\chi^2(k)$) y Varianza Muestral (`05.03_chi_squared_distribution.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 - **Sección 05.04:** Distribución $t$ de Student ($t(\nu)$) y Muestras Pequeñas (`05.04_student_t_distribution.py`). **100% COMPLETADO** — ver descripción detallada arriba.
-- **Sección 05.05:** Distribución $F$ de Fisher-Snedecor ($F(d_1, d_2)$) (`05.05_fisher_f_distribution.py`).
+- **Sección 05.05:** Distribución $F$ de Fisher-Snedecor ($F(d_1, d_2)$) (`05.05_fisher_f_distribution.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 
 ---
 

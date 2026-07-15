@@ -1,0 +1,344 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[$F$ de Fisher-Snedecor]{Sección 05.05: Distribución $F$ de Fisher-Snedecor}
+\subtitle{Comparación de Varianzas y Análisis de Varianza (ANOVA)}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 05: Distribuciones de Muestreo}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{05.01} Muestreo Aleatorio Simple, Media y Varianza Muestral Insesgada \pause
+    \item \textbf{05.02} Teorema del Límite Central Asintótico \pause
+    \item \textbf{05.03} Distribución Chi-Cuadrada y Varianza Muestral \pause
+    \item \textbf{05.04} Distribución $t$ de Student y Muestras Pequeñas \pause
+    \item \textbf{05.05} Distribución $F$ de Fisher-Snedecor \emph{(Hoy --- Cierre del Capítulo)}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Formalizar la distribución $F$ como cociente de chi-cuadradas independientes, dominar la prueba $F$ de igualdad de varianzas y su intervalo de confianza asociado, y aplicar el estadístico $F$ al Análisis de Varianza (ANOVA) para comparar múltiples medias simultáneamente.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{El Tercer Miembro de la Familia $\chi^2$--$t$--$F$}
+  \footnotesize
+  \begin{motivacion}
+    Ya vimos que $\chi^2$ caracteriza la distribución de $S^2$, y que $t$ surge al estimar $\mu$ con $\sigma$ desconocida. Hoy cerramos el trío: la distribución $F$ compara \emph{dos} varianzas muestrales, y generaliza esta idea para comparar \emph{múltiples} medias a la vez mediante ANOVA.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Origen:} cociente de dos chi-cuadradas independientes, cada una normalizada por sus grados de libertad. \pause
+    \item \textbf{Aplicación 1:} ¿son iguales las varianzas de dos poblaciones? \pause
+    \item \textbf{Aplicación 2:} ¿son iguales las medias de $k\ge 3$ grupos? (ANOVA)
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición y Propiedades
+\begin{frame}{Definición y Propiedades de la Distribución $F$}
+  \footnotesize
+  Sean $\chi^2_{d_1}$ y $\chi^2_{d_2}$ independientes. \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Definición}
+    $$F = \dfrac{\chi^2_{d_1}/d_1}{\chi^2_{d_2}/d_2} \sim F_{d_1,d_2}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Propiedades}
+    \begin{itemize}\itemsep=0.05cm
+      \item $F\ge 0$, asimétrica (sesgada a la derecha); $E(F)=d_2/(d_2-2)$ para $d_2>2$.
+      \item Recíproco: si $F\sim F_{d_1,d_2}$, entonces $1/F\sim F_{d_2,d_1}$.
+      \item \textbf{Conexión con $t$:} si $T\sim t_\nu$, entonces $T^2\sim F_{1,\nu}$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Prueba F para Varianzas
+\begin{frame}{Prueba $F$ de Igualdad de Varianzas}
+  \footnotesize
+  Para dos muestras normales independientes: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Estadístico de Prueba}
+    $$F = \dfrac{S_1^2}{S_2^2} \sim F_{n_1-1,\,n_2-1} \quad \text{bajo } H_0:\sigma_1^2=\sigma_2^2$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Intervalo de Confianza para $\sigma_1^2/\sigma_2^2$}
+    $$\left[\dfrac{S_1^2}{S_2^2}\cdot\dfrac{1}{F_{n_1-1,n_2-1,\alpha/2}},\;\; \dfrac{S_1^2}{S_2^2}\cdot F_{n_2-1,n_1-1,\alpha/2}\right]$$
+    Si el intervalo contiene a $1$, es consistente con varianzas iguales.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: ANOVA
+\begin{frame}{Análisis de Varianza (ANOVA)}
+  \footnotesize
+  ANOVA descompone la variabilidad total en componentes de tratamiento y error: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Estadístico $F$ de ANOVA}
+    $$\text{SC}_{\text{trat}} = \sum_i n_i(\bar X_i-\bar X)^2, \quad \text{SC}_{\text{error}} = \sum_i\sum_j(X_{ij}-\bar X_i)^2$$
+    $$F = \dfrac{\text{SC}_{\text{trat}}/(k-1)}{\text{SC}_{\text{error}}/(n-k)} \sim F_{k-1,\,n-k} \quad \text{bajo } H_0:\mu_1=\cdots=\mu_k$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Intuición}
+    Si las medias de los grupos son muy distintas entre sí (SC$_{\text{trat}}$ grande) en relación con la variabilidad dentro de cada grupo (SC$_{\text{error}}$), $F$ será grande y rechazaremos $H_0$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Aplicaciones
+\begin{frame}{Aplicaciones en Ciencia de Datos e Ingeniería}
+  \footnotesize
+  La distribución $F$ es la base de comparaciones multi-grupo: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Control de calidad:} comparar la variabilidad de dos procesos de manufactura. \pause
+    \item \textbf{Experimentos A/B/n:} ANOVA generaliza la prueba $t$ a más de dos variantes simultáneas. \pause
+    \item \textbf{Regresión lineal:} la prueba $F$ global evalúa si el modelo en conjunto es significativo. \pause
+    \item \textbf{Diseño de experimentos:} base del Capítulo 08 (ANOVA de uno y varios factores).
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Propiedades de la $F$}
+  \scriptsize
+  Verificación de $E(F)$, la propiedad recíproca, y la identidad $T^2\sim F_{1,\nu}$ (\texttt{05.05\_fisher\_f\_distribution.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=36]{../../code/05_distribuciones_muestreo/05.05_fisher_f_distribution.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Prueba $F$ e Intervalo de Confianza}
+  \scriptsize
+  Prueba de igualdad de varianzas, IC para $\sigma_1^2/\sigma_2^2$, y verificación de cobertura Monte Carlo:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=39, lastline=67]{../../code/05_distribuciones_muestreo/05.05_fisher_f_distribution.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: ANOVA Completo}
+  \scriptsize
+  Cálculo manual de ANOVA de una vía, verificado contra \texttt{scipy.stats.f\_oneway}:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=70, lastline=96]{../../code/05_distribuciones_muestreo/05.05_fisher_f_distribution.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: F-Distribution Properties ===
+F_5,10: E(F)=1.2500 | Reciprocal KS p=0.643 | T^2~F_1,12 KS p=0.527
+
+=== Block 2: F-Test and CI for sigma1^2/sigma2^2 ===
+F=2.25, critical F_12,10,0.025=3.62 -> Reject H0? No
+95% CI: [0.6214, 7.5905] | MC coverage: 0.9497 (nominal 0.95)
+
+=== Block 3: One-Way ANOVA Verification ===
+Means: A=12.0, B=9.0, C=15.0 | SS_treat=72.00, SS_error=16.00
+F=20.2500, critical F_2,9,0.05=4.26 -> Reject H0? Yes
+SciPy f_oneway: F=20.2500, p=0.000466
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.5.1 --- Media de $F_{5,10}$ (Enunciado)}
+    Sea $F \sim F_{5,10}$. Calcule $E(F)$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    \begin{itemize}\itemsep=0.04cm
+      \item Use directamente $E(F)=d_2/(d_2-2)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Sustituimos $d_2=10$ directamente: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$E(F) = \frac{10}{10-2} = \frac{10}{8} = 1.25.$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Nótese que $E(F)$ depende únicamente de $d_2$ (el denominador), no de $d_1$. Cuando $d_2\to\infty$, $E(F)\to 1$, consistente con que el denominador $\chi^2_{d_2}/d_2 \to 1$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.5.4 --- Prueba $F$ de Varianzas (Enunciado)}
+    Línea 1 ($n_1=13$): $S_1^2=45$. Línea 2 ($n_2=11$): $S_2^2=20$. Pruebe $H_0:\sigma_1^2=\sigma_2^2$ a nivel $\alpha=0.05$, usando $F_{12,10,0.025}\approx 3.62$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Calcule $F=S_1^2/S_2^2$ y compárelo contra el valor crítico dado.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos el estadístico $F$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$F = \frac{45}{20} = 2.25$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Decisión}
+    \scriptsize
+    Como $2.25 < 3.62$, \textbf{no se rechaza} $H_0:\sigma_1^2=\sigma_2^2$: no hay evidencia suficiente de que las varianzas de las dos líneas de producción difieran.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.5.7 --- Identidad $T^2\sim F_{1,\nu}$ (Enunciado)}
+    Sea $T\sim t_\nu$. Demuestre que $T^2\sim F_{1,\nu}$, partiendo de $T=Z/\sqrt{\chi^2_\nu/\nu}$ con $Z\sim N(0,1)$, $Z\perp\chi^2_\nu$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Eleve $T$ al cuadrado y reconozca que $Z^2\sim\chi^2_1$ por la definición de la chi-cuadrada.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Elevamos al cuadrado: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Demostración}
+    \begin{align*}
+      T^2 = \frac{Z^2}{\chi^2_\nu/\nu} = \frac{\chi^2_1/1}{\chi^2_\nu/\nu}, \qquad \text{ya que } Z^2\sim\chi^2_1. \quad \qedhere
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Esta identidad muestra que las pruebas $t$ y $F$ para un solo predictor son equivalentes: el cuadrado del estadístico $t$ en una regresión simple es exactamente el estadístico $F$ correspondiente, con $1$ grado de libertad en el numerador.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.5.9 --- ANOVA Completo (Enunciado)}
+    Tres métodos de enseñanza, $n=4$ c/u: A: $10,12,14,12$; B: $8,9,11,8$; C: $15,16,14,15$. Calcule $\text{SC}_{\text{trat}}$, $\text{SC}_{\text{error}}$, $F$, y decida a $\alpha=0.05$ usando $F_{2,9,0.05}\approx 4.26$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Calcule primero las medias de grupo y la media global, luego las sumas de cuadrados entre y dentro de grupos.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Medias de grupo: $12$, $9$, $15$; media global: $12$. \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    \begin{align*}
+      \text{SC}_{\text{trat}} &= 4(0)^2+4(-3)^2+4(3)^2 = 72, \qquad \text{SC}_{\text{error}} = 8+6+2=16.
+    \end{align*}
+    \begin{align*}
+      F = \frac{72/2}{16/9} = \frac{36}{1.778} \approx 20.25.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Decisión}
+    \scriptsize
+    Como $20.25 > 4.26$, \textbf{se rechaza} $H_0:\mu_A=\mu_B=\mu_C$: hay fuerte evidencia de que al menos un método de enseñanza produce resultados diferentes.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: la $F$ de Fisher-Snedecor}
+  \begin{reflexion}
+    Con la distribución $F$ completamos el trío $\chi^2$--$t$--$F$: todas surgen de combinar normales estándar independientes, y todas resuelven un problema práctico específico de la inferencia con muestras normales. Este es un cierre elegante: cada distribución del capítulo se construye a partir de las anteriores.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Definición:} $F=(\chi^2_{d_1}/d_1)/(\chi^2_{d_2}/d_2)$; $E(F)=d_2/(d_2-2)$; $1/F_{d_1,d_2}\sim F_{d_2,d_1}$.
+      \item \textbf{Prueba de varianzas:} $F=S_1^2/S_2^2\sim F_{n_1-1,n_2-1}$ bajo $H_0:\sigma_1^2=\sigma_2^2$.
+      \item \textbf{ANOVA:} $F=\text{SC}_{\text{trat}}/(k-1) \div \text{SC}_{\text{error}}/(n-k)$ compara $k$ medias simultáneamente.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- Cierre del Capítulo 05}
+  \scriptsize
+  \begin{retoclase}
+    Con la Sección 05.05 concluimos el Capítulo 05: Distribuciones de Muestreo, habiendo formalizado la distribución de $\bar X$ y $S^2$, el TLC asintótico, y las distribuciones $\chi^2$, $t$ y $F$. El Capítulo 06 --- Estimación y su Relación con Ciencia de Datos --- usará estas herramientas para construir estimadores puntuales (momentos, máxima verosimilitud) e intervalos de confianza generales, cerrando el puente entre la teoría de probabilidad y la inferencia estadística aplicada.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa los conceptos de insesgadez y consistencia (Sección 05.01): son los criterios centrales para evaluar estimadores.
+      \item Reflexiona sobre cómo los intervalos de confianza que construimos hoy y en secciones anteriores son casos particulares de un marco más general de estimación.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

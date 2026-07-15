@@ -647,10 +647,34 @@ Si $X_1, \ldots, X_{n_1} \sim N(\mu_1, \sigma_1^2)$ y $Y_1, \ldots, Y_{n_2} \sim
 son muestras independientes, el cociente de varianzas muestrales
 \begin{align}
  \label{eq:3.2.17}
- F = \frac{S_1^2}{S_2^2}
+ F = \frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}
 \end{align}
-sigue una distribuci\'on $F_{n_1 - 1, n_2 - 1}$ bajo la hip\'otesis nula
-$H_0: \sigma_1^2 = \sigma_2^2$. Esta es la \emph{prueba $F$ de igualdad de varianzas}.
+sigue una distribuci\'on $F_{n_1 - 1, n_2 - 1}$ exactamente (por el Teorema de Fisher
+aplicado a cada muestra). Bajo la hip\'otesis nula $H_0: \sigma_1^2 = \sigma_2^2$, el
+estad\'istico se reduce a $F = S_1^2/S_2^2 \sim F_{n_1-1, n_2-1}$. Esta es la
+\emph{prueba $F$ de igualdad de varianzas}.
+
+\begin{teorema}[Intervalo de confianza para $\sigma_1^2/\sigma_2^2$]
+ \label{eq:5.5.1}
+Con la notaci\'on anterior, un intervalo de confianza del $(1-\alpha)\times 100\%$
+para el cociente de varianzas poblacionales es
+\begin{align}
+ \left[\frac{S_1^2}{S_2^2}\cdot\frac{1}{F_{n_1-1,n_2-1,\,\alpha/2}},\;\;
+ \frac{S_1^2}{S_2^2}\cdot F_{n_2-1,n_1-1,\,\alpha/2}\right],
+\end{align}
+usando la propiedad $1/F_{d_1,d_2} \sim F_{d_2,d_1}$ para expresar el l\'imite
+superior con un cuantil de la $F$ ``invertida''.
+\end{teorema}
+
+\begin{observacion}[Conexi\'on con la distribuci\'on $t$]
+Existe una identidad elegante entre $F$ y $t$: si $T \sim t_\nu$, entonces
+$T^2 \sim F_{1,\nu}$. Esto se sigue directamente de las definiciones: $T^2 =
+Z^2/(\chi^2_\nu/\nu)$, y $Z^2 \sim \chi^2_1$, as\'i que $T^2$ tiene exactamente la
+forma de un cociente de chi-cuadradas escaladas que define a $F_{1,\nu}$. Esta
+identidad conecta las tres distribuciones estudiadas en las Secciones
+05.03--05.05: $\chi^2$, $t$ y $F$ son, en el fondo, distintas combinaciones de
+normales estandarizadas independientes.
+\end{observacion}
 
 \subsubsection{Aplicaci\'on: ANOVA}
 

@@ -1,0 +1,299 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Fisher-Snedecor F-Distribution}
+\subtitle{Section 05.05 --- Comparing Variances and Analysis of Variance (ANOVA)}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 05: Sampling Distributions}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 4}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 05.01: Simple Random Sampling, Mean, and Unbiased Sample Variance}
+			\item \textcolor{gray}{Section 05.02: Asymptotic Central Limit Theorem}
+			\item \textcolor{gray}{Section 05.03: Chi-Squared Distribution and Sample Variance}
+			\item \textcolor{gray}{Section 05.04: Student's $t$-Distribution and Small Samples}
+			\item \textbf{\textcolor{TecRojo}{Section 05.05: Fisher-Snedecor $F$-Distribution}} $\leftarrow$ \emph{Current focus --- Chapter closes}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Formalize the $F$-distribution as a ratio of independent chi-squared variables, master the $F$-test for equality of variances and its associated confidence interval, and apply the $F$-statistic to Analysis of Variance (ANOVA) to compare multiple means simultaneously.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Definition and Properties
+\begin{frame}{Definition and Properties of the $F$-Distribution}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Definition}
+				\footnotesize
+				For independent $\chi^2_{d_1}$, $\chi^2_{d_2}$: $F=(\chi^2_{d_1}/d_1)/(\chi^2_{d_2}/d_2) \sim F_{d_1,d_2}$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Properties}
+				\footnotesize
+				$E(F)=d_2/(d_2-2)$; reciprocal: $1/F_{d_1,d_2}\sim F_{d_2,d_1}$; connection to $t$: $T^2\sim F_{1,\nu}$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: F-Test for Variances
+\begin{frame}{$F$-Test for Equality of Variances}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Test Statistic}
+				\footnotesize
+				$F=S_1^2/S_2^2 \sim F_{n_1-1,n_2-1}$ under $H_0:\sigma_1^2=\sigma_2^2$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{CI for $\sigma_1^2/\sigma_2^2$}
+				\footnotesize
+				$\left[\dfrac{S_1^2}{S_2^2}\cdot\dfrac{1}{F_{n_1-1,n_2-1,\alpha/2}},\; \dfrac{S_1^2}{S_2^2}\cdot F_{n_2-1,n_1-1,\alpha/2}\right]$. If it contains $1$, consistent with equal variances.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: ANOVA
+\begin{frame}{Analysis of Variance (ANOVA)}
+	\vspace{-0.15cm}
+	\begin{block}{ANOVA $F$-Statistic}
+		\footnotesize
+		$\text{SS}_{\text{treat}} = \sum_i n_i(\bar X_i-\bar X)^2$, $\text{SS}_{\text{error}} = \sum_i\sum_j(X_{ij}-\bar X_i)^2$, $F = \dfrac{\text{SS}_{\text{treat}}/(k-1)}{\text{SS}_{\text{error}}/(n-k)} \sim F_{k-1,n-k}$ under $H_0:\mu_1=\cdots=\mu_k$.
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Intuition}
+		If group means differ substantially (large $\text{SS}_{\text{treat}}$) relative to within-group variability ($\text{SS}_{\text{error}}$), $F$ is large and $H_0$ is rejected.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 06: Applications
+\begin{frame}{Applications in Data Science and Engineering}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Quality control:} comparing the variability of two manufacturing processes. \pause
+		\item \textbf{A/B/n experiments:} ANOVA generalizes the $t$-test to more than two simultaneous variants. \pause
+		\item \textbf{Linear regression:} the global $F$-test evaluates whether the model as a whole is significant. \pause
+		\item \textbf{Design of experiments:} foundation of Chapter 08 (one- and multi-factor ANOVA).
+	\end{itemize}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: $F$-Distribution Properties}
+	\vspace{-0.05cm}
+	\scriptsize
+	Verification of $E(F)$, the reciprocal property, and the identity $T^2\sim F_{1,\nu}$ (\texttt{05.05\_fisher\_f\_distribution.py}):
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=17, lastline=36]{../../code/05_distribuciones_muestreo/05.05_fisher_f_distribution.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: $F$-Test and Confidence Interval}
+	\vspace{-0.05cm}
+	\scriptsize
+	Equality-of-variances test, CI for $\sigma_1^2/\sigma_2^2$, and Monte Carlo coverage verification:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=39, lastline=67]{../../code/05_distribuciones_muestreo/05.05_fisher_f_distribution.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Complete ANOVA}
+	\vspace{-0.05cm}
+	\scriptsize
+	Manual one-way ANOVA computation, cross-checked against \texttt{scipy.stats.f\_oneway}:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=70, lastline=96]{../../code/05_distribuciones_muestreo/05.05_fisher_f_distribution.py}}
+\end{frame}
+
+% SLIDE 10: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: F-Distribution Properties ===
+F_5,10: E(F)=1.2500 | Reciprocal KS p=0.643 | T^2~F_1,12 KS p=0.527
+
+=== Block 2: F-Test and CI for sigma1^2/sigma2^2 ===
+F=2.25, critical F_12,10,0.025=3.62 -> Reject H0? No
+95% CI: [0.6214, 7.5905] | MC coverage: 0.9497 (nominal 0.95)
+
+=== Block 3: One-Way ANOVA Verification ===
+Means: A=12.0, B=9.0, C=15.0 | SS_treat=72.00, SS_error=16.00
+F=20.2500, critical F_2,9,0.05=4.26 -> Reject H0? Yes
+SciPy f_oneway: F=20.2500, p=0.000466
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.5.1 --- Mean of $F_{5,10}$ (Statement)}
+		Let $F \sim F_{5,10}$. Compute $E(F)$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item Use directly $E(F)=d_2/(d_2-2)$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Substitute $d_2=10$ directly: \pause
+	\begin{block}{Calculation}
+		$$E(F) = \frac{10}{10-2} = \frac{10}{8} = 1.25.$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		Note that $E(F)$ depends only on $d_2$ (the denominator), not on $d_1$. As $d_2\to\infty$, $E(F)\to 1$, consistent with the denominator $\chi^2_{d_2}/d_2 \to 1$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.5.4 --- $F$-Test for Variances (Statement)}
+		Line 1 ($n_1=13$): $S_1^2=45$. Line 2 ($n_2=11$): $S_2^2=20$. Test $H_0:\sigma_1^2=\sigma_2^2$ at $\alpha=0.05$, using $F_{12,10,0.025}\approx 3.62$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Compute $F=S_1^2/S_2^2$ and compare against the given critical value.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compute the $F$-statistic: \pause
+	\begin{block}{Calculation}
+		$$F = \frac{45}{20} = 2.25$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Decision}
+		\scriptsize
+		Since $2.25 < 3.62$, we \textbf{fail to reject} $H_0:\sigma_1^2=\sigma_2^2$: there is not enough evidence that the variances of the two production lines differ.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.5.7 --- Identity $T^2\sim F_{1,\nu}$ (Statement)}
+		Let $T\sim t_\nu$. Prove that $T^2\sim F_{1,\nu}$, starting from $T=Z/\sqrt{\chi^2_\nu/\nu}$ with $Z\sim N(0,1)$, $Z\perp\chi^2_\nu$.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Square $T$ and recognize that $Z^2\sim\chi^2_1$ by the definition of the chi-squared.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Square both sides: \pause
+	\begin{block}{Proof}
+		\begin{align*}
+			T^2 = \frac{Z^2}{\chi^2_\nu/\nu} = \frac{\chi^2_1/1}{\chi^2_\nu/\nu}, \qquad \text{since } Z^2\sim\chi^2_1. \quad \qedhere
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		This identity shows that $t$-tests and $F$-tests for a single predictor are equivalent: the squared $t$-statistic in simple regression is exactly the corresponding $F$-statistic, with $1$ numerator degree of freedom.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.5.9 --- Complete ANOVA (Statement)}
+		Three teaching methods, $n=4$ each: A: $10,12,14,12$; B: $8,9,11,8$; C: $15,16,14,15$. Compute $\text{SS}_{\text{treat}}$, $\text{SS}_{\text{error}}$, $F$, and decide at $\alpha=0.05$ using $F_{2,9,0.05}\approx 4.26$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		First compute the group means and grand mean, then the between- and within-group sums of squares.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Group means: $12$, $9$, $15$; grand mean: $12$. \pause
+	\begin{block}{Calculation}
+		\scriptsize
+		\begin{align*}
+			\text{SS}_{\text{treat}} &= 4(0)^2+4(-3)^2+4(3)^2 = 72, \qquad \text{SS}_{\text{error}} = 8+6+2=16.
+		\end{align*}
+		\begin{align*}
+			F = \frac{72/2}{16/9} = \frac{36}{1.778} \approx 20.25.
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Decision}
+		\scriptsize
+		Since $20.25 > 4.26$, we \textbf{reject} $H_0:\mu_A=\mu_B=\mu_C$: there is strong evidence that at least one teaching method produces different results.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 19: Closing and Chapter Perspective
+\begin{frame}{Closing Section and Chapter Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: The Fisher-Snedecor $F$-Distribution}
+		\scriptsize
+		With the $F$-distribution we complete the $\chi^2$--$t$--$F$ trio: all three arise from combining independent standard normals, and each solves a specific practical inference problem with normal samples. This is an elegant closing: every distribution in this chapter builds on the ones before it.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Chapter}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Definition:} $F=(\chi^2_{d_1}/d_1)/(\chi^2_{d_2}/d_2)$; $E(F)=d_2/(d_2-2)$; $1/F_{d_1,d_2}\sim F_{d_2,d_1}$.
+			\item \textbf{Variance test:} $F=S_1^2/S_2^2\sim F_{n_1-1,n_2-1}$ under $H_0:\sigma_1^2=\sigma_2^2$.
+			\item \textbf{ANOVA:} $F=\text{SS}_{\text{treat}}/(k-1) \div \text{SS}_{\text{error}}/(n-k)$ compares $k$ means simultaneously.
+			\item \textbf{Chapter 05 complete.} \textbf{Next:} \textcolor{TecRojo}{Chapter 06 --- Estimation and Data Science}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}

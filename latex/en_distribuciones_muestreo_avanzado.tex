@@ -517,9 +517,23 @@ follows a \emph{Snedecor's $F$-distribution} with $(d_1, d_2)$ degrees of freedo
 If $X_1, \ldots, X_{n_1} \sim N(\mu_1, \sigma_1^2)$ and $Y_1, \ldots, Y_{n_2} \sim N(\mu_2, \sigma_2^2)$ are independent samples, the ratio of sample variances
 \begin{align}
  \label{eq:3.2.17}
- F = \frac{S_1^2}{S_2^2}
+ F = \frac{S_1^2/\sigma_1^2}{S_2^2/\sigma_2^2}
 \end{align}
-follows an $F_{n_1 - 1, n_2 - 1}$ distribution under the null hypothesis $H_0: \sigma_1^2 = \sigma_2^2$. This is the \emph{$F$-test for equality of variances}.
+follows an $F_{n_1 - 1, n_2 - 1}$ distribution exactly (by Fisher's theorem applied to each sample). Under the null hypothesis $H_0: \sigma_1^2 = \sigma_2^2$, the statistic reduces to $F = S_1^2/S_2^2 \sim F_{n_1-1, n_2-1}$. This is the \emph{$F$-test for equality of variances}.
+
+\begin{teorema}[Confidence interval for $\sigma_1^2/\sigma_2^2$]
+ \label{eq:5.5.1}
+With the notation above, a $(1-\alpha)\times 100\%$ confidence interval for the ratio of population variances is
+\begin{align}
+ \left[\frac{S_1^2}{S_2^2}\cdot\frac{1}{F_{n_1-1,n_2-1,\,\alpha/2}},\;\;
+ \frac{S_1^2}{S_2^2}\cdot F_{n_2-1,n_1-1,\,\alpha/2}\right],
+\end{align}
+using the property $1/F_{d_1,d_2} \sim F_{d_2,d_1}$ to express the upper limit with a quantile of the "inverted" $F$.
+\end{teorema}
+
+\begin{observacion}[Connection to the $t$-distribution]
+There is an elegant identity between $F$ and $t$: if $T \sim t_\nu$, then $T^2 \sim F_{1,\nu}$. This follows directly from the definitions: $T^2 = Z^2/(\chi^2_\nu/\nu)$, and $Z^2 \sim \chi^2_1$, so $T^2$ has exactly the form of a ratio of scaled chi-squared variables that defines $F_{1,\nu}$. This identity connects the three distributions studied in Sections 05.03--05.05: $\chi^2$, $t$, and $F$ are, at their core, different combinations of independent standardized normals.
+\end{observacion}
 
 \subsubsection{Application: ANOVA}
 
