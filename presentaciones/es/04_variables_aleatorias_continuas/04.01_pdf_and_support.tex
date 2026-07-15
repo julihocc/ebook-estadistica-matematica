@@ -1,0 +1,423 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[PDF y Soporte Continuo]{Sección 04.01: PDF y Soporte Continuo}
+\subtitle{Función de Densidad, Esperanza Continua y LOTUS}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 04: Variables Aleatorias Continuas}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{04.01} Función de Densidad (PDF) y Soporte Continuo \emph{(Hoy)} \pause
+    \item \textbf{04.02} Función de Distribución Acumulada (CDF) Continua y Cuantiles \pause
+    \item \textbf{04.03} Esperanza Matemática, Varianza y LOTUS Continuo \pause
+    \item \textbf{04.04} Distribución Uniforme Continua \pause
+    \item \textbf{04.05} Distribución Exponencial y Procesos sin Memoria \pause
+    \item \textbf{04.06} Distribución Normal y Puntaje $Z$ \pause
+    \item \textbf{04.07} Distribuciones Gamma, Beta y Weibull
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Introducir la función de densidad de probabilidad (PDF) como análogo continuo de la PMF, dominar la condición de normalización $\int f = 1$, calcular probabilidades mediante integración, y establecer los fundamentos de la esperanza continua y el Teorema LOTUS.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De Discreto a Continuo: La Función de Densidad}
+  \footnotesize
+  \begin{motivacion}[¿Por qué variables continuas?]
+    En el Capítulo 03 trabajamos con variables que toman valores discretos: número de aciertos, defectos, llamadas. Pero muchos fenómenos varían continuamente: tiempo de espera, errores de medición, voltaje en un circuito, peso de un producto. Para estas variables, la masa de probabilidad se ``distribuye'' sobre un continuo, y la \emph{densidad de probabilidad} $f(x)$ codifica cómo se concentra esa masa.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Continuidad:} $X$ toma valores en un intervalo (o unión de intervalos), no en un conjunto discreto. \pause
+    \item \textbf{Probabilidad como área:} $P(a \le X \le b) = \int_{a}^{b} f(x)\,dx$, no como suma de masas puntuales. \pause
+    \item \textbf{Condición técnica:} $\int_{-\infty}^{\infty} f(x)\,dx = 1$ garantiza que la masa total es la unidad.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición Formal de PDF
+\begin{frame}{Definición Formal de la Función de Densidad de Probabilidad}
+  \footnotesize
+  Una variable aleatoria $X$ es \emph{continua} si existe una función integrable $f: \mathbb{R} \to [0, \infty)$ tal que para todo intervalo $[a, b]$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Función de Densidad de Probabilidad (PDF)}
+    $$P(a \le X \le b) = \int_{a}^{b} f(x)\,dx$$
+    con las dos condiciones axiomáticas: $f(x) \ge 0$ para todo $x$ y $\int_{-\infty}^{\infty} f(x)\,dx = 1$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Propiedad Fundamental: $P(X = x) = 0$}
+    \begin{itemize}\itemsep=0.05cm
+      \item Para una variable continua, cualquier valor puntual tiene probabilidad nula.
+      \item Las probabilidades se calculan sobre \emph{intervalos}, no sobre puntos.
+      \item Por lo tanto, $P(a \le X \le b) = P(a < X \le b) = P(a \le X < b) = P(a < X < b)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Soporte Continuo
+\begin{frame}{Soporte Continuo y Complementos del Soporte}
+  \footnotesize
+  El \emph{soporte} de una variable continua es el conjunto de puntos donde la PDF es estrictamente positiva: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Soporte Continuo $\mathcal{S}_X$}
+    $$\mathcal{S}_X = \{x \in \mathbb{R} : f(x) > 0\}$$
+    Para variables continuas, el soporte puede ser un intervalo acotado $[a, b]$, semi-acotado $[a, \infty)$ o $(-\infty, b]$, o toda la recta real $\mathbb{R}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Ejemplos de Soporte}
+    \begin{itemize}\itemsep=0.05cm
+      \item Uniforme $U(0, 1)$: soporte $[0, 1]$ (acotado, cerrado).
+      \item Exponencial $\text{Exp}(\lambda)$: soporte $[0, \infty)$ (semi-acotado, cola derecha).
+      \item Normal $N(\mu, \sigma^{2})$: soporte $\mathbb{R}$ (no acotado, dos colas).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: CDF Continua
+\begin{frame}{Función de Distribución Acumulada Continua (CDF)}
+  \footnotesize
+  La CDF se obtiene integrando la PDF desde $-\infty$ hasta $x$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{CDF Continua}
+    $$F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\,dt$$
+    Por el Teorema Fundamental del Cálculo, $f(x) = F'(x)$ siempre que $F$ sea diferenciable. La CDF es monótona creciente con $F(-\infty) = 0$ y $F(+\infty) = 1$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Cálculo de Probabilidades por Intervalos}
+    \begin{itemize}\itemsep=0.05cm
+      \item $P(a \le X \le b) = F(b) - F(a) = \int_{a}^{b} f(t)\,dt$.
+      \item $P(X > a) = 1 - F(a)$.
+      \item $P(X \le b) = F(b)$ por definición.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Esperanza Continua
+\begin{frame}{Esperanza Matemática Continua: $\E[X] = \int x f(x)\,dx$}
+  \footnotesize
+  La esperanza de una variable continua se calcula integrando $x \cdot f(x)$ sobre todo el soporte: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Definición de Esperanza Continua}
+    $$\E[X] = \int_{-\infty}^{\infty} x \cdot f(x)\,dx$$
+    siempre que la integral exista (condición de integrabilidad absoluta: $\int |x| f(x)\,dx < \infty$).
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Varianza Continua}
+    \begin{itemize}\itemsep=0.05cm
+      \item $\Var(X) = \E[(X - \mu)^{2}] = \int (x - \mu)^{2} f(x)\,dx$.
+      \item Forma computacional: $\Var(X) = \E[X^{2}] - (\E[X])^{2}$ donde $\E[X^{2}] = \int x^{2} f(x)\,dx$.
+      \item Desviación estándar: $\sigma = \sqrt{\Var(X)}$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: LOTUS Continuo
+\begin{frame}{Teorema LOTUS Continuo: $\E[g(X)] = \int g(x) f(x)\,dx$}
+  \footnotesize
+  Para cualquier función $g: \mathbb{R} \to \mathbb{R}$, el Teorema LOTUS (Law of the Unconscious Statistician) permite calcular la esperanza de $g(X)$ sin necesidad de encontrar la distribución de $g(X)$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{LOTUS Continuo}
+    $$\E[g(X)] = \int_{-\infty}^{\infty} g(x) \cdot f(x)\,dx$$
+    bajo condiciones de regularidad (e.g., $g$ medible y $g(X)$ integrable). Caso particular: $g(x) = x$ recupera $\E[X]$; $g(x) = (x - \mu)^{2}$ recupera la varianza.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Aplicaciones Prácticas}
+    \begin{itemize}\itemsep=0.05cm
+      \item Transformaciones de variables: $\E[\log X]$, $\E[X^{2}]$, $\E[\sqrt{X}]$.
+      \item Esperanza de funciones de pago en finanzas: $\E[\max(X - K, 0)]$ para opciones.
+      \item Esperanza de indicadores continuos: $\E[\mathbb{1}_{X > c}] = P(X > c)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Aplicaciones
+\begin{frame}{Aplicaciones en Ingeniería, Ciencias y Ciencia de Datos}
+  \footnotesize
+  Las variables continuas y sus PDFs son omnipresentes en modelado moderno: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Telecomunicaciones:} Tiempo de espera de paquetes, ruido gaussiano en canales, y modelos de interferencia. \pause
+    \item \textbf{Confiabilidad Industrial:} Tiempo hasta la falla de componentes mecánicos y electrónicos, modelado exponencial/Weibull. \pause
+    \item \textbf{Física Experimental:} Errores de medición con distribución Normal, propagación de incertidumbres. \pause
+    \item \textbf{Finanzas y Riesgo:} Movimientos Brownianos para precios de activos, modelos de valuación de opciones.
+  \end{itemize}
+\end{frame}
+
+% Slide 12A-1: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: PDF y Normalización}
+  \scriptsize
+  Verificación computacional de la condición $\int f = 1$ para Exponential, Rayleigh y Cuadrática (\texttt{04.01\_pdf\_and\_support.py}):
+  \vspace{0.05cm}
+  {\lstset{basicstyle=\fontsize{5pt}{6pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=21, lastline=44]{../../code/04_variables_aleatorias_continuas/04.01_pdf_and_support.py}}
+\end{frame}
+
+% Slide 12A-2: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: CDF y Probabilidades de Intervalo}
+  \scriptsize
+  Cálculo numérico de CDF y probabilidades $P(a \le X \le b)$ con `scipy.integrate.quad`:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=47, lastline=76]{../../code/04_variables_aleatorias_continuas/04.01_pdf_and_support.py}}
+\end{frame}
+
+% Slide 12B: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: LOTUS Continuo y Momentos}
+  \scriptsize
+  Verificación de LOTUS: $\E[g(X)] = \int g(x) f(x)\,dx$ para Exponential y Rayleigh:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=85, lastline=112]{../../code/04_variables_aleatorias_continuas/04.01_pdf_and_support.py}}
+\end{frame}
+
+% Slide 12C: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: PDF Validation & Normalization ===
+  Exponential(0.5):         integral = 1.00000000
+  Rayleigh(1.0):            integral = 1.00000000
+  Quadratic(3/10):          integral = 1.00000000
+  SciPy Rayleigh match: True
+
+=== Block 2: CDF & Interval Probabilities ===
+Exponential(0.5) CDF:
+  F(0.5)=0.221199 | F(1.0)=0.393469 | F(2.0)=0.632121
+P(0<=X<=1)=0.393469 | P(1<=X<=3)=0.383400
+Rayleigh CDF: F(0.5)=0.117503 | F(1.0)=0.393469
+Quadratic: F(-0.5)=0.2125 | F(0)=0.5 | F(0.5)=0.7875
+
+=== Block 3: Continuous LOTUS & Moments ===
+Exponential(0.5): E[X]=2.0 | E[X^2]=8.0 | Var=4.0
+Rayleigh(1.0): E[X]=1.253314 | Var=0.429204
+LOTUS E[sqrt(X)]: numerical=1.253314 | SciPy=1.253314
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.1.1 --- PDF Exponencial (Enunciado)}
+    Considere la función $f(x) = c \cdot e^{-x}$ para $x \ge 0$ y $f(x) = 0$ para $x < 0$. Determine el valor de $c$ tal que $f$ sea una PDF válida, calcule $P(1 \le X \le 3)$ y la CDF $F(x)$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento del Modelo}
+    \begin{itemize}\itemsep=0.04cm
+      \item Soporte: $[0, \infty)$ (semi-acotado).
+      \item Condición de normalización: $\int_{0}^{\infty} c \cdot e^{-x}\,dx = 1$.
+      \item Probabilidad: $P(1 \le X \le 3) = \int_{1}^{3} c \cdot e^{-x}\,dx$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Evaluamos la integral de normalización y derivamos la CDF: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Constante de Normalización}
+    \begin{align*}
+      \int_{0}^{\infty} c \cdot e^{-x}\,dx = c \cdot [-e^{-x}]_{0}^{\infty} = c \cdot 1 = c = 1.
+    \end{align*}
+    Por lo tanto, $c = 1$ y la PDF es la exponencial estándar con $\lambda = 1$.
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Cálculo de $P(1 \le X \le 3)$ y $F(x)$}
+    \scriptsize
+    \begin{align*}
+      P(1 \le X \le 3) &= \int_{1}^{3} e^{-x}\,dx = e^{-1} - e^{-3} \approx 0.3679 - 0.0498 = 0.3181, \\
+      F(x) &= \int_{0}^{x} e^{-t}\,dt = 1 - e^{-x} \quad \text{para } x \ge 0.
+    \end{align*}
+    Esta es la CDF de la distribución exponencial con $\lambda = 1$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.1.4 --- Distribución de Rayleigh (Enunciado)}
+    Sea $X$ con CDF $F(x) = 1 - e^{-x^{2}/2}$ para $x \ge 0$. Derive la PDF, verifique la normalización y calcule la mediana.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento del Modelo}
+    \begin{itemize}\itemsep=0.04cm
+      \item La CDF es diferenciable en $x > 0$ con derivada $f(x) = F'(x)$.
+      \item Verificación: $\int_{0}^{\infty} f(x)\,dx = 1$ con sustitución $u = x^{2}/2$.
+      \item Mediana: $F(m) = 0.5$ implica $m = \sqrt{2 \ln 2}$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Derivamos y verificamos paso a paso: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Derivación de la PDF}
+    \scriptsize
+    \begin{align*}
+      f(x) = F'(x) = \dfrac{d}{dx}\left( 1 - e^{-x^{2}/2} \right) = x e^{-x^{2}/2}, \quad x \ge 0.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Normalización y Mediana}
+    \scriptsize
+    Con $u = x^{2}/2$, $du = x\,dx$: $\int_{0}^{\infty} x e^{-x^{2}/2}\,dx = \int_{0}^{\infty} e^{-u}\,du = 1$. \quad \checkmark
+
+    La mediana $m$ satisface $1 - e^{-m^{2}/2} = 0.5$, es decir, $e^{-m^{2}/2} = 0.5$. Tomando logaritmo:
+    \begin{align*}
+      m = \sqrt{2 \ln 2} \approx 1.1774.
+    \end{align*}
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.1.7 --- Deducción de la Esperanza Continua (Enunciado)}
+    Sea $X$ una variable aleatoria continua con PDF $f(x)$. Demuestre formalmente que $\E[X] = \int x f(x)\,dx$ partiendo de $\E[X] = \int x\,dF(x)$ e integración por partes bajo condiciones de regularidad.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia de Deducción}
+    \scriptsize
+    Use la representación $F(x) = \int_{-\infty}^{x} f(t)\,dt$ y la condición $\lim_{x \to \pm\infty} xF(x) = 0$ (requerida para convergencia de la esperanza).
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Usamos la definición operacional y sustitución directa: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Sustitución Operacional}
+    \scriptsize
+    Por la regla de Leibniz y la definición de PDF $dF(x) = f(x)\,dx$:
+    \begin{align*}
+      \E[X] = \int_{-\infty}^{\infty} x \cdot dF(x) = \int_{-\infty}^{\infty} x \cdot f(x)\,dx.
+    \end{align*}
+    La condición técnica $\int |x| f(x)\,dx < \infty$ garantiza la convergencia absoluta de la integral, lo que equivale a la condición de colas ligeras $\lim_{|x| \to \infty} xF(x) = 0$. \quad \qedhere
+  \end{block}
+\end{frame}
+
+% Slide 16A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.1.10 --- Convolución de Gaussianas (Enunciado)}
+    Demuestre que si $X, Y \sim N(0, 1)$ independientes, entonces $Z = X + Y$ tiene PDF $N(0, 2)$. Generalice: si $X_{1}, \dots, X_{n}$ son i.i.d. $N(0, \sigma^{2})$, entonces $\sum X_{i} \sim N(0, n\sigma^{2})$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Aplicación}
+    \scriptsize
+    Interprete el resultado en el contexto de filtrado de ruido gaussiano en telecomunicaciones: si se promedian $n$ muestras ruidosas independientes, la varianza del promedio es $\sigma^{2}/n$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Aplicamos la convolución y completamos el cuadrado: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Convolución de Dos Gaussianas}
+    \scriptsize
+    \begin{align*}
+      h(z) &= \int_{-\infty}^{\infty} \dfrac{1}{\sqrt{2\pi}} e^{-x^{2}/2} \cdot \dfrac{1}{\sqrt{2\pi}} e^{-(z-x)^{2}/2}\,dx \\
+      &= \dfrac{1}{2\pi} e^{-z^{2}/4} \int_{-\infty}^{\infty} e^{-(x - z/2)^{2}}\,dx = \dfrac{1}{\sqrt{2\pi \cdot 2}} e^{-z^{2}/4}.
+    \end{align*}
+    Esto es la PDF de $N(0, 2)$. \quad \qedhere
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Generalización e Interpretación}
+    \scriptsize
+    Por inducción, $\sum_{i=1}^{n} X_{i} \sim N(0, n\sigma^{2})$. Si promediamos $n$ muestras ruidosas, $\bar{X} = (1/n)\sum X_{i} \sim N(0, \sigma^{2}/n)$. La potencia del ruido se reduce por factor $n$, principio fundamental del filtrado por promedio en telecomunicaciones.
+  \end{alertblock}
+\end{frame}
+
+% Slide 17: Cierre
+\begin{frame}{Cierre de Sección y Síntesis sobre Variables Continuas}
+  \begin{reflexion}[El Puente de lo Discreto a lo Continuo]
+    La función de densidad de probabilidad $f(x)$ es el análogo continuo de la PMF: en lugar de masa en puntos, distribuye probabilidad sobre un continuo. Las propiedades formales son análogas (no-negatividad, integral 1), pero las técnicas de cálculo requieren integración en lugar de sumas.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave de la PDF}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Normalización:} $\int f = 1$ garantiza la masa total; las PDFs son relativas, no absolutas.
+      \item \textbf{Soporte:} Determina dónde concentrar el cálculo; puede ser acotado, semi-acotado, o no acotado.
+      \item \textbf{LOTUS:} $\E[g(X)] = \int g(x) f(x)\,dx$ evita derivar la distribución de $g(X)$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 18: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}[Para la próxima sesión: CDF Continua y Cuantiles]
+    Acabamos de introducir la PDF como objeto fundamental de las variables continuas. La CDF continua, definida como $F(x) = \int_{-\infty}^{x} f(t)\,dt$, es la herramienta complementaria que permite calcular probabilidades acumuladas y definir cuantiles. También estudiaremos la inversión de la CDF, fundamental para la generación de números aleatorios y los métodos de Monte Carlo.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa el Teorema Fundamental del Cálculo y la integración por partes.
+      \item Reflexiona sobre cómo encontrar $x$ tal que $F(x) = p$ (cuantil) y su utilidad en inferencia.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

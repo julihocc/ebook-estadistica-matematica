@@ -125,41 +125,41 @@ Con el nuevo ordenamiento consolidado, el desarrollo de temas restantes del Cap�
 
 ---
 
-## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 04.01`)
+## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 04.02`)
 
-**Capítulo 03 (Variables Aleatorias Discretas) 100% finalizado.** Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 04.01: Función de Densidad de Probabilidad (PDF) y Soporte Continuo**, abriendo el Capítulo 04 sobre Variables Aleatorias Continuas. El protocolo exacto de 6 pasos es:
+**Capítulo 03 (Variables Aleatorias Discretas) 100% finalizado y Sección 04.01 del Capítulo 04 completada.** Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 04.02: Función de Distribución Acumulada Continua (CDF) y Cuantiles**, siguiendo este protocolo exacto de 6 pasos:
 
 ### Paso 1: Auditoría de Teoría y Creación/Integración de `(p).tex`
-1. Consultar el archivo `latex/variables_aleatorias_continuas.tex` (donde se ubica la teoría de la PDF y el soporte continuo).
-2. Verificar si en `variables_aleatorias_continuas(p).tex` existen los problemas de la 04.01. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2`:
-   - **Nivel Fundamental (3):** Definición de PDF, condiciones de normalización $\int f = 1$, cálculo de probabilidades por integración (`4.1.1` a `4.1.3`).
-   - **Nivel Operativo (3):** Soporte continuo y complementarios, $F(x) = \int_{-\infty}^{x} f(t)\,dt$, cálculo de $P(a \le X \le b)$ (`4.1.4` a `4.1.6`).
-   - **Nivel Analítico (2):** Esperanza continua $\E[X] = \int x f(x)\,dx$, LOTUS continuo, varianza por integral de $(x - \mu)^{2}$ (`4.1.7` y `4.1.8`).
-   - **Nivel Desafiante (2):** Distribución mixta continua-discreta, convolución de densidades, y aplicación a señales de telecomunicación (`4.1.9` y `4.1.10`).
+1. Consultar el archivo `latex/variables_aleatorias_continuas.tex` (donde se ubica la teoría de la CDF continua y cuantiles).
+2. Verificar si en `variables_aleatorias_continuas(p).tex` existen los problemas de la 04.02. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2` usando los entornos institucionales (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`):
+   - **Nivel Fundamental (3):** Definición de CDF continua $F(x) = P(X \le x)$, propiedades (monotonía, $F(-\infty) = 0$, $F(+\infty) = 1$), y equivalencia con PDF vía Teorema Fundamental del Cálculo (`4.2.1` a `4.2.3`).
+   - **Nivel Operativo (3):** Cálculo de $P(a \le X \le b)$ vía diferencias de CDF, cuantiles $q_p = F^{-1}(p)$, y método de inversión para generación de variables aleatorias (`4.2.4` a `4.2.6`).
+   - **Nivel Analítico (2):** Demostración de la continuidad de la CDF bajo la PDF, y monotonía estricta cuando la PDF es estrictamente positiva (`4.2.7` y `4.2.8`).
+   - **Nivel Desafiante (2):** Cuantiles condicionales, interpolación lineal en tablas de cuantiles, y aplicación a pruebas no paramétricas (Kolmogorov-Smirnov) (`4.2.9` y `4.2.10`).
 3. Compilar el libro maestro dos veces para comprobar que no se rompen índices ni referencias.
 
-### Paso 2: Desarrollo de Script Python en Inglés (`04.01_pdf_and_support.py`)
-Crear el archivo en `presentaciones/code/04_variables_aleatorias_continuas/04.01_pdf_and_support.py` con `numpy` y `scipy.stats`:
-- **Block 1: PDF Validation & Normalization:** Verificación numérica de $\int f = 1$ con `scipy.integrate.quad`, comparación con casos discretos.
-- **Block 2: CDF Computation & Interval Probabilities:** Cálculo de $F(x)$ y $P(a \le X \le b)$ vía integración numérica.
-- **Block 3: Continuous LOTUS & Moments:** Verificación de $\E[X] = \int x f(x)\,dx$ y $\Var(X) = \int (x - \mu)^{2} f(x)\,dx$ para varias distribuciones.
+### Paso 2: Desarrollo de Script Python en Inglés (`04.02_continuous_cdf.py`)
+Crear el archivo en `presentaciones/code/04_variables_aleatorias_continuas/04.02_continuous_cdf.py` con `numpy` y `scipy.stats`:
+- **Block 1: CDF Validation & Inversion:** Verificación de propiedades de CDF ($F(-\infty) = 0$, $F(+\infty) = 1$, monotonía) y cálculo de cuantiles vía inversión numérica.
+- **Block 2: Interval Probabilities & Random Number Generation:** Cálculo de $P(a \le X \le b)$ y demostración del método de inversión para muestreo.
+- **Block 3: Quantile-Based Statistics:** Cuantiles empíricos vs. teóricos, intervalos de confianza bootstrap, y aplicación a pruebas de bondad de ajuste.
 
-### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`04.01_pdf_and_support.tex`)
-1. Crear los mazos espejos en `presentaciones/es/04_variables_aleatorias_continuas/04.01_pdf_and_support.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.01_pdf_and_support.tex` (20 frames).
+### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`04.02_continuous_cdf.tex`)
+1. Crear los mazos espejos en `presentaciones/es/04_variables_aleatorias_continuas/04.02_continuous_cdf.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.02_continuous_cdf.tex` (20 frames).
 2. Usar `\date{\vspace{-1.2cm}}` en la portada ES y `\date{\vspace{-1.5cm}}` en la portada EN.
-3. Importar los bloques del script con `\lstinputlisting[language=Python, ...]{../../code/04_variables_aleatorias_continuas/04.01_pdf_and_support.py}`.
+3. Importar los bloques del script con `\lstinputlisting[language=Python, ...]{../../code/04_variables_aleatorias_continuas/04.02_continuous_cdf.py}`.
 4. Ajustar tablas teóricas y espaciados para prevenir `Overfull`.
 
 ### Paso 4: Compilación y Doble Verificación (*Zero Overfull Check*)
 Ejecutar los siguientes comandos en la terminal y comprobar que la búsqueda de `Overfull` arroje cero coincidencias en las diapositivas 2+:
 ```bash
 cd presentaciones/es/04_variables_aleatorias_continuas
-pdflatex -interaction=nonstopmode 04.01_pdf_and_support.tex && pdflatex -interaction=nonstopmode 04.01_pdf_and_support.tex
-grep "Overfull" 04.01_pdf_and_support.log
+pdflatex -interaction=nonstopmode 04.02_continuous_cdf.tex && pdflatex -interaction=nonstopmode 04.02_continuous_cdf.tex
+grep "Overfull" 04.02_continuous_cdf.log
 
 cd ../../en/04_continuous_random_variables
-pdflatex -interaction=nonstopmode 04.01_pdf_and_support.tex && pdflatex -interaction=nonstopmode 04.01_pdf_and_support.tex
-grep "Overfull" 04.01_pdf_and_support.log
+pdflatex -interaction=nonstopmode 04.02_continuous_cdf.tex && pdflatex -interaction=nonstopmode 04.02_continuous_cdf.tex
+grep "Overfull" 04.02_continuous_cdf.log
 ```
 
 ### Paso 5: Sincronización de Ebook Principal (`[Modelación Estadística].tex`)
@@ -169,7 +169,7 @@ pdflatex -interaction=nonstopmode "[Modelación Estadística].tex" && pdflatex -
 ```
 
 ### Paso 6: Actualización de Documentación y Cierre de Tarea (Sin Auto-Commits)
-Actualizar este archivo (`ROADMAP.md`) marcando la 04.01 como completada y apuntando a la 04.02 como el nuevo foco. Verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
+Actualizar este archivo (`ROADMAP.md`) marcando la 04.02 como completada y apuntando a la 04.03 como el nuevo foco. Verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
 
 ---
 
@@ -185,9 +185,9 @@ A continuación se enlistan exhaustivamente todos los temas curriculares que deb
 
 ---
 
-### Unidad 3 / Capítulo 04: Variables Aleatorias Continuas
+### Unidad 3 / Capítulo 04: Variables Aleatorias Continuas (`Avance actual: 1 de 7 secciones completadas`)
 Directorio base Python: `presentaciones/code/04_variables_aleatorias_continuas/`
-- **Sección 04.01:** Función de Densidad de Probabilidad (PDF) y Soporte Continuo (`04.01_pdf_and_support.py`).
+- $\checkmark$ **04.01 Función de Densidad (PDF) y Soporte Continuo:** 100% completado.
 - **Sección 04.02:** Función de Distribución Acumulada (CDF) Continua y Cuantiles (`04.02_continuous_cdf.py`).
 - **Sección 04.03:** Esperanza Matemática, Varianza y Teorema LOTUS Continuo (`04.03_expectation_and_variance.py`).
 - **Sección 04.04:** Distribución Uniforme Continua ($U(a,b)$) (`04.04_uniform_distribution.py`).

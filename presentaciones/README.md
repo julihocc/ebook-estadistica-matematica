@@ -186,7 +186,17 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
+## 5b. Catálogo e Índice de Presentaciones --- Capítulo 04 (En Curso)
+
+A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 3 / Capítulo 04: Variables Aleatorias Continuas**:
+
+| Sección | Título en Español | Título en Inglés | Script Python (en `code/04_variables_aleatorias_continuas/`) | Estado |
+| :---: | :--- | :--- | :--- | :---: |
+| **04.01** | [04.01 PDF y Soporte Continuo](es/04_variables_aleatorias_continuas/04.01_pdf_and_support.tex) ([PDF](es/04_variables_aleatorias_continuas/04.01_pdf_and_support.pdf)) | [04.01 PDF and Continuous Support](en/04_continuous_random_variables/04.01_pdf_and_support.tex) ([PDF](en/04_continuous_random_variables/04.01_pdf_and_support.pdf)) | `04.01_pdf_and_support.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 04** |
+
+---
+
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 04.01: Función de Densidad de Probabilidad y Soporte Continuo, abriendo el Capítulo 04: Variables Aleatorias Continuas**), consulta el documento oficial de planificación:
+Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 04.02: Función de Distribución Acumulada Continua y Cuantiles**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

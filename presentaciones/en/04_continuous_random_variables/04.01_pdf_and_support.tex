@@ -1,0 +1,313 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{PDF and Continuous Support}
+\subtitle{Section 04.01 --- Density Function, Continuous Expectation and LOTUS}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 04: Continuous Random Variables}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 3}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textbf{\textcolor{TecRojo}{Section 04.01: PDF and Continuous Support}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 04.02: Continuous CDF and Quantiles}
+			\item \textcolor{gray}{Section 04.03: Expectation, Variance, and Continuous LOTUS}
+			\item \textcolor{gray}{Section 04.04: Continuous Uniform Distribution}
+			\item \textcolor{gray}{Section 04.05: Exponential Distribution and Memoryless Processes}
+			\item \textcolor{gray}{Section 04.06: Normal Distribution and Z-Score}
+			\item \textcolor{gray}{Section 04.07: Gamma, Beta, and Weibull Distributions}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Introduce the Probability Density Function (PDF) as the continuous analogue of the PMF, master the normalization condition $\int f = 1$, compute probabilities via integration, and establish the foundations of continuous expectation and the LOTUS theorem.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Formal Definition and CDF
+\begin{frame}{Formal Definition: PDF and Continuous CDF}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Probability Density Function (PDF)}
+				\footnotesize
+				A continuous random variable $X$ has PDF $f: \mathbb{R} \to [0, \infty)$ with $f(x) \ge 0$ and $\int f(x)\,dx = 1$. Probabilities are areas:
+				$$P(a \le X \le b) = \int_{a}^{b} f(x)\,dx$$
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Continuous CDF}
+				\footnotesize
+				$F(x) = \int_{-\infty}^{x} f(t)\,dt$ with $F(-\infty) = 0$ and $F(+\infty) = 1$. By the Fundamental Theorem of Calculus, $f(x) = F'(x)$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Support and Continuous LOTUS
+\begin{frame}{Continuous Support, Expectation, and LOTUS}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Continuous Support}
+				\footnotesize
+				$\mathcal{S}_X = \{x \in \mathbb{R} : f(x) > 0\}$ can be bounded $[a,b]$, semi-bounded $[a, \infty)$ or $(-\infty, b]$, or all $\mathbb{R}$. Examples: Uniform$([0,1])$, Exp$(\lambda) \to [0, \infty)$, Normal $\to \mathbb{R}$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Continuous LOTUS}
+				\footnotesize
+				$\E[g(X)] = \int g(x) f(x)\,dx$ under regularity conditions. Special cases: $g(x) = x$ gives $\E[X]$; $g(x) = (x - \mu)^{2}$ gives $\Var(X) = \E[X^{2}] - (\E[X])^{2}$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Applications
+\begin{frame}{Applications in Engineering, Science, and Data Science}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Telecommunications:} Packet waiting times, Gaussian channel noise, and interference models. \pause
+		\item \textbf{Industrial Reliability:} Time-to-failure of mechanical and electronic components, exponential/Weibull modeling. \pause
+		\item \textbf{Experimental Physics:} Measurement errors with Normal distribution, uncertainty propagation. \pause
+		\item \textbf{Finance and Risk:} Brownian motion for asset prices, option valuation models.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 06: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: PDF and Normalization}
+	\vspace{-0.05cm}
+	\scriptsize
+	Computational verification of $\int f = 1$ for Exponential, Rayleigh, and Quadratic PDFs (\texttt{04.01\_pdf\_and\_support.py}):
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{5pt}{6pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=21, lastline=44]{../../code/04_variables_aleatorias_continuas/04.01_pdf_and_support.py}}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: CDF and Interval Probabilities}
+	\vspace{-0.05cm}
+	\scriptsize
+	Numerical CDF computation and $P(a \le X \le b)$ via `scipy.integrate.quad`:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=47, lastline=73]{../../code/04_variables_aleatorias_continuas/04.01_pdf_and_support.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Continuous LOTUS and Moments}
+	\vspace{-0.05cm}
+	\scriptsize
+	LOTUS verification: $\E[g(X)] = \int g(x) f(x)\,dx$ for Exponential and Rayleigh:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=85, lastline=112]{../../code/04_variables_aleatorias_continuas/04.01_pdf_and_support.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: PDF Validation & Normalization ===
+  Exponential(0.5):         integral = 1.00000000
+  Rayleigh(1.0):            integral = 1.00000000
+  Quadratic(3/10):          integral = 1.00000000
+  SciPy Rayleigh match: True
+
+=== Block 2: CDF & Interval Probabilities ===
+Exponential(0.5) CDF:
+  F(0.5)=0.221199 | F(1.0)=0.393469 | F(2.0)=0.632121
+P(0<=X<=1)=0.393469 | P(1<=X<=3)=0.383400
+Rayleigh CDF: F(0.5)=0.117503 | F(1.0)=0.393469
+Quadratic: F(-0.5)=0.2125 | F(0)=0.5 | F(0.5)=0.7875
+
+=== Block 3: Continuous LOTUS & Moments ===
+Exponential(0.5): E[X]=2.0 | E[X^2]=8.0 | Var=4.0
+Rayleigh(1.0): E[X]=1.253314 | Var=0.429204
+LOTUS E[sqrt(X)]: numerical=1.253314 | SciPy=1.253314
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 10: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.1.1 --- Exponential PDF (Statement)}
+		Consider $f(x) = c \cdot e^{-x}$ for $x \ge 0$ and $f(x) = 0$ for $x < 0$. Determine the value of $c$ such that $f$ is a valid PDF, calculate $P(1 \le X \le 3)$, and the CDF $F(x)$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item Support: $[0, \infty)$ (semi-bounded).
+			\item Normalization: $\int_{0}^{\infty} c \cdot e^{-x}\,dx = 1$.
+			\item Probability: $P(1 \le X \le 3) = \int_{1}^{3} c \cdot e^{-x}\,dx$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Evaluate the normalization integral and derive the CDF: \pause
+	\begin{block}{Normalization Constant}
+		\begin{align*}
+			\int_{0}^{\infty} c \cdot e^{-x}\,dx = c \cdot [-e^{-x}]_{0}^{\infty} = c \cdot 1 = c = 1.
+		\end{align*}
+		Therefore $c = 1$ and the PDF is the standard exponential with $\lambda = 1$.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Probability and CDF}
+		\scriptsize
+		\begin{align*}
+			P(1 \le X \le 3) &= \int_{1}^{3} e^{-x}\,dx = e^{-1} - e^{-3} \approx 0.3679 - 0.0498 = 0.3181, \\
+			F(x) &= \int_{0}^{x} e^{-t}\,dt = 1 - e^{-x} \quad \text{for } x \ge 0.
+		\end{align*}
+		This is the CDF of the exponential distribution with $\lambda = 1$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.1.4 --- Rayleigh Distribution (Statement)}
+		Let $X$ have CDF $F(x) = 1 - e^{-x^{2}/2}$ for $x \ge 0$. Derive the PDF, verify normalization, and calculate the median.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item The CDF is differentiable at $x > 0$ with derivative $f(x) = F'(x)$.
+			\item Verification: $\int_{0}^{\infty} f(x)\,dx = 1$ via substitution $u = x^{2}/2$.
+			\item Median: $F(m) = 0.5$ implies $m = \sqrt{2 \ln 2}$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Derive and verify step by step: \pause
+	\begin{block}{PDF Derivation}
+		\scriptsize
+		\begin{align*}
+			f(x) = F'(x) = \dfrac{d}{dx}\left( 1 - e^{-x^{2}/2} \right) = x e^{-x^{2}/2}, \quad x \ge 0.
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Normalization and Median}
+		\scriptsize
+		With $u = x^{2}/2$, $du = x\,dx$: $\int_{0}^{\infty} x e^{-x^{2}/2}\,dx = \int_{0}^{\infty} e^{-u}\,du = 1$. \quad \checkmark
+
+		The median $m$ satisfies $1 - e^{-m^{2}/2} = 0.5$, i.e., $e^{-m^{2}/2} = 0.5$. Taking logarithm:
+		\begin{align*}
+			m = \sqrt{2 \ln 2} \approx 1.1774.
+		\end{align*}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.1.7 --- Continuous Expectation Derivation (Statement)}
+		Let $X$ be a continuous random variable with PDF $f(x)$. Prove formally that $\E[X] = \int x f(x)\,dx$ starting from $\E[X] = \int x\,dF(x)$ and integration by parts under regularity conditions.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Deduction Strategy}
+		\scriptsize
+		Use the representation $F(x) = \int_{-\infty}^{x} f(t)\,dt$ and the condition $\lim_{x \to \pm\infty} xF(x) = 0$ (required for convergence of the expectation).
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Use the operational definition and direct substitution: \pause
+	\begin{block}{Operational Substitution}
+		\scriptsize
+		By Leibniz rule and the definition $dF(x) = f(x)\,dx$:
+		\begin{align*}
+			\E[X] = \int_{-\infty}^{\infty} x \cdot dF(x) = \int_{-\infty}^{\infty} x \cdot f(x)\,dx.
+		\end{align*}
+		The technical condition $\int |x| f(x)\,dx < \infty$ guarantees the absolute convergence of the integral, equivalent to the light-tail condition $\lim_{|x| \to \infty} xF(x) = 0$. \quad \qedhere
+	\end{block}
+\end{frame}
+
+% SLIDE 16: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.1.10 --- Convolution of Gaussians (Statement)}
+		Prove that if $X, Y \sim N(0, 1)$ are independent, then $Z = X + Y$ has PDF $N(0, 2)$. Generalize: if $X_{1}, \dots, X_{n}$ are i.i.d. $N(0, \sigma^{2})$, then $\sum X_{i} \sim N(0, n\sigma^{2})$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Application}
+		\scriptsize
+		Interpret the result in the context of Gaussian noise filtering in telecommunications: if we average $n$ independent noisy samples, the variance of the average is $\sigma^{2}/n$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Apply the convolution and complete the square: \pause
+	\begin{block}{Convolution of Two Gaussians}
+		\scriptsize
+		\begin{align*}
+			h(z) &= \int_{-\infty}^{\infty} \dfrac{1}{\sqrt{2\pi}} e^{-x^{2}/2} \cdot \dfrac{1}{\sqrt{2\pi}} e^{-(z-x)^{2}/2}\,dx \\
+			&= \dfrac{1}{2\pi} e^{-z^{2}/4} \int_{-\infty}^{\infty} e^{-(x - z/2)^{2}}\,dx = \dfrac{1}{\sqrt{2\pi \cdot 2}} e^{-z^{2}/4}.
+		\end{align*}
+		This is the PDF of $N(0, 2)$. \quad \qedhere
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Generalization and Interpretation}
+		\scriptsize
+		By induction, $\sum_{i=1}^{n} X_{i} \sim N(0, n\sigma^{2})$. If we average $n$ noisy samples, $\bar{X} = (1/n)\sum X_{i} \sim N(0, \sigma^{2}/n)$. The noise power is reduced by factor $n$, a fundamental principle of averaging filters in telecommunications.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Closing and Next Steps
+\begin{frame}{Closing Section and Modular Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: The Bridge from Discrete to Continuous}
+		\scriptsize
+		The Probability Density Function $f(x)$ is the continuous analogue of the PMF: instead of mass at points, it distributes probability over a continuum. The formal properties are analogous (non-negativity, integral = 1), but the calculation techniques require integration instead of summation.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Normalization:} $\int f = 1$ guarantees total mass; PDFs are relative, not absolute.
+			\item \textbf{Support:} Determines where to focus computation; can be bounded, semi-bounded, or unbounded.
+			\item \textbf{LOTUS:} $\E[g(X)] = \int g(x) f(x)\,dx$ avoids deriving the distribution of $g(X)$.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Continuous CDF and Quantiles}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}
