@@ -88,6 +88,11 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Laboratorio Python:* `presentaciones/code/04_variables_aleatorias_continuas/04.02_continuous_cdf.py` (validación de propiedades de CDF; cuantiles por inversión numérica; método de inversión verificado con KS test $p > 0.4$; test KS aplicado a $n = 50$ muestras Uniform).
   - *Mazos Beamer:* mazos pedagógicos y modulares ES/EN en `presentaciones/es/04_variables_aleatorias_continuas/04.02_continuous_cdf.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.02_continuous_cdf.tex` (20 frames), compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido.
   - *Libro Maestro:* Recompilado limpiamente a 590 páginas (`[Modelación Estadística].tex`).
+- $\checkmark$ **04.03 Esperanza Matemática, Varianza y Teorema LOTUS Continuo:** 100% completado.
+  - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/esperanza_matematica(p).tex` (Problemas 4.3.1 al 4.3.10): esperanza y varianza de PDF triangular, momentos de Exponential, asimetría y curtosis, LOTUS, linealidad, ley total de varianza, propagación de incertidumbre.
+  - *Laboratorio Python:* `presentaciones/code/04_variables_aleatorias_continuas/04.03_expectation_and_variance.py` (verificación de momentos para Triangular, Uniform, Exponential, Normal; LOTUS para $\E[\sqrt{X}] = 0.8$ y $\E[\log X] = -0.5$; asimetría $\gamma_{1} = 2$ y curtosis $\gamma_{2} = 6$ de Exponential; Monte Carlo con $N = 250{,}000$ confirma valores teóricos; ley total de varianza validada en modelo jerárquico).
+  - *Mazos Beamer:* mazos pedagógicos y modulares ES/EN en `presentaciones/es/04_variables_aleatorias_continuas/04.03_expectation_and_variance.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.03_expectation_and_variance.tex` (20 frames), compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido.
+  - *Libro Maestro:* Recompilado limpiamente a 596 páginas (`[Modelación Estadística].tex`).
 
 ---
 
@@ -130,41 +135,41 @@ Con el nuevo ordenamiento consolidado, el desarrollo de temas restantes del Cap�
 
 ---
 
-## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 04.03`)
+## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 04.04`)
 
-**Secciones 04.01 y 04.02 del Capítulo 04 completadas.** Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 04.03: Esperanza Matemática, Varianza y Teorema LOTUS Continuo**, siguiendo este protocolo exacto de 6 pasos:
+**Secciones 04.01, 04.02 y 04.03 del Capítulo 04 completadas.** Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 04.04: Distribución Uniforme Continua $U(a, b)$**, siguiendo este protocolo exacto de 6 pasos:
 
 ### Paso 1: Auditoría de Teoría y Creación/Integración de `(p).tex`
-1. Consultar el archivo `latex/esperanza_matematica.tex` (donde se ubica la teoría de esperanza, varianza y LOTUS continuo).
-2. Verificar si en `esperanza_matematica(p).tex` existen los problemas de la 04.03. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2` usando los entornos institucionales (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`):
-   - **Nivel Fundamental (3):** Esperanza continua $\E[X] = \int x f(x)\,dx$, esperanza de $g(X)$ vía LOTUS, y cálculo de varianza $\Var(X) = \E[X^2] - (\E[X])^2$ (`4.3.1` a `4.3.3`).
-   - **Nivel Operativo (3):** Momentos centrales, asimetría y curtosis, y aplicación a distribuciones Uniform, Exponential y Normal (`4.3.4` a `4.3.6`).
-   - **Nivel Analítico (2):** Demostración de LOTUS para transformaciones monótonas, y propiedades de linealidad $\E[aX + b] = a\E[X] + b$ (`4.3.7` y `4.3.8`).
-   - **Nivel Desafiante (2):** Descomposición de varianza vía ley total, y aplicación a propagación de incertidumbres en modelos físicos (`4.3.9` y `4.3.10`).
+1. Consultar el archivo `latex/variables_aleatorias_continuas_avanzado.tex` (donde se ubica la teoría de la distribución uniforme continua y aplicaciones).
+2. Verificar si en `variables_aleatorias_continuas_avanzado(p).tex` existen los problemas de la 04.04. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2` usando los entornos institucionales (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`):
+   - **Nivel Fundamental (3):** Definición de $U(a, b)$ con PDF $f(x) = 1/(b-a)$, cálculo de CDF, esperanza y varianza (`4.4.1` a `4.4.3`).
+   - **Nivel Operativo (3):** Cuantiles, generación de muestras uniformes, y aplicación a simulación Monte Carlo (`4.4.4` a `4.4.6`).
+   - **Nivel Analítico (2):** Demostración de maximal entropía, y orden estadísticas de la uniforme (`4.4.7` y `4.4.8`).
+   - **Nivel Desafiante (2):** Estimación de parámetros por máxima verosimilitud, y aplicación a prueba de uniformidad (Kolmogorov-Smirnov) (`4.4.9` y `4.4.10`).
 3. Compilar el libro maestro dos veces para comprobar que no se rompen índices ni referencias.
 
-### Paso 2: Desarrollo de Script Python en Inglés (`04.03_expectation_and_variance.py`)
-Crear el archivo en `presentaciones/code/04_variables_aleatorias_continuas/04.03_expectation_and_variance.py` con `numpy` y `scipy.stats`:
-- **Block 1: Expectation Computation & LOTUS Verification:** Cálculo de $\E[X]$, $\E[X^2]$ por integración y comparación con formas cerradas; verificación de LOTUS para $\E[\log X]$, $\E[\sqrt{X}]$.
-- **Block 2: Variance & Central Moments:** Cálculo de varianza por integración de $(x - \mu)^2 f(x)\,dx$ y comparación con fórmula $\E[X^2] - (\E[X])^2$; momentos centrales y asimetría.
-- **Block 3: Skewness, Kurtosis & Applications:** Cálculo de momentos estandarizados (asimetría y curtosis) para Uniform, Exponential, Normal; aplicación a propagación de incertidumbre.
+### Paso 2: Desarrollo de Script Python en Inglés (`04.04_uniform_distribution.py`)
+Crear el archivo en `presentaciones/code/04_variables_aleatorias_continuas/04.04_uniform_distribution.py` con `numpy` y `scipy.stats`:
+- **Block 1: Uniform PDF & CDF Validation:** Verificación de normalización de $f(x) = 1/(b-a)$ con `scipy.integrate.quad`; cálculo analítico de CDF $F(x) = (x-a)/(b-a)$.
+- **Block 2: Quantiles & Monte Carlo Generation:** Cuantiles vía `scipy.stats.uniform.ppf` y generación de muestras con `np.random.uniform`; comparación de histogramas empíricos con PDFs teóricas.
+- **Block 3: Maximum Entropy & Order Statistics:** Demostración de que $U(a,b)$ maximiza la entropía entre distribuciones con soporte acotado; análisis de orden estadísticas $X_{(k)}$.
 
-### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`04.03_expectation_and_variance.tex`)
-1. Crear los mazos espejos en `presentaciones/es/04_variables_aleatorias_continuas/04.03_expectation_and_variance.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.03_expectation_and_variance.tex` (20 frames).
+### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`04.04_uniform_distribution.tex`)
+1. Crear los mazos espejos en `presentaciones/es/04_variables_aleatorias_continuas/04.04_uniform_distribution.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.04_uniform_distribution.tex` (20 frames).
 2. Usar `\date{\vspace{-1.2cm}}` en la portada ES y `\date{\vspace{-1.5cm}}` en la portada EN.
-3. Importar los bloques del script con `\lstinputlisting[language=Python, ...]{../../code/04_variables_aleatorias_continuas/04.03_expectation_and_variance.py}`.
+3. Importar los bloques del script con `\lstinputlisting[language=Python, ...]{../../code/04_variables_aleatorias_continuas/04.04_uniform_distribution.py}`.
 4. Ajustar tablas teóricas y espaciados para prevenir `Overfull`.
 
 ### Paso 4: Compilación y Doble Verificación (*Zero Overfull Check*)
 Ejecutar los siguientes comandos en la terminal y comprobar que la búsqueda de `Overfull` arroje cero coincidencias en las diapositivas 2+:
 ```bash
 cd presentaciones/es/04_variables_aleatorias_continuas
-pdflatex -interaction=nonstopmode 04.03_expectation_and_variance.tex && pdflatex -interaction=nonstopmode 04.03_expectation_and_variance.tex
-grep "Overfull" 04.03_expectation_and_variance.log
+pdflatex -interaction=nonstopmode 04.04_uniform_distribution.tex && pdflatex -interaction=nonstopmode 04.04_uniform_distribution.tex
+grep "Overfull" 04.04_uniform_distribution.log
 
 cd ../../en/04_continuous_random_variables
-pdflatex -interaction=nonstopmode 04.03_expectation_and_variance.tex && pdflatex -interaction=nonstopmode 04.03_expectation_and_variance.tex
-grep "Overfull" 04.03_expectation_and_variance.log
+pdflatex -interaction=nonstopmode 04.04_uniform_distribution.tex && pdflatex -interaction=nonstopmode 04.04_uniform_distribution.tex
+grep "Overfull" 04.04_uniform_distribution.log
 ```
 
 ### Paso 5: Sincronización de Ebook Principal (`[Modelación Estadística].tex`)
@@ -174,7 +179,7 @@ pdflatex -interaction=nonstopmode "[Modelación Estadística].tex" && pdflatex -
 ```
 
 ### Paso 6: Actualización de Documentación y Cierre de Tarea (Sin Auto-Commits)
-Actualizar este archivo (`ROADMAP.md`) marcando la 04.03 como completada y apuntando a la 04.04 como el nuevo foco. Verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
+Actualizar este archivo (`ROADMAP.md`) marcando la 04.04 como completada y apuntando a la 04.05 como el nuevo foco. Verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
 
 ---
 
@@ -190,12 +195,12 @@ A continuación se enlistan exhaustivamente todos los temas curriculares que deb
 
 ---
 
-### Unidad 3 / Capítulo 04: Variables Aleatorias Continuas (`Avance actual: 2 de 7 secciones completadas`)
+### Unidad 3 / Capítulo 04: Variables Aleatorias Continuas (`Avance actual: 3 de 7 secciones completadas`)
 Directorio base Python: `presentaciones/code/04_variables_aleatorias_continuas/`
 - $\checkmark$ **04.01 Función de Densidad (PDF) y Soporte Continuo:** 100% completado.
 - **Sección 04.02:** Función de Distribución Acumulada (CDF) Continua y Cuantiles (`04.02_continuous_cdf.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 - **Sección 04.03:** Esperanza Matemática, Varianza y Teorema LOTUS Continuo (`04.03_expectation_and_variance.py`).
-- **Sección 04.03:** Esperanza Matemática, Varianza y Teorema LOTUS Continuo (`04.03_expectation_and_variance.py`).
+- **Sección 04.03:** Esperanza Matemática, Varianza y Teorema LOTUS Continuo (`04.03_expectation_and_variance.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 - **Sección 04.04:** Distribución Uniforme Continua ($U(a,b)$) (`04.04_uniform_distribution.py`).
 - **Sección 04.05:** Distribución Exponencial y Procesos Continuos Sin Memoria (`04.05_exponential_distribution.py`).
 - **Sección 04.06:** Distribución Normal / Gaussiana ($N(\mu, \sigma^2)$) y Puntaje $Z$ (`04.06_normal_distribution.py`).

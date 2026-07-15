@@ -1,0 +1,417 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Esperanza y Varianza Continua]{Sección 04.03: Esperanza y Varianza Continua}
+\subtitle{Definición Integral, LOTUS y Descomposición de Varianza}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 04: Variables Aleatorias Continuas}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{04.01} Función de Densidad (PDF) y Soporte Continuo \pause
+    \item \textbf{04.02} Función de Distribución Acumulada (CDF) Continua y Cuantiles \pause
+    \item \textbf{04.03} Esperanza, Varianza y LOTUS Continuo \emph{(Hoy)} \pause
+    \item \textbf{04.04} Distribución Uniforme Continua \pause
+    \item \textbf{04.05} Distribución Exponencial y Procesos sin Memoria \pause
+    \item \textbf{04.06} Distribución Normal y Puntaje $Z$ \pause
+    \item \textbf{04.07} Distribuciones Gamma, Beta y Weibull
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Definir la esperanza continua $\E[X] = \int x f(x)\,dx$ y la varianza $\Var(X) = \int (x-\mu)^{2} f(x)\,dx$, demostrar el Teorema LOTUS para transformaciones, y aplicar la ley total de varianza al análisis de modelos jerárquicos.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De la PDF a los Momentos: Integración como Operación Natural}
+  \footnotesize
+  \begin{motivacion}[¿Por qué la esperanza continua?]
+    Conocemos la PDF y la CDF de una variable continua. Ahora necesitamos resúmenes numéricos que capturen las propiedades esenciales: la \emph{esperanza} $\E[X]$ (centro de masa de la distribución) y la \emph{varianza} $\Var(X)$ (dispersión alrededor del centro). Estos momentos guían decisiones en inferencia, simulación y análisis de riesgos.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Esperanza:} $\E[X] = \int x f(x)\,dx$, generalización natural de $\E[X] = \sum x P(X=x)$ mediante sumas de Riemann. \pause
+    \item \textbf{Varianza:} $\Var(X) = \E[(X - \mu)^{2}] = \E[X^{2}] - (\E[X])^{2}$, mide la dispersión cuadrática media. \pause
+    \item \textbf{LOTUS:} $\E[g(X)] = \int g(x) f(x)\,dx$ evita derivar la distribución de $g(X)$.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Esperanza Continua
+\begin{frame}{Esperanza Continua: $\E[X] = \int x f(x)\,dx$}
+  \footnotesize
+  Para una variable aleatoria continua $X$ con PDF $f(x)$, la \emph{esperanza matemática} (o media) se define como: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Definición de Esperanza Continua}
+    $$\E[X] = \int_{-\infty}^{\infty} x \cdot f(x)\,dx$$
+    bajo la condición de convergencia $\int |x| f(x)\,dx < \infty$. Para distribuciones de colas ligeras (Exponencial, Normal, Uniforme), la integral converge; para colas pesadas (Cauchy), diverge.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Interpretación Física}
+    \begin{itemize}\itemsep=0.05cm
+      \item $\E[X]$ es el \emph{centro de masa} de la distribución: equilibra la PDF como una balanza.
+      \item Generaliza la media aritmética: si $X$ es uniforme en $[a, b]$, entonces $\E[X] = (a+b)/2$.
+      \item La esperanza no necesita estar en el soporte: para PDF triangular en $[0, 1]$, $\E[X] = 2/3 \in [0, 1]$ ✓.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Varianza Continua
+\begin{frame}{Varianza Continua: $\Var(X) = \E[X^{2}] - (\E[X])^{2}$}
+  \footnotesize
+  La \emph{varianza} mide la dispersión cuadrática media de $X$ alrededor de su esperanza: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Definición de Varianza Continua}
+    $$\Var(X) = \E[(X - \mu)^{2}] = \int_{-\infty}^{\infty} (x - \mu)^{2} f(x)\,dx = \E[X^{2}] - (\E[X])^{2}$$
+    donde $\E[X^{2}] = \int x^{2} f(x)\,dx$ es el segundo momento bruto. La desviación estándar es $\sigma = \sqrt{\Var(X)}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Propiedades Fundamentales}
+    \begin{itemize}\itemsep=0.05cm
+      \item $\Var(X) \ge 0$ siempre, con igualdad si y solo si $X$ es constante.
+      \item $\Var(aX + b) = a^{2} \Var(X)$ (linealidad afín).
+      \item $\Var(X) = 0$ implica que $X$ es determinista; distribuciones concentradas tienen varianza pequeña.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Teorema LOTUS
+\begin{frame}{Teorema LOTUS: $\E[g(X)] = \int g(x) f(x)\,dx$}
+  \footnotesize
+  El Teorema LOTUS (Law of the Unconscious Statistician) permite calcular la esperanza de $g(X)$ sin necesidad de encontrar la distribución de $g(X)$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{LOTUS para Variables Continuas}
+    Para cualquier función medible $g: \mathbb{R} \to \mathbb{R}$ y variable continua $X$ con PDF $f(x)$:
+    $$\E[g(X)] = \int_{-\infty}^{\infty} g(x) \cdot f(x)\,dx$$
+    bajo condiciones de regularidad ($g$ medible, $g(X)$ integrable). Caso particular: $g(x) = x$ recupera $\E[X]$; $g(x) = x^{2}$ recupera $\E[X^{2}]$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Aplicaciones Prácticas}
+    \begin{itemize}\itemsep=0.05cm
+      \item Transformaciones: $\E[\log X]$, $\E[X^{2}]$, $\E[\sqrt{X}]$, $\E[\max(X - K, 0)^{+}]$ para opciones.
+      \item Momentos superiores: asimetría $\gamma_{1} = \E[(X-\mu)^{3}]/\sigma^{3}$ y curtosis $\gamma_{2} = \E[(X-\mu)^{4}]/\sigma^{4} - 3$.
+      \item Esperanza de indicadores: $\E[\mathbb{1}_{X > c}] = P(X > c) = 1 - F(c)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Linealidad de la Esperanza
+\begin{frame}{Linealidad de la Esperanza: $\E[aX + b] = a\E[X] + b$}
+  \footnotesize
+  La esperanza es un operador lineal, válido incluso para variables aleatorias \emph{dependientes}: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Teorema de Linealidad}
+    \begin{itemize}\itemsep=0.05cm
+      \item Para constantes $a, b$ y variable aleatoria $X$: $\E[aX + b] = a \E[X] + b$.
+      \item Para variables aleatorias $X, Y$ (independientes o no): $\E[X + Y] = \E[X] + \E[Y]$.
+      \item La demostración usa la propiedad de linealidad de la integral.
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Contraste con la Varianza}
+    \begin{itemize}\itemsep=0.05cm
+      \item $\Var(X + Y) = \Var(X) + \Var(Y) + 2\cov(X, Y)$, \emph{no} $\Var(X) + \Var(Y)$ en general.
+      \item $\Var(X + Y) = \Var(X) + \Var(Y)$ solo si $X, Y$ son \emph{independientes} o \emph{incorrelacionadas}.
+      \item La esperanza es robusta a la dependencia; la varianza requiere más estructura.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Ley Total de Varianza
+\begin{frame}{Ley Total de Varianza: Descomposición ANOVA}
+  \footnotesize
+  Para variables jerárquicas, la varianza total se descompone en variabilidad dentro y entre grupos: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Ley Total de Varianza}
+    Si $X$ es una variable con $Y$ como índice de grupo, entonces:
+    $$\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$$
+    El primer término es la \emph{variabilidad dentro de grupos}; el segundo es la \emph{variabilidad entre grupos}.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Aplicación en ANOVA}
+    \begin{itemize}\itemsep=0.05cm
+      \item El estadístico $F$ compara la variabilidad entre grupos con la variabilidad dentro de grupos.
+      \item Si $F$ es grande, la mayor parte de la varianza es \emph{entre} grupos (tratamiento efectivo).
+      \item La identidad se demuestra expandiendo $\E[(X - \E[X])^{2}]$ vía la ley total de esperanza.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Aplicaciones
+\begin{frame}{Aplicaciones en Ingeniería, Ciencias y Ciencia de Datos}
+  \footnotesize
+  Los momentos continuos (esperanza, varianza, asimetría) son herramientas centrales en análisis cuantitativo: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Propagación de Incertidumbre:} Si $X = \mu + \epsilon$ con $\epsilon \sim N(0, \sigma^{2})$, el error estándar del promedio de $n$ mediciones es $\sigma/\sqrt{n}$. \pause
+    \item \textbf{Cuantificación de Riesgo:} VaR al $95\%$ es el cuantil $q_{0.05}$ de la distribución de pérdidas; CVaR es la esperanza condicional $\E[X \mid X \le q_{0.05}]$. \pause
+    \item \textbf{Análisis de Regresión:} En regresión lineal, los residuos deben tener esperanza cero y varianza constante (homocedasticidad). \pause
+    \item \textbf{Control de Calidad:} Cartas de control $\bar{x}$ usan $\mu \pm 3\sigma/\sqrt{n}$ como límites de control.
+  \end{itemize}
+\end{frame}
+
+% Slide 12A-1: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Esperanza y LOTUS}
+  \scriptsize
+  Cálculo de $\E[X]$, $\E[X^2]$ y verificación de LOTUS para $g(X) = \sqrt{X}$ y $g(X) = \log(X)$ (\texttt{04.03\_expectation\_and\_variance.py}):
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=15, lastline=38]{../../code/04_variables_aleatorias_continuas/04.03_expectation_and_variance.py}}
+\end{frame}
+
+% Slide 12A-2: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Varianza y Momentos Centrales}
+  \scriptsize
+  Cálculo de varianza y momentos centrales (asimetría, curtosis) para Uniform, Exponential, Normal, y demostración de la ley total de varianza:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=45, lastline=75]{../../code/04_variables_aleatorias_continuas/04.03_expectation_and_variance.py}}
+\end{frame}
+
+% Slide 12B: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Monte Carlo y Propagación}
+  \scriptsize
+  Simulación Monte Carlo con $N = 250{,}000$ y análisis de propagación de error en medición:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=85, lastline=108]{../../code/04_variables_aleatorias_continuas/04.03_expectation_and_variance.py}}
+\end{frame}
+
+% Slide 12C: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Expectation & LOTUS ===
+Triangular(0,1): E[X]=0.666667 | E[X^2]=0.500000 | Var=0.055556
+LOTUS E[sqrt(X)]=0.800000 | LOTUS E[log(X)]=-0.499993
+Linearity E[3.5X+10]=12.333333
+
+=== Block 2: Variance & Central Moments ===
+Uniform(0,1): E[X]=0.500000 | Var=0.083333
+Exponential(1.0): Skewness=2.000000 | Excess kurtosis=6.000000
+Hierarchical: total Var=4.2187 = within 1.0221 + between 3.2991
+
+=== Block 3: Monte Carlo & Error Propagation ===
+Exponential MC (N=250,000): mean=1.0011 | var=1.0003
+  Skewness=1.9909 | Kurtosis=5.8731
+Error propagation (sigma=0.1, true=5.0):
+  n=1024: SE=0.0031 | CI half-width=0.0061
+  Required n for SE<0.01: 100
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.3.1 --- Esperanza y Varianza de PDF Triangular (Enunciado)}
+    Sea $X$ con PDF triangular $f(x) = 2x$ para $0 \le x \le 1$. Calcule $\E[X] = \int_{0}^{1} 2x^{2}\,dx$, $\E[X^{2}] = \int_{0}^{1} 2x^{3}\,dx$, y verifique $\Var(X) = \E[X^{2}] - (\E[X])^{2}$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento del Modelo}
+    \begin{itemize}\itemsep=0.04cm
+      \item Soporte: $[0, 1]$ (acotado).
+      \item Esperanza: $\E[X] = \int x f(x)\,dx = \int_{0}^{1} 2x^{2}\,dx$.
+      \item Varianza por identidad: $\Var(X) = \E[X^{2}] - (\E[X])^{2}$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Calculamos las integrales y verificamos: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Esperanza y Segundo Momento}
+    \begin{align*}
+      \E[X] &= \int_{0}^{1} 2x^{2}\,dx = \left[ \dfrac{2x^{3}}{3} \right]_{0}^{1} = \dfrac{2}{3}. \\
+      \E[X^{2}] &= \int_{0}^{1} 2x^{3}\,dx = \left[ \dfrac{x^{4}}{2} \right]_{0}^{1} = \dfrac{1}{2}.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Varianza y Comparación con Mediana}
+    \scriptsize
+    $\Var(X) = \E[X^{2}] - (\E[X])^{2} = \dfrac{1}{2} - \dfrac{4}{9} = \dfrac{1}{18} \approx 0.0556$. La mediana es $m = 1/\sqrt{2} \approx 0.7071 > \E[X] \approx 0.6667$, diferencia debida a la asimetría de la PDF triangular.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.3.5 --- Asimetría y Curtosis de Exponential (Enunciado)}
+    Para $X \sim \text{Exp}(\lambda = 1)$, calcule el coeficiente de asimetría $\gamma_{1} = \E[(X - \mu)^{3}]/\sigma^{3}$ y la curtosis $\gamma_{2} = \E[(X - \mu)^{4}]/\sigma^{4} - 3$. Compare con la Normal ($\gamma_{1} = 0$, $\gamma_{2} = 0$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Aplicación}
+    \scriptsize
+    Implemente una simulación Monte Carlo con $N = 250{,}000$ para verificar los valores teóricos. La Exponential tiene cola derecha pesada, así que $\gamma_{1} > 0$ y $\gamma_{2} > 0$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos los momentos centrales y comparamos: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Momentos Centrales de Exponential(1)}
+    \begin{align*}
+      \mu = 1, \quad \sigma = 1, \quad \E[(X-1)^{3}] = 2, \quad \E[(X-1)^{4}] = 9.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Asimetría y Curtosis}
+    \scriptsize
+    \begin{align*}
+      \gamma_{1} = \dfrac{2}{1^{3}} = 2 \quad \text{(asimetría positiva, cola derecha)}, \quad
+      \gamma_{2} = \dfrac{9}{1^{4}} - 3 = 6 \quad \text{(exceso de curtosis)}.
+    \end{align*}
+    Comparando con la Normal ($\gamma_{1} = 0$, $\gamma_{2} = 0$), la Exponential es \emph{más asimétrica} y tiene \emph{colas más pesadas}. Monte Carlo: $\hat{\gamma}_{1} \approx 1.99$, $\hat{\gamma}_{2} \approx 5.87$ (con $N = 250{,}000$).
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.3.7 --- Linealidad de la Esperanza (Enunciado)}
+    Sea $X$ continua con PDF $f(x)$ y $\E[X] = \mu$. Demuestre que $\E[aX + b] = a\mu + b$ y que $\E[X + Y] = \E[X] + \E[Y]$ para constantes $a, b$ y variables aleatorias $X, Y$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia de Deducción}
+    \scriptsize
+    Use la linealidad de la integral y el Teorema de Fubini para la suma. La esperanza es lineal incluso para variables dependientes (a diferencia de la varianza).
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Demostramos la linealidad vía integral: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Demostración}
+    \scriptsize
+    \begin{align*}
+      \E[aX + b] &= \int (ax + b) f(x)\,dx = a \int x f(x)\,dx + b \int f(x)\,dx = a\mu + b.
+    \end{align*}
+    Para $\E[X + Y]$ con PDF conjunta $f_{X,Y}(x, y)$:
+    \begin{align*}
+      \E[X + Y] &= \int\int (x + y) f_{X,Y}(x, y)\,dx\,dy = \E[X] + \E[Y]
+    \end{align*}
+    por el Teorema de Fubini. La linealidad es válida \emph{incluso para variables dependientes} (a diferencia de $\Var(X+Y) = \Var(X) + \Var(Y) + 2\cov(X,Y)$). \quad \qedhere
+  \end{block}
+\end{frame}
+
+% Slide 16A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.3.9 --- Ley Total de Varianza (Enunciado)}
+    Sea $X$ continua con PDF $f(x)$ y $Y$ otra variable. Demuestre la identidad de descomposición de varianza:
+    $$\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$$
+    Esta identidad es fundamental en el análisis de varianza (ANOVA) y modelos jerárquicos.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Aplicación}
+    \scriptsize
+    En un ANOVA de un factor, la variabilidad total se descompone en \emph{variabilidad entre tratamientos} ($\Var(\E[X \mid Y])$) y \emph{variabilidad dentro de tratamientos} ($\E[\Var(X \mid Y)]$).
+  \end{alertblock}
+\end{frame}
+
+% Slide 16B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Demostramos vía la ley total de esperanza: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Demostración Formal}
+    \scriptsize
+    Por la ley total de esperanza, $\E[X] = \E[\E[X \mid Y]]$. Expandimos:
+    \begin{align*}
+      \Var(X) &= \E[(X - \E[X])^{2}] = \E[\E[(X - \E[X \mid Y] + \E[X \mid Y] - \E[X])^{2} \mid Y]] \\
+      &= \E[\Var(X \mid Y)] + \E[\Var(\E[X \mid Y] \mid Y)] + 2\E[\E[(X - \E[X \mid Y])(\E[X \mid Y] - \E[X]) \mid Y]].
+    \end{align*}
+    El tercer término es $0$ (propiedad de torre). Los dos primeros son $\E[\Var(X \mid Y)]$ y $\Var(\E[X \mid Y])$, respectivamente. Por lo tanto: $\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$. \quad \qedhere
+  \end{block}
+\end{frame}
+
+% Slide 17: Cierre
+\begin{frame}{Cierre de Sección y Síntesis sobre Esperanza Continua}
+  \begin{reflexion}[Los Momentos como Resumen Distributional]
+    La esperanza continua $\E[X] = \int x f(x)\,dx$ y la varianza $\Var(X) = \int (x - \mu)^{2} f(x)\,dx$ resumen las propiedades esenciales de cualquier distribución. El Teorema LOTUS extiende estas ideas a transformaciones sin necesidad de derivar nuevas PDFs, y la ley total de varianza conecta momentos con estructuras jerárquicas.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave de la Esperanza Continua}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Esperanza:} $\E[X]$ es el centro de masa; la integral $\int x f(x)\,dx$ generaliza la suma discreta.
+      \item \textbf{Varianza:} $\Var(X) = \E[X^{2}] - (\E[X])^{2}$; las varianzas suman solo si las variables son independientes.
+      \item \textbf{LOTUS:} $\E[g(X)] = \int g(x) f(x)\,dx$ evita derivar la distribución de $g(X)$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 18: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}[Para la próxima sesión: Distribución Uniforme Continua]
+    Con la PDF, la CDF y los momentos en mano, podemos ahora estudiar distribuciones específicas. La más simple es la \emph{Uniforme Continua} $U(a, b)$, donde $f(x) = 1/(b-a)$ en $[a, b]$. Aunque elemental, es fundamental para generación de variables aleatorias, simulación Monte Carlo y el método de inversión.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa el concepto de variable equiprobable y su generalización al continuo.
+      \item Reflexiona sobre cómo la uniforme es la base para simulación de cualquier otra distribución vía transformación.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

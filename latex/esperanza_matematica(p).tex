@@ -1,0 +1,277 @@
+% ==============================================================================
+% SECCIÓN 04.03: ESPERANZA MATEMÁTICA, VARIANZA Y TEOREMA LOTUS CONTINUO
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 04.03}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:4.3.1}
+	Una variable aleatoria continua $X$ tiene PDF triangular $f(x) = 2x$ para $0 \le x \le 1$ y $f(x) = 0$ en otro caso.
+	\begin{enumerate}
+		\item Calcule la esperanza $\E[X] = \int_{0}^{1} x \cdot 2x\,dx$.
+		\item Calcule $\E[X^{2}]$ y verifique la varianza $\Var(X) = \E[X^{2}] - (\E[X])^{2}$.
+		\item Calcule la mediana de $X$ y compare con $\E[X]$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.3.2}
+	Sea $X \sim \text{Exp}(\lambda = 0.5)$ con PDF $f(x) = 0.5 e^{-0.5 x}$ para $x \ge 0$.
+	\begin{enumerate}
+		\item Calcule $\E[X] = 1/\lambda$ y $\Var(X) = 1/\lambda^{2}$ usando las definiciones de integral.
+		\item Verifique la propiedad de \emph{ausencia de memoria}: $\E[X - a \mid X > a] = \E[X]$ para todo $a > 0$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.3.3}
+	Sea $X$ una variable aleatoria con PDF $f(x) = \dfrac{3}{8}(2 - x^{2})$ para $-1 \le x \le 1$ y $f(x) = 0$ en otro caso.
+	\begin{enumerate}
+		\item Calcule $\E[X]$ y $\E[X^{2}]$.
+		\item Calcule $\Var(X)$ y la desviación estándar $\sigma = \sqrt{\Var(X)}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:4.3.4}
+	Calcule los cuatro primeros momentos centrales de la distribución Uniforme en $[0, 1]$ con PDF $f(x) = 1$ para $x \in [0, 1]$. Verifique que $\E[X] = 0.5$, $\Var(X) = 1/12$, y que la asimetría es $0$ (por simetría).
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.3.5}
+	Para una variable aleatoria exponencial $X \sim \text{Exp}(\lambda = 1)$:
+	\begin{enumerate}
+		\item Calcule el coeficiente de asimetría $\gamma_{1} = \E[(X - \mu)^{3}]/\sigma^{3}$ y la curtosis $\gamma_{2} = \E[(X - \mu)^{4}]/\sigma^{4} - 3$.
+		\item Compare con los valores de la Normal estándar ($\gamma_{1} = 0$, $\gamma_{2} = 0$).
+		\item Implemente una simulación Monte Carlo con $N = 250{,}000$ para verificar los valores teóricos.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.3.6}
+	Sea $X$ una variable con PDF $f(x) = \dfrac{1}{\sqrt{2\pi}} e^{-x^{2}/2}$ (Normal estándar). Use el Teorema LOTUS para calcular:
+	\begin{enumerate}
+		\item $\E[X^{2}]$ (segundo momento, relacionado con la varianza).
+		\item $\E[|X|]$ (esperanza del valor absoluto).
+		\item $\E[\max(X, 0)]$ (esperanza de la parte positiva).
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:4.3.7}
+	Sea $X$ una variable aleatoria continua con PDF $f(x)$ y $\E[X] = \mu$. Demuestre la \emph{propiedad de linealidad} de la esperanza:
+	$$\E[aX + b] = a\mu + b, \quad \E[X + Y] = \E[X] + \E[Y]$$
+	para constantes $a, b$ y variables aleatorias $X, Y$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.3.8}
+	Demuestre el \emph{Teorema LOTUS} para transformaciones monótonas: si $g: \mathbb{R} \to \mathbb{R}$ es monótona creciente y $X$ tiene PDF $f(x)$, entonces:
+	$$\E[g(X)] = \int g(x) f(x)\,dx$$
+	\begin{enumerate}
+		\item Demuestre el caso $g(X) = e^{X}$ usando la sustitución $y = g(x)$.
+		\item Generalice al caso de $g$ monótona creciente pero no necesariamente inyectiva.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:4.3.9}
+	Sea $X$ una variable aleatoria continua con PDF $f(x)$. Use la ley total de esperanza para demostrar la \emph{fórmula de descomposición de varianza}:
+	$$\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$$
+	donde $Y$ es otra variable aleatoria. Esta identidad es fundamental en el análisis de varianza (ANOVA) y modelos jerárquicos.
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.3.10}
+	En un experimento de física, se mide una cantidad $X = \mu + \epsilon$ donde $\mu$ es el valor verdadero y $\epsilon \sim N(0, \sigma^{2})$ es el error de medición. Se realizan $n$ mediciones independientes $X_{1}, \dots, X_{n}$.
+	\begin{enumerate}
+		\item Calcule $\E[\bar{X}]$ y $\Var(\bar{X})$ donde $\bar{X} = (1/n) \sum X_{i}$ es la media muestral.
+		\item Demuestre que el error estándar del estimado es $\sigma/\sqrt{n}$ y decrece con $\sqrt{n}$.
+		\item Para $\sigma = 0.1$, determine $n$ tal que $\sigma/\sqrt{n} < 0.01$ (error $< 10\%$ del verdadero valor).
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 04.03}
+
+\begin{sugerencia}
+	\label{sug:4.3.1}
+	Para el Problema \ref{prob:4.3.1}, $\E[X] = \int_{0}^{1} x \cdot 2x\,dx = \int_{0}^{1} 2x^{2}\,dx = 2/3$. $\E[X^{2}] = \int_{0}^{1} 2x^{3}\,dx = 1/2$. $\Var(X) = 1/2 - 4/9 = 1/18 \approx 0.0556$. La mediana $m$ satisface $m^{2} = 0.5$, dando $m = 1/\sqrt{2} \approx 0.707 > \E[X] = 2/3 \approx 0.667$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.3.2}
+	Para el Problema \ref{prob:4.3.2}, $\E[X] = \int_{0}^{\infty} x \cdot 0.5 e^{-0.5x}\,dx = 1/0.5 = 2$. $\E[X^{2}] = \int_{0}^{\infty} x^{2} \cdot 0.5 e^{-0.5x}\,dx = 2/(0.5)^{2} = 8$. $\Var(X) = 8 - 4 = 4$. La propiedad de ausencia de memoria se verifica calculando $\E[X - a \mid X > a] = \int_{0}^{\infty} x \cdot 0.5 e^{-0.5 x}\,dx = 2 = \E[X]$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.3.3}
+	Para el Problema \ref{prob:4.3.3}, por simetría de $f(x)$, $\E[X] = 0$. $\E[X^{2}] = \int_{-1}^{1} x^{2} \cdot (3/8)(2 - x^{2})\,dx = (3/8)[2x^{3}/3 - x^{5}/5]_{-1}^{1} = (3/8)(4/15) = 1/10$. $\Var(X) = 1/10 - 0 = 0.1$. $\sigma \approx 0.316$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.3.4}
+	Para el Problema \ref{prob:4.3.4}, $\E[X] = \int_{0}^{1} x\,dx = 0.5$. $\E[X^{2}] = 1/3$. $\Var(X) = 1/12 \approx 0.0833$. Por simetría de $f(x) = 1$ en $[0, 1]$ alrededor de $0.5$, todos los momentos centrales impar son cero: $\E[(X - 0.5)^{3}] = 0$, $\E[(X - 0.5)^{5}] = 0$, etc.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.3.5}
+	Para el Problema \ref{prob:4.3.5}, la asimetría de Exponential($\lambda$) es $\gamma_{1} = 2$ (cola derecha larga) y la curtosis es $\gamma_{2} = 6$ (colas pesadas). Compare con Normal: $\gamma_{1} = 0$, $\gamma_{2} = 0$. En la simulación Monte Carlo, use `np.random.seed(42)` y `np.random.exponential(1.0, 250000)`.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.3.6}
+	Para el Problema \ref{prob:4.3.6}, $\E[X^{2}] = \int x^{2} \phi(x)\,dx = 1$ (varianza de la Normal estándar). $\E[|X|] = 2 \int_{0}^{\infty} x \phi(x)\,dx = 2/\sqrt{2\pi} = \sqrt{2/\pi} \approx 0.7979$. $\E[\max(X, 0)] = \E[|X|]/2 = 1/\sqrt{2\pi} \approx 0.3989$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.3.7}
+	Para el Problema \ref{prob:4.3.7}, $\E[aX + b] = \int (ax + b) f(x)\,dx = a \int x f(x)\,dx + b \int f(x)\,dx = a\mu + b$. Para $\E[X + Y]$: use el teorema de Fubini para intercambiar integrales. La esperanza es lineal incluso para variables dependientes.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.3.8}
+	Para el Problema \ref{prob:4.3.8}, use la fórmula de cambio de variable: si $g$ es inyectiva, $Y = g(X)$ tiene PDF $f_{Y}(y) = f_{X}(g^{-1}(y)) / |g'(g^{-1}(y))|$. Entonces $\E[g(X)] = \E[Y] = \int y f_{Y}(y)\,dy = \int g(x) f_{X}(x)\,dx$. Para $g$ monótona pero no inyectiva, descomponer el dominio en regiones de inyectividad.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.3.9}
+	Para el Problema \ref{prob:4.3.9}, use la ley total $\E[X] = \E[\E[X \mid Y]]$ y la ley total de varianza $\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$. Esta identidad se demuestra expandiendo ambos miembros. Es fundamental en ANOVA donde la variabilidad total se descompone en variabilidad entre y dentro de grupos.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.3.10}
+	Para el Problema \ref{prob:4.3.10}, $\E[\bar{X}] = \E[\mu + \bar{\epsilon}] = \mu + (1/n) \sum \E[\epsilon_{i}] = \mu$. $\Var(\bar{X}) = (1/n^{2}) \sum \Var(\epsilon_{i}) = \sigma^{2}/n$. Para $\sigma/\sqrt{n} < 0.01$, necesitamos $n > (\sigma/0.01)^{2} = (0.1/0.01)^{2} = 100$. Con $n = 100$ se cumple la condición.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 04.03}
+
+\begin{solucion}
+	\label{sol:4.3.1}
+	Para el Problema \ref{prob:4.3.1}:
+	\begin{enumerate}
+		\item $\E[X] = \int_{0}^{1} x \cdot 2x\,dx = \int_{0}^{1} 2x^{2}\,dx = \left[ \dfrac{2x^{3}}{3} \right]_{0}^{1} = \dfrac{2}{3}$.
+		\item $\E[X^{2}] = \int_{0}^{1} x^{2} \cdot 2x\,dx = \int_{0}^{1} 2x^{3}\,dx = \left[ \dfrac{x^{4}}{2} \right]_{0}^{1} = \dfrac{1}{2}$. Por lo tanto, $\Var(X) = \E[X^{2}] - (\E[X])^{2} = \dfrac{1}{2} - \dfrac{4}{9} = \dfrac{1}{18} \approx 0.0556$.
+		\item La mediana $m$ satisface $F(m) = m^{2} = 0.5$, dando $m = 1/\sqrt{2} \approx 0.7071$. Comparando: $\E[X] = 2/3 \approx 0.6667 < m \approx 0.7071$. La diferencia se debe a la asimetría de la distribución triangular: la cola derecha es más larga, así que la media supera la mediana.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.3.2}
+	Para el Problema \ref{prob:4.3.2}:
+	\begin{enumerate}
+		\item Por integración por partes con $u = x$, $dv = 0.5 e^{-0.5 x}\,dx$:
+		\begin{align*}
+			\E[X] &= \int_{0}^{\infty} x \cdot 0.5 e^{-0.5 x}\,dx = \left[ -x e^{-0.5 x} \right]_{0}^{\infty} + \int_{0}^{\infty} e^{-0.5 x}\,dx = 0 + 2 = 2 = 1/\lambda.
+		\end{align*}
+		De manera similar, $\E[X^{2}] = 2 \cdot \E[X] \cdot (1/\lambda) = 2/(\lambda \cdot 0.5) = 8 = 1/\lambda^{2}$. Por lo tanto, $\Var(X) = 8 - 4 = 4 = 1/\lambda^{2}$.
+		\item Propiedad de ausencia de memoria: condicionalmente a $X > a$, $X - a$ sigue $\text{Exp}(\lambda)$. Por lo tanto, $\E[X - a \mid X > a] = 1/\lambda = \E[X]$. Esta propiedad única de la distribución exponencial la hace fundamental en teoría de colas y procesos sin memoria.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.3.3}
+	Para el Problema \ref{prob:4.3.3}:
+	\begin{enumerate}
+		\item Por simetría de $f(x) = (3/8)(2 - x^{2})$ en $[-1, 1]$ (función par): $\E[X] = 0$.
+		\item $\E[X^{2}] = \int_{-1}^{1} x^{2} \cdot (3/8)(2 - x^{2})\,dx = (3/8) \int_{-1}^{1} (2x^{2} - x^{4})\,dx = (3/8) \cdot 2 \left[ \dfrac{2x^{3}}{3} - \dfrac{x^{5}}{5} \right]_{0}^{1} = (3/4) \cdot \dfrac{7}{15} = \dfrac{7}{20} = 0.35$.
+	\end{enumerate}
+	$\Var(X) = 0.35 - 0 = 0.35$. La desviación estándar es $\sigma = \sqrt{0.35} \approx 0.5916$.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.3.4}
+	Para el Problema \ref{prob:4.3.4} (Uniforme en $[0, 1]$):
+	\begin{align*}
+		\E[X] &= \int_{0}^{1} x\,dx = \dfrac{1}{2}, \\
+		\E[X^{2}] &= \int_{0}^{1} x^{2}\,dx = \dfrac{1}{3}, \\
+		\Var(X) &= \E[X^{2}] - (\E[X])^{2} = \dfrac{1}{3} - \dfrac{1}{4} = \dfrac{1}{12}.
+	\end{align*}
+	Los momentos centrales impar son cero por simetría de $f(x) = 1$ en $[0, 1]$ respecto a $0.5$. En particular, $\E[(X - 0.5)^{3}] = 0$ y $\E[(X - 0.5)^{5}] = 0$, así que la asimetría es $\gamma_{1} = 0$. La curtosis $\gamma_{2} = \E[(X - 0.5)^{4}]/\sigma^{4} - 3 = (1/80)/(1/144) - 3 = 9/5 - 3 = -6/5 = -1.2$ (distribución platicúrtica).
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.3.5}
+	Para el Problema \ref{prob:4.3.5} (Exponencial con $\lambda = 1$):
+	Para la distribución exponencial con $\lambda = 1$, los momentos centrales son:
+	\begin{align*}
+		\mu = 1, \quad \sigma = 1, \quad \E[(X-1)^{3}] = 2, \quad \E[(X-1)^{4}] = 9.
+	\end{align*}
+	Por lo tanto, $\gamma_{1} = 2/1^{3} = 2$ (asimetría positiva) y $\gamma_{2} = 9/1^{4} - 3 = 6$ (exceso de curtosis). Comparando con la Normal ($\gamma_{1} = 0$, $\gamma_{2} = 0$), la exponencial tiene cola derecha más pesada. Con Monte Carlo ($N = 250{,}000$, semilla 42), los valores empíricos son aproximadamente $\hat{\gamma}_{1} \approx 1.99$ y $\hat{\gamma}_{2} \approx 5.97$, confirmando la teoría.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.3.6}
+	Para el Problema \ref{prob:4.3.6} (Normal estándar con PDF $\phi(x) = \frac{1}{\sqrt{2\pi}} e^{-x^{2}/2}$):
+	\begin{enumerate}
+		\item $\E[X^{2}] = \int_{-\infty}^{\infty} x^{2} \phi(x)\,dx = 1$ (varianza de la Normal estándar).
+		\item Por simetría, $\E[X] = 0$ y $\E[|X|] = 2\int_{0}^{\infty} x \phi(x)\,dx$. Con la sustitución $u = x^{2}/2$, $du = x\,dx$: $\int_{0}^{\infty} x \phi(x)\,dx = \int_{0}^{\infty} \dfrac{x}{\sqrt{2\pi}} e^{-x^{2}/2}\,dx = \dfrac{1}{\sqrt{2\pi}} \int_{0}^{\infty} e^{-u}\,du = \dfrac{1}{\sqrt{2\pi}}$. Por lo tanto, $\E[|X|] = 2/\sqrt{2\pi} = \sqrt{2/\pi} \approx 0.7979$.
+		\item $\E[\max(X, 0)] = \dfrac{1}{2}\E[|X|] = \dfrac{1}{\sqrt{2\pi}} \approx 0.3989$ (por simetría de la Normal).
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.3.7}
+	Para el Problema \ref{prob:4.3.7}, demostramos la linealidad de la esperanza:
+	\begin{align*}
+		\E[aX + b] &= \int_{-\infty}^{\infty} (ax + b) f(x)\,dx = a \int_{-\infty}^{\infty} x f(x)\,dx + b \int_{-\infty}^{\infty} f(x)\,dx = a \E[X] + b \cdot 1 = a\mu + b.
+	\end{align*}
+	Para la suma $\E[X + Y]$: usando el teorema de Fubini para intercambiar integrales con la PDF conjunta $f_{X,Y}(x, y)$:
+	\begin{align*}
+		\E[X + Y] &= \int\int (x + y) f_{X,Y}(x, y)\,dx\,dy = \int\int x f_{X,Y}(x, y)\,dx\,dy + \int\int y f_{X,Y}(x, y)\,dx\,dy = \E[X] + \E[Y].
+	\end{align*}
+	La linealidad es válida \emph{incluso para variables aleatorias dependientes} (a diferencia de la varianza, que requiere independencia o covarianzas explícitas). \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.3.8}
+	Para el Problema \ref{prob:4.3.8}:
+	\begin{enumerate}
+		\item Para $g(x) = e^{x}$, $g$ es inyectiva y monótona creciente. La PDF de $Y = e^{X}$ con cambio de variable $y = e^{x}$, $x = \ln y$, $dx = dy/y$ es:
+		\begin{align*}
+			f_{Y}(y) = f_{X}(\ln y) \cdot \dfrac{1}{y} = \dfrac{1}{y} \cdot f_{X}(\ln y).
+		\end{align*}
+		Por definición, $\E[Y] = \int_{0}^{\infty} y f_{Y}(y)\,dy = \int_{0}^{\infty} y \cdot \dfrac{f_{X}(\ln y)}{y}\,dy = \int_{-\infty}^{\infty} e^{x} f_{X}(x)\,dx$. \quad \qedhere
+		\item Para $g$ monótona creciente pero no inyectiva (e.g., $g(x) = x^{2}$ en $\mathbb{R}$), descomponer el dominio en regiones de inyectividad: $g$ es inyectiva en $(-\infty, 0)$ y en $(0, \infty)$. Entonces:
+		\begin{align*}
+			\E[g(X)] &= \int_{-\infty}^{0} g(x) f_{X}(x)\,dx + \int_{0}^{\infty} g(x) f_{X}(x)\,dx = \int_{-\infty}^{\infty} g(x) f_{X}(x)\,dx.
+		\end{align*}
+		La integral total sobre el dominio sigue dando la misma expresión, así que LOTUS es válido para funciones monótonas generales.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.3.9}
+	Para el Problema \ref{prob:4.3.9}, demostramos la ley total de varianza. Por la ley total de esperanza, $\E[X] = \E[\E[X \mid Y]]$. Expandimos $\Var(X)$:
+	\begin{align*}
+		\Var(X) &= \E[(X - \E[X])^{2}] = \E[\E[(X - \E[X])^{2} \mid Y]] \\
+		&= \E[\E[(X - \E[X \mid Y] + \E[X \mid Y] - \E[X])^{2} \mid Y]] \\
+		&= \E[\E[(X - \E[X \mid Y])^{2} \mid Y]] + \E[\E[(\E[X \mid Y] - \E[X])^{2} \mid Y]] + 2 \E[\E[(X - \E[X \mid Y])(\E[X \mid Y] - \E[X]) \mid Y]].
+	\end{align*}
+	El tercer término es cero por la propiedad de torre de la esperanza: $\E[X - \E[X \mid Y] \mid Y] = \E[X \mid Y] - \E[X \mid Y] = 0$. El primer término es $\E[\Var(X \mid Y)]$ y el segundo es $\Var(\E[X \mid Y])$. Por lo tanto:
+	\begin{align*}
+		\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y]). \quad \blacksquare
+	\end{align*}
+	En ANOVA: la variabilidad total se descompone en \emph{variabilidad dentro de grupos} ($\E[\Var(X \mid Y)]$) y \emph{variabilidad entre grupos} ($\Var(\E[X \mid Y])$).
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.3.10}
+	Para el Problema \ref{prob:4.3.10}:
+	\begin{enumerate}
+		\item Cada medición es $X_{i} = \mu + \epsilon_{i}$ con $\epsilon_{i} \sim N(0, \sigma^{2})$ independientes. La media muestral es:
+		\begin{align*}
+			\bar{X} = \dfrac{1}{n} \sum_{i=1}^{n} X_{i} = \mu + \dfrac{1}{n} \sum_{i=1}^{n} \epsilon_{i}.
+		\end{align*}
+		Por lo tanto, $\E[\bar{X}] = \mu + (1/n) \cdot n \cdot \E[\epsilon_{i}] = \mu + 0 = \mu$. La varianza es $\Var(\bar{X}) = (1/n)^{2} \cdot n \cdot \sigma^{2} = \sigma^{2}/n$.
+		\item El error estándar del estimado es $\text{SE}(\bar{X}) = \sqrt{\Var(\bar{X})} = \sigma/\sqrt{n}$. Para reducir el error a la mitad, necesitamos cuadruplicar $n$ (debido a la dependencia $\sqrt{n}$).
+		\item Para $\sigma/\sqrt{n} < 0.01$ con $\sigma = 0.1$: $\sqrt{n} > 0.1/0.01 = 10$, así $n > 100$. Con $n = 100$ se cumple la condición; con $n = 100$ mediciones, el error estándar es exactamente $0.01$ (1\% del valor verdadero).
+	\end{enumerate}
+\end{solucion}

@@ -1,0 +1,302 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Continuous Expectation and Variance}
+\subtitle{Section 04.03 --- Integral Definition, LOTUS, and Variance Decomposition}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 04: Continuous Random Variables}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 3}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 04.01: PDF and Continuous Support}
+			\item \textcolor{gray}{Section 04.02: Continuous CDF and Quantiles}
+			\item \textbf{\textcolor{TecRojo}{Section 04.03: Expectation, Variance, and Continuous LOTUS}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 04.04: Continuous Uniform Distribution}
+			\item \textcolor{gray}{Section 04.05: Exponential Distribution and Memoryless Processes}
+			\item \textcolor{gray}{Section 04.06: Normal Distribution and Z-Score}
+			\item \textcolor{gray}{Section 04.07: Gamma, Beta, and Weibull Distributions}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Define continuous expectation $\E[X] = \int x f(x)\,dx$ and variance $\Var(X) = \int (x-\mu)^{2} f(x)\,dx$, prove the LOTUS theorem for transformations, and apply the law of total variance to hierarchical models.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Definition and Properties
+\begin{frame}{Definition of Continuous Expectation and Variance}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Expectation}
+				\footnotesize
+				$\E[X] = \int_{-\infty}^{\infty} x f(x)\,dx$ under convergence $\int |x| f(x)\,dx < \infty$. For light-tailed distributions, the integral converges; for Cauchy, it diverges.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Variance and LOTUS}
+				\footnotesize
+				$\Var(X) = \E[(X-\mu)^{2}] = \E[X^{2}] - (\E[X])^{2}$. LOTUS: $\E[g(X)] = \int g(x) f(x)\,dx$ without deriving the distribution of $g(X)$. Linearity: $\E[aX+b] = a\E[X]+b$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Central Moments and Law of Total Variance
+\begin{frame}{Central Moments and Law of Total Variance}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Skewness and Kurtosis}
+				\footnotesize
+				Skewness: $\gamma_{1} = \E[(X-\mu)^{3}]/\sigma^{3}$ measures asymmetry. Kurtosis: $\gamma_{2} = \E[(X-\mu)^{4}]/\sigma^{4} - 3$ measures tail heaviness. For Exponential(1): $\gamma_{1} = 2$, $\gamma_{2} = 6$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Law of Total Variance}
+				\footnotesize
+				$\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$. Fundamental in ANOVA: decomposes total variance into within-group and between-group components. For hierarchical models with $Y$ as group index.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Applications
+\begin{frame}{Applications in Engineering, Science, and Data Science}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Uncertainty Propagation:} If $X = \mu + \epsilon$ with $\epsilon \sim N(0, \sigma^2)$, the standard error of the mean of $n$ measurements is $\sigma/\sqrt{n}$. \pause
+		\item \textbf{Risk Quantification:} VaR at 95\% is the quantile $q_{0.05}$ of the loss distribution; CVaR is $\E[X \mid X \le q_{0.05}]$. \pause
+		\item \textbf{Regression Analysis:} Residuals must have zero mean and constant variance (homoscedasticity). \pause
+		\item \textbf{Quality Control:} $\bar{x}$ charts use $\mu \pm 3\sigma/\sqrt{n}$ as control limits.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 06: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: Expectation and LOTUS}
+	\vspace{-0.05cm}
+	\scriptsize
+	Computation of $\E[X]$, $\E[X^2]$ and LOTUS verification for $g(X) = \sqrt{X}$ and $g(X) = \log(X)$ (\texttt{04.03\_expectation\_and\_variance.py}):
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=15, lastline=38]{../../code/04_variables_aleatorias_continuas/04.03_expectation_and_variance.py}}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Variance and Central Moments}
+	\vspace{-0.1cm}
+	\scriptsize
+	Variance and central moment computation (skewness, kurtosis) for Uniform, Exponential, Normal, and law of total variance demonstration:
+	\vspace{0.0cm}
+	{\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=45, lastline=72]{../../code/04_variables_aleatorias_continuas/04.03_expectation_and_variance.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Monte Carlo and Error Propagation}
+	\vspace{-0.05cm}
+	\scriptsize
+	Monte Carlo simulation with $N = 250{,}000$ and error propagation analysis in measurement:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=85, lastline=108]{../../code/04_variables_aleatorias_continuas/04.03_expectation_and_variance.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: Expectation & LOTUS ===
+Triangular(0,1): E[X]=0.666667 | E[X^2]=0.500000 | Var=0.055556
+LOTUS E[sqrt(X)]=0.800000 | LOTUS E[log(X)]=-0.499993
+Linearity E[3.5X+10]=12.333333
+
+=== Block 2: Variance & Central Moments ===
+Uniform(0,1): E[X]=0.500000 | Var=0.083333
+Exponential(1.0): Skewness=2.000000 | Excess kurtosis=6.000000
+Hierarchical: total Var=4.2187 = within 1.0221 + between 3.2991
+
+=== Block 3: Monte Carlo & Error Propagation ===
+Exponential MC (N=250,000): mean=1.0011 | var=1.0003
+  Skewness=1.9909 | Kurtosis=5.8731
+Error propagation (sigma=0.1, true=5.0):
+  n=1024: SE=0.0031 | CI half-width=0.0061
+  Required n for SE<0.01: 100
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 10: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.3.1 --- Expectation and Variance of Triangular PDF (Statement)}
+		Let $X$ have triangular PDF $f(x) = 2x$ for $0 \le x \le 1$. Calculate $\E[X] = \int_{0}^{1} 2x^{2}\,dx$, $\E[X^{2}] = \int_{0}^{1} 2x^{3}\,dx$, and verify $\Var(X) = \E[X^{2}] - (\E[X])^{2}$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item Support: $[0, 1]$ (bounded).
+			\item Expectation: $\E[X] = \int x f(x)\,dx = \int_{0}^{1} 2x^{2}\,dx$.
+			\item Variance by identity: $\Var(X) = \E[X^{2}] - (\E[X])^{2}$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compute the integrals and verify: \pause
+	\begin{block}{Expectation and Second Moment}
+		\begin{align*}
+			\E[X] &= \int_{0}^{1} 2x^{2}\,dx = \left[ \dfrac{2x^{3}}{3} \right]_{0}^{1} = \dfrac{2}{3}. \\
+			\E[X^{2}] &= \int_{0}^{1} 2x^{3}\,dx = \left[ \dfrac{x^{4}}{2} \right]_{0}^{1} = \dfrac{1}{2}.
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Variance and Comparison with Median}
+		\scriptsize
+		$\Var(X) = \E[X^{2}] - (\E[X])^{2} = \dfrac{1}{2} - \dfrac{4}{9} = \dfrac{1}{18} \approx 0.0556$. The median is $m = 1/\sqrt{2} \approx 0.7071 > \E[X] \approx 0.6667$, difference due to asymmetry of the triangular PDF.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.3.5 --- Skewness and Kurtosis of Exponential (Statement)}
+		For $X \sim \text{Exp}(\lambda = 1)$, calculate the skewness $\gamma_{1} = \E[(X - \mu)^{3}]/\sigma^{3}$ and the kurtosis $\gamma_{2} = \E[(X - \mu)^{4}]/\sigma^{4} - 3$. Compare with the Normal ($\gamma_{1} = 0$, $\gamma_{2} = 0$).
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Application}
+		\scriptsize
+		Implement a Monte Carlo simulation with $N = 250{,}000$ to verify the theoretical values. The Exponential has a heavy right tail, so $\gamma_{1} > 0$ and $\gamma_{2} > 0$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compute the central moments and compare: \pause
+	\begin{block}{Central Moments of Exponential(1)}
+		\begin{align*}
+			\mu = 1, \quad \sigma = 1, \quad \E[(X-1)^{3}] = 2, \quad \E[(X-1)^{4}] = 9.
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Skewness and Kurtosis}
+		\scriptsize
+		\begin{align*}
+			\gamma_{1} = \dfrac{2}{1^{3}} = 2 \quad \text{(positive skew, right tail)}, \quad
+			\gamma_{2} = \dfrac{9}{1^{4}} - 3 = 6 \quad \text{(excess kurtosis)}.
+		\end{align*}
+		Compared with the Normal ($\gamma_{1} = 0$, $\gamma_{2} = 0$), the Exponential is \emph{more asymmetric} and has \emph{heavier tails}. Monte Carlo: $\hat{\gamma}_{1} \approx 1.99$, $\hat{\gamma}_{2} \approx 5.87$ (with $N = 250{,}000$).
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.3.7 --- Linearity of Expectation (Statement)}
+		Let $X$ be continuous with PDF $f(x)$ and $\E[X] = \mu$. Prove that $\E[aX + b] = a\mu + b$ and $\E[X + Y] = \E[X] + \E[Y]$ for constants $a, b$ and random variables $X, Y$.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Deduction Strategy}
+		\scriptsize
+		Use the linearity of integration and Fubini's theorem for the sum. Expectation is linear even for dependent variables (unlike variance).
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Demonstrate linearity via integration: \pause
+	\begin{block}{Proof}
+		\scriptsize
+		\begin{align*}
+			\E[aX + b] &= \int (ax + b) f(x)\,dx = a \int x f(x)\,dx + b \int f(x)\,dx = a\mu + b.
+		\end{align*}
+		For $\E[X + Y]$ with joint PDF $f_{X,Y}(x, y)$:
+		\begin{align*}
+			\E[X + Y] &= \int\int (x + y) f_{X,Y}(x, y)\,dx\,dy = \E[X] + \E[Y]
+		\end{align*}
+		by Fubini's theorem. Linearity holds \emph{even for dependent variables} (unlike $\Var(X+Y) = \Var(X) + \Var(Y) + 2\cov(X,Y)$). \quad \qedhere
+	\end{block}
+\end{frame}
+
+% SLIDE 16: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.3.9 --- Law of Total Variance (Statement)}
+		Let $X$ be continuous with PDF $f(x)$ and $Y$ another variable. Prove the variance decomposition identity:
+		$$\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$$
+		This identity is fundamental in ANOVA and hierarchical models.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Application}
+		\scriptsize
+		In one-way ANOVA, total variability decomposes into \emph{between-treatment} ($\Var(\E[X \mid Y])$) and \emph{within-treatment} ($\E[\Var(X \mid Y)]$) variability.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Prove via the law of total expectation: \pause
+	\begin{block}{Formal Proof}
+		\scriptsize
+		By the law of total expectation, $\E[X] = \E[\E[X \mid Y]]$. Expanding:
+		\begin{align*}
+			\Var(X) &= \E[(X - \E[X])^{2}] = \E[\E[(X - \E[X \mid Y] + \E[X \mid Y] - \E[X])^{2} \mid Y]] \\
+			&= \E[\Var(X \mid Y)] + \E[\Var(\E[X \mid Y] \mid Y)] + 2\E[\E[(X - \E[X \mid Y])(\E[X \mid Y] - \E[X]) \mid Y]].
+		\end{align*}
+		The third term is $0$ (tower property). The first two terms are $\E[\Var(X \mid Y)]$ and $\Var(\E[X \mid Y])$, respectively. Therefore: $\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$. \quad \qedhere
+	\end{block}
+\end{frame}
+
+% SLIDE 18: Closing and Next Steps
+\begin{frame}{Closing Section and Modular Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: Moments as Distributional Summary}
+		\scriptsize
+		Continuous expectation $\E[X] = \int x f(x)\,dx$ and variance $\Var(X) = \int (x - \mu)^{2} f(x)\,dx$ summarize the essential properties of any distribution. The LOTUS theorem extends these ideas to transformations without deriving new PDFs, and the law of total variance connects moments with hierarchical structures.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Expectation:} $\E[X]$ is the center of mass; the integral $\int x f(x)\,dx$ generalizes discrete summation.
+			\item \textbf{Variance:} $\Var(X) = \E[X^{2}] - (\E[X])^{2}$; variances sum only for independent variables.
+			\item \textbf{LOTUS:} $\E[g(X)] = \int g(x) f(x)\,dx$ avoids deriving the distribution of $g(X)$.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Continuous Uniform Distribution}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}
