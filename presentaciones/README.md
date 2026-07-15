@@ -193,10 +193,11 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | Sección | Título en Español | Título en Inglés | Script Python (en `code/04_variables_aleatorias_continuas/`) | Estado |
 | :---: | :--- | :--- | :--- | :---: |
 | **04.01** | [04.01 PDF y Soporte Continuo](es/04_variables_aleatorias_continuas/04.01_pdf_and_support.tex) ([PDF](es/04_variables_aleatorias_continuas/04.01_pdf_and_support.pdf)) | [04.01 PDF and Continuous Support](en/04_continuous_random_variables/04.01_pdf_and_support.tex) ([PDF](en/04_continuous_random_variables/04.01_pdf_and_support.pdf)) | `04.01_pdf_and_support.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 04** |
+| **04.02** | [04.02 CDF Continua y Cuantiles](es/04_variables_aleatorias_continuas/04.02_continuous_cdf.tex) ([PDF](es/04_variables_aleatorias_continuas/04.02_continuous_cdf.pdf)) | [04.02 Continuous CDF and Quantiles](en/04_continuous_random_variables/04.02_continuous_cdf.tex) ([PDF](en/04_continuous_random_variables/04.02_continuous_cdf.pdf)) | `04.02_continuous_cdf.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 04.02: Función de Distribución Acumulada Continua y Cuantiles**), consulta el documento oficial de planificación:
+Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 04.03: Esperanza Matemática, Varianza y LOTUS Continuo**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

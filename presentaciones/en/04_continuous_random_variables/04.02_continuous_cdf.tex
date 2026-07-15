@@ -1,0 +1,309 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Continuous CDF and Quantiles}
+\subtitle{Section 04.02 --- Cumulative Distribution, Inversion, and Monte Carlo}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 04: Continuous Random Variables}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 3}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 04.01: PDF and Continuous Support}
+			\item \textbf{\textcolor{TecRojo}{Section 04.02: Continuous CDF and Quantiles}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 04.03: Expectation, Variance, and Continuous LOTUS}
+			\item \textcolor{gray}{Section 04.04: Continuous Uniform Distribution}
+			\item \textcolor{gray}{Section 04.05: Exponential Distribution and Memoryless Processes}
+			\item \textcolor{gray}{Section 04.06: Normal Distribution and Z-Score}
+			\item \textcolor{gray}{Section 04.07: Gamma, Beta, and Weibull Distributions}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Construct the continuous Cumulative Distribution Function $F(x) = P(X \le x)$ from the PDF, master its axiomatic properties, compute probabilities via CDF differences, define quantiles as $F^{-1}(p)$, and apply the inverse transform method for random number generation.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Formal Definition
+\begin{frame}{Formal Definition: CDF and Inverse Transform}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Continuous CDF}
+				\footnotesize
+				$F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\,dt$. By the Fundamental Theorem of Calculus, $f(x) = F'(x)$. The CDF summarizes the entire distributional information.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Inverse Transform}
+				\footnotesize
+				If $U \sim U(0, 1)$ and $F$ is continuous and strictly increasing, then $X = F^{-1}(U)$ has CDF $F$. This enables exact sampling from any continuous distribution given only its CDF.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Quantiles and KS Test
+\begin{frame}{Quantiles and Kolmogorov-Smirnov Goodness-of-Fit}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Quantiles and Interval Probabilities}
+				\footnotesize
+				Quantile: $q_{p} = F^{-1}(p) = \inf\{x : F(x) \ge p\}$. Interval probability: $P(a \le X \le b) = F(b) - F(a)$. For Uniform(0,1): $F(x) = x$, $q_{p} = p$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Kolmogorov-Smirnov Test}
+				\footnotesize
+				$D_{n} = \sup_{x} |F_{n}(x) - F_{0}(x)|$. Under $H_{0}$: $\sqrt{n} D_{n} \xrightarrow{d} K$ (Kolmogorov distribution). Reject $H_{0}$ if $D_{n} > K_{1-\alpha}/\sqrt{n}$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Applications
+\begin{frame}{Applications in Inference and Simulation}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Confidence Intervals:} $\text{CI}_{95\%} = [\hat{\theta} \pm z_{0.025} \cdot \text{SE}(\hat{\theta})]$ uses $q_{0.025} = -1.96$ and $q_{0.975} = 1.96$. \pause
+		\item \textbf{Monte Carlo Simulation:} Random variate generation via inversion for uncertainty propagation. \pause
+		\item \textbf{Non-parametric Tests:} Kolmogorov-Smirnov and Anderson-Darling for model fit assessment. \pause
+		\item \textbf{Risk Analysis:} Value-at-Risk (VaR) and Conditional VaR defined as distribution quantiles.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 06: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: CDF Validation and Quantile Inversion}
+	\vspace{-0.05cm}
+	\scriptsize
+	Validation of axiomatic CDF properties and quantile computation via numerical inversion (\texttt{04.02\_continuous\_cdf.py}):
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=18, lastline=43]{../../code/04_variables_aleatorias_continuas/04.02_continuous_cdf.py}}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Inverse Transform Sampling}
+	\vspace{-0.05cm}
+	\scriptsize
+	Implementation of $X = F^{-1}(U)$ for Exponential and Uniform with `scipy.stats.kstest`:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=50, lastline=75]{../../code/04_variables_aleatorias_continuas/04.02_continuous_cdf.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: KS Test and Empirical Quantiles}
+	\vspace{-0.05cm}
+	\scriptsize
+	Application of Kolmogorov-Smirnov and comparison of empirical vs. theoretical quantiles:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=85, lastline=110]{../../code/04_variables_aleatorias_continuas/04.02_continuous_cdf.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: CDF Validation & Quantile Inversion ===
+CDF boundary properties:
+  Uniform(0,1): F(-inf)=0 | F(+inf)=1.000000
+  Exponential(2.0): F(-inf)=0 | F(+inf)=1.000000
+  Normal(0,1): F(-inf)=0 | F(+inf)=1.000000
+Monotonicity: all True
+Quantile inversion: all match=True
+
+=== Block 2: Inverse Transform Sampling ===
+Exponential(lambda=2):
+  Empirical mean: 0.4980 (theoretical: 0.5000)
+  Empirical var:  0.2465 (theoretical: 0.2500)
+  KS test: stat=0.001974, p-value=0.8299
+Uniform(0, 5):
+  Empirical mean: 2.5067 (theoretical: 2.5000)
+  KS test: stat=0.002729, p-value=0.4450
+
+=== Block 3: Quantile-Based Statistics & KS Test ===
+KS statistic for n=50 Uniform(0,1) samples: D=0.1420
+  Critical value (alpha=0.05): 0.1921
+  SciPy KS p-value: 0.2417
+  Decision: Fail to reject H0
+95% CI for median: [0.4231, 0.6110]
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 10: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.2.2 --- Exponential CDF and Quantiles (Statement)}
+		Consider the exponential distribution with parameter $\lambda = 2$ and PDF $f(x) = 2e^{-2x}$ for $x \ge 0$. Derive the CDF $F(x) = 1 - e^{-2x}$, calculate the median $m$ such that $F(m) = 0.5$, and find the quantiles $q_{0.25}$ and $q_{0.90}$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item Support: $[0, \infty)$.
+			\item CDF: $F(x) = \int_{0}^{x} 2e^{-2t}\,dt = 1 - e^{-2x}$ for $x \ge 0$.
+			\item Quantile: $q_{p}$ such that $1 - e^{-2q_{p}} = p$, giving $q_{p} = -\frac{1}{2}\ln(1-p)$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Solve step by step: \pause
+	\begin{block}{Median and Quantiles}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Median} $m$: $1 - e^{-2m} = 0.5$ implies $e^{-2m} = 0.5$, so $m = \frac{1}{2}\ln 2 \approx 0.347$. \pause
+			\item \textbf{Percentile 25} $q_{0.25}$: $q_{0.25} = -\frac{1}{2}\ln(0.75) \approx 0.144$. \pause
+			\item \textbf{Percentile 90} $q_{0.90}$: $q_{0.90} = -\frac{1}{2}\ln(0.10) \approx 1.151$.
+		\end{itemize}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		$25\%$ of observations are $\le 0.144$, $50\%$ are $\le 0.347$, and $90\%$ are $\le 1.151$. Quantiles grow logarithmically: extending to thicker tails requires many more samples.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.2.5 --- Bank Waiting Time (Statement)}
+		The waiting time in a bank queue (in minutes) follows $X \sim \text{Exp}(\lambda = 0.2)$. Calculate $P(X \le 3)$ and $P(X \ge 10)$, find the quantile $q_{0.90}$, and determine $t$ such that $P(X \le t) = 0.95$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Practical Application}
+		\scriptsize
+		The bank wants to ensure that 95\% of customers wait less than $t$ minutes. This question is fundamental for designing the customer experience and optimizing staff levels.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Apply the exponential CDF $F(x) = 1 - e^{-0.2 x}$: \pause
+	\begin{block}{Probabilities and Quantiles}
+		\begin{itemize}\itemsep=0.05cm
+			\item $P(X \le 3) = 1 - e^{-0.6} \approx 0.4512$. \pause
+			\item $P(X \ge 10) = e^{-2} \approx 0.1353$. \pause
+			\item $q_{0.90}$: $e^{-0.2 q} = 0.1$ implies $q_{0.90} = -5\ln(0.1) = 5\ln 10 \approx 11.51$ min. \pause
+			\item $t$ for 95\%: $e^{-0.2 t} = 0.05$ implies $t = -5\ln(0.05) \approx 14.98$ min.
+		\end{itemize}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Management Decision}
+		\scriptsize
+		To serve 95\% of customers in $\le 15$ min, the bank needs to size the system with $\lambda \cdot t \ge 3$, i.e., enough service capacity to avoid long queues during peak hours.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.2.7 --- CDF Continuity (Statement)}
+		Prove formally that the CDF $F(x) = P(X \le x)$ of a continuous random variable is a continuous function on all $\mathbb{R}$. Use the property $P(X = x) = 0$ and the law of total probability.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Deduction Strategy}
+		\scriptsize
+		For $h > 0$, use $|F(x+h) - F(x)| = |P(x < X \le x+h)|$ and the convergence of infinitesimal interval probabilities to 0.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Demonstrate right-continuity: \pause
+	\begin{block}{Continuity Proof}
+		\scriptsize
+		For $h > 0$:
+		\begin{align*}
+			0 \le F(x + h) - F(x) = P(x < X \le x + h) \le P(x - h < X \le x + h) = F(x+h) - F(x-h).
+		\end{align*}
+		Since $X$ is continuous, $P(X = x) = 0$. By monotonicity of probability:
+		\begin{align*}
+			\lim_{h \to 0^{+}} P(x < X \le x + h) = P(\emptyset) = 0.
+		\end{align*}
+		Therefore $\lim_{h \to 0^{+}} F(x + h) = F(x)$. Left-continuity follows analogously. \quad \qedhere
+	\end{block}
+\end{frame}
+
+% SLIDE 16: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.2.10 --- Kolmogorov-Smirnov Test (Statement)}
+		Under $H_{0}$ (data from $F_{0}$), prove that $\sqrt{n} D_{n} \xrightarrow{d} K$ where $K$ is the Kolmogorov distribution. For $n = 50$ Uniform(0, 1) samples with $D_{50} = 0.18$, determine whether $H_{0}$ is rejected at $\alpha = 0.05$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Application}
+		\scriptsize
+		The critical value $K_{0.95} \approx 1.358$. Compare $\sqrt{50} \cdot 0.18$ with this threshold and conclude whether the data is consistent with Uniform(0, 1).
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Apply the asymptotic Kolmogorov distribution: \pause
+	\begin{block}{Test Statistic and Decision}
+		\scriptsize
+		For $n = 50$ and $D_{50} = 0.18$: $\sqrt{50} \cdot 0.18 \approx 1.273 < 1.358 = K_{0.95}$. We do not reject $H_{0}$ at $\alpha = 0.05$. \quad \qedhere
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation and Application}
+		\scriptsize
+		The KS test is non-parametric: it does not require assuming a specific form for the alternative distribution. In practice, it is powerful for detecting deviations in the tail (where information is scarce) or median. For large $n$, the test is very sensitive to small deviations; hence Anderson-Darling is also used, which weights the tails more.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Closing and Next Steps
+\begin{frame}{Closing Section and Modular Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: The CDF as Inference Tool}
+		\scriptsize
+		The continuous CDF $F(x) = P(X \le x)$ encodes the entire distributional information and is the central tool for computing accumulated probabilities and defining quantiles. Its inverse $F^{-1}$ is the basis of percentile-based inference and the inverse transform method for Monte Carlo generation.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{CDF vs. PDF:} $F$ is cumulative; $f$ is local. $f = F'$ and $F = \int f$.
+			\item \textbf{Quantiles:} $q_{p} = F^{-1}(p)$ is the basis of confidence intervals and non-parametric tests.
+			\item \textbf{Inverse Transform:} $X = F^{-1}(U)$ with $U \sim U(0, 1)$ generates exact samples from any continuous distribution.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Expectation, Variance, and Continuous LOTUS}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}

@@ -368,3 +368,271 @@
 		\item En telecomunicaciones, si una señal $s(t)$ se transmite a través de un canal con ruido gaussiano aditivo $W(t) \sim N(0, \sigma^{2})$ y se promedian $n$ muestras independientes, la suma de los ruidos $W_{1} + \cdots + W_{n} \sim N(0, n\sigma^{2})$. La varianza de la suma crece linealmente con $n$, pero al dividir por $n$ para obtener el promedio, $\bar{W} \sim N(0, \sigma^{2}/n)$, cuya varianza decrece como $1/n$. Este es el principio fundamental del filtrado por promedio para reducción de ruido gaussiano blanco: promediar $n$ muestras reduce la potencia del ruido por un factor $n$.
 	\end{enumerate}
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 04.02: FUNCIÓN DE DISTRIBUCIÓN ACUMULADA CONTINUA (CDF) Y CUANTILES
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 04.02}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:4.2.1}
+	Sea $X$ una variable aleatoria continua con PDF $f(x) = 2x$ para $0 \le x \le 1$ y $f(x) = 0$ en otro caso.
+	\begin{enumerate}
+		\item Calcule la CDF $F(x) = P(X \le x)$ para todo $x \in \mathbb{R}$.
+		\item Verifique las propiedades fundamentales: $F(-\infty) = 0$, $F(+\infty) = 1$, y monotonía no decreciente.
+		\item Calcule $P(0.3 \le X \le 0.7)$ usando la CDF.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.2.2}
+	Considere la distribución exponencial con parámetro $\lambda = 2$ y PDF $f(x) = 2e^{-2x}$ para $x \ge 0$.
+	\begin{enumerate}
+		\item Derive la CDF $F(x) = 1 - e^{-2x}$ para $x \ge 0$.
+		\item Calcule la mediana $m$ tal que $F(m) = 0.5$.
+		\item Calcule los cuantiles $q_{0.25}$ y $q_{0.90}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.2.3}
+	Para la distribución Normal estándar $Z \sim N(0, 1)$ con CDF $\Phi(z)$:
+	\begin{enumerate}
+		\item Calcule $P(-1 \le Z \le 1)$ usando la simetría de la CDF: $\Phi(-z) = 1 - \Phi(z)$.
+		\item Calcule los cuantiles $z_{0.025}$ y $z_{0.975}$ tales que $P(Z \le z_{0.025}) = 0.025$ y $P(Z \le z_{0.975}) = 0.975$.
+		\item Demuestre que $P(-z_{\alpha/2} \le Z \le z_{\alpha/2}) = 1 - \alpha$ para cualquier $\alpha \in (0, 1)$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:4.2.4}
+	Sea $X$ una variable aleatoria uniforme en $[0, 5]$ con PDF $f(x) = 1/5$ para $x \in [0, 5]$.
+	\begin{enumerate}
+		\item Calcule la CDF $F(x)$.
+		\item Halle el cuantil $q_{0.6}$ y verifique que $F(q_{0.6}) = 0.6$.
+		\item Genere 5 muestras aleatorias usando el método de inversión $X = F^{-1}(U)$ con $U \sim U(0, 1)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.2.5}
+	El tiempo de espera en una fila de un banco (en minutos) sigue una distribución exponencial con media $\mu = 5$ minutos, es decir, $X \sim \text{Exp}(\lambda = 0.2)$.
+	\begin{enumerate}
+		\item Calcule $P(X \le 3)$ y $P(X \ge 10)$.
+		\item Encuentre el cuantil $q_{0.90}$ (el tiempo bajo el cual ocurre el 90\% de los clientes).
+		\item El banco quiere garantizar que el 95\% de los clientes espere menos de $t$ minutos. Determine $t$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.2.6}
+	Implemente el método de inversión para generar 100{,}000 muestras de la distribución exponencial con $\lambda = 2$, usando $U \sim U(0, 1)$ y $X = -\frac{1}{2}\ln(U)$. Verifique que la media y varianza empíricas coincidan con los valores teóricos $1/\lambda = 0.5$ y $1/\lambda^{2} = 0.25$.
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:4.2.7}
+	Demuestre formalmente que la CDF $F(x) = P(X \le x)$ de una variable aleatoria continua es una función continua en todo $\mathbb{R}$. Sugerencia: use la propiedad $P(X = x) = 0$ para variables continuas y la ley de probabilidad total.
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.2.8}
+	Sea $X$ una variable continua con PDF $f(x) > 0$ en todo su soporte. Demuestre que la CDF $F$ es \emph{estrictamente monótona creciente}, y por lo tanto la función cuantil $F^{-1}: (0, 1) \to \mathbb{R}$ está bien definida y es estrictamente creciente.
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:4.2.9}
+	En un estudio de calidad del aire, se mide la concentración de partículas $X$ (en $\mu g/m^{3}$) que sigue una distribución log-normal con PDF:
+	$$f(x) = \dfrac{1}{x \sigma \sqrt{2\pi}} \exp\left( -\dfrac{(\ln x - \mu)^{2}}{2\sigma^{2}} \right), \quad x > 0$$
+	con $\mu = 2$ y $\sigma = 0.5$.
+	\begin{enumerate}
+		\item Demuestre que $\ln X \sim N(\mu, \sigma^{2})$.
+		\item Calcule la mediana de $X$ en términos de $\mu$.
+		\item Calcule $P(X > 10)$ usando la transformación $\ln X \sim N(2, 0.25)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.2.10}
+	La prueba de Kolmogorov-Smirnov (KS) compara la CDF empírica $F_{n}$ de una muestra con una CDF teórica $F_{0}$ mediante el estadístico:
+	$$D_{n} = \sup_{x \in \mathbb{R}} |F_{n}(x) - F_{0}(x)|$$
+	\begin{enumerate}
+		\item Bajo $H_{0}$ (los datos provienen de $F_{0}$), demuestre que $\sqrt{n} D_{n} \xrightarrow{d} K$ donde $K$ es la distribución de Kolmogorov con CDF $P(K \le x) = 1 - 2\sum_{k=1}^{\infty}(-1)^{k-1}e^{-2k^{2}x^{2}}$ para $x > 0$.
+		\item Para una muestra de $n = 50$ observaciones de $\text{Uniform}(0, 1)$ con $D_{50} = 0.18$, determine si la hipótesis nula se rechaza a nivel $\alpha = 0.05$ (valor crítico $K_{0.95} \approx 1.358$).
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 04.02}
+
+\begin{sugerencia}
+	\label{sug:4.2.1}
+	Para el Problema \ref{prob:4.2.1}, la CDF para $x \in [0, 1]$ es $F(x) = \int_{0}^{x} 2t\,dt = x^{2}$. Para $x < 0$, $F(x) = 0$; para $x > 1$, $F(x) = 1$. Verificación: $F(0) = 0$, $F(1) = 1$, $F(0.5) = 0.25$. Entonces $P(0.3 \le X \le 0.7) = 0.7^{2} - 0.3^{2} = 0.49 - 0.09 = 0.40$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.2.2}
+	Para el Problema \ref{prob:4.2.2}, la CDF exponencial es $F(x) = 1 - e^{-2x}$. La mediana $m$ satisface $1 - e^{-2m} = 0.5$, dando $m = \frac{1}{2}\ln 2 \approx 0.347$. Para cuantiles: $q_{p} = -\frac{1}{2}\ln(1-p)$. Con $p = 0.25$, $q_{0.25} \approx 0.144$; con $p = 0.90$, $q_{0.90} \approx 1.151$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.2.3}
+	Para el Problema \ref{prob:4.2.3}, $P(-1 \le Z \le 1) = \Phi(1) - \Phi(-1) = 2\Phi(1) - 1 \approx 0.6827$. Los cuantiles típicos son $z_{0.025} \approx -1.96$ y $z_{0.975} \approx 1.96$. Por simetría: $P(-z_{\alpha/2} \le Z \le z_{\alpha/2}) = \Phi(z_{\alpha/2}) - \Phi(-z_{\alpha/2}) = 2\Phi(z_{\alpha/2}) - 1 = 1 - \alpha$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.2.4}
+	Para el Problema \ref{prob:4.2.4}, la CDF uniforme es $F(x) = x/5$ para $x \in [0, 5]$. El cuantil $q_{0.6}$ satisface $q_{0.6}/5 = 0.6$, dando $q_{0.6} = 3$. El método de inversión genera $X = 5U$, así que con $U = 0.5$, $X = 2.5$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.2.5}
+	Para el Problema \ref{prob:4.2.5}, la CDF es $F(x) = 1 - e^{-0.2 x}$. $P(X \le 3) = 1 - e^{-0.6} \approx 0.451$. $P(X \ge 10) = e^{-2} \approx 0.135$. $q_{0.90} = -\frac{1}{0.2}\ln(0.1) = 5 \ln 10 \approx 11.51$ min. Para el 95\%, $t = -5\ln(0.05) \approx 14.98$ min.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.2.6}
+	Para el Problema \ref{prob:4.2.6}, use `np.random.seed(42)` y `np.random.uniform(0, 1, size=100000)` para generar $U$, luego $X = -\frac{1}{2}\ln(U)$. Verifique con `np.mean(X)` (debe ser $\approx 0.5$) y `np.var(X, ddof=1)` (debe ser $\approx 0.25$).
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.2.7}
+	Para el Problema \ref{prob:4.2.7}, para $h > 0$, $|F(x+h) - F(x)| = |P(x < X \le x+h)| \le P(x < X \le x+h) + P(x-h < X \le x) = F(x+h) - F(x-h)$. Como $X$ es continua, $P(X = x) = 0$ y los eventos $\{x < X \le x+h\}$ y $\{x-h < X \le x\}$ tienen probabilidad $\to 0$ cuando $h \to 0$. Por la desigualdad $|F(x+h) - F(x)| \le P(x-h < X \le x+h) \to 0$, concluimos la continuidad.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.2.8}
+	Para el Problema \ref{prob:4.2.8}, para $a < b$, $F(b) - F(a) = P(a < X \le b) = \int_{a}^{b} f(x)\,dx > 0$ cuando $f > 0$ en $(a, b)$. Por lo tanto $F(b) > F(a)$, lo que prueba monotonía estricta. Como $F$ es continua y estrictamente monótona con $F(\mathbb{R}) = [0, 1]$, su inversa $F^{-1}: (0, 1) \to \mathbb{R}$ está bien definida y es estrictamente creciente.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.2.9}
+	Para el Problema \ref{prob:4.2.9}, la transformación $Y = \ln X$ produce una PDF normal estándar escalada. La mediana de $X$ es $e^{\mu} = e^{2} \approx 7.389$. Para $P(X > 10) = P(\ln X > \ln 10) = P(N(2, 0.25) > \ln 10) = 1 - \Phi((\ln 10 - 2)/0.5) = 1 - \Phi(0.605) \approx 0.273$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.2.10}
+	Para el Problema \ref{prob:4.2.10}, bajo $H_{0}$, $F_{n}$ converge uniformemente a $F_{0}$ por la Ley de los Grandes Números (Glivenko-Cantelli), así que $D_{n} \to 0$ en probabilidad. La estandarización $\sqrt{n} D_{n}$ converge a una distribución no trivial $K$ (Kolmogorov). Para $n = 50$ y $D_{50} = 0.18$, $\sqrt{50} \cdot 0.18 \approx 1.273 < 1.358 = K_{0.95}$, así que no rechazamos $H_{0}$ a nivel $\alpha = 0.05$.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 04.02}
+
+\begin{solucion}
+	\label{sol:4.2.1}
+	Para el Problema \ref{prob:4.2.1}:
+	\begin{enumerate}
+		\item La CDF se obtiene integrando la PDF:
+		\begin{align*}
+			F(x) = \int_{-\infty}^{x} f(t)\,dt = \begin{cases} 0 & \text{si } x < 0 \\ \int_{0}^{x} 2t\,dt = t^{2}\Big|_{0}^{x} = x^{2} & \text{si } 0 \le x \le 1 \\ 1 & \text{si } x > 1 \end{cases}
+		\end{align*}
+		\item Verificación: $F(-\infty) = 0$ ✓, $F(+\infty) = 1$ ✓, $F$ es no decreciente en $[0, 1]$ (de $0$ a $1$) ✓.
+		\item La probabilidad es:
+		\begin{align*}
+			P(0.3 \le X \le 0.7) = F(0.7) - F(0.3) = 0.7^{2} - 0.3^{2} = 0.49 - 0.09 = 0.40.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.2.2}
+	Para el Problema \ref{prob:4.2.2}:
+	\begin{enumerate}
+		\item Integrando la PDF exponencial: $F(x) = \int_{0}^{x} 2e^{-2t}\,dt = 1 - e^{-2x}$ para $x \ge 0$.
+		\item La mediana $m$ satisface $1 - e^{-2m} = 0.5$, es decir, $e^{-2m} = 0.5$. Tomando logaritmo: $-2m = -\ln 2$, así $m = \frac{1}{2}\ln 2 \approx 0.347$.
+		\item Para cuantiles: $F(q_{p}) = p$ implica $1 - e^{-2q_{p}} = p$, es decir, $q_{p} = -\frac{1}{2}\ln(1-p)$. Con $p = 0.25$: $q_{0.25} = -\frac{1}{2}\ln(0.75) \approx 0.144$. Con $p = 0.90$: $q_{0.90} = -\frac{1}{2}\ln(0.10) \approx 1.151$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.2.3}
+	Para el Problema \ref{prob:4.2.3}:
+	\begin{enumerate}
+		\item $P(-1 \le Z \le 1) = \Phi(1) - \Phi(-1) = \Phi(1) - (1 - \Phi(1)) = 2\Phi(1) - 1 \approx 2(0.8413) - 1 = 0.6827$.
+		\item Por simetría, $\Phi(z_{0.025}) = 0.025$ implica $z_{0.025} = -1.96$ (aproximado) y $z_{0.975} = 1.96$.
+		\item Por simetría: $P(-z_{\alpha/2} \le Z \le z_{\alpha/2}) = \Phi(z_{\alpha/2}) - \Phi(-z_{\alpha/2}) = \Phi(z_{\alpha/2}) - (1 - \Phi(z_{\alpha/2})) = 2\Phi(z_{\alpha/2}) - 1$. Si $\Phi(z_{\alpha/2}) = 1 - \alpha/2$, entonces $2(1 - \alpha/2) - 1 = 1 - \alpha$. Por lo tanto, el intervalo $[-z_{\alpha/2}, z_{\alpha/2}]$ contiene $1 - \alpha$ de la masa de la Normal estándar.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.2.4}
+	Para el Problema \ref{prob:4.2.4}:
+	\begin{enumerate}
+		\item La CDF es $F(x) = x/5$ para $x \in [0, 5]$.
+		\item El cuantil $q_{0.6}$ satisface $q_{0.6}/5 = 0.6$, dando $q_{0.6} = 3$. Verificación: $F(3) = 3/5 = 0.6$ ✓.
+		\item El método de inversión genera $X = F^{-1}(U) = 5U$. Con $U_{i} \sim U(0, 1)$ i.i.d., las 5 muestras son $\{5U_{1}, 5U_{2}, \dots, 5U_{5}\}$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.2.5}
+	Para el Problema \ref{prob:4.2.5}, la CDF es $F(x) = 1 - e^{-0.2 x}$ para $x \ge 0$.
+	\begin{enumerate}
+		\item $P(X \le 3) = 1 - e^{-0.6} \approx 1 - 0.5488 = 0.4512$. $P(X \ge 10) = e^{-2} \approx 0.1353$.
+		\item El cuantil $q_{0.90}$ satisface $1 - e^{-0.2 q_{0.90}} = 0.9$, es decir, $e^{-0.2 q_{0.90}} = 0.1$. Tomando logaritmo: $q_{0.90} = -5\ln(0.1) = 5\ln 10 \approx 11.51$ min.
+		\item Para $P(X \le t) = 0.95$: $e^{-0.2 t} = 0.05$, dando $t = -5\ln(0.05) \approx 14.98$ min.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.2.6}
+	Para el Problema \ref{prob:4.2.6}, con `np.random.seed(42)` y `np.random.uniform(0, 1, 100000)`:
+	\begin{align*}
+		\bar{X} \approx 0.5000 \quad (\text{teórico: } 1/\lambda = 0.5), \quad s^{2} \approx 0.2500 \quad (\text{teórico: } 1/\lambda^{2} = 0.25).
+	\end{align*}
+	El método de inversión es exacto: si $U \sim U(0, 1)$, entonces $X = -\frac{1}{\lambda}\ln U$ sigue $\text{Exp}(\lambda)$. Esto se demuestra notando que $P(X \le x) = P(-\ln U / \lambda \le x) = P(U \ge e^{-\lambda x}) = 1 - e^{-\lambda x}$.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.2.7}
+	Para el Problema \ref{prob:4.2.7}, demostremos la continuidad por la derecha (la izquierda se prueba análogamente). Para $h > 0$:
+	\begin{align*}
+		0 \le F(x + h) - F(x) = P(x < X \le x + h) \le P(x < X \le x + h) + P(x - h < X \le x) = F(x + h) - F(x - h).
+	\end{align*}
+	Como $X$ es continua, $P(X = x) = 0$. Por la monotonía de la probabilidad:
+	\begin{align*}
+		\lim_{h \to 0^{+}} P(x < X \le x + h) = P\left( \bigcap_{h > 0} \{x < X \le x + h\} \right) = P(\emptyset) = 0.
+	\end{align*}
+	Por lo tanto, $\lim_{h \to 0^{+}} F(x + h) = F(x)$, es decir, $F$ es continua por la derecha. La continuidad por la izquierda sigue por un argumento análogo con $h < 0$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.2.8}
+	Para el Problema \ref{prob:4.2.8}, sean $a < b$ en el soporte de $X$. Como $f(x) > 0$ en el soporte, existe un intervalo $(c, d) \subseteq (a, b)$ donde $f > 0$:
+	\begin{align*}
+		F(b) - F(a) = \int_{a}^{b} f(x)\,dx \ge \int_{c}^{d} f(x)\,dx > 0.
+	\end{align*}
+	Por lo tanto, $F(b) > F(a)$ siempre que $a < b$, lo cual demuestra que $F$ es estrictamente monótona creciente. Como $F$ es continua (Problema 4.2.7) y satisface $F(-\infty) = 0$ y $F(+\infty) = 1$, el Teorema de la Función Inversa garantiza que $F^{-1}: (0, 1) \to \mathbb{R}$ existe y es estrictamente creciente. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.2.9}
+	Para el Problema \ref{prob:4.2.9}:
+	\begin{enumerate}
+		\item Sea $Y = \ln X$. Entonces $x = e^{y}$ y $dx = e^{y}\,dy$. La PDF de $Y$ es:
+		\begin{align*}
+			g(y) &= f_{X}(e^{y}) \cdot e^{y} = \dfrac{1}{e^{y} \sigma \sqrt{2\pi}} \exp\left( -\dfrac{(y - \mu)^{2}}{2\sigma^{2}} \right) \cdot e^{y} = \dfrac{1}{\sigma \sqrt{2\pi}} \exp\left( -\dfrac{(y - \mu)^{2}}{2\sigma^{2}} \right).
+		\end{align*}
+		Esta es la PDF de $N(\mu, \sigma^{2})$. Por lo tanto, $\ln X \sim N(\mu, \sigma^{2})$.
+		\item La mediana de $X$ es $e^{\mu} = e^{2} \approx 7.389$ (debido a la simetría de la Normal).
+		\item $P(X > 10) = P(\ln X > \ln 10) = P(N(2, 0.25) > \ln 10)$. Estandarizando: $Z = (\ln 10 - 2)/0.5 = 0.3026/0.5 = 0.605$. Entonces $P(N(2, 0.25) > \ln 10) = P(Z > 0.605) = 1 - \Phi(0.605) \approx 1 - 0.7274 = 0.2726$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.2.10}
+	Para el Problema \ref{prob:4.2.10}:
+	\begin{enumerate}
+		\item Bajo $H_{0}$, por el Teorema de Glivenko-Cantelli, la CDF empírica converge uniformemente a la CDF teórica: $\sup_{x} |F_{n}(x) - F_{0}(x)| \xrightarrow{c.s.} 0$. La estandarización $\sqrt{n} D_{n}$ converge en distribución a la distribución de Kolmogorov $K$ con CDF:
+		\begin{align*}
+			P(K \le x) = 1 - 2\sum_{k=1}^{\infty}(-1)^{k-1}e^{-2k^{2}x^{2}}, \quad x > 0.
+		\end{align*}
+		\item Para $n = 50$ y $D_{50} = 0.18$, $\sqrt{50} \cdot 0.18 \approx 1.273 < 1.358 = K_{0.95}$. Por lo tanto, no rechazamos $H_{0}$ a nivel $\alpha = 0.05$. Conclusión: no hay evidencia estadística para rechazar que los datos provienen de $\text{Uniform}(0, 1)$. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
