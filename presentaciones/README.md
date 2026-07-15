@@ -18,12 +18,18 @@ presentaciones/
 ├── ROADMAP.md                      ← Hoja de ruta, trabajo pendiente y planificación de capítulos
 ├── code/                           ← ÚNICA FUENTE DE LA VERDAD para código de simulación (en inglés)
 │   ├── 02_teoria_probabilidad/
-│   │   ├── 02.01_intro_probability.py
-│   │   ├── 02.02_sets_and_partitions.py
-│   │   ├── 02.03_probability_fundamentals.py
+│   │   ├── 02.02_sets_partitions.py
+│   │   ├── 02.03_probability_axioms.py
 │   │   ├── 02.04_conditional_probability.py
 │   │   ├── 02.05_bayes_theorem.py
 │   │   └── 02.06_random_sampling.py
+│   ├── 03_variables_aleatorias_discretas/
+│   │   ├── 03.01_pmf_and_support.py
+│   │   ├── 03.02_discrete_cdf.py
+│   │   ├── 03.03_expectation_and_variance.py
+│   │   ├── 03.04_bernoulli_binomial.py
+│   │   ├── 03.05_geometric_negative_binomial.py
+│   │   └── 03.06_hypergeometric.py
 │   └── <proximas_unidades>/
 ├── es/                             ← Presentaciones en español (p. ej. es/02_teoria_probabilidad/)
 │   └── 02_teoria_probabilidad/
@@ -35,9 +41,9 @@ presentaciones/
 │       └── 02.06_muestreo_aleatorio.tex (.pdf)
 └── en/                             ← Presentaciones en inglés (p. ej. en/02_probability_theory/)
     └── 02_probability_theory/
-        ├── 02.01_intro_probability.tex (.pdf)
+        ├── 02.01_probability_introduction.tex (.pdf)
         ├── 02.02_sets_and_partitions.tex (.pdf)
-        ├── 02.03_probability_fundamentals.tex (.pdf)
+        ├── 02.03_probability_foundations.tex (.pdf)
         ├── 02.04_conditional_probability.tex (.pdf)
         ├── 02.05_bayes_theorem.tex (.pdf)
         └── 02.06_random_sampling.tex (.pdf)
@@ -67,7 +73,9 @@ presentaciones/
   5. En bloques de código largo, usar `\fontsize{5.0pt}{5.8pt}\selectfont` o dividir el laboratorio en múltiples diapositivas (p. ej., *Lab Python 1/4*, *2/4*, *3/4*, *4/4*).
 
 ### Regla 3: Identidad Institucional y Metadatos
-Toda presentación (`.tex`) debe encabezarse estrictamente con los siguientes metadatos institucionales del autor y los archivos preámbulo compartidos:
+Toda presentación (`.tex`) debe encabezarse estrictamente con los siguientes metadatos institucionales del autor y los archivos preámbulo compartidos del idioma correspondiente.
+
+Plantilla en español:
 ```latex
 % !TeX program = pdflatex
 \documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
@@ -81,7 +89,22 @@ Toda presentación (`.tex`) debe encabezarse estrictamente con los siguientes me
 \institute[Tec de Monterrey]{Tecnológico de Monterrey}
 \date{}
 ```
-*Nota para presentaciones en inglés:* Se utiliza `\input{../../_en_preambulo_beamer}` y `\input{../../_en_comandos_beamer}` si están disponibles en la raíz de `presentaciones/`, o bien los preámbulos generales adaptados en inglés. Los bloques institucionales en `_preambulo_beamer.tex` ya configuran la paleta oficial: **TecRojo (`#EC2661`)** y **TecAzul (`#1A2E51`)**.
+
+Plantilla en inglés:
+```latex
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Topic Title}
+\subtitle{Section XX.YY --- Topic Subtitle}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnológico de Monterrey}
+\date{}
+```
+Los bloques institucionales en los preámbulos compartidos configuran la paleta oficial: **TecRojo (`#EC2661`)** y **TecAzul (`#1A2E51`)**.
 
 ### Regla 4: Taxonomía de Problemas del Libro (*"3-3-2-2"*)
 Cuando se cree o actualice una presentación, se debe verificar y sincronizar con el cuaderno de ejercicios complementario del libro maestro (`latex/<seccion>(p).tex`).
@@ -118,9 +141,10 @@ Cualquier agente que trabaje en una nueva sección del libro (p. ej. Capítulo 0
     cd ../../en/<unidad>/ && pdflatex -interaction=nonstopmode <archivo>.tex && pdflatex -interaction=nonstopmode <archivo>.tex
     ```
   - **Revisar el archivo de registro (`<archivo>.log`)**: Buscar `Overfull \vbox` o `Overfull \hbox`. Si aparecen en las páginas 2 a N, ajustar márgenes verticalmente (`\vspace`), reducir fuente del bloque de código (`\fontsize{..}{..}\selectfont`) o reestructurar columnas hasta obtener 0 advertencias de contenido.
-- [ ] **Paso 6: Commit de Cambios y Actualización de Documentación**
+- [ ] **Paso 6: Cierre de Cambios y Actualización de Documentación**
   - Hacer un `git status` para comprobar que se generaron los `.tex`, `.pdf`, `.py` y el `(p).tex`.
   - Actualizar el registro en `CHANGELOG.md` y verificar/actualizar el catálogo e índice en este archivo y en `ROADMAP.md`.
+  - No ejecutar `git commit` ni `git push` automáticamente; dejar los cambios en el árbol de trabajo para revisión del autor.
 
 ---
 
@@ -130,9 +154,9 @@ A continuación se presenta el estado finalizado y verificado de las 6 secciones
 
 | Sección | Título en Español | Título en Inglés | Script Python (en `code/02_teoria_probabilidad/`) | Estado |
 | :---: | :--- | :--- | :--- | :---: |
-| **02.01** | [02.01 Introducción a la Probabilidad](es/02_teoria_probabilidad/02.01_introduccion_probabilidad.tex) ([PDF](es/02_teoria_probabilidad/02.01_introduccion_probabilidad.pdf)) | [02.01 Intro to Probability](en/02_probability_theory/02.01_intro_probability.tex) ([PDF](en/02_probability_theory/02.01_intro_probability.pdf)) | `02.01_intro_probability.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
-| **02.02** | [02.02 Conjuntos y Particiones](es/02_teoria_probabilidad/02.02_conjuntos_y_particiones.tex) ([PDF](es/02_teoria_probabilidad/02.02_conjuntos_y_particiones.pdf)) | [02.02 Sets and Partitions](en/02_probability_theory/02.02_sets_and_partitions.tex) ([PDF](en/02_probability_theory/02.02_sets_and_partitions.pdf)) | `02.02_sets_and_partitions.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
-| **02.03** | [02.03 Fundamentos y Axiomas](es/02_teoria_probabilidad/02.03_fundamentos_probabilidad.tex) ([PDF](es/02_teoria_probabilidad/02.03_fundamentos_probabilidad.pdf)) | [02.03 Probability Fundamentals](en/02_probability_theory/02.03_probability_fundamentals.tex) ([PDF](en/02_probability_theory/02.03_probability_fundamentals.pdf)) | `02.03_probability_fundamentals.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
+| **02.01** | [02.01 Introducción a la Probabilidad](es/02_teoria_probabilidad/02.01_introduccion_probabilidad.tex) ([PDF](es/02_teoria_probabilidad/02.01_introduccion_probabilidad.pdf)) | [02.01 Intro to Probability](en/02_probability_theory/02.01_probability_introduction.tex) ([PDF](en/02_probability_theory/02.01_probability_introduction.pdf)) | Sin script dedicado | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
+| **02.02** | [02.02 Conjuntos y Particiones](es/02_teoria_probabilidad/02.02_conjuntos_y_particiones.tex) ([PDF](es/02_teoria_probabilidad/02.02_conjuntos_y_particiones.pdf)) | [02.02 Sets and Partitions](en/02_probability_theory/02.02_sets_and_partitions.tex) ([PDF](en/02_probability_theory/02.02_sets_and_partitions.pdf)) | `02.02_sets_partitions.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
+| **02.03** | [02.03 Fundamentos y Axiomas](es/02_teoria_probabilidad/02.03_fundamentos_probabilidad.tex) ([PDF](es/02_teoria_probabilidad/02.03_fundamentos_probabilidad.pdf)) | [02.03 Probability Fundamentals](en/02_probability_theory/02.03_probability_foundations.tex) ([PDF](en/02_probability_theory/02.03_probability_foundations.pdf)) | `02.03_probability_axioms.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
 | **02.04** | [02.04 Probabilidad Condicional](es/02_teoria_probabilidad/02.04_probabilidad_condicional.tex) ([PDF](es/02_teoria_probabilidad/02.04_probabilidad_condicional.pdf)) | [02.04 Conditional Probability](en/02_probability_theory/02.04_conditional_probability.tex) ([PDF](en/02_probability_theory/02.04_conditional_probability.pdf)) | `02.04_conditional_probability.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
 | **02.05** | [02.05 Teorema de Bayes](es/02_teoria_probabilidad/02.05_teorema_bayes.tex) ([PDF](es/02_teoria_probabilidad/02.05_teorema_bayes.pdf)) | [02.05 Bayes' Theorem](en/02_probability_theory/02.05_bayes_theorem.tex) ([PDF](en/02_probability_theory/02.05_bayes_theorem.pdf)) | `02.05_bayes_theorem.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
 | **02.06** | [02.06 Muestreo y TLC](es/02_teoria_probabilidad/02.06_muestreo_aleatorio.tex) ([PDF](es/02_teoria_probabilidad/02.06_muestreo_aleatorio.pdf)) | [02.06 Random Sampling & CLT](en/02_probability_theory/02.06_random_sampling.tex) ([PDF](en/02_probability_theory/02.06_random_sampling.pdf)) | `02.06_random_sampling.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
@@ -148,11 +172,13 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | **03.01** | [03.01 PMF y Soporte](es/03_variables_aleatorias_discretas/03.01_pmf_y_soporte.tex) ([PDF](es/03_variables_aleatorias_discretas/03.01_pmf_y_soporte.pdf)) | [03.01 PMF and Support](en/03_discrete_random_variables/03.01_pmf_and_support.tex) ([PDF](en/03_discrete_random_variables/03.01_pmf_and_support.pdf)) | `03.01_pmf_and_support.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
 | **03.02** | [03.02 CDF Discreta](es/03_variables_aleatorias_discretas/03.02_cdf_discreta.tex) ([PDF](es/03_variables_aleatorias_discretas/03.02_cdf_discreta.pdf)) | [03.02 Discrete CDF](en/03_discrete_random_variables/03.02_discrete_cdf.tex) ([PDF](en/03_discrete_random_variables/03.02_discrete_cdf.pdf)) | `03.02_discrete_cdf.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
 | **03.03** | [03.03 Esperanza y Varianza](es/03_variables_aleatorias_discretas/03.03_esperanza_y_varianza.tex) ([PDF](es/03_variables_aleatorias_discretas/03.03_esperanza_y_varianza.pdf)) | [03.03 Expectation & Variance](en/03_discrete_random_variables/03.03_expectation_and_variance.tex) ([PDF](en/03_discrete_random_variables/03.03_expectation_and_variance.pdf)) | `03.03_expectation_and_variance.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
-| **03.04** | [03.04 Bernoulli y Binomial](es/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.tex) ([PDF](es/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.pdf)) | [03.04 Bernoulli & Binomial](en/03_discrete_random_variables/03.04_bernoulli_binomial.tex) ([PDF](en/03_discrete_random_variables/03.04_bernoulli_binomial.pdf)) | `03.04_bernoulli_binomial.py` | $\checkmark$ **Completado (20 diapositivas, 0 warnings)** |
+| **03.04** | [03.04 Bernoulli y Binomial](es/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.tex) ([PDF](es/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.pdf)) | [03.04 Bernoulli & Binomial](en/03_discrete_random_variables/03.04_bernoulli_binomial.tex) ([PDF](en/03_discrete_random_variables/03.04_bernoulli_binomial.pdf)) | `03.04_bernoulli_binomial.py` | $\checkmark$ **Completado** |
+| **03.05** | [03.05 Geométrica y Binomial Negativa](es/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.tex) ([PDF](es/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.pdf)) | [03.05 Geometric & Negative Binomial](en/03_discrete_random_variables/03.05_geometric_negative_binomial.tex) ([PDF](en/03_discrete_random_variables/03.05_geometric_negative_binomial.pdf)) | `03.05_geometric_negative_binomial.py` | $\checkmark$ **Completado** |
+| **03.06** | [03.06 Hipergeométrica](es/03_variables_aleatorias_discretas/03.06_hipergeometrica.tex) ([PDF](es/03_variables_aleatorias_discretas/03.06_hipergeometrica.pdf)) | [03.06 Hypergeometric](en/03_discrete_random_variables/03.06_hypergeometric.tex) ([PDF](en/03_discrete_random_variables/03.06_hypergeometric.pdf)) | `03.06_hypergeometric.py` | $\checkmark$ **Completado** |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 03.05: Distribuciones Geométrica y Binomial Negativa**), consulta el documento oficial de planificación:
+Para ver la planificación del siguiente hito curricular del proyecto (armonización estructural y desarrollo de la **Sección 03.07: Distribución de Poisson y Procesos de Llegada**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

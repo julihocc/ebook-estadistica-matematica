@@ -24,9 +24,9 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 ## 2. Estado Finalizado y Verificado al Cierre de Sesión
 
 ### Unidad 1 / Capítulo 02: Teoría de la Probabilidad (`100% COMPLETADA`)
-- $\checkmark$ **02.01 Introducción a la Probabilidad:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.01_intro_probability.py`.
-- $\checkmark$ **02.02 Conjuntos y Particiones:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.02_sets_and_partitions.py`.
-- $\checkmark$ **02.03 Fundamentos y Axiomas:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.03_probability_fundamentals.py`.
+- $\checkmark$ **02.01 Introducción a la Probabilidad:** Mazos ES/EN de 20 diapositivas (`0 overfulls` reportados en sesión previa), sin script computacional dedicado.
+- $\checkmark$ **02.02 Conjuntos y Particiones:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.02_sets_partitions.py`.
+- $\checkmark$ **02.03 Fundamentos y Axiomas:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.03_probability_axioms.py`.
 - $\checkmark$ **02.04 Probabilidad Condicional:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.04_conditional_probability.py`.
 - $\checkmark$ **02.05 Teorema de Bayes:** 100% completado (Remediación modular total bajo el Estándar de Oro).
   - *Cuaderno de Problemas:* 10 problemas en `latex/teorema_de_bayes(p).tex` organizados bajo la taxonomía 3-3-2-2 (Problemas 2.5.1 al 2.5.10).
@@ -37,7 +37,7 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Laboratorio Python:* `presentaciones/code/02_teoria_probabilidad/02.06_random_sampling.py` (simulación MAS con vs sin reemplazo, verificación empírica de FPC, evolución del error en LGN con cota de Chebyshev, y estandarización CLT en población exponencial $N=50,000$).
   - *Mazos Beamer:* 22 diapositivas pedagógicas simétricas en `presentaciones/es/02_teoria_probabilidad/02.06_muestreo_aleatorio.tex` y `en/02_probability_theory/02.06_random_sampling.tex` (revelado progresivo `\pause`, puente computacional Python de 4 diapositivas, 4 problemas en clase desarrollados en Enunciado $\to$ Resolución, cero marcado informal y compilación certificada con **0 `Overfull \vbox` y 0 `Overfull \hbox`**).
 
-### Unidad 2 / Capítulo 03: Variables Aleatorias Discretas (`Avance actual: 6 de 9 secciones completadas`)
+### Unidad 2 / Capítulo 03: Variables Aleatorias Discretas (`Avance actual: 6 de 10 secciones completadas`)
 - $\checkmark$ **03.01 PMF y Soporte:** 100% completado (Remediación modular total).
   - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/variables_aleatorias_discretas(p).tex` (Problemas 3.1.1 al 3.1.10).
   - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py` (normalización polinomial, probabilidad condicional en soporte discreto, simulación Monte Carlo de suma de dados y transformación no lineal $|X-1|$ con sumas por preimágenes).
@@ -57,16 +57,18 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 - $\checkmark$ **03.05 Distribuciones Geométrica y Binomial Negativa:** 100% completado.
   - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/distribuciones_especiales(p).tex` (Problemas 3.5.1 al 3.5.10).
   - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.py` (validación combinatoria con SciPy y Monte Carlo $N=250,000$).
-  - *Mazos Beamer:* 18 diapositivas pedagógicas y modulares en `presentaciones/es/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.tex` (revelado progresivo `\pause`, 4 ejercicios interactivos en clase divididos en Enunciado/Resolución, cero marcado informal y compilado con **0 `Overfull \vbox` y 0 `Overfull \hbox`**).
+  - *Mazos Beamer:* mazos pedagógicos y modulares ES/EN en `presentaciones/es/03_variables_aleatorias_discretas/03.05_geometric_negative_binomial.tex` y `presentaciones/en/03_discrete_random_variables/03.05_geometric_negative_binomial.tex` (revelado progresivo `\pause`, 4 ejercicios interactivos en clase divididos en Enunciado/Resolución, cero marcado informal y compilado con **0 `Overfull \vbox` y 0 `Overfull \hbox`**).
 - $\checkmark$ **03.06 Distribución Hipergeométrica:** 100% completado.
   - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/distribuciones_especiales(p).tex` (Problemas 3.6.1 al 3.6.10).
   - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.06_hypergeometric.py` (validación PMF, FPCF con Monte Carlo $N=250,000$ y prueba exacta de Fisher).
-  - *Mazos Beamer:* 20 diapositivas en `presentaciones/es/03_variables_aleatorias_discretas/03.06_hipergeometrica.tex` y `en/03_discrete_random_variables/03.06_hypergeometric.tex`, compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`**.
+  - *Mazos Beamer:* mazos ES/EN en `presentaciones/es/03_variables_aleatorias_discretas/03.06_hipergeometrica.tex` y `presentaciones/en/03_discrete_random_variables/03.06_hypergeometric.tex`, compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`**.
   - *Libro Maestro:* Compilado limpiamente (`[Modelación Estadística].tex`).
 
 ---
 
 ## 3. Plan de Armonización Estructural y Curricular (Notas y Presentaciones ES/EN)
+
+Nota operativa: existe un borrador local complementario en `presentaciones/plan-maestro-reestructuracion-pedagogica.md`. Ese archivo debe revisarse antes de ejecutar reestructuraciones mayores de los capítulos 04 al 09; mientras no esté aprobado, no sustituye a este `ROADMAP.md`.
 
 Para resolver definitivamente la discrepancia de numeración reportada y asegurar la paridad bilingüe de todo el ecosistema (*tufte-book* en ES/EN + Beamer ES/EN + Python), se establece la siguiente hoja de ruta en 3 fases de ejecución estricta:
 
