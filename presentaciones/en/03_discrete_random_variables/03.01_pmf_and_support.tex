@@ -1,422 +1,403 @@
 % !TeX program = pdflatex
-\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+\documentclass[10pt, aspectratio=169]{beamer}
 
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title{Discrete Probability Mass Functions}
-\subtitle{Section 03.01 --- Basic Concepts, Support, and PMF}
+\title[Discrete Probability Mass Functions]{Section 03.01: Discrete Probability Mass Functions}
+\subtitle{From Abstract Sample Spaces to the Real Line: Support and PMF Axioms}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute[Tec de Monterrey]{Tecnológico de Monterrey}
-\date{}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-2.0cm}}
 
 \begin{document}
 
-% SLIDE 01: Cover
+% Slide 01: Cover
 \begin{frame}[plain]
-	\titlepage
+  \vspace{-0.5cm}
+  \titlepage
 \end{frame}
 
-% SLIDE 02: Roadmap
-\begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
-	\begin{block}{Curricular Structure of Unit 2}
-		\small
-		\begin{enumerate}
-			\itemsep=0.04cm
-			\item \textbf{\textcolor{TecRojo}{Section 03.01: Discrete Probability Mass Functions (PMF and Support)}} $\leftarrow$ \emph{Current focus}
-			\item \textcolor{gray}{Section 03.02: Cumulative Distribution Functions (Discrete CDF)}
-			\item \textcolor{gray}{Section 03.03: Mathematical Expectation, Variance, and Moments}
-			\item \textcolor{gray}{Section 03.04: Special Distributions I (Binomial, Geometric, Hypergeometric)}
-			\item \textcolor{gray}{Section 03.05: Special Distributions II (Poisson, Negative Binomial, Multinomial)}
-		\end{enumerate}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{alertblock}{Learning Objective}
-		\footnotesize
-		Formalize the transition from abstract probability spaces to discrete probability mass functions ($\sum f(x)=1$), defining measurable supports and characterizing exactly how probability mass is distributed across numerical events.
-	\end{alertblock}
+% Slide 02: Roadmap
+\begin{frame}{Roadmap — Chapter 03: Discrete Random Variables}
+  \begin{block}{Curricular Structure of Chapter 03}
+    \footnotesize
+    \begin{enumerate}\itemsep=0.08cm
+      \item \textbf{\textcolor{TecRojo}{Section 03.01: Discrete Probability Mass Functions (PMF and Support)}} $\leftarrow$ \emph{Current focus}
+      \item \textcolor{gray}{Section 03.02: Cumulative Distribution Functions (Discrete CDF)}
+      \item \textcolor{gray}{Section 03.03: Mathematical Expectation, Variance, and Moments}
+      \item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions}
+      \item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions}
+      \item \textcolor{gray}{Section 03.06: Hypergeometric Distribution}
+    \end{enumerate}
+  \end{block}
+  \vspace{-0.05cm}
+  \pause
+  \begin{alertblock}{Learning Objective of Section 03.01}
+    \footnotesize
+    Formalize the mapping from abstract sample spaces $\Omega$ to scalar probability distributions on $\mathbb{R}$, characterizing the measurable support $\mathcal{S}_X$, mastering Kolmogorov's axioms for discrete variables ($\sum p_X(x)=1$), and performing non-linear variable transformations.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 03: Motivation I
-\begin{frame}{Motivation: From Abstract Sample Spaces to the Real Line}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Limitations of Sample Space $\Omega$}
-				\footnotesize
-				In real-world stochastic phenomena, the underlying sample space $\Omega$ often consists of qualitative or non-numerical entities:
-				\begin{itemize}
-					\item Coin flip sequences ($\set{HHT, THH, \dots}$).
-					\item Quality assurance outcomes ($\set{\text{Functional}, \text{Defective}}$).
-					\item Complex patient demographics or operational logs.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{The Quantitative Imperative}
-				\footnotesize
-				To apply the rigorous machinery of mathematical analysis and linear algebra, every qualitative outcome $\omega \in \Omega$ must be **projected** onto a well-defined numerical value along the real line $\mathbb{R}$.
-				
-				\vspace{0.05cm}
-				This projection quantifies the exact operational metric of interest to engineers and data scientists.
-			\end{block}
-		\end{column}
-	\end{columns}
-	\vspace{-0.2cm}
-	\begin{alertblock}{Core Modeling Principle}
-		\footnotesize
-		A \emph{random variable} acts as the formal mathematical bridge linking the abstract probability space $(\Omega, \mathcal{F}, P)$ to quantitative analysis on $\mathbb{R}$.
-	\end{alertblock}
+% Slide 03: Motivation — From Sample Space to the Real Line
+\begin{frame}{Motivation — From Abstract Sample Space to the Real Line $\mathbb{R}$}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Limitations of Abstract Categories $\Omega$}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item Real-world random phenomena usually yield qualitative or symbolic outcomes:
+          \begin{itemize}
+            \item Coin toss sequences ($\{HHT, THH, \dots\}$).
+            \item Diagnostic status ($\{\text{Healthy}, \text{Failure}\}$).
+            \item Network packet headers or server logs.
+          \end{itemize}
+          \item Differential calculus and linear algebra cannot operate directly on words or symbolic strings.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{The Solution: Quantitative Projection}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item We define a measurable function that assigns a unique real number $X(\omega) \in \mathbb{R}$ to every empirical outcome $\omega \in \Omega$.
+          \item This projection extracts the exact operational metric of interest (error counts, response times, item yields).
+          \item It converts set theory into high-precision functional and numerical analysis.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 04: Motivation II
-\begin{frame}{Motivation: Algebraic Projection onto the Support}
-	\begin{block}{Algebraic Representation of the Projection}
-		\small
-		When tossing three independent coins, the sample space comprises $2^3 = 8$ elementary points:
-		\begin{align*}
-			\Omega = \set{HHH, HHT, HTH, THH, HTT, THT, TTH, TTT}.
-		\end{align*}
-		Let $X(\omega)$ denote the total number of heads ($H$). The mapping yields:
-		\begin{align*}
-			X(HHH) = 3, \quad X(HHT) = X(HTH) = X(THH) = 2, \dots
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Dimensionality Reduction}
-				\footnotesize
-				The complex analysis of 8 abstract sequences is elegantly reduced to studying only 4 integers: $\set{0, 1, 2, 3}$.
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Probability Mass Concentration}
-				\footnotesize
-				The original probability measure is systematically concentrated across the points of the discrete support.
-			\end{block}
-		\end{column}
-	\end{columns}
+% Slide 04: Formal Definition of Discrete Random Variable and Support
+\begin{frame}{Formal Definition of Discrete Random Variable and Support}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Discrete Random Variable (D.R.V.)}
+    \fontsize{7.5pt}{9pt}\selectfont
+    A random variable $X: \Omega \to \mathbb{R}$ is called \textbf{discrete} if the set of all its possible values is finite or countably infinite. Formally, its range can be put into one-to-one correspondence with a subset of the natural numbers $\mathbb{N}$.
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{The Measurable Support $\mathcal{S}_X$}
+    \fontsize{7.5pt}{9pt}\selectfont
+    The \textbf{support} of a discrete random variable $X$, denoted by $\mathcal{S}_X$, is the precise set of real numbers where probability mass is concentrated with strictly positive weight:
+    $$\mathcal{S}_X = \{x \in \mathbb{R} \mid P(X = x) > 0\} = \{x_1, x_2, x_3, \dots\}$$
+    \begin{itemize}\itemsep=0.08cm
+      \item Outside the support $\mathcal{S}_X$, the probability is identically zero: $P(X = x) = 0 \quad \forall x \notin \mathcal{S}_X$.
+      \item Any subset $A \subset \mathbb{R}$ is evaluated solely by examining its intersection with $\mathcal{S}_X$.
+    \end{itemize}
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 05: Formal Definition of Random Variable
-\begin{frame}{Formal Definition: Discrete Random Variable}
-	\begin{block}{Definition of a Random Variable}
-		\small
-		A \textbf{random variable} (or \emph{stochastic function}) is a measurable mapping $X: \Omega \to \mathbb{R}$ that assigns a unique real number $X(\omega) = x$ to every sample point $\omega \in \Omega$.
-	\end{block}
-	\vspace{-0.1cm}
-	\begin{block}{Discrete Characterization}
-		\small
-		A random variable $X$ is classified as **discrete** if its range (the set of values it can assume with positive probability) is finite or countably infinite. This set is formally termed the **support** of $X$, denoted by:
-		\begin{align*}
-			\mathcal{S}_X = \set{x_1, x_2, \dots, x_k, \dots} \subset \mathbb{R}.
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{alertblock}{Notational Convention}
-		\footnotesize
-		By strict mathematical convention, uppercase letters ($X, Y, Z$) denote random variables, while lowercase letters ($x, y, z$) represent specific scalar realizations.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 06: Support of a Random Variable
-\begin{frame}{Measurable Support and Discrete Cardinality}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Finite Support}
-				\small
-				The support $\mathcal{S}_X$ contains a bounded number of elements ($|\mathcal{S}_X| = n < \infty$).
-				\begin{itemize}
-					\item \textbf{Sum of two dice:} $\mathcal{S}_X = \set{2, 3, \dots, 12}$ ($11$ elements).
-					\item \textbf{Batch defects:} $\mathcal{S}_X = \set{0, 1, \dots, N}$.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Countably Infinite Support}
-				\small
-				The support $\mathcal{S}_X$ can be put in bijection with the natural numbers ($\mathbb{N}$ or $\mathbb{Z}^+$).
-				\begin{itemize}
-					\item \textbf{Trials to first success:} $\mathcal{S}_X = \set{1, 2, 3, \dots}$ (Geometric).
-					\item \textbf{Server arrivals:} $\mathcal{S}_X = \set{0, 1, 2, \dots}$ (Poisson).
-				\end{itemize}
-			\end{block}
-		\end{column}
-	\end{columns}
-	\vspace{-0.15cm}
-	\begin{block}{Exclusion of Null Points}
-		\footnotesize
-		By rigorous measure-theoretic definition, the support excludes any real number whose point probability is zero: $\mathcal{S}_X = \set{x \in \mathbb{R} : P(X = x) > 0}$.
-	\end{block}
-\end{frame}
-
-% SLIDE 07: Probability Mass Function (PMF)
+% Slide 05: Probability Mass Function (PMF)
 \begin{frame}{Probability Mass Function (PMF)}
-	\begin{block}{Formal Definition of the PMF}
-		\footnotesize
-		Let $X$ be a discrete random variable with support $\mathcal{S}_X$. The **Probability Mass Function** (or *discrete probability function*), denoted by $p_X(x)$ or simply $f(x)$, assigns to every real number $x$ the exact probability that $X$ equals $x$:
-		\begin{align*}
-			f(x) = P(X = x) = P\left(\set{\omega \in \Omega : X(\omega) = x}\right).
-		\end{align*}
-	\end{block}
-	\vspace{-0.2cm}
-	\begin{block}{Extension to the Entire Real Line $\mathbb{R}$}
-		\footnotesize
-		To ensure full domain coverage across $\mathbb{R}$, the function is defined to vanish outside its support:
-		\begin{align*}
-			f(x) = \begin{cases}
-				P(X = x_k) & \text{if } x = x_k \in \mathcal{S}_X, \\[2pt]
-				0 & \text{otherwise ($x \notin \mathcal{S}_X$).}
-			\end{cases}
-		\end{align*}
-	\end{block}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Analytical Characterization of Point Mass}
+    \fontsize{7.5pt}{9pt}\selectfont
+    For a discrete random variable $X$, its \textbf{Probability Mass Function} (PMF), denoted by $p_X(x)$ or $f_X(x)$, is the real-valued function $p_X: \mathbb{R} \to [0, 1]$ defined by:
+    $$p_X(x) = P(X = x) = P(\{\omega \in \Omega \mid X(\omega) = x\})$$
+    This relation associates each real number with the probability of the preimage of all elementary events in $\Omega$ that collapse onto the value $x$.
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Indicator Function Representation}
+    \fontsize{7.5pt}{9pt}\selectfont
+    To prevent ambiguities in continuous domains or analytical extensions, the PMF is algebraically expressed using the support indicator function $\mathbf{1}_{\mathcal{S}_X}(x)$:
+    $$p_X(x) = g(x) \cdot \mathbf{1}_{\mathcal{S}_X}(x) = \begin{cases}
+      g(x) & \text{if } x \in \mathcal{S}_X \\
+      0 & \text{if } x \notin \mathcal{S}_X
+    \end{cases}$$
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 08: Kolmogorov Axioms & Normalization
-\begin{frame}{Kolmogorov Axioms for Discrete Functions}
-	\begin{block}{Existence and Legitimacy Theorem for PMFs}
-		\small
-		A real-valued function $f(x)$ constitutes a mathematically legitimate probability mass function if and only if it strictly satisfies two core Kolmogorov axioms:
-		\begin{enumerate}
-			\itemsep=0.15cm
-			\item \textbf{Non-negativity:} For all $x \in \mathbb{R}$, the probability mass must be non-negative:
-			\begin{align*}
-				f(x) \ge 0.
-			\end{align*}
-			\item \textbf{Normalization (Unitary Sum):} The total probability mass summed across all points in the support must equal exactly one:
-			\begin{align*}
-				\sum_{x \in \mathcal{S}_X} f(x) = 1.
-			\end{align*}
-		\end{enumerate}
-	\end{block}
+% Slide 06: The Two Kolmogorov Axioms in Discrete Probability
+\begin{frame}{The Two Kolmogorov Axioms in Discrete Probability}
+  \begin{block}{Structural Axioms of Admissibility}
+    A real-valued function $p_X(x)$ constitutes a legitimate probability mass function for a discrete random variable if and only if it simultaneously satisfies two fundamental measure-theoretic axioms:
+    \begin{enumerate}\itemsep=0.2cm
+      \item \textbf{Strict Non-Negativity Axiom:} Probability cannot assume negative values at any point on the real line:
+      $$p_X(x) \ge 0 \quad \text{for all } x \in \mathbb{R}$$
+      \item \textbf{Unitary Summation Axiom (Normalization):} The sum of all probability weights distributed across the countable support must equal exactly one:
+      $$\sum_{x_k \in \mathcal{S}_X} p_X(x_k) = 1$$
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 09: Canonical Textbook Examples I
-\begin{frame}{Canonical Textbook Examples: Coins and Dice}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Example 2.6.2: Two Coins ($X = \text{Heads}$)}
-				\footnotesize
-				Space $\Omega = \set{HH, HT, TH, TT}$ equiprobable. Support $\mathcal{S}_X = \set{0, 1, 2}$.
-				\begin{align*}
-					f(x) = \begin{cases}
-						1/4 & x = 0 \text{ ($TT$)} \\
-						1/2 & x = 1 \text{ ($HT, TH$)} \\
-						1/4 & x = 2 \text{ ($HH$)} \\
-						0 & \text{otherwise.}
-					\end{cases}
-				\end{align*}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Example 2.6.3: Sum of Two Dice}
-				\footnotesize
-				Space $|\Omega| = 36$. Support $\mathcal{S}_X = \set{2, \dots, 12}$.
-				Mass is proportional to the number of combinations summing to $x$:
-				\begin{align*}
-					f(x) = \frac{6 - |x - 7|}{36}, \quad x \in \set{2, \dots, 12}.
-				\end{align*}
-				For instance: $f(7) = 6/36$, $f(2) = f(12) = 1/36$.
-			\end{block}
-		\end{column}
-	\end{columns}
-	\vspace{-0.15cm}
-	\begin{alertblock}{Axiomatic Verification}
-		\scriptsize
-		Both formulas satisfy non-negativity and unitary summation ($\sum f(x) = \frac{1+2+1}{4} = 1$ and $\sum f(x) = \frac{36}{36} = 1$).
-	\end{alertblock}
+% Slide 07: Graphical Anatomy and Event Evaluation Theorem
+\begin{frame}{Graphical Anatomy and Event Evaluation Theorem}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Graphical Anatomy — Mass Spectrum}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item Graphically, a PMF is depicted as a vertical bar chart or point impulses (discrete Dirac delta functions).
+          \item The height of each bar at point $x_k$ along the horizontal axis measures the exact scalar value of $p_X(x_k)$.
+          \item No probability mass exists in the intermediate gaps between support points.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Universal Evaluation Theorem}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item For any measurable event or subset $A \subset \mathbb{R}$, the probability that $X$ falls within $A$ is obtained by direct summation:
+          $$P(X \in A) = \sum_{x_k \in A \cap \mathcal{S}_X} p_X(x_k)$$
+          \item This allows evaluating intervals of arbitrary topology by summing interior support points.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 10: Canonical Textbook Examples II
-\begin{frame}{Canonical Textbook Examples: Three-Child Families}
-	\begin{block}{Example 2.6.4: Elementary Binomial Distribution ($N=3, p=1/2$)}
-		\small
-		Let $X$ represent the number of boys in a family with 3 children, assuming independent births and equal gender probabilities. The sample space has $|\Omega| = 2^3 = 8$ points.
-		
-		\vspace{0.1cm}
-		The probability mass function across the support $\mathcal{S}_X = \set{0, 1, 2, 3}$ is given by:
-		\begin{align*}
-			f(0) = P(GGG) = \frac{1}{8}, \qquad & f(1) = P(BGG, GBG, GGB) = \frac{3}{8}, \\[4pt]
-			f(2) = P(BBG, BGB, GBB) = \frac{3}{8}, \qquad & f(3) = P(BBB) = \frac{1}{8}.
-		\end{align*}
-	\end{block}
-	\vspace{-0.2cm}
-	\begin{center}
-	\small
-	\begin{tabular}{c|cccc|c}
-		$x$ (Boys) & $0$ & $1$ & $2$ & $3$ & Sum \\
-		\hline
-		$f(x)$ & $0.125$ & $0.375$ & $0.375$ & $0.125$ & $1.000$
-	\end{tabular}
-	\end{center}
+% Slide 08: Non-Linear Variable Transformations ($Y=g(X)$)
+\begin{frame}{Non-Linear Variable Transformations ($Y=g(X)$)}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{The Operational Mapping Problem}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Often, we are not directly interested in the original variable $X$, but rather in a transformed quantity, such as power dissipation ($Y = X^2$), absolute deviation ($Y = |X - \mu|$), or logarithmic scaling ($Y = \ln X$). Let $g: \mathbb{R} \to \mathbb{R}$ be any arbitrary mapping and define $Y = g(X)$.
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Preimage Theorem and Induced Support}
+    \fontsize{7.5pt}{9pt}\selectfont
+    The transformed random variable $Y$ is also discrete. Its induced support $\mathcal{S}_Y$ is the direct image of the original support: $\mathcal{S}_Y = \{y = g(x) \mid x \in \mathcal{S}_X\}$. To obtain the induced PMF $p_Y(y)$, we sum the probabilities of all preimages that map to each specific $y$:
+    $$p_Y(y) = P(Y = y) = \sum_{x \in \mathcal{S}_X: g(x) = y} p_X(x)$$
+    If $g(x)$ is non-injective (e.g., absolute values or even powers), multiple distinct points of $\mathcal{S}_X$ aggregate into a single point in $\mathcal{S}_Y$.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 11: Python Lab I
-\begin{frame}[fragile]{Python Lab --- Part 1: Polynomial PMF Normalization}
-	\begin{block}{Numerical Verification of Normalization Constants}
-		\footnotesize
-		Computing the normalization constant $c$ for $f(x) = c x^2$ across $\mathcal{S}_X = \set{1, 2, 3, 4}$:
-	\end{block}
-	\vspace{-0.1cm}
-	\lstinputlisting[language=Python, firstline=9, lastline=20, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+% Slide 09A: Python Lab — Normalization and Polynomial Support
+\begin{frame}[fragile]{Python Lab — Normalization and Polynomial Support (1/4)}
+  \begin{block}{Source Code: \texttt{verify\_polynomial\_pmf} (\texttt{03.01\_pmf\_and\_support.py})}
+    \fontsize{6pt}{7pt}\selectfont
+    \lstinputlisting[language=Python, firstline=10, lastline=28]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+  \end{block}
 \end{frame}
 
-% SLIDE 12: Python Lab II
-\begin{frame}[fragile]{Python Lab --- Part 2: Conditional Probability on PMFs}
-	\begin{block}{Evaluating Measurable Subsets within the Support}
-		\footnotesize
-		Programmatic computation of conditional event $P(X \text{ is even} \mid X \ge 2)$ from the normalized PMF:
-	\end{block}
-	\vspace{-0.1cm}
-	\lstinputlisting[language=Python, firstline=21, lastline=27, basicstyle=\fontsize{6.5pt}{7.8pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+% Slide 09B: Python Lab — Monte Carlo Simulation (Dice)
+\begin{frame}[fragile]{Python Lab — Monte Carlo Simulation of Dice Sums (2/4)}
+  \begin{block}{Source Code: \texttt{simulate\_dice\_sum\_pmf} (\texttt{03.01\_pmf\_and\_support.py})}
+    \fontsize{6pt}{7pt}\selectfont
+    \lstinputlisting[language=Python, firstline=30, lastline=45]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+  \end{block}
 \end{frame}
 
-% SLIDE 13: Python Lab III
-\begin{frame}[fragile]{Python Lab --- Part 3: Monte Carlo Dice Sum Simulation}
-	\begin{block}{Empirical Convergence of Discrete Probability Mass}
-		\footnotesize
-		Simulating $100,000$ independent dice throws and validating empirical frequencies against theoretical weights:
-	\end{block}
-	\vspace{-0.1cm}
-	\lstinputlisting[language=Python, firstline=29, lastline=44, basicstyle=\fontsize{6.0pt}{7.2pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+% Slide 09C: Python Lab — Non-Linear Transformation
+\begin{frame}[fragile]{Python Lab — Non-Linear Support Transformation (3/4)}
+  \begin{block}{Source Code: \texttt{verify\_transformed\_pmf} (\texttt{03.01\_pmf\_and\_support.py})}
+    \fontsize{6pt}{7pt}\selectfont
+    \lstinputlisting[language=Python, firstline=47, lastline=61]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+  \end{block}
 \end{frame}
 
-% SLIDE 14: Python Lab IV
-\begin{frame}[fragile]{Python Lab --- Part 4: Non-Linear Variable Transformation}
-	\begin{block}{Support Induction and Probability Aggregation}
-		\footnotesize
-		Automatic computation of the induced PMF under transformation $Y = |X - 1|$ for a uniform $X$:
-	\end{block}
-	\vspace{-0.1cm}
-	\lstinputlisting[language=Python, firstline=46, lastline=60, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+% Slide 09D: Python Lab — Verified Console Output
+\begin{frame}[fragile]{Python Lab — Verified Console Output (4/4)}
+  \begin{block}{Autoverified Terminal Execution (\texttt{Terminal Output})}
+    \fontsize{6.5pt}{7.5pt}\selectfont
+\begin{verbatim}
+=== 1. Polynomial PMF Verification ===
+Support S_X: [1 2 3 4]
+Normalization Constant c: 0.033333 (Exact: 1/30)
+Total Probability Sum: 1.000000
+P(X is even | X >= 2): 0.6897 (Exact: 20/29)
+
+=== 2. Monte Carlo Dice Sum Validation ===
+Trials: 100,000
+Max Empirical vs Exact PMF Error: 0.00168
+Empirical P(Sum=7): 0.1669 (Exact: 0.1667)
+
+=== 3. Transformation Y = |X - 1| ===
+Induced Support S_Y: [0 1 2 3]
+  P(Y = 0) = 0.30
+  P(Y = 1) = 0.30
+  P(Y = 2) = 0.25
+  P(Y = 3) = 0.15
+Sum of Induced PMF: 1.00
+\end{verbatim}
+  \end{block}
 \end{frame}
 
-% SLIDE 15: Problem Synthesis --- Fundamental Level
-\begin{frame}{Problem Synthesis --- Fundamental Level (Direct / Introductory)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.1.1: Polynomial Normalization}
-				\small
-				Given $f(x) = c x^2$ over $\mathcal{S}_X = \set{1, 2, 3, 4}$, the unitary summation condition requires:
-				\begin{align*}
-					c(1 + 4 + 9 + 16) = 30c = 1 \implies c = \frac{1}{30}.
-				\end{align*}
-				The conditional probability evaluates to:
-				\begin{align*}
-					P(X \text{ even} \mid X \ge 2) = \frac{20/30}{29/30} = \frac{20}{29}.
-				\end{align*}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.1.2: Three Coins \& Absolute Difference}
-				\small
-				If $X = |n_H - n_T|$ in 3 coin tosses, the support is strictly $\mathcal{S}_X = \set{1, 3}$.
-				\begin{align*}
-					f(1) = \frac{6}{8} = \frac{3}{4}, \quad f(3) = \frac{2}{8} = \frac{1}{4}.
-				\end{align*}
-				The sum verifies precisely as $3/4 + 1/4 = 1$.
-			\end{block}
-		\end{column}
-	\end{columns}
+% Slide 10A: Classroom Exercise — Tier 1: Fundamental (Statement)
+\begin{frame}{Classroom Exercise — Tier 1: Fundamental (1/2)}
+  \begin{block}{Problem 3.1.3 — Kolmogorov Axiomatic Audit}
+    \footnotesize
+    Consider a candidate function $g: \mathbb{Z} \to \mathbb{R}$ defined over the set of integers by the algebraic expression:
+    $$g(x) = \begin{cases}
+      \dfrac{x^2 - 1}{10} & \text{if } x \in \{-2, -1, 0, 1, 2\}, \\[8pt]
+      0 & \text{otherwise.}
+    \end{cases}$$
+    \begin{enumerate}\itemsep=0.15cm
+      \item By evaluating point by point across the set $\{-2, -1, 0, 1, 2\}$, verify whether the function satisfies the \textbf{Strict Non-Negativity Axiom}.
+      \item Calculate the global sum over $\mathbb{Z}$ to determine whether it satisfies the \textbf{Unitary Normalization Axiom}. Conclude regarding its admissibility as a PMF.
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 16: Problem Synthesis --- Operational Level
-\begin{frame}{Problem Synthesis --- Operational Level (Intermediate / Applied)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.1.5: Absolute Transformation}
-				\small
-				Let $X$ be distributed on $\set{-2, -1, 0, 1, 2}$ and define $Y = |X - 1|$. The induced support is $\mathcal{S}_Y = \set{0, 1, 2, 3}$.
-				
-				\vspace{0.05cm}
-				Preimage probabilities aggregate cleanly:
-				\begin{align*}
-					p_Y(1) = P(X=0) + P(X=2) = 0.30.
-				\end{align*}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.1.6: Maximum of Two Spheres}
-				\footnotesize
-				Drawing two spheres without replacement from $1$ to $6$, the maximum $M = \max(X_1, X_2)$ has mass:
-				\begin{align*}
-					f(m) = \frac{m-1}{15}, \quad m \in \set{2, \dots, 6}.
-				\end{align*}
-				The upper tail is $P(M \ge 5) = \frac{4+5}{15} = \frac{3}{5}$.
-			\end{block}
-		\end{column}
-	\end{columns}
+% Slide 10B: Classroom Exercise — Tier 1: Fundamental (Solution)
+\begin{frame}{Classroom Exercise — Tier 1: Fundamental (2/2)}
+  \fontsize{6.8pt}{8.2pt}\selectfont
+  \begin{block}{1. Audit of the Non-Negativity Axiom ($g(x) \ge 0$)}
+    \fontsize{6.8pt}{8.2pt}\selectfont
+    We directly evaluate each of the $5$ points where the formula takes a non-trivial value:
+    \begin{itemize}\itemsep=0.06cm
+      \item $x = -2 \implies g(-2) = \frac{(-2)^2 - 1}{10} = \frac{3}{10} = 0.30 \ge 0$.
+      \item $x = -1 \implies g(-1) = \frac{(-1)^2 - 1}{10} = \frac{0}{10} = 0.00 \ge 0$.
+      \item $x = 0 \implies g(0) = \frac{0^2 - 1}{10} = -\frac{1}{10} = \mathbf{-0.10 < 0}$.
+      \item $x = 1 \implies g(1) = \frac{1^2 - 1}{10} = 0.00 \ge 0$.
+      \item $x = 2 \implies g(2) = \frac{2^2 - 1}{10} = \frac{3}{10} = 0.30 \ge 0$.
+    \end{itemize}
+    By yielding a strictly negative value at $x=0$, $g(x)$ \textbf{blatantly violates the first axiom} ($P(X=0) \ge 0$).
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{2. Audit of the Normalization Axiom ($\sum g(x) = 1$)}
+    \fontsize{6.8pt}{8.2pt}\selectfont
+    Summing across all candidate support points: $\displaystyle \sum_{x=-2}^{2} g(x) = \frac{3}{10} + 0 - \frac{1}{10} + 0 + \frac{3}{10} = \frac{5}{10} = 0.50 \neq 1$.
+    \textbf{Conclusion:} The function $g(x)$ is inadmissible as a PMF because it violates both Kolmogorov axioms simultaneously.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 17: Problem Synthesis --- Analytical Level
-\begin{frame}{Problem Synthesis --- Analytical Level (Advanced / Proofs)}
-	\begin{block}{Problem 3.1.7: Telescoping Sums and Normalization over $\mathcal{S}_N = \set{1, \dots, N}$}
-		\footnotesize
-		Given the family $f_N(x) = \dfrac{c_N}{x(x+1)}$, partial fraction decomposition yields:
-		\begin{align*}
-			\sum_{x=1}^{N} \frac{c_N}{x(x+1)} &= c_N \sum_{x=1}^{N} \left( \frac{1}{x} - \frac{1}{x+1} \right) \\
-			&= c_N \left( 1 - \frac{1}{N+1} \right) = c_N \left( \frac{N}{N+1} \right) = 1.
-		\end{align*}
-		This rigorously proves that the normalization constant is exactly $c_N = \dfrac{N+1}{N}$.
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{block}{Problem 3.1.8: Quadratic Mapping of a Symmetric Uniform Variable}
-		\footnotesize
-		For $X$ uniform over $\set{-m, \dots, m}$ ($2m+1$ points), the variable $Z = X^2$ concentrates twice the probability mass on positive squares ($p_Z(k^2) = \frac{2}{2m+1}$ from $\pm k$) and single mass at zero ($p_Z(0) = \frac{1}{2m+1}$).
-	\end{block}
+% Slide 11A: Classroom Exercise — Tier 2: Operational (Statement)
+\begin{frame}{Classroom Exercise — Tier 2: Operational (1/2)}
+  \begin{block}{Problem 3.1.6 — Maximum of Two Drawn Spheres}
+    \footnotesize
+    An urn contains $6$ identical spheres numbered $1$ through $6$. Two spheres are drawn successively and without replacement. Let $X_1$ be the number on the first sphere and $X_2$ the number on the second. We define the discrete random variable $M = \max(X_1, X_2)$ as the maximum of the two numbers obtained.
+    \begin{enumerate}\itemsep=0.15cm
+      \item Derive analytically the probability mass function $f_M(m) = P(M = m)$ for each $m \in \{2, 3, 4, 5, 6\}$ by analyzing preimages in the sample space.
+      \item Calculate the exact probability that the observed maximum is greater than or equal to $5$ ($P(M \ge 5)$).
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 18: Problem Synthesis --- Challenging Level
-\begin{frame}{Problem Synthesis --- Challenging Level (Experts / Paradoxes)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.1.9: Zipf Law and Pareto Tails}
-				\small
-				For $f(k) = \dfrac{1}{\zeta(s) k^s}$ across $\mathbb{Z}^+$, unitary normalization is guaranteed by Riemann zeta convergence.
-				
-				\vspace{0.05cm}
-				Integral bounding establishes heavy-tail polynomial decay:
-				\begin{align*}
-					P(X > M) \sim \frac{1}{(s-1) M^{s-1}}.
-				\end{align*}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.1.10: Discrete Redundancy}
-				\small
-				For two independent subsystems with failure probabilities $p_A, p_B$, the time to first failure $T = \min(N_A, N_B)$ satisfies:
-				\begin{align*}
-					P(T > n) = \left[ (1-p_A)(1-p_B) \right]^n.
-				\end{align*}
-				$T$ is exactly Geometric with failure parameter $p_{\text{eq}} = p_A + p_B - p_A p_B$.
-			\end{block}
-		\end{column}
-	\end{columns}
+% Slide 11B: Classroom Exercise — Tier 2: Operational (Solution)
+\begin{frame}{Classroom Exercise — Tier 2: Operational (2/2)}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Derivation of the Maximum PMF}
+        \fontsize{6.5pt}{7.8pt}\selectfont
+        The sample space $\Omega$ contains $|\Omega| = 6 \times 5 = 30$ equiprobable ordered pairs $(x_1, x_2)$ with $x_1 \neq x_2$. For the maximum to equal precisely $m$:
+        \begin{itemize}\itemsep=0.06cm
+          \item The larger sphere is $m$ and the other is strictly smaller ($1 \le x < m$).
+          \item There are $m-1$ choices for the smaller sphere, occurring in $2$ permutations $((m,x)$ or $(x,m))$ $\implies 2(m-1)$ ordered pairs out of $30$:
+          $$\displaystyle f_M(m) = \frac{2(m-1)}{30} = \frac{m-1}{15}, \quad m \in \{2 \dots 6\}$$
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{2. Table and Upper Tail Calculation}
+        \fontsize{6.5pt}{7.8pt}\selectfont
+        Evaluating the PMF table over $\mathcal{S}_M = \{2, 3, 4, 5, 6\}$:
+        \begin{itemize}\itemsep=0.06cm
+          \item $f_M(2) = 1/15$, $f_M(3) = 2/15$, $f_M(4) = 3/15$.
+          \item $f_M(5) = 4/15$, $f_M(6) = 5/15$.
+          \item Total sum: $(1+2+3+4+5)/15 = 15/15 = 1$.
+        \end{itemize}
+        Calculating the upper tail probability $P(M \ge 5)$:
+        $$\displaystyle P(M \ge 5) = f_M(5) + f_M(6) = \frac{4}{15} + \frac{5}{15} = \mathbf{\frac{9}{15} = \frac{3}{5} = 0.60}$$
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 19: Conclusions
-\begin{frame}{Conclusions and Summary}
-	\begin{block}{Key Takeaways from Section 03.01}
-		\small
-		\begin{itemize}
-			\itemsep=0.1cm
-			\item \textbf{Discrete Random Variable:} A measurable function projecting an abstract probability space onto a finite or countably infinite numerical support $\mathcal{S}_X$.
-			\item \textbf{Legitimate PMF:} Any discrete mass function $f(x) = P(X = x)$ is uniquely characterized by the fundamental Kolmogorov axioms: $f(x) \ge 0$ and $\sum_{x \in \mathcal{S}_X} f(x) = 1$.
-			\item \textbf{Support Transformations:} Under a mapping $g(X)$, the probabilities of all disjoint preimages sum algebraically to generate the induced PMF.
-		\end{itemize}
-	\end{block}
+% Slide 12A: Classroom Exercise — Tier 3: Analytical (Statement)
+\begin{frame}{Classroom Exercise — Tier 3: Analytical (1/2)}
+  \begin{block}{Problem 3.1.7 — Normalization via Telescoping Sums}
+    \footnotesize
+    Let $N \in \mathbb{N}$ be a fixed positive integer. Consider the family of discrete random variables $X_N$ with finite support $\mathcal{S}_N = \{1, 2, \dots, N\}$ whose probability mass function takes the rational form:
+    $$f_N(x) = \frac{c_N}{x(x+1)}, \quad x \in \{1, 2, \dots, N\}$$
+    where $c_N$ is a real normalization constant to be determined.
+    \begin{enumerate}\itemsep=0.15cm
+      \item Prove rigorously, using partial fraction decomposition and telescoping summation, that the required normalization constant is exactly:
+      $$c_N = \frac{N+1}{N}$$
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 20: Bridge to Section 03.02
-\begin{frame}{Pedagogical Bridge to Section 03.02}
-	\begin{block}{Next Focus: Cumulative Distribution Functions (CDF)}
-		\small
-		Having mastered point probability assignment across the integers of the support via the PMF $f(x)$, we are now positioned to examine **cumulative probabilities** up to any real threshold:
-		\begin{align*}
-			F(x) = P(X \le x) = \sum_{u \le x} f(u).
-		\end{align*}
-		In **Section 03.02**, we will explore why the CDF of a discrete random variable invariably exhibits the geometry of a right-continuous *step function*, and how to recover the PMF directly from the jump discontinuities of $F(x)$.
-	\end{block}
+% Slide 12B: Classroom Exercise — Tier 3: Analytical (Solution)
+\begin{frame}{Classroom Exercise — Tier 3: Analytical (2/2)}
+  \fontsize{6.8pt}{8.2pt}\selectfont
+  \begin{block}{Proof — Partial Fractions and Telescoping Sums}
+    \fontsize{6.8pt}{8.2pt}\selectfont
+    By the normalization axiom, summing across the entire support $\mathcal{S}_N = \{1, \dots, N\}$ must equal one:
+    $$\sum_{x=1}^{N} f_N(x) = c_N \sum_{x=1}^{N} \frac{1}{x(x+1)} = 1$$
+    We decompose the rational kernel into partial fractions: $\displaystyle \frac{1}{x(x+1)} = \frac{1}{x} - \frac{1}{x+1}$.
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Summation Expansion and Solving for $c_N$}
+    \fontsize{6.8pt}{8.2pt}\selectfont
+    Expanding the summation explicitly reveals a telescoping cancellation of intermediate terms:
+    $$\sum_{x=1}^{N} \left(\frac{1}{x} - \frac{1}{x+1}\right) = \left(1 - \frac{1}{2}\right) + \left(\frac{1}{2} - \frac{1}{3}\right) + \dots + \left(\frac{1}{N} - \frac{1}{N+1}\right) = 1 - \frac{1}{N+1} = \frac{N}{N+1}$$
+    Substituting this closed form into our normalization identity:
+    $$c_N \left(\frac{N}{N+1}\right) = 1 \implies \mathbf{c_N = \frac{N+1}{N} \quad \blacksquare}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Classroom Exercise — Tier 4: Challenging (Statement)
+\begin{frame}{Classroom Exercise — Tier 4: Challenging (1/2)}
+  \begin{block}{Problem 3.1.10 — First Failure Time in Parallel Systems}
+    \footnotesize
+    An engineering system composed of two independent parallel subsystems operates in discrete time cycles $n \in \{1, 2, 3, \dots\}$. In each cycle, subsystem $A$ fails with probability $p_A \in (0,1)$ independently of previous cycles, while subsystem $B$ fails with probability $p_B \in (0,1)$. Let $N_A$ be the first failure cycle of $A$, and $N_B$ the first failure cycle of $B$. We define $T = \min(N_A, N_B)$ as the time until the system experiences its first failure in either branch.
+    \begin{enumerate}\itemsep=0.12cm
+      \item Derive analytically the exact PMF $f_T(n) = P(T = n)$ for all $n \in \{1, 2, 3, \dots\}$.
+      \item Prove that $T$ follows a geometric distribution and explicitly identify its combined failure parameter $p_T$.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 13B: Classroom Exercise — Tier 4: Challenging (Solution)
+\begin{frame}{Classroom Exercise — Tier 4: Challenging (2/2)}
+  \fontsize{6.5pt}{7.8pt}\selectfont
+  \begin{block}{1. Survival Analysis and Independence of Branches}
+    \fontsize{6.5pt}{7.8pt}\selectfont
+    The survival probability of each subsystem beyond cycle $n$ requires no failure in $n$ consecutive cycles: $P(N_A > n) = (1-p_A)^n$ and $P(N_B > n) = (1-p_B)^n$. By independence across subsystems:
+    $$P(T > n) = P(\min(N_A, N_B) > n) = P(N_A > n \cap N_B > n) = (1-p_A)^n (1-p_B)^n = [(1-p_A)(1-p_B)]^n$$
+    To extract the point probability at cycle $n$, we difference consecutive survival probabilities:
+    $$f_T(n) = P(T = n) = P(T > n-1) - P(T > n) = [(1-p_A)(1-p_B)]^{n-1} [1 - (1-p_A)(1-p_B)]$$
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{2. Identification of the Equivalent Geometric Distribution}
+    \fontsize{6.5pt}{7.8pt}\selectfont
+    Define the combined probability that at least one subsystem fails in any single cycle:
+    $$p_T = 1 - (1-p_A)(1-p_B) = p_A + p_B - p_A p_B$$
+    Substituting $p_T$ into our derived mass expression yields:
+    $$f_T(n) = (1 - p_T)^{n-1} p_T, \quad n \in \{1, 2, 3, \dots\}$$
+    This rigorously proves that $\mathbf{T \sim \text{Geom}(p_T = p_A + p_B - p_A p_B) \quad \blacksquare}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14: Synthesis and Conclusion
+\begin{frame}{Synthesis and Conclusion — PMF and Discrete Support}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Core Pillars of Section 03.01}
+    \fontsize{7.5pt}{9pt}\selectfont
+    \begin{itemize}\itemsep=0.12cm
+      \item \textbf{Measurable Projection:} A discrete random variable maps outcomes from an arbitrary sample space $\Omega$ onto a finite or countable subset of the real line $\mathbb{R}$.
+      \item \textbf{Operational Support:} The support $\mathcal{S}_X$ exclusively contains points with strictly positive mass. Outside $\mathcal{S}_X$, point probability is identically zero.
+      \item \textbf{Kolmogorov Axioms:} Every legitimate PMF must unconditionally satisfy non-negativity ($p_X(x) \ge 0$) and unitary normalization over the support ($\sum p_X(x) = 1$).
+      \item \textbf{Preimage Transformations:} If $Y=g(X)$, probability mass at $y \in \mathcal{S}_Y$ is computed by summing across all original roots in $g^{-1}(y)$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 15: Modular Transition to the Next Topic
+\begin{frame}{Modular Transition to the Next Topic}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{From Point Mass to Cumulative Probability}
+    \fontsize{7.5pt}{9pt}\selectfont
+    We have established the formal foundation for discrete random variables via the Probability Mass Function $p_X(x)$, which answers equality queries ($X=x$).
+    \begin{itemize}\itemsep=0.12cm
+      \item In engineering design, network traffic management, and reliability analysis, however, critical queries are cumulative threshold events: \emph{``What is the probability of observing at most $k$ failures?''}
+      \item To answer such queries compactly, we must accumulate point mass over integer intervals across the support.
+    \end{itemize}
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Next Stop: Section 03.02}
+    \fontsize{7.5pt}{9pt}\selectfont
+    In the next section (\textbf{Section 03.02: Cumulative Distribution Function — Discrete CDF}), we construct the step function $F_X(x) = P(X \le x)$, analyze its jump discontinuities ($\Delta F$), and master the analytical duality between discrete differencing and probability accumulation.
+  \end{alertblock}
 \end{frame}
 
 \end{document}

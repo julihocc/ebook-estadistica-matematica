@@ -32,7 +32,10 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 - $\checkmark$ **02.06 Muestreo Aleatorio y TLC:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.06_random_sampling.py`.
 
 ### Unidad 2 / Capítulo 03: Variables Aleatorias Discretas (`Avance actual: 6 de 9 secciones completadas`)
-- $\checkmark$ **03.01 PMF y Soporte:** 100% completado (`03.01_pmf_y_soporte.tex` ES/EN, `03.01_pmf_and_support.py`).
+- $\checkmark$ **03.01 PMF y Soporte:** 100% completado (Remediación modular total).
+  - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/variables_aleatorias_discretas(p).tex` (Problemas 3.1.1 al 3.1.10).
+  - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py` (normalización polinomial, probabilidad condicional en soporte discreto, simulación Monte Carlo de suma de dados y transformación no lineal $|X-1|$ con sumas por preimágenes).
+  - *Mazos Beamer:* 22 diapositivas pedagógicas y modulares en `presentaciones/es/03_variables_aleatorias_discretas/03.01_pmf_y_soporte.tex` y `en/03_discrete_random_variables/03.01_pmf_and_support.tex` (revelado progresivo `\pause`, puente numérico Python en 4 diapositivas, 4 ejercicios interactivos en clase divididos en Enunciado/Resolución para cada nivel de la taxonomía, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`**).
 - $\checkmark$ **03.02 CDF Discreta:** 100% completado (Remediación modular total).
   - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/variables_aleatorias_discretas(p).tex` (Problemas 3.2.1 al 3.2.10).
   - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.02_discrete_cdf.py` (construcción de CDF, operador de diferencia $\Delta F$ para recuperar PMF, probabilidades de intervalos y simulación empírica ECDF con $N=100,000$).

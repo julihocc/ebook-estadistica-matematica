@@ -1,423 +1,403 @@
 % !TeX program = pdflatex
-\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+\documentclass[10pt, aspectratio=169]{beamer}
 
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title{Funciones de Probabilidad Discretas}
-\subtitle{Sección 03.01 --- Conceptos Básicos, Soporte y PMF}
+\title[Funciones de Probabilidad Discretas]{Sección 03.01: Funciones de Probabilidad Discretas}
+\subtitle{Del Espacio Muestral Abstracto a la Recta Real: Soporte y Axiomas PMF}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute[Tec de Monterrey]{Tecnológico de Monterrey}
-\date{}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-2.0cm}}
 
 \begin{document}
 
-% SLIDE 01: Portada
+% Slide 01: Portada
 \begin{frame}[plain]
-	\titlepage
+  \vspace{-0.5cm}
+  \titlepage
 \end{frame}
 
-% SLIDE 02: Hoja de Ruta
-\begin{frame}{Hoja de Ruta --- Capítulo 03: Variables Aleatorias Discretas}
-	\begin{block}{Estructura Curricular de la Unidad 2}
-		\small
-		\begin{enumerate}
-			\itemsep=0.04cm
-			\item \textbf{\textcolor{TecRojo}{Sección 03.01: Funciones de Probabilidad Discretas (PMF y Soporte)}} $\leftarrow$ \emph{Foco actual}
-			\item \textcolor{gray}{Sección 03.02: Función de Distribución Acumulada (CDF Discreta)}
-			\item \textcolor{gray}{Sección 03.03: Esperanza Matemática, Varianza y Momentos}
-			\item \textcolor{gray}{Sección 03.04: Distribuciones Especiales I (Binomial, Geométrica e Hipergeométrica)}
-			\item \textcolor{gray}{Sección 03.05: Distribuciones Especiales II (Poisson, Binomial Negativa y Multinomial)}
-		\end{enumerate}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{alertblock}{Objetivo Didáctico}
-		\footnotesize
-		Formalizar el paso de espacios muestrales abstractos a funciones de probabilidad discretas ($\sum f(x)=1$), estableciendo la noción de soporte medible y caracterizando la masa asignada a cada evento del fenómeno aleatorio.
-	\end{alertblock}
+% Slide 02: Hoja de Ruta
+\begin{frame}{Hoja de Ruta — Capítulo 03: Variables Aleatorias Discretas}
+  \begin{block}{Estructura Curricular del Capítulo 03}
+    \footnotesize
+    \begin{enumerate}\itemsep=0.08cm
+      \item \textbf{\textcolor{TecRojo}{Sección 03.01: Funciones de Probabilidad Discretas (PMF y Soporte)}} $\leftarrow$ \emph{Foco actual}
+      \item \textcolor{gray}{Sección 03.02: Función de Distribución Acumulada (CDF Discreta)}
+      \item \textcolor{gray}{Sección 03.03: Esperanza Matemática, Varianza y Momentos}
+      \item \textcolor{gray}{Sección 03.04: Distribuciones de Bernoulli y Binomial}
+      \item \textcolor{gray}{Sección 03.05: Distribuciones Geométrica y Binomial Negativa}
+      \item \textcolor{gray}{Sección 03.06: Distribución Hipergeométrica}
+    \end{enumerate}
+  \end{block}
+  \vspace{-0.05cm}
+  \pause
+  \begin{alertblock}{Objetivo Didáctico de la Sección 03.01}
+    \footnotesize
+    Formalizar el paso de espacios muestrales abstractos $\Omega$ hacia funciones de probabilidad escalares sobre $\mathbb{R}$, caracterizando el soporte medible $\mathcal{S}_X$, dominando los axiomas de Kolmogorov en variables discretas ($\sum p_X(x)=1$) y operando transformaciones no lineales de variables.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 03: Motivación I
-\begin{frame}{Motivación: Del Espacio Muestral Abstracto a los Números Reales}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Limitación del Espacio Muestral $\Omega$}
-				\footnotesize
-				En fenómenos aleatorios complejos, el espacio muestral elemental $\Omega$ puede estar constituido por categorías no numéricas:
-				\begin{itemize}
-					\item Secuencias de monedas ($\set{AAS, SAA, \dots}$).
-					\item Defectos cualitativos en manufactura ($\set{\text{Óptimo}, \text{Falla}}$).
-					\item Perfiles de clientes o historiales clínicos.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{La Necesidad de Cuantificar}
-				\footnotesize
-				Para aplicar el poderoso herramental del análisis matemático y el álgebra lineal, es indispensable **proyectar** cada resultado cualitativo $\omega \in \Omega$ hacia un valor numérico unívoco en la recta real $\mathbb{R}$.
-				
-				\vspace{0.05cm}
-				Esta proyección codifica cuantitativamente la propiedad empírica u operativa de interés para el ingeniero o científico de datos.
-			\end{block}
-		\end{column}
-	\end{columns}
-	\vspace{-0.2cm}
-	\begin{alertblock}{Principio Fundamental de Modelación}
-		\footnotesize
-		Una \emph{variable aleatoria} es el puente formal entre el espacio de probabilidad abstracto $(\Omega, \mathcal{F}, P)$ y el análisis cuantitativo sobre $\mathbb{R}$.
-	\end{alertblock}
+% Slide 03: Motivación — Del Espacio Muestral a la Recta Real
+\begin{frame}{Motivación — Del Espacio Muestral a la Recta Real $\mathbb{R}$}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Limitación de Categorías Abstractas $\Omega$}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item Los fenómenos aleatorios reales suelen generar resultados cualitativos o simbólicos:
+          \begin{itemize}
+            \item Secuencias de monedas ($\{AAS, SAA, \dots\}$).
+            \item Diagnósticos médicos ($\{\text{Sano}, \text{Falla}\}$).
+            \item Paquetes de red o registros de usuarios.
+          \end{itemize}
+          \item El cálculo diferencial y el álgebra lineal no operan directamente sobre palabras o símbolos.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{La Solución: Proyección Cuantitativa}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item Definimos una función medible que asigna a cada resultado empírico $\omega \in \Omega$ un único número real $X(\omega) \in \mathbb{R}$.
+          \item Esta proyección destila el rasgo operativo exacto que deseamos medir (número de errores, tiempo de respuesta, conteo de piezas).
+          \item Transforma la teoría de conjuntos en análisis funcional y numérico de alta precisión.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 04: Motivación II
-\begin{frame}{Motivación: Proyección Algebraica sobre el Soporte}
-	\begin{block}{Representación Algebraica de la Proyección}
-		\small
-		Si lanzamos tres monedas al aire, el espacio elemental posee $2^3 = 8$ puntos:
-		\begin{align*}
-			\Omega = \set{AAA, AAS, ASA, SAA, ASS, SAS, SSA, SSS}.
-		\end{align*}
-		Si definimos $X(\omega)$ como el número total de águilas ($A$), la función asigna:
-		\begin{align*}
-			X(AAA) = 3, \quad X(AAS) = X(ASA) = X(SAA) = 2, \dots
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Reducción de Dimensionalidad}
-				\footnotesize
-				El estudio de los 8 resultados abstractos se reduce a analizar únicamente 4 enteros discretos: $\set{0, 1, 2, 3}$.
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Concentración de Masa}
-				\footnotesize
-				La probabilidad del espacio muestral se concentra y distribuye matemáticamente sobre los puntos del soporte discreto.
-			\end{block}
-		\end{column}
-	\end{columns}
+% Slide 04: Definición Formal de Variable Aleatoria Discreta y Soporte
+\begin{frame}{Definición Formal de Variable Aleatoria Discreta y Soporte}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Variable Aleatoria Discreta (V.A.D.)}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Una variable aleatoria $X: \Omega \to \mathbb{R}$ se denomina \textbf{discreta} si el conjunto de todos sus posibles valores es finito o infinito numerable. Formalmente, su rango es biyectivo con un subconjunto de los números naturales $\mathbb{N}$.
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{El Soporte Medible $\mathcal{S}_X$}
+    \fontsize{7.5pt}{9pt}\selectfont
+    El \textbf{soporte} de una variable aleatoria discreta $X$, denotado por $\mathcal{S}_X$, es el conjunto exacto de números reales donde la masa de probabilidad se concentra con valor estrictamente positivo:
+    $$\mathcal{S}_X = \{x \in \mathbb{R} \mid P(X = x) > 0\} = \{x_1, x_2, x_3, \dots\}$$
+    \begin{itemize}\itemsep=0.08cm
+      \item Fuera del soporte $\mathcal{S}_X$, la probabilidad es idénticamente nula: $P(X = x) = 0 \quad \forall x \notin \mathcal{S}_X$.
+      \item Todo evento $A \subset \mathbb{R}$ se evalúa analizando exclusivamente su intersección con $\mathcal{S}_X$.
+    \end{itemize}
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 05: Definición Formal de Variable Aleatoria
-\begin{frame}{Definición Formal: Variable Aleatoria Discreta}
-	\begin{block}{Definición de Variable Aleatoria}
-		\small
-		Una \textbf{variable aleatoria} (o \emph{función estocástica}) es una función medible $X: \Omega \to \mathbb{R}$ que asigna a cada punto elemental $\omega \in \Omega$ un número real único $X(\omega) = x$.
-	\end{block}
-	\vspace{-0.1cm}
-	\begin{block}{Caracterización Discreta}
-		\small
-		Se dice que $X$ es una \textbf{variable aleatoria discreta} si el rango o conjunto de valores posibles que puede asumir es finito o infinito numerable. Dicho conjunto se denomina \textbf{soporte} de $X$, denotado como:
-		\begin{align*}
-			\mathcal{S}_X = \set{x_1, x_2, \dots, x_k, \dots} \subset \mathbb{R}.
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{alertblock}{Convención Notacional}
-		\footnotesize
-		Las variables aleatorias se denotan rigurosamente con letras mayúsculas ($X, Y, Z$), mientras que sus realizaciones particulares se denotan con minúsculas ($x, y, z$).
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 06: Soporte de una Variable Aleatoria
-\begin{frame}{Soporte Medible y cardinalidad Discreta}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Soporte Finito}
-				\small
-				El conjunto $\mathcal{S}_X$ consta de un número acotado de elementos ($|\mathcal{S}_X| = n < \infty$).
-				\begin{itemize}
-					\item \textbf{Suma de dos dados:} $\mathcal{S}_X = \set{2, 3, \dots, 12}$ con cardinalidad $11$.
-					\item \textbf{Defectos en un lote:} $\mathcal{S}_X = \set{0, 1, \dots, N}$.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Soporte Infinito Numerable}
-				\small
-				El conjunto $\mathcal{S}_X$ es biyectivo con los enteros naturales ($\mathbb{N}$ o $\mathbb{Z}^+$).
-				\begin{itemize}
-					\item \textbf{Ensayos hasta primer éxito:} $\mathcal{S}_X = \set{1, 2, 3, \dots}$ (Geométrica).
-					\item \textbf{Llegadas a un servidor:} $\mathcal{S}_X = \set{0, 1, 2, \dots}$ (Poisson).
-				\end{itemize}
-			\end{block}
-		\end{column}
-	\end{columns}
-	\vspace{-0.15cm}
-	\begin{block}{Exclusión de Puntos Nulos}
-		\footnotesize
-		Por definición estricta, el soporte medible de una variable discreta excluye todo número real que posea una probabilidad idéntica a cero: $\mathcal{S}_X = \set{x \in \mathbb{R} : P(X = x) > 0}$.
-	\end{block}
-\end{frame}
-
-% SLIDE 07: Función de Masa de Probabilidad (PMF)
+% Slide 05: Función de Masa de Probabilidad (PMF)
 \begin{frame}{Función de Masa de Probabilidad (PMF)}
-	\begin{block}{Definición Formal de la PMF}
-		\footnotesize
-		Sea $X$ una variable aleatoria discreta con soporte $\mathcal{S}_X$. La **Función de Masa de Probabilidad** (o *función de probabilidad discreta*), denotada por $p_X(x)$ o simplemente $f(x)$, es la regla que asigna a cada número real $x$ la probabilidad exacta de que $X$ tome dicho valor:
-		\begin{align*}
-			f(x) = P(X = x) = P\left(\set{\omega \in \Omega : X(\omega) = x}\right).
-		\end{align*}
-	\end{block}
-	\vspace{-0.2cm}
-	\begin{block}{Extensión a toda la Recta Real $\mathbb{R}$}
-		\footnotesize
-		De manera exhaustiva, la función se define sobre todo $\mathbb{R}$ mediante la pieza nula fuera del soporte:
-		\begin{align*}
-			f(x) = \begin{cases}
-				P(X = x_k) & \text{si } x = x_k \in \mathcal{S}_X, \\[2pt]
-				0 & \text{en cualquier otro caso ($x \notin \mathcal{S}_X$).}
-			\end{cases}
-		\end{align*}
-	\end{block}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Caracterización Analítica de la Masa Puntual}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Para una variable aleatoria discreta $X$, su \textbf{Función de Masa de Probabilidad} (PMF por sus siglas en inglés, \emph{Probability Mass Function}), denotada por $p_X(x)$ o $f_X(x)$, es la función real $p_X: \mathbb{R} \to [0, 1]$ definida por:
+    $$p_X(x) = P(X = x) = P(\{\omega \in \Omega \mid X(\omega) = x\})$$
+    Esta relación asocia a cada número real la probabilidad de la preimagen de todos los sucesos elementales del espacio original $\Omega$ que colapsan en el valor $x$.
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Representación mediante Función Indicadora}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Para evitar ambigüedades en dominios continuos o extensiones analíticas, la PMF se expresa algebraicamente utilizando la función indicadora de soporte $\mathbf{1}_{\mathcal{S}_X}(x)$:
+    $$p_X(x) = g(x) \cdot \mathbf{1}_{\mathcal{S}_X}(x) = \begin{cases}
+      g(x) & \text{si } x \in \mathcal{S}_X \\
+      0 & \text{si } x \notin \mathcal{S}_X
+    \end{cases}$$
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 08: Axiomas de Kolmogorov y Normalización
-\begin{frame}{Axiomas de Kolmogorov para Funciones Discretas}
-	\begin{block}{Teorema de Existencia y Legitimidad de una PMF}
-		\small
-		Una función real $f(x)$ constituye una función de masa de probabilidad legítima si y sólo si satisface rigurosamente los siguientes dos axiomas de Kolmogorov:
-		\begin{enumerate}
-			\itemsep=0.15cm
-			\item \textbf{No negatividad:} Para todo número real $x \in \mathbb{R}$, se cumple que
-			\begin{align*}
-				f(x) \ge 0.
-			\end{align*}
-			\item \textbf{Normalización (Suma unitaria):} La suma total de las probabilidades asignadas a los puntos de su soporte medible es exactamente igual a la unidad:
-			\begin{align*}
-				\sum_{x \in \mathcal{S}_X} f(x) = 1.
-			\end{align*}
-		\end{enumerate}
-	\end{block}
+% Slide 06: Los Dos Axiomas de Kolmogorov en Discretas
+\begin{frame}{Los Dos Axiomas de Kolmogorov en Variables Discretas}
+  \begin{block}{Axiomas Estructurales de Admisibilidad}
+    Una función real $p_X(x)$ constituye una función de masa de probabilidad admisible para una variable aleatoria discreta si y solo si satisface simultáneamente dos axiomas fundamentales de la teoría de la medida:
+    \begin{enumerate}\itemsep=0.2cm
+      \item \textbf{Axioma de No Negatividad Estricta:} La probabilidad no puede adoptar valores negativos en ningún punto de la recta real:
+      $$p_X(x) \ge 0 \quad \text{para todo } x \in \mathbb{R}$$
+      \item \textbf{Axioma de Suma Unitaria (Normalización):} La suma de todas las masas distribuidas a lo largo del soporte numerable debe ser exactamente igual a la unidad de certeza total:
+      $$\sum_{x_k \in \mathcal{S}_X} p_X(x_k) = 1$$
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 09: Ejemplos Canónicos del Textbook I
-\begin{frame}{Ejemplos Canónicos del Libro: Monedas y Dados}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Ejemplo 2.6.2: Dos Monedas ($X = \text{Soles}$)}
-				\footnotesize
-				Espacio $\Omega = \set{HH, HT, TH, TT}$ equiprobable.
-				Soporte $\mathcal{S}_X = \set{0, 1, 2}$.
-				\begin{align*}
-					f(x) = \begin{cases}
-						1/4 & x = 0 \text{ ($TT$)} \\
-						1/2 & x = 1 \text{ ($HT, TH$)} \\
-						1/4 & x = 2 \text{ ($HH$)} \\
-						0 & \text{en otro caso.}
-					\end{cases}
-				\end{align*}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Ejemplo 2.6.3: Suma de Dos Dados}
-				\footnotesize
-				Espacio $|\Omega| = 36$. Soporte $\mathcal{S}_X = \set{2, \dots, 12}$.
-				Masa proporcional al número de formas de sumar $x$:
-				\begin{align*}
-					f(x) = \frac{6 - |x - 7|}{36}, \quad x \in \set{2, \dots, 12}.
-				\end{align*}
-				Por ejemplo: $f(7) = 6/36$, $f(2) = f(12) = 1/36$.
-			\end{block}
-		\end{column}
-	\end{columns}
-	\vspace{-0.15cm}
-	\begin{alertblock}{Verificación Axiomática}
-		\scriptsize
-		En ambos casos se observa no negatividad estricta y aditividad unitaria ($\sum f(x) = \frac{1+2+1}{4} = 1$ y $\sum f(x) = \frac{36}{36} = 1$).
-	\end{alertblock}
+% Slide 07: Anatomía Gráfica y Teorema de Eventos
+\begin{frame}{Anatomía Gráfica y Teorema de Evaluación de Eventos}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Anatomía Gráfica — Espectro de Masas}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item Gráficamente, una PMF se representa mediante un gráfico de barras verticales o impulsos puntuales (Deltas de Dirac discretas).
+          \item La altura de cada barra sobre el punto $x_k$ del eje horizontal mide exactamente el valor escalar de $p_X(x_k)$.
+          \item No existe masa en los tramos intermedios entre puntos del soporte.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Teorema Universal de Evaluación}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item Para cualquier evento o subconjunto medible $A \subset \mathbb{R}$, la probabilidad de que la variable caiga en $A$ se calcula por adición directa:
+          $$P(X \in A) = \sum_{x_k \in A \cap \mathcal{S}_X} p_X(x_k)$$
+          \item Permite calcular intervalos de cualquier topología sumando los puntos interiores.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 10: Ejemplos Canónicos del Textbook II
-\begin{frame}{Ejemplos Canónicos del Libro: Familias con 3 Hijos}
-	\begin{block}{Ejemplo 2.6.4: Distribución Binomial Elemental ($N=3, p=1/2$)}
-		\small
-		Sea $X$ el número de niños en una familia con 3 hijos, asumiendo independencia y equiprobabilidad de género. El espacio tiene $|\Omega| = 2^3 = 8$ puntos.
-		
-		\vspace{0.1cm}
-		La función de masa se deriva por combinatoria sobre el soporte $\mathcal{S}_X = \set{0, 1, 2, 3}$:
-		\begin{align*}
-			f(0) = P(MMM) = \frac{1}{8}, \qquad & f(1) = P(NMM, MNM, MMN) = \frac{3}{8}, \\[4pt]
-			f(2) = P(NNM, NMN, MNN) = \frac{3}{8}, \qquad & f(3) = P(NNN) = \frac{1}{8}.
-		\end{align*}
-	\end{block}
-	\vspace{-0.2cm}
-	\begin{center}
-	\small
-	\begin{tabular}{c|cccc|c}
-		$x$ (Niños) & $0$ & $1$ & $2$ & $3$ & Suma \\
-		\hline
-		$f(x)$ & $0.125$ & $0.375$ & $0.375$ & $0.125$ & $1.000$
-	\end{tabular}
-	\end{center}
+% Slide 08: Transformaciones No Lineales de Variables ($Y=g(X)$)
+\begin{frame}{Transformaciones No Lineales de Variables Aleatorias ($Y=g(X)$)}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{El Problema del Mapeo Operativo}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Con frecuencia, no nos interesa directamente la variable original $X$, sino una función de ella, por ejemplo la potencia consumida ($Y = X^2$), el error absoluto ($Y = |X - \mu|$) o una escala logarítmica ($Y = \ln X$). Sea $g: \mathbb{R} \to \mathbb{R}$ una función cualquiera y definamos $Y = g(X)$.
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Teorema de la Preimagen e Inducción de Soporte}
+    \fontsize{7.5pt}{9pt}\selectfont
+    La nueva variable aleatoria $Y$ es también discreta. Su soporte inducido $\mathcal{S}_Y$ es la imagen directa del soporte original: $\mathcal{S}_Y = \{y = g(x) \mid x \in \mathcal{S}_X\}$. Para obtener la PMF $p_Y(y)$, se suman las probabilidades de todas las preimágenes que colapsan en cada $y$:
+    $$p_Y(y) = P(Y = y) = \sum_{x \in \mathcal{S}_X: g(x) = y} p_X(x)$$
+    Si $g(x)$ no es inyectiva (ej. valor absoluto o potencias pares), múltiples puntos de $\mathcal{S}_X$ se suman en un único punto de $\mathcal{S}_Y$.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 11: Lab Computacional I
-\begin{frame}[fragile]{Laboratorio en Python --- Parte 1: Normalización de PMF Polinomial}
-	\begin{block}{Comprobación Numérica de Constantes y Condiciones}
-		\footnotesize
-		Verificación de la constante de normalización $c$ para $f(x) = c x^2$ en $\mathcal{S}_X = \set{1, 2, 3, 4}$:
-	\end{block}
-	\vspace{-0.1cm}
-	\lstinputlisting[language=Python, firstline=9, lastline=20, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+% Slide 09A: Lab Python — Normalización y Condicionales
+\begin{frame}[fragile]{Laboratorio Python — Normalización y Soporte Polinomial (1/4)}
+  \begin{block}{Código Fuente: \texttt{verify\_polynomial\_pmf} (\texttt{03.01\_pmf\_and\_support.py})}
+    \fontsize{6pt}{7pt}\selectfont
+    \lstinputlisting[language=Python, firstline=10, lastline=28]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+  \end{block}
 \end{frame}
 
-% SLIDE 12: Lab Computacional II
-\begin{frame}[fragile]{Laboratorio en Python --- Parte 2: Probabilidad Condicional en PMF}
-	\begin{block}{Evaluación de Subconjuntos Medibles en el Soporte}
-		\footnotesize
-		Cálculo programático del evento condicional $P(X \text{ es par} \mid X \ge 2)$ sobre la PMF normalizada:
-	\end{block}
-	\vspace{-0.1cm}
-	\lstinputlisting[language=Python, firstline=21, lastline=27, basicstyle=\fontsize{6.5pt}{7.8pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+% Slide 09B: Lab Python — Simulación Monte Carlo (Dados)
+\begin{frame}[fragile]{Laboratorio Python — Simulación Monte Carlo de Dados (2/4)}
+  \begin{block}{Código Fuente: \texttt{simulate\_dice\_sum\_pmf} (\texttt{03.01\_pmf\_and\_support.py})}
+    \fontsize{6pt}{7pt}\selectfont
+    \lstinputlisting[language=Python, firstline=30, lastline=45]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+  \end{block}
 \end{frame}
 
-% SLIDE 13: Lab Computacional III
-\begin{frame}[fragile]{Laboratorio en Python --- Parte 3: Simulación Monte Carlo (Dados)}
-	\begin{block}{Convergencia Empírica de la PMF de la Suma de Dos Dados}
-		\footnotesize
-		Simulación de $100,000$ lanzamientos de dados y comprobación del error absoluto máximo frente a la teoría:
-	\end{block}
-	\vspace{-0.1cm}
-	\lstinputlisting[language=Python, firstline=29, lastline=44, basicstyle=\fontsize{6.0pt}{7.2pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+% Slide 09C: Lab Python — Transformación No Lineal
+\begin{frame}[fragile]{Laboratorio Python — Transformación No Lineal de Soporte (3/4)}
+  \begin{block}{Código Fuente: \texttt{verify\_transformed\_pmf} (\texttt{03.01\_pmf\_and\_support.py})}
+    \fontsize{6pt}{7pt}\selectfont
+    \lstinputlisting[language=Python, firstline=47, lastline=61]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+  \end{block}
 \end{frame}
 
-% SLIDE 14: Lab Computacional IV
-\begin{frame}[fragile]{Laboratorio en Python --- Parte 4: Transformación No Lineal de V.A.}
-	\begin{block}{Inducción de Soporte y Proyección de Frecuencias}
-		\footnotesize
-		Cálculo automático de la PMF inducida por la transformación absoluta $Y = |X - 1|$ para $X$ uniforme:
-	\end{block}
-	\vspace{-0.1cm}
-	\lstinputlisting[language=Python, firstline=46, lastline=60, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py}
+% Slide 09D: Lab Python — Salida Verificada en Consola
+\begin{frame}[fragile]{Laboratorio Python — Salida Empírica Verificada en Consola (4/4)}
+  \begin{block}{Salida Autoverificada en Consola (\texttt{Terminal Output})}
+    \fontsize{6.5pt}{7.5pt}\selectfont
+\begin{verbatim}
+=== 1. Polynomial PMF Verification ===
+Support S_X: [1 2 3 4]
+Normalization Constant c: 0.033333 (Exact: 1/30)
+Total Probability Sum: 1.000000
+P(X is even | X >= 2): 0.6897 (Exact: 20/29)
+
+=== 2. Monte Carlo Dice Sum Validation ===
+Trials: 100,000
+Max Empirical vs Exact PMF Error: 0.00168
+Empirical P(Sum=7): 0.1669 (Exact: 0.1667)
+
+=== 3. Transformation Y = |X - 1| ===
+Induced Support S_Y: [0 1 2 3]
+  P(Y = 0) = 0.30
+  P(Y = 1) = 0.30
+  P(Y = 2) = 0.25
+  P(Y = 3) = 0.15
+Sum of Induced PMF: 1.00
+\end{verbatim}
+  \end{block}
 \end{frame}
 
-% SLIDE 15: Síntesis de Problemas --- Nivel Fundamental
-\begin{frame}{Síntesis de Problemas --- Nivel Fundamental (Sencillos / Directos)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problema 3.1.1: Normalización Polinomial}
-				\small
-				Dada $f(x) = c x^2$ en $\mathcal{S}_X = \set{1, 2, 3, 4}$, la condición de suma unitaria exige:
-				\begin{align*}
-					c(1 + 4 + 9 + 16) = 30c = 1 \implies c = \frac{1}{30}.
-				\end{align*}
-				La probabilidad condicional resulta:
-				\begin{align*}
-					P(X \text{ par} \mid X \ge 2) = \frac{20/30}{29/30} = \frac{20}{29}.
-				\end{align*}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problema 3.1.2: Tres Monedas y Diferencias}
-				\small
-				Si $X = |n_A - n_S|$ al lanzar 3 monedas, el soporte es $\mathcal{S}_X = \set{1, 3}$.
-				\begin{align*}
-					f(1) = \frac{6}{8} = \frac{3}{4}, \quad f(3) = \frac{2}{8} = \frac{1}{4}.
-				\end{align*}
-				Se comprueba fehacientemente que $3/4 + 1/4 = 1$.
-			\end{block}
-		\end{column}
-	\end{columns}
+% Slide 10A: Ejercicio en Clase — Nivel 1: Fundamental (Enunciado)
+\begin{frame}{Ejercicio en Clase — Nivel 1: Fundamental (1/2)}
+  \begin{block}{Problema 3.1.3 — Verificación Axiomática de Kolmogorov}
+    \footnotesize
+    Considere una función candidata $g: \mathbb{Z} \to \mathbb{R}$ definida sobre el conjunto de los números enteros mediante la expresión algebraica:
+    $$g(x) = \begin{cases}
+      \dfrac{x^2 - 1}{10} & \text{si } x \in \{-2, -1, 0, 1, 2\}, \\[8pt]
+      0 & \text{en cualquier otro caso.}
+    \end{cases}$$
+    \begin{enumerate}\itemsep=0.15cm
+      \item Evaluando punto por punto en el conjunto $\{-2, -1, 0, 1, 2\}$, verifique si la función cumple o no con el \textbf{Axioma de No Negatividad Estricta}.
+      \item Calcule la suma global sobre todo $\mathbb{Z}$ para determinar si satisface el \textbf{Axioma de Normalización Unitaria}. Concluya formalmente sobre su admisibilidad como PMF.
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 16: Síntesis de Problemas --- Nivel Operativo
-\begin{frame}{Síntesis de Problemas --- Nivel Operativo (Intermedios / Aplicados)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problema 3.1.5: Transformación Absoluta}
-				\small
-				Sea $X$ distribuida sobre $\set{-2, -1, 0, 1, 2}$ y $Y = |X - 1|$. El soporte inducido es $\mathcal{S}_Y = \set{0, 1, 2, 3}$.
-				
-				\vspace{0.05cm}
-				Las masas se agrupan por preimágenes:
-				\begin{align*}
-					p_Y(1) = P(X=0) + P(X=2) = 0.30.
-				\end{align*}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problema 3.1.6: Máximo de Dos Esferas}
-				\footnotesize
-				Al extraer dos esferas sin reemplazo del $1$ al $6$, el máximo $M = \max(X_1, X_2)$ tiene masa:
-				\begin{align*}
-					f(m) = \frac{m-1}{15}, \quad m \in \set{2, \dots, 6}.
-				\end{align*}
-				La cola superior es $P(M \ge 5) = \frac{4+5}{15} = \frac{3}{5}$.
-			\end{block}
-		\end{column}
-	\end{columns}
+% Slide 10B: Ejercicio en Clase — Nivel 1: Fundamental (Resolución)
+\begin{frame}{Ejercicio en Clase — Nivel 1: Fundamental (2/2)}
+  \fontsize{6.8pt}{8.2pt}\selectfont
+  \begin{block}{1. Auditoría del Axioma de No Negatividad ($g(x) \ge 0$)}
+    \fontsize{6.8pt}{8.2pt}\selectfont
+    Evaluamos directamente cada uno de los $5$ valores donde la función adopta una forma algebraica no trivial:
+    \begin{itemize}\itemsep=0.06cm
+      \item $x = -2 \implies g(-2) = \frac{(-2)^2 - 1}{10} = \frac{3}{10} = 0.30 \ge 0$.
+      \item $x = -1 \implies g(-1) = \frac{(-1)^2 - 1}{10} = \frac{0}{10} = 0.00 \ge 0$.
+      \item $x = 0 \implies g(0) = \frac{0^2 - 1}{10} = -\frac{1}{10} = \mathbf{-0.10 < 0}$.
+      \item $x = 1 \implies g(1) = \frac{1^2 - 1}{10} = 0.00 \ge 0$.
+      \item $x = 2 \implies g(2) = \frac{2^2 - 1}{10} = \frac{3}{10} = 0.30 \ge 0$.
+    \end{itemize}
+    Al tomar un valor estrictamente negativo en $x=0$, $g(x)$ \textbf{viola flagrantemente el primer axioma} ($P(X=0) \ge 0$).
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{2. Auditoría del Axioma de Normalización ($\sum g(x) = 1$)}
+    \fontsize{6.8pt}{8.2pt}\selectfont
+    Sumamos los valores calculados: $\displaystyle \sum_{x=-2}^{2} g(x) = \frac{3}{10} + 0 - \frac{1}{10} + 0 + \frac{3}{10} = \frac{5}{10} = 0.50 \neq 1$.
+    \textbf{Conclusión:} La función candidate $g(x)$ es inadmisible al violar ambos axiomas de Kolmogorov simultáneamente.
+  \end{alertblock}
 \end{frame}
 
-% SLIDE 17: Síntesis de Problemas --- Nivel Analítico
-\begin{frame}{Síntesis de Problemas --- Nivel Analítico (Avanzados / Demostraciones)}
-	\begin{block}{Problema 3.1.7: Suma Telescópica y Normalización en $\mathcal{S}_N = \set{1, \dots, N}$}
-		\footnotesize
-		Dada la familia $f_N(x) = \dfrac{c_N}{x(x+1)}$, descomponemos mediante fracciones parciales:
-		\begin{align*}
-			\sum_{x=1}^{N} \frac{c_N}{x(x+1)} &= c_N \sum_{x=1}^{N} \left( \frac{1}{x} - \frac{1}{x+1} \right) \\
-			&= c_N \left( 1 - \frac{1}{N+1} \right) = c_N \left( \frac{N}{N+1} \right) = 1.
-		\end{align*}
-		Por lo cual se demuestra rigurosamente que $c_N = \dfrac{N+1}{N}$.
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{block}{Problema 3.1.8: Transformación Cuadrática en Soporte Simétrico}
-		\footnotesize
-		Para $X$ uniforme sobre $\set{-m, \dots, m}$ ($2m+1$ puntos), la variable $Z = X^2$ concentra masa doble en los enteros positivos ($p_Z(k^2) = \frac{2}{2m+1}$ por adición de $\pm k$) y masa simple en el origen ($p_Z(0) = \frac{1}{2m+1}$).
-	\end{block}
+% Slide 11A: Ejercicio en Clase — Nivel 2: Operativo (Enunciado)
+\begin{frame}{Ejercicio en Clase — Nivel 2: Operativo (1/2)}
+  \begin{block}{Problema 3.1.6 — Variable Aleatoria Máximo de Dos Esferas}
+    \footnotesize
+    Una urna contiene $6$ esferas idénticas numeradas del $1$ al $6$. Se extraen sucesivamente y sin reemplazo dos esferas al azar. Sea $X_1$ el número de la primera esfera extraída y $X_2$ el número de la segunda. Definimos la variable aleatoria discreta $M = \max(X_1, X_2)$ como el máximo de los dos números obtenidos.
+    \begin{enumerate}\itemsep=0.15cm
+      \item Deduzca analíticamente la función de masa de probabilidad $f_M(m) = P(M = m)$ para cada $m \in \{2, 3, 4, 5, 6\}$ analizando las preimágenes en el espacio muestral.
+      \item Calcule la probabilidad exacta de que el valor máximo extraído sea mayor o igual que $5$ ($P(M \ge 5)$).
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 18: Síntesis de Problemas --- Nivel Desafiante
-\begin{frame}{Síntesis de Problemas --- Nivel Desafiante (Expertos / Paradojas)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problema 3.1.9: Ley de Zipf y Colas de Pareto}
-				\small
-				Para $f(k) = \dfrac{1}{\zeta(s) k^s}$ en $\mathbb{Z}^+$, la suma unitaria se garantiza por la convergencia de la función zeta $\zeta(s)$.
-				
-				\vspace{0.05cm}
-				La acotación integral demuestra un decaimiento polinomial (larga cola):
-				\begin{align*}
-					P(X > M) \sim \frac{1}{(s-1) M^{s-1}}.
-				\end{align*}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problema 3.1.10: Redundancia Discreta}
-				\small
-				En dos subsistemas independientes con probabilidades de falla $p_A, p_B$, el tiempo hasta la primera falla $T = \min(N_A, N_B)$ satisface:
-				\begin{align*}
-					P(T > n) = \left[ (1-p_A)(1-p_B) \right]^n.
-				\end{align*}
-				$T$ sigue una distribución geométrica exacta con parámetro $p_{\text{eq}} = p_A + p_B - p_A p_B$.
-			\end{block}
-		\end{column}
-	\end{columns}
+% Slide 11B: Ejercicio en Clase — Nivel 2: Operativo (Resolución)
+\begin{frame}{Ejercicio en Clase — Nivel 2: Operativo (2/2)}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Deducción de la PMF del Máximo}
+        \fontsize{6.5pt}{7.8pt}\selectfont
+        El espacio muestral $\Omega$ tiene $|\Omega| = 6 \times 5 = 30$ pares ordenados $(x_1, x_2)$ con $x_1 \neq x_2$ equiprobables. Para que el máximo sea exacto $m$:
+        \begin{itemize}\itemsep=0.06cm
+          \item La esfera mayor es $m$ y la otra es estrictamente menor ($1 \le x < m$).
+          \item Hay $m-1$ opciones para la menor, en $2$ órdenes $((m,x)$ o $(x,m))$ $\implies 2(m-1)$ pares desordenados de $30$:
+          $$\displaystyle f_M(m) = \frac{2(m-1)}{30} = \frac{m-1}{15}, \quad m \in \{2 \dots 6\}$$
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{2. Tabla y Cálculo de Cola Superior}
+        \fontsize{6.5pt}{7.8pt}\selectfont
+        Evaluando la tabla sobre el soporte $\mathcal{S}_M = \{2, 3, 4, 5, 6\}$:
+        \begin{itemize}\itemsep=0.06cm
+          \item $f_M(2) = 1/15$, $f_M(3) = 2/15$, $f_M(4) = 3/15$.
+          \item $f_M(5) = 4/15$, $f_M(6) = 5/15$.
+          \item Suma total: $(1+2+3+4+5)/15 = 15/15 = 1$.
+        \end{itemize}
+        Calculando la probabilidad de la cola superior $P(M \ge 5)$:
+        $$\displaystyle P(M \ge 5) = f_M(5) + f_M(6) = \frac{4}{15} + \frac{5}{15} = \mathbf{\frac{9}{15} = \frac{3}{5} = 0.60}$$
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% SLIDE 19: Conclusiones
-\begin{frame}{Conclusiones y Resumen Conceptual}
-	\begin{block}{Puntos Clave de la Sección 03.01}
-		\small
-		\begin{itemize}
-			\itemsep=0.1cm
-			\item \textbf{Variable Aleatoria Discreta:} Función medible que proyecta un espacio probabilístico sobre un soporte numérico finito o infinito numerable $\mathcal{S}_X$.
-			\item \textbf{PMF Legítima:} Toda función de masa $f(x) = P(X = x)$ queda caracterizada de manera única por los axiomas $f(x) \ge 0$ y $\sum_{x \in \mathcal{S}_X} f(x) = 1$.
-			\item \textbf{Transformaciones de Soporte:} Al aplicar una función $g(X)$, las probabilidades de las preimágenes disjuntas se suman algebraicamente para conformar la PMF inducida.
-		\end{itemize}
-	\end{block}
+% Slide 12A: Ejercicio en Clase — Nivel 3: Analítico (Enunciado)
+\begin{frame}{Ejercicio en Clase — Nivel 3: Analítico (1/2)}
+  \begin{block}{Problema 3.1.7 — Normalización por Sumas Telescópicas}
+    \footnotesize
+    Sea $N \in \mathbb{N}$ un entero positivo fijo. Considere la familia de variables aleatorias discretas $X_N$ con soporte $\mathcal{S}_N = \{1, 2, \dots, N\}$ cuya función de masa de probabilidad adopta la forma algebraica:
+    $$f_N(x) = \frac{c_N}{x(x+1)}, \quad x \in \{1, 2, \dots, N\}$$
+    donde $c_N$ es una constante real por determinar.
+    \begin{enumerate}\itemsep=0.15cm
+      \item Demuestre formalmente, utilizando la técnica de descomposición en fracciones parciales y sumas telescópicas, que la constante de normalización requerida es exactamente:
+      $$c_N = \frac{N+1}{N}$$
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% SLIDE 20: Puente Didáctico
-\begin{frame}{Puente Didáctico hacia la Sección 03.02}
-	\begin{block}{Próximo Paso: Función de Distribución Acumulada (CDF)}
-		\small
-		Una vez dominada la asignación puntual de probabilidad en cada entero del soporte mediante la PMF $f(x)$, estamos en posición de analizar las **probabilidades acumuladas** hasta un umbral dado:
-		\begin{align*}
-			F(x) = P(X \le x) = \sum_{u \le x} f(u).
-		\end{align*}
-		En la **Sección 03.02**, estudiaremos por qué la CDF de una variable discreta adopta invariablemente la geometría de una *función escalonada* continua por la derecha, y cómo reconstruir la PMF a partir de los saltos de dicha función.
-	\end{block}
+% Slide 12B: Ejercicio en Clase — Nivel 3: Analítico (Resolución)
+\begin{frame}{Ejercicio en Clase — Nivel 3: Analítico (2/2)}
+  \fontsize{6.8pt}{8.2pt}\selectfont
+  \begin{block}{Demostración — Fracciones Parciales y Suma Telescópica}
+    \fontsize{6.8pt}{8.2pt}\selectfont
+    Por el axioma de normalización, la suma sobre todo el soporte finito $\mathcal{S}_N = \{1, \dots, N\}$ debe igualar la unidad:
+    $$\sum_{x=1}^{N} f_N(x) = c_N \sum_{x=1}^{N} \frac{1}{x(x+1)} = 1$$
+    Descomponiendo el núcleo racional en fracciones simples: $\displaystyle \frac{1}{x(x+1)} = \frac{1}{x} - \frac{1}{x+1}$.
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Desarrollo de la Suma y Despeje de $c_N$}
+    \fontsize{6.8pt}{8.2pt}\selectfont
+    Expandiendo explícitamente los términos del sumatorio, los términos intermedios se cancelan en cascada:
+    $$\sum_{x=1}^{N} \left(\frac{1}{x} - \frac{1}{x+1}\right) = \left(1 - \frac{1}{2}\right) + \left(\frac{1}{2} - \frac{1}{3}\right) + \dots + \left(\frac{1}{N} - \frac{1}{N+1}\right) = 1 - \frac{1}{N+1} = \frac{N}{N+1}$$
+    Sustituyendo este resultado en la ecuación de normalización:
+    $$c_N \left(\frac{N}{N+1}\right) = 1 \implies \mathbf{c_N = \frac{N+1}{N} \quad \blacksquare}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio en Clase — Nivel 4: Desafiante (Enunciado)
+\begin{frame}{Ejercicio en Clase — Nivel 4: Desafiante (1/2)}
+  \begin{block}{Problema 3.1.10 — Tiempos Hasta Primera Falla en Paralelo}
+    \footnotesize
+    Un sistema de ingeniería compuesto por dos subsistemas independientes en paralelo opera en ciclos discretos de tiempo $n \in \{1, 2, 3, \dots\}$. En cada ciclo, el subsistema $A$ falla con probabilidad $p_A \in (0,1)$ de manera independiente de los ciclos previos, mientras que el subsistema $B$ falla con probabilidad $p_B \in (0,1)$. Sea $N_A$ el ciclo de primera falla de $A$, y $N_B$ el ciclo de primera falla de $B$. Definimos $T = \min(N_A, N_B)$ como el tiempo hasta la primera falla del sistema.
+    \begin{enumerate}\itemsep=0.12cm
+      \item Deduzca analíticamente la PMF exacta $f_T(n) = P(T = n)$ para todo $n \in \{1, 2, 3, \dots\}$.
+      \item Demuestre que $T$ sigue una distribución geométrica e identifique su parámetro combinatorio de falla $p_T$.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+% Slide 13B: Ejercicio en Clase — Nivel 4: Desafiante (Resolución)
+\begin{frame}{Ejercicio en Clase — Nivel 4: Desafiante (2/2)}
+  \fontsize{6.5pt}{7.8pt}\selectfont
+  \begin{block}{1. Análisis de Supervivencia e Independencia de Ramas}
+    \fontsize{6.5pt}{7.8pt}\selectfont
+    La supervivencia de cada subsistema más allá del ciclo $n$ es la probabilidad de no fallar en $n$ intentos consecutivos: $P(N_A > n) = (1-p_A)^n$ y $P(N_B > n) = (1-p_B)^n$. Por independencia total entre subsistemas:
+    $$P(T > n) = P(\min(N_A, N_B) > n) = P(N_A > n \cap N_B > n) = (1-p_A)^n (1-p_B)^n = [(1-p_A)(1-p_B)]^n$$
+    Para obtener la probabilidad puntual en el ciclo exacto $n$, restamos las funciones de supervivencia:
+    $$f_T(n) = P(T = n) = P(T > n-1) - P(T > n) = [(1-p_A)(1-p_B)]^{n-1} [1 - (1-p_A)(1-p_B)]$$
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{2. Identificación de la Distribución Geométrica Equivalente}
+    \fontsize{6.5pt}{7.8pt}\selectfont
+    Definamos la probabilidad combinada de que al menos un subsistema falle en un ciclo dado:
+    $$p_T = 1 - (1-p_A)(1-p_B) = p_A + p_B - p_A p_B$$
+    Sustituyendo $p_T$ en la expresión deducida para la masa de probabilidad:
+    $$f_T(n) = (1 - p_T)^{n-1} p_T, \quad n \in \{1, 2, 3, \dots\}$$
+    Esto demuestra rigurosamente que $\mathbf{T \sim \text{Geom}(p_T = p_A + p_B - p_A p_B) \quad \blacksquare}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14: Cierre y Síntesis Institucional
+\begin{frame}{Cierre y Síntesis Institucional — PMF y Soporte Discreto}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Pilares Conceptuales de la Sección 03.01}
+    \fontsize{7.5pt}{9pt}\selectfont
+    \begin{itemize}\itemsep=0.12cm
+      \item \textbf{Proyección Medible:} Una variable aleatoria discreta proyecta resultados de un espacio muestral $\Omega$ arbitrario hacia un subconjunto finito o numerable de la recta real $\mathbb{R}$.
+      \item \textbf{Soporte Operativo:} El soporte $\mathcal{S}_X$ contiene exclusivamente las abscisas con masa estrictamente positiva. Fuera de $\mathcal{S}_X$, la probabilidad puntual es idénticamente cero.
+      \item \textbf{Axiomas de Kolmogorov:} Toda PMF legítima cumple incondicionalmente no negatividad ($p_X(x) \ge 0$) y normalización unitaria sobre el soporte ($\sum p_X(x) = 1$).
+      \item \textbf{Transformaciones en Preimágenes:} Si $Y=g(X)$, la masa sobre $y \in \mathcal{S}_Y$ se obtiene sumando las probabilidades de todas las raíces originales en $g^{-1}(y)$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 15: Transición Modular hacia el Siguiente Tema
+\begin{frame}{Transición Modular hacia el Siguiente Tema}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{De la Masa Puntual a la Probabilidad Acumulada}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Hemos establecido el cimiento formal para variables aleatorias discretas mediante la Función de Masa de Probabilidad $p_X(x)$, la cual responde a eventos de igualdad exacta ($X=x$).
+    \begin{itemize}\itemsep=0.12cm
+      \item En aplicaciones de ingeniería, diseño de redes y control de calidad, sin embargo, las consultas críticas no son puntuales, sino de umbral o capacidad acumulada: \emph{``¿Cuál es la probabilidad de que ocurran a lo sumo $k$ fallas?''}
+      \item Para responder esto de forma compacta, requerimos sumar integradamente la masa puntual sobre intervalos enteros del soporte.
+    \end{itemize}
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Siguiente Estación: Sección 03.02}
+    \fontsize{7.5pt}{9pt}\selectfont
+    En la siguiente sección (\textbf{Sección 03.02: Función de Distribución Acumulada — CDF Discreta}), construiremos la función escalonada $F_X(x) = P(X \le x)$, analizaremos sus saltos discontinuos ($\Delta F$) y dominaremos la dualidad analítica entre diferenciación discreta y acumulación probabilística.
+  \end{alertblock}
 \end{frame}
 
 \end{document}
