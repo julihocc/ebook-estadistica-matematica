@@ -282,6 +282,73 @@ The squared deviations are $(12-14)^2=4$, $(15-14)^2=1$, $(11-14)^2=9$, $(18-14)
 
 
 
+\subsection{Central Limit Theorem: Asymptotic Convergence}
+
+\begin{definicion}[Convergence in distribution]
+A sequence of random variables $Y_n$ \emph{converges in distribution} to $Y$ (written $Y_n \xrightarrow{d} Y$) if $F_{Y_n}(y) \to F_Y(y)$ at every continuity point of $F_Y$.
+\end{definicion}
+
+\begin{teorema}[Central Limit Theorem (Lindeberg--L\'evy)]
+ \label{eq:5.2.1}
+Let $X_1, X_2, \ldots$ be iid random variables with mean $\mu$ and variance $\sigma^2 < \infty$. Then
+\begin{align}
+ Z_n = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1)
+ \quad \text{as } n \to \infty.
+\end{align}
+\end{teorema}
+
+\begin{proof}[Proof sketch via MGF]
+Suppose $M_{X_1}(t)$ exists in a neighborhood of $t=0$. The MGF of $Z_n$ is
+\begin{align}
+ M_{Z_n}(t) = e^{-\mu t \sqrt{n}/\sigma}\left[M_{X_1}\!\left(\frac{t}{\sigma\sqrt{n}}\right)\right]^n.
+\end{align}
+Expanding $\log M_{X_1}(s)$ in a Taylor series around $s=0$:
+\begin{align}
+ \log M_{X_1}(s) = \mu s + \frac{\sigma^2 s^2}{2} + O(s^3).
+\end{align}
+Substituting $s = t/(\sigma\sqrt{n})$ and multiplying by $n$:
+\begin{align}
+ \log M_{Z_n}(t) = n\left[\frac{\mu t}{\sigma\sqrt{n}} + \frac{t^2}{2n} + O(n^{-3/2})\right]
+ - \frac{\mu t\sqrt{n}}{\sigma} = \frac{t^2}{2} + O(n^{-1/2}) \;\longrightarrow\; \frac{t^2}{2}.
+\end{align}
+Hence $M_{Z_n}(t) \to e^{t^2/2}$, the MGF of $N(0,1)$; by L\'evy's uniqueness and continuity theorem, $Z_n \xrightarrow{d} N(0,1)$.
+\end{proof}
+
+\begin{observacion}[Independence from the original distribution]
+The result does not depend on the shape of the distribution of $X_i$ (discrete, continuous, symmetric, skewed) --- it only requires finite mean and variance. This universality is why the CLT is the cornerstone of classical statistical inference.
+\end{observacion}
+
+\subsubsection{Rate of convergence: the Berry--Esseen theorem}
+
+The CLT guarantees convergence as $n \to \infty$, but says nothing about how fast. The following result quantifies the error of the normal approximation for finite $n$.
+
+\begin{teorema}[Berry--Esseen]
+ \label{eq:5.2.2}
+Let $X_1,\ldots,X_n$ be iid with $E|X_i-\mu|^3 = \rho < \infty$. There exists a universal constant $C$ (known to satisfy $C < 0.5$) such that
+\begin{align}
+ \sup_z \left|F_{Z_n}(z) - \Phi(z)\right| \le \frac{C\rho}{\sigma^3\sqrt{n}}.
+\end{align}
+\end{teorema}
+
+\begin{observacion}[The practical rule $n \ge 30$]
+The Berry--Esseen theorem confirms that the error of the normal approximation decays as $O(1/\sqrt{n})$: quadrupling $n$ halves the maximum error. The popular ``$n \ge 30$'' rule is a reasonable heuristic for moderately symmetric populations with finite moments, but heavily skewed or heavy-tailed distributions (i.e., with large $\rho$) require larger $n$ to reach the same precision.
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:5.2.1}
+Service time at a call center follows an exponential distribution with mean $\mu = 1/\lambda = 4$ minutes and standard deviation $\sigma = 4$. A sample of $n=64$ calls is taken. What is the approximate probability that the average service time exceeds $4.5$ minutes?
+\end{ejemplo}
+
+\begin{solucion}
+By the CLT, $\bar{X}_{64} \approx N(4, \sigma^2/n) = N(4, 16/64) = N(4, 0.25)$, with standard deviation $\text{SD}(\bar{X}) = 0.5$.
+\begin{align}
+ P(\bar{X} > 4.5) \approx P\!\left(Z > \frac{4.5-4}{0.5}\right) = P(Z>1) = 1-\Phi(1)
+ \approx 0.1587.
+\end{align}
+\end{solucion}
+
+
+
 \subsection{Chi-Square ($\chi^2$) Distribution}
 
 The $\chi^2$ distribution arises when summing squares of standard normal random variables. Its detailed treatment is carried out in Section \ref{sec:3.9}; here we present the essential results.

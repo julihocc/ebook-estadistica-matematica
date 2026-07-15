@@ -1,0 +1,359 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[TLC Asintótico]{Sección 05.02: Teorema del Límite Central Asintótico}
+\subtitle{Demostración vía FGM, Convergencia en Distribución y Teorema de Berry-Esseen}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 05: Distribuciones de Muestreo}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{05.01} Muestreo Aleatorio Simple, Media y Varianza Muestral Insesgada \pause
+    \item \textbf{05.02} Teorema del Límite Central Asintótico \emph{(Hoy)} \pause
+    \item \textbf{05.03} Distribución Chi-Cuadrada y Varianza Muestral \pause
+    \item \textbf{05.04} Distribución $t$ de Student y Muestras Pequeñas \pause
+    \item \textbf{05.05} Distribución $F$ de Fisher-Snedecor
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Formalizar el Teorema del Límite Central mediante convergencia en distribución, demostrarlo rigurosamente vía la función generadora de momentos, y cuantificar su velocidad de convergencia con el teorema de Berry-Esseen, más allá de la heurística ``$n\ge30$''.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{¿Qué Tan Rápido Converge el TLC?}
+  \footnotesize
+  \begin{motivacion}
+    En la Sección 02.06 vimos el TLC de manera introductoria: la media muestral se aproxima a una Normal cuando $n$ es ``suficientemente grande''. Pero, ¿qué significa exactamente ``suficientemente grande''? ¿Por qué funciona sin importar la distribución original? Hoy formalizamos ambas preguntas.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Convergencia en distribución:} el tipo preciso de límite que aplica al TLC. \pause
+    \item \textbf{Demostración vía FGM:} por qué la Normal emerge como límite universal. \pause
+    \item \textbf{Berry-Esseen:} una cota explícita del error de la aproximación para $n$ finito.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Convergencia en Distribución y TLC
+\begin{frame}{Convergencia en Distribución y el Teorema del Límite Central}
+  \footnotesize
+  \begin{block}{Convergencia en Distribución}
+    $Y_n \xrightarrow{d} Y$ si $F_{Y_n}(y) \to F_Y(y)$ en todo punto de continuidad de $F_Y$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{block}{TLC (Lindeberg-Lévy)}
+    Si $X_1,X_2,\ldots$ son iid con media $\mu$ y varianza $\sigma^2<\infty$, entonces
+    $$Z_n = \dfrac{\bar{X}_n-\mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1) \quad \text{cuando } n\to\infty.$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Universalidad}
+    El resultado \textbf{no depende} de la forma de la distribución original de $X_i$ --- solo requiere media y varianza finitas.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Demostración vía FGM
+\begin{frame}{Demostración del TLC vía Función Generadora de Momentos}
+  \footnotesize
+  Expandimos $\log M_{X_1}(s)$ en serie de Taylor alrededor de $s=0$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Desarrollo}
+    $$M_{Z_n}(t) = e^{-\mu t\sqrt{n}/\sigma}\left[M_{X_1}\!\left(\dfrac{t}{\sigma\sqrt{n}}\right)\right]^n, \qquad \log M_{X_1}(s) = \mu s + \dfrac{\sigma^2 s^2}{2}+O(s^3)$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Sustituyendo y Tomando el Límite}
+    $$\log M_{Z_n}(t) = n\left[\dfrac{\mu t}{\sigma\sqrt{n}}+\dfrac{t^2}{2n}+O(n^{-3/2})\right] - \dfrac{\mu t\sqrt{n}}{\sigma} = \dfrac{t^2}{2}+O(n^{-1/2}) \to \dfrac{t^2}{2}$$
+    Por unicidad y continuidad de Lévy, $M_{Z_n}(t)\to e^{t^2/2} \implies Z_n \xrightarrow{d} N(0,1)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Teorema de Berry-Esseen
+\begin{frame}{Teorema de Berry-Esseen: Tasa de Convergencia}
+  \footnotesize
+  El TLC garantiza convergencia, pero no indica qué tan rápido. \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Cota de Berry-Esseen}
+    Con $\rho=E|X_i-\mu|^3<\infty$ y una constante universal $C<0.5$:
+    $$\sup_z\left|F_{Z_n}(z)-\Phi(z)\right| \le \dfrac{C\rho}{\sigma^3\sqrt{n}}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{La Regla ``$n\ge30$'' en Contexto}
+    \begin{itemize}\itemsep=0.05cm
+      \item El error decae como $O(1/\sqrt{n})$: cuadruplicar $n$ reduce el error máximo a la mitad.
+      \item ``$n\ge30$'' es razonable para poblaciones moderadamente simétricas; distribuciones muy asimétricas (con $\rho$ grande) requieren $n$ mayores.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Aplicaciones
+\begin{frame}{Aplicaciones: Sumas y Proporciones}
+  \footnotesize
+  El TLC se aplica igual de bien a sumas y a proporciones muestrales: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Sumas:} si $T=\sum X_i$, entonces $T \approx N(n\mu, n\sigma^2)$ (seguros, control de inventarios). \pause
+    \item \textbf{Proporciones:} $\hat{p}=\bar{X}$ para $X_i \sim \text{Bernoulli}(p)$, con $\hat{p} \approx N(p, p(1-p)/n)$ (encuestas, A/B testing). \pause
+    \item \textbf{Aproximación Binomial-Normal:} caso particular de sumas de Bernoulli, con corrección de continuidad de Yates. \pause
+    \item \textbf{Bootstrap y remuestreo:} el TLC justifica por qué las distribuciones bootstrap se aproximan a la Normal para $n$ grande.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Convergencia desde una Población Asimétrica}
+  \scriptsize
+  Prueba de Kolmogorov-Smirnov de $Z_n$ contra $N(0,1)$ para una población Exponencial (\texttt{05.02\_central\_limit\_theorem.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=35]{../../code/05_distribuciones_muestreo/05.02_central_limit_theorem.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Tasa de Convergencia de Berry-Esseen}
+  \scriptsize
+  Estimación empírica del error máximo $\sup_z|F_{Z_n}(z)-\Phi(z)|$ y verificación de la tasa $O(1/\sqrt{n})$:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=38, lastline=64]{../../code/05_distribuciones_muestreo/05.02_central_limit_theorem.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: TLC para Sumas y Proporciones}
+  \scriptsize
+  Aplicación del TLC a un total de reclamaciones de seguros y a una proporción muestral, con verificación Monte Carlo:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=67, lastline=96]{../../code/05_distribuciones_muestreo/05.02_central_limit_theorem.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: CLT Convergence from a Skewed Population ===
+Exp(lambda=0.25): n=5 D=0.0612 | n=30 D=0.0253 | n=100 D=0.0141 (D shrinks with n)
+
+=== Block 2: Berry-Esseen Rate of Convergence ===
+n=10: max gap=0.0418 | n=40: 0.0220 | n=160: 0.0120
+Ratio n=10->40: 0.526 (theo 0.500) | n=40->160: 0.545 (theo 0.500)
+
+=== Block 3: CLT for Sums and Proportions ===
+Insurance: E(T)=80000, SD(T)=3000, Z=1.667, P(T>85000)=0.0478
+Proportion: SD(phat)=0.0324, Z=1.543, P(phat>0.35)=0.0614 (MC: 0.0541)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.2.1 --- Aplicación Directa del TLC (Enunciado)}
+    Una población tiene media $\mu=200$ y desviación estándar $\sigma=50$. Se toma una muestra aleatoria simple de $n=100$. Use el TLC para aproximar $P(180 < \bar{X} < 210)$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    \begin{itemize}\itemsep=0.04cm
+      \item $\text{DE}(\bar{X}) = \sigma/\sqrt{n} = 50/10 = 5$.
+      \item Estandarice ambos extremos del intervalo.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Estandarizamos ambos extremos: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \begin{align*}
+      P(180 < \bar{X} < 210) \approx P\left(\dfrac{180-200}{5} < Z < \dfrac{210-200}{5}\right) = P(-4<Z<2) = \Phi(2)-\Phi(-4) \approx 0.9772.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $\Phi(-4)\approx 0$, prácticamente toda la probabilidad relevante viene del extremo superior: hay un $97.7\%$ de probabilidad de que la media muestral esté en el rango indicado.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.2.4 --- TLC para una Suma (Enunciado)}
+    Una aseguradora recibe $n=100$ reclamaciones independientes, cada una con media $\mu=\$800$ y desviación estándar $\sigma=\$300$. Use el TLC para aproximar la probabilidad de que el monto total $T=\sum X_i$ exceda $\$85{,}000$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Para una suma (no un promedio), use $E(T)=n\mu$ y $\Var(T)=n\sigma^2$ (no dividir entre $n$).
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos media y desviación estándar de la suma: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \begin{align*}
+      E(T) = 100\cdot 800 = 80{,}000, \qquad \text{DE}(T)=\sqrt{100}\cdot 300 = 3000.
+    \end{align*}
+    \begin{align*}
+      P(T>85{,}000) \approx P\left(Z>\dfrac{85{,}000-80{,}000}{3000}\right) = P(Z>1.667) \approx 0.0478.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Hay aproximadamente un $4.78\%$ de probabilidad de que las reclamaciones totales excedan el presupuesto de $\$85{,}000$; la aseguradora puede usar esto para dimensionar reservas de capital.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.2.7 --- TLC para la Exponencial vía FGM (Enunciado)}
+    Verifique la demostración del TLC vía FGM específicamente para $X_i \sim \text{Exp}(\lambda)$ (con $\mu=1/\lambda$, $\sigma=1/\lambda$), usando $M_{X_1}(t)=(1-t/\lambda)^{-1}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Sustituya $\mu=\sigma=1/\lambda$ en la fórmula general de $M_{Z_n}(t)$; observe que $\lambda\sigma=1$ simplifica considerablemente la expresión.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Sustituimos y simplificamos usando $\lambda\sigma=1$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Demostración}
+    \scriptsize
+    \begin{align*}
+      M_{Z_n}(t) = e^{-t\sqrt{n}}\left(1-\dfrac{t}{\sqrt{n}}\right)^{-n}.
+    \end{align*}
+    Con $-\log(1-t/\sqrt n) = t/\sqrt n + t^2/(2n)+O(n^{-3/2})$:
+    \begin{align*}
+      \log M_{Z_n}(t) = -t\sqrt{n} + n\left[\dfrac{t}{\sqrt{n}}+\dfrac{t^2}{2n}+O(n^{-3/2})\right] = \dfrac{t^2}{2}+O(n^{-1/2}) \to \dfrac{t^2}{2}. \quad \qedhere
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Aunque la Exponencial es fuertemente asimétrica, el TLC igual converge: la demostración general no exige simetría, solo media y varianza finitas.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.2.10 --- TLC con Corrección por Población Finita (Enunciado)}
+    Una población finita de $N=500$ cuentas tiene $\sigma=\$80$. Se extrae una muestra de $n=50$ cuentas \emph{sin reemplazo}. Combine el TLC con la FPC (Sección 05.01) para aproximar $P(\bar{X} > \mu + 15)$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Primero calcule $\Var(\bar X)$ con FPC, luego aplique el TLC con esa varianza ajustada en lugar de $\sigma^2/n$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Combinamos FPC (05.01) con el TLC de hoy: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    \begin{align*}
+      \Var(\bar{X}) = \dfrac{80^2}{50}\cdot\dfrac{450}{499} = 128\cdot 0.9018 \approx 115.43, \qquad \text{DE}(\bar{X})\approx 10.744.
+    \end{align*}
+    \begin{align*}
+      P(\bar{X}>\mu+15) \approx P\left(Z>\dfrac{15}{10.744}\right) = P(Z>1.396) \approx 0.0814.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Este problema conecta dos secciones: la FPC ajusta la varianza por el muestreo sin reemplazo de una población finita, y el TLC nos permite usar la Normal para calcular la probabilidad final, incluso sin conocer la distribución exacta de las cuentas.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: TLC Asintótico}
+  \begin{reflexion}
+    El Teorema del Límite Central es, en un sentido preciso, el resultado más importante de la estadística clásica: garantiza que la media muestral converge a la Normal sin importar la forma de la población original. Hoy formalizamos ese resultado con una demostración rigurosa vía FGM y cuantificamos su velocidad de convergencia con el teorema de Berry-Esseen.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{TLC:} $Z_n = (\bar{X}_n-\mu)/(\sigma/\sqrt{n}) \xrightarrow{d} N(0,1)$, sin importar la distribución original.
+      \item \textbf{Demostración vía FGM:} $\log M_{Z_n}(t) \to t^2/2$ para cualquier población con momentos finitos.
+      \item \textbf{Berry-Esseen:} el error de la aproximación decae como $O(1/\sqrt{n})$, cuantificando la heurística ``$n\ge30$''.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    El TLC aproxima la distribución de $\bar{X}$ usando la Normal cuando $\sigma$ es \emph{conocida}. En la práctica, casi siempre debemos \emph{estimar} $\sigma$ con $S$, lo cual introduce variabilidad adicional. La Sección 05.03 estudiará la distribución Chi-cuadrada, clave para caracterizar la distribución exacta de $S^2$; las Secciones 05.04 y 05.05 introducirán las distribuciones $t$ y $F$, que sustituyen exactamente a la Normal cuando $\sigma$ es desconocida.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la conexión Gamma--Chi-cuadrada (Sección 04.07): $\chi^2_\nu = \text{Gamma}(\nu/2, 2)$.
+      \item Reflexiona sobre por qué reemplazar $\sigma$ por $S$ cambia la distribución exacta de $(\bar X-\mu)/(S/\sqrt n)$ de Normal a $t$ de Student.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,316 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Central Limit Theorem: Asymptotic Convergence}
+\subtitle{Section 05.02 --- MGF Proof, Convergence in Distribution, and Berry-Esseen}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 05: Sampling Distributions}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 4}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 05.01: Simple Random Sampling, Mean, and Unbiased Sample Variance}
+			\item \textbf{\textcolor{TecRojo}{Section 05.02: Asymptotic Central Limit Theorem}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 05.03: Chi-Squared Distribution and Sample Variance}
+			\item \textcolor{gray}{Section 05.04: Student's $t$-Distribution and Small Samples}
+			\item \textcolor{gray}{Section 05.05: Fisher-Snedecor $F$-Distribution}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Formalize the Central Limit Theorem through convergence in distribution, prove it rigorously via the moment-generating function, and quantify its rate of convergence with the Berry-Esseen theorem, beyond the ``$n\ge30$'' heuristic.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Convergence in Distribution and CLT
+\begin{frame}{Convergence in Distribution and the Central Limit Theorem}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Convergence in Distribution}
+				\footnotesize
+				$Y_n \xrightarrow{d} Y$ if $F_{Y_n}(y)\to F_Y(y)$ at every continuity point of $F_Y$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{CLT (Lindeberg-Levy)}
+				\footnotesize
+				For iid $X_i$ with mean $\mu$, variance $\sigma^2<\infty$: $Z_n=(\bar X_n-\mu)/(\sigma/\sqrt n) \xrightarrow{d} N(0,1)$ as $n\to\infty$, regardless of the original distribution.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Proof via MGF
+\begin{frame}{Proof of the CLT via the Moment-Generating Function}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Setup}
+				\footnotesize
+				$M_{Z_n}(t) = e^{-\mu t\sqrt n/\sigma}[M_{X_1}(t/(\sigma\sqrt n))]^n$. Expand $\log M_{X_1}(s) = \mu s + \sigma^2 s^2/2 + O(s^3)$.
+				\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Taking the Limit}
+				\footnotesize
+				$\log M_{Z_n}(t) = t^2/2 + O(n^{-1/2}) \to t^2/2$. By Levy's continuity theorem, $Z_n \xrightarrow{d} N(0,1)$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Berry-Esseen
+\begin{frame}{Berry-Esseen: Rate of Convergence}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Berry-Esseen Bound}
+				\footnotesize
+				With $\rho=E|X_i-\mu|^3<\infty$ and universal $C<0.5$: $\sup_z|F_{Z_n}(z)-\Phi(z)| \le C\rho/(\sigma^3\sqrt n)$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{The ``$n\ge30$'' Rule in Context}
+				\footnotesize
+				Error decays as $O(1/\sqrt n)$: quadrupling $n$ halves the max error. Heavily skewed populations (large $\rho$) need larger $n$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Applications
+\begin{frame}{Applications: Sums and Proportions}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Sums:} if $T=\sum X_i$, then $T \approx N(n\mu, n\sigma^2)$ (insurance, inventory control). \pause
+		\item \textbf{Proportions:} $\hat p = \bar X$ for $X_i \sim \text{Bernoulli}(p)$, with $\hat p \approx N(p, p(1-p)/n)$ (surveys, A/B testing). \pause
+		\item \textbf{Binomial-Normal approximation:} a special case of sums of Bernoullis, with Yates continuity correction. \pause
+		\item \textbf{Bootstrap resampling:} the CLT justifies why bootstrap distributions approach normality for large $n$.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: Convergence from a Skewed Population}
+	\vspace{-0.05cm}
+	\scriptsize
+	Kolmogorov-Smirnov test of $Z_n$ against $N(0,1)$ for an Exponential population (\texttt{05.02\_central\_limit\_theorem.py}):
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=17, lastline=35]{../../code/05_distribuciones_muestreo/05.02_central_limit_theorem.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Berry-Esseen Rate of Convergence}
+	\vspace{-0.05cm}
+	\scriptsize
+	Empirical estimate of the maximum gap $\sup_z|F_{Z_n}(z)-\Phi(z)|$ and verification of the $O(1/\sqrt n)$ rate:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=38, lastline=64]{../../code/05_distribuciones_muestreo/05.02_central_limit_theorem.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: CLT for Sums and Proportions}
+	\vspace{-0.05cm}
+	\scriptsize
+	Applying the CLT to a total insurance claim amount and to a sample proportion, with Monte Carlo verification:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=67, lastline=96]{../../code/05_distribuciones_muestreo/05.02_central_limit_theorem.py}}
+\end{frame}
+
+% SLIDE 10: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: CLT Convergence from a Skewed Population ===
+Exp(lambda=0.25): n=5 D=0.0612 | n=30 D=0.0253 | n=100 D=0.0141 (D shrinks with n)
+
+=== Block 2: Berry-Esseen Rate of Convergence ===
+n=10: max gap=0.0418 | n=40: 0.0220 | n=160: 0.0120
+Ratio n=10->40: 0.526 (theo 0.500) | n=40->160: 0.545 (theo 0.500)
+
+=== Block 3: CLT for Sums and Proportions ===
+Insurance: E(T)=80000, SD(T)=3000, Z=1.667, P(T>85000)=0.0478
+Proportion: SD(phat)=0.0324, Z=1.543, P(phat>0.35)=0.0614 (MC: 0.0541)
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.2.1 --- Direct CLT Application (Statement)}
+		A population has mean $\mu=200$ and standard deviation $\sigma=50$. A simple random sample of $n=100$ is drawn. Use the CLT to approximate $P(180 < \bar{X} < 210)$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item $\text{SD}(\bar{X}) = \sigma/\sqrt{n} = 50/10 = 5$.
+			\item Standardize both endpoints of the interval.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Standardize both endpoints: \pause
+	\begin{block}{Calculation}
+		\begin{align*}
+			P(180 < \bar{X} < 210) \approx P\left(\dfrac{180-200}{5} < Z < \dfrac{210-200}{5}\right) = P(-4<Z<2) = \Phi(2)-\Phi(-4) \approx 0.9772.
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		Since $\Phi(-4)\approx 0$, virtually all the relevant probability comes from the upper tail: there is about a $97.7\%$ probability that the sample mean falls in the given range.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.2.4 --- CLT for a Sum (Statement)}
+		An insurer receives $n=100$ independent claims, each with mean $\mu=\$800$ and standard deviation $\sigma=\$300$. Use the CLT to approximate the probability that the total amount $T=\sum X_i$ exceeds $\$85{,}000$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		For a sum (not an average), use $E(T)=n\mu$ and $\Var(T)=n\sigma^2$ (do not divide by $n$).
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compute the mean and standard deviation of the sum: \pause
+	\begin{block}{Calculation}
+		\begin{align*}
+			E(T) = 100\cdot 800 = 80{,}000, \qquad \text{SD}(T)=\sqrt{100}\cdot 300 = 3000.
+		\end{align*}
+		\begin{align*}
+			P(T>85{,}000) \approx P\left(Z>\dfrac{85{,}000-80{,}000}{3000}\right) = P(Z>1.667) \approx 0.0478.
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		There is roughly a $4.78\%$ probability that total claims exceed the $\$85{,}000$ budget; the insurer can use this to size capital reserves.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.2.7 --- CLT for the Exponential via MGF (Statement)}
+		Verify the MGF proof of the CLT specifically for $X_i \sim \text{Exp}(\lambda)$ (with $\mu=1/\lambda$, $\sigma=1/\lambda$), using $M_{X_1}(t)=(1-t/\lambda)^{-1}$.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Substitute $\mu=\sigma=1/\lambda$ into the general formula for $M_{Z_n}(t)$; note that $\lambda\sigma=1$ simplifies the expression considerably.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Substitute and simplify using $\lambda\sigma=1$: \pause
+	\begin{block}{Proof}
+		\scriptsize
+		\begin{align*}
+			M_{Z_n}(t) = e^{-t\sqrt{n}}\left(1-\dfrac{t}{\sqrt{n}}\right)^{-n}.
+		\end{align*}
+		With $-\log(1-t/\sqrt n) = t/\sqrt n + t^2/(2n)+O(n^{-3/2})$:
+		\begin{align*}
+			\log M_{Z_n}(t) = -t\sqrt{n} + n\left[\dfrac{t}{\sqrt{n}}+\dfrac{t^2}{2n}+O(n^{-3/2})\right] = \dfrac{t^2}{2}+O(n^{-1/2}) \to \dfrac{t^2}{2}. \quad \qedhere
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		Even though the Exponential is strongly skewed, the CLT still converges: the general proof does not require symmetry, only finite mean and variance.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.2.10 --- CLT with the Finite Population Correction (Statement)}
+		A finite population of $N=500$ accounts has $\sigma=\$80$. A sample of $n=50$ accounts is drawn \emph{without replacement}. Combine the CLT with the FPC (Section 05.01) to approximate $P(\bar{X} > \mu + 15)$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		First compute $\Var(\bar X)$ with the FPC, then apply the CLT using that adjusted variance instead of $\sigma^2/n$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Combine the FPC (05.01) with today's CLT: \pause
+	\begin{block}{Calculation}
+		\scriptsize
+		\begin{align*}
+			\Var(\bar{X}) = \dfrac{80^2}{50}\cdot\dfrac{450}{499} = 128\cdot 0.9018 \approx 115.43, \qquad \text{SD}(\bar{X})\approx 10.744.
+		\end{align*}
+		\begin{align*}
+			P(\bar{X}>\mu+15) \approx P\left(Z>\dfrac{15}{10.744}\right) = P(Z>1.396) \approx 0.0814.
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		This problem connects two sections: the FPC adjusts the variance for sampling without replacement from a finite population, and the CLT lets us use the Normal distribution to compute the final probability, even without knowing the exact distribution of the accounts.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 19: Closing and Chapter Perspective
+\begin{frame}{Closing Section and Chapter Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: The Central Limit Theorem, Formalized}
+		\scriptsize
+		The Central Limit Theorem is, in a precise sense, the most important result in classical statistics: it guarantees that the sample mean converges to a Normal distribution regardless of the shape of the original population. Today we formalized this result with a rigorous MGF-based proof and quantified its rate of convergence via the Berry-Esseen theorem.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{CLT:} $Z_n = (\bar{X}_n-\mu)/(\sigma/\sqrt{n}) \xrightarrow{d} N(0,1)$, regardless of the original distribution.
+			\item \textbf{MGF proof:} $\log M_{Z_n}(t) \to t^2/2$ for any population with finite moments.
+			\item \textbf{Berry-Esseen:} the approximation error decays as $O(1/\sqrt{n})$, quantifying the ``$n\ge30$'' heuristic.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Chi-Squared Distribution and Sample Variance}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}

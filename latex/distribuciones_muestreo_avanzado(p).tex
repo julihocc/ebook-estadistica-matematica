@@ -228,3 +228,212 @@
 		\item El factor $(N-n)/(N-1)$ es estrictamente menor que $1$ siempre que $n>1$ y $N$ sea finito (pues $N-n<N-1$ cuando $n>1$), por lo que la FPC siempre reduce la varianza estimada respecto al caso de población infinita; cuando $N\to\infty$ (o $n/N\to 0$), el factor tiende a $1$ y ambas fórmulas coinciden. \quad \qedhere
 	\end{enumerate}
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 05.02: TEOREMA DEL LÍMITE CENTRAL ASINTÓTICO
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 05.02}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:5.2.1}
+	Una población tiene media $\mu=200$ y desviación estándar $\sigma=50$. Se toma una muestra aleatoria simple de $n=100$. Use el TLC para aproximar $P(180 < \bar{X} < 210)$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.2}
+	Los tiempos de vida de una batería son iid con $\mu=500$ horas y $\sigma=50$ horas. Para una muestra de $n=49$, escriba explícitamente la variable $Z_n$ del Teorema del Límite Central (Lindeberg-Lévy) y establezca su distribución límite.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.3}
+	Una población tiene una distribución fuertemente asimétrica (coeficiente de asimetría grande). ¿Es $n=30$ necesariamente suficiente para una buena aproximación normal de $\bar{X}$? Justifique su respuesta usando el teorema de Berry-Esseen.
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:5.2.4}
+	Una aseguradora recibe $n=100$ reclamaciones independientes, cada una con media $\mu=\$800$ y desviación estándar $\sigma=\$300$. Use el TLC para aproximar la probabilidad de que el monto total reclamado $T=\sum_{i=1}^{100} X_i$ exceda $\$85{,}000$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.5}
+	Para una población con $\rho = E|X-\mu|^3 = 200$ y $\sigma=10$, calcule la cota de Berry-Esseen (con $C=0.5$) para $n=25$ y para $n=100$. Verifique que la razón entre ambas cotas es consistente con la tasa de convergencia $O(1/\sqrt{n})$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.6}
+	En una encuesta, cada respuesta es Bernoulli$(p=0.3)$ independiente. Para una muestra de $n=200$ encuestados, use el TLC para aproximar la distribución de la proporción muestral $\hat{p}=\bar{X}$, y calcule $P(\hat{p} > 0.35)$.
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:5.2.7}
+	Verifique la demostración del TLC vía FGM específicamente para $X_i \sim \text{Exp}(\lambda)$ (con $\mu=1/\lambda$, $\sigma=1/\lambda$). Use la FGM $M_{X_1}(t) = (1-t/\lambda)^{-1}$ para $t<\lambda$, y muestre que $M_{Z_n}(t) \to e^{t^2/2}$ cuando $n\to\infty$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.8}
+	Partiendo de la cota de Berry-Esseen $\sup_z|F_{Z_n}(z)-\Phi(z)| \le C\rho/(\sigma^3\sqrt{n})$, derive una fórmula para el tamaño de muestra mínimo $n$ requerido para que el error máximo sea menor a una tolerancia $\varepsilon$. Aplique la fórmula con $C=0.5$, $\rho=150$, $\sigma=5$, $\varepsilon=0.01$.
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:5.2.9}
+	Un proceso Bernoulli$(p=0.4)$ se repite $n=250$ veces de forma independiente, y $X=\sum X_i$ es el número total de éxitos. Use el TLC (con corrección de continuidad de Yates) para aproximar $P(X \ge 110)$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.10}
+	Una población finita de $N=500$ cuentas tiene desviación estándar $\sigma=\$80$. Se extrae una muestra de $n=50$ cuentas \emph{sin reemplazo}. Combine el TLC con la corrección por población finita (FPC, Sección 05.01) para aproximar $P(\bar{X} > \mu + 15)$.
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 05.02}
+
+\begin{sugerencia}
+	\label{sug:5.2.1}
+	Para el Problema \ref{prob:5.2.1}, $\text{DE}(\bar X)=50/\sqrt{100}=5$. Estandarice ambos extremos y use la tabla Normal estándar; note que $\Phi(-4)$ es prácticamente $0$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.2}
+	Para el Problema \ref{prob:5.2.2}, sustituya directamente $\mu=500$, $\sigma=50$, $n=49$ en $Z_n=(\bar X_n-\mu)/(\sigma/\sqrt n)$; recuerde que $\sqrt{49}=7$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.3}
+	Para el Problema \ref{prob:5.2.3}, la cota de Berry-Esseen depende de $\rho=E|X-\mu|^3$; distribuciones muy asimétricas tienen $\rho$ grande, por lo que requieren $n$ mayores para el mismo nivel de error que una población simétrica con $\rho$ pequeño.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.4}
+	Para el Problema \ref{prob:5.2.4}, use $E(T)=n\mu$ y $\Var(T)=n\sigma^2$ (suma, no media), luego estandarice: $Z=(85000-E(T))/\sqrt{\Var(T)}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.5}
+	Para el Problema \ref{prob:5.2.5}, la cota es $0.5\cdot 200/(10^3\sqrt n) = 0.1/\sqrt n$. Evalúe en $n=25$ y $n=100$, y compare la razón con $\sqrt{25/100}=1/2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.6}
+	Para el Problema \ref{prob:5.2.6}, $\hat p$ es la media muestral de variables Bernoulli$(0.3)$, con $\Var(X_i)=p(1-p)=0.21$. Use $\text{DE}(\hat p)=\sqrt{0.21/200}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.7}
+	Para el Problema \ref{prob:5.2.7}, sustituya $\mu=1/\lambda$, $\sigma=1/\lambda$ en la demostración general; el álgebra es idéntica, solo verifique que los momentos de la exponencial son finitos.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.8}
+	Para el Problema \ref{prob:5.2.8}, despeje $\sqrt n$ de $C\rho/(\sigma^3\sqrt n) < \varepsilon$ para obtener $n > (C\rho/(\sigma^3\varepsilon))^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.9}
+	Para el Problema \ref{prob:5.2.9}, $\mu=np=100$, $\sigma=\sqrt{np(1-p)}=\sqrt{60}\approx 7.746$. Con corrección de Yates, $P(X\ge 110)\approx P(Y\ge 109.5)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.10}
+	Para el Problema \ref{prob:5.2.10}, calcule $\Var(\bar X)$ con FPC como en la Sección 05.01, tome raíz cuadrada para obtener $\text{DE}(\bar X)$, y estandarice $Z=15/\text{DE}(\bar X)$.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 05.02}
+
+\begin{solucion}
+	\label{sol:5.2.1}
+	Para el Problema \ref{prob:5.2.1} con $\mu=200$, $\sigma=50$, $n=100$: $\text{DE}(\bar X)=50/\sqrt{100}=5$.
+	\begin{align*}
+		P(180 < \bar X < 210) \approx P\left(\frac{180-200}{5} < Z < \frac{210-200}{5}\right) = P(-4 < Z < 2) = \Phi(2)-\Phi(-4) \approx 0.9772-0.00003 \approx 0.9772. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.2}
+	Para el Problema \ref{prob:5.2.2}: con $\mu=500$, $\sigma=50$, $n=49$ (así $\sqrt{49}=7$):
+	\begin{align*}
+		Z_{49} = \frac{\bar X_{49} - 500}{50/7} \xrightarrow{d} N(0,1). \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.3}
+	Para el Problema \ref{prob:5.2.3}: no necesariamente. La cota de Berry-Esseen, $C\rho/(\sigma^3\sqrt n)$, depende del tercer momento absoluto $\rho=E|X-\mu|^3$. Una distribución fuertemente asimétrica tiene $\rho$ grande en relación a $\sigma^3$, por lo que el error de la aproximación normal en $n=30$ puede ser considerablemente mayor que para una población simétrica con momentos similares; en esos casos se requiere un $n$ mayor para alcanzar la misma precisión. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.4}
+	Para el Problema \ref{prob:5.2.4}: $E(T) = n\mu = 100\cdot 800 = 80{,}000$. $\Var(T) = n\sigma^2 = 100\cdot 300^2 = 9{,}000{,}000$, así $\text{DE}(T)=3000$.
+	\begin{align*}
+		P(T > 85{,}000) \approx P\left(Z > \frac{85{,}000-80{,}000}{3000}\right) = P(Z > 1.667) \approx 1-0.9522 = 0.0478. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.5}
+	Para el Problema \ref{prob:5.2.5}: la cota es $\dfrac{0.5\cdot 200}{10^3\sqrt n} = \dfrac{0.1}{\sqrt n}$.
+	\begin{itemize}
+		\item $n=25$: cota $= 0.1/5 = 0.02$.
+		\item $n=100$: cota $= 0.1/10 = 0.01$.
+	\end{itemize}
+	La razón $0.01/0.02 = 0.5 = \sqrt{25/100}$, confirmando que cuadruplicar $n$ reduce la cota de error exactamente a la mitad, consistente con la tasa $O(1/\sqrt n)$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.6}
+	Para el Problema \ref{prob:5.2.6}: $\Var(X_i) = p(1-p) = 0.3\cdot 0.7 = 0.21$, así $\text{DE}(\hat p) = \sqrt{0.21/200} \approx 0.0324$.
+	\begin{align*}
+		P(\hat p > 0.35) \approx P\left(Z > \frac{0.35-0.3}{0.0324}\right) = P(Z > 1.543) \approx 1-0.9385 = 0.0615. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.7}
+	Para el Problema \ref{prob:5.2.7}: con $\mu=1/\lambda$, $\sigma=1/\lambda$, la FGM estandarizada es
+	\begin{align*}
+		M_{Z_n}(t) = e^{-\mu t\sqrt n/\sigma}\left[M_{X_1}\!\left(\frac{t}{\sigma\sqrt n}\right)\right]^n
+		= e^{-t\sqrt n}\left[\left(1-\frac{t}{\lambda\sigma\sqrt n}\right)^{-1}\right]^n.
+	\end{align*}
+	Como $\sigma=1/\lambda$, $\lambda\sigma=1$, así que el término interno es $(1-t/\sqrt n)^{-1}$. Tomando logaritmo y expandiendo en serie de Taylor $-\log(1-t/\sqrt n) = t/\sqrt n + t^2/(2n) + O(n^{-3/2})$:
+	\begin{align*}
+		\log M_{Z_n}(t) = -t\sqrt n + n\left[\frac{t}{\sqrt n}+\frac{t^2}{2n}+O(n^{-3/2})\right] = \frac{t^2}{2}+O(n^{-1/2}) \longrightarrow \frac{t^2}{2},
+	\end{align*}
+	confirmando $M_{Z_n}(t)\to e^{t^2/2}$, la FGM de $N(0,1)$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.8}
+	Para el Problema \ref{prob:5.2.8}: de $C\rho/(\sigma^3\sqrt n) < \varepsilon$ se obtiene $\sqrt n > C\rho/(\sigma^3\varepsilon)$, es decir $n > \left(\dfrac{C\rho}{\sigma^3\varepsilon}\right)^2$.
+
+	Sustituyendo $C=0.5$, $\rho=150$, $\sigma=5$, $\varepsilon=0.01$:
+	\begin{align*}
+		\frac{C\rho}{\sigma^3\varepsilon} = \frac{0.5\cdot 150}{125\cdot 0.01} = \frac{75}{1.25} = 60 \implies n > 60^2 = 3600.
+	\end{align*}
+	Se requieren al menos $n=3601$ observaciones para garantizar un error máximo menor a $0.01$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.9}
+	Para el Problema \ref{prob:5.2.9}: $\mu = np = 250\cdot 0.4 = 100$, $\sigma=\sqrt{np(1-p)}=\sqrt{60}\approx 7.746$. Con corrección de Yates:
+	\begin{align*}
+		P(X\ge 110) \approx P(Y\ge 109.5) = P\left(Z \ge \frac{109.5-100}{7.746}\right) = P(Z\ge 1.226) \approx 1-0.8899 = 0.1101. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.10}
+	Para el Problema \ref{prob:5.2.10} con $N=500$, $\sigma=80$ ($\sigma^2=6400$), $n=50$:
+	\begin{align*}
+		\Var(\bar X) = \frac{\sigma^2}{n}\cdot\frac{N-n}{N-1} = \frac{6400}{50}\cdot\frac{450}{499} = 128\cdot 0.9018 \approx 115.43, \qquad \text{DE}(\bar X) \approx 10.744.
+	\end{align*}
+	\begin{align*}
+		P(\bar X > \mu+15) \approx P\left(Z > \frac{15}{10.744}\right) = P(Z > 1.396) \approx 1-0.9186 = 0.0814. \quad \qedhere
+	\end{align*}
+\end{solucion}

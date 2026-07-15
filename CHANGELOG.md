@@ -24,6 +24,12 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/05_distribuciones_muestreo/05.01_sample_statistics.py` (insesgadez de $S^2$ vía Monte Carlo, distribución muestral de la media, y corrección por población finita).
   - Mazos Beamer bilingües en `presentaciones/es/05_distribuciones_muestreo/05.01_sample_statistics.tex` (18 diapositivas) y `presentaciones/en/05_sampling_distributions/05.01_sample_statistics.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 05 (Distribuciones de Muestreo) inicia su desarrollo: 1 de 5 secciones completadas.
+- **Sección 05.02: Teorema del Límite Central Asintótico**:
+  - Nueva subsección "Teorema del Límite Central: Convergencia Asintótica" (convergencia en distribución, demostración vía FGM, teorema de Berry-Esseen) agregada a `latex/distribuciones_muestreo_avanzado.tex` y su espejo `latex/en_distribuciones_muestreo_avanzado.tex`.
+  - 10 problemas bajo la taxonomía 3-3-2-2 (Problemas 5.2.1 a 5.2.10) en `latex/distribuciones_muestreo_avanzado(p).tex`.
+  - Script de laboratorio en Python `presentaciones/code/05_distribuciones_muestreo/05.02_central_limit_theorem.py` (convergencia vía prueba KS desde una población Exponencial asimétrica, verificación empírica de la tasa de Berry-Esseen, TLC para sumas y proporciones).
+  - Mazos Beamer bilingües en `presentaciones/es/05_distribuciones_muestreo/05.02_central_limit_theorem.tex` (17 diapositivas) y `presentaciones/en/05_sampling_distributions/05.02_central_limit_theorem.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 05 (Distribuciones de Muestreo): 2 de 5 secciones completadas.
 
 ## 2026-07-14
 
