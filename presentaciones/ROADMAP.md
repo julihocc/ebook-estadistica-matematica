@@ -34,7 +34,10 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 ### Unidad 2 / Capítulo 03: Variables Aleatorias Discretas (`Avance actual: 6 de 9 secciones completadas`)
 - $\checkmark$ **03.01 PMF y Soporte:** 100% completado (`03.01_pmf_y_soporte.tex` ES/EN, `03.01_pmf_and_support.py`).
 - $\checkmark$ **03.02 CDF Discreta:** 100% completado (`03.02_cdf_discreta.tex` ES/EN, `03.02_discrete_cdf.py`).
-- $\checkmark$ **03.03 Esperanza Matemática, Varianza y Momentos:** 100% completado (`03.03_esperanza_y_varianza.tex` ES/EN, `03.03_expectation_and_variance.py`).
+- $\checkmark$ **03.03 Esperanza Matemática, Varianza y Momentos:** 100% completado (Remediación modular total).
+  - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/variables_aleatorias_discretas(p).tex` (Problemas 3.3.1 al 3.3.10).
+  - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.03_expectation_and_variance.py` (cálculo de momentos exactos, LOTUS, estandarización Z y simulación Monte Carlo de LLN con $N=100,000$).
+  - *Mazos Beamer:* 22 diapositivas pedagógicas y modulares en `presentaciones/es/03_variables_aleatorias_discretas/03.03_esperanza_y_varianza.tex` (revelado progresivo `\pause`, puente numérico Python en 4 diapositivas, 4 ejercicios interactivos en clase divididos en Enunciado/Resolución para cada nivel de la taxonomía, cero marcado informal y compilado con **0 `Overfull \vbox` y 0 `Overfull \hbox`**).
 - $\checkmark$ **03.04 Distribuciones de Bernoulli y Binomial:** 100% completado.
   - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/distribuciones_especiales(p).tex` (Problemas 3.4.1 al 3.4.10).
   - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py` (validación vectorizada en numpy/scipy y simulación Monte Carlo $N=100,000$).
