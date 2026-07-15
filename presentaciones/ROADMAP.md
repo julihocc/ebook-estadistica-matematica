@@ -37,7 +37,7 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Laboratorio Python:* `presentaciones/code/02_teoria_probabilidad/02.06_random_sampling.py` (simulación MAS con vs sin reemplazo, verificación empírica de FPC, evolución del error en LGN con cota de Chebyshev, y estandarización CLT en población exponencial $N=50,000$).
   - *Mazos Beamer:* 22 diapositivas pedagógicas simétricas en `presentaciones/es/02_teoria_probabilidad/02.06_muestreo_aleatorio.tex` y `en/02_probability_theory/02.06_random_sampling.tex` (revelado progresivo `\pause`, puente computacional Python de 4 diapositivas, 4 problemas en clase desarrollados en Enunciado $\to$ Resolución, cero marcado informal y compilación certificada con **0 `Overfull \vbox` y 0 `Overfull \hbox`**).
 
-### Unidad 2 / Capítulo 03: Variables Aleatorias Discretas (`Avance actual: 6 de 10 secciones completadas`)
+### Unidad 2 / Capítulo 03: Variables Aleatorias Discretas (`Avance actual: 7 de 10 secciones completadas`)
 - $\checkmark$ **03.01 PMF y Soporte:** 100% completado (Remediación modular total).
   - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/variables_aleatorias_discretas(p).tex` (Problemas 3.1.1 al 3.1.10).
   - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.01_pmf_and_support.py` (normalización polinomial, probabilidad condicional en soporte discreto, simulación Monte Carlo de suma de dados y transformación no lineal $|X-1|$ con sumas por preimágenes).
@@ -63,6 +63,11 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.06_hypergeometric.py` (validación PMF, FPCF con Monte Carlo $N=250,000$ y prueba exacta de Fisher).
   - *Mazos Beamer:* mazos ES/EN en `presentaciones/es/03_variables_aleatorias_discretas/03.06_hipergeometrica.tex` y `presentaciones/en/03_discrete_random_variables/03.06_hypergeometric.tex`, compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`**.
   - *Libro Maestro:* Compilado limpiamente (`[Modelación Estadística].tex`).
+- $\checkmark$ **03.07 Distribución de Poisson y Procesos de Llegada:** 100% completado.
+  - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/distribuciones_especiales(p).tex` (Problemas 3.7.1 al 3.7.10): cálculo directo de PMF, equidispersión, ley de eventos raros, aditividad, deducción analítica de momentos y propiedad condicional binomial en suma de Poisson.
+  - *Laboratorio Python:* `presentaciones/code/03_variables_aleatorias_discretas/03.07_poisson_distribution.py` (validación de PMF y equidispersión, ley de eventos raros Binomial $\to$ Poisson con TVD, aditividad y distribución condicional binomial verificada por simulación Monte Carlo con $N=250,000$).
+  - *Mazos Beamer:* mazos pedagógicos y modulares ES/EN en `presentaciones/es/03_variables_aleatorias_discretas/03.07_poisson_distribution.tex` (24 frames) y `presentaciones/en/03_discrete_random_variables/03.07_poisson_distribution.tex` (20 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido.
+  - *Libro Maestro:* Recompilado limpiamente a 552 páginas (`[Modelación Estadística].tex`).
 
 ---
 
@@ -105,43 +110,41 @@ Con el nuevo ordenamiento consolidado, el desarrollo de temas restantes del Cap�
 
 ---
 
-## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Fase 1 + Sección 03.07`)
+## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 03.08`)
 
-Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 03.07: Distribución de Poisson y Procesos de Poisson** tras verificar que las Fases 1 y 2 de armonización estén aplicadas, siguiendo este protocolo exacto de 6 pasos:
+Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 03.08: Distribución Multinomial y Ensayos Politómicos** siguiendo este protocolo exacto de 6 pasos:
 
 ### Paso 1: Auditoría de Teoría y Creación/Integración de `(p).tex`
-1. Consultar el archivo `latex/distribuciones_especiales.tex` (donde se ubica la teoría de la distribución de Poisson).
-2. Verificar si en `distribuciones_especiales(p).tex` existen los problemas de la 03.07. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2` usando los entornos institucionales (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`):
-   - **Nivel Fundamental (3):** PMF de Poisson ($P(X=k) = e^{-\lambda}\lambda^k/k!$), media y varianza ($\mu = \sigma^2 = \lambda$), y cálculo directo de probabilidades (`3.7.1` a `3.7.3`).
-   - **Nivel Operativo (3):** Ley de los eventos raros (aproximación de Poisson a la Binomial cuando $n \to \infty, p \to 0, np = \lambda$), modelación de tráfico, llamadas y fallas temporales (`3.7.4` a `3.7.6`).
-   - **Nivel Analítico (2):** Deducción de momentos mediante la serie exponencial y aditividad de variables independientes de Poisson ($X+Y \sim \text{Pois}(\lambda_1+\lambda_2)$) (`3.7.7` y `3.7.8`).
-   - **Nivel Desafiante (2):** Distribución condicional binomial en sumas de Poisson ($X \mid (X+Y=n) \sim \text{Bin}(n, \lambda_1/(\lambda_1+\lambda_2))$) y procesos espaciales de Poisson (`3.7.9` y `3.7.10`).
+1. Consultar el archivo `latex/distribuciones_especiales.tex` (donde se ubica la teoría de la distribución Multinomial).
+2. Verificar si en `distribuciones_especiales(p).tex` existen los problemas de la 03.08. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2` usando los entornos institucionales (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`):
+   - **Nivel Fundamental (3):** Coeficientes multinomiales, probabilidad conjunta básica, conteo de configuraciones (`3.8.1` a `3.8.3`).
+   - **Nivel Operativo (3):** Reducción a marginales binomiales, momentos marginales y varianza de cada categoría, simulación de ensayos politómicos (`3.8.4` a `3.8.6`).
+   - **Nivel Analítico (2):** Covarianzas negativas entre categorías y matriz de covarianzas, deducción de momentos factoriales (`3.8.7` y `3.8.8`).
+   - **Nivel Desafiante (2):** Distribución condicional de un subconjunto de categorías dado el resto, y aplicación a pruebas de independencia en tablas de contingencia (`3.8.9` y `3.8.10`).
 3. Compilar el libro maestro dos veces para comprobar que no se rompen índices ni referencias.
 
-### Paso 2: Desarrollo de Script Python en Inglés (`03.07_poisson_distribution.py`)
-Crear el archivo en `presentaciones/code/03_variables_aleatorias_discretas/03.07_poisson_distribution.py` con `numpy` y `scipy.stats`:
-- **Block 1: Poisson PMF Validation & Equidispersion:** Verificación de soporte, normalización de series de potencias y comprobación de $\mu = \sigma^2 = \lambda$.
-- **Block 2: Law of Rare Events (Binomial to Poisson Limit):** Simulación Monte Carlo e ilustración de la convergencia con error en distancia de variación total (TVD).
-- **Block 3: Additivity & Conditional Binomial Property:** Verificación numérica por simulación de que la suma de variables independientes de Poisson es Poisson y la condicionada al total es Binomial.
+### Paso 2: Desarrollo de Script Python en Inglés (`03.08_multinomial_distribution.py`)
+Crear el archivo en `presentaciones/code/03_variables_aleatorias_discretas/03.08_multinomial_distribution.py` con `numpy` y `scipy.stats`:
+- **Block 1: Multinomial PMF Validation & Marginalization:** Verificación de normalización, marginales binomiales y conteo de configuraciones.
+- **Block 2: Covariance Structure & Negative Correlations:** Cálculo analítico y simulado de la matriz de covarianzas, $\cov(X_i, X_j) = -n p_i p_j$ para $i \neq j$.
+- **Block 3: Conditional Distributions & Contingency Tables:** Simulación de ensayos politómicos y verificación de distribuciones condicionales.
 
-### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`03.07_poisson_distribution.tex`)
-1. Crear los mazos espejos de 20 diapositivas en `presentaciones/es/03_variables_aleatorias_discretas/03.07_poisson_distribution.tex` y `presentaciones/en/03_discrete_random_variables/03.07_poisson_distribution.tex`.
-2. Usar `\date{\vspace{-1.2cm}}` en la portada para absorber el alto de autor e institución sin generar advertencia vertical.
-3. Importar los bloques del script con `\lstinputlisting[language=Python, ...]{../../code/03_variables_aleatorias_discretas/03.07_poisson_distribution.py}`.
+### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`03.08_multinomial_distribution.tex`)
+1. Crear los mazos espejos en `presentaciones/es/03_variables_aleatorias_discretas/03.08_multinomial_distribution.tex` (24 frames) y `presentaciones/en/03_discrete_random_variables/03.08_multinomial_distribution.tex` (20 frames).
+2. Usar `\date{\vspace{-1.2cm}}` en la portada ES y `\date{\vspace{-1.5cm}}` en la portada EN.
+3. Importar los bloques del script con `\lstinputlisting[language=Python, ...]{../../code/03_variables_aleatorias_discretas/03.08_multinomial_distribution.py}`.
 4. Ajustar tablas teóricas y espaciados para prevenir `Overfull`.
 
 ### Paso 4: Compilación y Doble Verificación (*Zero Overfull Check*)
 Ejecutar los siguientes comandos en la terminal y comprobar que la búsqueda de `Overfull` arroje cero coincidencias en las diapositivas 2+:
 ```bash
-# Para la versión en Español
 cd presentaciones/es/03_variables_aleatorias_discretas
-pdflatex -interaction=nonstopmode 03.07_poisson_distribution.tex && pdflatex -interaction=nonstopmode 03.07_poisson_distribution.tex
-grep "Overfull" 03.07_poisson_distribution.log
+pdflatex -interaction=nonstopmode 03.08_multinomial_distribution.tex && pdflatex -interaction=nonstopmode 03.08_multinomial_distribution.tex
+grep "Overfull" 03.08_multinomial_distribution.log
 
-# Para la versión en Inglés
 cd ../../en/03_discrete_random_variables
-pdflatex -interaction=nonstopmode 03.07_poisson_distribution.tex && pdflatex -interaction=nonstopmode 03.07_poisson_distribution.tex
-grep "Overfull" 03.07_poisson_distribution.log
+pdflatex -interaction=nonstopmode 03.08_multinomial_distribution.tex && pdflatex -interaction=nonstopmode 03.08_multinomial_distribution.tex
+grep "Overfull" 03.08_multinomial_distribution.log
 ```
 
 ### Paso 5: Sincronización de Ebook Principal (`[Modelación Estadística].tex`)
@@ -151,7 +154,7 @@ pdflatex -interaction=nonstopmode "[Modelación Estadística].tex" && pdflatex -
 ```
 
 ### Paso 6: Actualización de Documentación y Cierre de Tarea (Sin Auto-Commits)
-Actualizar este archivo (`ROADMAP.md`) marcando la 03.07 como completada y apuntando a la 03.08 como el nuevo foco. Verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
+Actualizar este archivo (`ROADMAP.md`) marcando la 03.08 como completada y apuntando a la 03.09 como el nuevo foco. Verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
 
 ---
 

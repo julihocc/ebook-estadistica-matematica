@@ -1,0 +1,438 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Distribución de Poisson]{Sección 03.07: Distribución de Poisson}
+\subtitle{Procesos de Llegada, Ley de Eventos Raros y Aditividad}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta Modular
+\begin{frame}{Hoja de Ruta --- Capítulo 03: Variables Aleatorias Discretas}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular de la teoría? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{03.01} Concepto, Notación y Definición de Variable Aleatoria \pause
+    \item \textbf{03.02} Funciones de Probabilidad (PMF) y Distribución Acumulada (CDF) \pause
+    \item \textbf{03.03} Esperanza Matemática y Varianza Operativa \pause
+    \item \textbf{03.04} Distribución Binomial y Ensayos de Bernoulli \pause
+    \item \textbf{03.05} Distribuciones Geométrica y Binomial Negativa \pause
+    \item \textbf{03.06} Distribución Hipergeométrica \pause
+    \item \color{TecRojo}\textbf{03.07 Distribución de Poisson \emph{(Hoy)}}\color{black} \pause
+    \item \textbf{03.08} Distribución Multinomial
+  \end{itemize}
+  \vspace{-0.1cm}
+  \begin{block}{Objetivo de la Sesión}
+    Modelar el conteo de eventos raros en intervalos de tiempo o espacio, dominar la ley de eventos raros como puente entre Binomial y Poisson, y explotar las propiedades de aditividad y la distribución condicional binomial bajo marginales fijos.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De la Binomial Discreta al Proceso Continuo de Poisson}
+  \footnotesize
+  \begin{motivacion}[¿Por qué una nueva distribución si ya tenemos la Binomial?]
+    La distribución Binomial modela un número fijo de ensayos $n$ con probabilidad constante $p$. Pero en problemas reales (llamadas a un servidor, defectos en manufactura, mutaciones genéticas), los eventos ocurren de manera continua y aleatoria a una tasa $\lambda$ fija, sin que $n$ esté predefinido. El modelado correcto es entonces contar eventos en un intervalo, no ensayos en una muestra.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Conteo continuo:} $X$ cuenta el número de eventos en un intervalo fijo de tiempo o espacio, no el número de éxitos en $n$ ensayos. \pause
+    \item \textbf{Tasa media $\lambda$:} La esperanza y la varianza coinciden en una sola cantidad: $\E[X] = \Var(X) = \lambda$ (equidispersión). \pause
+    \item \textbf{Soporte infinito numerable:} $\mathcal{S}_X = \set{0, 1, 2, \dots}$, adecuado para conteos sin cota superior fija.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición Formal de la PMF
+\begin{frame}{Definición Formal de la Distribución de Poisson}
+  \footnotesize
+  Una variable aleatoria discreta $X$ sigue una ley de Poisson con parámetro de tasa $\lambda > 0$ si su función de masa de probabilidad está dada por: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Función de Masa de Probabilidad (PMF)}
+    $$P(X = k) = \dfrac{e^{-\lambda} \lambda^{k}}{k!}, \quad k \in \set{0, 1, 2, \dots}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Interpretación y Parametrización en Python}
+    \begin{itemize}\itemsep=0.06cm
+      \item \textbf{Factores:} El factor $e^{-\lambda}$ normaliza la suma; $\lambda^{k}/k!$ codifica la cola de la serie de Taylor.
+      \item \textbf{Normalización:} $\sum_{k=0}^{\infty} \dfrac{e^{-\lambda} \lambda^{k}}{k!} = e^{-\lambda} \cdot e^{\lambda} = 1$.
+      \item \textbf{En SciPy:} Se utiliza \texttt{poisson.pmf(k, mu=lambda)} y \texttt{poisson.cdf(k, mu=lambda)}.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Equidispersión
+\begin{frame}{Equidispersión: $\mu = \sigma^{2} = \lambda$}
+  \footnotesize
+  La distribución de Poisson tiene una propiedad estructural única: la varianza coincide exactamente con la esperanza, ambas iguales al parámetro de tasa $\lambda$. \pause
+
+  \vspace{0.1cm}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Esperanza Matemática}
+        $$\E[X] = \sum_{k=0}^{\infty} k \cdot \dfrac{e^{-\lambda} \lambda^{k}}{k!} = \lambda$$
+        Se obtiene derivando la identidad $e^{\lambda} = \sum_{k=0}^{\infty} \lambda^{k}/k!$ respecto a $\lambda$ y multiplicando por $\lambda$.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Varianza por Momento Factorial}
+        $$\Var(X) = \E[X^{2}] - (\E[X])^{2} = (\lambda^{2} + \lambda) - \lambda^{2} = \lambda$$
+        El momento factorial $\E[X(X-1)] = \lambda^{2}$ y la suma $\E[X^{2}] = \lambda^{2} + \lambda$ producen varianza idéntica a la media.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 6: Soporte y Normalización
+\begin{frame}{Soporte Infinito Numerable y Normalización Exponencial}
+  \footnotesize
+  La suma de las probabilidades de Poisson sobre todo el soporte no es trivial: requiere la identidad de la serie de Taylor de la exponencial. \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Soporte y Sumatoria Unitaria}
+    $$\mathcal{S}_X = \set{k \in \mathbb{Z}_{\ge 0}}, \quad \sum_{k=0}^{\infty} P(X = k) = e^{-\lambda} \sum_{k=0}^{\infty} \dfrac{\lambda^{k}}{k!} = e^{-\lambda} \cdot e^{\lambda} = 1$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Función Generadora de Probabilidades (PGF)}
+    La PGF $G_{X}(t) = \E[t^{X}] = \sum_{k=0}^{\infty} t^{k} P(X=k) = e^{\lambda(t-1)}$ codifica toda la información distribucional y será clave para demostrar la aditividad.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Función Generadora de Momentos
+\begin{frame}{MGF y Caracterización de la Distribución de Poisson}
+  \footnotesize
+  La Función Generadora de Momentos $M_{X}(t) = \E[e^{tX}]$ para una variable de Poisson adopta una forma cerrada especialmente simple: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{MGF de Poisson}
+    $$M_{X}(t) = \sum_{k=0}^{\infty} \dfrac{e^{tk} e^{-\lambda} \lambda^{k}}{k!} = e^{-\lambda} \sum_{k=0}^{\infty} \dfrac{(\lambda e^{t})^{k}}{k!} = e^{\lambda(e^{t} - 1)}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Derivación de Momentos desde la MGF}
+    Los momentos brutos se obtienen por diferenciación: $\E[X^{r}] = M_{X}^{(r)}(0)$. Por ejemplo, $\E[X] = M_{X}'(0) = \lambda e^{0} = \lambda$ y $\E[X^{2}] = \lambda^{2} + \lambda$, confirmando la equidispersión.
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Ley de Eventos Raros
+\begin{frame}{Ley de Eventos Raros: Aproximación Binomial $\to$ Poisson}
+  \footnotesize
+  Cuando $n$ es muy grande y $p$ es muy pequeño, manteniendo el producto $np = \lambda$ constante, la distribución $\text{Bin}(n, p)$ converge puntualmente a $\text{Pois}(\lambda)$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Límite de Poisson para Eventos Raros}
+    $$\lim_{n \to \infty} \binom{n}{k} p^{k} (1-p)^{n-k} = \dfrac{e^{-\lambda} \lambda^{k}}{k!} \quad \text{cuando } np = \lambda \text{ constante}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Regla Operativa de Ingeniería}
+    La aproximación es excelente bajo la regla práctica $n \ge 50$ y $p \le 0.05$ (con $np \le 5$). Por ejemplo, $n = 2000$ pacientes con $p = 0.001$ se aproximan por $\text{Pois}(2)$ con error absoluto $< 5 \times 10^{-4}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Aditividad
+\begin{frame}{Aditividad: Suma de Poisson Independientes}
+  \footnotesize
+  Si $X \sim \text{Pois}(\lambda_{1})$ y $Y \sim \text{Pois}(\lambda_{2})$ son independientes, su suma $Z = X + Y$ también sigue una ley de Poisson con parámetro $\lambda_{1} + \lambda_{2}$. \pause
+
+  \vspace{0.1cm}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Demostración por Convolución}
+        \scriptsize
+        $$P(Z = m) = \sum_{k=0}^{m} P(X=k) P(Y=m-k)$$
+        $$= \dfrac{e^{-(\lambda_{1}+\lambda_{2})}(\lambda_{1}+\lambda_{2})^{m}}{m!}$$
+        Aplicando el Teorema del Binomio de Newton a la suma interna de la convolución.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Propiedad Reproductiva}
+        \scriptsize
+        La suma de $n$ variables Poisson independientes con tasas $\lambda_{1}, \dots, \lambda_{n}$ es $\text{Pois}(\sum \lambda_{i})$. Esta propiedad permite agregar flujos de eventos (e.g., dos servidores) sin perder la estructura.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 10: Propiedad Condicional Binomial
+\begin{frame}{Propiedad Condicional: Distribución Binomial bajo Suma Fija}
+  \footnotesize
+  Si $X \sim \text{Pois}(\lambda_{1})$ y $Y \sim \text{Pois}(\lambda_{2})$ son independientes, entonces la distribución de $X$ condicionada al total $X + Y = n$ es una Binomial: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Distribución Condicional Binomial}
+    $$P(X = k \mid X + Y = n) = \binom{n}{k} \left(\dfrac{\lambda_{1}}{\lambda_{1} + \lambda_{2}}\right)^{k} \left(\dfrac{\lambda_{2}}{\lambda_{1} + \lambda_{2}}\right)^{n-k}, \quad k = 0, 1, \dots, n$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Interpretación en Teoría de Colas}
+    Si dos servidores atienden clientes Poisson con tasas $\lambda_{1}$ y $\lambda_{2}$, entonces dado que se atendieron en total $n$ clientes, el número que atendió el servidor $1$ sigue una $\text{Bin}(n, \lambda_{1}/(\lambda_{1}+\lambda_{2}))$, donde $p$ es la fracción de tráfico asignada.
+  \end{alertblock}
+\end{frame}
+
+% Slide 11: Aplicaciones
+\begin{frame}{Aplicaciones en Industria y Ciencia de Datos}
+  \footnotesize
+  El modelado de Poisson es la piedra angular de tres pilares modernos de la ingeniería y la analítica de datos: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.15cm
+    \item \textbf{Teoría de Colas y Telecomunicaciones:} Modelado de llegadas de llamadas a un call center, peticiones HTTP a un servidor, o vehículos a una caseta de peaje. La tasa $\lambda$ define la intensidad de tráfico. \pause
+    \item \textbf{Control de Calidad Industrial:} Conteo de defectos por unidad de producción, donde la equidispersión permite cartas de control $c$ con límites $\lambda \pm 3\sqrt{\lambda}$. \pause
+    \item \textbf{Bioestadística y Epidemiología:} Número de mutaciones genéticas en una cadena de ADN, casos raros de una enfermedad en una población, o eventos adversos raros en ensayos clínicos.
+  \end{itemize}
+\end{frame}
+
+% Slide 12A-1: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: PMF y Equidispersión}
+  \scriptsize
+  Verificación computacional en SciPy (\texttt{03.07\_poisson\_distribution.py}) del soporte, normalización y propiedad de equidispersión:
+  \vspace{0.08cm}
+  {\lstset{basicstyle=\fontsize{5.5pt}{6.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=15, lastline=37]{../../code/03_variables_aleatorias_discretas/03.07_poisson_distribution.py}}
+\end{frame}
+
+% Slide 12A-2: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Ley de Eventos Raros}
+  \scriptsize
+  Simulación de $250,000$ ensayos verificando la convergencia Binomial $\to$ Poisson mediante Distancia de Variación Total (TVD):
+  \vspace{0.05cm}
+  {\lstset{basicstyle=\fontsize{5.5pt}{6.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=40, lastline=62]{../../code/03_variables_aleatorias_discretas/03.07_poisson_distribution.py}}
+\end{frame}
+
+% Slide 12B: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Aditividad y Condicional Binomial}
+  \scriptsize
+  Verificación numérica por simulación de la suma de Poisson y de la distribución condicional binomial:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{5pt}{6pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=72, lastline=92]{../../code/03_variables_aleatorias_discretas/03.07_poisson_distribution.py}}
+\end{frame}
+
+% Slide 12C: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \vspace{-0.1cm}
+  \begin{block}{}
+    \fontsize{4.5pt}{5.2pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Poisson PMF & Equidispersion Validation ===
+Lambda = 3.0 (calls/min) | mu = sigma^2 = lambda
+PMF total probability: 0.999999329614
+Equidispersion property verified: True
+P(X=0)=0.049787 | P(X=1)=0.149361 | P(X=2)=0.224042
+
+=== Block 2: Law of Rare Events (Binomial -> Poisson) ===
+  n=    50 p=0.0400 | TVD=0.009270
+  n=   500 p=0.0040 | TVD=0.000905
+  n=  2000 p=0.0010 | TVD=0.000226
+  n= 10000 p=0.0002 | TVD=0.000045
+Monte Carlo (N=250,000): mean=2.0018 | var=1.9971
+
+=== Block 3: Additivity & Conditional Binomial ===
+Z = X + Y: emp mean=7.9992 | emp var=7.9888
+Conditional X | (X+Y=8) with p_cond = 0.3750:
+  k=0: 0.0222 | 0.0233 | k=3: 0.2856 | 0.2816
+  k=5: 0.1019 | 0.1014 | k=8: 0.0003 | 0.0004
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.7.1 --- Llamadas a un Call Center (Enunciado)}
+    Un centro de atención telefónica recibe llamadas de manera independiente a una tasa promedio constante de $\lambda = 3$ llamadas por minuto. Sea $X$ la variable aleatoria que cuenta el número de llamadas recibidas en un intervalo fijo de un minuto.
+  \end{block}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{alertblock}{Planteamiento del Modelo}
+    El número de llamadas en un intervalo fijo sigue una distribución de Poisson con parámetro $\lambda = 3$:
+    $$P(X = k) = \dfrac{e^{-3} \cdot 3^{k}}{k!}, \quad k \in \set{0, 1, 2, \dots}$$
+    Calcule explícitamente $P(X = 0)$, $P(X = 1)$, $P(X = 2)$ y $P(X \ge 4)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Evaluamos las probabilidades puntuales con la fórmula de Poisson y usamos el complemento para la cola derecha: \pause
+
+  \vspace{0.04cm}
+  \begin{block}{Cálculo de Probabilidades Puntuales}
+    \begin{itemize}\itemsep=0.04cm
+      \item \textbf{Cero llamadas ($X=0$):}
+      $P(X=0) = e^{-3} \cdot \dfrac{3^{0}}{0!} = e^{-3} \approx 0.04979$ \pause
+      \item \textbf{Una llamada ($X=1$):}
+      $P(X=1) = e^{-3} \cdot \dfrac{3^{1}}{1!} = 3e^{-3} \approx 0.14936$ \pause
+      \item \textbf{Dos llamadas ($X=2$):}
+      $P(X=2) = e^{-3} \cdot \dfrac{3^{2}}{2!} = \dfrac{9}{2} e^{-3} \approx 0.22404$
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.04cm}
+  \pause
+  \begin{alertblock}{Cola Derecha por Complemento}
+    \scriptsize
+    $P(X \ge 4) = 1 - P(X \le 3) = 1 - 13 e^{-3} \approx 1 - 0.6472 = \mathbf{0.3528}$ \quad (35.28\% de probabilidad)
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.7.4 --- Ley de Eventos Raros en Ensayo Clínico (Enunciado)}
+    En un ensayo clínico de fase III se monitorean $n = 2000$ pacientes durante un año para detectar una reacción adversa extremadamente rara con probabilidad verdadera $p = 0.001$ por paciente-año (de modo que $\lambda = np = 2$).
+  \end{block}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{alertblock}{Comparación Binomial vs. Poisson}
+    Compare la probabilidad exacta de observar exactamente $k = 2$ reacciones adversas bajo el modelo binomial $Y \sim \text{Bin}(2000, 0.001)$ con la aproximación de Poisson $P(X = 2) = \dfrac{e^{-2} \cdot 2^{2}}{2!}$. Justifique teóricamente por qué la aproximación es excelente.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \footnotesize
+  Evaluamos ambas probabilidades y calculamos el error absoluto: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Cálculo Bajo el Modelo Binomial Exacto}
+    $$P(Y = 2) = \binom{2000}{2} (0.001)^{2} (0.999)^{1998} \approx 1\,999\,000 \cdot 10^{-6} \cdot 0.13534 \approx \mathbf{0.27056}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{block}{Aproximación de Poisson con $\lambda = 2$}
+    $$P(X = 2) = \dfrac{e^{-2} \cdot 2^{2}}{2!} = 2 e^{-2} \approx 2 \cdot 0.13534 \approx \mathbf{0.27067}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Justificación Teórica}
+    El error absoluto es $\abs{0.27056 - 0.27067} \approx 0.00011 < 5 \times 10^{-4}$. La aproximación es excelente porque se cumple la regla operativa $n = 2000 \ge 50$, $p = 0.001 \le 0.05$ y $np = 2 \le 5$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.7.7 --- Deducción Analítica de Momentos (Enunciado)}
+    Sea $X \sim \text{Pois}(\lambda)$ una variable aleatoria con parámetro $\lambda > 0$. Demuestre analíticamente que $\E[X] = \lambda$ y $\E[X^{2}] = \lambda^{2} + \lambda$ a partir de la identidad de la serie exponencial $e^{\lambda} = \sum_{k=0}^{\infty} \lambda^{k}/k!$ y derivación término a término.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia de Deducción}
+    La derivación respecto a $\lambda$ de la identidad $e^{\lambda} = \sum \lambda^{k}/k!$ produce $e^{\lambda} = \sum k \lambda^{k-1}/k!$. Multiplicar por $\lambda e^{-\lambda}$ lleva a $\E[X] = \lambda$. La derivada segunda produce $\E[X(X-1)] = \lambda^{2}$, de donde $\E[X^{2}] = \lambda^{2} + \lambda$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Derivamos dos veces la identidad de la serie exponencial para obtener los momentos de Poisson: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Derivada Primera: Esperanza Matemática}
+    \scriptsize
+    Partimos de $e^{\lambda} = \sum_{k=0}^{\infty} \lambda^{k}/k!$, derivamos: $e^{\lambda} = \sum_{k=1}^{\infty} k \lambda^{k-1}/k!$. Multiplicamos por $\lambda e^{-\lambda}$:
+    $$\E[X] = \sum_{k=0}^{\infty} k \cdot \dfrac{e^{-\lambda} \lambda^{k}}{k!} = \lambda e^{-\lambda} \sum_{k=1}^{\infty} \dfrac{\lambda^{k-1}}{(k-1)!} = \lambda e^{-\lambda} \cdot e^{\lambda} = \lambda$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Conclusión por Equidispersión}
+    \scriptsize
+    Análogamente, $\E[X(X-1)] = \lambda^{2}$, de donde $\E[X^{2}] = \E[X(X-1)] + \E[X] = \lambda^{2} + \lambda$. Por König-Huygens, $\Var(X) = \E[X^{2}] - (\E[X])^{2} = (\lambda^{2} + \lambda) - \lambda^{2} = \lambda \quad \blacksquare$
+  \end{alertblock}
+\end{frame}
+
+% Slide 16A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 3.7.9 --- Distribución Condicional Binomial (Enunciado)}
+    Sean $X \sim \text{Pois}(\lambda_{1})$ y $Y \sim \text{Pois}(\lambda_{2})$ dos variables aleatorias independientes que representan el número de eventos atendidos por dos servidores web en un mismo intervalo. Demuestre analíticamente que la distribución condicional de $X$ dado $(X + Y = n)$ es $\text{Bin}(n, p)$ con $p = \lambda_{1}/(\lambda_{1}+\lambda_{2})$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Aplicación Numérica}
+    Con $\lambda_{1} = 3$ y $\lambda_{2} = 5$, si en una hora se atendieron en total $n = 8$ solicitudes entre ambos servidores, calcule la probabilidad de que el servidor $1$ haya atendido exactamente $k = 3$ de ellas.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Por probabilidad condicional, independencia, y el resultado de aditividad (Problema 3.7.8): \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo del Cociente}
+    \scriptsize
+    $P(X=k \mid X+Y=n) = \dfrac{P(X=k) P(Y=n-k)}{P(X+Y=n)} = \dfrac{\dfrac{e^{-\lambda_{1}}\lambda_{1}^{k}}{k!} \cdot \dfrac{e^{-\lambda_{2}}\lambda_{2}^{n-k}}{(n-k)!}}{\dfrac{e^{-(\lambda_{1}+\lambda_{2})}(\lambda_{1}+\lambda_{2})^{n}}{n!}} = \binom{n}{k} p^{k}(1-p)^{n-k}$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Aplicación Numérica}
+    \scriptsize
+    Con $p = 3/8 = 0.375$ y $n = 8$, $k = 3$:
+    $$P(X=3 \mid X+Y=8) = \binom{8}{3} \left(\dfrac{3}{8}\right)^{3} \left(\dfrac{5}{8}\right)^{5} = 56 \cdot \dfrac{27}{512} \cdot \dfrac{3125}{32768} \approx 56 \cdot 0.00503 \approx \mathbf{0.2815}$$
+    Por lo tanto, dado que se atendieron en total $8$ solicitudes, la probabilidad de que el servidor $1$ haya atendido exactamente $3$ es $\approx 28.15\%$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 17: Cierre
+\begin{frame}{Cierre de Sección y Síntesis sobre la Ley de Poisson}
+  \begin{reflexion}[El Poder de los Eventos Raros en la Ingeniería]
+    La distribución de Poisson nos enseña que, en sistemas donde los eventos son independientes y ocurren a tasa constante, tanto la incertidumbre como el valor esperado se cuantifican con un solo parámetro $\lambda$. Esta propiedad de equidispersión es la base del control estadístico de procesos y del modelado de colas.
+  \end{reflexion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{block}{Lecciones Clave de la Ley de Eventos Raros}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Equidispersión:} $\E[X] = \Var(X) = \lambda$ permite usar la misma magnitud para predicción y monitoreo de variabilidad.
+      \item \textbf{Aditividad:} La suma de Poisson independientes es Poisson; ideal para agregar flujos de eventos en redes de servicio.
+      \item \textbf{Condicional Binomial:} Bajo suma fija, la distribución de una componente es binomial; permite asignación proporcional de tráfico entre servidores.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 18: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}[Para la próxima sesión: Distribución Multinomial]
+    Hasta ahora hemos estudiado distribuciones para variables aleatorias que cuentan un solo tipo de evento (éxitos, defectos, llamadas, clientes). Pero, ¿qué sucede cuando un ensayo puede resultar en $k \ge 2$ categorías mutuamente excluyentes con probabilidades $p_{1}, p_{2}, \dots, p_{k}$ que suman $1$? Introduciremos la \emph{Distribución Multinomial}.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la estructura del coeficiente multinomial $\binom{n}{x_{1}, \dots, x_{k}} = \dfrac{n!}{x_{1}! \cdots x_{k}!}$.
+      \item Reflexiona sobre cómo modelarías las probabilidades conjuntas de las preferencias de voto de una población entre $k$ candidatos.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

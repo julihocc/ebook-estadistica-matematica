@@ -1256,3 +1256,374 @@
 		Como $p\text{-value} \approx 0.0202 < \alpha = 0.05$, se rechaza la hipótesis nula $H_0$. Existe evidencia estadística estadísticamente significativa de que la terapia activa reduce la incidencia de trombosis respecto al placebo.
 	\end{enumerate}
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 03.07: DISTRIBUCIÓN DE POISSON Y PROCESOS DE LLEGADA
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 03.07}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:3.7.1}
+	Un centro de atención telefónica recibe llamadas de manera independiente a una tasa promedio constante de $\lambda = 3$ llamadas por minuto. Sea $X$ la variable aleatoria que cuenta el número de llamadas recibidas en un intervalo fijo de un minuto.
+	\begin{enumerate}
+		\item Especifique formalmente la función de masa de probabilidad $P(X = k)$ utilizando la fórmula de Poisson $P(X = k) = \dfrac{e^{-\lambda}\lambda^{k}}{k!}$ para $k \in \set{0, 1, 2, \dots}$.
+		\item Calcule explícitamente las probabilidades puntuales $P(X = 0)$, $P(X = 1)$ y $P(X = 2)$ y la probabilidad acumulada $P(X \ge 4)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.2}
+	En una planta de manufactura de componentes electrónicos, el número de defectos por lote sigue una distribución de Poisson con parámetro $\lambda = 2.5$ defectos por lote.
+	\begin{enumerate}
+		\item Calcule la esperanza matemática $\E[X]$ y la varianza $\Var(X)$ mediante la suma directa sobre el soporte $k \in \set{0, 1, 2, \dots, 15}$.
+		\item Verifique numéricamente la propiedad de equidispersión $\E[X] = \Var(X) = \lambda$ y comente su importancia práctica en el control estadístico de procesos.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.3}
+	El número de personas que llegan por día a la sala de urgencias de un hospital sigue una distribución de Poisson con media $\lambda = 5$ personas por día.
+	\begin{enumerate}
+		\item Calcule la probabilidad de que a lo sumo lleguen $3$ personas en un día dado, es decir, $P(X \le 3) = \sum_{k=0}^{3} \dfrac{5^{k} e^{-5}}{k!}$.
+		\item Calcule la probabilidad de que lleguen al menos $8$ personas en un día, $P(X \ge 8) = 1 - P(X \le 7)$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:3.7.4}
+	En un ensayo clínico de fase III se monitorean $n = 2000$ pacientes durante un año para detectar una reacción adversa extremadamente rara con probabilidad verdadera $p = 0.001$ por paciente-año (de modo que $\lambda = np = 2$).
+	\begin{enumerate}
+		\item Calcule la probabilidad exacta de observar exactamente $k = 2$ reacciones adversas bajo el modelo binomial $Y \sim \text{Bin}(2000, 0.001)$.
+		\item Calcule la aproximación de Poisson $P(X = 2) = \dfrac{e^{-2} 2^{2}}{2!}$ y determine el error absoluto $\abs{P_{\text{Bin}}(Y=2) - P_{\text{Pois}}(X=2)}$.
+		\item Justifique teóricamente por qué la aproximación de Poisson es excelente bajo la regla operativa $n \ge 50$ y $p \le 0.05$ (con $np \le 5$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.5}
+	Un servidor web recibe en promedio $\lambda = 8$ solicitudes HTTP por segundo, modeladas como un proceso de Poisson.
+	\begin{enumerate}
+		\item Calcule la probabilidad de que en un segundo particular el servidor no reciba ninguna solicitud.
+		\item Calcule la probabilidad de que el servidor sufra saturación recibiendo $\ge 15$ solicitudes en un segundo.
+		\item Halle el cuantil $q_{0.95}$, es decir, el menor entero $q$ tal que $P(X \le q) \ge 0.95$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.6}
+	Un sistema de monitoreo industrial registra fallas en una máquina crítica con una tasa promedio de $\lambda = 0.5$ fallas por hora, bajo un proceso de Poisson.
+	\begin{enumerate}
+		\item Calcule la probabilidad de que ocurra al menos una falla en un turno de $4$ horas consecutivas.
+		\item Compare el resultado anterior con el que se obtendría al modelar el número de fallas en $4$ horas como una binomial con $n = 4$ ensayos horarios de Bernoulli con $p$ equivalente.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:3.7.7}
+	Sea $X \sim \text{Pois}(\lambda)$ una variable aleatoria con distribución de Poisson y parámetro $\lambda > 0$.
+	\begin{enumerate}
+		\item Demuestre analíticamente que $\E[X] = \lambda$ partiendo de la identidad de la serie exponencial $e^{\lambda} = \sum_{k=0}^{\infty} \dfrac{\lambda^{k}}{k!}$ y derivando término a término.
+		\item Demuestre analíticamente que $\E[X^{2}] = \lambda^{2} + \lambda$ utilizando la derivada segunda de la misma serie exponencial.
+		\item Concluya que $\Var(X) = \E[X^{2}] - (\E[X])^{2} = \lambda$, confirmando la propiedad de equidispersión.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.8}
+	Considere dos variables aleatorias independientes $X \sim \text{Pois}(\lambda_{1})$ y $Y \sim \text{Pois}(\lambda_{2})$.
+	\begin{enumerate}
+		\item Demuestre rigurosamente, mediante convolución discreta, que la suma $Z = X + Y$ sigue una distribución $\text{Pois}(\lambda_{1} + \lambda_{2})$. Sugerencia: aplique el Teorema del Binomio de Newton a $(e^{-\lambda_{1}} e^{-\lambda_{2}})$.
+		\item Verifique que la propiedad de aditividad es coherente con la conservación de la esperanza $\E[Z] = \lambda_{1} + \lambda_{2}$ y la varianza $\Var(Z) = \lambda_{1} + \lambda_{2}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:3.7.9}
+	Sean $X \sim \text{Pois}(\lambda_{1})$ y $Y \sim \text{Pois}(\lambda_{2})$ dos variables aleatorias independientes que representan el número de eventos atendidos por dos servidores web en un mismo intervalo de tiempo.
+	\begin{enumerate}
+		\item Demuestre analíticamente que la distribución condicional de $X$ dado el evento $(X + Y = n)$ es una distribución binomial con parámetros $n$ y $p = \lambda_{1} / (\lambda_{1} + \lambda_{2})$:
+		\begin{align*}
+			P(X = k \mid X + Y = n) = \dfrac{P(X = k) P(Y = n - k)}{P(X + Y = n)} = \comb{n}{k} \left(\dfrac{\lambda_{1}}{\lambda_{1} + \lambda_{2}}\right)^{k} \left(\dfrac{\lambda_{2}}{\lambda_{1} + \lambda_{2}}\right)^{n-k}.
+		\end{align*}
+		\item Aplique el resultado a un caso donde $\lambda_{1} = 3$ y $\lambda_{2} = 5$. Si en una hora se atendieron en total $n = 8$ solicitudes entre ambos servidores, calcule la probabilidad de que el servidor $1$ haya atendido exactamente $k = 3$ de ellas.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.10}
+	En un proceso espacial de Poisson, una lámina metálica de $A = 10\,\text{m}^{2}$ presenta defectos distribuidos uniformemente con una densidad $\lambda = 0.5$ defectos por $\text{m}^{2}$.
+	\begin{enumerate}
+		\item Modele el número total de defectos $X$ en la lámina completa y calcule $P(X = 0)$ y $P(X \ge 8)$.
+		\item La lámina se divide en dos regiones disjuntas $A_{1} = 4\,\text{m}^{2}$ y $A_{2} = 6\,\text{m}^{2}$. Sean $X_{1}$ y $X_{2}$ los defectos en cada región. Demuestre que $X_{1} \sim \text{Pois}(2)$ y $X_{2} \sim \text{Pois}(3)$ son independientes.
+		\item Demuestre que, condicionalmente al total $X_{1} + X_{2} = n$, la distribución de $X_{1}$ es $\text{Bin}(n, 4/10)$, resultado análogo al del Problema \ref{prob:3.7.9} pero con $p = A_{1}/A$.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 03.07}
+
+\begin{sugerencia}
+	\label{sug:3.7.1}
+	Para el Problema \ref{prob:3.7.1}, evalúe la fórmula $P(X=k) = e^{-\lambda}\lambda^{k}/k!$ directamente con $\lambda = 3$ y $k \in \set{0, 1, 2}$. Para $P(X \ge 4)$, use el complemento $1 - \sum_{k=0}^{3} P(X=k)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.2}
+	Para el Problema \ref{prob:3.7.2}, evalúe las sumas $\E[X] = \sum_{k=0}^{15} k \cdot P(X=k)$ y $\E[X^{2}] = \sum_{k=0}^{15} k^{2} \cdot P(X=k)$. Verifique que la diferencia $\E[X^{2}] - (\E[X])^{2}$ se aproxima a $2.5$ con tolerancia de $10^{-3}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.3}
+	Para el Problema \ref{prob:3.7.3}, use la serie truncada $P(X \le 3) = e^{-5}\left(\dfrac{5^{0}}{0!} + \dfrac{5^{1}}{1!} + \dfrac{5^{2}}{2!} + \dfrac{5^{3}}{3!}\right)$ y análogamente para $P(X \le 7)$. El factor común $e^{-5} \approx 0.006738$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.4}
+	Para el Problema \ref{prob:3.7.4}, use `scipy.stats.binom.pmf(2, 2000, 0.001)` y `scipy.stats.poisson.pmf(2, mu=2)`. La diferencia debería ser menor que $5 \times 10^{-4}$ gracias a la regla $n \cdot p^{2} = 2000 \cdot 10^{-6} = 0.002 \ll 1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.5}
+	Para el Problema \ref{prob:3.7.5}, use el CDF de Poisson `stats.poisson.cdf(q, mu=8)` evaluado en distintos $q$ para encontrar el cuantil. Itere desde $q = 10$ hasta que el CDF supere $0.95$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.6}
+	Para el Problema \ref{prob:3.7.6}, el número de fallas en $4$ horas sigue una Poisson con $\lambda' = 4 \cdot 0.5 = 2$ (por escalamiento lineal del tiempo). Calcule $P(X \ge 1) = 1 - e^{-2}$. En el modelo binomial equivalente, use $n=4$ ensayos horarios y $p = 1 - e^{-0.5} \approx 0.3935$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.7}
+	Para el Problema \ref{prob:3.7.7}, multiplique ambos lados de la identidad $e^{\lambda} = \sum_{k=0}^{\infty} \lambda^{k}/k!$ por $e^{-\lambda}$ para obtener la normalización. Derive una vez respecto a $\lambda$ y multiplique por $\lambda$ para obtener $\E[X]$. Derive dos veces para $\E[X(X-1)] = \lambda^{2}$ y use $\E[X^{2}] = \E[X(X-1)] + \E[X]$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.8}
+	Para el Problema \ref{prob:3.7.8}, exprese la convolución $P(Z = m) = \sum_{k=0}^{m} P(X=k) P(Y=m-k) = \sum_{k=0}^{m} \dfrac{e^{-\lambda_{1}} \lambda_{1}^{k}}{k!} \cdot \dfrac{e^{-\lambda_{2}} \lambda_{2}^{m-k}}{(m-k)!}$. Factorice $e^{-(\lambda_{1}+\lambda_{2})}$ y reconozca el Teorema del Binomio de Newton: $\sum_{k=0}^{m} \comb{m}{k} \lambda_{1}^{k} \lambda_{2}^{m-k} = (\lambda_{1} + \lambda_{2})^{m}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.9}
+	Para el Problema \ref{prob:3.7.9}, sustituya las PMFs de Poisson en el numerador y denominador, factorice $e^{-(\lambda_{1}+\lambda_{2})}(\lambda_{1}+\lambda_{2})^{n}/n!$ en el denominador (por el Problema \ref{prob:3.7.8}), y observe que el cociente colapsa a una PMF binomial con $p = \lambda_{1}/(\lambda_{1}+\lambda_{2})$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.10}
+	Para el Problema \ref{prob:3.7.10}, use que en un proceso espacial de Poisson con intensidad $\lambda$ por unidad de área, una región de área $A$ contiene $X \sim \text{Pois}(\lambda A)$ defectos. Para (b), las regiones disjuntas son independientes. Para (c), use el resultado del Problema \ref{prob:3.7.9} con $p = A_{1}/(A_{1}+A_{2}) = 4/10 = 0.4$.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 03.07}
+
+\begin{solucion}
+	\label{sol:3.7.1}
+	Para el Problema \ref{prob:3.7.1}:
+	\begin{enumerate}
+		\item El soporte de $X$ es $\mathcal{S}_{X} = \set{0, 1, 2, \dots}$ (enteros no negativos). La PMF canónica es:
+		\begin{align*}
+			P(X = k) = \dfrac{e^{-\lambda} \lambda^{k}}{k!}, \quad k \in \set{0, 1, 2, \dots}
+		\end{align*}
+		\item Evaluamos explícitamente con $\lambda = 3$:
+		\begin{align*}
+			P(X = 0) &= e^{-3} \cdot \dfrac{3^{0}}{0!} = e^{-3} \approx 0.04979, \\
+			P(X = 1) &= e^{-3} \cdot \dfrac{3^{1}}{1!} = 3 e^{-3} \approx 0.14936, \\
+			P(X = 2) &= e^{-3} \cdot \dfrac{3^{2}}{2!} = \dfrac{9}{2} e^{-3} \approx 0.22404.
+		\end{align*}
+		Para la cola derecha:
+		\begin{align*}
+			P(X \ge 4) = 1 - P(X \le 3) = 1 - e^{-3}\left(1 + 3 + \dfrac{9}{2} + \dfrac{27}{6}\right) = 1 - 13 e^{-3} \approx 1 - 0.6472 = 0.3528.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.2}
+	Para el Problema \ref{prob:3.7.2}:
+	\begin{enumerate}
+		\item La PMF es $P(X = k) = e^{-2.5} \cdot 2.5^{k} / k!$. Calculamos las sumas sobre $k = 0, 1, \dots, 15$ (la cola más allá es despreciable):
+		\begin{align*}
+			\E[X] &= \sum_{k=0}^{15} k \cdot P(X=k) \approx 2.500, \\
+			\E[X^{2}] &= \sum_{k=0}^{15} k^{2} \cdot P(X=k) \approx 8.750, \\
+			\Var(X) &= \E[X^{2}] - (\E[X])^{2} \approx 8.750 - 6.250 = 2.500.
+		\end{align*}
+		\item La propiedad de equidispersión se confirma con tolerancia numérica: $\E[X] = \Var(X) = \lambda = 2.5$ (error $< 10^{-3}$). En control estadístico de procesos, la equidispersión implica que la carta de control $c$ (basada en Poisson) puede usar límites de control $3\sigma$ iguales a $\lambda \pm 3\sqrt{\lambda}$, simplificando el monitoreo industrial.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.3}
+	Para el Problema \ref{prob:3.7.3}:
+	\begin{enumerate}
+		\item Con $\lambda = 5$:
+		\begin{align*}
+			P(X \le 3) &= e^{-5}\left(\dfrac{5^{0}}{0!} + \dfrac{5^{1}}{1!} + \dfrac{5^{2}}{2!} + \dfrac{5^{3}}{3!}\right) = e^{-5}\left(1 + 5 + 12.5 + 20.833\overline{3}\right) \\
+			&= e^{-5} \cdot 39.833\overline{3} \approx 0.006738 \cdot 39.833 \approx 0.2650.
+		\end{align*}
+		\item Para el complemento de la cola derecha:
+		\begin{align*}
+			P(X \ge 8) = 1 - P(X \le 7) = 1 - e^{-5} \sum_{k=0}^{7} \dfrac{5^{k}}{k!} \approx 1 - 0.867 = 0.1330.
+		\end{align*}
+		Por lo tanto, hay una probabilidad aproximada del $26.50\%$ de que lleguen a lo sumo $3$ pacientes y del $13.30\%$ de que lleguen al menos $8$ pacientes en un día típico.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.4}
+	Para el Problema \ref{prob:3.7.4}:
+	\begin{enumerate}
+		\item Bajo el modelo binomial exacto $Y \sim \text{Bin}(n = 2000, p = 0.001)$:
+		\begin{align*}
+			P(Y = 2) &= \comb{2000}{2}(0.001)^{2}(0.999)^{1998} \\
+			&= \dfrac{2000 \cdot 1999}{2} \cdot 10^{-6} \cdot 0.999^{1998} \\
+			&\approx 1\,999\,000 \cdot 10^{-6} \cdot 0.13534 \approx 0.27056.
+		\end{align*}
+		\item Bajo la aproximación de Poisson con $\lambda = np = 2$:
+		\begin{align*}
+			P(X = 2) = \dfrac{e^{-2} \cdot 2^{2}}{2!} = 2 e^{-2} \approx 2 \cdot 0.13534 \approx 0.27067.
+		\end{align*}
+		El error absoluto es $\abs{0.27056 - 0.27067} \approx 0.00011 < 5 \times 10^{-4}$.
+		\item La aproximación de Poisson es excelente porque se cumplen las condiciones de la ley de eventos raros: $n = 2000 \gg 50$ y $p = 0.001 \ll 0.05$ con $np = 2 \le 5$. Bajo estos parámetros, los términos factoriales descendentes $(N-k)!/N!$ se simplifican, $(1-p)^{N-k} \to e^{-\lambda}$, y $\binom{N}{k} p^{k} \to \lambda^{k}/k!$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.5}
+	Para el Problema \ref{prob:3.7.5}:
+	\begin{enumerate}
+		\item Con $\lambda = 8$:
+		\begin{align*}
+			P(X = 0) = e^{-8} \cdot \dfrac{8^{0}}{0!} = e^{-8} \approx 0.000335.
+		\end{align*}
+		\item La probabilidad de saturación se calcula mediante el complemento:
+		\begin{align*}
+			P(X \ge 15) = 1 - P(X \le 14) = 1 - \sum_{k=0}^{14} \dfrac{e^{-8} 8^{k}}{k!} \approx 1 - 0.9820 = 0.0180.
+		\end{align*}
+		\item Para el cuantil $q_{0.95}$, iteramos en `scipy.stats.poisson.cdf(q, mu=8)`:
+		\begin{align*}
+			P(X \le 11) &\approx 0.888, \quad P(X \le 12) \approx 0.936, \quad P(X \le 13) \approx 0.966.
+		\end{align*}
+		El menor $q$ tal que $P(X \le q) \ge 0.95$ es $q_{0.95} = 13$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.6}
+	Para el Problema \ref{prob:3.7.6}:
+	\begin{enumerate}
+		\item Por la propiedad de escalamiento lineal del tiempo en un proceso de Poisson, el número de fallas en $4$ horas sigue una $\text{Pois}(\lambda' = 4 \cdot 0.5 = 2)$:
+		\begin{align*}
+			P(X \ge 1) = 1 - P(X = 0) = 1 - e^{-2} \approx 1 - 0.1353 = 0.8647.
+		\end{align*}
+		\item En el modelo binomial equivalente, se discretiza el turno en $n = 4$ ensayos horarios independientes con $p = 1 - e^{-0.5} \approx 0.3935$ (probabilidad de al menos una falla en una hora):
+		\begin{align*}
+			P(Y \ge 1) = 1 - (1-p)^{4} = 1 - (0.6065)^{4} \approx 1 - 0.1353 = 0.8647.
+		\end{align*}
+		Ambos enfoques producen exactamente el mismo resultado, validando la equivalencia operativa entre la formulación continua (Poisson) y la discretización Bernoulli horaria.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.7}
+	Para el Problema \ref{prob:3.7.7}:
+	\begin{enumerate}
+		\item Partimos de la identidad de la serie exponencial $e^{\lambda} = \sum_{k=0}^{\infty} \lambda^{k}/k!$ y la multiplicamos por $e^{-\lambda}$ para obtener la normalización de Poisson:
+		\begin{align*}
+			1 = e^{-\lambda} e^{\lambda} = \sum_{k=0}^{\infty} \dfrac{e^{-\lambda} \lambda^{k}}{k!} = \sum_{k=0}^{\infty} P(X = k).
+		\end{align*}
+		Derivamos término a término respecto a $\lambda$:
+		\begin{align*}
+			0 &= \dfrac{\partial}{\partial \lambda} \sum_{k=0}^{\infty} P(X = k) = \sum_{k=0}^{\infty} \dfrac{\partial}{\partial \lambda}\left(\dfrac{e^{-\lambda} \lambda^{k}}{k!}\right) = \sum_{k=0}^{\infty} \dfrac{e^{-\lambda} \lambda^{k-1}(\lambda - k)}{k!}.
+		\end{align*}
+		Multiplicamos por $\lambda$ y separamos el término $k = 0$:
+		\begin{align*}
+			0 = \sum_{k=0}^{\infty} \dfrac{e^{-\lambda} \lambda^{k}(k - \lambda)}{k!} = \sum_{k=0}^{\infty} k P(X = k) - \lambda \sum_{k=0}^{\infty} P(X = k) = \E[X] - \lambda.
+		\end{align*}
+		Por lo tanto $\E[X] = \lambda$.
+		\item Para el segundo momento, derivamos dos veces y multiplicamos por $\lambda^{2}$:
+		\begin{align*}
+			\E[X(X-1)] = \sum_{k=0}^{\infty} k(k-1) P(X = k) = \lambda^{2}.
+		\end{align*}
+		Entonces:
+		\begin{align*}
+			\E[X^{2}] = \E[X(X-1)] + \E[X] = \lambda^{2} + \lambda.
+		\end{align*}
+		\item La varianza es:
+		\begin{align*}
+			\Var(X) = \E[X^{2}] - (\E[X])^{2} = (\lambda^{2} + \lambda) - \lambda^{2} = \lambda. \quad \blacksquare
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.8}
+	Para el Problema \ref{prob:3.7.8}:
+	\begin{enumerate}
+		\item Por independencia, la convolución de las PMFs es:
+		\begin{align*}
+			P(Z = m) &= \sum_{k=0}^{m} P(X = k) P(Y = m-k) \\
+			&= \sum_{k=0}^{m} \dfrac{e^{-\lambda_{1}} \lambda_{1}^{k}}{k!} \cdot \dfrac{e^{-\lambda_{2}} \lambda_{2}^{m-k}}{(m-k)!} \\
+			&= e^{-(\lambda_{1} + \lambda_{2})} \sum_{k=0}^{m} \dfrac{\lambda_{1}^{k} \lambda_{2}^{m-k}}{k! (m-k)!} \\
+			&= \dfrac{e^{-(\lambda_{1} + \lambda_{2})}}{m!} \sum_{k=0}^{m} \dfrac{m!}{k!(m-k)!} \lambda_{1}^{k} \lambda_{2}^{m-k}.
+		\end{align*}
+		Reconociendo el coeficiente binomial $\comb{m}{k} = m!/(k!(m-k)!)$ y aplicando el Teorema del Binomio de Newton:
+		\begin{align*}
+			P(Z = m) = \dfrac{e^{-(\lambda_{1} + \lambda_{2})}}{m!} (\lambda_{1} + \lambda_{2})^{m},
+		\end{align*}
+		que es exactamente la PMF de una $\text{Pois}(\lambda_{1} + \lambda_{2})$.
+		\item La esperanza y varianza de $Z$ son:
+		\begin{align*}
+			\E[Z] = \E[X] + \E[Y] = \lambda_{1} + \lambda_{2}, \quad \Var(Z) = \Var(X) + \Var(Y) = \lambda_{1} + \lambda_{2}.
+		\end{align*}
+		Estos valores son consistentes con la PMF derivada, confirmando la coherencia algebraica del resultado. \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.9}
+	Para el Problema \ref{prob:3.7.9}:
+	\begin{enumerate}
+		\item Por definición de probabilidad condicional, independencia, y el resultado del Problema \ref{prob:3.7.8}:
+		\begin{align*}
+			P(X = k \mid X + Y = n) &= \dfrac{P(X = k) P(Y = n-k)}{P(X + Y = n)} \\
+			&= \dfrac{\dfrac{e^{-\lambda_{1}} \lambda_{1}^{k}}{k!} \cdot \dfrac{e^{-\lambda_{2}} \lambda_{2}^{n-k}}{(n-k)!}}{\dfrac{e^{-(\lambda_{1}+\lambda_{2})} (\lambda_{1} + \lambda_{2})^{n}}{n!}} \\
+			&= \dfrac{n!}{k! (n-k)!} \cdot \dfrac{\lambda_{1}^{k} \lambda_{2}^{n-k}}{(\lambda_{1} + \lambda_{2})^{n}} \\
+			&= \comb{n}{k} \left(\dfrac{\lambda_{1}}{\lambda_{1} + \lambda_{2}}\right)^{k} \left(\dfrac{\lambda_{2}}{\lambda_{1} + \lambda_{2}}\right)^{n-k},
+		\end{align*}
+		que es la PMF de una $\text{Bin}(n, p)$ con $p = \lambda_{1}/(\lambda_{1} + \lambda_{2})$.
+		\item Para $\lambda_{1} = 3$ y $\lambda_{2} = 5$, se tiene $p = 3/8 = 0.375$. Si $n = 8$ y $k = 3$:
+		\begin{align*}
+			P(X = 3 \mid X + Y = 8) &= \comb{8}{3} \left(\dfrac{3}{8}\right)^{3} \left(\dfrac{5}{8}\right)^{5} \\
+			&= 56 \cdot \dfrac{27}{512} \cdot \dfrac{3125}{32768} \\
+			&= 56 \cdot \dfrac{84\,375}{16\,777\,216} \approx 56 \cdot 0.00503 \approx 0.2815.
+		\end{align*}
+		Por lo tanto, dado que se atendieron en total $8$ solicitudes, la probabilidad de que el servidor $1$ haya atendido exactamente $3$ es aproximadamente $28.15\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.10}
+	Para el Problema \ref{prob:3.7.10}:
+	\begin{enumerate}
+		\item En un proceso espacial de Poisson con intensidad $\lambda = 0.5$ defectos/$\text{m}^{2}$ y área total $A = 10\,\text{m}^{2}$, el número total de defectos sigue $X \sim \text{Pois}(\lambda A) = \text{Pois}(5)$. Evaluamos:
+		\begin{align*}
+			P(X = 0) &= e^{-5} \approx 0.00674, \\
+			P(X \ge 8) &= 1 - P(X \le 7) \approx 1 - 0.8666 = 0.1334.
+		\end{align*}
+		\item Las regiones $A_{1} = 4\,\text{m}^{2}$ y $A_{2} = 6\,\text{m}^{2}$ son disjuntas, por lo que los conteos $X_{1}$ y $X_{2}$ son independientes con $X_{i} \sim \text{Pois}(\lambda A_{i})$:
+		\begin{align*}
+			X_{1} \sim \text{Pois}(0.5 \cdot 4) = \text{Pois}(2), \quad X_{2} \sim \text{Pois}(0.5 \cdot 6) = \text{Pois}(3).
+		\end{align*}
+		\item Por el resultado del Problema \ref{prob:3.7.9} aplicado con $\lambda_{1} = 2$ y $\lambda_{2} = 3$ (las medias efectivas de las sub-regiones), la distribución condicional es:
+		\begin{align*}
+			P(X_{1} = k \mid X_{1} + X_{2} = n) = \comb{n}{k} \left(\dfrac{2}{5}\right)^{k} \left(\dfrac{3}{5}\right)^{n-k} = \comb{n}{k} \left(\dfrac{A_{1}}{A}\right)^{k} \left(\dfrac{A_{2}}{A}\right)^{n-k}.
+		\end{align*}
+		Con $A_{1}/A = 4/10 = 0.4$, obtenemos $X_{1} \mid (X_{1} + X_{2} = n) \sim \text{Bin}(n, 0.4)$. Este resultado es intuitivo: dado un número fijo $n$ de defectos distribuidos al azar en un área total, la proporción que cae en una sub-región es proporcional a su área relativa. \qedhere
+	\end{enumerate}
+\end{solucion}

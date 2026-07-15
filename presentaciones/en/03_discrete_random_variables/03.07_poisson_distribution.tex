@@ -1,0 +1,358 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Poisson Distribution}
+\subtitle{Section 03.07 --- Arrival Processes, Law of Rare Events and Additivity}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 2}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 03.01 to 03.03: Foundations, PMF, CDF, Expectation, and Variance}
+			\item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions (Sampling with replacement)}
+			\item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions (Waiting times)}
+			\item \textcolor{gray}{Section 03.06: Hypergeometric Distribution (Sampling without replacement)}
+			\item \textbf{\textcolor{TecRojo}{Section 03.07: Poisson Distribution}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 03.08: Multinomial Distribution}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Master the modeling of rare event counts in fixed time/space intervals, derive the Law of Rare Events as the bridge from Binomial to Poisson, and exploit the reproductive and conditional Binomial properties of independent Poisson random variables.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivation
+\begin{frame}{From Discrete Binomial Trials to Continuous Poisson Processes}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Binomial Model: Fixed Number of Trials}
+				\footnotesize
+				\begin{itemize}\itemsep=0.05cm
+					\item Fixed number of trials $n$ with constant success probability $p$.
+					\item Discrete sample space with $n+1$ outcomes.
+					\item \textbf{Limitation:} Cannot model events that occur continuously over time or space.
+				\end{itemize}
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Poisson Model: Random Event Counts}
+				\footnotesize
+				\begin{itemize}\itemsep=0.05cm
+					\item Random number of events in a fixed time/space window.
+					\item Rate parameter $\lambda$ governs both mean and variance.
+					\item \textbf{Equidispersion:} $\E[X] = \Var(X) = \lambda$.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Formal Definition and Equidispersion
+\begin{frame}{Formal Definition and Equidispersion Property}
+	\vspace{-0.2cm}
+	\begin{block}{Probability Mass Function (PMF)}
+		\scriptsize
+		A discrete random variable $X$ follows a Poisson distribution with rate $\lambda > 0$ if its PMF is:
+		$$P(X = k) = \dfrac{e^{-\lambda} \lambda^{k}}{k!}, \quad k \in \set{0, 1, 2, \dots}$$
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Normalization (Taylor Series)}
+				\scriptsize
+				$\sum_{k=0}^{\infty} P(X=k) = e^{-\lambda} \sum_{k=0}^{\infty} \dfrac{\lambda^{k}}{k!} = e^{-\lambda} \cdot e^{\lambda} = 1$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Equidispersion Theorem}
+				\scriptsize
+				$\E[X] = \lambda$ and $\Var(X) = \lambda$ (both equal to the rate parameter). Derived from the MGF $M_{X}(t) = e^{\lambda(e^{t}-1)}$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Law of Rare Events
+\begin{frame}{Law of Rare Events: Binomial $\to$ Poisson Limit}
+	\vspace{-0.15cm}
+	\begin{block}{Asymptotic Convergence Theorem}
+		\scriptsize
+		As $n \to \infty$ with $p \to 0$ such that $np = \lambda$ stays constant:
+		$$\lim_{n \to \infty} \binom{n}{k} p^{k} (1-p)^{n-k} = \dfrac{e^{-\lambda} \lambda^{k}}{k!}$$
+	\end{block}
+	\vspace{-0.1cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{exampleblock}{Operational Rule}
+				\scriptsize
+				The approximation is excellent when $n \ge 50$, $p \le 0.05$, and $np \le 5$. Beyond these thresholds, the Total Variation Distance exceeds $10^{-3}$.
+			\end{exampleblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Practical Use in Engineering}
+				\scriptsize
+				When modeling rare adverse events (clinical trials, defect counts, traffic accidents), use the Binomial for exact computation and Poisson for analytical tractability.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Additivity and Conditional Binomial
+\begin{frame}{Additivity and Conditional Binomial Properties}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Additivity (Reproductive Property)}
+				\scriptsize
+				If $X \sim \text{Pois}(\lambda_{1})$ and $Y \sim \text{Pois}(\lambda_{2})$ are independent, then:
+				$$Z = X + Y \sim \text{Pois}(\lambda_{1} + \lambda_{2})$$
+				Proved via discrete convolution and the Binomial Theorem.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Conditional Binomial Theorem}
+				\scriptsize
+				Conditionally on $X + Y = n$:
+				$$P(X = k \mid X + Y = n) = \binom{n}{k} p^{k}(1-p)^{n-k}$$
+				$$p = \dfrac{\lambda_{1}}{\lambda_{1} + \lambda_{2}}$$
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 07: Applications
+\begin{frame}{Industrial and Data Science Applications}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Queueing Theory and Telecommunications:} Call arrivals to a call center, HTTP requests to a web server, vehicle arrivals at a toll booth. The rate $\lambda$ quantifies traffic intensity. \pause
+		\item \textbf{Statistical Quality Control:} Defect counts per production unit. The equidispersion property enables $c$-charts with control limits $\lambda \pm 3\sqrt{\lambda}$. \pause
+		\item \textbf{Biostatistics and Epidemiology:} Genetic mutations in a DNA strand, rare disease cases in a population, or rare adverse events in clinical trials.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: PMF and Equidispersion}
+	\vspace{-0.05cm}
+	\scriptsize
+	Computational verification in SciPy (\texttt{03.07\_poisson\_distribution.py}) of support, normalization, and the equidispersion property:
+	\vspace{0.05cm}
+	{\lstset{basicstyle=\fontsize{5.5pt}{6.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=15, lastline=37]{../../code/03_variables_aleatorias_discretas/03.07_poisson_distribution.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Law of Rare Events}
+	\vspace{-0.05cm}
+	\scriptsize
+	$250,000$ trials simulation verifying Binomial $\to$ Poisson convergence via Total Variation Distance (TVD):
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{5.5pt}{6.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=40, lastline=62]{../../code/03_variables_aleatorias_discretas/03.07_poisson_distribution.py}}
+\end{frame}
+
+% SLIDE 10: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Additivity and Conditional Binomial}
+	\vspace{-0.05cm}
+	\scriptsize
+	Numerical verification by simulation of Poisson additivity and the conditional Binomial distribution:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{5pt}{6pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=72, lastline=92]{../../code/03_variables_aleatorias_discretas/03.07_poisson_distribution.py}}
+\end{frame}
+
+% SLIDE 11: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4.5pt}{5.2pt}\selectfont
+		\begin{verbatim}
+=== Block 1: Poisson PMF & Equidispersion ===
+Lambda = 3.0 (calls/min) | mu = sigma^2 = lambda
+PMF total probability: 0.999999329614
+Equidispersion property verified: True
+P(X=0)=0.049787 | P(X=1)=0.149361 | P(X=2)=0.224042
+
+=== Block 2: Law of Rare Events (Binomial -> Poisson) ===
+  n=    50 p=0.0400 | TVD=0.009270
+  n=   500 p=0.0040 | TVD=0.000905
+  n=  2000 p=0.0010 | TVD=0.000226
+  n= 10000 p=0.0002 | TVD=0.000045
+Monte Carlo (N=250,000): mean=2.0018 | var=1.9971
+
+=== Block 3: Additivity & Conditional Binomial ===
+Z = X + Y: emp mean=7.9992 | emp var=7.9888
+Conditional X | (X+Y=8) with p_cond = 0.3750:
+  k=0: 0.0222 | 0.0233 | k=3: 0.2856 | 0.2816
+  k=5: 0.1019 | 0.1014 | k=8: 0.0003 | 0.0004
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 12: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.7.1 --- Calls to a Call Center (Statement)}
+		A call center receives calls independently at an average rate of $\lambda = 3$ calls per minute. Let $X$ be the random variable that counts the number of calls received in a fixed one-minute interval. Calculate $P(X = 0)$, $P(X = 1)$, $P(X = 2)$, and $P(X \ge 4)$.
+	\end{block}
+	\vspace{0.15cm}
+	\begin{alertblock}{Model Setup}
+		\scriptsize
+		$X \sim \text{Pois}(\lambda = 3)$ with PMF $P(X = k) = e^{-3} \cdot 3^{k} / k!$ for $k \in \set{0, 1, 2, \dots}$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Direct evaluation with $\lambda = 3$ and complement for the right tail: \pause
+	\begin{itemize}\itemsep=0.04cm
+		\item \textbf{Zero calls ($X=0$):} $P(X=0) = e^{-3} \cdot 3^{0}/0! = e^{-3} \approx 0.04979$ \pause
+		\item \textbf{One call ($X=1$):} $P(X=1) = e^{-3} \cdot 3^{1}/1! = 3e^{-3} \approx 0.14936$ \pause
+		\item \textbf{Two calls ($X=2$):} $P(X=2) = e^{-3} \cdot 3^{2}/2! = (9/2) e^{-3} \approx 0.22404$
+	\end{itemize}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Right Tail by Complement}
+		\scriptsize
+		$P(X \ge 4) = 1 - P(X \le 3) = 1 - 13 e^{-3} \approx 1 - 0.6472 = \mathbf{0.3528}$ (35.28\% probability).
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.7.4 --- Law of Rare Events in a Clinical Trial (Statement)}
+		A Phase III clinical trial monitors $n = 2000$ patients over one year to detect an extremely rare adverse reaction with true probability $p = 0.001$ per patient-year (so $\lambda = np = 2$).
+	\end{block}
+	\vspace{0.15cm}
+	\begin{alertblock}{Binomial vs. Poisson Comparison}
+		\scriptsize
+		Compare the exact probability of observing exactly $k = 2$ adverse reactions under the Binomial model $Y \sim \text{Bin}(2000, 0.001)$ with the Poisson approximation $P(X = 2) = e^{-2} \cdot 2^{2}/2!$. Justify theoretically why the approximation is excellent.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\begin{block}{Exact Binomial Calculation}
+		\scriptsize
+		$P(Y=2) = \binom{2000}{2} (0.001)^{2} (0.999)^{1998} \approx 1\,999\,000 \cdot 10^{-6} \cdot 0.13534 \approx \mathbf{0.27056}$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{block}{Poisson Approximation with $\lambda = 2$}
+		\scriptsize
+		$P(X=2) = e^{-2} \cdot 2^{2}/2! = 2 e^{-2} \approx 2 \cdot 0.13534 \approx \mathbf{0.27067}$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Theoretical Justification}
+		\scriptsize
+		Absolute error: $\abs{0.27056 - 0.27067} \approx 0.00011 < 5 \times 10^{-4}$. The approximation is excellent because the operational rule $n = 2000 \ge 50$, $p = 0.001 \le 0.05$ and $np = 2 \le 5$ is satisfied.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.7.7 --- Analytical Derivation of Moments (Statement)}
+		Let $X \sim \text{Pois}(\lambda)$ with $\lambda > 0$. Prove analytically that $\E[X] = \lambda$ and $\E[X^{2}] = \lambda^{2} + \lambda$ from the exponential series identity $e^{\lambda} = \sum_{k=0}^{\infty} \lambda^{k}/k!$ and term-by-term differentiation.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Deduction Strategy}
+		\scriptsize
+		Differentiating $e^{\lambda} = \sum \lambda^{k}/k!$ once and multiplying by $\lambda e^{-\lambda}$ yields $\E[X] = \lambda$. The second derivative gives $\E[X(X-1)] = \lambda^{2}$, hence $\E[X^{2}] = \lambda^{2} + \lambda$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Differentiate the exponential series twice to obtain the moments: \pause
+	\begin{block}{First Derivative: Expectation}
+		\scriptsize
+		From $e^{\lambda} = \sum_{k=0}^{\infty} \lambda^{k}/k!$, differentiate: $e^{\lambda} = \sum_{k=1}^{\infty} k \lambda^{k-1}/k!$. Multiply by $\lambda e^{-\lambda}$:
+		$$\E[X] = \sum_{k=0}^{\infty} k \cdot \dfrac{e^{-\lambda} \lambda^{k}}{k!} = \lambda e^{-\lambda} \cdot e^{\lambda} = \lambda$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Equidispersion Conclusion}
+		\scriptsize
+		Analogously, $\E[X(X-1)] = \lambda^{2}$, so $\E[X^{2}] = \lambda^{2} + \lambda$. By Konig-Huygens, $\Var(X) = (\lambda^{2}+\lambda) - \lambda^{2} = \lambda \quad \blacksquare$
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.7.9 --- Conditional Binomial Distribution (Statement)}
+		Let $X \sim \text{Pois}(\lambda_{1})$ and $Y \sim \text{Pois}(\lambda_{2})$ be independent random variables counting events served by two web servers in the same interval. Prove analytically that the conditional distribution of $X$ given $(X+Y=n)$ is $\text{Bin}(n, p)$ with $p = \lambda_{1}/(\lambda_{1}+\lambda_{2})$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Numerical Application}
+		\scriptsize
+		With $\lambda_{1} = 3$ and $\lambda_{2} = 5$, if a total of $n = 8$ requests were served in one hour, calculate the probability that server $1$ served exactly $k = 3$ of them.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 19: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	By conditional probability, independence, and the additivity result (Problem 3.7.8): \pause
+	\begin{block}{Ratio Calculation}
+		\scriptsize
+		$P(X=k \mid X+Y=n) = \dfrac{P(X=k) P(Y=n-k)}{P(X+Y=n)} = \binom{n}{k} p^{k}(1-p)^{n-k}$ with $p = \lambda_{1}/(\lambda_{1}+\lambda_{2})$.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Numerical Application}
+		\scriptsize
+		With $p = 3/8 = 0.375$, $n = 8$, $k = 3$:
+		$$P(X=3 \mid X+Y=8) = \binom{8}{3} \left(\dfrac{3}{8}\right)^{3} \left(\dfrac{5}{8}\right)^{5} = 56 \cdot \dfrac{27}{512} \cdot \dfrac{3125}{32768} \approx \mathbf{0.2815}$$
+		Given that $8$ requests were served in total, the probability that server $1$ served exactly $3$ is $\approx 28.15\%$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 20: Closing and Next Steps
+\begin{frame}{Closing Section and Modular Perspective}
+	\vspace{-0.15cm}
+	\begin{block}{Synthesis on the Law of Rare Events}
+		\scriptsize
+		The Poisson distribution quantifies both uncertainty and expected value with a single parameter $\lambda$. This equidispersion property is the foundation of statistical process control and queueing modeling.
+	\end{block}
+	\vspace{0.02cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.04cm
+			\item \textbf{Equidispersion:} $\E[X] = \Var(X) = \lambda$ for prediction and variability monitoring.
+			\item \textbf{Additivity:} Sum of independent Poisson is Poisson; ideal for aggregating event flows.
+			\item \textbf{Conditional Binomial:} Under fixed total, the distribution of a component is Binomial.
+			\item \textbf{Next Session:} \textcolor{TecRojo}{Multinomial Distribution}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}
