@@ -208,6 +208,80 @@ The exact distribution of $\bar{X}$ is \emph{normal} if the original population 
 
 
 
+\subsection{Statistics and the Unbiased Sample Variance}
+
+\begin{definicion}[Statistic]
+Let $X_1, X_2, \ldots, X_n$ be a simple random sample (iid random variables) from a population. A \emph{statistic} is any function $T = g(X_1, \ldots, X_n)$ of the sample that does not depend on unknown population parameters. Every statistic is itself a random variable with its own probability distribution, called the \emph{sampling distribution} of $T$.
+\end{definicion}
+
+The sample mean $\bar{X}$ is the most commonly used statistic; the second most important is the \emph{sample variance}.
+
+\begin{definicion}[Sample variance]
+ \label{eq:5.1.1}
+Given a simple random sample $X_1, \ldots, X_n$ with sample mean $\bar{X}$, the \emph{sample variance} is defined as
+\begin{align}
+ S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2.
+\end{align}
+\end{definicion}
+
+\begin{observacion}[Why divide by $n-1$ instead of $n$?]
+The divisor $n-1$ (known as \emph{Bessel's correction}) is not arbitrary: it is precisely what makes $S^2$ an \emph{unbiased estimator} of the population variance $\sigma^2$, as shown below.
+\end{observacion}
+
+\begin{teorema}[Unbiasedness of the sample variance]
+ \label{eq:5.1.2}
+If $X_1, \ldots, X_n$ are iid with mean $\mu$ and variance $\sigma^2 < \infty$, then
+\begin{align}
+ E(S^2) = \sigma^2.
+\end{align}
+\end{teorema}
+
+\begin{proof}
+We write the sum of squares centered at $\bar{X}$ in terms of the population mean $\mu$, adding and subtracting $\mu$:
+\begin{align}
+ \sum_{i=1}^n (X_i - \bar{X})^2
+ &= \sum_{i=1}^n \left[(X_i - \mu) - (\bar{X} - \mu)\right]^2 \\
+ &= \sum_{i=1}^n (X_i - \mu)^2 - 2(\bar{X}-\mu)\sum_{i=1}^n(X_i-\mu) + n(\bar{X}-\mu)^2 \\
+ &= \sum_{i=1}^n (X_i - \mu)^2 - n(\bar{X}-\mu)^2,
+\end{align}
+where we used $\sum_{i=1}^n (X_i - \mu) = n(\bar{X}-\mu)$. Taking expectations and using $E[(X_i-\mu)^2] = \sigma^2$ for each $i$, and $E[(\bar{X}-\mu)^2] = \text{Var}(\bar{X}) = \sigma^2/n$:
+\begin{align}
+ E\left[\sum_{i=1}^n (X_i - \bar{X})^2\right] = n\sigma^2 - n\cdot\frac{\sigma^2}{n}
+ = (n-1)\sigma^2.
+\end{align}
+Dividing by $n-1$:
+\begin{align}
+ E(S^2) = E\left[\frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2\right]
+ = \frac{(n-1)\sigma^2}{n-1} = \sigma^2. \qedhere
+\end{align}
+\end{proof}
+
+\begin{observacion}[The ``natural'' estimator is biased]
+The estimator that divides by $n$ instead of $n-1$, $\hat{\sigma}^2 = \frac{1}{n}\sum(X_i-\bar{X})^2 = \frac{n-1}{n}S^2$, systematically \emph{underestimates} the population variance:
+\begin{align}
+ E(\hat{\sigma}^2) = \frac{n-1}{n}\sigma^2 < \sigma^2.
+\end{align}
+Intuitively, $\bar{X}$ is, by construction, closer to each $X_i$ than the unknown population mean $\mu$, so the sum of squares around $\bar{X}$ underestimates the true spread; dividing by $n-1$ instead of $n$ (``losing one degree of freedom'' from having estimated $\mu$ with $\bar{X}$) corrects exactly for that bias.
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:5.1.1}
+A simple random sample of size $n=5$ yields the observations $\{12, 15, 11, 18, 14\}$. Compute the sample mean $\bar{X}$ and the unbiased sample variance $S^2$.
+\end{ejemplo}
+
+\begin{solucion}
+The sample mean is
+\begin{align}
+ \bar{X} = \frac{12+15+11+18+14}{5} = \frac{70}{5} = 14.
+\end{align}
+The squared deviations are $(12-14)^2=4$, $(15-14)^2=1$, $(11-14)^2=9$, $(18-14)^2=16$, $(14-14)^2=0$, summing to $30$. Therefore,
+\begin{align}
+ S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i-\bar{X})^2 = \frac{30}{4} = 7.5.
+\end{align}
+\end{solucion}
+
+
+
 \subsection{Chi-Square ($\chi^2$) Distribution}
 
 The $\chi^2$ distribution arises when summing squares of standard normal random variables. Its detailed treatment is carried out in Section \ref{sec:3.9}; here we present the essential results.

@@ -246,6 +246,100 @@ crucial: en el primer caso hablamos de $Z$ exacto; en el segundo, de $Z$ aproxim
 
 
 
+\subsection{Estad\'isticos y Varianza Muestral Insesgada}
+
+\begin{definicion}[Estad\'istico]
+Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria simple (variables iid) de una
+poblaci\'on. Un \emph{estad\'istico} es cualquier funci\'on $T = g(X_1, \ldots, X_n)$
+de la muestra que no depende de par\'ametros poblacionales desconocidos. Todo
+estad\'istico es, a su vez, una variable aleatoria con su propia distribuci\'on de
+probabilidad, llamada \emph{distribuci\'on muestral} de $T$.
+\end{definicion}
+
+La media muestral $\bar{X}$ es el estad\'istico m\'as usado; el segundo m\'as
+importante es la \emph{varianza muestral}.
+
+\begin{definicion}[Varianza muestral]
+ \label{eq:5.1.1}
+Dada una muestra aleatoria simple $X_1, \ldots, X_n$ con media muestral $\bar{X}$, la
+\emph{varianza muestral} se define como
+\begin{align}
+ S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2.
+\end{align}
+\end{definicion}
+
+\begin{observacion}[¿Por qu\'e dividir entre $n-1$ y no entre $n$?]
+El divisor $n-1$ (conocido como \emph{correcci\'on de Bessel}) no es arbitrario: es
+precisamente el que hace que $S^2$ sea un \emph{estimador insesgado} de la varianza
+poblacional $\sigma^2$, como se demuestra a continuaci\'on.
+\end{observacion}
+
+\begin{teorema}[Insesgadez de la varianza muestral]
+ \label{eq:5.1.2}
+Si $X_1, \ldots, X_n$ son iid con media $\mu$ y varianza $\sigma^2 < \infty$, entonces
+\begin{align}
+ E(S^2) = \sigma^2.
+\end{align}
+\end{teorema}
+
+\begin{proof}
+Escribimos la suma de cuadrados centrada en $\bar{X}$ en t\'erminos de la media
+poblacional $\mu$, sumando y restando $\mu$:
+\begin{align}
+ \sum_{i=1}^n (X_i - \bar{X})^2
+ &= \sum_{i=1}^n \left[(X_i - \mu) - (\bar{X} - \mu)\right]^2 \\
+ &= \sum_{i=1}^n (X_i - \mu)^2 - 2(\bar{X}-\mu)\sum_{i=1}^n(X_i-\mu) + n(\bar{X}-\mu)^2 \\
+ &= \sum_{i=1}^n (X_i - \mu)^2 - n(\bar{X}-\mu)^2,
+\end{align}
+donde usamos que $\sum_{i=1}^n (X_i - \mu) = n(\bar{X}-\mu)$. Tomando esperanza y
+usando $E[(X_i-\mu)^2] = \sigma^2$ para cada $i$, y
+$E[(\bar{X}-\mu)^2] = \text{Var}(\bar{X}) = \sigma^2/n$:
+\begin{align}
+ E\left[\sum_{i=1}^n (X_i - \bar{X})^2\right] = n\sigma^2 - n\cdot\frac{\sigma^2}{n}
+ = (n-1)\sigma^2.
+\end{align}
+Dividiendo entre $n-1$:
+\begin{align}
+ E(S^2) = E\left[\frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2\right]
+ = \frac{(n-1)\sigma^2}{n-1} = \sigma^2. \qedhere
+\end{align}
+\end{proof}
+
+\begin{observacion}[El estimador ``natural'' es sesgado]
+El estimador que divide entre $n$ en lugar de $n-1$, $\hat{\sigma}^2 =
+\frac{1}{n}\sum(X_i-\bar{X})^2 = \frac{n-1}{n}S^2$, \emph{subestima}
+sistem\'aticamente la varianza poblacional:
+\begin{align}
+ E(\hat{\sigma}^2) = \frac{n-1}{n}\sigma^2 < \sigma^2.
+\end{align}
+Intuitivamente, $\bar{X}$ est\'a, por construcci\'on, m\'as cerca de cada $X_i$ que la
+media poblacional desconocida $\mu$, por lo que la suma de cuadrados alrededor de
+$\bar{X}$ subestima la dispersi\'on real; dividir entre $n-1$ en lugar de $n$
+(``perdiendo un grado de libertad'' por haber estimado $\mu$ con $\bar{X}$) corrige
+exactamente ese sesgo.
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:5.1.1}
+Una muestra aleatoria simple de tama\~no $n=5$ produce las observaciones
+$\{12, 15, 11, 18, 14\}$. Calcule la media muestral $\bar{X}$ y la varianza muestral
+insesgada $S^2$.
+\end{ejemplo}
+
+\begin{solucion}
+La media muestral es
+\begin{align}
+ \bar{X} = \frac{12+15+11+18+14}{5} = \frac{70}{5} = 14.
+\end{align}
+Las desviaciones al cuadrado son $(12-14)^2=4$, $(15-14)^2=1$, $(11-14)^2=9$,
+$(18-14)^2=16$, $(14-14)^2=0$, con suma $30$. Por lo tanto,
+\begin{align}
+ S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i-\bar{X})^2 = \frac{30}{4} = 7.5.
+\end{align}
+\end{solucion}
+
+
+
 \subsection{Distribuci\'on $\chi^2$ (chi-cuadrada)}
 
 La distribuci\'on $\chi^2$ aparece al sumar cuadrados de normales est\'andar. Su
