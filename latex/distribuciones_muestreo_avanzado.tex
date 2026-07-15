@@ -556,8 +556,55 @@ entonces
  \label{eq:3.2.14}
  \frac{\bar{X} - \mu}{S/\sqrt{n}} \sim t_{n-1}.
 \end{align}
-Este es el \emph{estad\'istico t} que da nombre a la prueba-$t$ (secci\'on 3.6).
+Este es el \emph{estad\'istico t} que da nombre a la prueba-$t$ (secci\'on 3.6). Esta
+es precisamente la descomposici\'on $T = Z/\sqrt{\chi^2_{n-1}/(n-1)}$ obtenida a
+partir del Teorema de Fisher en la secci\'on anterior.
 \end{observacion}
+
+\subsubsection{Intervalos de confianza con $\sigma$ desconocida: el caso de muestras
+peque\~nas}
+
+Cuando $\sigma$ es desconocida (el caso pr\'actico m\'as com\'un), el intervalo de
+confianza para $\mu$ debe usar los cuantiles de la distribuci\'on $t$ en lugar de los
+de la Normal est\'andar.
+
+\begin{teorema}[Intervalo de confianza para $\mu$ con $\sigma$ desconocida]
+ \label{eq:5.4.1}
+Sea $X_1, \ldots, X_n \sim N(\mu, \sigma^2)$ iid con $\sigma^2$ desconocida. Un
+intervalo de confianza del $(1-\alpha)\times 100\%$ para $\mu$ es
+\begin{align}
+ \bar{X} \pm t_{n-1,\,\alpha/2} \cdot \frac{S}{\sqrt{n}},
+\end{align}
+donde $t_{n-1,\,\alpha/2}$ es el cuantil superior $\alpha/2$ de $t_{n-1}$.
+\end{teorema}
+
+\begin{observacion}[Por qu\'e importa m\'as en muestras peque\~nas]
+Como $t_{n-1,\,\alpha/2} > z_{\alpha/2}$ para todo $n$ finito (las colas de $t$ son
+m\'as pesadas), el intervalo basado en $t$ es siempre \emph{m\'as ancho} que el
+intervalo basado en $Z$ que se usar\'ia si $\sigma$ fuera conocida. Esta diferencia es
+sustancial para $n$ peque\~no (e.g., $t_{9,0.025}\approx 2.262$ vs.
+$z_{0.025}=1.96$, una diferencia de m\'as del $15\%$) y se vuelve despreciable
+cuando $n \to \infty$, ya que $t_\nu \xrightarrow{d} N(0,1)$.
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:5.4.1}
+Una muestra de $n=9$ mediciones de resistencia de un material produce
+$\bar{X}=48.5$ MPa y $S=3.2$ MPa. Construya un intervalo de confianza del $95\%$
+para la resistencia media $\mu$, usando $t_{8,0.025}\approx 2.306$.
+\end{ejemplo}
+
+\begin{solucion}
+El error est\'andar es $S/\sqrt{n} = 3.2/3 \approx 1.067$. El intervalo es
+\begin{align}
+ \bar{X} \pm t_{8,0.025}\cdot\frac{S}{\sqrt{n}} = 48.5 \pm 2.306\cdot 1.067
+ \approx 48.5 \pm 2.46 = [46.04,\ 50.96] \text{ MPa}.
+\end{align}
+Si en cambio hubi\'eramos usado (incorrectamente) el cuantil Normal
+$z_{0.025}=1.96$, el intervalo habr\'ia sido $48.5 \pm 2.09 = [46.41, 50.59]$: m\'as
+angosto de lo que la incertidumbre real de una muestra de solo $9$ observaciones
+justifica.
+\end{solucion}
 
 
 

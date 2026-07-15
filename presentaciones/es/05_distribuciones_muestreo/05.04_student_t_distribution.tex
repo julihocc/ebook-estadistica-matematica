@@ -1,0 +1,344 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[$t$ de Student]{Sección 05.04: Distribución $t$ de Student y Muestras Pequeñas}
+\subtitle{Inferencia sobre $\mu$ con $\sigma$ Desconocida}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 05: Distribuciones de Muestreo}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{05.01} Muestreo Aleatorio Simple, Media y Varianza Muestral Insesgada \pause
+    \item \textbf{05.02} Teorema del Límite Central Asintótico \pause
+    \item \textbf{05.03} Distribución Chi-Cuadrada y Varianza Muestral \pause
+    \item \textbf{05.04} Distribución $t$ de Student y Muestras Pequeñas \emph{(Hoy)} \pause
+    \item \textbf{05.05} Distribución $F$ de Fisher-Snedecor
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Formalizar la distribución $t$ de Student como consecuencia directa del Teorema de Fisher, construir intervalos de confianza exactos para $\mu$ cuando $\sigma$ es desconocida, y entender por qué las muestras pequeñas requieren un ajuste sobre la aproximación Normal.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{El Precio de No Conocer $\sigma$}
+  \footnotesize
+  \begin{motivacion}
+    En la Sección 05.03 vimos que $T=(\bar X-\mu)/(S/\sqrt n) = Z/\sqrt{\chi^2_{n-1}/(n-1)}$: al reemplazar $\sigma$ (desconocida) por $S$ (aleatoria), el estadístico deja de ser exactamente Normal. Hoy formalizamos su distribución exacta y sus consecuencias prácticas.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Colas más pesadas:} $S$ introduce variabilidad adicional respecto a usar $\sigma$ fija. \pause
+    \item \textbf{Efecto en $n$ pequeño:} el ajuste es sustancial para muestras chicas, despreciable para grandes. \pause
+    \item \textbf{Convergencia:} cuando $n\to\infty$, $t_{n-1}\to N(0,1)$.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición y Propiedades
+\begin{frame}{Definición y Propiedades de la Distribución $t$}
+  \footnotesize
+  Sean $Z\sim N(0,1)$ y $\chi^2_\nu$ independientes. \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Definición}
+    $$T = \dfrac{Z}{\sqrt{\chi^2_\nu/\nu}} \sim t_\nu$$
+    $$f(t) = \dfrac{\Gamma\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\,\Gamma(\nu/2)}\left(1+\dfrac{t^2}{\nu}\right)^{-(\nu+1)/2}, \quad t\in\mathbb{R}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Propiedades}
+    \begin{itemize}\itemsep=0.05cm
+      \item $E(T)=0$ ($\nu>1$); $\Var(T)=\nu/(\nu-2)$ ($\nu>2$) --- siempre mayor que $1=\Var(Z)$.
+      \item Colas más pesadas que la Normal para $\nu$ pequeño; $t_\nu\xrightarrow{d}N(0,1)$ cuando $\nu\to\infty$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Intervalo de Confianza
+\begin{frame}{Intervalo de Confianza para $\mu$ con $\sigma$ Desconocida}
+  \footnotesize
+  Cuando $\sigma$ es desconocida (el caso práctico más común): \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Fórmula del Intervalo}
+    $$\bar{X} \pm t_{n-1,\,\alpha/2}\cdot\dfrac{S}{\sqrt{n}}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{¿Por Qué Importa Más en Muestras Pequeñas?}
+    Como $t_{n-1,\alpha/2} > z_{\alpha/2}$ siempre, el intervalo con $t$ es más ancho que el que se obtendría (incorrectamente) con $z$. Ejemplo: $t_{9,0.025}\approx 2.262$ vs. $z_{0.025}=1.96$ --- más del $15\%$ de diferencia. Esta diferencia se vuelve despreciable cuando $n\to\infty$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Prueba t
+\begin{frame}{La Prueba $t$ de Una Muestra}
+  \footnotesize
+  El mismo estadístico permite probar hipótesis sobre $\mu$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Estadístico de Prueba}
+    $$t = \dfrac{\bar{X}-\mu_0}{S/\sqrt{n}} \sim t_{n-1} \text{ bajo } H_0: \mu=\mu_0$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Decisión}
+    Se rechaza $H_0$ a nivel $\alpha$ si $|t| > t_{n-1,\alpha/2}$ (prueba bilateral). Esta es la base de la prueba-$t$ clásica, ampliamente usada cuando $n<30$ y $\sigma$ es desconocida.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Aplicaciones
+\begin{frame}{Aplicaciones en Inferencia con Muestras Pequeñas}
+  \footnotesize
+  La distribución $t$ es la herramienta estándar cuando los datos son costosos o limitados: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Control de calidad:} pruebas de resistencia de materiales con lotes pequeños de producción. \pause
+    \item \textbf{Investigación clínica:} ensayos con pocos pacientes; comparaciones antes/después (muestras pareadas). \pause
+    \item \textbf{A/B testing temprano:} decisiones con tamaños de muestra iniciales limitados. \pause
+    \item \textbf{Preview 05.05:} la distribución $F$ compara varianzas usando el cociente de dos chi-cuadradas, cerrando el trío $\chi^2$--$t$--$F$.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Propiedades y Convergencia de la $t$}
+  \scriptsize
+  Verificación de $\Var(T)$ y convergencia de cuantiles $t$ a los de la Normal (\texttt{05.04\_student\_t\_distribution.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=32]{../../code/05_distribuciones_muestreo/05.04_student_t_distribution.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Intervalos $t$ vs. $Z$}
+  \scriptsize
+  Comparación de intervalos de confianza basados en $t$ y en $Z$ (incorrecto) para el mismo conjunto de datos:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=35, lastline=59]{../../code/05_distribuciones_muestreo/05.04_student_t_distribution.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Prueba $t$ y Cobertura del Intervalo}
+  \scriptsize
+  Prueba $t$ de una muestra y verificación Monte Carlo de la cobertura del intervalo de confianza:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=62, lastline=86]{../../code/05_distribuciones_muestreo/05.04_student_t_distribution.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: t-Distribution Properties and Convergence ===
+t_10: Var(T)=1.2500 | t_30: Var(T)=1.0714
+nu=5: t=2.5706 (+31.15%) | nu=30: t=2.0423 (+4.20%) | nu=120: t=1.9799 (+1.02%)
+
+=== Block 2: t-Based vs Z-Based Confidence Intervals ===
+n=9: 95% CI (t): [46.04, 50.96] vs (z, incorrect): [46.41, 50.59] (17.7% wider)
+Dataset {23,25,21,27,24}: xbar=24.00, S=2.24, 95% CI: [21.22, 26.78]
+
+=== Block 3: One-Sample t-Test and CI Coverage ===
+t=1.75, critical t_24,0.025=2.06 -> Reject H0? No
+Monte Carlo CI coverage (n=10): 0.9509 (nominal: 0.9500)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.4.1 --- Varianza de la $t$ (Enunciado)}
+    Sea $T \sim t_{10}$. Calcule $\Var(T)$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    \begin{itemize}\itemsep=0.04cm
+      \item Use directamente $\Var(T)=\nu/(\nu-2)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Sustituimos $\nu=10$ directamente: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\Var(T) = \frac{10}{10-2} = \frac{10}{8} = 1.25.$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $1.25 > 1 = \Var(Z)$, la $t$ con $\nu=10$ es más dispersa que la Normal estándar, reflejando la incertidumbre adicional de estimar $\sigma$ con $S$. Al aumentar $\nu$, $\Var(T)\to 1$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.4.5 --- Prueba $t$ de Una Muestra (Enunciado)}
+    Se afirma que $\mu_0=100$. Una muestra de $n=25$ produce $\bar X=104.2$ y $S=12$. Calcule $t=(\bar X-\mu_0)/(S/\sqrt n)$ y decida si se rechaza $H_0:\mu=100$ a nivel $\alpha=0.05$, usando $t_{24,0.025}\approx 2.064$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Compare $|t|$ contra el valor crítico $t_{24,0.025}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos el estadístico: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$t = \frac{104.2-100}{12/5} = \frac{4.2}{2.4} = 1.75$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Decisión}
+    \scriptsize
+    Como $|1.75| < 2.064$, \textbf{no se rechaza} $H_0:\mu=100$ a nivel $\alpha=0.05$: la muestra no proporciona evidencia suficiente de que la media difiera de $100$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.4.7 --- Derivación de $\Var(T)$ (Enunciado)}
+    Sabiendo que $E(1/\chi^2_\nu)=1/(\nu-2)$ para $\nu>2$, que $Z$ y $\chi^2_\nu$ son independientes, y que $E(Z^2)=1$, derive $\Var(T)=\nu/(\nu-2)$ para $T=Z/\sqrt{\chi^2_\nu/\nu}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Como $E(T)=0$, $\Var(T)=E(T^2)$. Escriba $T^2$ en términos de $Z^2$ y $\chi^2_\nu$, y use independencia para factorizar la esperanza.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Factorizamos usando independencia: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Derivación}
+    \scriptsize
+    \begin{align*}
+      T^2 = \frac{Z^2}{\chi^2_\nu/\nu} = \nu\frac{Z^2}{\chi^2_\nu} \implies
+      E(T^2) = \nu\, E(Z^2)\, E\!\left(\frac{1}{\chi^2_\nu}\right) = \nu\cdot 1\cdot\frac{1}{\nu-2} = \frac{\nu}{\nu-2}. \quad \qedhere
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $E(T)=0$, $\Var(T)=E(T^2)=\nu/(\nu-2)$, confirmando la fórmula. La independencia de $Z$ y $\chi^2_\nu$ es esencial para poder factorizar la esperanza del producto.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.4.9 --- Muestras Pareadas (Enunciado)}
+    En un estudio de dieta, $n=8$ sujetos se pesan antes y después. La diferencia promedio es $\bar d=-3.2$ kg con $S_d=2.1$ kg. Construya un IC del $95\%$ para la diferencia media, usando $t_{7,0.025}\approx 2.365$, y determine si hay evidencia de que la dieta reduce el peso.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Trate las diferencias $d_i$ como una sola muestra; si el intervalo excluye el cero, hay evidencia de un efecto real.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Calculamos el error estándar y el margen: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    \begin{align*}
+      \text{SE} = \frac{2.1}{\sqrt 8} \approx 0.7425, \qquad \text{margen} = 2.365\cdot 0.7425 \approx 1.756.
+    \end{align*}
+    \begin{align*}
+      \text{IC}_{95\%} = -3.2 \pm 1.756 = [-4.956,\ -1.444].
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como el intervalo completo es negativo (excluye el cero), hay evidencia estadística de que la dieta reduce el peso promedio en aproximadamente $1.44$ a $4.96$ kg, con $95\%$ de confianza.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: la $t$ de Student}
+  \begin{reflexion}
+    La distribución $t$ resuelve el problema práctico más común de la inferencia estadística: estimar $\mu$ cuando $\sigma$ es desconocida. Su construcción --- Normal dividida entre la raíz de una chi-cuadrada independiente --- no es arbitraria, sino la consecuencia directa del Teorema de Fisher que estudiamos la sesión anterior.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Definición:} $T=Z/\sqrt{\chi^2_\nu/\nu}$; colas más pesadas que la Normal, $\Var(T)=\nu/(\nu-2)$.
+      \item \textbf{IC para $\mu$:} $\bar X \pm t_{n-1,\alpha/2}\cdot S/\sqrt n$, siempre más ancho que el intervalo basado en $Z$.
+      \item \textbf{Convergencia:} $t_\nu \xrightarrow{d} N(0,1)$ cuando $\nu\to\infty$; el efecto es más notorio en muestras pequeñas.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Con la $t$ de Student cerramos el par de herramientas para inferencia sobre una sola muestra normal ($\chi^2$ para $\sigma^2$, $t$ para $\mu$). La Sección 05.05 completará el trío con la distribución $F$ de Fisher-Snedecor, construida como el cociente de dos chi-cuadradas independientes, esencial para comparar varianzas entre dos poblaciones y para el Análisis de Varianza (ANOVA).
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la propiedad de reproductividad de la chi-cuadrada (Sección 05.03).
+      \item Reflexiona sobre por qué el cociente de dos varianzas muestrales independientes sigue una distribución $F$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
