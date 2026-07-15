@@ -28,7 +28,10 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 - $\checkmark$ **02.02 Conjuntos y Particiones:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.02_sets_and_partitions.py`.
 - $\checkmark$ **02.03 Fundamentos y Axiomas:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.03_probability_fundamentals.py`.
 - $\checkmark$ **02.04 Probabilidad Condicional:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.04_conditional_probability.py`.
-- $\checkmark$ **02.05 Teorema de Bayes:** Mazos ES/EN de 20 diapositivas (`0 overfulls`), script `02.05_bayes_theorem.py`.
+- $\checkmark$ **02.05 Teorema de Bayes:** 100% completado (Remediación modular total bajo el Estándar de Oro).
+  - *Cuaderno de Problemas:* 10 problemas en `latex/teorema_de_bayes(p).tex` organizados bajo la taxonomía 3-3-2-2 (Problemas 2.5.1 al 2.5.10).
+  - *Laboratorio Python:* `presentaciones/code/02_teoria_probabilidad/02.05_bayes_theorem.py` (simulación de test médico diagnóstico y VPP empírico vs. teórico, evaluación exacta de clasificador Naive Bayes anti-spam, y actualización bayesiana secuencial a lo largo de observaciones iterativas).
+  - *Mazos Beamer:* 22 diapositivas pedagógicas simétricas en `presentaciones/es/02_teoria_probabilidad/02.05_teorema_bayes.tex` y `en/02_probability_theory/02.05_bayes_theorem.tex` (revelado progresivo `\pause`, puente computacional Python en 4 diapositivas sin truncar, 4 problemas en clase desarrollados en Enunciado $\to$ Resolución para cada nivel de la taxonomía, cero marcado informal y compilación certificada con **0 `Overfull \vbox` y 0 `Overfull \hbox`**).
 - $\checkmark$ **02.06 Muestreo Aleatorio y TLC:** 100% completado (Remediación modular total bajo el Estándar de Oro).
   - *Cuaderno de Problemas:* 10 problemas en `latex/muestreo_aleatorio(p).tex` organizados bajo la taxonomía 3-3-2-2.
   - *Laboratorio Python:* `presentaciones/code/02_teoria_probabilidad/02.06_random_sampling.py` (simulación MAS con vs sin reemplazo, verificación empírica de FPC, evolución del error en LGN con cota de Chebyshev, y estandarización CLT en población exponencial $N=50,000$).

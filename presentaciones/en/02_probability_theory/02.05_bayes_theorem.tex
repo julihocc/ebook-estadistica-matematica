@@ -1,321 +1,447 @@
+% !TeX program = pdflatex
 \documentclass[10pt, aspectratio=169]{beamer}
+
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title{Probability Theory}
-\subtitle{Bayes' Theorem and Conditional Inversion}
+\title[Bayes' Theorem]{Section 02.05: Bayes' Theorem and Conditional Inversion}
+\subtitle{From Likelihood to Posterior Probability in Engineering and Diagnostics}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
-\date{}
+\date{\vspace{-2.0cm}}
 
 \begin{document}
 
-% Slide 1: Title Page
+% Slide 01: Title Page
 \begin{frame}[plain]
+  \vspace{-0.5cm}
   \titlepage
 \end{frame}
 
-% Slide 2: Roadmap
-\begin{frame}{Chapter 02 Roadmap}
-  \begin{itemize}
-    \item 02.01 Probability Introduction and Historical Approaches
-    \item 02.02 Sample Spaces, Events, and Partitions
-    \item 02.03 Kolmogorov's Axioms and Fundamental Theorems
-    \item 02.04 Conditional Probability, Multiplication Rule, and Independence
-    \item \textbf{\color{TecRojo} 02.05 Bayes' Theorem and Conditional Inversion}
-    \item 02.06 Random Sampling (With and Without Replacement)
-  \end{itemize}
-\end{frame}
-
-% Slide 3: Motivation and Conditional Inversion
-\begin{frame}{Motivation: Inverting Conditionals}
-  \begin{block}{From Cause to Effect vs. From Effect to Cause}
-    In empirical sciences and engineering, we typically model the forward probability of observing an \textbf{effect} $B$ given an underlying \textbf{cause} or hypothesis $A$:
-    \begin{align*}
-      P(\text{Effect} \mid \text{Cause}) = P(B \mid A) \quad \text{(Likelihood)}
-    \end{align*}
-    However, in clinical diagnostics, machine learning, and forensic science, the inverse problem is critical: we observe evidence $B$ and must infer the probability of the cause $A$:
-    \begin{align*}
-      P(\text{Cause} \mid \text{Effect}) = P(A \mid B) \quad \text{(Posterior Probability)}
-    \end{align*}
+% Slide 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 02: Probability Theory}
+  \begin{block}{Unit 1 Curricular Structure}
+    \footnotesize
+    \begin{enumerate}\itemsep=0.08cm
+      \item \textcolor{gray}{Section 02.01: Introduction to Probability and Random Phenomena}
+      \item \textcolor{gray}{Section 02.02: Set Theory and Kolmogorov's Axioms}
+      \item \textcolor{gray}{Section 02.03: Fundamental Probability and Counting Techniques}
+      \item \textcolor{gray}{Section 02.04: Conditional Probability and Statistical Independence}
+      \item \textbf{\textcolor{TecRojo}{Section 02.05: Bayes' Theorem and Conditional Inversion}} $\leftarrow$ \emph{Current Focus}
+      \item \textcolor{gray}{Section 02.06: Random Sampling and the Central Limit Theorem (CLT)}
+    \end{enumerate}
   \end{block}
-  \vspace{0.3em}
-  \footnotesize
-  \emph{Classic example:} We know the probability that a patient with a specific disease tests positive ($P(+ \mid E)$). But clinicians face the inverse problem: given a positive test result, what is the actual probability that the patient has the disease ($P(E \mid +)$)?
-\end{frame}
-
-% Slide 4: Deriving Bayes' Theorem (Simple Form)
-\begin{frame}{Deriving Bayes' Theorem (Simple Form)}
-  If $P(A) > 0$ and $P(B) > 0$, by the definition of conditional probability and the multiplication rule, the joint intersection $A \cap B$ is symmetric:
-  \begin{align*}
-    P(A \cap B) &= P(A) \cdot P(B \mid A) \\
-    P(B \cap A) &= P(B) \cdot P(A \mid B)
-  \end{align*}
-  Equating both expressions ($P(A \cap B) = P(B \cap A)$):
-  \begin{align*}
-    P(B) \cdot P(A \mid B) = P(A) \cdot P(B \mid A)
-  \end{align*}
-  Solving for $P(A \mid B)$ yields the fundamental form of \textbf{Bayes' Theorem}:
-  \begin{alertblock}{Bayes' Theorem (Two Hypotheses)}
-    \begin{align*}
-      P(A \mid B) = \frac{P(A) \cdot P(B \mid A)}{P(B)} = \frac{P(A) \cdot P(B \mid A)}{P(B \mid A)P(A) + P(B \mid A')P(A')}
-    \end{align*}
+  \vspace{-0.05cm}
+  \pause
+  \begin{alertblock}{Section 02.05 Learning Objective}
+    \footnotesize
+    Master the algebra of probabilistic inversion to transform empirical likelihoods into rigorous posterior probabilities, analyze the base rate fallacy, and model sequential Bayesian updating systems in engineering and technical diagnostics.
   \end{alertblock}
 \end{frame}
 
-% Slide 5: Formal Bayesian Terminology
-\begin{frame}{Anatomy and Formal Terminology of Bayes' Theorem}
-  In data science and statistical inference, each term in Bayes' formula carries precise epistemological meaning:
-  \vspace{0.4em}
+% Slide 03: Motivation — Conditional Inversion
+\begin{frame}{Motivation --- Inverting Conditionals}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \begin{block}{Prior Probability --- $P(A)$}
-        The initial belief, historical baseline, or baseline prevalence of hypothesis $A$ \textbf{before} observing the new evidence $B$.
-      \end{block}
-      \begin{block}{Likelihood --- $P(B \mid A)$}
-        The conditional probability that evidence $B$ occurs under the assumption that hypothesis $A$ is true.
+      \begin{block}{Forward Direction (Likelihood)}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item In physical and industrial modeling, we know the probability of observing an \textbf{effect or evidence} $B$ given an underlying cause or hypothesis $A$:
+          $$P(\text{Effect} \mid \text{Cause}) = P(B \mid A)$$
+          \item \emph{Example:} The probability that a vibration sensor triggers an alarm ($B$) when a turbine suffers mechanical failure ($A$).
+        \end{itemize}
       \end{block}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \begin{block}{Marginal Evidence --- $P(B)$}
-        The total probability of observing evidence $B$ summed across all possible hypotheses in the system (normalization constant).
-      \end{block}
-      \begin{block}{Posterior Probability --- $P(A \mid B)$}
-        The updated belief regarding hypothesis $A$ \textbf{after} incorporating and processing the observed evidence $B$.
-      \end{block}
+      \begin{alertblock}{Inverse Direction (Posterior)}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item In clinical diagnostics, robotics, and data science, the real problem operates in reverse: we observe evidence $B$ and must infer the cause $A$:
+          $$P(\text{Cause} \mid \text{Effect}) = P(A \mid B)$$
+          \item \emph{Example:} Given that the alarm triggered ($B$), what is the true probability of a catastrophic mechanical failure ($A$)?
+        \end{itemize}
+      \end{alertblock}
     \end{column}
   \end{columns}
 \end{frame}
 
-% Slide 6: Generalization via Partitions (Chain Rule)
-\begin{frame}{Generalized Bayes' Theorem (Exhaustive Partitions)}
-  \small
-  Let $\{E_1, E_2, \dots, E_N\}$ be an exhaustive ($\bigcup_{i=1}^N E_i = S$) and mutually exclusive ($E_i \cap E_j = \emptyset, i \neq j$) partition of the sample space $S$. For any observable event $B$ with $P(B) > 0$, the Law of Total Probability states:
-  \begin{align*}
-    P(B) = \sum_{i=1}^N P(B \cap E_i) = \sum_{i=1}^N P(B \mid E_i)P(E_i)
-  \end{align*}
-  Substituting this denominator into the conditional inversion formula for a specific cell $E_j$:
-  \begin{alertblock}{Bayes' Theorem for $N$ States or Hypotheses}
-    \begin{align*}
-      P(E_j \mid B) = \frac{P(B \mid E_j)P(E_j)}{\sum_{i=1}^N P(B \mid E_i)P(E_i)}, \quad \text{for all } j \in \{1, 2, \dots, N\}
-    \end{align*}
+% Slide 04: Deriving Bayes' Theorem (Simple Form)
+\begin{frame}{Deriving Bayes' Theorem (Simple Form)}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Symmetry of the Joint Intersection}
+    \fontsize{7.5pt}{9pt}\selectfont
+    Let $A$ and $B$ be two events in the sample space $S$ with strictly positive probabilities ($P(A)>0, P(B)>0$). By the multiplication rule of conditional probability, the joint probability $P(A \cap B)$ is algebraically symmetric:
+    $$P(A \cap B) = P(B \mid A)P(A) = P(A \mid B)P(B)$$
+    Solving directly for $P(A \mid B)$ yields the elementary formulation of \textbf{Bayes' Theorem}:
+    $$P(A \mid B) = \frac{P(B \mid A)P(A)}{P(B)}$$
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Anatomy and Odds Form Formulation}
+    \fontsize{7.5pt}{9pt}\selectfont
+    \begin{itemize}\itemsep=0.08cm
+      \item $P(A)$: \textbf{Prior Probability} (initial belief or domain knowledge before observing evidence).
+      \item $P(B \mid A)$: \textbf{Likelihood} (compatibility of the observed evidence with the hypothesis).
+      \item $P(A \mid B)$: \textbf{Posterior Probability} (updated belief after incorporating data $B$).
+      \item \textbf{Odds Form:} For two competing hypotheses $A_1, A_2$: $\displaystyle \frac{P(A_1 \mid B)}{P(A_2 \mid B)} = \frac{P(B \mid A_1)}{P(B \mid A_2)} \cdot \frac{P(A_1)}{P(A_2)}$.
+    \end{itemize}
   \end{alertblock}
 \end{frame}
 
-% Slide 7: Textbook Applied Example (Packaging Machines - Problem Statement)
-\begin{frame}{Industrial Example: Packaging Machines (Problem Setup)}
-  \footnotesize
-  A gelatin manufacturing plant operates three packaging machines with the following production volume shares and defect rates:
-  \begin{itemize}
-    \item \textbf{Machine 1 ($M_1$):} Accounts for 38\% of production ($P(M_1)=0.38$) with an 11\% defect rate ($P(D \mid M_1)=0.11$).
-    \item \textbf{Machine 2 ($M_2$):} Accounts for 32\% of production ($P(M_2)=0.32$) with a 15\% defect rate ($P(D \mid M_2)=0.15$).
-    \item \textbf{Machine 3 ($M_3$):} Accounts for 30\% of production ($P(M_3)=0.30$) with a 14\% defect rate ($P(D \mid M_3)=0.14$).
-  \end{itemize}
-  \vspace{0.4em}
-  \begin{block}{Quality Audit Question}
-    If management randomly selects one package from the warehouse and it is found to be \textbf{defective ($D$)}, what is the posterior probability that it was packaged by \textbf{Machine 2 ($M_2$)}?
+% Slide 05: Bayes' Theorem for Exhaustive Partitions
+\begin{frame}{Bayes' Theorem for Exhaustive Partitions}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Expansion via the Law of Total Probability}
+    \fontsize{7.5pt}{9pt}\selectfont
+    In complex engineering systems, the sample space is partitioned into a \textbf{finite, exhaustive set} of mutually exclusive causes $\{B_1, B_2, \ldots, B_k\}$ such that $S = \bigcup_{i=1}^k B_i$. To evaluate the probability of any particular state $B_j$ given the observable event $A$, we expand the denominator $P(A)$:
+    $$P(B_j \mid A) = \frac{P(A \mid B_j)P(B_j)}{\sum_{i=1}^k P(A \mid B_i)P(B_i)}, \quad \text{for all } j \in \{1, 2, \ldots, k\}$$
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Interpretation of the Denominator (Normalization Constant)}
+    \fontsize{7.5pt}{9pt}\selectfont
+    The denominator $\sum_{i=1}^k P(A \mid B_i)P(B_i)$ represents the \textbf{marginal probability of the observable event} $P(A)$. It acts as a strict normalization constant ensuring that the sum of the posterior probabilities across all possible causes equals exactly unity: $\sum_{j=1}^k P(B_j \mid A) = 1$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 06: Clinical Diagnostics and the Base Rate Fallacy
+\begin{frame}{Clinical Diagnostics and the Base Rate Fallacy}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Conditional Test Metrics}
+        \small
+        Let $E$ be the presence of a disease and $T^+$ a positive clinical test:
+        \begin{itemize}\itemsep=0.1cm
+          \item \textbf{Sensitivity ($P(T^+ \mid E)$):} Probability of detecting the disease when present.
+          \item \textbf{Specificity ($P(T^- \mid E')$):} Probability of testing negative when healthy.
+          \item \textbf{False Positive Rate:} $P(T^+ \mid E') = 1 - \text{Specificity}$.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{The Base Rate Fallacy (Prevalence)}
+        \small
+        \begin{itemize}\itemsep=0.1cm
+          \item The \textbf{Positive Predictive Value (PPV)} is:
+          $$P(E \mid T^+) = \frac{P(T^+ \mid E)P(E)}{P(T^+)}$$
+          \item If prior prevalence $P(E)$ is extremely low ($1\%$), the volume of false positives across the healthy population overwhelms true positives, keeping $P(E \mid T^+) \ll 50\%$ despite high sensitivity.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 07: Sequential Bayesian Updating
+\begin{frame}{Sequential Bayesian Updating in Engineering}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Today's Posterior is Tomorrow's Prior Distribution}
+    \fontsize{7.5pt}{9pt}\selectfont
+    When an industrial system or autonomous robot receives a continuous stream of independent observations given the hypotheses ($B_1, B_2, \ldots, B_t$), Bayesian inference operates recursively without re-evaluating the entire history from scratch:
+    $$P(A \mid B_1) = \frac{P(B_1 \mid A)P(A)}{P(B_1)} \implies P(A \mid B_1 \cap B_2) = \frac{P(B_2 \mid A)P(A \mid B_1)}{P(B_2 \mid B_1)}$$
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Convergence Toward Truth in Robotics and AI}
+    \fontsize{7.5pt}{9pt}\selectfont
+    \begin{itemize}\itemsep=0.08cm
+      \item At each iteration $t$, the new evidence $B_t$ adjusts the likelihood ratio to update the belief over the underlying system state $\theta$.
+      \item This recursive architecture forms the mathematical foundation of \textbf{Kalman Filters}, simultaneous localization and mapping (SLAM), and parameter estimation in modern probabilistic models.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 08: Naive Bayes Classification in High Dimensions
+\begin{frame}{Naive Bayes Classification in High Dimensions}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{The Conditional Independence Assumption (Naive Bayes)}
+    \fontsize{7.5pt}{9pt}\selectfont
+    In text classification (e.g., spam filters) or multi-symptom diagnostics $W = W_1 \cap W_2 \cap \ldots \cap W_m$, computing the exact joint likelihood $P(W \mid C)$ is computationally intractable. The \textbf{Naive Bayes} algorithm assumes that attributes are conditionally independent given the class $C$:
+    $$P(W_1 \cap W_2 \cap \ldots \cap W_m \mid C) = \prod_{i=1}^m P(W_i \mid C)$$
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Maximum A Posteriori Decision Rule}
+    \fontsize{7.5pt}{9pt}\selectfont
+    The posterior probability of belonging to class $C_k$ given the observed attribute vector $W$ is evaluated via the product of marginal likelihoods:
+    $$P(C_k \mid W) = \frac{P(C_k) \prod_{i=1}^m P(W_i \mid C_k)}{\sum_{j} P(C_j) \prod_{i=1}^m P(W_i \mid C_j)}$$
+    Despite the simplifying assumption of independence, Naive Bayes demonstrates remarkable empirical accuracy in real-time decision engines.
+  \end{alertblock}
+\end{frame}
+
+% Slide 09A: Python Lab — Medical Test \& Inversion
+\begin{frame}[fragile]{Python Lab --- Medical Test \& Inversion (1/4)}
+  \vspace{-0.1cm}
+  \begin{block}{Source Code: \texttt{simulate\_medical\_test} (\texttt{02.05\_bayes\_theorem.py})}
+    \lstinputlisting[language=Python, basicstyle=\fontsize{4.6pt}{5.4pt}\selectfont\ttfamily, firstline=16, lastline=43]{../../code/02_teoria_probabilidad/02.05_bayes_theorem.py}
   \end{block}
 \end{frame}
 
-% Slide 8: Textbook Applied Example (Solution and Calculation)
-\begin{frame}{Industrial Example: Packaging Machines (Solution)}
-  \footnotesize
-  Applying the generalized Bayes' Theorem by evaluating $M_2$'s contribution relative to total plant defects:
-  \begin{align*}
-    P(M_2 \mid D) &= \frac{P(D \mid M_2)P(M_2)}{P(D \mid M_1)P(M_1) + P(D \mid M_2)P(M_2) + P(D \mid M_3)P(M_3)} \\[0.6em]
-    &= \frac{(0.15)(0.32)}{(0.11)(0.38) + (0.15)(0.32) + (0.14)(0.30)} \\[0.6em]
-    &= \frac{0.0480}{0.0418 + 0.0480 + 0.0420} = \frac{0.0480}{0.1318} \approx 0.3642 \text{ (36.42\%)}
-  \end{align*}
-  \begin{alertblock}{Operational Insight}
-    Although Machine 1 processes the largest volume (38\%), Machine 2 is the single primary contributor to overall plant defects ($36.42\%$ of all defective units).
-  \end{alertblock}
-\end{frame}
-
-% Slide 9: Data Science and Paradoxes (Base Rate Fallacy)
-\begin{frame}{Data Science: The Base Rate Fallacy}
-  \small
-  A widespread cognitive and statistical error involves neglecting the prior probability ($P(A)$) and focusing solely on test sensitivity or precision ($P(B \mid A)$):
-  \begin{block}{The False Positive Paradox in Rare Screening}
-    If a pathology has a very low prevalence (e.g., $P(E) = 1\%$) and a diagnostic screening test has $95\%$ sensitivity and $90\%$ specificity, the vast majority of positive test results across the general population will be \textbf{false positives}.
+% Slide 09B: Python Lab — Naive Bayes Filter
+\begin{frame}[fragile]{Python Lab --- Naive Bayes Filter (2/4)}
+  \vspace{-0.1cm}
+  \begin{block}{Source Code: \texttt{evaluate\_naive\_bayes\_spam} (\texttt{02.05\_bayes\_theorem.py})}
+    \lstinputlisting[language=Python, basicstyle=\fontsize{5.5pt}{6.5pt}\selectfont\ttfamily, firstline=48, lastline=63]{../../code/02_teoria_probabilidad/02.05_bayes_theorem.py}
   \end{block}
-  \vspace{0.3em}
-  \footnotesize
-  \emph{Mathematical root:} The massive pool of healthy individuals ($99\%$) multiplied by the false positive rate ($10\%$) completely overwhelms the true positives generated from the tiny $1\%$ diseased subpopulation ($0.99 \times 0.10 = 0.099 \gg 0.01 \times 0.95 = 0.0095$).
 \end{frame}
 
-% Slide 10: Sequential Bayesian Updating in Machine Learning
-\begin{frame}{Sequential Updating: The Engine of Bayesian Learning}
-  An elegant computational property of Bayes' Theorem is its dynamic updating mechanism when processing a stream of sequential observations ($B_1, B_2, \dots, B_t$):
-  \vspace{0.4em}
-  \begin{alertblock}{Today's Posterior Becomes Tomorrow's Prior}
-    \begin{align*}
-      P(A \mid B_1) &= \frac{P(B_1 \mid A)P(A)}{P(B_1)} \\
-      P(A \mid B_1 \cap B_2) &= \frac{P(B_2 \mid A)P(A \mid B_1)}{P(B_2 \mid B_1)}
-    \end{align*}
-  \end{alertblock}
-  \footnotesize
-  This recursive structure forms the theoretical backbone of spam filters (\emph{Naïve Bayes}), Kalman tracking filters in robotics, and modern Bayesian reinforcement learning algorithms.
+% Slide 09C: Python Lab — Sequential Updating
+\begin{frame}[fragile]{Python Lab --- Sequential Updating (3/4)}
+  \vspace{-0.1cm}
+  \begin{block}{Source Code: \texttt{sequential\_coin\_updating} (\texttt{02.05\_bayes\_theorem.py})}
+    \lstinputlisting[language=Python, basicstyle=\fontsize{4.6pt}{5.4pt}\selectfont\ttfamily, firstline=68, lastline=93]{../../code/02_teoria_probabilidad/02.05_bayes_theorem.py}
+  \end{block}
 \end{frame}
 
-% Slide 11A: Python Laboratory (Medical Diagnostic Setup)
-\begin{frame}[fragile]{Python Laboratory: Medical Test Inversion (1/4)}
-  \footnotesize
-  False positive tracking and Positive Predictive Value (\texttt{02.05\_bayes\_theorem.py}):
-  \vspace{0.2em}
-  {\lstset{basicstyle=\ttfamily\fontsize{6.3pt}{7.3pt}\selectfont, aboveskip=0.1em, belowskip=0.1em}
-  \lstinputlisting[firstline=18, lastline=38]{../../code/02_teoria_probabilidad/02.05_bayes_theorem.py}}
-\end{frame}
-
-% Slide 11B: Python Laboratory (Naive Bayes Anti-Spam Filter)
-\begin{frame}[fragile]{Python Laboratory: Naïve Bayes Spam Filter (2/4)}
-  \footnotesize
-  Exact posterior evaluation of a text classifier under conditional independence:
-  \vspace{0.2em}
-  {\lstset{basicstyle=\ttfamily\fontsize{6.3pt}{7.3pt}\selectfont, aboveskip=0.1em, belowskip=0.1em}
-  \lstinputlisting[firstline=43, lastline=57]{../../code/02_teoria_probabilidad/02.05_bayes_theorem.py}}
-\end{frame}
-
-% Slide 11C: Python Laboratory (Sequential Updating)
-\begin{frame}[fragile]{Python Laboratory: Sequential Updating (3/4)}
-  \footnotesize
-  Iterative evolution of prior $\to$ posterior beliefs across successive evidence:
-  \vspace{0.2em}
-  {\lstset{basicstyle=\ttfamily\fontsize{6.3pt}{7.3pt}\selectfont, aboveskip=0.1em, belowskip=0.1em}
-  \lstinputlisting[firstline=66, lastline=86]{../../code/02_teoria_probabilidad/02.05_bayes_theorem.py}}
-\end{frame}
-
-% Slide 11D: Python Laboratory (Console Output)
-\begin{frame}[fragile]{Python Laboratory: Terminal Output (4/4)}
-  \footnotesize
-  Empirical convergence and verification across all three computational experiments:
-  \vspace{0.1em}
-  \begin{block}{Standard Terminal Output}
-    \fontsize{5.7pt}{6.6pt}\selectfont
-    \begin{verbatim}
+% Slide 09D: Python Lab — Verified Console Output
+\begin{frame}[fragile]{Python Lab --- Verified Console Output (4/4)}
+  \vspace{-0.1cm}
+  \begin{columns}[T]
+    \begin{column}{0.54\textwidth}
+      \begin{block}{1. Medical Test \& 2. Naive Bayes}
+        \fontsize{4.4pt}{5.2pt}\selectfont
+\begin{verbatim}
 --- 1. Medical Diagnostic Test (Base Rate Fallacy) ---
 Total Test Positives:  11,667 / 100,000
 True Positives:        1,891 (True Diseased among Positives)
-Empirical PPV (Sim):   0.1621 (16.21%) | Theoretical PPV: 0.1624 (16.24%)
+Empirical PPV (Sim):   0.1621 (16.21%)
+Theoretical PPV:       0.1624 (16.24%)
 
 --- 2. Naive Bayes Spam Filter (Keywords W1, W2, W3) ---
-Joint Likelihood P(W|Spam):  0.33600 | Joint Likelihood P(W|Legit): 0.00200
-Marginal Evidence P(W):      0.20240 | Posterior P(Spam | W): 0.996047 (99.60%)
-
---- 3. Sequential Bayesian Updating (Coin Flips: H, H, T, H, H) ---
+Joint Likelihood P(W|Spam):  0.33600
+Joint Likelihood P(W|Legit): 0.00200
+Marginal Evidence P(W):      0.20240
+Posterior P(Spam | W):       0.996047 (99.60%)
+\end{verbatim}
+      \end{block}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \begin{block}{3. Sequential Updating}
+        \fontsize{4.4pt}{5.2pt}\selectfont
+\begin{verbatim}
+--- 3. Sequential Bayesian Updating ---
+Coin Flips: [H, H, T, H, H]
 Step 0 | P(Biased Coin = 0.80): 0.5000 (50.00%)
 Step 1 | P(Biased Coin = 0.80): 0.6154 (61.54%)
 Step 2 | P(Biased Coin = 0.80): 0.7191 (71.91%)
 Step 3 | P(Biased Coin = 0.80): 0.5059 (50.59%)
 Step 4 | P(Biased Coin = 0.80): 0.6210 (62.10%)
 Step 5 | P(Biased Coin = 0.80): 0.7239 (72.39%)
-    \end{verbatim}
+\end{verbatim}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 10A: In-Class Exercise — Tier 1: Fundamental (Statement)
+\begin{frame}{In-Class Exercise --- Tier 1: Fundamental (1/2)}
+  \begin{block}{Problem 2.5.4 --- Studying and Posterior Probability of Success}
+    \footnotesize
+    A university student prepares for a comprehensive general examination. Statistical records indicate that:
+    \begin{itemize}\itemsep=0.1cm
+      \item If the student studies diligently ($E$), the conditional probability of passing ($A$) is $90\%$: $P(A \mid E) = 0.90$.
+      \item If the student does not study ($E'$), the conditional probability of passing is only $30\%$: $P(A \mid E') = 0.30$.
+      \item The prior probability that the student prepares rigorously is $70\%$: $P(E) = 0.70$.
+    \end{itemize}
+    \begin{enumerate}\itemsep=0.15cm
+      \item Calculate the total marginal probability that the student passes the exam ($P(A)$).
+      \item Given that the student successfully passed ($A$), what is the posterior conditional probability that they actually studied ($P(E \mid A)$)?
+    \end{enumerate}
   \end{block}
 \end{frame}
 
-% Slide 12: Textbook Exercises — Tier 1: Fundamental
-\begin{frame}{Textbook Exercises — Tier 1: Fundamental (Direct)}
-  \footnotesize
-  \textbf{Problem 2.5.1 (Die Roll and Parity Conditional):}
-  A balanced 6-sided die is rolled once. Let $A=\{1,2,3\}$ be the event of rolling a number strictly less than 4, and $I=\{1,3,5\}$ be the event of rolling an odd number.
-  \begin{itemize}
-    \item Without prior information: $P(A) = \frac{3}{6} = 0.50$.
-    \item Given that the roll resulted in an odd number ($I$):
-      \begin{align*}
-        P(A \mid I) = \frac{P(A \cap I)}{P(I)} = \frac{\card{\{1,3\}}}{\card{\{1,3,5\}}} = \frac{2}{3} \approx 0.6667 \text{ (66.67\%)}
-      \end{align*}
-  \end{itemize}
-  \vspace{0.2em}
-  \textbf{Problem 2.5.6 (Left-Handed Students by Gender):}
-  In a class, $60\%$ are women ($M$) and $40\%$ are men ($H$). Left-handed rates are $P(Z \mid M)=0.10$ and $P(Z \mid H)=0.15$. If a randomly selected student is left-handed ($Z$), the posterior probability of being female is:
-  \begin{align*}
-    P(M \mid Z) = \frac{P(Z \mid M)P(M)}{P(Z \mid M)P(M) + P(Z \mid H)P(H)} = \frac{(0.10)(0.60)}{(0.10)(0.60) + (0.15)(0.40)} = \frac{0.06}{0.12} = 50\%
-  \end{align*}
+% Slide 10B: In-Class Exercise — Tier 1: Fundamental (Solution)
+\begin{frame}{In-Class Exercise --- Tier 1: Fundamental (2/2)}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Total Probability of Passing ($P(A)$)}
+        \fontsize{6.5pt}{7.8pt}\selectfont
+        The exhaustive hypotheses are $\{E, E'\}$ with $P(E)=0.70$ and $P(E')=0.30$. By the Law of Total Probability:
+        $$P(A) = P(A \mid E)P(E) + P(A \mid E')P(E')$$
+        Substituting the given parameters:
+        $$P(A) = (0.90)(0.70) + (0.30)(0.30)$$
+        $$P(A) = 0.63 + 0.09 = \mathbf{0.72 \text{ (72\%)}}$$
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{2. Bayesian Inversion ($P(E \mid A)$)}
+        \fontsize{6.5pt}{7.8pt}\selectfont
+        Applying Bayes' Theorem to invert the conditional direction:
+        $$P(E \mid A) = \frac{P(A \mid E)P(E)}{P(A)}$$
+        Substituting the numerator and the evaluated denominator:
+        $$P(E \mid A) = \frac{0.63}{0.72} = \frac{7}{8} = \mathbf{0.875 \text{ (87.5\%)}}$$
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+  \vspace{-0.1cm}
+  \pause
+  \begin{exampleblock}{Pedagogical Interpretation}
+    \fontsize{6.5pt}{7.8pt}\selectfont
+    Knowing that the student passed increases our certainty regarding their academic preparation from $70\%$ a priori to $87.5\%$ a posteriori. Observed success provides rigorous empirical evidence favoring diligent effort.
+  \end{exampleblock}
 \end{frame}
 
-% Slide 13: Textbook Exercises — Tier 1 (Cont.) & Tier 2: Operational
-\begin{frame}{Textbook Exercises — Tier 1 (Cont.) and Tier 2: Operational}
-  \footnotesize
-  \textbf{Problem 2.5.4 (Study Habits and Exam Passage):}
-  A student studies diligently with probability $P(E)=0.70$. The probability of passing ($A$) given studying is $P(A \mid E)=0.90$, while without studying it is $P(A \mid E')=0.30$.
-  \begin{itemize}
-    \item Total probability of passing: $P(A) = (0.90)(0.70) + (0.30)(0.30) = 0.63 + 0.09 = 0.72$ ($72\%$).
-    \item If the student passed, posterior probability of studying: $P(E \mid A) = \frac{0.63}{0.72} = \frac{7}{8} = 87.5\%$.
-    \item If the student failed ($A'$), probability of not studying: $P(E' \mid A') = \frac{(0.70)(0.30)}{1 - 0.72} = \frac{0.21}{0.28} = 75\%$.
-  \end{itemize}
-  \vspace{0.2em}
-  \textbf{Problem 2.5.7 (Urns and Two-Dice Sums):}
-  Box 1: 3 red, 2 blue ($P(R \mid C_1)=\frac{3}{5}$). Box 2: 2 red, 8 blue ($P(R \mid C_2)=\frac{1}{5}$). Box 1 is chosen if the sum of two dice is $\le 6$ ($P(C_1)=\frac{15}{36}=\frac{5}{12}$, $P(C_2)=\frac{7}{12}$).
-  If a red marble ($R$) was drawn, the posterior probability of Box 1 is:
-  \begin{align*}
-    P(C_1 \mid R) = \frac{(3/5)(5/12)}{(3/5)(5/12) + (1/5)(7/12)} = \frac{15/60}{22/60} = \frac{15}{22} \approx 68.18\%
-  \end{align*}
+% Slide 11A: In-Class Exercise — Tier 2: Operational (Statement)
+\begin{frame}{In-Class Exercise --- Tier 2: Operational (1/2)}
+  \begin{block}{Problem 2.5.2 --- Clinical Diagnostic Test Evaluation (PPV \& NPV)}
+    \footnotesize
+    A clinical laboratory evaluates a new molecular screening test for a low-prevalence pathology. The epidemiological and technical test parameters are:
+    \begin{itemize}\itemsep=0.1cm
+      \item \textbf{Prior Prevalence:} In the general population, $2\%$ of individuals carry the pathology ($P(E) = 0.02$).
+      \item \textbf{Sensitivity:} If a patient is diseased, the probability that the test tests positive is $0.95$ ($P(+ \mid E) = 0.95$).
+      \item \textbf{Specificity:} If a patient is healthy ($E'$), the probability that the test tests negative is $0.90$ ($P(- \mid E') = 0.90$). Thus, the false positive rate is $P(+ \mid E') = 0.10$.
+    \end{itemize}
+    \begin{enumerate}\itemsep=0.15cm
+      \item Calculate the Positive Predictive Value (PPV: $P(E \mid +)$) and explain why it is surprisingly low.
+      \item Calculate the Negative Predictive Value (NPV: $P(E' \mid -)$).
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% Slide 14: Textbook Exercises — Tier 2 (Cont.)
-\begin{frame}{Textbook Exercises — Tier 2: Operational (Intermediate)}
-  \footnotesize
-  \textbf{Problem 2.5.2 (Clinical Diagnostic Screening and PPV/NPV):}
-  A pathology has prevalence $P(E)=0.02$. The screening test has Sensitivity $P(+ \mid E)=0.95$ and Specificity $P(- \mid E')=0.90$ (hence false positive rate $P(+ \mid E')=0.10$).
-  \begin{itemize}
-    \item Total probability of testing positive: $P(+) = (0.95)(0.02) + (0.10)(0.98) = 0.019 + 0.098 = 0.117$ ($11.7\%$).
-    \item \textbf{Positive Predictive Value (PPV):} $P(E \mid +) = \frac{0.019}{0.117} \approx 16.24\%$. Notice that $83.76\%$ of positives are false alarms!
-    \item \textbf{Negative Predictive Value (NPV):} $P(E' \mid -) = \frac{(0.90)(0.98)}{1 - 0.117} = \frac{0.882}{0.883} \approx 99.89\%$.
-  \end{itemize}
-  \vspace{0.2em}
-  \textbf{Problem 2.5.5 (Noisy Binary Digital Channel):}
-  A channel transmits $60\%$ 0-bits ($T_0$) and $40\%$ 1-bits ($T_1$). Due to noise, $P(R_1 \mid T_0)=0.02$ and $P(R_1 \mid T_1)=0.97$.
-  \begin{itemize}
-    \item Probability of receiving a 1-bit: $P(R_1) = (0.02)(0.60) + (0.97)(0.40) = 0.012 + 0.388 = 0.40$ ($40\%$).
-    \item If a 1-bit is received, posterior transmission certainty: $P(T_1 \mid R_1) = \frac{0.388}{0.400} = 97.00\%$.
-  \end{itemize}
+% Slide 11B: In-Class Exercise — Tier 2: Operational (Solution)
+\begin{frame}{In-Class Exercise --- Tier 2: Operational (2/2)}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Positive Predictive Value (PPV)}
+        \fontsize{6.2pt}{7.4pt}\selectfont
+        Compute the total marginal probability of a positive test $P(+)$:
+        $$P(+) = P(+ \mid E)P(E) + P(+ \mid E')P(E')$$
+        $$P(+) = (0.95)(0.02) + (0.10)(0.98) = 0.019 + 0.098 = 0.117$$
+        Applying Bayes' Theorem to obtain the PPV ($P(E \mid +)$):
+        $$P(E \mid +) = \frac{0.019}{0.117} \approx \mathbf{0.16239 \text{ (16.24\%)}}$$
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{2. Negative Predictive Value (NPV)}
+        \fontsize{6.2pt}{7.4pt}\selectfont
+        Compute the total marginal probability of a negative test $P(-) = 1 - P(+) = 0.883$:
+        $$P(E' \mid -) = \frac{P(- \mid E')P(E')}{P(-)}$$
+        $$P(E' \mid -) = \frac{(0.90)(0.98)}{0.883} = \frac{0.882}{0.883} \approx \mathbf{0.99887 \text{ (99.89\%)}}$$
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+  \vspace{-0.1cm}
+  \pause
+  \begin{exampleblock}{Base Rate Fallacy Analysis}
+    \fontsize{6.2pt}{7.4pt}\selectfont
+    Exactly $83.76\%$ of individuals who receive a positive screening test are false alarms! This occurs not because the test lacks sensitivity ($95\%$), but because the vast demographic mass of healthy individuals ($98\%$) multiplied by the false positive error ($10\%$) generates a volume of false positives ($0.098$) exceeding true positives ($0.019$) by over 5 to 1.
+  \end{exampleblock}
 \end{frame}
 
-% Slide 15: Textbook Exercises — Tier 3: Analytical
-\begin{frame}{Textbook Exercises — Tier 3: Analytical (Advanced)}
-  \footnotesize
-  \textbf{Problem 2.5.3 (Semiconductor Assembly Lines):}
-  Three lines contribute $P(M_1)=0.50$, $P(M_2)=0.30$, $P(M_3)=0.20$ of production. Defect rates are $P(D \mid M_1)=0.03$, $P(D \mid M_2)=0.05$, $P(D \mid M_3)=0.07$. Marginal defect probability:
-  $P(D) = (0.03)(0.50) + (0.05)(0.30) + (0.07)(0.20) = 0.015 + 0.015 + 0.014 = 0.044$.
-  \begin{itemize}
-    \item Posterior vector: $P(M_1 \mid D) = \frac{15}{44} \approx 34.09\%$, $P(M_2 \mid D) = \frac{15}{44} \approx 34.09\%$, $P(M_3 \mid D) = \frac{14}{44} \approx 31.82\%$.
-    \item \emph{Insight:} Both $M_1$ and $M_2$ are tied as the most probable causes of a defect, because $M_1$'s massive production share exacts the same absolute defect count as $M_2$'s higher defect rate.
-  \end{itemize}
-  \vspace{0.2em}
-  \textbf{Problem 2.5.8 (Rigorous Proof for Finite Partitions):}
-  Given an exhaustive and mutually exclusive partition $\{B_1, \dots, B_k\}$, for any state $j$:
-  $P(B_j \cap A) = P(A \mid B_j)P(B_j)$. Since $A = \bigcup_{i=1}^k (A \cap B_i)$ is a disjoint union, by Kolmogorov's 3rd Axiom, $P(A) = \sum_{i=1}^k P(A \mid B_i)P(B_i)$. Substituting into $P(B_j \mid A) = \frac{P(B_j \cap A)}{P(A)}$ yields Bayes' Theorem.
+% Slide 12A: In-Class Exercise — Tier 3: Analytical (Statement)
+\begin{frame}{In-Class Exercise --- Tier 3: Analytical (1/2)}
+  \begin{block}{Problem 2.5.3 --- Bayesian Audit in Semiconductor Manufacturing}
+    \footnotesize
+    A semiconductor assembly plant operates three concurrent production lines ($M_1, M_2, M_3$) contributing $50\%$, $30\%$, and $20\%$ of the total output, respectively. The structural defect rates ($D$) verified by quality assurance are:
+    $$P(D \mid M_1) = 0.03, \qquad P(D \mid M_2) = 0.05, \qquad P(D \mid M_3) = 0.07$$
+    \begin{enumerate}\itemsep=0.15cm
+      \item If an external quality auditor selects a defective microchip from the final storage bin, determine the posterior probability vector $P(M_i \mid D)$ to isolate the manufacturing source.
+      \item Prove analytically which manufacturing line is statistically the most likely origin of the defect, explaining the trade-off between production volume and error rate.
+    \end{enumerate}
+  \end{block}
 \end{frame}
 
-% Slide 16: Textbook Exercises — Tier 4: Challenging
-\begin{frame}{Textbook Exercises — Tier 4: Challenging (Expert)}
-  \footnotesize
-  \textbf{Problem 2.5.9 (Prosecutor's Fallacy and DNA Odds Ratio):}
-  Crime scene DNA matches a suspect ($E$). Random population match rate ($N=5,000,000$) is $\alpha=10^{-6}$. The prosecutor asserts $99.9999\%$ guilt certainty.
-  \begin{itemize}
-    \item Prior guilt odds ($I$): $\frac{P(I)}{P(I')} = \frac{1 / 5,000,000}{1} = 2 \times 10^{-7}$.
-    \item Likelihood ratio: $\text{LR} = \frac{P(E \mid I)}{P(E \mid I')} = \frac{1}{10^{-6}} = 1,000,000$.
-    \item Posterior odds: $\text{Odds}(I \mid E) = 1,000,000 \times (2 \times 10^{-7}) = 0.20 = \frac{1}{5} \implies P(I \mid E) = \frac{0.20}{1.20} = \frac{1}{6} \approx 16.67\%$.
-  \end{itemize}
-  \vspace{0.1em}
-  \textbf{Problem 2.5.10 (Naïve Bayes Spam Classifier Decision Rule):}
-  Server processes $60\%$ spam ($S$) and $40\%$ legitimate ($S'$). Keywords $W = W_1 \cap W_2 \cap W_3$ have joint conditional likelihoods: $P(W \mid S) = (0.80)(0.70)(0.60) = 0.336$, and $P(W \mid S') = (0.10)(0.20)(0.10) = 0.002$.
-  \begin{align*}
-    P(S \mid W) = \frac{(0.336)(0.60)}{(0.336)(0.60) + (0.002)(0.40)} = \frac{0.2016}{0.2016 + 0.0008} = \frac{0.2016}{0.2024} \approx 99.60\%
-  \end{align*}
+% Slide 12B: In-Class Exercise — Tier 3: Analytical (Solution)
+\begin{frame}{In-Class Exercise --- Tier 3: Analytical (2/2)}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Marginal Rate and Posterior Vector}
+        \fontsize{6.2pt}{7.4pt}\selectfont
+        Calculate the total marginal defect rate in the plant:
+        $$P(D) = \sum_{i=1}^3 P(D \mid M_i)P(M_i)$$
+        $$P(D) = (0.03)(0.50) + (0.05)(0.30) + (0.07)(0.20)$$
+        $$P(D) = 0.015 + 0.015 + 0.014 = \mathbf{0.044 \text{ (4.4\%)}}$$
+        Inverting with Bayes for each line $M_i$:
+        \begin{itemize}\itemsep=0.04cm
+          \item $P(M_1 \mid D) = \frac{0.015}{0.044} = \frac{15}{44} \approx \mathbf{34.09\%}$.
+          \item $P(M_2 \mid D) = \frac{0.015}{0.044} = \frac{15}{44} \approx \mathbf{34.09\%}$.
+          \item $P(M_3 \mid D) = \frac{0.014}{0.044} = \frac{14}{44} \approx \mathbf{31.82\%}$.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{2. Tie Analysis and Audit Recommendation}
+        \fontsize{6.2pt}{7.4pt}\selectfont
+        \textbf{Conclusion:} Manufacturing lines $M_1$ and $M_2$ tie exactly at $34.09\%$ probability as the most likely source of any randomly isolated defective component.
+        \vspace{0.1cm}
+        
+        \textbf{Algorithmic Justification:} Even though line $M_1$ maintains the lowest defect rate ($3\%$) compared to $M_2$ ($5\%$), its massive manufacturing volume ($50\%$ vs $30\%$) produces exactly the same absolute quantity of failed chips into the total inventory:
+        $$P(D \cap M_1) = P(D \cap M_2) = 0.015$$
+      \end{alertblock}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% Slide 17: Synthesis and Next Session Challenge
-\begin{frame}{Synthesis and Challenge for the Next Session}
-  \begin{block}{Core Conclusions from Bayes' Theorem}
-    \begin{itemize}
-      \item \textbf{Rigorous Inversion:} Bayes provides the mathematical bridge linking observed empirical effects to their underlying generative hypotheses.
-      \item \textbf{The Weight of the Prior:} Disregarding baseline marginal prevalence ($P(A)$) leads directly to severe diagnostic fallacies, especially in rare screening scenarios.
-      \item \textbf{Dynamic Learning:} Sequential Bayesian updating allows intelligent systems to continuously refine their beliefs under accumulating uncertainty.
+% Slide 13A: In-Class Exercise — Tier 4: Challenging (Statement)
+\begin{frame}{In-Class Exercise --- Tier 4: Challenging (1/2)}
+  \begin{block}{Problems 2.5.9 \& 2.5.10 --- Prosecutor's Fallacy \& Naive Bayes Filter}
+    \footnotesize
+    \begin{itemize}\itemsep=0.15cm
+      \item \textbf{Prosecutor's Fallacy (2.5.9):} In a forensic investigation, a crime scene DNA sample matches a suspect ($E$). The random match probability in a population of $N=5,000,000$ is $\alpha=10^{-6}$. The prosecutor claims the suspect has a $99.9999\%$ probability of guilt. Use Bayesian odds formulation to evaluate the true posterior probability $P(\text{Guilty} \mid E)$.
+      \item \textbf{Naive Bayes Spam Filter (2.5.10):} A server processes $60\%$ spam ($S$) and $40\%$ legitimate emails ($S'$). Under conditional independence, evaluate a message containing keywords $W_1 \cap W_2 \cap W_3$ with likelihoods: $P(W \mid S)=(0.80)(0.70)(0.60)=0.336$ and $P(W \mid S')=(0.10)(0.20)(0.10)=0.002$. Compute $P(S \mid W)$.
     \end{itemize}
   \end{block}
-  \vspace{0.4em}
-  \begin{alertblock}{Challenge for Session 02.06: Random Sampling}
-    What happens when we analyze sequences of observations drawn without replacement from finite populations? We will study the structural transition between exact hypergeometric dependence and binomial approximations.
+\end{frame}
+
+% Slide 13B: In-Class Exercise — Tier 4: Challenging (Solution)
+\begin{frame}{In-Class Exercise --- Tier 4: Challenging (2/2)}
+  \vspace{-0.15cm}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{1. Prosecutor's Fallacy in Odds ($N=5 \times 10^6$)}
+        \fontsize{5.5pt}{6.4pt}\selectfont
+        Prior odds in a population of 5 million potential suspects:
+        $$\text{Odds}(G) = \frac{1 / 5,000,000}{1} = 2 \times 10^{-7}$$
+        Likelihood Ratio ($\text{LR}$) given a DNA match:
+        $$\text{LR} = \frac{P(E \mid G)}{P(E \mid G')} = \frac{1}{10^{-6}} = 1,000,000$$
+        Posterior odds and true probability of guilt:
+        $$\text{Odds}(G \mid E) = 10^6 \times (2 \times 10^{-7}) = 0.20 = \frac{1}{5}$$
+        $$P(G \mid E) = \frac{0.20}{1 + 0.20} = \frac{1}{6} \approx \mathbf{16.67\%}$$
+        The prosecutor's assertion ($99.9999\%$) is a logical fallacy ignoring the marginal base rate!
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{2. Naive Bayes Spam Inversion ($W$)}
+        \fontsize{5.5pt}{6.4pt}\selectfont
+        Compute the joint marginal probability of keyword vector $W$:
+        $$P(W) = P(W \mid S)P(S) + P(W \mid S')P(S')$$
+        $$P(W) = (0.336)(0.60) + (0.002)(0.40) = 0.2016 + 0.0008 = 0.2024$$
+        Evaluate the exact posterior probability that the message is spam ($S$):
+        $$P(S \mid W) = \frac{0.2016}{0.2024} = \frac{252}{253} \approx \mathbf{99.6047\%}$$
+        The simultaneous presence of all three indicators classifies the email with near-certainty.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Slide 14: Synthesis and Conclusion
+\begin{frame}{Synthesis and Conclusion --- Bayes' Theorem and Inversion}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Conceptual Pillars of Section 02.05}
+    \fontsize{7.5pt}{9pt}\selectfont
+    \begin{itemize}\itemsep=0.12cm
+      \item \textbf{Rigorous Conditional Inversion:} Bayes' Theorem provides the exact algebraic mechanism to infer causal probabilities ($P(A \mid B)$) from forward empirical likelihoods ($P(B \mid A)$).
+      \item \textbf{The Critical Weight of the Prior:} Disregarding the prior marginal probability $P(A)$ inevitably leads to severe cognitive biases and the base rate fallacy across technical diagnostics and medical screening.
+      \item \textbf{Sequential Updating and Robotics:} The recursive transition where one cycle's posterior distribution becomes the prior belief for the next cycle is the foundation of AI algorithms and real-time state estimation.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 15: Curricular Transition
+\begin{frame}{Curricular Transition and Thematic Connection}
+  \fontsize{7.5pt}{9pt}\selectfont
+  \begin{block}{Backward and Forward Curricular Connections}
+    \fontsize{7.5pt}{9pt}\selectfont
+    With mastery of Bayes' Theorem, we have completed the core analytical tools required to manipulate probabilities over known or fixed events inside sample spaces.
+    \begin{itemize}\itemsep=0.1cm
+      \item Conditional probability and Bayesian inversion allow us to evaluate specific hypotheses given concrete observational evidence.
+      \item However, to generalize this inference to samples drawn randomly from large populations, we must examine the synthetic and asymptotic behavior of sample averages.
+    \end{itemize}
+  \end{block}
+  \vspace{-0.15cm}
+  \pause
+  \begin{alertblock}{Connection to Section 02.06: Random Sampling and the CLT}
+    \fontsize{7.5pt}{9pt}\selectfont
+    In \textbf{Section 02.06: Random Sampling and the Central Limit Theorem}, we explore how sampling distributions of independent random variables converge algebraically toward universal normality, enabling us to bound statistical error with guaranteed precision.
   \end{alertblock}
 \end{frame}
 
