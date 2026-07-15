@@ -1,0 +1,303 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Exponential Distribution}
+\subtitle{Section 04.05 --- Memoryless Processes, MLE, Erlang Distribution and Queueing Systems}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 04: Continuous Random Variables}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 3}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 04.01: PDF and Continuous Support}
+			\item \textcolor{gray}{Section 04.02: Continuous CDF and Quantiles}
+			\item \textcolor{gray}{Section 04.03: Expectation, Variance, and Continuous LOTUS}
+			\item \textcolor{gray}{Section 04.04: Continuous Uniform Distribution}
+			\item \textbf{\textcolor{TecRojo}{Section 04.05: Exponential Distribution}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 04.06: Normal Distribution and Z-Score}
+			\item \textcolor{gray}{Section 04.07: Gamma, Beta, and Weibull Distributions}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Introduce the Exponential distribution as the model for inter-arrival times in Poisson processes, prove the memoryless property, compute the MLE of parameter $\lambda$, and apply the Erlang distribution (sum of exponentials) to reliability systems and queueing theory.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Definition and Memoryless
+\begin{frame}{Definition, Moments, and Memoryless Property}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{PDF and Moments}
+				\footnotesize
+				PDF: $f(x) = \lambda e^{-\lambda x}$ for $x \ge 0$. CDF: $F(x) = 1 - e^{-\lambda x}$. $\E[X] = 1/\lambda$, $\Var(X) = 1/\lambda^{2}$. MGF: $M(t) = \lambda/(\lambda-t)$ for $t < \lambda$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Memoryless Property}
+				\footnotesize
+				$P(X > s + t \mid X > s) = P(X > t)$ for all $s, t > 0$. Uniquely characterizes the exponential among continuous distributions on $[0, \infty)$. The system ``does not age''.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Erlang and MLE
+\begin{frame}{Erlang Distribution and MLE Estimation}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Erlang Distribution}
+				\footnotesize
+				Sum of $n$ i.i.d. $\text{Exp}(\lambda)$: $S_n \sim \text{Erlang}(n, \lambda)$ with PDF $\frac{\lambda^n x^{n-1} e^{-\lambda x}}{(n-1)!}$. $\E[S_n] = n/\lambda$, $\Var(S_n) = n/\lambda^{2}$. Models times-to-$k$-th event in Poisson.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{MLE and Asymptotic Variance}
+				\footnotesize
+				$\hat{\lambda} = 1/\bar{X}$ is the MLE. Biased: $\E[\hat{\lambda}] = n\lambda/(n-1)$. Asymptotic variance $\lambda^{2}/n$ via Fisher information $I(\lambda) = 1/\lambda^{2}$. As $n \to \infty$, $\hat{\lambda} \to \lambda$ in probability.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Applications
+\begin{frame}{Applications in Engineering, Science, and Queueing}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Industrial Reliability:} Time-to-failure of electronic and mechanical components under the no-aging property. \pause
+		\item \textbf{M/M/1 Queueing System:} Poisson arrivals ($\lambda$) + Exp service ($\mu$); stable if $\rho = \lambda/\mu < 1$. \pause
+		\item \textbf{Physics of Stochastic Processes:} Radioactive decay times, particle half-life. \pause
+		\item \textbf{Data Science:} Modeling inter-event times in system logs, predictive maintenance, and survival analysis.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 06: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: PDF and Memoryless Property}
+	\vspace{-0.05cm}
+	\scriptsize
+	Validation of $\int f = 1$ and numerical demonstration of the memoryless property (\texttt{04.05\_exponential\_distribution.py}):
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=15, lastline=40]{../../code/04_variables_aleatorias_continuas/04.05_exponential_distribution.py}}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: MLE and Bootstrap}
+	\vspace{-0.05cm}
+	\scriptsize
+	Estimation of $\hat{\lambda} = 1/\bar{X}$, bootstrap confidence intervals, and MLE convergence:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=45, lastline=75]{../../code/04_variables_aleatorias_continuas/04.05_exponential_distribution.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Erlang and Queueing Systems}
+	\vspace{-0.05cm}
+	\scriptsize
+	Verification of Erlang distribution and application to M/M/1 queueing systems:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=85, lastline=110]{../../code/04_variables_aleatorias_continuas/04.05_exponential_distribution.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: PDF & Memoryless Property ===
+Exp(2.0) PDF integral: 1.00000000
+Memoryless: P(X>s+t|X>s) = P(X=t) (diff < 1e-15)
+Moments: E[X]=0.5 | E[X^2]=0.5 | Var=0.25
+
+=== Block 2: MLE & Quantile Estimation ===
+True lambda=2.0, MLE=2.3642, Bootstrap SE=0.3699
+95% CI: [1.8213, 3.2714] (contains true value)
+Convergence: n=5000: |error|=0.0052
+
+=== Block 3: Erlang & Reliability ===
+Sum of 5 Exp(1) = Erlang(5,1): mean=5.006 | KS D=0.003
+Reliability 10 components: MTTF=100h, P(T>100)=0.367
+M/M/1 queue: rho=0.833, P(busy)=83.3%, L=5.0
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 10: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.5.1 --- Exponential PDF and CDF (Statement)}
+		Let $X \sim \text{Exp}(\lambda = 2)$ with PDF $f(x) = 2e^{-2x}$ for $x \ge 0$. Verify that $\int_{0}^{\infty} f(x)\,dx = 1$, calculate the CDF $F(x) = 1 - e^{-2x}$, and determine $P(X \le 1)$ and $P(X \ge 3)$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item Support: $[0, \infty)$ (semi-bounded, right tail).
+			\item Exponential PDF: $f(x) = \lambda e^{-\lambda x}$ with rate $\lambda = 2$.
+			\item CDF: $F(x) = 1 - e^{-\lambda x}$ and tail: $P(X > x) = e^{-\lambda x}$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Verify normalization and compute probabilities: \pause
+	\begin{block}{Normalization and CDF}
+		\begin{align*}
+			\int_{0}^{\infty} 2e^{-2x}\,dx = 2 \cdot \left[ -\dfrac{e^{-2x}}{2} \right]_{0}^{\infty} = 2 \cdot (0 - (-\tfrac{1}{2})) = 1.
+		\end{align*}
+		The CDF is $F(x) = 1 - e^{-2x}$ for $x \ge 0$.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Probabilities}
+		\scriptsize
+		\begin{itemize}\itemsep=0.04cm
+			\item $P(X \le 1) = 1 - e^{-2} \approx 1 - 0.1353 = 0.8647$.
+			\item $P(X \ge 3) = e^{-6} \approx 0.00248$.
+		\end{itemize}
+		Interpretation: 86.5\% of observations fall in $[0, 1]$, but only 0.25\% exceed 3. The exponential tail decays rapidly.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.5.5 --- Exponential Quantiles (Statement)}
+		Let $X \sim \text{Exp}(\lambda = 0.5)$ (mean 2 minutes). Calculate the quantiles $q_{0.10}$, $q_{0.50}$ (median), and $q_{0.90}$, and find the quantile $q_{0.95}$ in the context of a queueing system.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Setup}
+		\scriptsize
+		The CDF is $F(x) = 1 - e^{-0.5 x}$, so $q_{p} = -\frac{1}{0.5}\ln(1-p) = -2\ln(1-p)$. The quantile $q_{0.95}$ defines the waiting time below which 95\% of customers experience.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Apply the quantile formula $q_{p} = -2\ln(1-p)$: \pause
+	\begin{block}{Quantile Calculation}
+		\begin{itemize}\itemsep=0.05cm
+			\item $q_{0.10} = -2\ln(0.9) \approx 0.211$ min. \pause
+			\item $q_{0.50} = 2\ln 2 \approx 1.386$ min (median). \pause
+			\item $q_{0.90} = -2\ln(0.1) \approx 4.605$ min. \pause
+			\item $q_{0.95} = -2\ln(0.05) \approx 5.991$ min: 95\% of customers wait less than 6 minutes.
+		\end{itemize}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Management Decision}
+		\scriptsize
+		To ensure that 95\% of customers wait less than 6 minutes, the system must have service capacity $\mu > 1/6 \approx 0.167$ customers/sec. If $\lambda = 0.5$ customers/sec, at least 3 servers are needed for operational stability.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.5.7 --- Exponential MLE Derivation (Statement)}
+		Let $X_{1}, \dots, X_{n}$ be i.i.d. from $\text{Exp}(\lambda)$. Derive the MLE of $\lambda$, show that $\hat{\lambda} = 1/\bar{X}$, and compute the bias and asymptotic variance.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Deduction Strategy}
+		\scriptsize
+		Write the log-likelihood $\ell(\lambda) = n \log \lambda - \lambda \sum x_i$, differentiate with respect to $\lambda$, set to zero. For asymptotic variance, use Fisher information $I(\lambda) = 1/\lambda^{2}$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Differentiate the log-likelihood: \pause
+	\begin{block}{Derivation}
+		\scriptsize
+		\begin{align*}
+			\ell(\lambda) &= \sum_{i=1}^{n} \log f(x_i \mid \lambda) = n \log \lambda - \lambda \sum_{i=1}^{n} x_i. \\
+			\ell'(\lambda) &= \dfrac{n}{\lambda} - \sum_{i=1}^{n} x_i = 0 \implies \hat{\lambda} = \dfrac{n}{\sum x_i} = \dfrac{1}{\bar{X}}.
+		\end{align*}
+		Bias: $\E[\hat{\lambda}] = n\lambda/(n-1) > \lambda$. Consistency: $\hat{\lambda} \xrightarrow{p} \lambda$. Asymptotic variance is $\Var(\hat{\lambda}) \to \lambda^{2}/n$ by Fisher information. \quad \qedhere
+	\end{block}
+\end{frame}
+
+% SLIDE 16: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.5.9 --- Series Reliability System (Statement)}
+		In a reliability system with $n$ components in series, if the times to failure are i.i.d. $X_{i} \sim \text{Exp}(\lambda)$ independent, prove that the system failure time $T = \min(X_{1}, \dots, X_{n})$ follows $\text{Exp}(n\lambda)$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Application}
+		\scriptsize
+		For $n = 10$ components with $\lambda = 0.001$ failures/hour, calculate the mean time to system failure, $P(T > 100)$, and the median failure time.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Prove via independence and the memoryless property: \pause
+	\begin{block}{Formal Proof}
+		\scriptsize
+		By independence of the $X_{i}$:
+		\begin{align*}
+			P(T > t) = P(\min(X_{1}, \dots, X_{n}) > t) = \prod_{i=1}^{n} P(X_{i} > t) = \prod_{i=1}^{n} e^{-\lambda t} = e^{-n\lambda t}.
+		\end{align*}
+		This is exactly the tail of $\text{Exp}(n\lambda)$, so $T \sim \text{Exp}(n\lambda)$. \quad \qedhere
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Numerical Application}
+		\scriptsize
+		With $n = 10$ and $\lambda = 0.001$: $\E[T] = 1/(n\lambda) = 100$ hours. $P(T > 100) = e^{-1} \approx 0.368$. The median is $m = \ln 2/(n\lambda) = 69.3$ hours $\approx 2.89$ days. The system has a 36.8\% probability of surviving more than 100 hours.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Closing and Next Steps
+\begin{frame}{Closing Section and Modular Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: The Exponential as Memoryless Distribution}
+		\scriptsize
+		The Exponential distribution is the unique continuous distribution on $[0, \infty)$ with the memoryless property. This property, derived from the underlying Poisson process, makes it unique in reliability, queueing, and survival analysis. Its MLE has closed form ($\hat{\lambda} = 1/\bar{X}$), and the sum of $n$ i.i.d. exponentials yields the Erlang distribution.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{PDF:} $f(x) = \lambda e^{-\lambda x}$ models continuous waiting times.
+			\item \textbf{Memoryless:} $P(X > s + t \mid X > s) = P(X > t)$ is the defining (and unique) property.
+			\item \textbf{Erlang:} Sum of $n$ i.i.d. exponentials is Erlang$(n, \lambda)$, foundation of series systems.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Normal Distribution and Z-Score}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}

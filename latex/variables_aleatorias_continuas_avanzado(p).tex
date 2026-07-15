@@ -1,0 +1,521 @@
+% ==============================================================================
+% SECCIÓN 04.04: DISTRIBUCIÓN UNIFORME CONTINUA U(a, b)
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 04.04}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:4.4.1}
+	Considere la distribución uniforme continua $X \sim U(2, 8)$ con PDF $f(x) = \dfrac{1}{8-2} = \dfrac{1}{6}$ para $x \in [2, 8]$.
+	\begin{enumerate}
+		\item Verifique que $\int_{2}^{8} f(x)\,dx = 1$.
+		\item Calcule la CDF $F(x)$ y grafique cualitativamente su forma lineal.
+		\item Calcule $P(3 \le X \le 6)$ y $P(X \ge 7)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.4.2}
+	Sea $X \sim U(a, b)$ con parámetros $a < b$.
+	\begin{enumerate}
+		\item Calcule la esperanza $\E[X] = \dfrac{a + b}{2}$ y la varianza $\Var(X) = \dfrac{(b-a)^{2}}{12}$ usando las definiciones de integral.
+		\item Demuestre la linealidad de la esperanza: si $Y = cX + d$, entonces $Y \sim U(ca + d, cb + d)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.4.3}
+	El tiempo de espera de un autobús en una parada (en minutos) se modela como $X \sim U(0, 15)$ (distribución uniforme entre 0 y 15 minutos).
+	\begin{enumerate}
+		\item Calcule la probabilidad de que el tiempo de espera sea menor a 5 minutos.
+		\item Calcule el cuantil $q_{0.75}$ (el tiempo bajo el cual espera el 75\% de los pasajeros).
+		\item Si un pasajero ha esperado 10 minutos sin ver el autobús, ¿cuál es la probabilidad condicional de que tenga que esperar al menos 5 minutos más? Use la propiedad de falta de memoria.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:4.4.4}
+	Sea $X \sim U(0, 1)$. Calcule explícitamente los cuantiles $q_{0.10}$, $q_{0.50}$ (mediana) y $q_{0.90}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.4.5}
+	Implemente una simulación Monte Carlo de 100{,}000 muestras de $U(0, 1)$ y verifique que la media y varianza empíricas coincidan con $\E[X] = 0.5$ y $\Var(X) = 1/12 \approx 0.0833$. Adicionalmente, grafique el histograma con la PDF sobrepuesta.
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.4.6}
+	En simulación Monte Carlo, se desea generar muestras de una variable $Y$ con CDF $F(y)$ arbitraria. Demuestre que si $U \sim U(0, 1)$ y $F$ es invertible, entonces $Y = F^{-1}(U)$ tiene CDF $F$. Aplique este resultado para generar 50{,}000 muestras de $Y \sim \text{Exp}(\lambda = 2)$ a partir de la uniforme.
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:4.4.7}
+	Sea $X$ una variable continua con soporte en $[a, b]$ acotado. Demuestre que la distribución uniforme $U(a, b)$ \emph{maximiza la entropía diferencial} $h(X) = -\int f(x) \log f(x)\,dx$ entre todas las distribuciones con soporte en $[a, b]$. Sugerencia: use los multiplicadores de Lagrange con la restricción $\int f(x)\,dx = 1$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.4.8}
+	Sean $X_{1}, X_{2}, \dots, X_{n}$ muestras i.i.d. de $U(0, 1)$ y $X_{(1)} \le X_{(2)} \le \dots \le X_{(n)}$ sus estadísticas de orden.
+	\begin{enumerate}
+		\item Demuestre que $X_{(k)}$ tiene PDF Beta($k, n - k + 1$): $f_{X_{(k)}}(x) = \dfrac{n!}{(k-1)!(n-k)!} x^{k-1} (1-x)^{n-k}$ para $x \in [0, 1]$.
+		\item Calcule $\E[X_{(k)}] = \dfrac{k}{n+1}$ y $\Var(X_{(k)})$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:4.4.9}
+	Sea $X_{1}, \dots, X_{n}$ i.i.d. de $U(\theta - 1/2, \theta + 1/2)$ donde $\theta$ es desconocido. El soporte tiene longitud 1. Use el método de máxima verosimilitud para estimar $\theta$. ¿Es el estimador $\hat{\theta}$ insesgado? ¿Cuál es su varianza asintótica?
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.4.10}
+	La prueba de Kolmogorov-Smirnov compara la CDF empírica $F_{n}$ con la CDF teórica $F_{0}$. Para $n = 50$ observaciones que se sospecha provienen de $U(0, 1)$ con $D_{50} = 0.18$:
+	\begin{enumerate}
+		\item Calcule el $p$-valor aproximado: $p \approx 2 \sum_{k=1}^{\infty}(-1)^{k-1} e^{-2k^{2}n D_{n}^{2}}$.
+		\item Compare con el valor crítico $K_{0.95}/\sqrt{n} = 1.358/\sqrt{50} \approx 0.192$.
+		\item Concluya si los datos son consistentes con $U(0, 1)$ a nivel $\alpha = 0.05$.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 04.04}
+
+\begin{sugerencia}
+	\label{sug:4.4.1}
+	Para el Problema \ref{prob:4.4.1}, $\int_{2}^{8} (1/6)\,dx = 6/6 = 1$. La CDF es $F(x) = (x-2)/6$ para $x \in [2, 8]$. $P(3 \le X \le 6) = (6-2)/6 = 0.5$. $P(X \ge 7) = (8-7)/6 = 1/6 \approx 0.167$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.4.2}
+	Para el Problema \ref{prob:4.4.2}, $\E[X] = \int_{a}^{b} x \cdot (1/(b-a))\,dx = (b^{2} - a^{2})/(2(b-a)) = (a+b)/2$. $\E[X^{2}] = (b^{2} + ab + a^{2})/3$. $\Var(X) = (b-a)^{2}/12$. Para $Y = cX + d$: PDF de $Y$ es $f_{Y}(y) = f_{X}((y-d)/c) \cdot (1/|c|) = 1/((cb+d)-(ca+d)) = 1/(c(b-a))$ en $[ca+d, cb+d]$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.4.3}
+	Para el Problema \ref{prob:4.4.3}, $F(x) = x/15$ para $x \in [0, 15]$. $P(X < 5) = 5/15 = 1/3 \approx 0.333$. $q_{0.75}$: $x/15 = 0.75$, dando $x = 11.25$ min. Propiedad de falta de memoria: $P(X \ge 15 \mid X \ge 10) = P(X \ge 5) = 10/15 = 2/3 \approx 0.667$. Por simetría, $P(X \ge a + b \mid X \ge a) = P(X \ge b)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.4.4}
+	Para el Problema \ref{prob:4.4.4}, $q_{p}$ para $U(0, 1)$ es $q_{p} = p$. Entonces $q_{0.10} = 0.1$, $q_{0.50} = 0.5$ (mediana), $q_{0.90} = 0.9$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.4.5}
+	Para el Problema \ref{prob:4.4.5}, use `np.random.seed(42)` y `np.random.uniform(0, 1, 100000)`. Verifique con `np.mean(samples)` ($\approx 0.5$) y `np.var(samples, ddof=1)` ($\approx 0.0833$). Para el histograma, use `plt.hist(samples, bins=50, density=True)` y sobreponga la PDF constante $1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.4.6}
+	Para el Problema \ref{prob:4.4.6}, $P(Y \le y) = P(F^{-1}(U) \le y) = P(U \le F(y)) = F(y)$ por monotonía de $F^{-1}$ y uniformidad de $U$. Para Exponential($\lambda = 2$): $F(y) = 1 - e^{-2y}$ para $y \ge 0$, así $Y = -\ln(1-U)/2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.4.7}
+	Para el Problema \ref{prob:4.4.8}, maximizar $h[X] = -\int f(x) \log f(x)\,dx$ sujeto a $\int f(x)\,dx = 1$ y soporte en $[a, b]$. Lagrangian: $\mathcal{L} = -\int f \log f\,dx - \lambda(\int f\,dx - 1)$. Derivando respecto a $f$: $-\log f - 1 - \lambda = 0$, así $f(x) = e^{-1-\lambda} = $ constante. La constante es $1/(b-a)$ por normalización. Por lo tanto $U(a,b)$ maximiza la entropía.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.4.8}
+	Para el Problema \ref{prob:4.4.8}, la PDF de $X_{(k)}$ es Beta($k, n-k+1$): $f_{X_{(k)}}(x) = \frac{n!}{(k-1)!(n-k)!} x^{k-1}(1-x)^{n-k}$. La esperanza es $\E[X_{(k)}] = k/(n+1)$ (simetría de la Beta). La varianza es $\Var(X_{(k)}) = \frac{k(n-k+1)}{(n+1)^{2}(n+2)}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.4.9}
+	Para el Problema \ref{prob:4.4.9}, la log-verosimilitud es $\ell(\theta) = \sum \log f(x_i \mid \theta) = -n \log(1) = 0$ para cualquier $\theta$ en el rango admisible. La verosimilitud es constante: cualquier $\hat{\theta}$ que cubra todas las observaciones es MLE. El estimador natural es $\hat{\theta} = \frac{1}{2}(\max X_i + \min X_i)$ (midrange). Sesgo: $\E[\hat{\theta}] = \theta$ (insesgado). Varianza: $\Var(\hat{\theta}) = 1/(2(n+1)(n+2))$ (de la varianza del rango).
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.4.10}
+	Para el Problema \ref{prob:4.4.10}, con $n = 50$ y $D_{50} = 0.18$, $nD_{n}^{2} = 50 \cdot 0.0324 = 1.62$. El $p$-valor es $p \approx 2 \sum_{k=1}^{\infty}(-1)^{k-1} e^{-2k^{2} \cdot 1.62}$. Para $k=1$: $2 e^{-3.24} \approx 2 \cdot 0.0392 = 0.0784$. Para $k=2$: $-2 e^{-12.96} \approx 0$. Por lo tanto $p \approx 0.078$. Como $D_{50} = 0.18 < 0.192 = 1.358/\sqrt{50}$, no rechazamos $H_{0}$ a nivel $\alpha = 0.05$.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 04.04}
+
+\begin{solucion}
+	\label{sol:4.4.1}
+	Para el Problema \ref{prob:4.4.1}:
+	\begin{enumerate}
+		\item $\int_{2}^{8} \frac{1}{6}\,dx = \frac{1}{6}(8-2) = 1$. Verificación completada.
+		\item La CDF es lineal:
+		\begin{align*}
+			F(x) = P(X \le x) = \int_{2}^{x} \frac{1}{6}\,dt = \frac{x-2}{6}, \quad x \in [2, 8].
+		\end{align*}
+		\item $P(3 \le X \le 6) = F(6) - F(3) = \frac{4}{6} - \frac{1}{6} = \frac{3}{6} = 0.5$. $P(X \ge 7) = 1 - F(7) = 1 - \frac{5}{6} = \frac{1}{6} \approx 0.167$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.4.2}
+	Para el Problema \ref{prob:4.4.2}:
+	\begin{enumerate}
+		\item $\E[X] = \int_{a}^{b} x \cdot \frac{1}{b-a}\,dx = \frac{1}{b-a} \cdot \frac{x^{2}}{2}\Big|_{a}^{b} = \frac{b^{2} - a^{2}}{2(b-a)} = \frac{a+b}{2}$. $\E[X^{2}] = \int_{a}^{b} x^{2} \cdot \frac{1}{b-a}\,dx = \frac{b^{3} - a^{3}}{3(b-a)} = \frac{a^{2} + ab + b^{2}}{3}$. $\Var(X) = \E[X^{2}] - (\E[X])^{2} = \frac{a^{2} + ab + b^{2}}{3} - \frac{(a+b)^{2}}{4} = \frac{(b-a)^{2}}{12}$.
+		\item Para $Y = cX + d$ con $c > 0$: usando el cambio de variable $x = (y-d)/c$, $dx = dy/c$, y soporte $[a, b]$ mapeado a $[ca+d, cb+d]$:
+		\begin{align*}
+			f_{Y}(y) = f_{X}\left(\frac{y-d}{c}\right) \cdot \frac{1}{c} = \frac{1}{b-a} \cdot \frac{1}{c} = \frac{1}{(cb+d) - (ca+d)} = \frac{1}{c(b-a)},
+		\end{align*}
+		confirmando $Y \sim U(ca+d, cb+d)$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.4.3}
+	Para el Problema \ref{prob:4.4.3} con $X \sim U(0, 15)$:
+	\begin{enumerate}
+		\item $P(X < 5) = F(5) = 5/15 = 1/3 \approx 0.333$.
+		\item $q_{0.75}$ satisface $F(q_{0.75}) = q_{0.75}/15 = 0.75$, dando $q_{0.75} = 11.25$ minutos. Por lo tanto, el 75\% de los pasajeros espera menos de 11.25 minutos.
+		\item La distribución uniforme NO tiene propiedad de falta de memoria (a diferencia de la exponencial). La probabilidad condicional es $P(X \ge 15 \mid X \ge 10) = \frac{P(X \ge 15)}{P(X \ge 10)} = \frac{0/15}{5/15} = 0$. Esto es, si han pasado 10 minutos sin autobús, es porque NO hay autobús en los primeros 10 minutos, así que la probabilidad de esperar al menos 5 minutos más es 0. \emph{Corrección:} la uniforme NO tiene falta de memoria, así que $P(X \ge 15 \mid X \ge 10) = P(X \ge 5) = 10/15 = 2/3 \approx 0.667$ (esto es correcto solo si la uniforme \emph{tuviera} falta de memoria, lo cual NO es el caso). El cálculo correcto: condicionalmente a $X \ge 10$, $X$ sigue $U(10, 15)$ (por la propiedad de \emph{inspección aleatoria}), así $P(X \ge 15 \mid X \ge 10) = 0$ (ya que el soporte solo llega hasta 15).
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.4.4}
+	Para el Problema \ref{prob:4.4.4} con $X \sim U(0, 1)$: la CDF es $F(x) = x$ para $x \in [0, 1]$. Por lo tanto, $q_{p} = F^{-1}(p) = p$. En particular:
+	\begin{itemize}
+		\item $q_{0.10} = 0.1$ (percentil 10)
+		\item $q_{0.50} = 0.5$ (mediana)
+		\item $q_{0.90} = 0.9$ (percentil 90)
+	\end{itemize}
+	Los cuantiles de $U(0, 1)$ son trivialmente iguales a las probabilidades.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.4.5}
+	Para el Problema \ref{prob:4.4.5} con `np.random.seed(42)` y `np.random.uniform(0, 1, 100000)`:
+	\begin{align*}
+		\bar{X} \approx 0.5000 \quad (\text{teórico: } 0.5), \quad s^{2} \approx 0.0833 \quad (\text{teórico: } 1/12 \approx 0.08333).
+	\end{align*}
+	El histograma con 50 bins muestra una distribución uniforme con densidad $\approx 1$ en $[0, 1]$, confirmando la teoría.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.4.6}
+	Para el Problema \ref{prob:4.4.6}, demostramos el método de inversión:
+	\begin{align*}
+		P(Y \le y) = P(F^{-1}(U) \le y) = P(U \le F(y)) = F(y)
+	\end{align*}
+	por la monotonía de $F^{-1}$ y la uniformidad de $U$. Por lo tanto, $Y$ tiene CDF $F$. Para Exponential($\lambda = 2$): $F(y) = 1 - e^{-2y}$ para $y \ge 0$, así $Y = -\frac{1}{2}\ln(1-U)$. Con `np.random.seed(42)` y `np.random.uniform(0, 1, 50000)`, las 50{,}000 muestras de $Y$ tienen media empírica $\approx 0.5$ y varianza $\approx 0.25$, consistentes con la Exponential(2).
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.4.7}
+	Para el Problema \ref{prob:4.4.7}, maximizamos la entropía diferencial $h[X] = -\int_{a}^{b} f(x) \log f(x)\,dx$ sujeto a $\int_{a}^{b} f(x)\,dx = 1$. El Lagrangian es:
+	\begin{align*}
+		\mathcal{L}[f] = -\int_{a}^{b} f(x) \log f(x)\,dx - \lambda \left( \int_{a}^{b} f(x)\,dx - 1 \right).
+	\end{align*}
+	Usando cálculo variacional (derivada funcional con respecto a $f$): $-\log f(x) - 1 - \lambda = 0$, lo que da $\log f(x) = -(1 + \lambda)$, es decir, $f(x) = e^{-(1+\lambda)}$ es constante. La normalización requiere $f(x) = 1/(b-a)$ en $[a, b]$. Por lo tanto, $U(a, b)$ maximiza la entropía entre todas las distribuciones con soporte en $[a, b]$. Esto justifica por qué la uniforme es la "menos informativa" en inferencia bayesiana. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.4.8}
+	Para el Problema \ref{prob:4.4.8}:
+	\begin{enumerate}
+		\item La PDF de $X_{(k)}$ (la $k$-ésima estadística de orden de $n$ muestras $U(0,1)$) se obtiene notando que exactamente $k-1$ muestras son $< x$, exactamente una cae en $[x, x+dx]$, y exactamente $n-k$ son $> x+dx$. El número de formas de elegir estas muestras es $\binom{n}{k-1, 1, n-k} = \frac{n!}{(k-1)!(n-k)!}$. Así:
+		\begin{align*}
+			f_{X_{(k)}}(x) = \frac{n!}{(k-1)!(n-k)!} x^{k-1}(1-x)^{n-k} \cdot \mathbb{1}_{[0,1]}(x),
+		\end{align*}
+		que es exactamente la PDF de una distribución Beta($k, n-k+1$).
+		\item Para Beta($\alpha, \beta$), $\E[X] = \alpha/(\alpha+\beta)$. Con $\alpha = k$, $\beta = n-k+1$: $\E[X_{(k)}] = k/(n+1)$. La varianza es $\Var(X_{(k)}) = \frac{\alpha\beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)} = \frac{k(n-k+1)}{(n+1)^{2}(n+2)}$. Para $k=1$ (mínimo) y $k=n$ (máximo), la varianza se reduce a $n/((n+1)^{2}(n+2))$, reflejando la concentración en los extremos.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.4.9}
+	Para el Problema \ref{prob:4.4.9} con $X_{i} \sim U(\theta - 1/2, \theta + 1/2)$:
+	\begin{enumerate}
+		\item La log-verosimilitud es $\ell(\theta) = \sum \log f(x_i \mid \theta)$. Como $f(x \mid \theta) = 1$ para $x \in [\theta - 1/2, \theta + 1/2]$ y $0$ en otro caso, la log-verosimilitud es $0$ si todas las observaciones están dentro del intervalo $[\theta - 1/2, \theta + 1/2]$, y $-\infty$ en otro caso. El MLE es cualquier $\hat{\theta}$ tal que $\max X_i \le \hat{\theta} + 1/2$ y $\min X_i \ge \hat{\theta} - 1/2$, es decir, $\hat{\theta} \in [\max X_i - 1/2, \min X_i + 1/2]$. El estimador natural es el \emph{midrange}: $\hat{\theta} = (X_{(1)} + X_{(n)})/2$.
+		\item Sesgo: $\E[\hat{\theta}] = (\E[X_{(1)}] + \E[X_{(n)}])/2 = (1/(n+1) + n/(n+1))/2 = 1/2 = \theta$, así $\hat{\theta}$ es insesgado. Varianza: $\Var(\hat{\theta}) = (\Var(X_{(1)}) + \Var(X_{(n)}) + 2\cov(X_{(1)}, X_{(n)}))/4$. Para $n$ grande, $\Var(\hat{\theta}) \approx 1/(2(n+1)(n+2)) \to 0$ con tasa $1/n^{2}$, mostrando que el midrange es muy eficiente para la uniforme.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.4.10}
+	Para el Problema \ref{prob:4.4.10} con $n = 50$ y $D_{50} = 0.18$:
+	\begin{enumerate}
+		\item El $p$-valor de la prueba KS se aproxima por la serie:
+		\begin{align*}
+			p \approx 2 \sum_{k=1}^{\infty}(-1)^{k-1} e^{-2k^{2} n D_{n}^{2}} = 2 \sum_{k=1}^{\infty}(-1)^{k-1} e^{-2k^{2} \cdot 1.62}.
+		\end{align*}
+		Para $k=1$: $2 e^{-3.24} \approx 0.0784$. Para $k=2$: $-2 e^{-12.96} \approx -2.3 \times 10^{-6} \approx 0$. Por lo tanto, $p \approx 0.078$.
+		\item Valor crítico: $K_{0.95}/\sqrt{n} = 1.358/\sqrt{50} \approx 0.192$. Como $D_{50} = 0.18 < 0.192$, no rechazamos $H_{0}$ a nivel $\alpha = 0.05$.
+		\item Conclusión: con $p \approx 0.078 > 0.05$ y $D_{50} < K_{0.95}/\sqrt{n}$, no hay evidencia estadística significativa para rechazar que los datos provengan de $U(0, 1)$. La prueba KS no detecta desviaciones significativas al nivel del 5\%. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+% ==============================================================================
+% SECCIÓN 04.05: DISTRIBUCIÓN EXPONENCIAL Y PROCESOS SIN MEMORIA
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 04.05}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:4.5.1}
+	Una variable aleatoria continua $X$ tiene distribución exponencial con parámetro $\lambda = 2$ y PDF $f(x) = 2e^{-2x}$ para $x \ge 0$.
+	\begin{enumerate}
+		\item Verifique que $\int_{0}^{\infty} f(x)\,dx = 1$.
+		\item Calcule la CDF $F(x) = 1 - e^{-2x}$ para $x \ge 0$.
+		\item Calcule $P(X \le 1)$ y $P(X \ge 3)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.5.2}
+	Sea $X \sim \text{Exp}(\lambda)$ con $\lambda > 0$.
+	\begin{enumerate}
+		\item Calcule la esperanza $\E[X] = 1/\lambda$ y la varianza $\Var(X) = 1/\lambda^{2}$ mediante integración.
+		\item Verifique que la \emph{función generadora de momentos} es $M_{X}(t) = \lambda/(\lambda - t)$ para $t < \lambda$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.5.3}
+	En un proceso de Poisson con tasa $\lambda = 3$ eventos por hora, sea $X$ el tiempo hasta el primer evento.
+	\begin{enumerate}
+		\item Demuestre que $X \sim \text{Exp}(3)$ con PDF $f(x) = 3e^{-3x}$ para $x \ge 0$.
+		\item Calcule el tiempo medio entre eventos y su desviación estándar.
+		\item Calcule la probabilidad de que el primer evento ocurra después de 30 minutos.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:4.5.4}
+	Demuestre formalmente la \emph{propiedad de falta de memoria} de la distribución exponencial: si $X \sim \text{Exp}(\lambda)$, entonces para todo $s, t > 0$:
+	$$P(X > s + t \mid X > s) = P(X > t)$$
+	\begin{enumerate}
+		\item Use la definición de probabilidad condicional y la forma de la CDF exponencial.
+		\item Muestre que la exponencial es la \emph{única} distribución continua con esta propiedad (entre distribuciones con soporte en $[0, \infty)$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.5.5}
+	Sea $X \sim \text{Exp}(\lambda = 0.5)$ (media 2 minutos).
+	\begin{enumerate}
+		\item Calcule los cuantiles $q_{0.10}$, $q_{0.50}$ (mediana) y $q_{0.90}$.
+		\item Encuentre el cuantil $q_{0.95}$ y explique su significado en el contexto de un sistema de colas.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.5.6}
+	Implemente una simulación Monte Carlo de 100{,}000 muestras de $\text{Exp}(\lambda = 2)$ y verifique que la media y varianza empíricas coincidan con $\E[X] = 0.5$ y $\Var(X) = 0.25$. Adicionalmente, grafique el histograma con la PDF sobrepuesta.
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:4.5.7}
+	Sea $X_{1}, \dots, X_{n}$ i.i.d. de $\text{Exp}(\lambda)$. Deduzca el estimador de máxima verosimilitud (MLE) del parámetro $\lambda$.
+	\begin{enumerate}
+		\item Escriba la log-verosimilitud y derive respecto a $\lambda$.
+		\item Demuestre que $\hat{\lambda} = 1/\bar{X}$ donde $\bar{X}$ es la media muestral.
+		\item Calcule el sesgo y la varianza asintótica de $\hat{\lambda}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.5.8}
+	Sean $X_{1}, \dots, X_{n}$ i.i.d. de $\text{Exp}(\lambda)$.
+	\begin{enumerate}
+		\item Demuestre que la suma $S_{n} = \sum X_{i}$ sigue la distribución \emph{Erlang} (o Gamma con parámetro de forma entero): $S_{n} \sim \text{Gamma}(n, \lambda)$.
+		\item Calcule $\E[S_{n}]$ y $\Var(S_{n})$.
+		\item Para $n = 5$ y $\lambda = 1$, grafique la PDF de $S_{5}$ y compare con la aproximación Normal vía TLC.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:4.5.9}
+	En un sistema de confiabilidad con $n$ componentes en serie, el sistema falla cuando el primer componente falla. Si los tiempos hasta la falla son i.i.d. $X_{i} \sim \text{Exp}(\lambda)$ independientes, el tiempo hasta la falla del sistema es $T = \min(X_{1}, \dots, X_{n})$.
+	\begin{enumerate}
+		\item Demuestre que $T \sim \text{Exp}(n\lambda)$.
+		\item Calcule el tiempo medio hasta la falla del sistema.
+		\item Para $n = 10$ componentes con $\lambda = 0.001$ fallas/hora, calcule $P(T > 100)$ y la mediana del tiempo de falla.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.5.10}
+	En una estación de servicio con llegadas de Poisson($\lambda$) y tiempos de servicio $\text{Exp}(\mu)$:
+	\begin{enumerate}
+		\item Demuestre que el tiempo entre llegadas es $\text{Exp}(\lambda)$ y que el tiempo total de servicio de un cliente es $\text{Exp}(\mu)$.
+		\item Calcule la intensidad de tráfico $\rho = \lambda/\mu$ y explique su significado (sistema estable si $\rho < 1$).
+		\item Para $\lambda = 5$ clientes/min y $\mu = 6$ clientes/min, calcule la probabilidad de que el sistema esté ocupado en un instante aleatorio.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 04.05}
+
+\begin{sugerencia}
+	\label{sug:4.5.1}
+	Para el Problema \ref{prob:4.5.1}, $\int_{0}^{\infty} 2e^{-2x}\,dx = 2 \cdot (1/2) = 1$. La CDF es $F(x) = 1 - e^{-2x}$. $P(X \le 1) = 1 - e^{-2} \approx 0.865$. $P(X \ge 3) = e^{-6} \approx 0.00248$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.5.2}
+	Para el Problema \ref{prob:4.5.2}, $\E[X] = \int_{0}^{\infty} x \lambda e^{-\lambda x}\,dx = 1/\lambda$ (por integración por partes). $\E[X^{2}] = 2/\lambda^{2}$. $\Var(X) = 2/\lambda^{2} - 1/\lambda^{2} = 1/\lambda^{2}$. La MGF es $M_{X}(t) = \int_{0}^{\infty} e^{tx} \lambda e^{-\lambda x}\,dx = \lambda/(\lambda - t)$ para $t < \lambda$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.5.3}
+	Para el Problema \ref{prob:4.5.3}, por la propiedad del proceso de Poisson, $P(X > x) = e^{-3x}$ (probabilidad de cero eventos en tiempo $x$). Así $F(x) = 1 - e^{-3x}$ y $f(x) = 3e^{-3x}$. $\E[X] = 1/3$ hora = 20 min. $\sigma = 1/3 \approx 0.333$ h. $P(X \ge 0.5) = e^{-1.5} \approx 0.223$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.5.4}
+	Para el Problema \ref{prob:4.5.4}, $P(X > s + t \mid X > s) = P(X > s + t)/P(X > s) = e^{-\lambda(s+t)}/e^{-\lambda s} = e^{-\lambda t} = P(X > t)$. Para la unicidad: si $g$ es la cola $P(X > x)$, la propiedad implica $g(s+t) = g(s) g(t)$. Las únicas soluciones medibles con $g(0) = 1$ son $g(x) = e^{-cx}$ para alguna constante $c > 0$. Así la exponencial es única.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.5.5}
+	Para el Problema \ref{prob:4.5.5}, $q_{p} = -\frac{1}{0.5}\ln(1-p) = -2\ln(1-p)$. $q_{0.10} \approx 0.211$, $q_{0.50} = 2 \ln 2 \approx 1.386$, $q_{0.90} \approx 4.605$ min. El cuantil $q_{0.95} \approx 5.991$ min significa que el 95\% de los clientes espera menos de 6 min.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.5.6}
+	Para el Problema \ref{prob:4.5.6}, use `np.random.seed(42)` y `np.random.exponential(1/2, 100000)`. Verifique con `np.mean(samples)` ($\approx 0.5$) y `np.var(samples, ddof=1)` ($\approx 0.25$). El histograma muestra una distribución con cola derecha pesada, decayendo exponencialmente.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.5.7}
+	Para el Problema \ref{prob:4.5.7}, la log-verosimilitud es $\ell(\lambda) = n\log \lambda - \lambda \sum x_i$. Derivando: $\ell'(\lambda) = n/\lambda - \sum x_i = 0$, dando $\hat{\lambda} = n/\sum x_i = 1/\bar{x}$. Sesgo: $\E[\hat{\lambda}] = n\lambda/(n-1) = \lambda \cdot n/(n-1)$, así $\hat{\lambda}$ es sesgado. La varianza asintótica es $\lambda^{2}/n$ (vía información de Fisher $I(\lambda) = 1/\lambda^{2}$).
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.5.8}
+	Para el Problema \ref{prob:4.5.8}, la PDF de $S_{n}$ se obtiene por convolución repetida o vía la MGF: $M_{S_{n}}(t) = (\lambda/(\lambda - t))^{n}$ para $t < \lambda$, que es la MGF de $\text{Gamma}(n, \lambda)$. Por la unicidad de la MGF, $S_{n} \sim \text{Gamma}(n, \lambda)$ con $\E[S_{n}] = n/\lambda$ y $\Var(S_{n}) = n/\lambda^{2}$. Para $n = 5$, $\lambda = 1$: $\E[S_{5}] = 5$, $\Var(S_{5}) = 5$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.5.9}
+	Para el Problema \ref{prob:4.5.9}, $P(T > t) = P(\min X_{i} > t) = \prod P(X_{i} > t) = e^{-n\lambda t}$ por independencia. Así $T \sim \text{Exp}(n\lambda)$. $\E[T] = 1/(n\lambda)$. Con $n = 10$ y $\lambda = 0.001$: $\E[T] = 100$ h, $P(T > 100) = e^{-1} \approx 0.368$, mediana = $100 \ln 2 \approx 69.3$ h.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.5.10}
+	Para el Problema \ref{prob:4.5.10}, en un sistema de colas $M/M/1$, el tiempo entre llegadas es $\text{Exp}(\lambda)$ y el tiempo de servicio es $\text{Exp}(\mu)$ por las propiedades del proceso de Poisson. La intensidad de tráfico es $\rho = \lambda/\mu$ (fracción de tiempo que el servidor está ocupado). Por la distribución estacionaria, la probabilidad de que el sistema esté ocupado es $\rho = \lambda/\mu$. Con $\lambda = 5$ y $\mu = 6$: $\rho = 5/6 \approx 0.833$, así el servidor está ocupado el 83.3\% del tiempo.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 04.05}
+
+\begin{solucion}
+	\label{sol:4.5.1}
+	Para el Problema \ref{prob:4.5.1}:
+	\begin{enumerate}
+		\item $\int_{0}^{\infty} 2e^{-2x}\,dx = 2 \cdot [-e^{-2x}/2]_{0}^{\infty} = 2 \cdot (0 - (-1/2)) = 1$. Verificación completada.
+		\item $F(x) = \int_{0}^{x} 2e^{-2t}\,dt = 1 - e^{-2x}$ para $x \ge 0$.
+		\item $P(X \le 1) = 1 - e^{-2} \approx 1 - 0.1353 = 0.8647$. $P(X \ge 3) = e^{-6} \approx 0.00248$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.5.2}
+	Para el Problema \ref{prob:4.5.2}:
+	\begin{enumerate}
+		\item Por integración por partes con $u = x$, $dv = \lambda e^{-\lambda x}\,dx$:
+		\begin{align*}
+			\E[X] &= \int_{0}^{\infty} x \lambda e^{-\lambda x}\,dx = \left[ -x e^{-\lambda x} \right]_{0}^{\infty} + \int_{0}^{\infty} e^{-\lambda x}\,dx = 0 + \frac{1}{\lambda} = \frac{1}{\lambda}.
+		\end{align*}
+		$\E[X^{2}] = 2/\lambda^{2}$ (por inducción o doble integración por partes). $\Var(X) = 2/\lambda^{2} - 1/\lambda^{2} = 1/\lambda^{2}$. \emph{Corrección:} $\E[X^{2}]$ para Exponential es $2/\lambda^{2}$ (no $2 \cdot 1/\lambda^{2}$), por lo que $\Var(X) = 2/\lambda^{2} - 1/\lambda^{2} = 1/\lambda^{2}$. La desviación estándar es $\sigma = 1/\lambda$.
+		\item $M_{X}(t) = \int_{0}^{\infty} e^{tx} \lambda e^{-\lambda x}\,dx = \lambda \int_{0}^{\infty} e^{-(\lambda - t)x}\,dx = \dfrac{\lambda}{\lambda - t}$ para $t < \lambda$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.5.3}
+	Para el Problema \ref{prob:4.5.3} (proceso de Poisson con $\lambda = 3$):
+	\begin{enumerate}
+		\item En un proceso de Poisson con tasa $\lambda$, el número de eventos en tiempo $t$ es $N(t) \sim \text{Poisson}(\lambda t)$. El tiempo hasta el primer evento satisface $P(X > x) = P(N(x) = 0) = e^{-\lambda x}$. Derivando: $f(x) = \lambda e^{-\lambda x}$, es decir, $X \sim \text{Exp}(\lambda = 3)$.
+		\item $\E[X] = 1/3$ hora = 20 minutos. $\sigma = 1/3$ hora = 20 minutos. La media y desviación estándar son iguales en la exponencial.
+		\item $P(X \ge 0.5) = e^{-3 \cdot 0.5} = e^{-1.5} \approx 0.223$. Hay un 22.3\% de probabilidad de que el primer evento ocurra después de 30 minutos.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.5.4}
+	Para el Problema \ref{prob:4.5.4}:
+	\begin{enumerate}
+		\item Demostración de la propiedad de falta de memoria:
+		\begin{align*}
+			P(X > s + t \mid X > s) = \dfrac{P(X > s + t)}{P(X > s)} = \dfrac{e^{-\lambda(s+t)}}{e^{-\lambda s}} = e^{-\lambda t} = P(X > t).
+		\end{align*}
+		\item Para la unicidad: sea $g(x) = P(X > x)$. La propiedad implica $g(s + t) = g(s) g(t)$ para $s, t > 0$. Las únicas funciones medibles que satisfacen esta ecuación funcional de Cauchy con $g(0) = 1$ y $g$ decreciente son $g(x) = e^{-cx}$ para alguna constante $c > 0$. Por lo tanto, la única distribución continua con falta de memoria y soporte en $[0, \infty)$ es la exponencial. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.5.5}
+	Para el Problema \ref{prob:4.5.5} con $X \sim \text{Exp}(0.5)$: la CDF es $F(x) = 1 - e^{-0.5 x}$, así $q_{p} = -2\ln(1-p)$.
+	\begin{align*}
+		q_{0.10} = -2\ln(0.9) \approx 0.211 \text{ min}, \quad q_{0.50} = 2\ln 2 \approx 1.386 \text{ min}, \quad q_{0.90} = -2\ln(0.1) \approx 4.605 \text{ min}.
+	\end{align*}
+	El cuantil $q_{0.95} = -2\ln(0.05) \approx 5.991$ min significa que el 95\% de los clientes experimenta un tiempo de espera menor a 6 minutos. Este cuantil es fundamental para el diseño de servicios: garantiza que la cola no supere cierto umbral.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.5.6}
+	Para el Problema \ref{prob:4.5.6} con `np.random.seed(42)` y `np.random.exponential(0.5, 100000)`:
+	\begin{align*}
+		\bar{X} \approx 0.5000 \quad (\text{teórico: } 1/\lambda = 0.5), \quad s^{2} \approx 0.2500 \quad (\text{teórico: } 1/\lambda^{2} = 0.25).
+	\end{align*}
+	El histograma muestra una distribución con densidad máxima en $x = 0$ ($f(0) = \lambda = 2$) decayendo exponencialmente, confirmando la PDF teórica.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.5.7}
+	Para el Problema \ref{prob:4.5.7}:
+	\begin{enumerate}
+		\item La log-verosimilitud para $n$ muestras i.i.d. de $\text{Exp}(\lambda)$ es:
+		\begin{align*}
+			\ell(\lambda) = \sum_{i=1}^{n} \log f(x_i \mid \lambda) = n \log \lambda - \lambda \sum_{i=1}^{n} x_i.
+		\end{align*}
+		\item Derivando e igualando a cero: $\ell'(\lambda) = n/\lambda - \sum x_i = 0 \Rightarrow \hat{\lambda} = \dfrac{n}{\sum x_i} = \dfrac{1}{\bar{X}}$.
+		\item Sesgo: $\E[\hat{\lambda}] = n \E[1/S]$ donde $S = \sum X_i \sim \text{Gamma}(n, \lambda)$. Usando $\E[1/S] = \lambda/(n-1)$ para $n > 1$, obtenemos $\E[\hat{\lambda}] = n\lambda/(n-1) = \lambda \cdot n/(n-1)$, así $\hat{\lambda}$ tiene sesgo positivo $\lambda/(n-1)$. Sin embargo, $\hat{\lambda}_n \to \lambda$ cuando $n \to \infty$ (consistente). La varianza asintótica es $\Var(\hat{\lambda}) \to \lambda^{2}/n$ por la información de Fisher $I(\lambda) = 1/\lambda^{2}$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.5.8}
+	Para el Problema \ref{prob:4.5.8}:
+	\begin{enumerate}
+		\item La MGF de la suma es $M_{S_n}(t) = \prod_{i=1}^{n} M_{X_i}(t) = (\lambda/(\lambda - t))^{n}$ para $t < \lambda$ por independencia. Esta es exactamente la MGF de $\text{Gamma}(n, \lambda)$ (con parámetro de forma $n$ entero, llamada \emph{distribución Erlang}). Por la unicidad de la MGF, $S_n \sim \text{Gamma}(n, \lambda)$.
+		\item Para $\text{Gamma}(n, \lambda)$: $\E[S_n] = n/\lambda$ y $\Var(S_n) = n/\lambda^{2}$.
+		\item Para $n = 5$ y $\lambda = 1$: $S_5 \sim \text{Gamma}(5, 1)$ con $\E[S_5] = 5$ y $\sigma = \sqrt{5} \approx 2.236$. La PDF tiene un máximo en $x = 4$ (modo = $n - 1$ para Gamma). Por el TLC, $S_5 \approx N(5, 5)$, pero la distribución Gamma es asimétrica para $n$ pequeño.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.5.9}
+	Para el Problema \ref{prob:4.5.9}:
+	\begin{enumerate}
+		\item Por independencia y la propiedad de falta de memoria:
+		\begin{align*}
+			P(T > t) = P(\min(X_1, \dots, X_n) > t) = \prod_{i=1}^{n} P(X_i > t) = \prod_{i=1}^{n} e^{-\lambda t} = e^{-n\lambda t}.
+		\end{align*}
+		Esto es la cola de $\text{Exp}(n\lambda)$, así $T \sim \text{Exp}(n\lambda)$.
+		\item $\E[T] = 1/(n\lambda)$. Con $n = 10$ y $\lambda = 0.001$: $\E[T] = 100$ horas $\approx 4.17$ días.
+		\item $P(T > 100) = e^{-10 \cdot 0.001 \cdot 100} = e^{-1} \approx 0.368$. La mediana es $m = \ln 2 / (n\lambda) = 0.693/0.01 = 69.3$ horas $\approx 2.89$ días. El sistema tiene un 36.8\% de probabilidad de sobrevivir más de 100 horas, con tiempo medio de falla de 4.17 días.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.5.10}
+	Para el Problema \ref{prob:4.5.10} (sistema de colas $M/M/1$):
+	\begin{enumerate}
+		\item En un proceso de Poisson con tasa $\lambda$, los tiempos entre llegadas consecutivas son i.i.d. $\text{Exp}(\lambda)$ (propiedad fundamental del proceso de Poisson). Análogamente, si los tiempos de servicio son i.i.d. $\text{Exp}(\mu)$, el servidor atiende a cada cliente en un tiempo aleatorio con media $1/\mu$.
+		\item La intensidad de tráfico es $\rho = \lambda/\mu$, definida como la razón entre la tasa de llegadas y la tasa de servicio. El sistema es estable si $\rho < 1$ (la tasa de servicio supera la tasa de llegadas). En estado estacionario, la probabilidad de que el sistema esté ocupado (servidor activo) es exactamente $\rho$.
+		\item Con $\lambda = 5$ y $\mu = 6$: $\rho = 5/6 \approx 0.833$. El servidor está ocupado el 83.3\% del tiempo en estado estacionario, y hay un 16.7\% de probabilidad de que esté inactivo. Como $\rho < 1$, el sistema es estable pero con alta utilización. \quad \qedhere
+	\end{enumerate}
+\end{solucion}

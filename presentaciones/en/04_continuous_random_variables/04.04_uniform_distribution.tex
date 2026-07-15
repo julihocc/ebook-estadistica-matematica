@@ -1,0 +1,305 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Continuous Uniform Distribution}
+\subtitle{Section 04.04 --- Fundamentals of U(a, b), Quantiles, Maximum Entropy and Order Statistics}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 04: Continuous Random Variables}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 3}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 04.01: PDF and Continuous Support}
+			\item \textcolor{gray}{Section 04.02: Continuous CDF and Quantiles}
+			\item \textcolor{gray}{Section 04.03: Expectation, Variance, and Continuous LOTUS}
+			\item \textbf{\textcolor{TecRojo}{Section 04.04: Continuous Uniform Distribution}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 04.05: Exponential Distribution and Memoryless Processes}
+			\item \textcolor{gray}{Section 04.06: Normal Distribution and Z-Score}
+			\item \textcolor{gray}{Section 04.07: Gamma, Beta, and Weibull Distributions}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Introduce the Continuous Uniform distribution $U(a, b)$ as the simplest bounded-support continuous distribution, compute its moments, prove that it maximizes entropy among distributions with given support, and apply it to the inverse transform method and the Kolmogorov-Smirnov goodness-of-fit test.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Definition and Moments
+\begin{frame}{Definition and Moments of U(a, b)}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{PDF and CDF}
+				\footnotesize
+				PDF: $f(x) = 1/(b-a)$ for $x \in [a, b]$. CDF: $F(x) = (x-a)/(b-a)$ linear. Inverse: $F^{-1}(p) = a + p(b-a)$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Moments}
+				\footnotesize
+				$\E[X] = (a+b)/2$ (center of the interval). $\Var(X) = (b-a)^{2}/12$. No memory property: $P(X \ge a+b \mid X \ge a) = (b-a-b)^{+}/(b-a) \ne P(X \ge b)$ unless $a=0$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Maximum Entropy and KS Test
+\begin{frame}{Maximum Entropy and Kolmogorov-Smirnov Test}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Maximum Entropy}
+				\footnotesize
+				$U(a, b)$ maximizes $h(X) = -\int f \log f\,dx$ over all distributions with support in $[a, b]$. By Lagrange multipliers: $f$ is constant $= 1/(b-a)$. Entropy: $h(U(0,1)) = 0$ nats.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{KS Goodness-of-Fit}
+				\footnotesize
+				$D_{n} = \sup_{x} |F_{n}(x) - F_{0}(x)|$. Under $H_{0}$: $\sqrt{n} D_{n} \xrightarrow{d} K$ (Kolmogorov). For $n = 50$ and $D = 0.18$: $p \approx 0.078 > 0.05$, fail to reject $H_{0}$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Applications
+\begin{frame}{Applications in Simulation, Inference, and Data Science}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Monte Carlo Simulation:} Generate i.i.d. samples from any continuous distribution via the inverse transform method $X = F^{-1}(U)$. \pause
+		\item \textbf{Simple Random Sampling:} Foundation of probabilistic sampling in surveys and experiments. \pause
+		\item \textbf{Kolmogorov-Smirnov Test:} Compare empirical CDF with theoretical CDF (uniform or otherwise). \pause
+		\item \textbf{Pseudorandom Number Generation:} Linear congruential generators approximate $U(0, 1)$.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 06: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: Uniform PDF and CDF}
+	\vspace{-0.05cm}
+	\scriptsize
+	Validation of $\int f = 1$, comparison of manual vs SciPy CDF, and quantiles (\texttt{04.04\_uniform\_distribution.py}):
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=15, lastline=40]{../../code/04_variables_aleatorias_continuas/04.04_uniform_distribution.py}}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Quantiles and Inverse Transform}
+	\vspace{-0.05cm}
+	\scriptsize
+	Quantile verification, Monte Carlo with $N=100{,}000$ and inverse transform method for Exponential:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=48, lastline=78]{../../code/04_variables_aleatorias_continuas/04.04_uniform_distribution.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Maximum Entropy and Order Statistics}
+	\vspace{-0.05cm}
+	\scriptsize
+	Verification of maximum entropy, analysis of order statistics and Kolmogorov-Smirnov test:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=85, lastline=108]{../../code/04_variables_aleatorias_continuas/04.04_uniform_distribution.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: Uniform PDF & CDF Validation ===
+Uniform(2,8) PDF integral: 1.00000000
+CDF F(x) all match with scipy (diff = 0)
+Quantiles q_p = a + p(b-a): all match
+
+=== Block 2: Quantiles & Monte Carlo Generation ===
+U(0,1) quantiles: q_p = p (trivial)
+Monte Carlo (N=100,000): mean=0.4995 | var=0.0831
+Inverse transform Exp(lambda=2): mean=0.5030 | KS=0.0046
+
+=== Block 3: Maximum Entropy & Order Statistics ===
+Entropy Uniform(0,1) = 0.0 nats (theoretical)
+Entropy Beta(2,2) = -0.125 nats (< Uniform)
+Order stats: E[X_(1)]=1/11, E[X_(5)]=5/11, E[X_(10)]=10/11
+KS test on uniform samples: D=0.0037, p=0.1382 (fail to reject)
+KS test on exponential samples: D=0.3675, p=0.0 (reject)
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 10: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.4.1 --- PDF, CDF, and Probabilities of $U(2, 8)$ (Statement)}
+		Consider $X \sim U(2, 8)$ with PDF $f(x) = 1/6$ for $x \in [2, 8]$. Verify $\int_{2}^{8} f(x)\,dx = 1$, calculate the CDF $F(x) = (x-2)/6$, and determine $P(3 \le X \le 6)$ and $P(X \ge 7)$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item Support: $[2, 8]$, length $b - a = 6$.
+			\item Constant PDF: $f(x) = 1/(b-a) = 1/6$.
+			\item Interval probability: $P(c \le X \le d) = (d - c)/(b - a)$ for $[c, d] \subseteq [a, b]$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Verify normalization and compute probabilities: \pause
+	\begin{block}{Normalization and CDF}
+		\begin{align*}
+			\int_{2}^{8} \frac{1}{6}\,dx = \frac{1}{6}(8 - 2) = 1. \quad \text{(Normalization verified)} \\
+			F(x) = \int_{2}^{x} \frac{1}{6}\,dt = \frac{x - 2}{6}, \quad x \in [2, 8].
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Probabilities}
+		\scriptsize
+		\begin{itemize}\itemsep=0.04cm
+			\item $P(3 \le X \le 6) = F(6) - F(3) = \frac{4}{6} - \frac{1}{6} = \frac{3}{6} = 0.5$.
+			\item $P(X \ge 7) = 1 - F(7) = 1 - \frac{5}{6} = \frac{1}{6} \approx 0.167$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.4.3 --- Bus Waiting Time (Statement)}
+		The bus waiting time (in minutes) is $X \sim U(0, 15)$. Calculate $P(X < 5)$, find the quantile $q_{0.75}$, and calculate the conditional probability $P(X \ge 15 \mid X \ge 10)$ (that a passenger who has already waited 10 min has to wait at least 5 more).
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Setup}
+		\scriptsize
+		The Uniform does NOT have the memoryless property. The conditional probability reflects that if $X \ge 10$, the distribution of $X$ is $U(10, 15)$, so the probability of $X \ge 15$ is 0 (the support ends at 15).
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Apply the linear CDF $F(x) = x/15$: \pause
+	\begin{block}{Calculations}
+		\begin{itemize}\itemsep=0.05cm
+			\item $P(X < 5) = F(5) = 5/15 = 1/3 \approx 0.333$. \pause
+			\item $q_{0.75}$: $F(q_{0.75}) = q_{0.75}/15 = 0.75 \Rightarrow q_{0.75} = 11.25$ min. \pause
+			\item \textbf{Conditional probability:} $P(X \ge 15 \mid X \ge 10) = P(X = 15 \mid X \ge 10) = 0$ (the support ends at 15). The Uniform is NOT memoryless: the probability is 0, not $2/3$.
+		\end{itemize}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		If a passenger has waited 10 min, the bus will arrive in the next 5 min with probability 1 (with certainty, within the model!). In reality, there is a physical limit of 15 min, which violates the uniform assumption. The uniform distribution is appropriate only when there are no strong time constraints.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.4.7 --- Maximum Entropy of Uniform (Statement)}
+		Let $X$ be continuous with bounded support $[a, b]$. Prove that the uniform distribution $U(a, b)$ maximizes the differential entropy $h(X) = -\int f(x) \log f(x)\,dx$ among all distributions with support in $[a, b]$.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Deduction Strategy}
+		\scriptsize
+		Use Lagrange multipliers: $\mathcal{L} = -\int f \log f - \lambda(\int f - 1)$. Take functional derivative to obtain $f(x) = e^{-(1+\lambda)}$ constant. Normalization forces $f(x) = 1/(b-a)$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Apply variational calculus with constraints: \pause
+	\begin{block}{Formal Proof}
+		\scriptsize
+		The Lagrangian is $\mathcal{L}[f] = -\int_{a}^{b} f \log f\,dx - \lambda \int_{a}^{b} f\,dx + \lambda$. Using variational calculus (functional derivative $\delta \mathcal{L}/\delta f = 0$):
+		\begin{align*}
+			-\log f(x) - 1 - \lambda = 0 \implies f(x) = e^{-(1+\lambda)} = \text{constant}.
+		\end{align*}
+		By normalization, $f(x)(b - a) = 1$, so $f(x) = 1/(b-a)$ in $[a, b]$. This is exactly the uniform PDF. \quad \qedhere
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Implication}
+		\scriptsize
+		The uniform is the \emph{most informative} (least biased) distribution when only the support bounds are known. It is the natural prior in Bayesian inference when no additional information about the parameter is available.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.4.10 --- Kolmogorov-Smirnov Test (Statement)}
+		For $n = 50$ observations suspected to come from $U(0, 1)$ with $D_{50} = 0.18$, calculate the approximate $p$-value $p \approx 2 \sum_{k=1}^{\infty}(-1)^{k-1} e^{-2k^{2} n D_{n}^{2}}$ and conclude whether the data are consistent with the uniform at level $\alpha = 0.05$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Setup}
+		\scriptsize
+		Compare $D_{50}$ with the critical value $K_{0.95}/\sqrt{n} = 1.358/\sqrt{50} \approx 0.192$. The $p$-value measures the probability of observing a $D$ at least as extreme under $H_{0}$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compute the $p$-value and compare with the critical value: \pause
+	\begin{block}{$p$-value Calculation}
+		\scriptsize
+		With $n = 50$ and $D_{50} = 0.18$: $nD_{n}^{2} = 50 \cdot 0.0324 = 1.62$. For $k=1$: $2 e^{-3.24} \approx 0.0784$. For $k=2$: $-2 e^{-12.96} \approx 0$. Therefore $p \approx 0.078$.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Final Decision}
+		\scriptsize
+		The critical value is $K_{0.95}/\sqrt{50} \approx 0.192$. Since $D_{50} = 0.18 < 0.192$, we do not reject $H_{0}$ at level $\alpha = 0.05$. The $p$-value $0.078$ confirms: no significant evidence to reject uniformity. \quad \qedhere
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Closing and Next Steps
+\begin{frame}{Closing Section and Modular Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: The Uniform as Fundamental Distribution}
+		\scriptsize
+		The Continuous Uniform distribution $U(a, b)$ is the simplest of all bounded-support continuous distributions. Its role transcends the description of uniform variables: it is the foundation of Monte Carlo simulation (inverse transform method), the non-parametric Kolmogorov-Smirnov test, and the non-informative prior in Bayesian inference (by maximum entropy).
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Constant PDF:} $f(x) = 1/(b-a)$ models continuous equiprobability.
+			\item \textbf{Linear CDF:} $F(x) = (x-a)/(b-a)$ is trivially invertible: $F^{-1}(p) = a + p(b-a)$.
+			\item \textbf{Maximum Entropy:} $U(a, b)$ is the least informative distribution with support in $[a, b]$.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Exponential Distribution and Memoryless Processes}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}

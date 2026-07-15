@@ -1,0 +1,427 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Distribución Uniforme]{Sección 04.04: Distribución Uniforme Continua}
+\subtitle{Fundamentos de $U(a, b)$, Cuantiles, Máxima Entropía y Orden Estadísticas}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 04: Variables Aleatorias Continuas}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{04.01} Función de Densidad (PDF) y Soporte Continuo \pause
+    \item \textbf{04.02} Función de Distribución Acumulada (CDF) Continua y Cuantiles \pause
+    \item \textbf{04.03} Esperanza, Varianza y LOTUS Continuo \pause
+    \item \textbf{04.04} Distribución Uniforme Continua $U(a, b)$ \emph{(Hoy)} \pause
+    \item \textbf{04.05} Distribución Exponencial y Procesos sin Memoria \pause
+    \item \textbf{04.06} Distribución Normal y Puntaje $Z$ \pause
+    \item \textbf{04.07} Distribuciones Gamma, Beta y Weibull
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Introducir la distribución Uniforme Continua $U(a, b)$ como la más simple de las distribuciones continuas con soporte acotado, calcular sus momentos, demostrar que maximiza la entropía entre distribuciones con soporte dado, y aplicarla al método de inversión y a la prueba de Kolmogorov-Smirnov.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{La Distribución Más Simple: Equiprobabilidad Continua}
+  \footnotesize
+  \begin{motivacion}[¿Por qué estudiar la uniforme?]
+    La distribución Uniforme Continua $U(a, b)$ modela el caso más fundamental: una variable que toma cualquier valor en $[a, b]$ con la misma \emph{densidad}. Es la base de la simulación Monte Carlo (todas las muestras i.i.d. de cualquier distribución se generan a partir de uniformes), del análisis de inspección aleatoria, y de la prueba no paramétrica de Kolmogorov-Smirnov.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Equiprobabilidad:} $f(x) = 1/(b-a)$ es constante en $[a, b]$. \pause
+    \item \textbf{Máxima entropía:} $U(a, b)$ maximiza la incertidumbre entre distribuciones con soporte en $[a, b]$. \pause
+    \item \textbf{Generador universal:} El método de inversión $X = F^{-1}(U)$ con $U \sim U(0, 1)$ produce muestras de cualquier distribución continua.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición Formal
+\begin{frame}{Definición Formal de la Distribución Uniforme $U(a, b)$}
+  \footnotesize
+  Una variable aleatoria continua $X$ tiene distribución \emph{uniforme continua} en $[a, b]$ con $a < b$ si su PDF es: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Función de Densidad de Probabilidad}
+    $$f(x) = \begin{cases} \dfrac{1}{b-a} & a \le x \le b \\ 0 & \text{en otro caso} \end{cases}$$
+    Por normalización: $\int_{a}^{b} \frac{1}{b-a}\,dx = 1$. En este caso escribimos $X \sim U(a, b)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{CDF Lineal}
+    \begin{align*}
+      F(x) = P(X \le x) = \begin{cases} 0 & x < a \\ \dfrac{x-a}{b-a} & a \le x \le b \\ 1 & x > b \end{cases}
+    \end{align*}
+    La CDF es lineal con pendiente $1/(b-a)$ en el soporte. La inversa es trivial: $F^{-1}(p) = a + p(b-a)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Momentos
+\begin{frame}{Esperanza y Varianza: $\E[X] = (a+b)/2$, $\Var(X) = (b-a)^{2}/12$}
+  \footnotesize
+  Los momentos de la distribución uniforme tienen formas cerradas simples: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Esperanza y Varianza}
+    \begin{align*}
+      \E[X] &= \int_{a}^{b} \frac{x}{b-a}\,dx = \frac{a + b}{2}, \\
+      \Var(X) &= \int_{a}^{b} \frac{(x - (a+b)/2)^{2}}{b-a}\,dx = \frac{(b-a)^{2}}{12}, \\
+      \sigma &= \frac{b-a}{\sqrt{12}} = \frac{b-a}{2\sqrt{3}}.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Propiedades Fundamentales}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Simetría:} Si $X \sim U(a, b)$, entonces $Y = a + b - X \sim U(a, b)$ (simetría alrededor de la mediana).
+      \item \textbf{Linealidad:} $Y = cX + d \sim U(ca+d, cb+d)$ para $c > 0$.
+      \item \textbf{Cuantiles:} $q_{p} = a + p(b-a)$ son linealmente interpolados entre $a$ y $b$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Propiedad de Falta de Memoria
+\begin{frame}{La Uniforme NO Tiene Propiedad de Falta de Memoria}
+  \footnotesize
+  A diferencia de la Exponential, la Uniforme \emph{no} tiene la propiedad de falta de memoria: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Diferencia con la Exponencial}
+    Para $X \sim U(0, 15)$ y $a = 10$:
+    \begin{align*}
+      P(X \ge a + b \mid X \ge a) = \dfrac{P(X \ge a + b)}{P(X \ge a)} = \dfrac{(15 - a - b)^{+}}{(15 - a)} \ne e^{-b/15} = P(X \ge b).
+    \end{align*}
+    En general, la distribución Uniforme \emph{decrece} en probabilidad condicional a medida que $X$ se acerca al borde superior $b$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Implicaciones Prácticas}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Inspección aleatoria:} Si se sabe que $X \ge 10$ en $U(0, 15)$, la distribución condicional es $U(10, 15)$.
+      \item \textbf{Aplicación en simulación:} Generar $U \sim U(0, 1)$ y luego $X = a + (b-a)U$ produce $X \sim U(a, b)$.
+      \item \textbf{Pruebas de uniformidad:} La no-falta-de-memoria es un test diagnóstico: si los datos la exhiben, no son uniformes.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Máxima Entropía
+\begin{frame}{La Uniforme Maximiza la Entropía: $h(X) = \log(b-a)$}
+  \footnotesize
+  La distribución uniforme tiene la \emph{máxima entropía diferencial} entre todas las distribuciones con soporte en $[a, b]$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Demostración por Multiplicadores de Lagrange}
+    Maximizar $h(X) = -\int_{a}^{b} f(x) \log f(x)\,dx$ sujeto a $\int f = 1$. El Lagrangian es:
+    \begin{align*}
+      \mathcal{L} = -\int_{a}^{b} f \log f\,dx - \lambda \left( \int_{a}^{b} f\,dx - 1 \right).
+    \end{align*}
+    Derivando funcionalmente: $-\log f - 1 - \lambda = 0$, así $f(x) = e^{-(1+\lambda)}$ es constante. La normalización fuerza $f(x) = 1/(b-a)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Interpretación y Aplicaciones}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Entropía uniforme:} $h(U(a,b)) = \log(b-a)$ nats. Uniform(0, 1) tiene entropía 0.
+      \item \textbf{Inferencia bayesiana:} Como prior no informativo, la uniforme expresa "ignorancia total" sobre el parámetro.
+      \item \textbf{Comparación:} Beta(2, 2) tiene entropía $\approx -0.125 < 0 = h(U(0,1))$, confirmando la maximalidad.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Método de Inversión
+\begin{frame}{Método de Inversión: $X = F^{-1}(U)$ con $U \sim U(0, 1)$}
+  \footnotesize
+  La uniforme es la base del \emph{método de inversión} para generar muestras de cualquier distribución continua: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Teorema de Inversión}
+    Si $U \sim U(0, 1)$ y $F$ es una CDF continua estrictamente creciente, entonces $X = F^{-1}(U)$ tiene CDF $F$.
+    \begin{proof}
+      $P(X \le x) = P(F^{-1}(U) \le x) = P(U \le F(x)) = F(x)$ por monotonía de $F^{-1}$ y uniformidad de $U$.
+    \end{proof}
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Ejemplos de Generación}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Exponential($\lambda$):} $X = -\frac{1}{\lambda}\ln(1-U) \approx -\frac{1}{\lambda}\ln U$.
+      \item \textbf{Cauchy:} $X = \tan(\pi(U - 1/2))$.
+      \item \textbf{Log-normal:} $X = \exp(\mu + \sigma Z)$ con $Z = \Phi^{-1}(U)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Aplicaciones
+\begin{frame}{Aplicaciones en Simulación, Inferencia y Ciencia de Datos}
+  \footnotesize
+  La Uniforme es la distribución más usada en simulación e inferencia: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Simulación Monte Carlo:} Generación de muestras i.i.d. de cualquier distribución vía el método de inversión. \pause
+    \item \textbf{Muestreo Aleatorio Simple:} La uniforme es la base del muestreo probabilístico en encuestas y experimentos. \pause
+    \item \textbf{Prueba de Kolmogorov-Smirnov:} Compara la CDF empírica con una CDF teórica (uniforme o no). \pause
+    \item \textbf{Generación de Números Pseudoaleatorios:} Algoritmos congruenciales lineales producen aproximaciones de $U(0, 1)$.
+  \end{itemize}
+\end{frame}
+
+% Slide 12A-1: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: PDF y CDF Uniforme}
+  \scriptsize
+  Validación de $\int f = 1$, comparación de CDF manual vs SciPy, y cuantiles (\texttt{04.04\_uniform\_distribution.py}):
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=15, lastline=40]{../../code/04_variables_aleatorias_continuas/04.04_uniform_distribution.py}}
+\end{frame}
+
+% Slide 12A-2: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Cuantiles y Método de Inversión}
+  \scriptsize
+  Verificación de cuantiles, Monte Carlo con $N=100{,}000$ y método de inversión para Exponential:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=48, lastline=78]{../../code/04_variables_aleatorias_continuas/04.04_uniform_distribution.py}}
+\end{frame}
+
+% Slide 12B: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Máxima Entropía y Orden Estadísticas}
+  \scriptsize
+  Verificación de maximal entropía, análisis de orden estadísticas y prueba de Kolmogorov-Smirnov:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=85, lastline=108]{../../code/04_variables_aleatorias_continuas/04.04_uniform_distribution.py}}
+\end{frame}
+
+% Slide 12C: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Uniform PDF & CDF Validation ===
+Uniform(2,8) PDF integral: 1.00000000
+CDF F(x) all match with scipy (diff = 0)
+Quantiles q_p = a + p(b-a): all match
+
+=== Block 2: Quantiles & Monte Carlo Generation ===
+U(0,1) quantiles: q_p = p (trivial)
+Monte Carlo (N=100,000): mean=0.4995 | var=0.0831
+Inverse transform Exp(lambda=2): mean=0.5030 | KS=0.0046
+
+=== Block 3: Maximum Entropy & Order Statistics ===
+Entropy Uniform(0,1) = 0.0 nats (theoretical)
+Entropy Beta(2,2) = -0.125 nats (< Uniform)
+Order stats: E[X_(1)]=1/11, E[X_(5)]=5/11, E[X_(10)]=10/11
+KS test on uniform samples: D=0.0037, p=0.1382 (fail to reject)
+KS test on exponential samples: D=0.3675, p=0.0 (reject)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.4.1 --- PDF, CDF y Probabilidades de $U(2, 8)$ (Enunciado)}
+    Considere $X \sim U(2, 8)$ con PDF $f(x) = 1/6$ para $x \in [2, 8]$. Verifique $\int_{2}^{8} f(x)\,dx = 1$, calcule la CDF $F(x) = (x-2)/6$, y determine $P(3 \le X \le 6)$ y $P(X \ge 7)$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento del Modelo}
+    \begin{itemize}\itemsep=0.04cm
+      \item Soporte: $[2, 8]$, longitud $b - a = 6$.
+      \item PDF constante: $f(x) = 1/(b-a) = 1/6$.
+      \item Probabilidad de intervalo: $P(c \le X \le d) = (d - c)/(b - a)$ para $[c, d] \subseteq [a, b]$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Verificamos la normalización y calculamos las probabilidades: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Normalización y CDF}
+    \begin{align*}
+      \int_{2}^{8} \frac{1}{6}\,dx = \frac{1}{6}(8 - 2) = 1. \quad \text{(Normalización verificada)} \\
+      F(x) = \int_{2}^{x} \frac{1}{6}\,dt = \frac{x - 2}{6}, \quad x \in [2, 8].
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Probabilidades}
+    \scriptsize
+    \begin{itemize}\itemsep=0.04cm
+      \item $P(3 \le X \le 6) = F(6) - F(3) = \frac{4}{6} - \frac{1}{6} = \frac{3}{6} = 0.5$.
+      \item $P(X \ge 7) = 1 - F(7) = 1 - \frac{5}{6} = \frac{1}{6} \approx 0.167$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.4.3 --- Tiempo de Espera del Autobús (Enunciado)}
+    El tiempo de espera del autobús (en minutos) es $X \sim U(0, 15)$. Calcule $P(X < 5)$, encuentre el cuantil $q_{0.75}$, y calcule la probabilidad condicional $P(X \ge 15 \mid X \ge 10)$ (que un pasajero que ya esperó 10 min tenga que esperar al menos 5 más).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    \scriptsize
+    La Uniforme NO tiene propiedad de falta de memoria. La probabilidad condicional refleja que si $X \ge 10$, la distribución de $X$ condicional es $U(10, 15)$, así que la probabilidad de $X \ge 15$ es 0 (el soporte termina en 15).
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Aplicamos la CDF lineal $F(x) = x/15$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculos}
+    \begin{itemize}\itemsep=0.05cm
+      \item $P(X < 5) = F(5) = 5/15 = 1/3 \approx 0.333$. \pause
+      \item $q_{0.75}$: $F(q_{0.75}) = q_{0.75}/15 = 0.75 \Rightarrow q_{0.75} = 11.25$ min. \pause
+      \item \textbf{Probabilidad condicional:} $P(X \ge 15 \mid X \ge 10) = P(X = 15 \mid X \ge 10) = 0$ (el soporte termina en 15). La uniforme NO es sin memoria: la probabilidad es 0, no $2/3$.
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Si un pasajero ha esperado 10 min, entonces el autobús llegará en los próximos 5 min con probabilidad 1 (¡con certeza, dentro del modelo!). En la realidad, hay un límite físico de 15 min, lo cual viola la suposición uniforme. La distribución uniforme es adecuada solo cuando no hay restricciones fuertes de tiempo.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.4.7 --- Máxima Entropía de la Uniforme (Enunciado)}
+    Sea $X$ continua con soporte en $[a, b]$ acotado. Demuestre que la distribución uniforme $U(a, b)$ maximiza la entropía diferencial $h(X) = -\int f(x) \log f(x)\,dx$ entre todas las distribuciones con soporte en $[a, b]$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia de Deducción}
+    \scriptsize
+    Use los multiplicadores de Lagrange: $\mathcal{L} = -\int f \log f - \lambda(\int f - 1)$. Derive funcionalmente para obtener $f(x) = e^{-(1+\lambda)}$ constante. La normalización fuerza $f(x) = 1/(b-a)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Aplicamos cálculo variacional con restricciones: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Demostración Formal}
+    \scriptsize
+    El Lagrangian es $\mathcal{L}[f] = -\int_{a}^{b} f \log f\,dx - \lambda \int_{a}^{b} f\,dx + \lambda$. Usando cálculo variacional (derivada funcional $\delta \mathcal{L}/\delta f = 0$):
+    \begin{align*}
+      -\log f(x) - 1 - \lambda = 0 \implies f(x) = e^{-(1+\lambda)} = \text{constante}.
+    \end{align*}
+    Por normalización, $f(x)(b - a) = 1$, así $f(x) = 1/(b-a)$ en $[a, b]$. Esto es exactamente la PDF uniforme. \quad \qedhere
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Implicación}
+    \scriptsize
+    La uniforme es la distribución \emph{más informativa} (menos sesgada) cuando solo conocemos los límites del soporte. Es el prior natural en inferencia bayesiana cuando no hay información adicional sobre el parámetro.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.4.10 --- Prueba de Kolmogorov-Smirnov (Enunciado)}
+    Para $n = 50$ observaciones que se sospecha provienen de $U(0, 1)$ con $D_{50} = 0.18$, calcule el $p$-valor aproximado $p \approx 2 \sum_{k=1}^{\infty}(-1)^{k-1} e^{-2k^{2} n D_{n}^{2}}$ y concluya si los datos son consistentes con la uniforme a nivel $\alpha = 0.05$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    \scriptsize
+    Compare $D_{50}$ con el valor crítico $K_{0.95}/\sqrt{n} = 1.358/\sqrt{50} \approx 0.192$. El $p$-valor mide la probabilidad de observar un $D$ al menos tan extremo bajo $H_{0}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Calculamos el $p$-valor y comparamos con el valor crítico: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo del $p$-valor}
+    \scriptsize
+    Con $n = 50$ y $D_{50} = 0.18$: $nD_{n}^{2} = 50 \cdot 0.0324 = 1.62$. Para $k=1$: $2 e^{-3.24} \approx 0.0784$. Para $k=2$: $-2 e^{-12.96} \approx 0$. Por lo tanto $p \approx 0.078$.
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Decisión Final}
+    \scriptsize
+    El valor crítico es $K_{0.95}/\sqrt{50} \approx 0.192$. Como $D_{50} = 0.18 < 0.192$, no rechazamos $H_{0}$ a nivel $\alpha = 0.05$. El $p$-valor $0.078$ confirma: no hay evidencia significativa para rechazar la uniformidad. \quad \qedhere
+  \end{alertblock}
+\end{frame}
+
+% Slide 17: Cierre
+\begin{frame}{Cierre de Sección y Síntesis sobre la Distribución Uniforme}
+  \begin{reflexion}[La Uniforme como Distribución Fundamental}
+    La distribución Uniforme Continua $U(a, b)$ es la más simple de las distribuciones continuas con soporte acotado. Su rol trasciende la descripción de variables uniformes: es la base de la simulación Monte Carlo (método de inversión), la prueba no paramétrica de Kolmogorov-Smirnov, y el prior no informativo en inferencia bayesiana (por maximalidad de entropía).
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave de la Distribución Uniforme}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{PDF constante:} $f(x) = 1/(b-a)$ modela equiprobabilidad continua.
+      \item \textbf{CDF lineal:} $F(x) = (x-a)/(b-a)$ es trivialmente invertible: $F^{-1}(p) = a + p(b-a)$.
+      \item \textbf{Máxima entropía:} $U(a, b)$ es la distribución menos informativa con soporte en $[a, b]$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 18: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}[Para la próxima sesión: Distribución Exponencial y Procesos sin Memoria]
+    La Uniforme es la distribución continua más simple, pero la \emph{Exponencial} es quizás la más importante en aplicaciones: modela el tiempo entre eventos en un proceso de Poisson, tiene la propiedad de falta de memoria, y es la base de las distribuciones Gamma, Erlang, y Chi-cuadrada. La CDF es $F(x) = 1 - e^{-\lambda x}$, y su MLE es simplemente el inverso de la media muestral.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa el concepto de proceso de Poisson y la conexión entre eventos Poisson y tiempos de espera exponenciales.
+      \item Reflexiona sobre cómo la propiedad de falta de memoria caracteriza únicamente a la distribución exponencial.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
