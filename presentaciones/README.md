@@ -210,10 +210,11 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | :---: | :--- | :--- | :--- | :---: |
 | **05.01** | [05.01 Estadísticos y Varianza Insesgada](es/05_distribuciones_muestreo/05.01_sample_statistics.tex) ([PDF](es/05_distribuciones_muestreo/05.01_sample_statistics.pdf)) | [05.01 Sample Statistics and Unbiased Variance](en/05_sampling_distributions/05.01_sample_statistics.tex) ([PDF](en/05_sampling_distributions/05.01_sample_statistics.pdf)) | `05.01_sample_statistics.py` | $\checkmark$ **Completado (18 diapositivas ES / 19 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 05** |
 | **05.02** | [05.02 TLC Asintótico](es/05_distribuciones_muestreo/05.02_central_limit_theorem.tex) ([PDF](es/05_distribuciones_muestreo/05.02_central_limit_theorem.pdf)) | [05.02 Asymptotic Central Limit Theorem](en/05_sampling_distributions/05.02_central_limit_theorem.tex) ([PDF](en/05_sampling_distributions/05.02_central_limit_theorem.pdf)) | `05.02_central_limit_theorem.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
+| **05.03** | [05.03 Chi-Cuadrada y Varianza Muestral](es/05_distribuciones_muestreo/05.03_chi_squared_distribution.tex) ([PDF](es/05_distribuciones_muestreo/05.03_chi_squared_distribution.pdf)) | [05.03 Chi-Squared Distribution and Sample Variance](en/05_sampling_distributions/05.03_chi_squared_distribution.tex) ([PDF](en/05_sampling_distributions/05.03_chi_squared_distribution.pdf)) | `05.03_chi_squared_distribution.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-El Capítulo 04 (Variables Aleatorias Continuas) está 100% completo. El Capítulo 05 (Distribuciones de Muestreo) está en curso (2 de 5 secciones completadas). Para ver la planificación del siguiente hito curricular del proyecto (**Sección 05.03: Distribución Chi-Cuadrada y Varianza Muestral**), consulta el documento oficial de planificación:
+El Capítulo 04 (Variables Aleatorias Continuas) está 100% completo. El Capítulo 05 (Distribuciones de Muestreo) está en curso (3 de 5 secciones completadas). Para ver la planificación del siguiente hito curricular del proyecto (**Sección 05.04: Distribución $t$ de Student y Muestras Pequeñas**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

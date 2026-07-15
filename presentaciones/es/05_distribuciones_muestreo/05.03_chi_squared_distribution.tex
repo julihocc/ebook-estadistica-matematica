@@ -1,0 +1,345 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Chi-Cuadrada y Varianza Muestral]{Sección 05.03: Distribución Chi-Cuadrada y Varianza Muestral}
+\subtitle{Teorema de Fisher, Independencia de $\bar{X}$ y $S^2$, e Intervalos para $\sigma^2$}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 05: Distribuciones de Muestreo}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{05.01} Muestreo Aleatorio Simple, Media y Varianza Muestral Insesgada \pause
+    \item \textbf{05.02} Teorema del Límite Central Asintótico \pause
+    \item \textbf{05.03} Distribución Chi-Cuadrada y Varianza Muestral \emph{(Hoy)} \pause
+    \item \textbf{05.04} Distribución $t$ de Student y Muestras Pequeñas \pause
+    \item \textbf{05.05} Distribución $F$ de Fisher-Snedecor
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Formalizar la distribución de la varianza muestral $S^2$ para poblaciones normales a través del Teorema de Fisher, demostrar la sorprendente independencia entre $\bar{X}$ y $S^2$, y construir intervalos de confianza exactos para $\sigma^2$.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De $\sigma$ Conocida a $\sigma$ Desconocida}
+  \footnotesize
+  \begin{motivacion}
+    El TLC (Sección 05.02) aproxima $\bar{X}$ con una Normal cuando $\sigma$ es \emph{conocida}. En la práctica casi siempre debemos estimar $\sigma$ con $S$. Para eso necesitamos entender la distribución exacta de $S^2$ --- y aquí es donde entra la chi-cuadrada.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Origen:} la chi-cuadrada surge al sumar cuadrados de normales estándar independientes. \pause
+    \item \textbf{Conexión con 04.07:} ya vimos que $\chi^2_\nu = \text{Gamma}(\nu/2, 2)$. \pause
+    \item \textbf{Pregunta central:} ¿cuál es la distribución exacta de $(n-1)S^2/\sigma^2$?
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición y Propiedades
+\begin{frame}{Definición y Propiedades de la Distribución Chi-Cuadrada}
+  \footnotesize
+  Sean $Z_1,\ldots,Z_\nu$ independientes con $Z_i\sim N(0,1)$. \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Definición y Densidad}
+    $$\chi^2_\nu = \sum_{i=1}^\nu Z_i^2, \qquad f(x) = \dfrac{1}{2^{\nu/2}\Gamma(\nu/2)}x^{\nu/2-1}e^{-x/2}, \quad x>0$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Propiedades}
+    \begin{itemize}\itemsep=0.05cm
+      \item $E(\chi^2_\nu)=\nu$, $\Var(\chi^2_\nu)=2\nu$; caso particular $\chi^2_\nu=\text{Gamma}(\nu/2,2)$.
+      \item Reproductividad: $\chi^2_{\nu_1}+\chi^2_{\nu_2}\sim\chi^2_{\nu_1+\nu_2}$ (independientes).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Teorema de Fisher
+\begin{frame}{El Teorema de Fisher}
+  \footnotesize
+  Para una muestra normal iid $X_1,\ldots,X_n \sim N(\mu,\sigma^2)$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Enunciado}
+    \begin{enumerate}\itemsep=0.05cm
+      \item $\bar{X}$ y $S^2$ son \textbf{independientes}.
+      \item $\dfrac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}$.
+    \end{enumerate}
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{¿Por Qué es Sorprendente?}
+    Aunque $S^2$ se calcula a partir de $(X_i-\bar{X})$, que depende de $\bar{X}$, el resultado es independiente de $\bar{X}$. La demostración usa una transformación ortogonal: $\bar{X}$ captura una dirección, y las $n-1$ direcciones restantes (ortogonales a $\bar X$) capturan exactamente $(n-1)S^2$ --- un caso particular del \emph{Teorema de Cochran}.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Aplicación: Intervalo de Confianza para σ²
+\begin{frame}{Intervalo de Confianza Exacto para $\sigma^2$}
+  \footnotesize
+  El Teorema de Fisher permite construir un intervalo exacto (no aproximado) para $\sigma^2$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Fórmula del Intervalo}
+    $$\left[\dfrac{(n-1)S^2}{\chi^2_{n-1,1-\alpha/2}},\; \dfrac{(n-1)S^2}{\chi^2_{n-1,\alpha/2}}\right]$$
+    A diferencia de los intervalos basados en la Normal, este intervalo es \textbf{asimétrico} alrededor de $S^2$, porque la chi-cuadrada no es simétrica.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Contraste de Hipótesis para $\sigma^2$}
+    El mismo estadístico $(n-1)S^2/\sigma_0^2$ permite probar $H_0:\sigma^2=\sigma_0^2$ comparándolo contra los cuantiles de $\chi^2_{n-1}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Aplicaciones
+\begin{frame}{Aplicaciones en Inferencia y Control de Calidad}
+  \footnotesize
+  La distribución chi-cuadrada es central en la inferencia sobre varianzas: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Control de calidad:} pruebas sobre la variabilidad de un proceso de manufactura ($\sigma^2$ objetivo). \pause
+    \item \textbf{Bondad de ajuste:} la prueba $\chi^2$ compara frecuencias observadas vs. esperadas. \pause
+    \item \textbf{Preview 05.04:} la distribución $t$ de Student se construye combinando una Normal con una chi-cuadrada independiente. \pause
+    \item \textbf{Preview 05.05:} la distribución $F$ compara dos varianzas mediante el cociente de dos chi-cuadradas.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Propiedades de la Chi-Cuadrada}
+  \scriptsize
+  Verificación de media/varianza, conexión con la Gamma, y reproductividad (\texttt{05.03\_chi\_squared\_distribution.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=18, lastline=40]{../../code/05_distribuciones_muestreo/05.03_chi_squared_distribution.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Teorema de Fisher}
+  \scriptsize
+  Verificación Monte Carlo de la independencia de $\bar X$ y $S^2$, y de $(n-1)S^2/\sigma^2\sim\chi^2_{n-1}$:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=43, lastline=70]{../../code/05_distribuciones_muestreo/05.03_chi_squared_distribution.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Cobertura del Intervalo para $\sigma^2$}
+  \scriptsize
+  Verificación empírica de la cobertura del intervalo de confianza chi-cuadrada para $\sigma^2$:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=73, lastline=100]{../../code/05_distribuciones_muestreo/05.03_chi_squared_distribution.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Chi-Squared Properties ===
+chi2_15: mean=15.00, variance=30.00 (matches Gamma(7.5, 2))
+Additivity chi2_5+chi2_8 vs chi2_13: KS D=0.0013, p=0.908
+
+=== Block 2: Fisher's Theorem ===
+Correlation(Xbar, S^2) = 0.0038 (independence confirmed)
+(n-1)*S^2/sigma^2 vs chi2_9: KS D=0.0018, p=0.517
+Worked example: statistic=16.20, critical chi2_9,0.95=16.92 -> Reject H0? No
+
+=== Block 3: Confidence Interval Coverage ===
+chi2_19,0.025=8.91, chi2_19,0.975=32.85
+Empirical coverage: 0.9487 (nominal: 0.9500)
+95% CI for sigma^2 (n=20, S^2=45): [26.03, 96.00]
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.3.1 --- Media y Varianza de $\chi^2_{15}$ (Enunciado)}
+    Sea $X \sim \chi^2_{15}$. Calcule la media $E(X)$ y la varianza $\Var(X)$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    \begin{itemize}\itemsep=0.04cm
+      \item Use directamente $E(\chi^2_\nu)=\nu$ y $\Var(\chi^2_\nu)=2\nu$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Sustituimos $\nu=15$ directamente: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$E(X) = 15, \qquad \Var(X) = 2\cdot 15 = 30.$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    A diferencia de la Normal, la chi-cuadrada tiene media y varianza que crecen juntas con $\nu$: a más grados de libertad, mayor dispersión absoluta, aunque relativamente la distribución se vuelve más simétrica (se aproxima a la Normal por el TLC).
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.3.6 --- Prueba de Hipótesis para $\sigma^2$ (Enunciado)}
+    Una máquina embotelladora debe tener varianza $\sigma_0^2=10$. Una muestra de $n=16$ botellas produce $S^2=18.2$. Calcule $(n-1)S^2/\sigma_0^2$ y decida si se rechaza $H_0:\sigma^2=10$ a nivel $\alpha=0.05$, usando $\chi^2_{15,0.95}\approx 24.996$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Compare el estadístico calculado contra el valor crítico dado.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos el estadístico y comparamos: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\frac{(n-1)S^2}{\sigma_0^2} = \frac{15\cdot 18.2}{10} = 27.3$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Decisión}
+    \scriptsize
+    Como $27.3 > 24.996 = \chi^2_{15,0.95}$, \textbf{rechazamos} $H_0:\sigma^2=10$ a nivel $\alpha=0.05$: hay evidencia estadística de que la varianza real de la máquina excede el objetivo de $10$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.3.7 --- Derivación de $E(\chi^2_\nu)$ y $\Var(\chi^2_\nu)$ (Enunciado)}
+    Partiendo de $\chi^2_\nu=\text{Gamma}(\nu/2,2)$ y de $\mu_X=\alpha\beta$, $\sigma_X^2=\alpha\beta^2$ (Sección 04.07), derive algebraicamente que $E(\chi^2_\nu)=\nu$ y $\Var(\chi^2_\nu)=2\nu$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Sustituya $\alpha=\nu/2$ y $\beta=2$ directamente en las fórmulas generales de la Gamma.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Sustituimos $\alpha=\nu/2$, $\beta=2$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Derivación}
+    \begin{align*}
+      E(\chi^2_\nu) = \alpha\beta = \frac{\nu}{2}\cdot 2 = \nu, \qquad
+      \Var(\chi^2_\nu) = \alpha\beta^2 = \frac{\nu}{2}\cdot 4 = 2\nu. \quad \qedhere
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Esta derivación conecta directamente con la Sección 04.07: toda propiedad ya demostrada para la familia Gamma general se hereda automáticamente por sus casos particulares, incluyendo la chi-cuadrada.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.3.9 --- De la Normal a la $t$ de Student (Enunciado)}
+    Usando el Teorema de Fisher, muestre que $T = \dfrac{\bar X-\mu}{S/\sqrt n} = \dfrac{Z}{\sqrt{\chi^2_{n-1}/(n-1)}}$, donde $Z=(\bar X-\mu)/(\sigma/\sqrt n)\sim N(0,1)$. ¿Por qué es relevante esta descomposición cuando $\sigma$ es desconocida?
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Divida numerador y denominador de $T$ entre $\sigma/\sqrt n$, y reconozca $S^2/\sigma^2$ en términos del Teorema de Fisher.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Dividimos numerador y denominador: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Derivación}
+    \scriptsize
+    \begin{align*}
+      T = \frac{\bar X-\mu}{S/\sqrt n} = \frac{(\bar X-\mu)/(\sigma/\sqrt n)}{S/\sigma} = \frac{Z}{\sqrt{S^2/\sigma^2}} = \frac{Z}{\sqrt{\chi^2_{n-1}/(n-1)}}. \quad \qedhere
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Relevancia}
+    \scriptsize
+    Cuando $\sigma$ es desconocida, $T$ ya no es Normal exacta: es el cociente de una Normal estándar entre la raíz de una chi-cuadrada independiente dividida entre sus grados de libertad --- precisamente la definición de la distribución $t$ de Student que estudiaremos en la Sección 05.04.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: Chi-Cuadrada y Teorema de Fisher}
+  \begin{reflexion}
+    El Teorema de Fisher es el puente entre la teoría de la distribución Normal y la inferencia práctica con $\sigma$ desconocida: nos dice exactamente cómo se distribuye $S^2$, y que lo hace de forma independiente de $\bar X$. Sin este resultado, no podríamos construir intervalos exactos para $\sigma^2$ ni derivar la distribución $t$ de Student.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Chi-cuadrada:} $\chi^2_\nu=\sum Z_i^2$, con $E=\nu$, $\Var=2\nu$, caso particular de la Gamma.
+      \item \textbf{Teorema de Fisher:} para muestras normales, $\bar X \perp S^2$ y $(n-1)S^2/\sigma^2\sim\chi^2_{n-1}$.
+      \item \textbf{Aplicación:} intervalos de confianza exactos (asimétricos) y pruebas de hipótesis para $\sigma^2$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Hoy vimos que $T=(\bar X-\mu)/(S/\sqrt n)$ se descompone como el cociente de una Normal estándar entre la raíz de una chi-cuadrada dividida entre sus grados de libertad. La Sección 05.04 formalizará esta construcción como la distribución $t$ de Student, la herramienta exacta para inferencia sobre $\mu$ cuando $\sigma$ es desconocida y la muestra es pequeña.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la demostración del Problema 5.3.9: es exactamente la construcción de la $t$ de Student.
+      \item Reflexiona sobre por qué la $t$ tiene colas más pesadas que la Normal para $n$ pequeño.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

@@ -30,6 +30,12 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/05_distribuciones_muestreo/05.02_central_limit_theorem.py` (convergencia vía prueba KS desde una población Exponencial asimétrica, verificación empírica de la tasa de Berry-Esseen, TLC para sumas y proporciones).
   - Mazos Beamer bilingües en `presentaciones/es/05_distribuciones_muestreo/05.02_central_limit_theorem.tex` (17 diapositivas) y `presentaciones/en/05_sampling_distributions/05.02_central_limit_theorem.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 05 (Distribuciones de Muestreo): 2 de 5 secciones completadas.
+- **Sección 05.03: Distribución Chi-Cuadrada y Varianza Muestral**:
+  - Densidad formal, el Teorema de Fisher (independencia de $\bar X$ y $S^2$; $(n-1)S^2/\sigma^2\sim\chi^2_{n-1}$) con bosquejo de demostración, y un ejemplo resuelto, agregados a `latex/distribuciones_muestreo_avanzado.tex` y su espejo `latex/en_distribuciones_muestreo_avanzado.tex`.
+  - 10 problemas bajo la taxonomía 3-3-2-2 (Problemas 5.3.1 a 5.3.10) en `latex/distribuciones_muestreo_avanzado(p).tex`, incluyendo la descomposición que anticipa la distribución $t$ de Student.
+  - Script de laboratorio en Python `presentaciones/code/05_distribuciones_muestreo/05.03_chi_squared_distribution.py` (propiedades, reproductividad, Teorema de Fisher, y cobertura del intervalo de confianza para $\sigma^2$, todos verificados vía Monte Carlo/KS test).
+  - Mazos Beamer bilingües en `presentaciones/es/05_distribuciones_muestreo/05.03_chi_squared_distribution.tex` (17 diapositivas) y `presentaciones/en/05_sampling_distributions/05.03_chi_squared_distribution.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 05 (Distribuciones de Muestreo): 3 de 5 secciones completadas.
 
 ## 2026-07-14
 
