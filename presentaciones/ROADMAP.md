@@ -66,9 +66,46 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 
 ---
 
-## 3. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 03.07`)
+## 3. Plan de Armonización Estructural y Curricular (Notas y Presentaciones ES/EN)
 
-Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 03.07: Distribución de Poisson y Procesos de Poisson** siguiendo este protocolo exacto de 6 pasos:
+Para resolver definitivamente la discrepancia de numeración reportada y asegurar la paridad bilingüe de todo el ecosistema (*tufte-book* en ES/EN + Beamer ES/EN + Python), se establece la siguiente hoja de ruta en 3 fases de ejecución estricta:
+
+### Fase 1: Reordenamiento y Formalización en las Notas Maestras (`latex/`)
+1. **Versión en Español (`latex/distribuciones_especiales.tex`):**
+   Reordenar los bloques teóricos dentro del archivo para que la progresión de secciones sea estrictamente consecutiva y coincida con el orden pedagógico de las distribuciones discretas:
+   - **Sección 3.1:** Funciones de masa de probabilidad discretas (PMF y soporte) (`variables_aleatorias_discretas.tex`)
+   - **Sección 3.2:** Función de distribución acumulada para variables aleatorias discretas (CDF) (`variables_aleatorias_discretas.tex`)
+   - **Sección 3.3:** Esperanza matemática y varianza en variables aleatorias discretas (`variables_aleatorias_discretas.tex`)
+   - **Sección 3.4:** Distribución Binomial y Bernoulli (`distribuciones_especiales.tex`)
+   - **Sección 3.5:** Distribuciones Geométrica y Binomial Negativa (`distribuciones_especiales.tex` --- *Traslado inmediato después de Binomial*)
+   - **Sección 3.6:** Distribución Hipergeométrica (`distribuciones_especiales.tex` --- *Traslado tras Geométrica*)
+   - **Sección 3.7:** Distribución de Poisson (`distribuciones_especiales.tex`)
+   - **Sección 3.8:** Distribución Multinomial (`distribuciones_especiales.tex`)
+   - **Sección 3.9:** Distribución Normal y aproximación continua (`distribuciones_especiales.tex`)
+   - **Sección 3.10:** Distribuciones discretas en ciencia de datos (`distribuciones_especiales.tex`)
+2. **Versión en Inglés (`latex/en_variables_aleatorias_discretas.tex` y `en_distribuciones_especiales.tex`):**
+   Aplicar la misma jerarquía y reordenamiento en las notas en inglés (`[Statistical Modeling].tex`):
+   - Elevar `Discrete Probability Functions` a **Section 3.1** y `Distribution Functions` a **Section 3.2**.
+   - Redactar e integrar **Section 3.3:** `Mathematical Expectation and Variance of Discrete Random Variables`.
+   - Reordenar `en_distribuciones_especiales.tex` en **Sections 3.4 a 3.10** en simetría 1:1 exacta con la versión en español.
+3. **Certificación de Compilación del Libro:** Compilar dos veces tanto `[Modelación Estadística].tex` como `[Statistical Modeling].tex` para validar las tablas de contenido (`.toc`) y las referencias cruzadas.
+
+### Fase 2: Renombramiento y Alinear Títulos en Mazos Beamer (`presentaciones/`)
+1. Auditores y ajuste de subtítulos (`\subtitle{Sección 03.XX --- ...}`) en los mazos existentes `03.01` a `03.06` en las carpetas `presentaciones/es/03_variables_aleatorias_discretas/` y `presentaciones/en/03_discrete_random_variables/`.
+2. Verificar que los identificadores de archivo (`03.01` a `03.06`) mapeen en simetría total 1:1 con las Secciones 3.1 a 3.6 formalizadas en la Fase 1.
+
+### Fase 3: Desarrollo Curricular de las Secciones Faltantes (03.07 a 03.10)
+Con el nuevo ordenamiento consolidado, el desarrollo de temas restantes del Capítulo 3 abarcará los siguientes 4 módulos, cada uno ejecutado bajo la estructura de oro (**10 Problemas 3-3-2-2 en `(p).tex` ES/EN $\to$ Script Python en inglés $\to$ 22 Slides Beamer ES/EN con 0 Overfulls**):
+- **Sección 03.07:** Distribución de Poisson y Procesos de Llegada (`03.07_poisson_distribution.py`, mazos ES/EN de 22 diapositivas).
+- **Sección 03.08:** Distribución Multinomial y Ensayos Politómicos (`03.08_multinomial_distribution.py`, mazos ES/EN de 22 diapositivas).
+- **Sección 03.09:** Distribución Normal y Aproximación Continua de Variables Discretas (`03.09_normal_approximation.py`, mazos ES/EN de 22 diapositivas).
+- **Sección 03.10:** Distribuciones Discretas en Ciencia de Datos y Casos Prácticos (`03.10_discrete_distributions_data_science.py`, mazos ES/EN de 22 diapositivas).
+
+---
+
+## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Fase 1 + Sección 03.07`)
+
+Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 03.07: Distribución de Poisson y Procesos de Poisson** tras verificar que las Fases 1 y 2 de armonización estén aplicadas, siguiendo este protocolo exacto de 6 pasos:
 
 ### Paso 1: Auditoría de Teoría y Creación/Integración de `(p).tex`
 1. Consultar el archivo `latex/distribuciones_especiales.tex` (donde se ubica la teoría de la distribución de Poisson).
@@ -116,14 +153,15 @@ Actualizar este archivo (`ROADMAP.md`) marcando la 03.07 como completada y apunt
 
 ---
 
-## 4. Mapeo Curricular Maestro — Capítulos 03 al 09 (Temas Pendientes)
+## 5. Mapeo Curricular Maestro — Capítulos 03 al 09 (Temas Pendientes)
 
 A continuación se enlistan exhaustivamente todos los temas curriculares que deben desarrollarse de manera sucesiva tras finalizar la Sección 03.06, siguiendo la misma estructura de 3 archivos: cuaderno `(p).tex`, script Python y 2 mazos Beamer ES/EN.
 
 ### Capítulo 03: Variables Aleatorias Discretas (Restantes)
-- **Sección 03.07:** Distribución de Poisson y Procesos de Poisson (`03.07_poisson_distribution.py`). *Ley de eventos raros ($\lambda=np$), conteo continuo e intervalos de llegada.*
-- **Sección 03.08:** Momentos y Funciones Generadoras de Momentos (`03.08_moment_generating_functions.py`). *$M_X(t)=\mathbb{E}[e^{tX}]$, derivadas en el origen ($M_X^{(k)}(0)=\mathbb{E}[X^k]$), unicidad.*
-- **Sección 03.09:** Desigualdades Probabilísticas en V.A. Discretas (`03.09_probability_inequalities.py`). *Cotas de Markov ($P(X\ge a)\le \mu/a$) y de Chebyshev ($P(|X-\mu|\ge k\sigma)\le 1/k^2$).*
+- **Sección 03.07:** Distribución de Poisson y Procesos de Llegada (`03.07_poisson_distribution.py`). *Ley de eventos raros ($\lambda=np$), conteo continuo e intervalos de llegada.*
+- **Sección 03.08:** Distribución Multinomial y Ensayos Politómicos (`03.08_multinomial_distribution.py`). *Probabilidades conjuntas, covarianzas negativas entre categorías.*
+- **Sección 03.09:** Distribución Normal y Aproximación Continua de Variables Discretas (`03.09_normal_approximation.py`). *Teorema de De Moivre-Laplace y corrección por continuidad de Yates.*
+- **Sección 03.10:** Distribuciones Discretas en Ciencia de Datos y Casos Prácticos (`03.10_discrete_distributions_data_science.py`). *Ajuste por máxima verosimilitud MLE y modelado empirico.*
 
 ---
 
@@ -183,7 +221,7 @@ Directorio base Python: `presentaciones/code/09_regresiones/`
 
 ---
 
-## 5. Referencia de Comandos Rápida para Agentes AI
+## 6. Referencia de Comandos Rápida para Agentes AI
 
 ```bash
 # Compilar libro maestro
