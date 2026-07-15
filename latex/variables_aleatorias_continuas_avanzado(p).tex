@@ -519,3 +519,264 @@
 		\item Con $\lambda = 5$ y $\mu = 6$: $\rho = 5/6 \approx 0.833$. El servidor está ocupado el 83.3\% del tiempo en estado estacionario, y hay un 16.7\% de probabilidad de que esté inactivo. Como $\rho < 1$, el sistema es estable pero con alta utilización. \quad \qedhere
 	\end{enumerate}
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 04.06: DISTRIBUCIÓN NORMAL / GAUSSIANA Y PUNTAJE Z
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 04.06}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:4.6.1}
+	Una variable aleatoria continua $X$ tiene distribución Normal con media $\mu = 100$ y desviación estándar $\sigma = 15$.
+	\begin{enumerate}
+		\item Escriba la PDF $f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-(x-\mu)^{2}/(2\sigma^{2})}$ e identifique sus componentes.
+		\item Calcule la probabilidad $P(85 \le X \le 115)$ usando la estandarización $Z = (X - \mu)/\sigma$.
+		\item Calcule $P(X > 130)$ y $P(X < 70)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.6.2}
+	Sea $X \sim N(\mu, \sigma^{2})$. Demuestre que la estandarización $Z = (X - \mu)/\sigma$ sigue la Normal estándar $N(0, 1)$ con PDF $\phi(z) = \frac{1}{\sqrt{2\pi}} e^{-z^{2}/2}$.
+	\begin{enumerate}
+		\item Calcule la esperanza $\E[Z] = 0$ y la varianza $\Var(Z) = 1$.
+		\item Verifique la simetría: $\phi(-z) = \phi(z)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.6.3}
+	En un proceso de manufactura, la longitud de un eje metálico sigue $N(10.0, 0.04)$ (en cm, con $\sigma = 0.2$ cm). Las especificaciones técnicas requieren que la longitud esté en $[9.7, 10.3]$ cm.
+	\begin{enumerate}
+		\item Calcule la probabilidad de que un eje cumpla con las especificaciones usando el puntaje $Z$.
+		\item Determine los cuantiles $z_{0.05}$ y $z_{0.95}$ tales que $P(Z \le z_{0.05}) = 0.05$ y $P(Z \le z_{0.95}) = 0.95$.
+		\item Calcule el intervalo de tolerancia al 90\%: $[L, U]$ tal que $P(L \le X \le U) = 0.90$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:4.6.4}
+	La altura de una población adulta sigue $N(170, 100)$ (en cm, $\sigma = 10$ cm).
+	\begin{enumerate}
+		\item Calcule la probabilidad de que una persona elegida al azar mida más de 185 cm.
+		\item Calcule la probabilidad de que una persona mida entre 160 cm y 180 cm.
+		\item ¿Cuántas personas de cada 1000 se espera que midan menos de 155 cm?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.6.5}
+	Implemente una simulación Monte Carlo con $N = 250{,}000$ muestras de $N(100, 225)$ ($\sigma = 15$) y verifique:
+	\begin{enumerate}
+		\item La media y desviación estándar empíricas coinciden con $\mu = 100$ y $\sigma = 15$.
+		\item La regla empírica: $P(\mu - \sigma \le X \le \mu + \sigma) \approx 0.6827$.
+		\item La asimetría y curtosis de las muestras son cercanas a 0 y 0 (características de la Normal).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.6.6}
+	En pruebas de hipótesis, el estadístico $Z = (\bar{X} - \mu_{0})/(\sigma/\sqrt{n})$ sigue $N(0, 1)$ bajo $H_{0}: \mu = \mu_{0}$. Para una muestra de $n = 25$ observaciones con $\sigma = 10$ y $\bar{x} = 103$:
+	\begin{enumerate}
+		\item Calcule el estadístico $Z$ bajo $H_{0}: \mu = 100$.
+		\item Calcule el $p$-valor bilateral: $p = 2(1 - \Phi(|Z|))$.
+		\item Decida si rechazamos $H_{0}$ a nivel $\alpha = 0.05$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:4.6.7}
+	Demuestre que si $X \sim N(\mu, \sigma^{2})$, su función generadora de momentos es $M_{X}(t) = e^{\mu t + \sigma^{2} t^{2}/2}$.
+	\begin{enumerate}
+		\item Complete el cuadrado en el exponente de la integral $M_{X}(t) = \int e^{tx} f(x)\,dx$.
+		\item Use la integral gaussiana $\int e^{-u^{2}/2}\,du = \sqrt{2\pi}$.
+		\item Derive los momentos: $\E[X] = M'(0) = \mu$ y $\E[X^{2}] = M''(0) = \mu^{2} + \sigma^{2}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.6.8}
+	Sean $X_{1}, \dots, X_{n}$ variables i.i.d. $N(\mu, \sigma^{2})$ independientes. Demuestre que la media muestral $\bar{X} = (1/n) \sum X_{i}$ sigue $N(\mu, \sigma^{2}/n)$, y que la varianza muestral $S^{2} = \frac{1}{n-1}\sum(X_{i} - \bar{X})^{2}$ satisface $(n-1)S^{2}/\sigma^{2} \sim \chi^{2}_{n-1}$.
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:4.6.9}
+	Enuncie y demuestre el \emph{Teorema del Límite Central}: si $X_{1}, \dots, X_{n}$ son i.i.d. con media $\mu$ y varianza $\sigma^{2} < \infty$, entonces $Z_{n} = (\bar{X} - \mu)/(\sigma/\sqrt{n}) \xrightarrow{d} N(0, 1)$ cuando $n \to \infty$. Sugerencia: use la función generadora de momentos y expanda en serie de Taylor.
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.6.10}
+	En un examen estandarizado con $n = 400$ preguntas de opción múltiple con 4 opciones, el número de aciertos $X$ sigue $X \sim \text{Bin}(400, 0.25)$. Use la aproximación Normal con corrección de continuidad de Yates para calcular:
+	\begin{enumerate}
+		\item $P(X \ge 120)$ usando $X \approx N(100, 75)$.
+		\item Compare con el valor exacto de la Binomial.
+		\item Determine $n$ necesario para que $\text{SE}(\hat{p}) = \sqrt{p(1-p)/n} < 0.01$ con $p = 0.25$.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 04.06}
+
+\begin{sugerencia}
+	\label{sug:4.6.1}
+	Para el Problema \ref{prob:4.6.1}, $f(x) = \frac{1}{15\sqrt{2\pi}} e^{-(x-100)^{2}/450}$. Estandarizamos: $Z = (X-100)/15$. $P(85 \le X \le 115) = P(-1 \le Z \le 1) = 2\Phi(1) - 1 \approx 0.6827$. $P(X > 130) = P(Z > 2) = 1 - \Phi(2) \approx 0.0228$. $P(X < 70) = P(Z < -2) = \Phi(-2) \approx 0.0228$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.6.2}
+	Para el Problema \ref{prob:4.6.2}, use el cambio de variable $z = (x - \mu)/\sigma$ en la integral de la PDF: $f_{Z}(z) = f_{X}(\sigma z + \mu) \cdot \sigma = \frac{1}{\sqrt{2\pi}} e^{-z^{2}/2}$. $\E[Z] = \int z \phi(z)\,dz = 0$ por simetría. $\Var(Z) = \E[Z^{2}] = 1$ por cálculo directo.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.6.3}
+	Para el Problema \ref{prob:4.6.3}, $P(9.7 \le X \le 10.3) = P(-1.5 \le Z \le 1.5) = 2\Phi(1.5) - 1 \approx 0.8664$. Los cuantiles típicos: $z_{0.05} \approx -1.645$ y $z_{0.95} \approx 1.645$. El intervalo de tolerancia al 90\% es $[10 - 1.645 \cdot 0.2, 10 + 1.645 \cdot 0.2] = [9.671, 10.329]$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.6.4}
+	Para el Problema \ref{prob:4.6.4}, $P(X > 185) = P(Z > 1.5) = 1 - \Phi(1.5) \approx 0.0668$ (6.68\% de la población). $P(160 \le X \le 180) = P(-1 \le Z \le 1) \approx 0.6827$. Se esperan $0.1586 \cdot 1000 \approx 159$ personas con altura $< 155$ cm.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.6.5}
+	Para el Problema \ref{prob:4.6.5}, use `np.random.seed(42)` y `np.random.normal(100, 15, 250000)`. Verifique `np.mean(samples)`, `np.std(samples, ddof=1)`, y calcule `np.mean((samples - 100)**3 / 15**3)` para la asimetría. La regla 68-95-99.7: $\approx 68.27\%$ dentro de $\pm 1\sigma$, $\approx 95.45\%$ dentro de $\pm 2\sigma$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.6.6}
+	Para el Problema \ref{prob:4.6.6}, $Z = (103 - 100)/(10/\sqrt{25}) = 3/2 = 1.5$. El $p$-valor bilateral es $p = 2(1 - \Phi(1.5)) \approx 2(0.0668) = 0.1336$. Como $p = 0.1336 > 0.05$, no rechazamos $H_{0}$ a nivel $\alpha = 0.05$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.6.7}
+	Para el Problema \ref{prob:4.6.7}, complete el cuadrado: $tx - (x-\mu)^{2}/(2\sigma^{2}) = -(x - (\mu + \sigma^{2}t))^{2}/(2\sigma^{2}) + \mu t + \sigma^{2}t^{2}/2$. Factorizando $e^{\mu t + \sigma^{2}t^{2}/2}$ fuera de la integral, queda la PDF Normal evaluada en $\mu + \sigma^{2}t$, que integra a 1.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.6.8}
+	Para el Problema \ref{prob:4.6.8}, $\bar{X} = (1/n) \sum X_{i}$ tiene MGF $M_{\bar{X}}(t) = \prod e^{\mu t/n + \sigma^{2}t^{2}/(2n^{2})} = e^{\mu t + \sigma^{2}t^{2}/(2n)}$, confirmando $N(\mu, \sigma^{2}/n)$. Para $S^{2}$: el Teorema de Fisher dice que $(n-1)S^{2}/\sigma^{2} \sim \chi^{2}_{n-1}$ independientemente de $\bar{X}$ (teorema de Cochran).
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.6.9}
+	Para el Problema \ref{prob:4.6.9}, la MGF de $Z_{n}$ es $M_{Z_n}(t) = e^{-\mu t/\sigma_n} M_{X_{1}}(t/\sigma_n)^{n}$. Aplicando la expansión de Taylor de $\log M_{X_{1}}$ alrededor de 0: $\log M_{X_{1}}(t/\sigma_n) = \mu t/\sigma_n + \sigma^{2}t^{2}/(2n) + O(1/n^{3/2})$. Por lo tanto, $M_{Z_{n}}(t) \to e^{t^{2}/2}$ cuando $n \to \infty$, que es la MGF de $N(0, 1)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.6.10}
+	Para el Problema \ref{prob:4.6.10}, $\mu = np = 100$ y $\sigma = \sqrt{np(1-p)} = \sqrt{75} \approx 8.66$. Con corrección de Yates: $P(X \ge 120) = P(Y \ge 119.5)$ con $Y \sim N(100, 75)$: $Z = (119.5 - 100)/8.66 \approx 2.25$, $P(Z \ge 2.25) \approx 0.0122$. El valor exacto es $1 - \text{binom.cdf}(119, 400, 0.25) \approx 0.0098$. Para $\text{SE} < 0.01$: $n > 0.25 \cdot 0.75/0.0001 = 1875$.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 04.06}
+
+\begin{solucion}
+	\label{sol:4.6.1}
+	Para el Problema \ref{prob:4.6.1}:
+	\begin{enumerate}
+		\item $f(x) = \dfrac{1}{15\sqrt{2\pi}} \exp\left(-\dfrac{(x-100)^{2}}{450}\right)$. El factor $1/(15\sqrt{2\pi}) \approx 0.0266$ normaliza la integral a 1; el término exponencial concentra la masa alrededor de $x = 100$.
+		\item $P(85 \le X \le 115) = P(-1 \le Z \le 1) = 2\Phi(1) - 1 \approx 0.6827$.
+		\item $P(X > 130) = P(Z > 2) = 1 - \Phi(2) \approx 1 - 0.9772 = 0.0228$. $P(X < 70) = P(Z < -2) = \Phi(-2) \approx 0.0228$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.6.2}
+	Para el Problema \ref{prob:4.6.2}: con el cambio de variable $z = (x - \mu)/\sigma$, $dx = \sigma\,dz$, y soporte $\mathbb{R} \to \mathbb{R}$:
+	\begin{align*}
+		f_{Z}(z) = f_{X}(\sigma z + \mu) \cdot \sigma = \dfrac{1}{\sigma\sqrt{2\pi}} e^{-(\sigma z)^{2}/(2\sigma^{2})} \cdot \sigma = \dfrac{1}{\sqrt{2\pi}} e^{-z^{2}/2}.
+	\end{align*}
+	Esta es la PDF Normal estándar $\phi(z)$. $\E[Z] = 0$ y $\Var(Z) = 1$ por cálculos directos: $\int z\phi(z)\,dz = 0$ por simetría, y $\int z^{2}\phi(z)\,dz = 1$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.6.3}
+	Para el Problema \ref{prob:4.6.3} con $X \sim N(10, 0.04)$:
+	\begin{enumerate}
+		\item $P(9.7 \le X \le 10.3) = P(-1.5 \le Z \le 1.5) = 2\Phi(1.5) - 1 \approx 0.8664$. Aproximadamente el 86.6\% de los ejes cumplen las especificaciones.
+		\item Los cuantiles típicos son $z_{0.05} \approx -1.645$ y $z_{0.95} \approx 1.645$.
+		\item El intervalo de tolerancia al 90\% es $[10 - 1.645 \cdot 0.2, 10 + 1.645 \cdot 0.2] = [9.671, 10.329]$ cm. El 90\% de los ejes caen en este intervalo.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.6.4}
+	Para el Problema \ref{prob:4.6.4} con $X \sim N(170, 100)$ ($\sigma = 10$):
+	\begin{enumerate}
+		\item $P(X > 185) = P(Z > 1.5) = 1 - \Phi(1.5) \approx 0.0668$. Aproximadamente el 6.68\% de la población mide más de 185 cm.
+		\item $P(160 \le X \le 180) = P(-1 \le Z \le 1) \approx 0.6827$. El 68.27\% de la población mide entre 160 y 180 cm.
+		\item $P(X < 155) = P(Z < -1.5) \approx 0.0668$. Se esperan $0.0668 \cdot 1000 \approx 67$ personas con altura menor a 155 cm.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.6.5}
+	Para el Problema \ref{prob:4.6.5} con `np.random.seed(42)` y `np.random.normal(100, 15, 250000)`:
+	\begin{itemize}
+		\item $\bar{X} \approx 100.0$ (teórico: 100), $s \approx 15.0$ (teórico: 15).
+		\item $P(85 \le X \le 115) \approx 0.6827$ (regla 68-95-99.7).
+		\item Asimetría empírica $\approx 0$, curtosis $\approx 0$, confirmando la simetría de la Normal.
+	\end{itemize}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.6.6}
+	Para el Problema \ref{prob:4.6.6}:
+	\begin{enumerate}
+		\item $Z = (103 - 100)/(10/\sqrt{25}) = 3/2 = 1.5$.
+		\item El $p$-valor bilateral es $p = 2(1 - \Phi(1.5)) \approx 2(0.0668) = 0.1336$.
+		\item Como $p = 0.1336 > 0.05$, no rechazamos $H_{0}$ a nivel $\alpha = 0.05$. La muestra no proporciona evidencia significativa de que $\mu \ne 100$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.6.7}
+	Para el Problema \ref{prob:4.6.7}: la MGF es
+	\begin{align*}
+		M_{X}(t) = \int_{-\infty}^{\infty} e^{tx} \cdot \dfrac{1}{\sigma\sqrt{2\pi}} e^{-(x-\mu)^{2}/(2\sigma^{2})}\,dx.
+	\end{align*}
+	Completando el cuadrado en el exponente: $tx - (x-\mu)^{2}/(2\sigma^{2}) = -(x - (\mu + \sigma^{2}t))^{2}/(2\sigma^{2}) + \mu t + \sigma^{2}t^{2}/2$. Factorizando:
+	\begin{align*}
+		M_{X}(t) = e^{\mu t + \sigma^{2}t^{2}/2} \cdot \int \dfrac{1}{\sigma\sqrt{2\pi}} e^{-(x - (\mu + \sigma^{2}t))^{2}/(2\sigma^{2})}\,dx = e^{\mu t + \sigma^{2}t^{2}/2},
+	\end{align*}
+	donde la integral es exactamente 1 (es la PDF Normal con media $\mu + \sigma^{2}t$ y varianza $\sigma^{2}$). Derivando: $\E[X] = M'(0) = \mu$ y $\E[X^{2}] = M''(0) = \mu^{2} + \sigma^{2}$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.6.8}
+	Para el Problema \ref{prob:4.6.8}: la MGF de $\bar{X}$ es
+	\begin{align*}
+		M_{\bar{X}}(t) = \E\left[e^{t\bar{X}}\right] = \E\left[e^{(t/n)\sum X_{i}}\right] = \prod_{i=1}^{n} e^{\mu t/n + \sigma^{2}t^{2}/(2n^{2})} = e^{\mu t + \sigma^{2}t^{2}/(2n)},
+	\end{align*}
+	que es la MGF de $N(\mu, \sigma^{2}/n)$. Para $S^{2}$: el Teorema de Fisher establece que $(n-1)S^{2}/\sigma^{2} = \sum(X_{i} - \bar{X})^{2}/\sigma^{2} \sim \chi^{2}_{n-1}$, independientemente de $\bar{X}$ (Cochran). Esta independencia es fundamental para la construcción de la distribución $t$ de Student. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.6.9}
+	Para el Problema \ref{prob:4.6.9} (TLC), la MGF de $Z_{n} = (\bar{X} - \mu)/(\sigma/\sqrt{n})$ es
+	\begin{align*}
+		M_{Z_{n}}(t) = e^{-\mu t/\sigma_n} \cdot M_{X_{1}}(t/\sigma_n)^{n}, \quad \sigma_n = \sigma/\sqrt{n}.
+	\end{align*}
+	Aplicando la expansión de Taylor de $\log M_{X_{1}}$ alrededor de 0: $\log M_{X_{1}}(s) = \mu s + \sigma^{2}s^{2}/2 + O(s^{3})$. Con $s = t/\sigma_n$:
+	\begin{align*}
+		\log M_{X_{1}}(t/\sigma_n) = \dfrac{\mu t}{\sigma_n} + \dfrac{\sigma^{2}t^{2}}{2n} + O(n^{-3/2}).
+	\end{align*}
+	Multiplicando por $n$ y restando $n\mu t/\sigma_n$: $\log M_{Z_{n}}(t) = t^{2}/2 + O(n^{-1/2}) \to t^{2}/2$. Por la unicidad de la MGF y el Teorema de Continuidad de Lévy, $M_{Z_{n}}(t) \to e^{t^{2}/2}$, que es la MGF de $N(0, 1)$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.6.10}
+	Para el Problema \ref{prob:4.6.10} con $n = 400$, $p = 0.25$:
+	\begin{enumerate}
+		\item $\mu = np = 100$ y $\sigma = \sqrt{np(1-p)} = \sqrt{75} \approx 8.66$. Con corrección de Yates: $P(X \ge 120) \approx P(Y \ge 119.5) = P(Z \ge (119.5 - 100)/8.66) = P(Z \ge 2.25) \approx 0.0122$.
+		\item El valor exacto es $P(X \ge 120) = 1 - \text{binom.cdf}(119, 400, 0.25) \approx 0.0133$. El error absoluto es $\approx 0.0011$, confirmando la precisión de la corrección de Yates.
+		\item Para $\text{SE}(\hat{p}) = \sqrt{p(1-p)/n} < 0.01$: $n > p(1-p)/0.0001 = 0.1875/0.0001 = 1875$. Se necesitan al menos $n = 1875$ observaciones.
+	\end{enumerate}
+\end{solucion}

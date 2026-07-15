@@ -103,6 +103,11 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Laboratorio Python:* `presentaciones/code/04_variables_aleatorias_continuas/04.05_exponential_distribution.py` (verificación de $\int f = 1$; propiedad de falta de memoria con tolerancia $< 10^{-15}$; MLE con $n = 50$ muestras produce $\hat{\lambda} = 2.36 \pm 0.37$ con CI bootstrap al 95\% $[1.82, 3.27]$; Erlang$(5, 1)$ verificada con KS test $p = 0.46$; sistema de $n = 10$ componentes en serie con MTTF = 100 h; sistema M/M/1 con $\rho = 0.833$, $L = 5$ y $W = 1$).
   - *Mazos Beamer:* mazos pedagógicos y modulares ES/EN en `presentaciones/es/04_variables_aleatorias_continuas/04.05_exponential_distribution.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.05_exponential_distribution.tex` (20 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido.
   - *Libro Maestro:* Recompilado limpiamente a 608 páginas (`[Modelación Estadística].tex`).
+- $\checkmark$ **04.06 Distribución Normal / Gaussiana y Puntaje $Z$:** 100% completado.
+  - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/variables_aleatorias_continuas_avanzado(p).tex` (Problemas 4.6.1 al 4.6.10): PDF y CDF Normal, estandarización al puntaje $Z$, regla 68-95-99.7, prueba $Z$ de una muestra, deducción de MGF Normal, suma de normales independientes, Teorema del Límite Central, y aproximación Binomial-Normal con corrección de Yates.
+  - *Laboratorio Python:* `presentaciones/code/04_variables_aleatorias_continuas/04.06_normal_distribution.py` (validación de $\int f = 1$ con tolerancia $< 10^{-7}$; estandarización $Z$ verificada con tolerancia $< 10^{-16}$ para 6 puntos; regla 68-95-99.7 confirmada; cuantiles $z_{0.025} = -1.96$, $z_{0.975} = 1.96$; prueba $Z$ con $Z = 1.5$, $p = 0.134$; TLC verificado: suma de 30 uniformes $\sim N(15, 2.5)$ con KS $p = 0.71$; aproximación Binomial-Normal con error $0.001$).
+  - *Mazos Beamer:* mazos pedagógicos y modulares ES/EN en `presentaciones/es/04_variables_aleatorias_continuas/04.06_normal_distribution.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.06_normal_distribution.tex` (20 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido.
+  - *Libro Maestro:* Recompilado limpiamente a 614 páginas (`[Modelación Estadística].tex`).
 
 ---
 
@@ -146,41 +151,41 @@ Con el nuevo ordenamiento consolidado, el desarrollo de temas restantes del Cap�
 
 ---
 
-## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 04.06`)
+## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 04.07`)
 
-**Secciones 04.01 a 04.05 del Capítulo 04 completadas.** Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 04.06: Distribución Normal / Gaussiana y Puntaje $Z$**, siguiendo este protocolo exacto de 6 pasos:
+**Secciones 04.01 a 04.06 del Capítulo 04 completadas.** Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 04.07: Distribuciones Gamma, Beta y Weibull**, siguiendo este protocolo exacto de 6 pasos:
 
 ### Paso 1: Auditoría de Teoría y Creación/Integración de `(p).tex`
-1. Consultar el archivo `latex/variables_aleatorias_continuas_avanzado.tex` (donde se ubica la teoría de la distribución normal).
-2. Verificar si en `variables_aleatorias_continuas_avanzado(p).tex` existen los problemas de la 04.06. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2` usando los entornos institucionales (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`):
-   - **Nivel Fundamental (3):** Definición de $N(\mu, \sigma^{2})$ con PDF $f(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^{2}/(2\sigma^{2})}$, cálculo de CDF, estandarización al puntaje $Z$ (`4.6.1` a `4.6.3`).
-   - **Nivel Operativo (3):** Regla 68-95-99.7, cálculo de probabilidades $P(a \le X \le b)$ vía puntaje $Z$, y aplicación a pruebas de hipótesis (`4.6.4` a `4.6.6`).
-   - **Nivel Analítico (2):** Deducción de la MGF de la Normal, y propiedades de la suma de normales independientes (`4.6.7` y `4.6.8`).
-   - **Nivel Desafiante (2):** Teorema del Límite Central, y aplicación a aproximación de la Binomial por la Normal (`4.6.9` y `4.6.10`).
+1. Consultar el archivo `latex/variables_aleatorias_continuas_avanzado.tex` (donde se ubica la teoría de las distribuciones Gamma, Beta y Weibull).
+2. Verificar si en `variables_aleatorias_continuas_avanzado(p).tex` existen los problemas de la 04.07. Si no existen, agregar los 10 problemas bajo la taxonomía `3-3-2-2` usando los entornos institucionales (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`):
+   - **Nivel Fundamental (3):** Definición de Gamma($\alpha, \lambda$) con PDF $f(x) = \frac{\lambda^{\alpha}}{\Gamma(\alpha)} x^{\alpha-1} e^{-\lambda x}$, casos particulares (Exponencial, Chi-cuadrada), y momentos (`4.7.1` a `4.7.3`).
+   - **Nivel Operativo (3):** Distribución Beta($\alpha, \beta$) en $[0, 1]$, cálculo de esperanza y varianza, y aplicación a proporciones (`4.7.4` a `4.7.6`).
+   - **Nivel Analítico (2):** Distribución Weibull con PDF $f(t) = \frac{\beta}{\eta}(t/\eta)^{\beta-1} e^{-(t/\eta)^{\beta}}$ y aplicación a análisis de confiabilidad (`4.7.7` y `4.7.8`).
+   - **Nivel Desafiante (2):** Conexión Gamma-Chi-cuadrada, y aplicación a procesos Gamma para análisis de tasas de fallo (`4.7.9` y `4.7.10`).
 3. Compilar el libro maestro dos veces para comprobar que no se rompen índices ni referencias.
 
-### Paso 2: Desarrollo de Script Python en Inglés (`04.06_normal_distribution.py`)
-Crear el archivo en `presentaciones/code/04_variables_aleatorias_continuas/04.06_normal_distribution.py` con `numpy` y `scipy.stats`:
-- **Block 1: Normal PDF & Standardization:** Verificación de $\int f(x)\,dx = 1$ con `scipy.integrate.quad`; cálculo de CDF y cuantiles; verificación de la regla 68-95-99.7.
-- **Block 2: Z-Score & Interval Probabilities:** Cálculo de probabilidades vía $Z = (X - \mu)/\sigma$; comparación de CDF manual vs SciPy; intervalos de confianza.
-- **Block 3: CLT & Normal Approximation:** Simulación Monte Carlo del TLC para sumas de uniformes; aproximación Binomial-Normal con corrección de continuidad de Yates.
+### Paso 2: Desarrollo de Script Python en Inglés (`04.07_gamma_beta_weibull.py`)
+Crear el archivo en `presentaciones/code/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.py` con `numpy` y `scipy.stats`:
+- **Block 1: Gamma Distribution & Erlang:** Verificación de $\int f(x)\,dx = 1$ con `scipy.integrate.quad`; relación Gamma-Erlang; casos particulares Exponential y Chi-squared.
+- **Block 2: Beta Distribution & Moments:** Cálculo de esperanza y varianza para Beta($\alpha, \beta$); verificación de la simetría Beta($\alpha, \beta$) = $1 - $ Beta($\beta, \alpha$); aplicación a prior bayesiano.
+- **Block 3: Weibull & Reliability Analysis:** Distribución Weibull con tasa de fallo variable; aplicación a sistemas con Weibull(shape=$\beta$); comparación de funciones de hazard.
 
-### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`04.06_normal_distribution.tex`)
-1. Crear los mazos espejos en `presentaciones/es/04_variables_aleatorias_continuas/04.06_normal_distribution.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.06_normal_distribution.tex` (20 frames).
+### Paso 3: Construcción de Mazos Beamer en Español e Inglés (`04.07_gamma_beta_weibull.tex`)
+1. Crear los mazos espejos en `presentaciones/es/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.07_gamma_beta_weibull.tex` (20 frames).
 2. Usar `\date{\vspace{-1.2cm}}` en la portada ES y `\date{\vspace{-1.5cm}}` en la portada EN.
-3. Importar los bloques del script con `\lstinputlisting[language=Python, ...]{../../code/04_variables_aleatorias_continuas/04.06_normal_distribution.py}`.
+3. Importar los bloques del script con `\lstinputlisting[language=Python, ...]{../../code/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.py}`.
 4. Ajustar tablas teóricas y espaciados para prevenir `Overfull`.
 
 ### Paso 4: Compilación y Doble Verificación (*Zero Overfull Check*)
 Ejecutar los siguientes comandos en la terminal y comprobar que la búsqueda de `Overfull` arroje cero coincidencias en las diapositivas 2+:
 ```bash
 cd presentaciones/es/04_variables_aleatorias_continuas
-pdflatex -interaction=nonstopmode 04.06_normal_distribution.tex && pdflatex -interaction=nonstopmode 04.06_normal_distribution.tex
-grep "Overfull" 04.06_normal_distribution.log
+pdflatex -interaction=nonstopmode 04.07_gamma_beta_weibull.tex && pdflatex -interaction=nonstopmode 04.07_gamma_beta_weibull.tex
+grep "Overfull" 04.07_gamma_beta_weibull.log
 
 cd ../../en/04_continuous_random_variables
-pdflatex -interaction=nonstopmode 04.06_normal_distribution.tex && pdflatex -interaction=nonstopmode 04.06_normal_distribution.tex
-grep "Overfull" 04.06_normal_distribution.log
+pdflatex -interaction=nonstopmode 04.07_gamma_beta_weibull.tex && pdflatex -interaction=nonstopmode 04.07_gamma_beta_weibull.tex
+grep "Overfull" 04.07_gamma_beta_weibull.log
 ```
 
 ### Paso 5: Sincronización de Ebook Principal (`[Modelación Estadística].tex`)
@@ -190,7 +195,7 @@ pdflatex -interaction=nonstopmode "[Modelación Estadística].tex" && pdflatex -
 ```
 
 ### Paso 6: Actualización de Documentación y Cierre de Tarea (Sin Auto-Commits)
-Actualizar este archivo (`ROADMAP.md`) marcando la 04.06 como completada y apuntando a la 04.07 como el nuevo foco. Verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
+Al completar la 04.07, el Capítulo 04 estará 100% finalizado. Actualizar este archivo (`ROADMAP.md`) marcando la 04.07 como completada, y verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
 
 ---
 
@@ -206,7 +211,7 @@ A continuación se enlistan exhaustivamente todos los temas curriculares que deb
 
 ---
 
-### Unidad 3 / Capítulo 04: Variables Aleatorias Continuas (`Avance actual: 5 de 7 secciones completadas`)
+### Unidad 3 / Capítulo 04: Variables Aleatorias Continuas (`Avance actual: 6 de 7 secciones completadas`)
 Directorio base Python: `presentaciones/code/04_variables_aleatorias_continuas/`
 - $\checkmark$ **04.01 Función de Densidad (PDF) y Soporte Continuo:** 100% completado.
 - **Sección 04.02:** Función de Distribución Acumulada (CDF) Continua y Cuantiles (`04.02_continuous_cdf.py`). **100% COMPLETADO** — ver descripción detallada arriba.
@@ -214,7 +219,7 @@ Directorio base Python: `presentaciones/code/04_variables_aleatorias_continuas/`
 - **Sección 04.03:** Esperanza Matemática, Varianza y Teorema LOTUS Continuo (`04.03_expectation_and_variance.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 - **Sección 04.04:** Distribución Uniforme Continua ($U(a,b)$) (`04.04_uniform_distribution.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 - **Sección 04.05:** Distribución Exponencial y Procesos Continuos Sin Memoria (`04.05_exponential_distribution.py`). **100% COMPLETADO** — ver descripción detallada arriba.
-- **Sección 04.06:** Distribución Normal / Gaussiana ($N(\mu, \sigma^2)$) y Puntaje $Z$ (`04.06_normal_distribution.py`).
+- **Sección 04.06:** Distribución Normal / Gaussiana ($N(\mu, \sigma^2)$) y Puntaje $Z$ (`04.06_normal_distribution.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 - **Sección 04.07:** Distribuciones Gamma, Beta y Weibull (`04.07_gamma_beta_weibull.py`).
 
 ---

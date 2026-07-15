@@ -1,0 +1,301 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Normal Distribution}
+\subtitle{Section 04.06 --- Gaussian Bell, Z-Score Standardization, and CLT}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 04: Continuous Random Variables}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 3}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 04.01: PDF and Continuous Support}
+			\item \textcolor{gray}{Section 04.02: Continuous CDF and Quantiles}
+			\item \textcolor{gray}{Section 04.03: Expectation, Variance, and Continuous LOTUS}
+			\item \textcolor{gray}{Section 04.04: Continuous Uniform Distribution}
+			\item \textcolor{gray}{Section 04.05: Exponential Distribution and Memoryless Processes}
+			\item \textbf{\textcolor{TecRojo}{Section 04.06: Normal Distribution}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 04.07: Gamma, Beta, and Weibull Distributions}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Introduce the Normal distribution as the most important of all continuous statistics, master Z-score standardization and the 68-95-99.7 rule, apply the MGF to prove sum-closure properties, and establish the Central Limit Theorem as the theoretical justification for the universality of the Normal.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Definition and Z-Score
+\begin{frame}{Definition and Z-Score Standardization}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{PDF and Symmetry}
+				\footnotesize
+				$f(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{(x-\mu)^{2}}{2\sigma^{2}}\right)$. Bell-shaped, symmetric around $\mu$. Support $\mathbb{R}$. Mean, median, and mode all equal $\mu$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Z-Score and Empirical Rule}
+				\footnotesize
+				$Z = (X-\mu)/\sigma \sim N(0,1)$. Empirical rule: $P(|X-\mu| \le 1\sigma) \approx 68\%$, $P(|X-\mu| \le 2\sigma) \approx 95\%$, $P(|X-\mu| \le 3\sigma) \approx 99.7\%$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: MGF and CLT
+\begin{frame}{MGF, Sum-Closure, and Central Limit Theorem}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{MGF and Sum-Closure}
+				\footnotesize
+				$M_{X}(t) = e^{\mu t + \sigma^{2}t^{2}/2}$. Sum of independent normals is normal: $N(\mu_{1}, \sigma_{1}^{2}) + N(\mu_{2}, \sigma_{2}^{2}) \sim N(\mu_{1}+\mu_{2}, \sigma_{1}^{2}+\sigma_{2}^{2})$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Central Limit Theorem}
+				\footnotesize
+				For i.i.d. with finite mean and variance, $Z_{n} = (\bar{X}-\mu)/(\sigma/\sqrt{n}) \xrightarrow{d} N(0,1)$. Universality: limit distribution is normal regardless of original distribution.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Applications
+\begin{frame}{Applications in Inference, Science, and Data Science}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Statistical Inference:} $Z$-tests, confidence intervals, linear regression, and ANOVA assume Normality. \pause
+		\item \textbf{Quality and Six Sigma:} $\bar{x}$ and $R$ control charts based on $\pm 3\sigma$ of the Normal. \pause
+		\item \textbf{Finance:} Black-Scholes model for option pricing; geometric Brownian motions. \pause
+		\item \textbf{Machine Learning:} Gaussian linear regression, generalized linear models, and likelihood function approximation.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 06: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: PDF and Standardization}
+	\vspace{-0.05cm}
+	\scriptsize
+	Validation of $\int f = 1$, Z-score standardization, and 68-95-99.7 empirical rule (\texttt{04.06\_normal\_distribution.py}):
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=15, lastline=33]{../../code/04_variables_aleatorias_continuas/04.06_normal_distribution.py}}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Z-Test and Quantiles}
+	\vspace{-0.05cm}
+	\scriptsize
+	Interval probabilities, quantiles, and one-sample Z-test:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=40, lastline=63]{../../code/04_variables_aleatorias_continuas/04.06_normal_distribution.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: CLT and Binomial-Normal Approximation}
+	\vspace{-0.05cm}
+	\scriptsize
+	Monte Carlo verification of the CLT and application of the Binomial-Normal approximation with Yates correction:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=73, lastline=100]{../../code/04_variables_aleatorias_continuas/04.06_normal_distribution.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: Normal PDF & Standardization ===
+Normal(100,15) PDF integral: 1.00000000
+Z-score: F(x) actual = Phi(Z) (diff = 0)
+Empirical rule: 68.27% | 95.45% | 99.73%
+
+=== Block 2: Z-Score & Interval Probabilities ===
+Heights N(170,100): P(X>185)=0.0668, P(160<=X<=180)=0.6827
+Quantiles: q_0.025=-1.96, q_0.05=-1.64, q_0.5=0, q_0.95=1.64, q_0.975=1.96
+Z-test: Z=1.5, p-value=0.1336, fail to reject H0
+
+=== Block 3: CLT & Normal Approximation ===
+Sum of 30 U(0,1) ~ N(15.0, 2.5): KS D=0.0014, p=0.71
+Binomial(400, 0.25) approx:
+  Exact: P(X>=120)=0.0133
+  Normal w/ Yates: 0.0122 (error 0.0011)
+  Required n for SE<0.01: 1875
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 10: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.6.1 --- Normal Distribution $N(100, 15^{2})$ (Statement)}
+		Let $X \sim N(100, 15^{2})$. Write the PDF $f(x) = \frac{1}{15\sqrt{2\pi}} e^{-(x-100)^{2}/450}$, and calculate $P(85 \le X \le 115)$, $P(X > 130)$, and $P(X < 70)$ using the standardization $Z = (X - 100)/15$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item Mean $\mu = 100$ and standard deviation $\sigma = 15$.
+			\item Standardization: $Z = (X - 100)/15 \sim N(0, 1)$.
+			\item Probability: $P(a \le X \le b) = P((a-100)/15 \le Z \le (b-100)/15)$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Standardize and use the standard Normal CDF: \pause
+	\begin{block}{Probability Calculation}
+		\begin{itemize}\itemsep=0.05cm
+			\item $P(85 \le X \le 115) = P(-1 \le Z \le 1) = 2\Phi(1) - 1 \approx 0.6827$ (68.27\% of mass).
+			\item $P(X > 130) = P(Z > 2) = 1 - \Phi(2) \approx 0.0228$ (2.28\% right tail).
+			\item $P(X < 70) = P(Z < -2) = \Phi(-2) \approx 0.0228$ (2.28\% left tail).
+		\end{itemize}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		68.27\% of observations fall in $[85, 115]$ (one standard deviation around the mean). Only 4.56\% of the total mass lies outside $\pm 2\sigma$ (i.e., outside $[70, 130]$), confirming the 68-95-99.7 rule.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.6.4 --- Heights with Normal Distribution (Statement)}
+		Adult heights follow $N(170, 100)$ ($\mu = 170$ cm, $\sigma = 10$ cm). Calculate: (a) $P(X > 185)$, (b) $P(160 \le X \le 180)$, and (c) the expected number of people with height $< 155$ cm in a sample of 1000.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Application}
+		\scriptsize
+		This question is typical in anthropometric studies and design of spaces (doors, vehicles, seats). The standardization $Z = (X - 170)/10$ converts to $N(0, 1)$, allowing universal probability calculation.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Apply the standardization $Z = (X - 170)/10$: \pause
+	\begin{block}{Calculations}
+		\begin{itemize}\itemsep=0.05cm
+			\item $P(X > 185) = P(Z > 1.5) = 1 - \Phi(1.5) \approx 0.0668$. 6.68\% are taller than 185 cm.
+			\item $P(160 \le X \le 180) = P(-1 \le Z \le 1) = 2\Phi(1) - 1 \approx 0.6827$. 68.27\% are between 160 and 180 cm.
+			\item $P(X < 155) = P(Z < -1.5) \approx 0.0668$. Expected: $0.0668 \cdot 1000 \approx 67$ people.
+		\end{itemize}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Design Decision}
+		\scriptsize
+		If a door with height $h = 180$ cm is designed, only 84.13\% of the population can pass through without bending. For $h = 190$ cm, this rises to 97.7\%. Ergonomic design should consider high percentiles (e.g., 95th percentile = 186.4 cm) to accommodate the majority.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.6.7 --- Normal MGF Derivation (Statement)}
+		Prove that if $X \sim N(\mu, \sigma^{2})$, its moment generating function is $M_{X}(t) = e^{\mu t + \sigma^{2}t^{2}/2}$. Verify that $M'(0) = \mu$ and $M''(0) = \mu^{2} + \sigma^{2}$.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Deduction Strategy}
+		\scriptsize
+		Complete the square in the exponent of the integral: $tx - (x-\mu)^{2}/(2\sigma^{2}) = -(x - (\mu + \sigma^{2}t))^{2}/(2\sigma^{2}) + \mu t + \sigma^{2}t^{2}/2$. Factor the exponential and use the Gaussian integral.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Complete the square and differentiate: \pause
+	\begin{block}{Formal Proof}
+		\scriptsize
+		\begin{align*}
+			M_{X}(t) &= \int e^{tx} \cdot \dfrac{1}{\sigma\sqrt{2\pi}} e^{-(x-\mu)^{2}/(2\sigma^{2})}\,dx \\
+			&= e^{\mu t + \sigma^{2}t^{2}/2} \int \dfrac{1}{\sigma\sqrt{2\pi}} e^{-(x - (\mu + \sigma^{2}t))^{2}/(2\sigma^{2})}\,dx = e^{\mu t + \sigma^{2}t^{2}/2},
+		\end{align*}
+		where the integral is exactly 1 (Normal PDF with mean $\mu + \sigma^{2}t$ and variance $\sigma^{2}$). Differentiating: $M'(0) = \mu$, $M''(0) = \mu^{2} + \sigma^{2}$. \quad \qedhere
+	\end{block}
+\end{frame}
+
+% SLIDE 16: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 4.6.10 --- Binomial-Normal Approximation (Statement)}
+		For $X \sim \text{Bin}(400, 0.25)$ use the Normal approximation with Yates correction to calculate $P(X \ge 120)$, compare with the exact value, and determine $n$ required for $\text{SE}(\hat{p}) < 0.01$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Application}
+		\scriptsize
+		In a standardized exam with $n = 400$ multiple-choice questions with 4 options, the number of correct answers $X$ follows $\text{Bin}(400, 0.25)$. The Normal approximation avoids computing tail probabilities with 400 terms.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Apply the Normal approximation with Yates correction: \pause
+	\begin{block}{Numerical Calculation}
+		\scriptsize
+		With $\mu = np = 100$ and $\sigma = \sqrt{np(1-p)} = \sqrt{75} \approx 8.66$:
+		\begin{align*}
+			P(X \ge 120) \approx P(Y \ge 119.5) = 1 - \Phi\left(\dfrac{119.5 - 100}{8.66}\right) = 1 - \Phi(2.25) \approx 0.0122.
+		\end{align*}
+		The exact value is $P(X \ge 120) = 1 - \text{binom.cdf}(119, 400, 0.25) \approx 0.0133$, giving an absolute error of $0.0011$.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Required Sample Size}
+		\scriptsize
+		For $\text{SE}(\hat{p}) = \sqrt{p(1-p)/n} < 0.01$: $n > 0.25 \cdot 0.75/0.0001 = 1875$. At least 1875 observations are needed for a standard error smaller than 1\%.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Closing and Next Steps
+\begin{frame}{Closing Section and Modular Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: The Gaussian Bell as Universal Distribution}
+		\scriptsize
+		The Normal distribution $N(\mu, \sigma^{2})$ is arguably the most important in all of statistics. Its bell shape, parameterized by only two moments, captures the essence of many natural phenomena. The Central Limit Theorem establishes its universality: the sum of i.i.d. random variables converges to the Normal regardless of the original distribution.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{PDF:} $f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-(x-\mu)^{2}/(2\sigma^{2})}$ models errors and fluctuations.
+			\item \textbf{Standardization:} $Z = (X-\mu)/\sigma$ reduces to $N(0,1)$; probabilities are read from universal tables.
+			\item \textbf{CLT:} $Z_{n} = (\bar{X}-\mu)/(\sigma/\sqrt{n}) \xrightarrow{d} N(0,1)$ explains the omnipresence of the Normal.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Gamma, Beta, and Weibull Distributions}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}

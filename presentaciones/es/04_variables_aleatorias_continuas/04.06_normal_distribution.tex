@@ -1,0 +1,416 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Distribución Normal]{Sección 04.06: Distribución Normal}
+\subtitle{Campana de Gauss, Estandarización al Puntaje $Z$ y Teorema del Límite Central}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 04: Variables Aleatorias Continuas}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{04.01} Función de Densidad (PDF) y Soporte Continuo \pause
+    \item \textbf{04.02} Función de Distribución Acumulada (CDF) Continua y Cuantiles \pause
+    \item \textbf{04.03} Esperanza, Varianza y LOTUS Continuo \pause
+    \item \textbf{04.04} Distribución Uniforme Continua $U(a, b)$ \pause
+    \item \textbf{04.05} Distribución Exponencial y Procesos sin Memoria \pause
+    \item \textbf{04.06} Distribución Normal / Gaussiana y Puntaje $Z$ \emph{(Hoy)} \pause
+    \item \textbf{04.07} Distribuciones Gamma, Beta y Weibull
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Introducir la distribución Normal como la más importante de la estadística continua, dominar la estandarización al puntaje $Z$ y la regla 68-95-99.7, aplicar la MGF para demostrar propiedades de suma, y establecer el Teorema del Límite Central como justificación teórica de la universalidad de la Normal.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame{La Campana de Gauss: Universalidad de la Normal}
+  \footnotesize
+  \begin{motivacion}[¿Por qué la distribución Normal?]
+    La distribución Normal $N(\mu, \sigma^{2})$ es sin duda la más importante de toda la estadística. Su forma de campana modela errores de medición, ruido en señales, alturas de personas, calificaciones de exámenes, y muchos otros fenómenos naturales. Por el Teorema del Límite Central, la suma (o promedio) de variables i.i.d. converge a la Normal independientemente de la distribución original.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Forma de campana:} Simétrica alrededor de $\mu$ con dispersión controlada por $\sigma$. \pause
+    \item \textbf{Estandarización:} Cualquier Normal se reduce a $N(0, 1)$ vía $Z = (X - \mu)/\sigma$. \pause
+    \item \textbf{Universalidad:} Aparece en el TLC como límite de sumas; base de la inferencia estadística.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición Formal
+\begin{frame}{Definición Formal de la Distribución Normal}
+  \footnotesize
+  Una variable aleatoria continua $X$ tiene distribución \emph{Normal} con parámetros $\mu \in \mathbb{R}$ y $\sigma > 0$ si su PDF es: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Función de Densidad de Probabilidad (Forma de Campana)}
+    $$f(x) = \dfrac{1}{\sigma\sqrt{2\pi}} \exp\left(-\dfrac{(x - \mu)^{2}}{2\sigma^{2}}\right), \quad x \in \mathbb{R}$$
+    Por normalización: $\int_{-\infty}^{\infty} f(x)\,dx = 1$ (integral gaussiana). En este caso escribimos $X \sim N(\mu, \sigma^{2})$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Características Fundamentales}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Simetría:} $f(\mu - x) = f(\mu + x)$; la campana es perfectamente simétrica alrededor de $\mu$.
+      \item \textbf{Moda, mediana, media:} Todas coinciden en $\mu$ (distribución unimodal).
+      \item \textbf{Soporte:} Todo $\mathbb{R}$ (no acotada, dos colas infinitas).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Estandarización
+\begin{frame}{Estandarización: $Z = (X - \mu)/\sigma \sim N(0, 1)$}
+  \footnotesize
+  La \emph{estandarización} transforma cualquier Normal en la Normal estándar: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Puntaje Z (Z-Score)}
+    $$Z = \dfrac{X - \mu}{\sigma} \sim N(0, 1)$$
+    La inversa es $X = \mu + \sigma Z$. La estandarización preserva las probabilidades: $P(a \le X \le b) = P\left(\frac{a-\mu}{\sigma} \le Z \le \frac{b-\mu}{\sigma}\right)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{CDF Normal Estándar y Simetría}
+    \begin{itemize}\itemsep=0.05cm
+      \item $\Phi(z) = P(Z \le z) = \int_{-\infty}^{z} \dfrac{1}{\sqrt{2\pi}} e^{-u^{2}/2}\,du$ (CDF estándar).
+      \item $\Phi(-z) = 1 - \Phi(z)$ (simetría de la campana).
+      \item $\Phi(0) = 0.5$, $\Phi(1) \approx 0.8413$, $\Phi(2) \approx 0.9772$, $\Phi(3) \approx 0.9987$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Regla 68-95-99.7
+\begin{frame}{Regla Empírica 68-95-99.7}
+  \footnotesize
+  La \emph{regla empírica} de la Normal proporciona una guía rápida para interpretar probabilidades: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Probabilidades dentro de $k$ Desviaciones Estándar}
+    \begin{itemize}\itemsep=0.06cm
+      \item $P(\mu - \sigma \le X \le \mu + \sigma) = 2\Phi(1) - 1 \approx 0.6827$ (68\%).
+      \item $P(\mu - 2\sigma \le X \le \mu + 2\sigma) = 2\Phi(2) - 1 \approx 0.9545$ (95\%).
+      \item $P(\mu - 3\sigma \le X \le \mu + 3\sigma) = 2\Phi(3) - 1 \approx 0.9973$ (99.7\%).
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Aplicación: Pruebas de Hipótesis}
+    \begin{itemize}\itemsep=0.05cm
+      \item Bajo $H_{0}$, un estadístico $Z \sim N(0, 1)$ cae fuera de $\pm 1.96$ solo el 5\% de las veces.
+      \item Si $|Z_{\text{obs}}| > 1.96$, rechazamos $H_{0}$ a nivel $\alpha = 0.05$ (prueba bilateral).
+      \item Para pruebas unilaterales: $z_{0.025} = 1.96$ y $z_{0.05} = 1.645$ son los valores críticos estándar.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: MGF y Suma de Normales
+\begin{frame}{MGF y Suma de Variables Normales Independientes}
+  \footnotesize
+  La MGF de la Normal tiene forma cerrada simple, y la suma de normales independientes es Normal: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{MGF Normal}
+    $$M_{X}(t) = \E[e^{tX}] = \exp\left(\mu t + \dfrac{\sigma^{2} t^{2}}{2}\right)$$
+    Derivando: $M'(0) = \mu$ y $M''(0) = \mu^{2} + \sigma^{2}$, confirmando $\E[X] = \mu$ y $\Var(X) = \sigma^{2}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estabilidad bajo Suma}
+    \begin{itemize}\itemsep=0.05cm
+      \item Si $X \sim N(\mu_{1}, \sigma_{1}^{2})$ y $Y \sim N(\mu_{2}, \sigma_{2}^{2})$ independientes, entonces $X + Y \sim N(\mu_{1} + \mu_{2}, \sigma_{1}^{2} + \sigma_{2}^{2})$.
+      \item La familia Normal es \emph{cerrada} bajo suma (e independientes): la suma de normales es Normal.
+      \item Para $X_{1}, \dots, X_{n}$ i.i.d. $N(\mu, \sigma^{2})$: $\bar{X} \sim N(\mu, \sigma^{2}/n)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Teorema del Límite Central
+\begin{frame}{Teorema del Límite Central: Universalidad de la Normal}
+  \footnotesize
+  El \emph{Teorema del Límite Central} (TLC) establece que la suma de variables i.i.d. converge a la Normal: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Enunciado del TLC}
+    Si $X_{1}, \dots, X_{n}$ son i.i.d. con media $\mu$ y varianza $\sigma^{2} < \infty$, entonces:
+    $$Z_{n} = \dfrac{\bar{X} - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0, 1) \quad \text{cuando } n \to \infty$$
+    La distribución límite es Normal \emph{universal}, independientemente de la distribución original de $X_{i}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Implicaciones Prácticas}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Aproximación de la Binomial:} Para $n$ grande, $\text{Bin}(n, p) \approx N(np, np(1-p))$.
+      \item \textbf{Convergencia rápida:} Para distribuciones simétricas, $n = 20$ es suficiente; para asimétricas, $n \ge 50$.
+      \item \textbf{Base de pruebas estadísticas:} $Z = (\bar{X} - \mu)/(\sigma/\sqrt{n}) \sim N(0, 1)$ bajo $H_{0}$ para $n$ grande.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Aplicaciones
+\begin{frame}{Aplicaciones en Inferencia, Ciencias y Ciencia de Datos}
+  \footnotesize
+  La distribución Normal es la más usada en análisis cuantitativo: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Inferencia Estadística:} Pruebas $Z$, intervalos de confianza, regresión lineal, y análisis de varianza asumen Normalidad. \pause
+    \item \textbf{Calidad y Six Sigma:} Cartas de control $\bar{x}$ y $R$ basadas en $\pm 3\sigma$ de la Normal. \pause
+    \item \textbf{Finanzas:} Modelo de Black-Scholes para precios de opciones; movimientos Brownianos geométricos. \pause
+    \item \textbf{Machine Learning:} Regresión lineal Gaussiana, modelos lineales generalizados, y aproximación de funciones de verosimilitud.
+  \end{itemize}
+\end{frame}
+
+% Slide 12A-1: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: PDF y Estandarización}
+  \scriptsize
+  Validación de $\int f = 1$, estandarización al puntaje $Z$, y verificación de la regla 68-95-99.7 (\texttt{04.06\_normal\_distribution.py}):
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=15, lastline=33]{../../code/04_variables_aleatorias_continuas/04.06_normal_distribution.py}}
+\end{frame}
+
+% Slide 12A-2: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Prueba $Z$ y Cuantiles}
+  \scriptsize
+  Cálculo de probabilidades de intervalo, cuantiles y prueba de hipótesis $Z$ de una muestra:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=40, lastline=63]{../../code/04_variables_aleatorias_continuas/04.06_normal_distribution.py}}
+\end{frame}
+
+% Slide 12B: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: TLC y Aproximación Binomial-Normal}
+  \scriptsize
+  Verificación Monte Carlo del TLC y aplicación de la aproximación Binomial-Normal con corrección de Yates:
+  \vspace{0.0cm}
+  {\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=73, lastline=100]{../../code/04_variables_aleatorias_continuas/04.06_normal_distribution.py}}
+\end{frame}
+
+% Slide 12C: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Normal PDF & Standardization ===
+Normal(100,15) PDF integral: 1.00000000
+Z-score: F(x) actual = Phi(Z) (diff = 0)
+Empirical rule: 68.27% | 95.45% | 99.73%
+
+=== Block 2: Z-Score & Interval Probabilities ===
+Heights N(170,100): P(X>185)=0.0668, P(160<=X<=180)=0.6827
+Quantiles: q_0.025=-1.96, q_0.05=-1.64, q_0.5=0, q_0.95=1.64, q_0.975=1.96
+Z-test: Z=1.5, p-value=0.1336, fail to reject H0
+
+=== Block 3: CLT & Normal Approximation ===
+Sum of 30 U(0,1) ~ N(15.0, 2.5): KS D=0.0014, p=0.71
+Binomial(400, 0.25) approx:
+  Exact: P(X>=120)=0.0133
+  Normal w/ Yates: 0.0122 (error 0.0011)
+  Required n for SE<0.01: 1875
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.6.1 --- Distribución Normal $N(100, 15^{2})$ (Enunciado)}
+    Sea $X \sim N(100, 15^{2})$. Escriba la PDF $f(x) = \frac{1}{15\sqrt{2\pi}} e^{-(x-100)^{2}/450}$, y calcule $P(85 \le X \le 115)$, $P(X > 130)$ y $P(X < 70)$ usando la estandarización $Z = (X - 100)/15$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento del Modelo}
+    \begin{itemize}\itemsep=0.04cm
+      \item Media $\mu = 100$ y desviación estándar $\sigma = 15$.
+      \item Estandarización: $Z = (X - 100)/15 \sim N(0, 1)$.
+      \item Probabilidad: $P(a \le X \le b) = P((a-100)/15 \le Z \le (b-100)/15)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Estandarizamos y usamos la CDF Normal estándar: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo de Probabilidades}
+    \begin{itemize}\itemsep=0.05cm
+      \item $P(85 \le X \le 115) = P(-1 \le Z \le 1) = 2\Phi(1) - 1 \approx 0.6827$ (68.27\% de la masa).
+      \item $P(X > 130) = P(Z > 2) = 1 - \Phi(2) \approx 0.0228$ (2.28\% de cola derecha).
+      \item $P(X < 70) = P(Z < -2) = \Phi(-2) \approx 0.0228$ (2.28\% de cola izquierda).
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    El 68.27\% de las observaciones caen en $[85, 115]$ (una desviación estándar alrededor de la media). Solo el 4.56\% de la masa total está fuera de $\pm 2\sigma$ (i.e., fuera de $[70, 130]$), confirmando la regla 68-95-99.7.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.6.4 --- Alturas con Distribución Normal (Enunciado)}
+    La altura de una población adulta sigue $N(170, 100)$ ($\mu = 170$ cm, $\sigma = 10$ cm). Calcule: (a) $P(X > 185)$, (b) $P(160 \le X \le 180)$, y (c) el número esperado de personas con altura $< 155$ cm en una muestra de 1000.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Aplicación}
+    \scriptsize
+    Esta pregunta es típica en estudios antropométricos y diseño de espacios (puertas, vehículos, asientos). La estandarización $Z = (X - 170)/10$ convierte a $N(0, 1)$, permitiendo el cálculo universal de probabilidades.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Aplicamos la estandarización $Z = (X - 170)/10$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculos}
+    \begin{itemize}\itemsep=0.05cm
+      \item $P(X > 185) = P(Z > 1.5) = 1 - \Phi(1.5) \approx 0.0668$. El 6.68\% mide más de 185 cm.
+      \item $P(160 \le X \le 180) = P(-1 \le Z \le 1) = 2\Phi(1) - 1 \approx 0.6827$. El 68.27\% mide entre 160 y 180 cm.
+      \item $P(X < 155) = P(Z < -1.5) \approx 0.0668$. Esperados: $0.0668 \cdot 1000 \approx 67$ personas.
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Decisión de Diseño}
+    \scriptsize
+    Si se diseña una puerta con altura $h = 180$ cm, solo el 84.13\% de la población cabe sin agacharse. Para $h = 190$ cm, el porcentaje sube al 97.7\%. El diseño ergonómico debe considerar percentiles altos (e.g., percentil 95 = 186.4 cm) para acomodar a la mayoría.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.6.7 --- Deducción de la MGF Normal (Enunciado)}
+    Demuestre que si $X \sim N(\mu, \sigma^{2})$, su función generadora de momentos es $M_{X}(t) = e^{\mu t + \sigma^{2}t^{2}/2}$. Verifique que $M'(0) = \mu$ y $M''(0) = \mu^{2} + \sigma^{2}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia de Deducción}
+    \scriptsize
+    Complete el cuadrado en el exponente de la integral: $tx - (x-\mu)^{2}/(2\sigma^{2}) = -(x - (\mu + \sigma^{2}t))^{2}/(2\sigma^{2}) + \mu t + \sigma^{2}t^{2}/2$. Factorice la exponencial y use la integral gaussiana.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Completamos el cuadrado y derivamos: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Demostración Formal}
+    \scriptsize
+    \begin{align*}
+      M_{X}(t) &= \int e^{tx} \cdot \dfrac{1}{\sigma\sqrt{2\pi}} e^{-(x-\mu)^{2}/(2\sigma^{2})}\,dx \\
+      &= e^{\mu t + \sigma^{2}t^{2}/2} \int \dfrac{1}{\sigma\sqrt{2\pi}} e^{-(x - (\mu + \sigma^{2}t))^{2}/(2\sigma^{2})}\,dx = e^{\mu t + \sigma^{2}t^{2}/2},
+    \end{align*}
+    donde la integral es exactamente 1 (PDF Normal con media $\mu + \sigma^{2}t$ y varianza $\sigma^{2}$). Derivando: $M'(0) = \mu$, $M''(0) = \mu^{2} + \sigma^{2}$. \quad \qedhere
+  \end{block}
+\end{frame}
+
+% Slide 16A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.6.10 --- Aproximación Binomial-Normal (Enunciado)}
+    Para $X \sim \text{Bin}(400, 0.25)$ use la aproximación Normal con corrección de Yates para calcular $P(X \ge 120)$, compare con el valor exacto, y determine $n$ necesario para que $\text{SE}(\hat{p}) < 0.01$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Aplicación}
+    \scriptsize
+    En un examen estandarizado con $n = 400$ preguntas de opción múltiple con 4 opciones, el número de aciertos $X$ sigue $\text{Bin}(400, 0.25)$. La aproximación Normal evita calcular probabilidades de cola con 400 términos.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Aplicamos la aproximación Normal con corrección de Yates: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo Numérico}
+    \scriptsize
+    Con $\mu = np = 100$ y $\sigma = \sqrt{np(1-p)} = \sqrt{75} \approx 8.66$:
+    \begin{align*}
+      P(X \ge 120) \approx P(Y \ge 119.5) = 1 - \Phi\left(\dfrac{119.5 - 100}{8.66}\right) = 1 - \Phi(2.25) \approx 0.0122.
+    \end{align*}
+    El valor exacto es $P(X \ge 120) = 1 - \text{binom.cdf}(119, 400, 0.25) \approx 0.0133$, dando un error absoluto de $0.0011$.
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Tamaño de Muestra Requerido}
+    \scriptsize
+    Para $\text{SE}(\hat{p}) = \sqrt{p(1-p)/n} < 0.01$: $n > 0.25 \cdot 0.75/0.0001 = 1875$. Se necesitan al menos 1875 observaciones para tener un error estándar menor al 1\%.
+  \end{alertblock}
+\end{frame}
+
+% Slide 17: Cierre
+\begin{frame}{Cierre de Sección y Síntesis sobre la Distribución Normal}
+  \begin{reflexion}[La Campana de Gauss como Distribución Universal}
+    La distribución Normal $N(\mu, \sigma^{2})$ es sin duda la más importante de toda la estadística. Su forma de campana simétrica, parametrizada por solo dos momentos, captura la esencia de muchos fenómenos naturales. El Teorema del Límite Central establece su universalidad: la suma de variables i.i.d. converge a la Normal independientemente de la distribución original.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave de la Distribución Normal}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{PDF:} $f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-(x-\mu)^{2}/(2\sigma^{2})}$ modela errores y fluctuaciones.
+      \item \textbf{Estandarización:} $Z = (X-\mu)/\sigma$ reduce a $N(0,1)$; las probabilidades se leen de tablas universales.
+      \item \textbf{TLC:} $Z_{n} = (\bar{X}-\mu)/(\sigma/\sqrt{n}) \xrightarrow{d} N(0,1)$ explica la omnipresencia de la Normal.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 18: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}[Para la próxima sesión: Distribuciones Gamma, Beta y Weibull]
+    La Normal modela procesos con muchos sumandos pequeños. Ahora estudiaremos distribuciones que modelan \emph{tiempos de espera} con formas flexibles: la \emph{Gamma} generaliza la Exponencial y la Erlang con parámetro de forma $\alpha$ no necesariamente entero; la \emph{Beta} es la distribución canónica para variables en $[0, 1]$ (proporciones, probabilidades); y la \emph{Weibull} es fundamental en análisis de confiabilidad con tasa de fallo variable en el tiempo.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la función Gamma $\Gamma(\alpha) = \int_{0}^{\infty} t^{\alpha-1} e^{-t}\,dt$ y sus propiedades.
+      \item Reflexiona sobre cómo la flexibilidad de forma de la Gamma permite modelar distribuciones con diferentes grados de asimetría.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

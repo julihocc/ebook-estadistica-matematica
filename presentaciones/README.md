@@ -197,10 +197,11 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | **04.03** | [04.03 Esperanza y Varianza Continua](es/04_variables_aleatorias_continuas/04.03_expectation_and_variance.tex) ([PDF](es/04_variables_aleatorias_continuas/04.03_expectation_and_variance.pdf)) | [04.03 Continuous Expectation and Variance](en/04_continuous_random_variables/04.03_expectation_and_variance.tex) ([PDF](en/04_continuous_random_variables/04.03_expectation_and_variance.pdf)) | `04.03_expectation_and_variance.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
 | **04.04** | [04.04 Uniforme Continua](es/04_variables_aleatorias_continuas/04.04_uniform_distribution.tex) ([PDF](es/04_variables_aleatorias_continuas/04.04_uniform_distribution.pdf)) | [04.04 Continuous Uniform Distribution](en/04_continuous_random_variables/04.04_uniform_distribution.tex) ([PDF](en/04_continuous_random_variables/04.04_uniform_distribution.pdf)) | `04.04_uniform_distribution.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
 | **04.05** | [04.05 Exponencial](es/04_variables_aleatorias_continuas/04.05_exponential_distribution.tex) ([PDF](es/04_variables_aleatorias_continuas/04.05_exponential_distribution.pdf)) | [04.05 Exponential Distribution](en/04_continuous_random_variables/04.05_exponential_distribution.tex) ([PDF](en/04_continuous_random_variables/04.05_exponential_distribution.pdf)) | `04.05_exponential_distribution.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
+| **04.06** | [04.06 Normal](es/04_variables_aleatorias_continuas/04.06_normal_distribution.tex) ([PDF](es/04_variables_aleatorias_continuas/04.06_normal_distribution.pdf)) | [04.06 Normal Distribution](en/04_continuous_random_variables/04.06_normal_distribution.tex) ([PDF](en/04_continuous_random_variables/04.06_normal_distribution.pdf)) | `04.06_normal_distribution.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 04.06: Distribución Normal / Gaussiana y Puntaje $Z$**), consulta el documento oficial de planificación:
+Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 04.07: Distribuciones Gamma, Beta y Weibull**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.
