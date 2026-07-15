@@ -305,6 +305,156 @@ Num\'ericamente: $3 \cdot 1.5 = 4.5$, por lo que
 
 
 
+\subsection{Distribuci\'on beta}
+
+La distribuci\'on beta modela variables aleatorias continuas restringidas al intervalo
+$[0,1]$, lo que la hace ideal para representar proporciones, probabilidades desconocidas
+o fracciones. Junto con la funci\'on gamma, la funci\'on beta es una herramienta cl\'asica
+del c\'alculo que conecta ambas familias de distribuciones.
+
+\begin{definicion}[Funci\'on beta]
+La \emph{funci\'on beta} $B: (0,\infty)\times(0,\infty) \to \mathbb{R}$ se define como
+\begin{align}
+ \label{eq:2.8.16}
+ B(\alpha,\beta) = \int_0^1 t^{\alpha-1}(1-t)^{\beta-1}\,dt
+ = \frac{\Gamma(\alpha)\,\Gamma(\beta)}{\Gamma(\alpha+\beta)}.
+\end{align}
+\end{definicion}
+
+\begin{definicion}[Distribuci\'on beta]
+Una variable aleatoria continua $X$ tiene \emph{distribuci\'on beta} con par\'ametros de
+forma $\alpha > 0$ y $\beta > 0$ si su funci\'on de densidad es
+\begin{align}
+ \label{eq:2.8.17}
+ f(x) =
+ \begin{cases}
+  \dfrac{1}{B(\alpha,\beta)}\,x^{\alpha-1}(1-x)^{\beta-1}, & 0 < x < 1, \\
+  0, & \text{en otro caso.}
+ \end{cases}
+\end{align}
+Escribimos $X \sim \text{Beta}(\alpha,\beta)$.
+\end{definicion}
+
+{Propiedades de la distribuci\'on beta} Si $X \sim \text{Beta}(\alpha,\beta)$, entonces
+\begin{align}
+ \mu_X &= \frac{\alpha}{\alpha+\beta}, \\
+ \s_X^2 &= \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}.
+\end{align}
+
+\begin{observacion}
+Cuando $\alpha=\beta=1$, la distribuci\'on beta se reduce a la distribuci\'on $U(0,1)$.
+Adem\'as, por estar acotada en $[0,1]$, la distribuci\'on beta es el \emph{prior
+conjugado} cl\'asico para el par\'ametro $p$ de una distribuci\'on Bernoulli o Binomial
+en inferencia bayesiana: si la creencia inicial sobre $p$ es $\text{Beta}(\alpha,\beta)$
+y se observan $k$ \'exitos en $n$ ensayos, la creencia actualizada (posterior) es
+$\text{Beta}(\alpha+k,\, \beta+n-k)$.
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:2.8.7}
+Un control de calidad reporta que la proporci\'on $X$ de art\'iculos defectuosos en un
+lote sigue una distribuci\'on $\text{Beta}(2,8)$. ¿Cu\'al es la proporci\'on esperada de
+art\'iculos defectuosos? ¿Cu\'al es la varianza?
+\end{ejemplo}
+
+\begin{solucion}
+Como $X \sim \text{Beta}(2,8)$,
+\begin{align}
+ E(X) = \frac{\alpha}{\alpha+\beta} = \frac{2}{10} = 0.2,
+\end{align}
+es decir, se espera que el $20\%$ de los art\'iculos sean defectuosos.
+
+La varianza es
+\begin{align}
+ \text{Var}(X) = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}
+ = \frac{2\cdot 8}{10^2 \cdot 11} = \frac{16}{1100} \approx 0.0145.
+\end{align}
+\end{solucion}
+
+
+
+\subsection{Distribuci\'on Weibull}
+
+La distribuci\'on Weibull generaliza a la distribuci\'on exponencial al permitir que la
+\emph{tasa de falla} (o \emph{funci\'on de riesgo}) var\'ie con el tiempo, por lo que es
+ampliamente utilizada en an\'alisis de confiabilidad y estudios de tiempo de vida de
+componentes.
+
+\begin{definicion}[Distribuci\'on Weibull]
+Una variable aleatoria continua $T \geq 0$ tiene \emph{distribuci\'on Weibull} con
+par\'ametro de forma $\beta > 0$ y par\'ametro de escala $\eta > 0$ si su funci\'on de
+densidad es
+\begin{align}
+ \label{eq:2.8.18}
+ f(t) =
+ \begin{cases}
+  \dfrac{\beta}{\eta}\left(\dfrac{t}{\eta}\right)^{\beta-1}
+  \exp\!\left[-\left(\dfrac{t}{\eta}\right)^{\beta}\right], & t \geq 0, \\
+  0, & \text{en otro caso.}
+ \end{cases}
+\end{align}
+Escribimos $T \sim \text{Weibull}(\beta,\eta)$.
+\end{definicion}
+
+Su funci\'on de distribuci\'on acumulada tiene forma cerrada:
+\begin{align}
+ \label{eq:2.8.19}
+ F(t) = 1 - \exp\!\left[-\left(\dfrac{t}{\eta}\right)^{\beta}\right], \qquad t \geq 0.
+\end{align}
+
+{Funci\'on de riesgo (tasa de falla)} Para una variable de tiempo de vida $T$ con
+densidad $f$ y confiabilidad $R(t) = 1 - F(t)$, la \emph{funci\'on de riesgo} se define
+como $h(t) = f(t)/R(t)$. Para $T \sim \text{Weibull}(\beta,\eta)$,
+\begin{align}
+ \label{eq:2.8.20}
+ h(t) = \frac{\beta}{\eta}\left(\frac{t}{\eta}\right)^{\beta-1}.
+\end{align}
+
+\begin{observacion}
+El par\'ametro de forma $\beta$ determina el comportamiento de la tasa de falla:
+\begin{itemize}
+ \item Si $\beta = 1$, $h(t)$ es constante y $T \sim \text{Exp}(1/\eta)$ (falla
+ aleatoria, sin envejecimiento).
+ \item Si $\beta < 1$, $h(t)$ es decreciente (mortalidad infantil: fallas tempranas por
+ defectos de fabricaci\'on).
+ \item Si $\beta > 1$, $h(t)$ es creciente (desgaste: la probabilidad de falla aumenta
+ con la edad del componente).
+\end{itemize}
+\end{observacion}
+
+{Propiedades de la distribuci\'on Weibull} Si $T \sim \text{Weibull}(\beta,\eta)$,
+entonces
+\begin{align}
+ \mu_T &= \eta\,\Gamma\!\left(1 + \frac{1}{\beta}\right), \\
+ \s_T^2 &= \eta^2\left[\Gamma\!\left(1 + \frac{2}{\beta}\right)
+ - \Gamma\!\left(1 + \frac{1}{\beta}\right)^2\right].
+\end{align}
+
+\begin{ejemplo}
+ \label{exmp:2.8.8}
+El tiempo de vida $T$ (en miles de horas) de un componente electr\'onico sigue una
+distribuci\'on $\text{Weibull}(\beta=2, \eta=5)$. ¿Cu\'al es la probabilidad de que el
+componente falle antes de las $3000$ horas? ¿La tasa de falla es creciente o
+decreciente?
+\end{ejemplo}
+
+\begin{solucion}
+Como $T \sim \text{Weibull}(2,5)$ (con $T$ en miles de horas), buscamos $P(T < 3) =
+F(3)$:
+\begin{align}
+ F(3) = 1 - \exp\!\left[-\left(\frac{3}{5}\right)^2\right]
+ = 1 - e^{-0.36} \approx 1 - 0.6977 = 0.3023.
+\end{align}
+Por lo tanto, hay aproximadamente un $30.23\%$ de probabilidad de falla antes de las
+$3000$ horas.
+
+Como $\beta = 2 > 1$, la tasa de falla $h(t) = \frac{2}{5}\left(\frac{t}{5}\right)$ es
+\emph{creciente}: el componente presenta un patr\'on de desgaste, con mayor riesgo de
+falla conforme envejece.
+\end{solucion}
+
+
+
 \subsection{Funci\'on generadora de momentos}
 \label{sec:mgf}\label{sec:3.4}
 

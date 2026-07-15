@@ -780,3 +780,277 @@
 		\item Para $\text{SE}(\hat{p}) = \sqrt{p(1-p)/n} < 0.01$: $n > p(1-p)/0.0001 = 0.1875/0.0001 = 1875$. Se necesitan al menos $n = 1875$ observaciones.
 	\end{enumerate}
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 04.07: DISTRIBUCIONES GAMMA, BETA Y WEIBULL
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 04.07}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:4.7.1}
+	Sea $X \sim \text{Gamma}(\alpha=3, \beta=2)$.
+	\begin{enumerate}
+		\item Escriba la PDF $f(x)$ e identifique el parámetro de forma y el de escala.
+		\item Calcule la media $\mu_X = \alpha\beta$ y la varianza $\sigma_X^{2} = \alpha\beta^{2}$.
+		\item Verifique, usando la definición de la función gamma $\Gamma(\alpha) = \int_0^\infty t^{\alpha-1}e^{-t}\,dt$, que $\int_0^\infty f(x)\,dx = 1$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.7.2}
+	Identifique los siguientes casos particulares de la familia gamma.
+	\begin{enumerate}
+		\item Sea $X \sim \text{Gamma}(1, 4)$. Identifique la distribución equivalente de $X$ y calcule $P(X > 6)$.
+		\item Sea $Y \sim \text{Gamma}(5/2, 2)$. Identifique $Y$ como una distribución chi-cuadrada e indique sus grados de libertad.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.7.3}
+	La función generadora de momentos de $X \sim \text{Gamma}(\alpha, \beta)$ es $M_{X}(t) = (1-\beta t)^{-\alpha}$, para $t < 1/\beta$.
+	\begin{enumerate}
+		\item Calcule $M_{X}'(0)$ para obtener $\E[X] = \alpha\beta$.
+		\item Calcule $M_{X}''(0)$ para obtener $\E[X^{2}]$ y de ahí $\Var(X) = \alpha\beta^{2}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:4.7.4}
+	Sea $X \sim \text{Beta}(\alpha=3, \beta=5)$.
+	\begin{enumerate}
+		\item Escriba la PDF $f(x)$ usando la función beta $B(\alpha,\beta)$.
+		\item Calcule $B(3,5)$ usando su relación con la función gamma, $B(\alpha,\beta) = \Gamma(\alpha)\Gamma(\beta)/\Gamma(\alpha+\beta)$.
+		\item Calcule $\E(X)$ y $\Var(X)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.7.5}
+	En una encuesta de satisfacción, la proporción $X$ de clientes satisfechos con un nuevo producto se modela como $X \sim \text{Beta}(6,4)$ según datos históricos.
+	\begin{enumerate}
+		\item Calcule la proporción esperada de clientes satisfechos.
+		\item Calcule la varianza y la desviación estándar de $X$.
+		\item Compare la media con la moda $(\alpha-1)/(\alpha+\beta-2)$ y determine si es más probable que $X$ esté por encima o por debajo de $0.5$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.7.6}
+	Sea $X \sim \text{Beta}(\alpha,\beta)$ el prior sobre la probabilidad de éxito $p$ de un proceso Bernoulli, con prior inicial $\text{Beta}(2,2)$. Se observan $n=20$ ensayos con $k=14$ éxitos.
+	\begin{enumerate}
+		\item Determine la distribución posterior de $p$ (recuerde que el posterior conjugado es $\text{Beta}(\alpha+k, \beta+n-k)$).
+		\item Calcule la media posterior $\E(p \mid \text{datos})$.
+		\item Enuncie la propiedad de simetría $\text{Beta}(\alpha,\beta) = 1 - \text{Beta}(\beta,\alpha)$ y explique, usando el cambio de variable $u = 1-x$ en la integral de la PDF, por qué se cumple.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:4.7.7}
+	El tiempo de vida $T$ (en años) de un componente mecánico sigue $T \sim \text{Weibull}(\beta=1.5, \eta=4)$.
+	\begin{enumerate}
+		\item Escriba la PDF $f(t)$ y la función de confiabilidad $R(t) = 1 - F(t)$.
+		\item Calcule $P(T > 3)$.
+		\item Determine si la tasa de falla $h(t)$ es creciente o decreciente y explique su significado físico.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.7.8}
+	Dos lotes de componentes tienen tiempos de vida Weibull con la misma escala $\eta = 10$: Lote A $\sim \text{Weibull}(\beta=1, \eta=10)$ y Lote B $\sim \text{Weibull}(\beta=2, \eta=10)$.
+	\begin{enumerate}
+		\item Calcule la media de cada lote usando $\mu = \eta\,\Gamma(1+1/\beta)$ (recuerde $\Gamma(2)=1$ y $\Gamma(1.5) = \sqrt{\pi}/2 \approx 0.8862$).
+		\item Compare las funciones de riesgo $h_{A}(t)$ y $h_{B}(t)$ en $t=5$ y $t=15$. ¿Cuál lote es más confiable a corto plazo? ¿Y a largo plazo?
+		\item Explique la diferencia física entre ambos lotes en términos de envejecimiento del componente.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:4.7.9}
+	Sea $X \sim \text{Gamma}(\alpha,\beta)$ con $\alpha = \nu/2$ y $\beta = 2$ (por lo que $X \sim \chi^{2}_{\nu}$).
+	\begin{enumerate}
+		\item Use la MGF de la Gamma para mostrar que $M_{X}(t) = (1-2t)^{-\nu/2}$, que coincide con la MGF de la chi-cuadrada.
+		\item Sabiendo que $Z^{2} \sim \text{Gamma}(1/2, 2) = \chi^{2}_{1}$ para $Z \sim N(0,1)$, use la propiedad de suma de variables gamma independientes para justificar que la suma de $\nu$ variables $\text{Gamma}(1/2,2)$ independientes es $\text{Gamma}(\nu/2, 2)$.
+		\item Aplique lo anterior a $S = Z_{1}^{2}+Z_{2}^{2}+Z_{3}^{2}$ con $Z_{i} \sim N(0,1)$ i.i.d., y calcule $P(S > 7.815)$ usando que $7.815$ es el cuantil $0.95$ de $\chi^{2}_{3}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:4.7.10}
+	Un sistema de refacciones reemplaza un componente crítico tan pronto falla. Los tiempos de vida entre reemplazos son i.i.d. $\text{Exp}(\lambda=0.5)$ (fallas por año, equivalente a $\text{Gamma}(1,2)$).
+	\begin{enumerate}
+		\item ¿Cuál es la distribución del tiempo $T$ hasta el quinto reemplazo? Use la propiedad aditiva de la Gamma.
+		\item Calcule $\E(T)$ y $\Var(T)$.
+		\item Compare este modelo aditivo (proceso Gamma/Erlang) con un modelo $\text{Weibull}(\beta=1,\eta=2)$ para el tiempo de vida de un solo componente, explicando por qué ambos coinciden cuando $\beta_{\text{Weibull}}=1$.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 04.07}
+
+\begin{sugerencia}
+	\label{sug:4.7.1}
+	Para el Problema \ref{prob:4.7.1}, $f(x) = \frac{1}{\Gamma(3)\cdot 2^{3}}x^{2}e^{-x/2} = \frac{x^{2}e^{-x/2}}{16}$ para $x>0$, con $\Gamma(3)=2!=2$. $\mu_X = 3\cdot 2=6$, $\sigma_X^{2}=3\cdot 4=12$. Para la normalización, sustituya $u=x/2$: $\int_0^\infty f(x)\,dx = \frac{1}{\Gamma(3)}\int_0^\infty u^{2}e^{-u}\,du = \frac{\Gamma(3)}{\Gamma(3)}=1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.7.2}
+	Para el Problema \ref{prob:4.7.2}, $\text{Gamma}(1,\beta) = \text{Exp}(\lambda=1/\beta)$, así que $X \sim \text{Exp}(0.25)$ y $P(X>6)=e^{-0.25\cdot 6}=e^{-1.5}$. Para $Y$, use $\alpha=\nu/2 \implies \nu=2\alpha=5$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.7.3}
+	Para el Problema \ref{prob:4.7.3}, derive $M_{X}(t)=(1-\beta t)^{-\alpha}$ término a término: $M_X'(t)=\alpha\beta(1-\beta t)^{-\alpha-1}$ y $M_X''(t)=\alpha(\alpha+1)\beta^{2}(1-\beta t)^{-\alpha-2}$. Evalúe en $t=0$ y use $\Var(X)=M_X''(0)-(M_X'(0))^{2}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.7.4}
+	Para el Problema \ref{prob:4.7.4}, $f(x) = x^{2}(1-x)^{4}/B(3,5)$ en $(0,1)$. Como $\Gamma(3)=2$, $\Gamma(5)=24$ y $\Gamma(8)=5040$, $B(3,5) = 2\cdot 24/5040 = 1/105$. $\E(X)=3/8=0.375$, $\Var(X)=15/(64\cdot 9)=15/576\approx 0.0260$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.7.5}
+	Para el Problema \ref{prob:4.7.5}, $\E(X)=6/10=0.6$, $\Var(X)=24/(100\cdot 11)=24/1100\approx 0.0218$, $\text{sd}(X)\approx 0.148$. La moda es $5/8=0.625$, mayor que la media, lo que indica que la masa está más concentrada por encima de $0.5$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.7.6}
+	Para el Problema \ref{prob:4.7.6}, el posterior es $\text{Beta}(2+14,\,2+20-14)=\text{Beta}(16,8)$, con media $16/24=2/3$. Para la simetría, sustituya $u=1-x$, $du=-dx$: la integral de $\text{Beta}(\alpha,\beta)$ en $x$ se transforma en la integral de $\text{Beta}(\beta,\alpha)$ en $u$ con los límites invertidos.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.7.7}
+	Para el Problema \ref{prob:4.7.7}, $R(t)=\exp[-(t/4)^{1.5}]$. Para $t=3$: $(3/4)^{1.5}=0.75\sqrt{0.75}\approx 0.6495$, así $P(T>3)=e^{-0.6495}\approx 0.522$. Como $\beta=1.5>1$, la tasa de falla es creciente (desgaste).
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.7.8}
+	Para el Problema \ref{prob:4.7.8}, $\mu_A = 10\cdot\Gamma(2)=10$ y $\mu_B=10\cdot\Gamma(1.5)\approx 8.862$. $h_A(t)=1/10=0.1$ (constante). $h_B(t)=(2/10)(t/10)=t/50$: en $t=5$, $h_B=0.1$; en $t=15$, $h_B=0.3$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.7.9}
+	Para el Problema \ref{prob:4.7.9}, sustituya $\alpha=\nu/2,\beta=2$ en $M_X(t)=(1-\beta t)^{-\alpha}$. Para la parte (c), $S\sim\chi^{2}_{3}$ y $7.815$ es por definición el cuantil $0.95$, así que $P(S>7.815)=0.05$ directamente de la definición de cuantil.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:4.7.10}
+	Para el Problema \ref{prob:4.7.10}, $T_i \sim \text{Gamma}(1,2)$ i.i.d.; por la propiedad aditiva, $T=\sum_{i=1}^{5}T_i \sim \text{Gamma}(5,2)$. $\E(T)=5\cdot 2=10$, $\Var(T)=5\cdot 4=20$. $\text{Weibull}(1,\eta)$ coincide con $\text{Exp}(1/\eta)$, que es la distribución de cada $T_i$ individual, no de la suma $T$.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 04.07}
+
+\begin{solucion}
+	\label{sol:4.7.1}
+	Para el Problema \ref{prob:4.7.1} con $X \sim \text{Gamma}(3,2)$:
+	\begin{enumerate}
+		\item $f(x) = \dfrac{1}{\Gamma(3)\cdot 2^{3}}x^{2}e^{-x/2} = \dfrac{x^{2}e^{-x/2}}{16}$, $x>0$. El parámetro de forma es $\alpha=3$ y el de escala es $\beta=2$.
+		\item $\mu_X = \alpha\beta = 3\cdot 2 = 6$. $\sigma_X^{2} = \alpha\beta^{2} = 3\cdot 4 = 12$.
+		\item Con el cambio de variable $u=x/2$ ($dx=2\,du$):
+		\begin{align*}
+			\int_0^\infty f(x)\,dx = \int_0^\infty \frac{x^{2}e^{-x/2}}{16}\,dx = \frac{1}{\Gamma(3)}\int_0^\infty u^{2}e^{-u}\,du = \frac{\Gamma(3)}{\Gamma(3)} = 1. \quad \qedhere
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.7.2}
+	Para el Problema \ref{prob:4.7.2}:
+	\begin{enumerate}
+		\item $\text{Gamma}(1,4) = \text{Exp}(\lambda=1/4)$, así que $X\sim\text{Exp}(0.25)$ y $P(X>6) = e^{-0.25\cdot 6} = e^{-1.5} \approx 0.2231$.
+		\item Como $\alpha=\nu/2=5/2$, se sigue $\nu=5$; por lo tanto $Y \sim \chi^{2}_{5}$. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.7.3}
+	Para el Problema \ref{prob:4.7.3}: derivando $M_X(t)=(1-\beta t)^{-\alpha}$,
+	\begin{align*}
+		M_X'(t) = \alpha\beta(1-\beta t)^{-\alpha-1}, \qquad M_X''(t) = \alpha(\alpha+1)\beta^{2}(1-\beta t)^{-\alpha-2}.
+	\end{align*}
+	\begin{enumerate}
+		\item $\E[X] = M_X'(0) = \alpha\beta$.
+		\item $\E[X^{2}] = M_X''(0) = \alpha(\alpha+1)\beta^{2}$, así que $\Var(X) = \alpha(\alpha+1)\beta^{2} - (\alpha\beta)^{2} = \alpha\beta^{2}$. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.7.4}
+	Para el Problema \ref{prob:4.7.4} con $X \sim \text{Beta}(3,5)$:
+	\begin{enumerate}
+		\item $f(x) = \dfrac{x^{2}(1-x)^{4}}{B(3,5)}$, $0<x<1$.
+		\item $\Gamma(3)=2!=2$, $\Gamma(5)=4!=24$, $\Gamma(8)=7!=5040$, así que $B(3,5) = \dfrac{2\cdot 24}{5040} = \dfrac{48}{5040} = \dfrac{1}{105} \approx 0.00952$.
+		\item $\E(X) = \dfrac{3}{3+5} = 0.375$. $\Var(X) = \dfrac{3\cdot 5}{8^{2}\cdot 9} = \dfrac{15}{576} \approx 0.0260$. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.7.5}
+	Para el Problema \ref{prob:4.7.5} con $X \sim \text{Beta}(6,4)$:
+	\begin{enumerate}
+		\item $\E(X) = 6/10 = 0.6$, es decir, se espera que el $60\%$ de los clientes estén satisfechos.
+		\item $\Var(X) = \dfrac{6\cdot 4}{10^{2}\cdot 11} = \dfrac{24}{1100} \approx 0.0218$, con desviación estándar $\approx 0.1477$.
+		\item La moda es $\dfrac{\alpha-1}{\alpha+\beta-2} = \dfrac{5}{8} = 0.625$, mayor que la media $0.6$. Al ser tanto la media como la moda superiores a $0.5$, es más probable que $X$ esté por encima de $0.5$. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.7.6}
+	Para el Problema \ref{prob:4.7.6}:
+	\begin{enumerate}
+		\item El posterior conjugado es $\text{Beta}(\alpha+k,\,\beta+n-k) = \text{Beta}(2+14,\,2+20-14) = \text{Beta}(16,8)$.
+		\item $\E(p\mid\text{datos}) = \dfrac{16}{16+8} = \dfrac{16}{24} = \dfrac{2}{3} \approx 0.667$.
+		\item Con $u=1-x$ (y $du=-dx$), la densidad de $\text{Beta}(\alpha,\beta)$ evaluada en $x$ se convierte en la densidad de $\text{Beta}(\beta,\alpha)$ evaluada en $u$:
+		\begin{align*}
+			f_X(x) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{B(\alpha,\beta)} \; \xrightarrow{u=1-x} \; \frac{(1-u)^{\alpha-1}u^{\beta-1}}{B(\alpha,\beta)} = \frac{u^{\beta-1}(1-u)^{\alpha-1}}{B(\beta,\alpha)},
+		\end{align*}
+		ya que $B(\alpha,\beta)=B(\beta,\alpha)$. Integrando ambos lados se obtiene $P(X\le x) = P(1-X \ge 1-x)$, es decir, $\text{Beta}(\alpha,\beta) = 1-\text{Beta}(\beta,\alpha)$. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.7.7}
+	Para el Problema \ref{prob:4.7.7} con $T \sim \text{Weibull}(1.5,4)$:
+	\begin{enumerate}
+		\item $f(t) = \dfrac{1.5}{4}\left(\dfrac{t}{4}\right)^{0.5}\exp\!\left[-\left(\dfrac{t}{4}\right)^{1.5}\right]$ y $R(t) = \exp\!\left[-\left(\dfrac{t}{4}\right)^{1.5}\right]$, para $t\ge 0$.
+		\item $(3/4)^{1.5} = 0.75\cdot\sqrt{0.75} \approx 0.75\cdot 0.8660 \approx 0.6495$. Por lo tanto $P(T>3) = R(3) = e^{-0.6495} \approx 0.522$.
+		\item Como $\beta=1.5>1$, la tasa de falla $h(t) = \frac{1.5}{4}(t/4)^{0.5}$ es creciente: el componente presenta un patrón de desgaste, con riesgo de falla cada vez mayor conforme envejece. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.7.8}
+	Para el Problema \ref{prob:4.7.8}:
+	\begin{enumerate}
+		\item $\mu_A = 10\cdot\Gamma(1+1/1) = 10\cdot\Gamma(2) = 10\cdot 1 = 10$. $\mu_B = 10\cdot\Gamma(1+1/2) = 10\cdot\Gamma(1.5) \approx 10\cdot 0.8862 = 8.862$.
+		\item $h_A(t) = \dfrac{1}{10}\left(\dfrac{t}{10}\right)^{0} = 0.1$ para todo $t$ (tasa constante, ya que $\beta=1$). $h_B(t) = \dfrac{2}{10}\left(\dfrac{t}{10}\right) = \dfrac{t}{50}$: en $t=5$, $h_B(5)=0.1$ (empatan); en $t=15$, $h_B(15)=0.3 > h_A(15)=0.1$. A corto plazo ambos lotes son comparables, pero a largo plazo el Lote B es menos confiable.
+		\item El Lote A ($\beta=1$) no envejece: falla de forma puramente aleatoria (memoryless). El Lote B ($\beta=2$) sí envejece: su riesgo de falla crece linealmente con el tiempo, típico de desgaste mecánico acumulado. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.7.9}
+	Para el Problema \ref{prob:4.7.9}:
+	\begin{enumerate}
+		\item Sustituyendo $\alpha=\nu/2$, $\beta=2$ en $M_X(t)=(1-\beta t)^{-\alpha}$ se obtiene $M_X(t) = (1-2t)^{-\nu/2}$, que es exactamente la MGF de $\chi^{2}_{\nu}$.
+		\item Cada $Z_i^{2} \sim \text{Gamma}(1/2,2) = \chi^{2}_{1}$. Por la propiedad de suma de variables gamma independientes con la misma escala $\beta=2$, $\sum_{i=1}^{\nu} Z_i^{2} \sim \text{Gamma}\!\left(\nu\cdot\tfrac{1}{2},\,2\right) = \text{Gamma}(\nu/2,2) = \chi^{2}_{\nu}$.
+		\item Con $\nu=3$, $S=Z_1^{2}+Z_2^{2}+Z_3^{2}\sim\chi^{2}_{3}$. Como $7.815$ es por definición el cuantil $0.95$ de $\chi^{2}_{3}$, se cumple $P(S>7.815) = 1-0.95 = 0.05$. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:4.7.10}
+	Para el Problema \ref{prob:4.7.10} con $T_i \sim \text{Exp}(0.5) = \text{Gamma}(1,2)$ i.i.d.:
+	\begin{enumerate}
+		\item Por la propiedad aditiva de la distribución gamma (misma escala $\beta=2$), $T=\sum_{i=1}^{5}T_i \sim \text{Gamma}(5,2)$, es decir, $T$ sigue una distribución Erlang con $5$ etapas y tasa $0.5$.
+		\item $\E(T) = \alpha\beta = 5\cdot 2 = 10$ años. $\Var(T) = \alpha\beta^{2} = 5\cdot 4 = 20$.
+		\item $\text{Weibull}(\beta=1,\eta=2)$ coincide con $\text{Exp}(1/\eta) = \text{Exp}(0.5)$, que es precisamente la distribución de cada tiempo individual $T_i$ entre reemplazos, no la del tiempo acumulado $T$ hasta el quinto reemplazo. Ambos modelos coinciden únicamente cuando $\beta_{\text{Weibull}}=1$ porque en ese caso la Weibull se reduce a la exponencial, la misma familia que genera cada $T_i$; sin embargo, el tiempo acumulado $T$ es una suma de exponenciales (Gamma/Erlang), no una Weibull. \quad \qedhere
+	\end{enumerate}
+\end{solucion}

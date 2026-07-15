@@ -186,7 +186,7 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
-## 5b. Catálogo e Índice de Presentaciones --- Capítulo 04 (En Curso)
+## 5b. Catálogo e Índice de Presentaciones --- Capítulo 04 (100% Completado)
 
 A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 3 / Capítulo 04: Variables Aleatorias Continuas**:
 
@@ -198,10 +198,11 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | **04.04** | [04.04 Uniforme Continua](es/04_variables_aleatorias_continuas/04.04_uniform_distribution.tex) ([PDF](es/04_variables_aleatorias_continuas/04.04_uniform_distribution.pdf)) | [04.04 Continuous Uniform Distribution](en/04_continuous_random_variables/04.04_uniform_distribution.tex) ([PDF](en/04_continuous_random_variables/04.04_uniform_distribution.pdf)) | `04.04_uniform_distribution.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
 | **04.05** | [04.05 Exponencial](es/04_variables_aleatorias_continuas/04.05_exponential_distribution.tex) ([PDF](es/04_variables_aleatorias_continuas/04.05_exponential_distribution.pdf)) | [04.05 Exponential Distribution](en/04_continuous_random_variables/04.05_exponential_distribution.tex) ([PDF](en/04_continuous_random_variables/04.05_exponential_distribution.pdf)) | `04.05_exponential_distribution.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
 | **04.06** | [04.06 Normal](es/04_variables_aleatorias_continuas/04.06_normal_distribution.tex) ([PDF](es/04_variables_aleatorias_continuas/04.06_normal_distribution.pdf)) | [04.06 Normal Distribution](en/04_continuous_random_variables/04.06_normal_distribution.tex) ([PDF](en/04_continuous_random_variables/04.06_normal_distribution.pdf)) | `04.06_normal_distribution.py` | $\checkmark$ **Completado (24 diapositivas ES / 20 EN, 0 warnings)** |
+| **04.07** | [04.07 Gamma, Beta y Weibull](es/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.tex) ([PDF](es/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.pdf)) | [04.07 Gamma, Beta, and Weibull Distributions](en/04_continuous_random_variables/04.07_gamma_beta_weibull.tex) ([PDF](en/04_continuous_random_variables/04.07_gamma_beta_weibull.pdf)) | `04.07_gamma_beta_weibull.py` | $\checkmark$ **Completado (23 diapositivas ES / 19 EN, 0 warnings) --- CIERRE DEL CAPÍTULO 04** |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Para ver la planificación del siguiente hito curricular del proyecto (desarrollo de la **Sección 04.07: Distribuciones Gamma, Beta y Weibull**), consulta el documento oficial de planificación:
+El Capítulo 04 (Variables Aleatorias Continuas) está 100% completo. Para ver la planificación del siguiente hito curricular del proyecto (**Capítulo 05: Distribuciones de Muestreo**, iniciando con la Sección 05.01), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

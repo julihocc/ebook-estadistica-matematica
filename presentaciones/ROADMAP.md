@@ -108,13 +108,17 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Laboratorio Python:* `presentaciones/code/04_variables_aleatorias_continuas/04.06_normal_distribution.py` (validación de $\int f = 1$ con tolerancia $< 10^{-7}$; estandarización $Z$ verificada con tolerancia $< 10^{-16}$ para 6 puntos; regla 68-95-99.7 confirmada; cuantiles $z_{0.025} = -1.96$, $z_{0.975} = 1.96$; prueba $Z$ con $Z = 1.5$, $p = 0.134$; TLC verificado: suma de 30 uniformes $\sim N(15, 2.5)$ con KS $p = 0.71$; aproximación Binomial-Normal con error $0.001$).
   - *Mazos Beamer:* mazos pedagógicos y modulares ES/EN en `presentaciones/es/04_variables_aleatorias_continuas/04.06_normal_distribution.tex` (24 frames) y `presentaciones/en/04_continuous_random_variables/04.06_normal_distribution.tex` (20 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido.
   - *Libro Maestro:* Recompilado limpiamente a 614 páginas (`[Modelación Estadística].tex`).
+- $\checkmark$ **04.07 Distribuciones Gamma, Beta y Weibull:** 100% completado (**CIERRE DEL CAPÍTULO 04**).
+  - *Teoría del Libro Maestro:* Se auditó la subsección Gamma existente en `latex/variables_aleatorias_continuas_avanzado.tex` y se agregaron las subsecciones nuevas `Distribución beta` y `Distribución Weibull` (con sus espejos en `latex/en_variables_aleatorias_continuas_avanzado.tex`), ya que solo la teoría Gamma preexistía en el libro maestro.
+  - *Cuaderno de Problemas:* 10 problemas 3-3-2-2 en `latex/variables_aleatorias_continuas_avanzado(p).tex` (Problemas 4.7.1 al 4.7.10): PDF y normalización Gamma, casos particulares Exponencial y Chi-cuadrada, momentos vía MGF, PDF y momentos Beta, actualización bayesiana conjugada y propiedad de simetría, confiabilidad y tasa de falla Weibull, comparación de lotes Weibull, conexión Gamma-Chi-cuadrada, y proceso de reemplazo Gamma/Erlang vs. Weibull.
+  - *Laboratorio Python:* `presentaciones/code/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.py` (validación de $\int f = 1$ para Gamma, Beta y Weibull vía `scipy.integrate.quad`; propiedad aditiva de Erlang con $P(T>1.5)=0.1736$; casos particulares Exponencial y Chi-cuadrada verificados exactos contra SciPy; momentos Beta$(3,5)$ exactos; propiedad de simetría Beta verificada numéricamente; actualización bayesiana Beta$(2,2) \to$ Beta$(16,8)$; comparación de funciones de riesgo Weibull para $\beta=1$ vs. $\beta=2$).
+  - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.tex` (23 frames) y `presentaciones/en/04_continuous_random_variables/04.07_gamma_beta_weibull.tex` (19 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
+  - *Libro Maestro:* Recompilado limpiamente a 622 páginas (`[Modelación Estadística].tex`).
 
 ---
 
 ## 3. Plan de Armonización Estructural y Curricular (Notas y Presentaciones ES/EN)
 
-
-Nota operativa: existe un borrador local complementario en `presentaciones/plan-maestro-reestructuracion-pedagogica.md`. Ese archivo debe revisarse antes de ejecutar reestructuraciones mayores de los capítulos 04 al 09; mientras no esté aprobado, no sustituye a este `ROADMAP.md`.
 
 Para resolver definitivamente la discrepancia de numeración reportada y asegurar la paridad bilingüe de todo el ecosistema (*tufte-book* en ES/EN + Beamer ES/EN + Python), se establece la siguiente hoja de ruta en 3 fases de ejecución estricta:
 
@@ -151,7 +155,12 @@ Con el nuevo ordenamiento consolidado, el desarrollo de temas restantes del Cap�
 
 ---
 
-## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 04.07`)
+## 4. Guía de Arranque Inmediato para la Próxima Sesión y/o Máquina (`Sección 04.07`) --- COMPLETADA
+
+**Estado: ejecutada y cerrada.** La Sección 04.07 (Distribuciones Gamma, Beta y Weibull) fue completada siguiendo el protocolo de 6 pasos descrito abajo, cerrando el Capítulo 04 al 100%. Esta guía se conserva como referencia histórica del protocolo aplicado; la próxima sesión debe iniciar la **Sección 05.01** (ver Sección 5 de este documento, Unidad 4 / Capítulo 05).
+
+<details>
+<summary>Protocolo de 6 pasos ejecutado para la 04.07 (referencia histórica)</summary>
 
 **Secciones 04.01 a 04.06 del Capítulo 04 completadas.** Cuando un nuevo agente o sesión se inicie en esta u otra computadora con el fin de continuar el proyecto, deberá ejecutar de inmediato la **Sección 04.07: Distribuciones Gamma, Beta y Weibull**, siguiendo este protocolo exacto de 6 pasos:
 
@@ -197,6 +206,8 @@ pdflatex -interaction=nonstopmode "[Modelación Estadística].tex" && pdflatex -
 ### Paso 6: Actualización de Documentación y Cierre de Tarea (Sin Auto-Commits)
 Al completar la 04.07, el Capítulo 04 estará 100% finalizado. Actualizar este archivo (`ROADMAP.md`) marcando la 04.07 como completada, y verificar con `git status -s` que todos los archivos generados estén limpios y pendientes de confirmación del usuario.
 
+</details>
+
 ---
 
 ## 5. Mapeo Curricular Maestro — Capítulos 03 al 09 (Temas Pendientes)
@@ -211,7 +222,7 @@ A continuación se enlistan exhaustivamente todos los temas curriculares que deb
 
 ---
 
-### Unidad 3 / Capítulo 04: Variables Aleatorias Continuas (`Avance actual: 6 de 7 secciones completadas`)
+### Unidad 3 / Capítulo 04: Variables Aleatorias Continuas (`Avance actual: 7 de 7 secciones completadas --- 100% FINALIZADO`)
 Directorio base Python: `presentaciones/code/04_variables_aleatorias_continuas/`
 - $\checkmark$ **04.01 Función de Densidad (PDF) y Soporte Continuo:** 100% completado.
 - **Sección 04.02:** Función de Distribución Acumulada (CDF) Continua y Cuantiles (`04.02_continuous_cdf.py`). **100% COMPLETADO** — ver descripción detallada arriba.
@@ -220,7 +231,7 @@ Directorio base Python: `presentaciones/code/04_variables_aleatorias_continuas/`
 - **Sección 04.04:** Distribución Uniforme Continua ($U(a,b)$) (`04.04_uniform_distribution.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 - **Sección 04.05:** Distribución Exponencial y Procesos Continuos Sin Memoria (`04.05_exponential_distribution.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 - **Sección 04.06:** Distribución Normal / Gaussiana ($N(\mu, \sigma^2)$) y Puntaje $Z$ (`04.06_normal_distribution.py`). **100% COMPLETADO** — ver descripción detallada arriba.
-- **Sección 04.07:** Distribuciones Gamma, Beta y Weibull (`04.07_gamma_beta_weibull.py`).
+- **Sección 04.07:** Distribuciones Gamma, Beta y Weibull (`04.07_gamma_beta_weibull.py`). **100% COMPLETADO** — ver descripción detallada arriba.
 
 ---
 

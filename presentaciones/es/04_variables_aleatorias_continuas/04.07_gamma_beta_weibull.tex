@@ -1,0 +1,417 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Gamma, Beta y Weibull]{Sección 04.07: Distribuciones Gamma, Beta y Weibull}
+\subtitle{Familia Gamma, Proporciones en $[0,1]$ y Confiabilidad}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 04: Variables Aleatorias Continuas}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{04.01} Función de Densidad (PDF) y Soporte Continuo \pause
+    \item \textbf{04.02} Función de Distribución Acumulada (CDF) Continua y Cuantiles \pause
+    \item \textbf{04.03} Esperanza, Varianza y LOTUS Continuo \pause
+    \item \textbf{04.04} Distribución Uniforme Continua $U(a, b)$ \pause
+    \item \textbf{04.05} Distribución Exponencial y Procesos sin Memoria \pause
+    \item \textbf{04.06} Distribución Normal / Gaussiana y Puntaje $Z$ \pause
+    \item \textbf{04.07} Distribuciones Gamma, Beta y Weibull \emph{(Hoy --- Cierre del Capítulo)}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Generalizar la familia Gamma más allá de la Exponencial y la Chi-cuadrada, introducir la distribución Beta para modelar proporciones en $[0,1]$, y dominar la distribución Weibull como herramienta central del análisis de confiabilidad y tasas de falla variables.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{Tres Formas Flexibles Más Allá de lo Simétrico}
+  \footnotesize
+  \begin{motivacion}
+    Hasta ahora hemos visto distribuciones con formas fijas: uniforme (plana), exponencial (decreciente) y normal (simétrica). Muchos fenómenos reales requieren formas más flexibles: tiempos de espera hasta el $\alpha$-ésimo evento, proporciones acotadas en $[0,1]$, y tiempos de falla cuyo riesgo cambia con la edad del componente.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Gamma:} Generaliza la Exponencial permitiendo sumar $\alpha$ tiempos de espera; contiene a la Chi-cuadrada como caso particular. \pause
+    \item \textbf{Beta:} La distribución canónica en $[0,1]$; prior conjugado natural para proporciones bayesianas. \pause
+    \item \textbf{Weibull:} Generaliza la Exponencial permitiendo tasas de falla crecientes o decrecientes; pilar de la ingeniería de confiabilidad.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición Formal - Gamma
+\begin{frame}{Definición Formal de la Distribución Gamma}
+  \footnotesize
+  Una variable aleatoria continua $X$ tiene distribución \emph{Gamma} con parámetros de forma $\alpha > 0$ y escala $\beta > 0$ si su PDF es: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Función de Densidad de Probabilidad}
+    $$f(x) = \dfrac{1}{\Gamma(\alpha)\,\beta^{\alpha}}\,x^{\alpha-1}\,e^{-x/\beta}, \quad x > 0$$
+    donde $\Gamma(\alpha) = \int_{0}^{\infty} t^{\alpha-1}e^{-t}\,dt$ es la función gamma. Escribimos $X \sim \text{Gamma}(\alpha, \beta)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Propiedades Fundamentales}
+    \begin{itemize}\itemsep=0.05cm
+      \item Media y varianza: $\mu_{X} = \alpha\beta$, $\sigma_{X}^{2} = \alpha\beta^{2}$.
+      \item MGF: $M_{X}(t) = (1-\beta t)^{-\alpha}$, para $t < 1/\beta$.
+      \item \textbf{Propiedad aditiva:} si $X_{i} \sim \text{Gamma}(\alpha_{i}, \beta)$ independientes (misma escala), $\sum X_{i} \sim \text{Gamma}(\sum \alpha_{i}, \beta)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Casos particulares
+\begin{frame}{Casos Particulares: Exponencial y Chi-cuadrada}
+  \footnotesize
+  La familia Gamma unifica varias distribuciones ya conocidas: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Exponencial y Chi-cuadrada como Casos Gamma}
+    \begin{itemize}\itemsep=0.05cm
+      \item $\text{Gamma}(1, \beta) = \text{Exp}(\lambda = 1/\beta)$: espera hasta el \emph{primer} evento de un proceso Poisson.
+      \item $\text{Gamma}(\nu/2, 2) = \chi^{2}_{\nu}$: chi-cuadrada con $\nu$ grados de libertad.
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Erlang: Suma de Tiempos de Espera}
+    \begin{itemize}\itemsep=0.05cm
+      \item Si $T_{1}, \dots, T_{n} \sim \text{Exp}(\lambda)$ i.i.d., el tiempo hasta el $n$-ésimo evento es $T = \sum T_{i} \sim \text{Gamma}(n, 1/\lambda)$ (distribución Erlang).
+      \item Ejemplo: llamadas a un \emph{call center} con tasa $\lambda=3$/min; el tiempo hasta la tercera llamada es $\text{Gamma}(3, 1/3)$, con $P(T>1.5) \approx 0.174$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Distribución Beta
+\begin{frame}{Definición Formal de la Distribución Beta}
+  \footnotesize
+  Una variable aleatoria continua $X$ tiene distribución \emph{Beta} con parámetros $\alpha, \beta > 0$ si su PDF es: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Función de Densidad de Probabilidad}
+    $$f(x) = \dfrac{1}{B(\alpha,\beta)}\,x^{\alpha-1}(1-x)^{\beta-1}, \quad 0 < x < 1$$
+    donde $B(\alpha,\beta) = \int_{0}^{1} t^{\alpha-1}(1-t)^{\beta-1}\,dt = \dfrac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$. Escribimos $X \sim \text{Beta}(\alpha,\beta)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Propiedades Fundamentales}
+    \begin{itemize}\itemsep=0.05cm
+      \item Media y varianza: $\mu_{X} = \dfrac{\alpha}{\alpha+\beta}$, $\sigma_{X}^{2} = \dfrac{\alpha\beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)}$.
+      \item Caso particular: $\text{Beta}(1,1) = U(0,1)$.
+      \item Simetría: $\text{Beta}(\alpha,\beta) = 1 - \text{Beta}(\beta,\alpha)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Aplicación Beta
+\begin{frame}{Beta como Modelo de Proporciones y Prior Bayesiano}
+  \footnotesize
+  La distribución Beta es la herramienta canónica para modelar variables acotadas en $[0,1]$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Modelado de Proporciones}
+    Si $X$ representa una proporción desconocida (clientes satisfechos, tasa de defectos, probabilidad de éxito), $X \sim \text{Beta}(\alpha,\beta)$ captura tanto el valor esperado como la incertidumbre alrededor de él.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Prior Conjugado Bayesiano}
+    \begin{itemize}\itemsep=0.05cm
+      \item Si el prior sobre $p$ (parámetro Bernoulli/Binomial) es $\text{Beta}(\alpha,\beta)$ y se observan $k$ éxitos en $n$ ensayos, el posterior es $\text{Beta}(\alpha+k,\, \beta+n-k)$.
+      \item Ejemplo: prior $\text{Beta}(2,2)$, $n=20$, $k=14$ éxitos $\implies$ posterior $\text{Beta}(16,8)$, con media posterior $2/3$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Distribución Weibull
+\begin{frame}{Definición Formal de la Distribución Weibull}
+  \footnotesize
+  Una variable aleatoria $T \geq 0$ (tiempo de vida) tiene distribución \emph{Weibull} con forma $\beta > 0$ y escala $\eta > 0$ si su PDF es: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Función de Densidad de Probabilidad}
+    $$f(t) = \dfrac{\beta}{\eta}\left(\dfrac{t}{\eta}\right)^{\beta-1}\exp\!\left[-\left(\dfrac{t}{\eta}\right)^{\beta}\right], \quad t \geq 0$$
+    con $F(t) = 1-\exp[-(t/\eta)^{\beta}]$. Escribimos $T \sim \text{Weibull}(\beta,\eta)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Tasa de Falla $h(t) = \dfrac{\beta}{\eta}(t/\eta)^{\beta-1}$}
+    \begin{itemize}\itemsep=0.05cm
+      \item $\beta = 1$: tasa constante, $T \sim \text{Exp}(1/\eta)$ (sin envejecimiento).
+      \item $\beta < 1$: tasa decreciente (mortalidad infantil, defectos de fabricación).
+      \item $\beta > 1$: tasa creciente (desgaste mecánico acumulado).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Aplicaciones
+\begin{frame}{Aplicaciones en Ingeniería, Confiabilidad y Ciencia de Datos}
+  \footnotesize
+  Las tres distribuciones son pilares de la modelación aplicada: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Confiabilidad Industrial:} Weibull modela tiempos de falla en manufactura, mantenimiento predictivo y garantías de producto. \pause
+    \item \textbf{Teoría de Colas:} Gamma/Erlang modela tiempos de servicio con múltiples etapas ($M/E_{k}/1$). \pause
+    \item \textbf{Estadística Bayesiana:} Beta es el prior conjugado estándar para tasas de conversión, tasas de error y proporciones en A/B testing. \pause
+    \item \textbf{Ciencia de Datos:} Regularización Bayesiana, modelos jerárquicos y análisis de supervivencia (\emph{survival analysis}) en salud e ingeniería.
+  \end{itemize}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Gamma y Propiedad Erlang}
+  \scriptsize
+  Validación de $\int f = 1$ para la Gamma, propiedad aditiva de Erlang, y casos particulares Exponencial/Chi-cuadrada (\texttt{04.07\_gamma\_beta\_weibull.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=51]{../../code/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.py}}
+\end{frame}
+
+% Slide 11: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Beta, Momentos y Actualización Bayesiana}
+  \scriptsize
+  Cálculo de momentos, verificación de la propiedad de simetría, y actualización de un prior conjugado:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=54, lastline=83]{../../code/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.py}}
+\end{frame}
+
+% Slide 12: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Weibull y Análisis de Confiabilidad}
+  \scriptsize
+  Comparación de funciones de riesgo y curvas de confiabilidad para distintos parámetros de forma:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=86, lastline=115]{../../code/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.py}}
+\end{frame}
+
+% Slide 13: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Gamma Distribution & Erlang ===
+Gamma(alpha=3, beta=2) PDF integral: 1.00000000
+  Mean: 6.0000, Variance: 12.0000
+Erlang: Gamma(3,0.3333); P(T>1.5)=0.173578
+Exponential case: Gamma(1,4) vs Exp(0.25): P(X>6)=0.223130 (match)
+Chi-squared case: nu=3, P(X>7.815)=0.049994 (match)
+
+=== Block 2: Beta Distribution & Moments ===
+Beta(alpha=3, beta=5) PDF integral: 1.00000000
+  Mean: 0.375000, Variance: 0.026042
+Symmetry: P(X<=0.3)|Beta(2,5) = 1-P(Y<=0.7)|Beta(5,2) = 0.579825
+Bayesian update: prior Beta(2,2) + 14/20 -> Beta(16,8), mean=0.666667
+
+=== Block 3: Weibull & Reliability Analysis ===
+Weibull(shape=1.5, scale=4) PDF integral: 1.00000000
+  R(3) = 0.522297
+Hazard: Lot A (beta=1) h=0.100 constant; Lot B (beta=2) h(5)=0.100, h(15)=0.300
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.7.1 --- Distribución Gamma$(3,2)$ (Enunciado)}
+    Sea $X \sim \text{Gamma}(\alpha=3, \beta=2)$. Escriba la PDF $f(x)$ e identifique sus parámetros, calcule la media $\mu_{X}=\alpha\beta$ y la varianza $\sigma_{X}^{2}=\alpha\beta^{2}$, y verifique que $\int_{0}^{\infty} f(x)\,dx = 1$ usando la definición de la función gamma.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento del Modelo}
+    \begin{itemize}\itemsep=0.04cm
+      \item Parámetro de forma $\alpha=3$, parámetro de escala $\beta=2$.
+      \item $\Gamma(3) = 2! = 2$ (caso entero de la función gamma).
+      \item La normalización se verifica con el cambio de variable $u=x/2$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Sustituimos los parámetros y verificamos la normalización: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculos}
+    \begin{itemize}\itemsep=0.05cm
+      \item $f(x) = \dfrac{x^{2}e^{-x/2}}{16}$, $x>0$, con $\Gamma(3)\cdot 2^{3} = 2\cdot 8 = 16$.
+      \item $\mu_{X} = 3\cdot 2 = 6$. $\sigma_{X}^{2} = 3\cdot 4 = 12$.
+      \item Con $u=x/2$: $\int_{0}^{\infty} f(x)\,dx = \frac{1}{\Gamma(3)}\int_{0}^{\infty}u^{2}e^{-u}\,du = \Gamma(3)/\Gamma(3) = 1$.
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Con $\alpha=3$ enteros, $X$ es equivalente a la suma de 3 variables Exponenciales independientes con la misma escala $\beta=2$ (Erlang de 3 etapas), lo que explica por qué la media es tres veces la de una sola exponencial.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.7.4 --- Distribución Beta$(3,5)$ (Enunciado)}
+    Sea $X \sim \text{Beta}(\alpha=3, \beta=5)$. Escriba la PDF $f(x)$ usando la función beta $B(\alpha,\beta)$, calcule $B(3,5)$ usando su relación con la función gamma, y calcule $\E(X)$ y $\Var(X)$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Aplicación}
+    \scriptsize
+    Este tipo de cálculo es habitual al modelar la fracción defectuosa de un lote de producción o la tasa de conversión de una campaña, donde $X$ está naturalmente acotada en $[0,1]$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Usamos $\Gamma(3)=2$, $\Gamma(5)=24$ y $\Gamma(8)=5040$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculos}
+    \begin{itemize}\itemsep=0.05cm
+      \item $f(x) = x^{2}(1-x)^{4}/B(3,5)$, $0<x<1$.
+      \item $B(3,5) = \dfrac{\Gamma(3)\Gamma(5)}{\Gamma(8)} = \dfrac{2\cdot 24}{5040} = \dfrac{1}{105} \approx 0.00952$.
+      \item $\E(X) = 3/8 = 0.375$. $\Var(X) = \dfrac{15}{64\cdot 9} = \dfrac{15}{576} \approx 0.0260$.
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Con $\alpha < \beta$, la masa de probabilidad se concentra hacia valores bajos de $x$: se espera que solo el 37.5\% de la proporción modelada se realice, consistente con $\alpha=3$ "éxitos" frente a $\beta=5$ "fracasos" implícitos en los parámetros.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.7.7 --- Confiabilidad Weibull (Enunciado)}
+    El tiempo de vida $T$ (en años) de un componente mecánico sigue $T \sim \text{Weibull}(\beta=1.5, \eta=4)$. Escriba la PDF y la función de confiabilidad $R(t)$, calcule $P(T>3)$, y determine si la tasa de falla es creciente o decreciente.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    La confiabilidad tiene forma cerrada $R(t) = \exp[-(t/\eta)^{\beta}]$; basta evaluar en $t=3$. El signo de $\beta - 1$ determina la monotonía de la tasa de falla $h(t)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Evaluamos la función de confiabilidad en $t=3$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Demostración y Cálculo}
+    \scriptsize
+    \begin{align*}
+      R(t) = \exp\!\left[-\left(\dfrac{t}{4}\right)^{1.5}\right], \qquad
+      R(3) = \exp\!\left[-(0.75)^{1.5}\right] = e^{-0.6495} \approx 0.522.
+    \end{align*}
+    Como $\beta=1.5>1$, la tasa de falla $h(t)=\frac{1.5}{4}(t/4)^{0.5}$ es creciente. \quad \qedhere
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Hay un $52.2\%$ de probabilidad de que el componente siga funcionando después de 3 años. Como $h(t)$ crece con $t$, el componente presenta \emph{desgaste}: el riesgo de falla se acelera con la edad, lo cual sugiere programar mantenimiento preventivo antes de ese punto.
+  \end{alertblock}
+\end{frame}
+
+% Slide 17A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 4.7.10 --- Proceso de Reemplazo Gamma/Erlang (Enunciado)}
+    Un sistema reemplaza un componente crítico tan pronto falla; los tiempos entre reemplazos son i.i.d. $\text{Exp}(\lambda=0.5)$. Determine la distribución del tiempo $T$ hasta el quinto reemplazo, calcule $\E(T)$ y $\Var(T)$, y compare con un modelo $\text{Weibull}(\beta=1,\eta=2)$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Use la propiedad aditiva de la Gamma con la misma escala $\beta=2=1/\lambda$, y recuerde que $\text{Weibull}(1,\eta)=\text{Exp}(1/\eta)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 17B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Aplicamos la propiedad aditiva de variables Gamma independientes: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    Cada $T_{i} \sim \text{Gamma}(1,2)$; por la propiedad aditiva, $T=\sum_{i=1}^{5}T_{i} \sim \text{Gamma}(5,2)$ (Erlang de 5 etapas).
+    \begin{align*}
+      \E(T) = 5\cdot 2 = 10 \text{ años}, \qquad \Var(T) = 5\cdot 4 = 20.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Comparación con Weibull}
+    \scriptsize
+    $\text{Weibull}(1,2)=\text{Exp}(0.5)$ coincide con la distribución de \emph{cada} $T_{i}$ individual, no con el tiempo acumulado $T$: la Weibull con $\beta=1$ modela un solo componente sin envejecimiento, mientras que la Gamma/Erlang modela la suma de varios tiempos de espera.
+  \end{alertblock}
+\end{frame}
+
+% Slide 18: Cierre
+\begin{frame}{Cierre de Sección: Gamma, Beta y Weibull}
+  \begin{reflexion}
+    Las distribuciones Gamma, Beta y Weibull completan nuestro estudio de las variables aleatorias continuas fundamentales. La Gamma generaliza los tiempos de espera, la Beta modela proporciones en $[0,1]$, y la Weibull captura tasas de falla variables en el tiempo. Juntas cubren la gran mayoría de los fenómenos de espera, proporción y confiabilidad en la práctica.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Gamma:} $f(x) \propto x^{\alpha-1}e^{-x/\beta}$; generaliza Exponencial y Chi-cuadrada; aditiva bajo suma.
+      \item \textbf{Beta:} $f(x) \propto x^{\alpha-1}(1-x)^{\beta-1}$ en $[0,1]$; prior conjugado bayesiano estándar.
+      \item \textbf{Weibull:} tasa de falla $h(t) = (\beta/\eta)(t/\eta)^{\beta-1}$; $\beta=1$ sin envejecimiento, $\beta>1$ desgaste.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 19: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- Cierre del Capítulo 04}
+  \scriptsize
+  \begin{retoclase}
+    Con la Sección 04.07 concluimos el Capítulo 04: Variables Aleatorias Continuas, habiendo cubierto la PDF, CDF, esperanza/varianza, y las familias Uniforme, Exponencial, Normal, Gamma, Beta y Weibull. El Capítulo 05 --- Distribuciones Muestrales --- estudiará cómo se comportan los estadísticos (media muestral, varianza muestral) al repetir el muestreo, sentando las bases de la inferencia estadística.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa el Teorema del Límite Central (Sección 04.06): es la base teórica de las distribuciones muestrales.
+      \item Reflexiona sobre por qué $(n-1)S^{2}/\sigma^{2} \sim \chi^{2}_{n-1}$: la conexión Gamma--Chi-cuadrada de hoy reaparecerá en el Capítulo 05.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

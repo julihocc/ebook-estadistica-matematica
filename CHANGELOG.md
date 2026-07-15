@@ -4,6 +4,16 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-15
+
+### Añadido
+- **Sección 04.07: Distribuciones Gamma, Beta y Weibull (Cierre del Capítulo 04)**:
+  - Teoría nueva de las distribuciones Beta y Weibull agregada a `latex/variables_aleatorias_continuas_avanzado.tex` y su espejo `latex/en_variables_aleatorias_continuas_avanzado.tex` (la teoría Gamma ya existía; se auditó y se dejó sin cambios de fondo).
+  - 10 problemas bajo la taxonomía 3-3-2-2 (Problemas 4.7.1 a 4.7.10) en `latex/variables_aleatorias_continuas_avanzado(p).tex`.
+  - Script de laboratorio en Python `presentaciones/code/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.py` (propiedad aditiva de Erlang, casos particulares Exponencial/Chi-cuadrada, momentos y simetría de la Beta, actualización bayesiana conjugada, y análisis de confiabilidad Weibull).
+  - Mazos Beamer bilingües en `presentaciones/es/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.tex` (23 diapositivas) y `presentaciones/en/04_continuous_random_variables/04.07_gamma_beta_weibull.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 04 (Variables Aleatorias Continuas) queda 100% finalizado (7 de 7 secciones).
+
 ## 2026-07-14
 
 ### Añadido
