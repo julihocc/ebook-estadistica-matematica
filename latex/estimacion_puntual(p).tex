@@ -710,3 +710,190 @@
 	\end{align*}
 	Requiriendo que esta cota sea $\le 0.10$: $100/n \le 0.10 \implies n \ge 1000$. Se necesitan al menos $1000$ observaciones según esta cota conservadora de Chebyshev (una cota basada en el TLC, como las del Capítulo 05, requeriría un $n$ considerablemente menor para la misma garantía). \quad \qedhere
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 06.02: MÉTODO DE MOMENTOS (MoM)
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 06.02}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:6.2.1}
+	Sea $X_1,\ldots,X_n$ una muestra iid de una distribución Poisson con parámetro $\lambda>0$, donde $E(X)=\lambda$. Derive el estimador por el Método de Momentos $\hat\lambda_{MoM}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.2}
+	Para los datos $\{4, 7, 5, 6, 8\}$ ($n=5$), calcule el primer momento muestral $m_1$ y el segundo momento muestral $m_2$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.3}
+	Sea $X$ el número de ensayos Bernoulli independientes hasta el primer éxito, $X\sim\text{Geométrica}(p)$, con $E(X)=1/p$. Derive $\hat{p}_{MoM}$ en términos de $\bar X$, y evalúelo numéricamente si $\bar X = 4$.
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:6.2.4}
+	Sea $X\sim U(a,b)$ con $a<b$ ambos desconocidos. Sabiendo que $\mu_1=(a+b)/2$ y $\text{Var}(X)=(b-a)^2/12$, derive los estimadores por el método de momentos $\hat{a}_{MoM}$ y $\hat{b}_{MoM}$ en términos de $\bar X$ y $S^2$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.5}
+	En un proceso Binomial con $n=20$ ensayos por observación y probabilidad de éxito $p$ desconocida, una muestra de conteos produce una media muestral $\bar X = 6.4$. Derive y evalúe $\hat{p}_{MoM}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.6}
+	Una muestra de una distribución Beta$(\alpha,\beta)$ produce $\bar X = 0.4$ y $S^2 = 0.03$. Usando las fórmulas $\hat\alpha_{MoM} = \bar X\left[\dfrac{\bar X(1-\bar X)}{S^2}-1\right]$ y $\hat\beta_{MoM}=(1-\bar X)\left[\dfrac{\bar X(1-\bar X)}{S^2}-1\right]$, calcule $\hat\alpha_{MoM}$ y $\hat\beta_{MoM}$.
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:6.2.7}
+	Demuestre que $\hat\lambda_{MoM}=\bar X$ (del Problema \ref{prob:6.2.1}) es un estimador consistente de $\lambda$, usando la Ley de los Grandes Números.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.8}
+	Sea $X\sim\text{Weibull}(\beta,\eta)$ con ambos parámetros desconocidos, con momentos $\mu_1=\eta\Gamma(1+1/\beta)$ y $\mu_2=\eta^2\Gamma(1+2/\beta)$. Demuestre que el sistema de ecuaciones de momentos se reduce a resolver $\dfrac{\Gamma(1+2/\beta)}{\left[\Gamma(1+1/\beta)\right]^2} = \dfrac{\mu_2}{\mu_1^2}$ para $\beta$, y explique por qué esta ecuación no tiene solución cerrada (a diferencia del caso Gamma).
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:6.2.9}
+	Para los datos $\{-3, 2, -1, 4, -2\}$ ($n=5$) provenientes de $X\sim U(-\theta,\theta)$, use el resultado del ``caso delicado'' ($\hat\theta_{MoM}=\sqrt{3m_2}$) para estimar $\theta$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.10}
+	Una muestra de una distribución Gamma produce $\bar X=10$ y $S^2=25$. Calcule $\hat\alpha_{MoM}$ y $\hat\beta_{MoM}$. Explique por qué el MLE de estos mismos parámetros requeriría resolver numéricamente la ecuación $\psi(\alpha)-\ln\alpha = \ln\bar X - \overline{\ln X}$ (donde $\psi$ es la función digamma), y por qué, a pesar de ello, el MLE suele preferirse asintóticamente.
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 06.02}
+
+\begin{sugerencia}
+	\label{sug:6.2.1}
+	Para el Problema \ref{prob:6.2.1}, iguale $\mu_1=\lambda$ con $m_1=\bar X$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.2}
+	Para el Problema \ref{prob:6.2.2}, $m_1=\frac{1}{5}\sum x_i$ y $m_2=\frac{1}{5}\sum x_i^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.3}
+	Para el Problema \ref{prob:6.2.3}, iguale $1/p=\bar X$ y despeje $p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.4}
+	Para el Problema \ref{prob:6.2.4}, iguale $\mu_1=\bar X$ y $\text{Var}(X)=S^2$, obteniendo dos ecuaciones en $a,b$; resuelva el sistema simultáneamente.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.5}
+	Para el Problema \ref{prob:6.2.5}, use $E(X)=np$ y despeje $\hat p = \bar X/n$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.6}
+	Para el Problema \ref{prob:6.2.6}, sustituya directamente $\bar X=0.4$, $S^2=0.03$ en las fórmulas dadas.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.7}
+	Para el Problema \ref{prob:6.2.7}, la LGN establece que $\bar X \xrightarrow{P} E(X) = \lambda$ directamente.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.8}
+	Para el Problema \ref{prob:6.2.8}, divida $\mu_2$ entre $\mu_1^2$ para cancelar $\eta$; la ecuación resultante en $\beta$ involucra la función gamma de forma no algebraica.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.9}
+	Para el Problema \ref{prob:6.2.9}, calcule $m_2=\frac{1}{5}\sum x_i^2$ y luego $\hat\theta=\sqrt{3m_2}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.10}
+	Para el Problema \ref{prob:6.2.10}, use $\hat\alpha_{MoM}=\bar X^2/S^2$ y $\hat\beta_{MoM}=S^2/\bar X$ de la Sección 06.01.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 06.02}
+
+\begin{solucion}
+	\label{sol:6.2.1}
+	Para el Problema \ref{prob:6.2.1}: igualando $\mu_1=\lambda$ con $m_1=\bar X$: $\hat\lambda_{MoM}=\bar X$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.2}
+	Para el Problema \ref{prob:6.2.2}: $m_1 = (4+7+5+6+8)/5 = 30/5 = 6$. $m_2 = (16+49+25+36+64)/5 = 190/5 = 38$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.3}
+	Para el Problema \ref{prob:6.2.3}: igualando $1/p=\bar X$: $\hat p_{MoM} = 1/\bar X$. Con $\bar X=4$: $\hat p_{MoM} = 1/4 = 0.25$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.4}
+	Para el Problema \ref{prob:6.2.4}: el sistema es
+	\begin{align*}
+		\frac{a+b}{2} = \bar X, \qquad \frac{(b-a)^2}{12} = S^2.
+	\end{align*}
+	De la segunda ecuación, $b-a = \sqrt{12S^2} = 2\sqrt{3}S$. Junto con $a+b=2\bar X$, resolviendo el sistema lineal:
+	\begin{align*}
+		\hat a_{MoM} = \bar X - \sqrt{3}S, \qquad \hat b_{MoM} = \bar X + \sqrt{3}S. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.5}
+	Para el Problema \ref{prob:6.2.5}: $E(X)=np \implies \hat p_{MoM} = \bar X/n = 6.4/20 = 0.32$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.6}
+	Para el Problema \ref{prob:6.2.6}: $\bar X(1-\bar X)/S^2 = (0.4\cdot 0.6)/0.03 = 0.24/0.03 = 8$. Restando $1$: $7$.
+	\begin{align*}
+		\hat\alpha_{MoM} = 0.4\cdot 7 = 2.8, \qquad \hat\beta_{MoM} = 0.6\cdot 7 = 4.2. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.7}
+	Para el Problema \ref{prob:6.2.7}: como $X_1,\ldots,X_n$ son iid con $E(X)=\lambda<\infty$, la Ley (Débil) de los Grandes Números garantiza directamente que $\bar X \xrightarrow{P} E(X) = \lambda$. Como $\hat\lambda_{MoM}=\bar X$, se concluye que $\hat\lambda_{MoM}$ es consistente. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.8}
+	Para el Problema \ref{prob:6.2.8}: dividiendo $\mu_2$ entre $\mu_1^2$,
+	\begin{align*}
+		\frac{\mu_2}{\mu_1^2} = \frac{\eta^2\Gamma(1+2/\beta)}{\eta^2\left[\Gamma(1+1/\beta)\right]^2} = \frac{\Gamma(1+2/\beta)}{\left[\Gamma(1+1/\beta)\right]^2},
+	\end{align*}
+	que depende únicamente de $\beta$ (el parámetro de escala $\eta$ se cancela). Igualando esta expresión con $m_2/m_1^2$ (calculado de los datos) se obtiene una ecuación en $\beta$ que involucra cocientes de la función gamma evaluada en $1+1/\beta$ y $1+2/\beta$; al no existir una forma algebraica cerrada para invertir la función gamma, esta ecuación debe resolverse mediante métodos numéricos iterativos (a diferencia del caso Gamma, donde el álgebra se simplifica exactamente). \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.9}
+	Para el Problema \ref{prob:6.2.9}: $m_2 = (9+4+1+16+4)/5 = 34/5 = 6.8$.
+	\begin{align*}
+		\hat\theta_{MoM} = \sqrt{3\cdot 6.8} = \sqrt{20.4} \approx 4.517. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.10}
+	Para el Problema \ref{prob:6.2.10}: $\hat\alpha_{MoM} = \bar X^2/S^2 = 100/25 = 4$. $\hat\beta_{MoM} = S^2/\bar X = 25/10 = 2.5$.
+
+	El MLE de la Gamma no tiene forma cerrada porque la derivada de $\ln\Gamma(\alpha)$ (la función digamma $\psi(\alpha)$) no se puede invertir algebraicamente; la ecuación de verosimilitud queda expresada implícitamente en términos de $\psi(\alpha)$, requiriendo Newton-Raphson u otro método iterativo. A pesar de este costo computacional, el MLE suele preferirse asintóticamente porque, bajo condiciones de regularidad, alcanza la eficiencia asintótica (la Cota de Cramér-Rao), mientras que el MoM generalmente tiene mayor varianza asintótica. \quad \qedhere
+\end{solucion}

@@ -1,0 +1,328 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Método de Momentos]{Sección 06.02: Método de Momentos (MoM)}
+\subtitle{Construcción de Estimadores Igualando Momentos Muestrales y Poblacionales}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 06: Estimación y su Relación con Ciencia de Datos}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{06.01} Estimación Puntual, Insesgadez, Eficiencia y Consistencia \pause
+    \item \textbf{06.02} Método de Momentos (MoM) \emph{(Hoy)} \pause
+    \item \textbf{06.03} Estimación por Máxima Verosimilitud (MLE) y Score \pause
+    \item \textbf{06.04} Intervalos de Confianza para Medias Poblacionales ($Z$ y $t$) \pause
+    \item \textbf{06.05} Intervalos de Confianza para Varianzas ($\chi^2$) y Proporciones
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Dominar el Método de Momentos como procedimiento sistemático para construir estimadores, aplicarlo a modelos de uno y dos parámetros, identificar el caso delicado en que el primer momento no identifica al parámetro, y comparar su eficiencia frente al MLE.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De los Criterios a la Construcción de Estimadores}
+  \footnotesize
+  \begin{motivacion}
+    En la Sección 06.01 aprendimos a \emph{evaluar} estimadores (sesgo, eficiencia, consistencia). Ahora aprendemos a \emph{construirlos}. El Método de Momentos, propuesto por Chebyshev y Pearson, es el procedimiento más intuitivo: iguala los momentos muestrales con sus contrapartes poblacionales.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Idea central:} si conocemos $\mu_k(\theta)$ en función de $\theta$, y $m_k$ estima $\mu_k$, entonces resolver $\mu_k(\theta)=m_k$ da un estimador de $\theta$. \pause
+    \item \textbf{Ventaja:} simplicidad, a menudo fórmulas cerradas. \pause
+    \item \textbf{Limitación:} generalmente menos eficiente que el MLE.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición y Procedimiento
+\begin{frame}{Momentos Poblacionales, Muestrales y el Procedimiento MoM}
+  \footnotesize
+  \begin{block}{Momentos}
+    $$\mu_k(\theta) = E(X^k), \qquad m_k = \frac{1}{n}\sum_{i=1}^n X_i^k$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Procedimiento General}
+    Para un vector de $r$ parámetros $\theta=(\theta_1,\ldots,\theta_r)$, se resuelve el sistema
+    $$\mu_1(\theta) = m_1, \quad \mu_2(\theta) = m_2, \quad \ldots, \quad \mu_r(\theta) = m_r$$
+    simultáneamente para obtener $\hat\theta_{MoM}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Ejemplo Gamma
+\begin{frame}{Ejemplo: MoM para la Distribución Gamma}
+  \footnotesize
+  Para $X\sim\text{Gamma}(\alpha,\beta)$, con $\mu_1=\alpha\beta$ y $\Var(X)=\alpha\beta^2$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Sistema de Momentos}
+    $$\alpha\beta = \bar X, \qquad \alpha\beta^2 = S^2$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Solución}
+    $$\hat\beta_{MoM} = \frac{S^2}{\bar X}, \qquad \hat\alpha_{MoM} = \frac{\bar X^2}{S^2}$$
+    Fórmulas cerradas inmediatas --- a diferencia del MLE de la Gamma, que requiere Newton-Raphson.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Caso Delicado
+\begin{frame}{Un Caso Delicado: Cuando el Primer Momento No Basta}
+  \footnotesize
+  Sea $X\sim U(-\theta,\theta)$. Por simetría, $\mu_1=E(X)=0$ para \textbf{cualquier} $\theta$: no identifica al parámetro. \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Recurrimos al Segundo Momento}
+    $$\mu_2 = \Var(X)+\mu_1^2 = \frac{\theta^2}{3} \implies \hat\theta_{MoM} = \sqrt{3m_2}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Lección General}
+    El procedimiento MoM no siempre usa los primeros $r$ momentos literalmente: debe usar los primeros $r$ momentos \emph{no triviales} que efectivamente contengan información sobre los parámetros.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Propiedades y Aplicaciones
+\begin{frame}{Propiedades, Limitaciones y Aplicaciones en Ciencia de Datos}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Consistencia:} por la LGN, $m_k\xrightarrow{P}\mu_k(\theta)$, y bajo regularidad, $\hat\theta_{MoM}\xrightarrow{P}\theta$. \pause
+    \item \textbf{Menor eficiencia:} generalmente no alcanza la Cota de Cramér-Rao. \pause
+    \item \textbf{Estimaciones inadmisibles:} puede producir valores fuera del espacio paramétrico (ej. varianza negativa). \pause
+    \item \textbf{Aplicación clave:} inicialización de algoritmos EM en mezclas Gaussianas (GMM) --- el MoM da un punto de partida rápido que acelera la convergencia del MLE iterativo.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: MoM para la Gamma}
+  \scriptsize
+  Verificación de los estimadores cerrados $\hat\alpha_{MoM}$, $\hat\beta_{MoM}$ (\texttt{06.02\_method\_of\_moments.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=38]{../../code/06_estimacion_estadistica/06.02_method_of_moments.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: El Caso Delicado}
+  \scriptsize
+  Verificación del estimador $\hat\theta_{MoM}=\sqrt{3m_2}$ para $U(-\theta,\theta)$:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=41, lastline=62]{../../code/06_estimacion_estadistica/06.02_method_of_moments.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Eficiencia MoM vs. MLE}
+  \scriptsize
+  Comparación Monte Carlo de la varianza de $\hat\alpha_{MoM}$ contra $\hat\alpha_{MLE}$:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=65, lastline=90]{../../code/06_estimacion_estadistica/06.02_method_of_moments.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: MoM for the Gamma Distribution ===
+Worked example: xbar=10.0, S^2=25.0 -> alpha_MoM=4.00, beta_MoM=2.50
+
+=== Block 2: The Delicate Case U(-theta, theta) ===
+Worked example {-3,2,-1,4,-2}: m2=6.80, theta_MoM=4.517
+
+=== Block 3: MoM vs. MLE Efficiency ===
+True alpha=4.0, n=30: MoM Var=1.729, MLE Var=1.512
+Relative efficiency Ef(MLE, MoM) = 1.143 (MLE is more efficient)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 6.2.3 --- MoM para la Geométrica (Enunciado)}
+    Sea $X\sim\text{Geométrica}(p)$ con $E(X)=1/p$. Derive $\hat p_{MoM}$ en términos de $\bar X$, y evalúe numéricamente si $\bar X=4$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    \begin{itemize}\itemsep=0.04cm
+      \item Iguale $1/p = \bar X$ y despeje $p$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Despejamos $p$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\hat p_{MoM} = \frac{1}{\bar X} = \frac{1}{4} = 0.25$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Si en promedio se requieren $4$ ensayos hasta el primer éxito, la probabilidad de éxito estimada es $0.25$ --- consistente con la intuición de que $E(X)=1/p$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 6.2.4 --- MoM para la Uniforme $(a,b)$ (Enunciado)}
+    Sea $X\sim U(a,b)$ con $a<b$ desconocidos, $\mu_1=(a+b)/2$ y $\Var(X)=(b-a)^2/12$. Derive $\hat a_{MoM}$ y $\hat b_{MoM}$ en términos de $\bar X$ y $S^2$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Iguale ambos momentos con $\bar X$ y $S^2$, obteniendo un sistema de 2 ecuaciones con 2 incógnitas.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Resolvemos el sistema: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    De $(b-a)^2/12=S^2$: $b-a=2\sqrt{3}S$. Junto con $a+b=2\bar X$:
+    $$\hat a_{MoM} = \bar X - \sqrt{3}S, \qquad \hat b_{MoM} = \bar X + \sqrt{3}S$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Este es un ejemplo clásico de sistema de 2 momentos con 2 parámetros; nótese cómo ambas ecuaciones fueron necesarias para aislar $a$ y $b$ por separado.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 6.2.8 --- MoM sin Forma Cerrada: Weibull (Enunciado)}
+    Sea $X\sim\text{Weibull}(\beta,\eta)$ con $\mu_1=\eta\Gamma(1+1/\beta)$ y $\mu_2=\eta^2\Gamma(1+2/\beta)$. Demuestre que el sistema se reduce a resolver $\Gamma(1+2/\beta)/[\Gamma(1+1/\beta)]^2=\mu_2/\mu_1^2$ para $\beta$, y explique por qué no tiene solución cerrada.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Divida $\mu_2$ entre $\mu_1^2$ para cancelar el parámetro de escala $\eta$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Cancelamos $\eta$ dividiendo: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Derivación}
+    \begin{align*}
+      \frac{\mu_2}{\mu_1^2} = \frac{\eta^2\Gamma(1+2/\beta)}{\eta^2[\Gamma(1+1/\beta)]^2} = \frac{\Gamma(1+2/\beta)}{[\Gamma(1+1/\beta)]^2}. \quad \qedhere
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{¿Por Qué No Hay Forma Cerrada?}
+    \scriptsize
+    La función gamma no se puede invertir algebraicamente; esta ecuación en $\beta$ debe resolverse por métodos numéricos iterativos, a diferencia del caso Gamma donde el álgebra se simplifica exactamente.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 6.2.10 --- MoM vs. MLE para la Gamma (Enunciado)}
+    Una muestra Gamma produce $\bar X=10$, $S^2=25$. Calcule $\hat\alpha_{MoM}$, $\hat\beta_{MoM}$. Explique por qué el MLE requiere resolver $\psi(\alpha)-\ln\alpha=\ln\bar X-\overline{\ln X}$ numéricamente, y por qué se prefiere asintóticamente.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Use las fórmulas cerradas de MoM de la Sección 06.01, y recuerde la propiedad de eficiencia asintótica del MLE.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Aplicamos las fórmulas cerradas de MoM: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\hat\alpha_{MoM} = \frac{100}{25} = 4, \qquad \hat\beta_{MoM} = \frac{25}{10} = 2.5$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{MLE vs. MoM}
+    \scriptsize
+    La derivada de $\ln\Gamma(\alpha)$ (función digamma $\psi$) no se invierte algebraicamente, forzando Newton-Raphson para el MLE. Aun así, el MLE se prefiere asintóticamente porque alcanza la eficiencia de Cramér-Rao, mientras que el MoM generalmente tiene mayor varianza (confirmado en el laboratorio: $\text{Ef}(\text{MLE},\text{MoM})\approx 1.14$).
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: Método de Momentos}
+  \begin{reflexion}
+    El Método de Momentos es la puerta de entrada a la construcción de estimadores: simple, intuitivo, y con fórmulas cerradas en muchos casos importantes. Pero su simplicidad tiene un costo en eficiencia. La Sección 06.03 introducirá el Método de Máxima Verosimilitud, generalmente más eficiente pero computacionalmente más exigente.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Procedimiento:} igualar los primeros $r$ momentos poblacionales \emph{no triviales} con los muestrales.
+      \item \textbf{Ejemplo Gamma:} $\hat\alpha_{MoM}=\bar X^2/S^2$, $\hat\beta_{MoM}=S^2/\bar X$ --- fórmula cerrada inmediata.
+      \item \textbf{Trade-off:} simplicidad computacional a cambio de menor eficiencia asintótica que el MLE.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Ya vimos que el MoM ofrece fórmulas rápidas pero subóptimas. La Sección 06.03 formalizará el Método de Máxima Verosimilitud en detalle: la función de verosimilitud, la ecuación de score, y las propiedades asintóticas (invariancia, consistencia, normalidad asintótica, eficiencia) que hacen del MLE el método preferido en la práctica moderna de ciencia de datos.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la función de verosimilitud y la transformación logarítmica.
+      \item Reflexiona sobre por qué, para la distribución Exponencial, MoM y MLE coinciden exactamente, mientras que para la Gamma difieren.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

@@ -281,6 +281,32 @@ El \emph{Método de Momentos}, propuesto por Pafnuty Chebyshev y Karl Pearson a 
 	Este es un resultado de gran utilidad práctica, ya que el sistema de ecuaciones de máxima verosimilitud para la distribución Gamma no posee solución analítica cerrada y requiere métodos numéricos iterativos (como Newton-Raphson), mientras que el método de momentos ofrece fórmulas inmediatas.
 \end{ejemplo}
 
+\begin{ejemplo}
+	\textbf{Un caso delicado: cuando el primer momento no identifica al parámetro.}
+	Sea $X \sim U(-\theta, \theta)$ con $\theta > 0$ desconocido. Por la simetría de la distribución, el primer momento poblacional es idénticamente nulo para cualquier valor de $\theta$:
+	\begin{align}
+		\mu_1 = E(X) = 0, \quad \text{para todo } \theta > 0.
+	\end{align}
+	Igualar $\mu_1 = m_1 = \bar{X}$ no permite despejar $\theta$: el primer momento simplemente no contiene información sobre el parámetro. Debemos recurrir al primer momento \emph{no trivial}, en este caso el segundo momento respecto al origen. Como $\text{Var}(X) = \theta^2/3$ y $\mu_1 = 0$:
+	\begin{align}
+		\mu_2 = \text{Var}(X) + \mu_1^2 = \frac{\theta^2}{3}.
+	\end{align}
+	Igualando con el segundo momento muestral $m_2 = \frac{1}{n}\sum X_i^2$:
+	\begin{align}
+		\frac{\theta^2}{3} = m_2 \implies \hat{\theta}_{MoM} = \sqrt{3 m_2} = \sqrt{\frac{3}{n}\sum_{i=1}^n X_i^2}.
+	\end{align}
+\end{ejemplo}
+
+\begin{observacion}[Propiedades y limitaciones del Método de Momentos]
+	El MoM tiene ventajas y desventajas claras frente al MLE:
+	\begin{itemize}
+		\item \textbf{Consistencia:} por la Ley de los Grandes Números, $m_k \xrightarrow{P} \mu_k(\theta)$ para cada $k$; bajo condiciones de regularidad (continuidad de la función que relaciona momentos con parámetros), esto implica que $\hat{\theta}_{MoM} \xrightarrow{P} \theta$.
+		\item \textbf{Simplicidad computacional:} a menudo produce fórmulas cerradas (como en el ejemplo Gamma anterior) incluso cuando el MLE requiere optimización numérica iterativa.
+		\item \textbf{Menor eficiencia:} en general, $\hat{\theta}_{MoM}$ no alcanza la Cota de Cramér-Rao y tiene mayor varianza asintótica que $\hat{\theta}_{MLE}$; por ello, el MoM se usa frecuentemente solo como valor inicial para algoritmos iterativos de MLE (ver aplicaciones en ciencia de datos, más abajo).
+		\item \textbf{Estimaciones fuera del espacio paramétrico:} a diferencia del MLE (que por construcción siempre produce un valor admisible), el MoM puede en ocasiones arrojar estimaciones fuera de $\Theta$ (por ejemplo, una varianza estimada negativa en modelos con restricciones no lineales entre momentos y parámetros).
+	\end{itemize}
+\end{observacion}
+
 \subsection{Los métodos de estimación puntual en Ciencia de Datos}
 
 En la ciencia de datos moderna y el aprendizaje automático (\emph{machine learning}), los métodos de estimación puntual constituyen el núcleo matemático de los algoritmos de entrenamiento de modelos:

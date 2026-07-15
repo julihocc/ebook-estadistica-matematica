@@ -281,6 +281,32 @@ The \emph{Method of Moments}, proposed by Pafnuty Chebyshev and Karl Pearson in 
 	This is a practically useful result because the maximum likelihood system of equations for the Gamma distribution does not have a closed-form analytical solution and requires iterative numerical methods (such as Newton-Raphson), whereas the method of moments provides immediate closed-form formulas.
 \end{ejemplo}
 
+\begin{ejemplo}
+	\textbf{A delicate case: when the first moment does not identify the parameter.}
+	Let $X \sim U(-\theta, \theta)$ with unknown $\theta > 0$. By the symmetry of the distribution, the first population moment is identically zero for any value of $\theta$:
+	\begin{align}
+		\mu_1 = E(X) = 0, \quad \text{for all } \theta > 0.
+	\end{align}
+	Equating $\mu_1 = m_1 = \bar{X}$ does not allow us to solve for $\theta$: the first moment simply carries no information about the parameter. We must resort to the first \emph{non-trivial} moment, in this case the second moment about the origin. Since $\text{Var}(X) = \theta^2/3$ and $\mu_1 = 0$:
+	\begin{align}
+		\mu_2 = \text{Var}(X) + \mu_1^2 = \frac{\theta^2}{3}.
+	\end{align}
+	Equating with the second sample moment $m_2 = \frac{1}{n}\sum X_i^2$:
+	\begin{align}
+		\frac{\theta^2}{3} = m_2 \implies \hat{\theta}_{MoM} = \sqrt{3 m_2} = \sqrt{\frac{3}{n}\sum_{i=1}^n X_i^2}.
+	\end{align}
+\end{ejemplo}
+
+\begin{observacion}[Properties and limitations of the Method of Moments]
+	MoM has clear advantages and disadvantages relative to MLE:
+	\begin{itemize}
+		\item \textbf{Consistency:} by the Law of Large Numbers, $m_k \xrightarrow{P} \mu_k(\theta)$ for each $k$; under regularity conditions (continuity of the function relating moments to parameters), this implies $\hat{\theta}_{MoM} \xrightarrow{P} \theta$.
+		\item \textbf{Computational simplicity:} it often yields closed-form formulas (as in the Gamma example above) even when MLE requires iterative numerical optimization.
+		\item \textbf{Lower efficiency:} in general, $\hat{\theta}_{MoM}$ does not attain the Cramer-Rao Bound and has higher asymptotic variance than $\hat{\theta}_{MLE}$; for this reason, MoM is frequently used only as a starting value for iterative MLE algorithms (see data science applications below).
+		\item \textbf{Estimates outside the parameter space:} unlike MLE (which by construction always yields an admissible value), MoM can occasionally produce estimates outside $\Theta$ (for example, a negative estimated variance in models with nonlinear restrictions between moments and parameters).
+	\end{itemize}
+\end{observacion}
+
 \subsection{Point Estimation Methods in Data Science}
 
 In modern data science and machine learning, point estimation methods form the mathematical core of model training algorithms:

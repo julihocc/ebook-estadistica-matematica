@@ -54,6 +54,12 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/06_estimacion_estadistica/06.01_point_estimation_quality.py` (descomposición sesgo-varianza-ECM, eficiencia relativa, estimador de encogimiento óptimo, y consistencia vía Chebyshev).
   - Mazos Beamer bilingües en `presentaciones/es/06_estimacion_estadistica/06.01_point_estimation_quality.tex` (17 diapositivas) y `presentaciones/en/06_estimation_data_science/06.01_point_estimation_quality.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 06 (Estimación y su Relación con Ciencia de Datos) inicia su desarrollo: 1 de 5 secciones completadas.
+- **Sección 06.02: Método de Momentos (MoM)**:
+  - Segundo ejemplo ("caso delicado" $U(-\theta,\theta)$) y observación de propiedades/limitaciones agregados a `latex/estimacion_puntual.tex` y su espejo `latex/en_estimacion_puntual.tex`.
+  - 10 problemas nuevos bajo la taxonomía 3-3-2-2 (Problemas 6.2.1 a 6.2.10) en `latex/estimacion_puntual(p).tex`.
+  - Script de laboratorio en Python `presentaciones/code/06_estimacion_estadistica/06.02_method_of_moments.py` (MoM para la Gamma, el caso delicado, y comparación de eficiencia MoM vs. MLE).
+  - Mazos Beamer bilingües en `presentaciones/es/06_estimacion_estadistica/06.02_method_of_moments.tex` (17 diapositivas) y `presentaciones/en/06_estimation_data_science/06.02_method_of_moments.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 06 (Estimación y su Relación con Ciencia de Datos): 2 de 5 secciones completadas.
 
 ## 2026-07-14
 

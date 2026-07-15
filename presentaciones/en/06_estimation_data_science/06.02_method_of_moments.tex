@@ -1,0 +1,287 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Method of Moments (MoM)}
+\subtitle{Section 06.02 --- Constructing Estimators via Sample and Population Moments}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 06: Estimation and Data Science}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 5}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 06.01: Point Estimation, Unbiasedness, Efficiency, and Consistency}
+			\item \textbf{\textcolor{TecRojo}{Section 06.02: Method of Moments (MoM)}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 06.03: Maximum Likelihood Estimation (MLE) and Score}
+			\item \textcolor{gray}{Section 06.04: Confidence Intervals for Population Means ($Z$ and $t$)}
+			\item \textcolor{gray}{Section 06.05: Confidence Intervals for Variances ($\chi^2$) and Proportions}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Master the Method of Moments as a systematic procedure for constructing estimators, apply it to one- and two-parameter models, identify the delicate case where the first moment fails to identify the parameter, and compare its efficiency against MLE.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Definition and Procedure
+\begin{frame}{Population Moments, Sample Moments, and the MoM Procedure}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Moments}
+				\footnotesize
+				$\mu_k(\theta) = E(X^k)$, $m_k = \frac{1}{n}\sum X_i^k$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{General Procedure}
+				\footnotesize
+				For $r$ parameters, solve $\mu_1(\theta)=m_1, \ldots, \mu_r(\theta)=m_r$ simultaneously for $\hat\theta_{MoM}$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Gamma Example
+\begin{frame}{Example: MoM for the Gamma Distribution}
+	\vspace{-0.15cm}
+	\begin{block}{Moment System}
+		For $X\sim\text{Gamma}(\alpha,\beta)$, with $\mu_1=\alpha\beta$ and $\Var(X)=\alpha\beta^2$: $\alpha\beta=\bar X$, $\alpha\beta^2=S^2$.
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Solution}
+		$$\hat\beta_{MoM} = \frac{S^2}{\bar X}, \qquad \hat\alpha_{MoM} = \frac{\bar X^2}{S^2}$$
+		Immediate closed-form formulas --- unlike the Gamma's MLE, which requires Newton-Raphson.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 05: The Delicate Case
+\begin{frame}{A Delicate Case: When the First Moment Is Not Enough}
+	\vspace{-0.15cm}
+	\begin{block}{Setup}
+		For $X\sim U(-\theta,\theta)$, by symmetry $\mu_1=E(X)=0$ for \textbf{any} $\theta$: it does not identify the parameter.
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Resort to the Second Moment}
+		$$\mu_2 = \Var(X)+\mu_1^2 = \frac{\theta^2}{3} \implies \hat\theta_{MoM} = \sqrt{3m_2}$$
+		General lesson: MoM must use the first $r$ \emph{non-trivial} moments, not necessarily the literal first $r$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 06: Properties and Applications
+\begin{frame}{Properties, Limitations, and Data Science Applications}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Consistency:} by the LLN, $m_k\xrightarrow{P}\mu_k(\theta)$, and under regularity, $\hat\theta_{MoM}\xrightarrow{P}\theta$. \pause
+		\item \textbf{Lower efficiency:} generally does not attain the Cramer-Rao Bound. \pause
+		\item \textbf{Inadmissible estimates:} can occasionally fall outside the parameter space (e.g., negative variance). \pause
+		\item \textbf{Key application:} initializing EM algorithms for Gaussian Mixture Models (GMM) --- MoM gives a fast starting point that speeds up iterative MLE convergence.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: MoM for the Gamma Distribution}
+	\vspace{-0.05cm}
+	\scriptsize
+	Verification of the closed-form estimators $\hat\alpha_{MoM}$, $\hat\beta_{MoM}$ (\texttt{06.02\_method\_of\_moments.py}):
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=17, lastline=38]{../../code/06_estimacion_estadistica/06.02_method_of_moments.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: The Delicate Case}
+	\vspace{-0.05cm}
+	\scriptsize
+	Verification of the estimator $\hat\theta_{MoM}=\sqrt{3m_2}$ for $U(-\theta,\theta)$:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=41, lastline=62]{../../code/06_estimacion_estadistica/06.02_method_of_moments.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: MoM vs. MLE Efficiency}
+	\vspace{-0.05cm}
+	\scriptsize
+	Monte Carlo comparison of the variance of $\hat\alpha_{MoM}$ against $\hat\alpha_{MLE}$:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=65, lastline=90]{../../code/06_estimacion_estadistica/06.02_method_of_moments.py}}
+\end{frame}
+
+% SLIDE 10: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: MoM for the Gamma Distribution ===
+Worked example: xbar=10.0, S^2=25.0 -> alpha_MoM=4.00, beta_MoM=2.50
+
+=== Block 2: The Delicate Case U(-theta, theta) ===
+Worked example {-3,2,-1,4,-2}: m2=6.80, theta_MoM=4.517
+
+=== Block 3: MoM vs. MLE Efficiency ===
+True alpha=4.0, n=30: MoM Var=1.729, MLE Var=1.512
+Relative efficiency Ef(MLE, MoM) = 1.143 (MLE is more efficient)
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.2.3 --- MoM for the Geometric Distribution (Statement)}
+		Let $X\sim\text{Geometric}(p)$ with $E(X)=1/p$. Derive $\hat p_{MoM}$ in terms of $\bar X$, and evaluate numerically if $\bar X=4$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item Set $1/p = \bar X$ and solve for $p$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Solve for $p$: \pause
+	\begin{block}{Calculation}
+		$$\hat p_{MoM} = \frac{1}{\bar X} = \frac{1}{4} = 0.25$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		If on average $4$ trials are needed until the first success, the estimated success probability is $0.25$ --- consistent with the intuition that $E(X)=1/p$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.2.4 --- MoM for the Uniform $(a,b)$ (Statement)}
+		Let $X\sim U(a,b)$ with unknown $a<b$, $\mu_1=(a+b)/2$, and $\Var(X)=(b-a)^2/12$. Derive $\hat a_{MoM}$ and $\hat b_{MoM}$ in terms of $\bar X$ and $S^2$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Equate both moments with $\bar X$ and $S^2$, yielding a system of 2 equations in 2 unknowns.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Solve the system: \pause
+	\begin{block}{Calculation}
+		From $(b-a)^2/12=S^2$: $b-a=2\sqrt{3}S$. Combined with $a+b=2\bar X$:
+		$$\hat a_{MoM} = \bar X - \sqrt{3}S, \qquad \hat b_{MoM} = \bar X + \sqrt{3}S$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		A classic 2-moment, 2-parameter system; note how both equations were needed to isolate $a$ and $b$ separately.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.2.8 --- MoM Without a Closed Form: Weibull (Statement)}
+		Let $X\sim\text{Weibull}(\beta,\eta)$ with $\mu_1=\eta\Gamma(1+1/\beta)$ and $\mu_2=\eta^2\Gamma(1+2/\beta)$. Show the system reduces to solving $\Gamma(1+2/\beta)/[\Gamma(1+1/\beta)]^2=\mu_2/\mu_1^2$ for $\beta$, and explain why it has no closed-form solution.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Divide $\mu_2$ by $\mu_1^2$ to cancel the scale parameter $\eta$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Cancel $\eta$ by dividing: \pause
+	\begin{block}{Derivation}
+		\begin{align*}
+			\frac{\mu_2}{\mu_1^2} = \frac{\eta^2\Gamma(1+2/\beta)}{\eta^2[\Gamma(1+1/\beta)]^2} = \frac{\Gamma(1+2/\beta)}{[\Gamma(1+1/\beta)]^2}. \quad \qedhere
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Why No Closed Form?}
+		\scriptsize
+		The gamma function cannot be algebraically inverted; this equation in $\beta$ must be solved by iterative numerical methods, unlike the Gamma distribution case where the algebra simplifies exactly.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.2.10 --- MoM vs. MLE for the Gamma (Statement)}
+		A Gamma sample yields $\bar X=10$, $S^2=25$. Compute $\hat\alpha_{MoM}$, $\hat\beta_{MoM}$. Explain why MLE requires solving $\psi(\alpha)-\ln\alpha=\ln\bar X-\overline{\ln X}$ numerically, and why it is preferred asymptotically.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Use the closed-form MoM formulas from Section 06.01, and recall MLE's asymptotic efficiency property.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Apply the closed-form MoM formulas: \pause
+	\begin{block}{Calculation}
+		$$\hat\alpha_{MoM} = \frac{100}{25} = 4, \qquad \hat\beta_{MoM} = \frac{25}{10} = 2.5$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{MLE vs. MoM}
+		\scriptsize
+		The derivative of $\ln\Gamma(\alpha)$ (the digamma function $\psi$) cannot be inverted algebraically, forcing Newton-Raphson for MLE. Even so, MLE is preferred asymptotically because it attains Cramer-Rao efficiency, while MoM generally has higher variance (confirmed in the lab: $\text{Eff}(\text{MLE},\text{MoM})\approx 1.14$).
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 19: Closing and Chapter Perspective
+\begin{frame}{Closing Section and Chapter Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: The Method of Moments}
+		\scriptsize
+		The Method of Moments is the gateway to constructing estimators: simple, intuitive, and yielding closed-form formulas in many important cases. But its simplicity comes at a cost in efficiency. Section 06.03 introduces Maximum Likelihood Estimation, generally more efficient but computationally more demanding.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Procedure:} equate the first $r$ \emph{non-trivial} population moments with the sample moments.
+			\item \textbf{Gamma example:} $\hat\alpha_{MoM}=\bar X^2/S^2$, $\hat\beta_{MoM}=S^2/\bar X$ --- immediate closed form.
+			\item \textbf{Trade-off:} computational simplicity in exchange for lower asymptotic efficiency than MLE.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Maximum Likelihood Estimation (MLE) and Score}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}
