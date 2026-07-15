@@ -217,7 +217,8 @@ Directorio base Python: `presentaciones/code/08_diseno_experimentos/`
 Directorio base Python: `presentaciones/code/09_regresiones/`
 - **Sección 09.01:** Regresión Lineal Simple (OLS) y Coeficiente de Determinación $R^2$ (`09.01_simple_linear_regression.py`).
 - **Sección 09.02:** Regresión Lineal Múltiple, Ecuación Normal y Regularización Ridge/Lasso (`09.02_multiple_linear_regression.py`).
-- **Sección 09.03:** Diagnóstico de Residuos, Multicolinealidad (VIF) y `scikit-learn` (`09.03_regression_diagnostics.py`).
+- **Sección 09.03:** Diagnóstico de Residuos, Multicolinealidad (VIF) y Supuestos Clásicos (`09.03_regression_diagnostics.py`).
+- **Sección 09.04:** Validación de Modelos, $k$-fold Cross-Validation y `scikit-learn` (`09.04_model_validation.py`).
 
 ---
 
