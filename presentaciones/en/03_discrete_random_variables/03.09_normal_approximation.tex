@@ -1,0 +1,340 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Normal Distribution}
+\subtitle{Section 03.09 --- Continuous Approximation of Discrete Variables and CLT}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 2}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 03.01 to 03.03: Foundations, PMF, CDF, Expectation, and Variance}
+			\item \textcolor{gray}{Section 03.04 to 03.06: Binomial, Geometric, Negative Binomial, Hypergeometric}
+			\item \textcolor{gray}{Section 03.07: Poisson Distribution}
+			\item \textcolor{gray}{Section 03.08: Multinomial Distribution}
+			\item \textbf{\textcolor{TecRojo}{Section 03.09: Normal Distribution}} $\leftarrow$ \emph{Current focus}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Introduce the Normal distribution as the fundamental continuous model, master Z-score standardization and the 68-95-99.7 rule, exploit the De Moivre-Laplace theorem to approximate the Binomial by Normal with continuity correction, and apply the Central Limit Theorem to sums of discrete variables.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Formal Definition and Z-Score
+\begin{frame}{Formal Definition and Z-Score Standardization}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Probability Density Function (PDF)}
+				\footnotesize
+				A continuous random variable $X \sim N(\mu, \sigma^{2})$ has PDF:
+				$$f(x) = \dfrac{1}{\sigma\sqrt{2\pi}} \exp\left(-\dfrac{(x-\mu)^{2}}{2\sigma^{2}}\right)$$
+				Bell-shaped curve centered at $\mu$ with spread controlled by $\sigma$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Z-Score Standardization}
+				\footnotesize
+				$Z = (X - \mu)/\sigma \sim N(0, 1)$. Probabilities are computed via the standard Normal CDF $\Phi(z) = P(Z \le z)$ with the symmetry $\Phi(-z) = 1 - \Phi(z)$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: De Moivre-Laplace and Yates Correction
+\begin{frame}{De Moivre-Laplace and Yates Continuity Correction}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Binomial-to-Normal Limit}
+				\footnotesize
+				For $X \sim \text{Bin}(n, p)$ with $np \ge 5$ and $n(1-p) \ge 5$:
+				$$\dfrac{X - np}{\sqrt{np(1-p)}} \xrightarrow{d} N(0, 1) \quad \text{as } n \to \infty$$
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Yates Continuity Correction}
+				\footnotesize
+				To approximate $P(X \ge k)$, use $P(Y \ge k - 0.5)$ where $Y \sim N(np, np(1-p))$. The shift by $0.5$ reduces systematic discretization error and typically halves the approximation error.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Poisson-Normal and CLT
+\begin{frame}{Poisson-to-Normal Approximation and Central Limit Theorem}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Poisson-to-Normal Limit}
+				\footnotesize
+				For $X \sim \text{Pois}(\lambda)$ with $\lambda \ge 30$:
+				$$\dfrac{X - \lambda}{\sqrt{\lambda}} \xrightarrow{d} N(0, 1) \quad \text{as } \lambda \to \infty$$
+				Useful in queueing theory and risk management.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Central Limit Theorem (CLT)}
+				\footnotesize
+				For i.i.d. $X_{1}, \dots, X_{n}$ with mean $\mu$ and variance $\sigma^{2}$:
+				$Z_{n} = (\sum X_{i} - n\mu) / (\sigma\sqrt{n}) \xrightarrow{d} N(0, 1)$.
+				For $n \ge 30$, the approximation is typically excellent.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Applications
+\begin{frame}{Applications in Engineering, Science, and Data Science}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Industrial Quality Control:} Monitoring manufacturing processes with $\bar{x}$ and $R$ control charts based on $N(\mu, \sigma^{2})$. \pause
+		\item \textbf{Statistical Inference:} Foundation of $Z$-tests, confidence intervals, ANOVA, and linear regression. \pause
+		\item \textbf{Physics and Instrumentation:} Measurement errors, Gaussian noise in communication systems, and uncertainty propagation. \pause
+		\item \textbf{Finance and Risk Analysis:} Black-Scholes model for option pricing and Value-at-Risk (VaR) measures.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: Normal PDF and Z-Score}
+	\vspace{-0.05cm}
+	\scriptsize
+	Computational verification in SciPy (\texttt{03.09\_normal\_approximation.py}) of the Normal PDF, normalization, and Z-score standardization:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{5pt}{6pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=15, lastline=37]{../../code/03_variables_aleatorias_discretas/03.09_normal_approximation.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Binomial-to-Normal Approximation}
+	\vspace{-0.05cm}
+	\scriptsize
+	De Moivre-Laplace: comparison of Binomial PMF with Normal PDF using Yates continuity correction:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=40, lastline=64]{../../code/03_variables_aleatorias_discretas/03.09_normal_approximation.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Poisson-Normal and CLT}
+	\vspace{-0.05cm}
+	\scriptsize
+	Poisson-to-Normal approximation and Monte Carlo verification of the CLT for sum of 50 exponentials:
+	\vspace{0.02cm}
+	{\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+	\lstinputlisting[firstline=73, lastline=100]{../../code/03_variables_aleatorias_discretas/03.09_normal_approximation.py}}
+\end{frame}
+
+% SLIDE 10: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: Normal PDF & Z-Score Standardization ===
+X ~ N(2.50, 0.05) | PDF integral: 1.000000
+P(2.42 <= X <= 2.58) exact = 0.890401 | 2*Phi(1.60)-1 = 0.890401
+Empirical rule: P(|Z|<=1)=0.6827 | P(|Z|<=2)=0.9545 | P(|Z|<=3)=0.9973
+
+=== Block 2: Binomial-to-Normal Approximation ===
+Bin(200, 0.25): mu=50.0, sigma=6.1237
+  P(X>=60) exact Binomial:  0.062472
+  P(X>=60) with Yates:     0.060410 (Z=1.5513)
+  P(X>=60) without Yates:  0.051235 (Z=1.6330)
+  Error with Yates:    0.002063
+  Error without Yates: 0.011237
+Convergence: n=50: exact=0.556138 | normal=0.556231
+
+=== Block 3: Poisson-to-Normal & CLT ===
+Pois(100) -> N(100, 100): P(85<=X<=115) exact=0.879276
+  Normal approx: 0.878858 | Error: 0.000417
+Sum of 100 Pois(2) -> S_100 ~ Pois(200):
+  P(S_100<=220) exact=0.924699 | normal=0.926411
+Sum of 50 Exp(1) ~ Gamma(50, 1):
+  P(45<=S_50<=55) exact=0.520993 | normal=0.520500
+Monte Carlo (N=250,000): mean=49.9981 | std=7.0764
+  P(45<=S<=55) empirical=0.519140
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.9.1 --- Normal IQ Distribution (Statement)}
+		A continuous random variable $X$ follows a Normal distribution with mean $\mu = 100$ and standard deviation $\sigma = 15$. Specify the PDF $f(x)$ and calculate $P(X \le 115)$ and $P(X \ge 85)$ using Z-score standardization.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item $X \sim N(100, 15^{2})$ with PDF $f(x) = \dfrac{1}{15\sqrt{2\pi}} \exp\left(-\dfrac{(x-100)^{2}}{450}\right)$.
+			\item Z-score: $Z = (X - 100)/15 \sim N(0, 1)$.
+			\item Use \texttt{scipy.stats.norm.cdf} to evaluate probabilities.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Standardize $Z = (X - 100)/15$ and use the symmetry of the standard Normal: \pause
+	\begin{block}{Probability Calculation}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Upper tail:} $P(X \le 115) = P\left(Z \le \dfrac{115-100}{15}\right) = P(Z \le 1) = \Phi(1) \approx 0.8413$ \pause
+			\item \textbf{Lower tail:} $P(X \ge 85) = P\left(Z \ge \dfrac{85-100}{15}\right) = P(Z \ge -1) = 1 - \Phi(-1) = \Phi(1) \approx 0.8413$
+		\end{itemize}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Standard Normal Symmetry}
+		\scriptsize
+		By bell-curve symmetry, $P(X \le 115) = P(X \ge 85) \approx 0.8413$ ($84.13\%$). The interval $[85, 115]$ contains exactly $\pm 1$ standard deviation from the mean, capturing $\approx 68\%$ of central mass; each external tail is $\approx 16\%$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.9.4 --- Binomial-Normal Approximation in Standardized Exam (Statement)}
+		In a standardized exam with $n = 200$ multiple-choice questions with 4 options each, a student answers at random with $p = 0.25$. Use the Normal approximation with Yates correction to calculate $P(X \ge 60)$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Comparison with Exact Value}
+		\scriptsize
+		Calculate the Normal approximation and compare with the exact Binomial value. Operational rules: $np = 50 \ge 5$ and $n(1-p) = 150 \ge 5$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	With $\mu = 50$ and $\sigma = \sqrt{37.5} \approx 6.124$: \pause
+	\begin{block}{Yates Approximation}
+		\scriptsize
+		$P(X \ge 60) \approx P(Y \ge 59.5)$ where $Y \sim N(50, 6.124^{2})$:
+		$$P(X \ge 60) \approx P\left(Z \ge \dfrac{59.5 - 50}{6.124}\right) = P(Z \ge 1.551) = 1 - \Phi(1.551) \approx 0.0604$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Exact Comparison}
+		\scriptsize
+		Exact Binomial: $P(X \ge 60) = 1 - \text{stats.binom.cdf}(59, 200, 0.25) \approx 0.0625$. Absolute error: $\abs{0.0604 - 0.0625} \approx 0.0021$, confirming the precision of the Yates correction.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.9.7 --- De Moivre-Laplace Theorem Derivation (Statement)}
+		Let $X \sim \text{Bin}(n, p)$. Prove that $Z_{n} = (X - np)/\sqrt{np(1-p)}$ converges in distribution to the standard Normal as $n \to \infty$.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Deduction Strategy}
+		\scriptsize
+		Use the Binomial MGF $M_{X}(t) = (1 - p + p e^{t})^{n}$ and derive the MGF of $Z_{n}$. Apply the Taylor expansion $\log(1 + x) = x - x^{2}/2 + O(x^{3})$ to obtain $M_{Z}(t) = e^{t^{2}/2}$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Derive the MGF of $Z_{n}$ and take the asymptotic limit: \pause
+	\begin{block}{MGF of $Z_{n}$ and Asymptotic Limit}
+		\scriptsize
+		$M_{Z_{n}}(t) = e^{-npt/\sigma_{n}} (1 - p + p e^{t/\sigma_{n}})^{n}$, with $\sigma_{n} = \sqrt{np(1-p)}$.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Taylor Expansion of the Logarithm}
+		\scriptsize
+		With $e^{t/\sigma_{n}} - 1 = t/\sigma_{n} + t^{2}/(2\sigma_{n}^{2}) + O(n^{-3/2})$:
+		\begin{align*}
+			\log(1 - p + p e^{t/\sigma_{n}}) &= \log(1 + p(e^{t/\sigma_{n}} - 1)) = p \cdot \dfrac{t}{\sigma_{n}} + \dfrac{p(1-p)t^{2}}{2\sigma_{n}^{2}} + O(n^{-3/2})
+		\end{align*}
+		Multiplying by $n$ and centering: $n \log(\cdots) - npt/\sigma_{n} \to t^{2}/2$. Therefore:
+		$$\lim_{n \to \infty} M_{Z_{n}}(t) = e^{t^{2}/2} \quad \blacksquare$$
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 3.9.9 --- CLT for Sum of Poisson (Statement)}
+		Let $X_{1}, \dots, X_{n}$ be i.i.d. Poisson($\lambda$). By CLT, $S_{n}$ converges to $N(n\lambda, n\lambda)$. For $n = 100$ and $\lambda = 2$:
+		\begin{itemize}\itemsep=0.04cm
+			\item Calculate $P(S_{100} \le 220)$ using the exact Poisson.
+			\item Calculate the Normal approximation with continuity correction.
+		\end{itemize}
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\scriptsize
+		$S_{100} \sim \text{Pois}(200)$ with $\mu = 200$, $\sigma = \sqrt{200} \approx 14.142$. Use the operational rule $n\lambda = 200 \ge 30$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compare the exact Poisson with the Normal approximation with Yates correction: \pause
+	\begin{block}{Exact Poisson Value}
+		\scriptsize
+		$P(S_{100} \le 220) = \text{stats.poisson.cdf}(220, mu=200) \approx 0.9247$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Normal Approximation with Yates}
+		\scriptsize
+		With $Y \sim N(200, 200)$ and $\sigma = \sqrt{200} \approx 14.142$:
+		\begin{align*}
+			P(S_{100} \le 220) &\approx P\left(Y \le 220.5\right) = \Phi\left(\dfrac{220.5 - 200}{14.142}\right) = \Phi(1.450) \approx 0.9264
+		\end{align*}
+		The absolute error is $\abs{0.9247 - 0.9264} \approx 0.0017$, confirming the precision of the CLT for the sum of 100 Poisson(2) random variables. \qedhere
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 19: Closing and Next Steps
+\begin{frame}{Closing Section and Modular Perspective}
+	\vspace{-0.15cm}
+	\begin{block}{Synthesis on the Bell Curve and CLT}
+		\scriptsize
+		The Normal distribution emerges as the fundamental continuous model that bridges discrete and continuous worlds. From the De Moivre-Laplace theorem to the Central Limit Theorem, the bell curve appears as the universal asymptotic destination of count distributions when the scale parameters grow sufficiently large.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Universality:} The Normal is the limit of Binomial, Poisson, and sum of i.i.d. random variables with finite variance.
+			\item \textbf{Z-Score:} Any computation reduces to $\Phi(\cdot)$ via $Z = (X - \mu)/\sigma$.
+			\item \textbf{Yates Correction:} Essential to reduce systematic error when approximating discrete distributions by Normal.
+			\item \textbf{Next Session:} \textcolor{TecRojo}{Discrete Distributions in Data Science --- MLE Fitting and Overdispersion}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}

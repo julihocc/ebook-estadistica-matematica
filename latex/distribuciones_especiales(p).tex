@@ -1986,3 +1986,320 @@
 		\item Condicionada a los marginales de fila $\bm{X}_{i \bullet} = (X_{i1} + X_{i2})$ y de columna $\bm{X}_{\bullet j} = (X_{1j} + X_{2j} + X_{3j})$, la distribución conjunta de las celdas es la \emph{multinomial condicional} (o distribución hipergeométrica multivariada): cada celda $X_{ij}$ dado los marginales sigue una distribución hipergeométrica con parámetros poblacionales iguales a los marginales observados. Este es el análogo multivariado de la prueba exacta de Fisher para tablas $r \times c$. \qedhere
 	\end{enumerate}
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 03.09: DISTRIBUCIÓN NORMAL Y APROXIMACIÓN CONTINUA DE VARIABLES DISCRETAS
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 03.09}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:3.9.1}
+	Una variable aleatoria continua $X$ tiene distribución Normal con media $\mu = 100$ y desviación estándar $\sigma = 15$. Especifique formalmente la función de densidad de probabilidad (PDF):
+	\begin{enumerate}
+		\item Escriba la expresión analítica de la PDF $f(x)$ e identifique cada uno de sus componentes.
+		\item Calcule las probabilidades $P(X \le 115)$ y $P(X \ge 85)$ usando la estandarización al puntaje $Z$ y la CDF de la Normal estándar.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.2}
+	Sea $X \sim N(\mu, \sigma^{2})$ con $\mu = 50$ y $\sigma = 10$. Calcule explícitamente las siguientes probabilidades usando la estandarización $Z = (X - \mu)/\sigma$ y la función de distribución acumulada de la Normal estándar $\Phi(\cdot)$:
+	\begin{enumerate}
+		\item $P(40 \le X \le 60)$
+		\item $P(X \ge 70)$
+		\item $P(X \le 35)$
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.3}
+	En un proceso industrial, el diámetro de un eje metálico sigue una distribución Normal con $\mu = 2.50\,\text{cm}$ y $\sigma = 0.05\,\text{cm}$. Las especificaciones técnicas requieren que el diámetro esté en el intervalo $[2.42, 2.58]\,\text{cm}$. Calcule la probabilidad de que un eje seleccionado al azar cumpla con las especificaciones.
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:3.9.4}
+	En un examen estandarizado con $n = 200$ preguntas de opción múltiple con 4 opciones cada una, suponga que un estudiante responde al azar con $p = 0.25$ de probabilidad de acierto. Sea $X$ el número de aciertos. Use la aproximación de la Binomial por la Normal (De Moivre-Laplace) con corrección de continuidad de Yates para calcular:
+	\begin{enumerate}
+		\item $P(X \ge 60)$ (aproximación normal)
+		\item Compare con el valor exacto de la Binomial.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.5}
+	Una empresa recibe un promedio de $\lambda = 100$ reclamaciones diarias bajo un proceso de Poisson. Use la aproximación Normal $X \sim N(\lambda, \lambda)$ para calcular:
+	\begin{enumerate}
+		\item $P(85 \le X \le 115)$ (rango centrado en la media $\pm 1.5\sigma$).
+		\item $P(X \ge 120)$ (cola derecha).
+		\item Verifique la regla operativa $\lambda \ge 30$ para que la aproximación Normal sea confiable.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.6}
+	En un control de calidad, se inspeccionan lotes de $n = 500$ componentes con tasa de defectuosos $p = 0.04$. Use la aproximación de la Binomial por la Normal con corrección de continuidad de Yates para calcular la probabilidad de aceptar el lote cuando el criterio de aceptación es $\le 25$ defectuosos.
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:3.9.7}
+	Sea $X \sim \text{Bin}(n, p)$ con media $\mu = np$ y varianza $\sigma^{2} = np(1-p)$. Demuestre que la variable estandarizada $Z_{n} = \dfrac{X - np}{\sqrt{np(1-p)}}$ converge en distribución a la Normal estándar $N(0, 1)$ cuando $n \to \infty$ (Teorema de De Moivre-Laplace).
+	\begin{enumerate}
+		\item Escriba la función generadora de momentos (MGF) de $X$ en términos de los ensayos de Bernoulli independientes.
+		\item Derive la MGF de $Z_{n}$ y tome el límite cuando $n \to \infty$, mostrando que converge a $M_{Z}(t) = e^{t^{2}/2}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.8}
+	Demuestre que si $X \sim N(\mu, \sigma^{2})$, su función generadora de momentos (MGF) es $M_{X}(t) = \exp\left(\mu t + \dfrac{\sigma^{2} t^{2}}{2}\right)$ partiendo directamente de la definición $M_{X}(t) = \int_{-\infty}^{\infty} e^{tx} f(x)\,dx$. Verifique que esta MGF implica $\E[X] = \mu$ y $\Var(X) = \sigma^{2}$.
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:3.9.9}
+	Sea $X_{1}, X_{2}, \dots, X_{n}$ una muestra aleatoria de variables i.i.d. Poisson($\lambda$). Por el Teorema Central del Límite, la suma $S_{n} = \sum_{i=1}^{n} X_{i}$ converge en distribución a $N(n\lambda, n\lambda)$ cuando $n \to \infty$. Para $n = 100$ y $\lambda = 2$:
+	\begin{enumerate}
+		\item Calcule la probabilidad exacta $P(S_{100} \le 220)$ usando la distribución Poisson de suma ($S_{100} \sim \text{Pois}(200)$).
+		\item Calcule la aproximación Normal $P(S_{100} \le 220) \approx \Phi\left(\dfrac{220.5 - 200}{\sqrt{200}}\right)$ con corrección de continuidad.
+		\item Determine el error absoluto entre ambas aproximaciones.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.10}
+	Considere $X_{1}, X_{2}, \dots, X_{n}$ variables aleatorias i.i.d. con distribución exponencial de parámetro $\lambda = 1$ (media $1$, varianza $1$). Demuestre que la suma estandarizada:
+	$$Z_{n} = \dfrac{\sum_{i=1}^{n} X_{i} - n}{\sqrt{n}}$$
+	converge en distribución a $N(0, 1)$ cuando $n \to \infty$. Para $n = 50$:
+	\begin{enumerate}
+		\item Calcule $P(45 \le \sum X_{i} \le 55)$ usando la aproximación Normal.
+		\item Calcule la probabilidad exacta de la suma de 50 variables exponenciales (distribución Gamma con parámetros de forma $n$ y tasa $1$).
+		\item Compare y comente la calidad de la aproximación.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 03.09}
+
+\begin{sugerencia}
+	\label{sug:3.9.1}
+	Para el Problema \ref{prob:3.9.1}, la PDF Normal es $f(x) = \dfrac{1}{\sigma\sqrt{2\pi}} \exp\left(-\dfrac{(x-\mu)^{2}}{2\sigma^{2}}\right)$. Estandarice: $Z = (X - 100)/15$. Use `scipy.stats.norm.cdf` para evaluar $\Phi(\cdot)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.2}
+	Para el Problema \ref{prob:3.9.2}, use la estandarización: $P(40 \le X \le 60) = \Phi((60-50)/10) - \Phi((40-50)/10) = \Phi(1) - \Phi(-1) = 2\Phi(1) - 1$ por simetría.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.3}
+	Para el Problema \ref{prob:3.9.3}, las especificaciones $[2.42, 2.58]$ corresponden a $\pm 0.08\,\text{cm}$ respecto a la media, es decir, $\pm 1.6\sigma$. Use la CDF Normal: $P = \Phi(1.6) - \Phi(-1.6) = 2\Phi(1.6) - 1 \approx 0.8904$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.4}
+	Para el Problema \ref{prob:3.9.4}, con $n = 200$, $p = 0.25$: $\mu = 50$, $\sigma = \sqrt{200 \cdot 0.25 \cdot 0.75} = \sqrt{37.5} \approx 6.124$. La corrección de Yates para $P(X \ge 60)$ usa $P(X \ge 60) \approx P(Y \ge 59.5)$ donde $Y \sim N(50, 6.124^{2})$. Estandarice: $Z = (59.5 - 50)/6.124 \approx 1.551$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.5}
+	Para el Problema \ref{prob:3.9.5}, la aproximación Normal requiere $\lambda \ge 30$; aquí $\lambda = 100$ cumple. Con $\mu = 100$, $\sigma = \sqrt{100} = 10$: $P(85 \le X \le 115) = \Phi(1.5) - \Phi(-1.5) = 2\Phi(1.5) - 1 \approx 0.866$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.6}
+	Para el Problema \ref{prob:3.9.6}, con $n = 500$, $p = 0.04$: $\mu = 20$, $\sigma = \sqrt{500 \cdot 0.04 \cdot 0.96} = \sqrt{19.2} \approx 4.382$. La probabilidad de aceptación es $P(X \le 25) \approx \Phi((25.5 - 20)/4.382) = \Phi(1.255) \approx 0.895$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.7}
+	Para el Problema \ref{prob:3.9.7}, la MGF de $X = \sum_{i=1}^{n} I_{i}$ con $I_{i} \sim \text{Bern}(p)$ es $M_{X}(t) = (1 - p + p e^{t})^{n}$. Para $Z_{n} = (X - np)/\sqrt{np(1-p)}$, derive $M_{Z_{n}}(t) = e^{-npt/\sigma} (1 - p + p e^{t/\sigma})^{n}$ y use el hecho de que $\log(1 - p + p e^{t/\sigma}) = \log(1 + p(e^{t/\sigma} - 1)) \to pt/\sigma + (p - p^{2})t^{2}/(2\sigma^{2}) + o(1/n)$ cuando $n \to \infty$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.8}
+	Para el Problema \ref{prob:3.9.8}, complete el cuadrado en el exponente: $tx - (x-\mu)^{2}/(2\sigma^{2}) = -\dfrac{(x - (\mu + \sigma^{2}t))^{2}}{2\sigma^{2}} + \mu t + \sigma^{2}t^{2}/2$. La integral es el producto de la PDF Normal con media $\mu + \sigma^{2}t$ y la constante $e^{\mu t + \sigma^{2}t^{2}/2}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.9}
+	Para el Problema \ref{prob:3.9.9}, con $n = 100$ y $\lambda = 2$: la suma $S_{100} \sim \text{Pois}(200)$. La aproximación Normal con $\mu = 200$, $\sigma = \sqrt{200} \approx 14.142$. La corrección de continuidad para $P(S_{100} \le 220)$ es $P(Y \le 220.5)$ con $Y \sim N(200, 200)$: $\Phi(20.5/\sqrt{200}) = \Phi(1.449) \approx 0.926$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.10}
+	Para el Problema \ref{prob:3.9.10}, con $n = 50$ y $\lambda = 1$: la suma $\sum_{i=1}^{50} X_{i} \sim \text{Gamma}(50, 1)$ con media $50$ y varianza $50$. La aproximación Normal da $P(45 \le S_{50} \le 55) \approx \Phi(5/\sqrt{50}) - \Phi(-5/\sqrt{50}) = 2\Phi(0.707) - 1 \approx 0.520$. Para el valor exacto, use `scipy.stats.gamma.cdf(55, a=50) - scipy.stats.gamma.cdf(45, a=50)`.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 03.09}
+
+\begin{solucion}
+	\label{sol:3.9.1}
+	Para el Problema \ref{prob:3.9.1}:
+	\begin{enumerate}
+		\item La PDF de la distribución Normal con parámetros $\mu$ y $\sigma$ es:
+		\begin{align*}
+			f(x) = \dfrac{1}{\sigma\sqrt{2\pi}} \exp\left(-\dfrac{(x - \mu)^{2}}{2\sigma^{2}}\right), \quad x \in \mathbb{R}.
+		\end{align*}
+		Con $\mu = 100$ y $\sigma = 15$: $f(x) = \dfrac{1}{15\sqrt{2\pi}} \exp\left(-\dfrac{(x-100)^{2}}{450}\right)$. El factor $1/(\sigma\sqrt{2\pi}) \approx 0.0266$ normaliza la integral a $1$; el término exponencial concentra la masa cerca de $x = \mu = 100$.
+		\item Estandarizamos: $Z = (X - 100)/15$. Entonces:
+		\begin{align*}
+			P(X \le 115) &= P\left(Z \le \dfrac{115 - 100}{15}\right) = P(Z \le 1) = \Phi(1) \approx 0.8413, \\
+			P(X \ge 85) &= P\left(Z \ge \dfrac{85 - 100}{15}\right) = P(Z \ge -1) = 1 - \Phi(-1) = \Phi(1) \approx 0.8413.
+		\end{align*}
+		Por simetría de la Normal estándar, $P(X \le 115) = P(X \ge 85) \approx 0.8413$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.2}
+	Para el Problema \ref{prob:3.9.2} con $\mu = 50$ y $\sigma = 10$:
+	\begin{enumerate}
+		\item $P(40 \le X \le 60) = P\left(\dfrac{40-50}{10} \le Z \le \dfrac{60-50}{10}\right) = P(-1 \le Z \le 1) = \Phi(1) - \Phi(-1) = 2\Phi(1) - 1 \approx 0.6827$.
+		\item $P(X \ge 70) = P\left(Z \ge \dfrac{70-50}{10}\right) = P(Z \ge 2) = 1 - \Phi(2) \approx 1 - 0.9772 = 0.0228$.
+		\item $P(X \le 35) = P\left(Z \le \dfrac{35-50}{10}\right) = P(Z \le -1.5) = 1 - \Phi(1.5) \approx 1 - 0.9332 = 0.0668$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.3}
+	Para el Problema \ref{prob:3.9.3}, las especificaciones técnicas son $\mu \pm 0.08\,\text{cm}$, donde $\sigma = 0.05\,\text{cm}$. El intervalo de tolerancia es $\pm 0.08/0.05 = \pm 1.6$ desviaciones estándar. Estandarizamos:
+	\begin{align*}
+		P(2.42 \le X \le 2.58) &= P\left(\dfrac{2.42 - 2.50}{0.05} \le Z \le \dfrac{2.58 - 2.50}{0.05}\right) \\
+		&= P(-1.6 \le Z \le 1.6) = \Phi(1.6) - \Phi(-1.6) = 2\Phi(1.6) - 1 \\
+		&\approx 2(0.9452) - 1 = 0.8904.
+	\end{align*}
+	Por lo tanto, la probabilidad de que un eje cumpla con las especificaciones es aproximadamente $89.04\%$.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.4}
+	Para el Problema \ref{prob:3.9.4} con $n = 200$, $p = 0.25$: la media y desviación estándar de la Binomial son $\mu = np = 50$ y $\sigma = \sqrt{np(1-p)} = \sqrt{200 \cdot 0.25 \cdot 0.75} = \sqrt{37.5} \approx 6.124$. Las reglas operativas $np = 50 \ge 5$ y $n(1-p) = 150 \ge 5$ se cumplen.
+	\begin{enumerate}
+		\item Con la corrección de continuidad de Yates, $P(X \ge 60) \approx P(Y \ge 59.5)$ donde $Y \sim N(50, 6.124^{2})$:
+		\begin{align*}
+			P(X \ge 60) &\approx P\left(Z \ge \dfrac{59.5 - 50}{6.124}\right) = P(Z \ge 1.551) = 1 - \Phi(1.551) \approx 0.0604.
+		\end{align*}
+		\item El valor exacto usando la distribución Binomial es:
+		\begin{align*}
+			P(X \ge 60) = 1 - \text{stats.binom.cdf}(59, 200, 0.25) \approx 0.0625.
+		\end{align*}
+		El error absoluto es $\abs{0.0604 - 0.0625} \approx 0.0021 < 3 \times 10^{-3}$, confirmando la precisión de la aproximación con corrección de Yates.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.5}
+	Para el Problema \ref{prob:3.9.5}, la aproximación Normal requiere $\lambda \ge 30$, lo cual se cumple con $\lambda = 100$. Estandarizamos $Z = (X - 100)/\sqrt{100} = (X - 100)/10$:
+	\begin{enumerate}
+		\item $P(85 \le X \le 115) = P(-1.5 \le Z \le 1.5) = 2\Phi(1.5) - 1 \approx 2(0.9332) - 1 = 0.8664$.
+		\item $P(X \ge 120) = P(Z \ge 2) = 1 - \Phi(2) \approx 1 - 0.9772 = 0.0228$.
+		\item Con $\lambda = 100 \ge 30$, la aproximación es confiable. La regla operativa $\lambda \ge 30$ garantiza que la asimetría de la Poisson sea despreciable frente a la campana Normal.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.6}
+	Para el Problema \ref{prob:3.9.6} con $n = 500$ y $p = 0.04$: la media y desviación estándar son $\mu = 20$ y $\sigma = \sqrt{500 \cdot 0.04 \cdot 0.96} = \sqrt{19.2} \approx 4.382$. Verificamos las reglas operativas: $np = 20 \ge 5$ y $n(1-p) = 480 \ge 5$.
+	\begin{align*}
+		P(X \le 25) &\approx P\left(Z \le \dfrac{25.5 - 20}{4.382}\right) = P(Z \le 1.255) = \Phi(1.255) \approx 0.8954.
+	\end{align*}
+	La probabilidad de aceptación del lote es aproximadamente $89.54\%$.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.7}
+	Para el Problema \ref{prob:3.9.7}:
+	\begin{enumerate}
+		\item La MGF de la Binomial $X = \sum_{i=1}^{n} I_{i}$ con $I_{i} \sim \text{Bern}(p)$ independientes es:
+		\begin{align*}
+			M_{X}(t) = (1 - p + p e^{t})^{n}.
+		\end{align*}
+		\item Para $Z_{n} = (X - np)/\sqrt{np(1-p)} = (X - np)/\sigma_{n}$ con $\sigma_{n} = \sqrt{np(1-p)}$:
+		\begin{align*}
+			M_{Z_{n}}(t) = e^{-npt/\sigma_{n}} (1 - p + p e^{t/\sigma_{n}})^{n}.
+		\end{align*}
+		Tomando el logaritmo y usando la expansión de Taylor $\log(1 + x) = x - x^{2}/2 + O(x^{3})$ para $x$ pequeño:
+		\begin{align*}
+			\log(1 - p + p e^{t/\sigma_{n}}) &= \log(1 + p(e^{t/\sigma_{n}} - 1)) \\
+			&= p(e^{t/\sigma_{n}} - 1) - \dfrac{p^{2}(e^{t/\sigma_{n}} - 1)^{2}}{2} + O(n^{-3}).
+		\end{align*}
+		Con $e^{t/\sigma_{n}} - 1 = t/\sigma_{n} + t^{2}/(2\sigma_{n}^{2}) + O(n^{-3/2})$:
+		\begin{align*}
+			\log(1 - p + p e^{t/\sigma_{n}}) &= \dfrac{pt}{\sigma_{n}} + \dfrac{pt^{2}}{2\sigma_{n}^{2}} - \dfrac{p^{2}t^{2}}{2\sigma_{n}^{2}} + O(n^{-3/2}) \\
+			&= \dfrac{pt}{\sigma_{n}} + \dfrac{p(1-p)t^{2}}{2\sigma_{n}^{2}} + O(n^{-3/2}).
+		\end{align*}
+		Multiplicando por $n$ y sumando con el término de centrado $-npt/\sigma_{n}$:
+		\begin{align*}
+			n \log(1 - p + p e^{t/\sigma_{n}}) - \dfrac{npt}{\sigma_{n}} &= \dfrac{np(1-p)t^{2}}{2\sigma_{n}^{2}} = \dfrac{t^{2}}{2}.
+		\end{align*}
+		Por lo tanto, $\lim_{n \to \infty} M_{Z_{n}}(t) = e^{t^{2}/2}$, que es la MGF de $N(0, 1)$. Por el Teorema de Continuidad de Lévy, $Z_{n} \xrightarrow{d} N(0, 1)$. \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.8}
+	Para el Problema \ref{prob:3.9.8}, partimos de la definición:
+	\begin{align*}
+		M_{X}(t) &= \int_{-\infty}^{\infty} e^{tx} \cdot \dfrac{1}{\sigma\sqrt{2\pi}} \exp\left(-\dfrac{(x-\mu)^{2}}{2\sigma^{2}}\right)\,dx.
+		\end{align*}
+		Completamos el cuadrado en el exponente:
+		\begin{align*}
+			tx - \dfrac{(x-\mu)^{2}}{2\sigma^{2}} &= -\dfrac{x^{2} - 2\mu x + \mu^{2} - 2\sigma^{2}tx}{2\sigma^{2}} \\
+			&= -\dfrac{(x - (\mu + \sigma^{2}t))^{2}}{2\sigma^{2}} + \mu t + \dfrac{\sigma^{2}t^{2}}{2}.
+		\end{align*}
+		Sustituyendo:
+		\begin{align*}
+			M_{X}(t) &= \exp\left(\mu t + \dfrac{\sigma^{2}t^{2}}{2}\right) \cdot \int_{-\infty}^{\infty} \dfrac{1}{\sigma\sqrt{2\pi}} \exp\left(-\dfrac{(x - (\mu + \sigma^{2}t))^{2}}{2\sigma^{2}}\right)\,dx.
+		\end{align*}
+		La integral es exactamente $1$ porque el integrando es la PDF de $N(\mu + \sigma^{2}t, \sigma^{2})$. Por lo tanto:
+		\begin{align*}
+			M_{X}(t) = \exp\left(\mu t + \dfrac{\sigma^{2}t^{2}}{2}\right).
+		\end{align*}
+		Para los momentos, derivamos respecto a $t$:
+		\begin{align*}
+			\E[X] &= M_{X}'(0) = \left(\mu + \sigma^{2}t\right) \exp\left(\mu t + \sigma^{2}t^{2}/2\right)\Big|_{t=0} = \mu, \\
+			\E[X^{2}] &= M_{X}''(0) = \left[(\mu + \sigma^{2}t)^{2} + \sigma^{2}\right] \exp\left(\mu t + \sigma^{2}t^{2}/2\right)\Big|_{t=0} = \mu^{2} + \sigma^{2}.
+		\end{align*}
+		Por König-Huygens: $\Var(X) = \E[X^{2}] - (\E[X])^{2} = (\mu^{2} + \sigma^{2}) - \mu^{2} = \sigma^{2}$. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.9}
+	Para el Problema \ref{prob:3.9.9} con $n = 100$ y $\lambda = 2$:
+	\begin{enumerate}
+		\item La suma $S_{100} = \sum_{i=1}^{100} X_{i} \sim \text{Pois}(n\lambda) = \text{Pois}(200)$. La probabilidad exacta es:
+		\begin{align*}
+			P(S_{100} \le 220) = \text{stats.poisson.cdf}(220, mu=200) \approx 0.9281.
+		\end{align*}
+		\item La aproximación Normal con corrección de continuidad usa $S_{100} \approx N(200, 200)$ con $\sigma = \sqrt{200} \approx 14.142$:
+		\begin{align*}
+			P(S_{100} \le 220) &\approx \Phi\left(\dfrac{220.5 - 200}{\sqrt{200}}\right) = \Phi\left(\dfrac{20.5}{14.142}\right) = \Phi(1.450) \approx 0.9265.
+		\end{align*}
+		\item El error absoluto es $\abs{0.9281 - 0.9265} \approx 0.0016$. La aproximación Normal es excelente porque la suma de Poisson satisface la regla operativa $n\lambda = 200 \ge 30$, lo cual garantiza que la asimetría de la Poisson original se suaviza por la suma de 100 variables.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.10}
+	Para el Problema \ref{prob:3.9.10} con $X_{i} \sim \text{Exp}(1)$ i.i.d. y $n = 50$:
+	\begin{enumerate}
+		\item La suma $S_{50} = \sum_{i=1}^{50} X_{i} \sim \text{Gamma}(\alpha = 50, \beta = 1)$ con media $50$ y varianza $50$. La aproximación Normal da:
+		\begin{align*}
+			P(45 \le S_{50} \le 55) &\approx \Phi\left(\dfrac{55 - 50}{\sqrt{50}}\right) - \Phi\left(\dfrac{45 - 50}{\sqrt{50}}\right) \\
+			&= \Phi(0.707) - \Phi(-0.707) = 2\Phi(0.707) - 1 \approx 0.520.
+		\end{align*}
+		\item La probabilidad exacta usando la CDF Gamma es:
+		\begin{align*}
+			P(45 \le S_{50} \le 55) &= \text{stats.gamma.cdf}(55, a=50) - \text{stats.gamma.cdf}(45, a=50) \\
+			&\approx 0.7678 - 0.2468 = 0.5210.
+		\end{align*}
+		\item La diferencia entre la aproximación Normal ($0.5204$) y el valor exacto ($0.5210$) es $\abs{0.5204 - 0.5210} = 0.0006$ ($0.1\%$ relativo), confirmando la validez del TLC para $n = 50$ en la familia exponencial. La calidad de la aproximación mejora asintóticamente a medida que $n \to \infty$. \qedhere
+	\end{enumerate}
+\end{solucion}
