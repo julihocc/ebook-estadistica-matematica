@@ -1,7 +1,7 @@
 
-\section{Variables aleatorias discretas}
+\section{Funciones de masa de probabilidad discretas (PMF y soporte)}
 
-Supongamos que a cada punto del espacio muestral se le asigna un número.  Entonces hemos definido una \emph{función} en el espacio muestral  Esta función es llamada \emph{variable aleatoria} (o \emph{variable estocástica}) o de manera más precisa \emph{función aleatoria}. 
+Supongamos que a cada punto del espacio muestral se le asigna un número.  Entonces hemos definido una \emph{función} en el espacio muestral.  Esta función es llamada \emph{variable aleatoria} (o \emph{variable estocástica}) o de manera más precisa \emph{función aleatoria}. 
 
 
 Usualmente, las variables aleatorias se denotan por letras mayúsculas como $X$ o $Y$. En general, una variable aleatoria tiene algún significado físico, geométrico, económico, financiero, etc.
@@ -122,7 +122,7 @@ En general, $f(x)$ será una función de probabilidad si
 
 
 
-\subsection{Funciones de distribución para variables aleatorias discretas}
+\section{Función de distribución acumulada para variables aleatorias discretas (CDF)}
 
 
 La función de distribución de una variable discreta $X$ se obtiene de la función de probabilidad a través de la siguiente fórmula
@@ -221,4 +221,27 @@ La función de probabilidad se puede obtener a partir de la función de distribu
 	% pands0206.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
 	\label{fig:2.6.3}
 \end{figure}
+
+\section{Esperanza matemática y varianza en variables aleatorias discretas}
+
+\subsection{Valor esperado de una variable aleatoria discreta}
+Para una variable aleatoria discreta $X$ con función de masa de probabilidad $f(x) = P(X=x)$ y soporte $S_X = \set{x_1, x_2, \dots, x_n, \dots}$, la \emph{esperanza matemática} o \emph{valor esperado} se define como el promedio ponderado de sus posibles valores:
+\begin{align}
+	\label{eq:esperanza_discreta}
+	\mu = \mathbb{E}[X] = \sum_{x \in S_X} x f(x).
+\end{align}
+La esperanza matemática existe si y solo si la suma converge absolutamente ($\sum_{x \in S_X} |x| f(x) < \infty$). Físicamente, el valor esperado representa el centro de masa de la distribución de probabilidad en la recta numérica.
+
+\subsection{Varianza y desviación estándar discretas}
+La \emph{varianza} de una variable aleatoria discreta mide la dispersión cuadrática media respecto a la esperanza $\mu$:
+\begin{align}
+	\label{eq:varianza_discreta}
+	\sigma^2 = \s^2 = \Var(X) = \mathbb{E}\left[(X - \mu)^2\right] = \sum_{x \in S_X} (x - \mu)^2 f(x).
+\end{align}
+Mediante linealidad del operador esperanza, la fórmula computacional abreviada para la varianza es:
+\begin{align}
+	\label{eq:varianza_formula_corta}
+	\Var(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = \sum_{x \in S_X} x^2 f(x) - \mu^2,
+\end{align}
+donde $\mathbb{E}[X^2]$ es el segundo momento bruto de la variable. La desviación estándar es la raíz cuadrada de la varianza: $\sigma = \sqrt{\Var(X)}$.
 
