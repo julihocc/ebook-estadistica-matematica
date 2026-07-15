@@ -13,6 +13,17 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.py` (propiedad aditiva de Erlang, casos particulares Exponencial/Chi-cuadrada, momentos y simetría de la Beta, actualización bayesiana conjugada, y análisis de confiabilidad Weibull).
   - Mazos Beamer bilingües en `presentaciones/es/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.tex` (23 diapositivas) y `presentaciones/en/04_continuous_random_variables/04.07_gamma_beta_weibull.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 04 (Variables Aleatorias Continuas) queda 100% finalizado (7 de 7 secciones).
+- **Corrección de bugs preexistentes de compilación en el libro maestro** (no relacionados con la 04.07, detectados al recompilar el libro completo):
+  - Definidos los comandos `\E` y `\Prob` (faltantes) en `latex/_pe_comandos.tex`, eliminando cientos de errores "Undefined control sequence" que afectaban prácticamente todos los capítulos que usan esperanza/probabilidad matemática.
+  - Corregido un `\begin{align*}`/`\end{itemize}` mal balanceado en `latex/distribuciones_especiales(p).tex` (Problema 3.5.9).
+  - Reemplazados caracteres Unicode sin soporte en pdflatex (ideogramas chinos accidentales y el símbolo ✓ literal) por `\checkmark` en `latex/distribuciones_especiales(p).tex` y `latex/variables_aleatorias_continuas(p).tex`.
+  - El libro maestro (`[Modelación Estadística].tex`) compila ahora de punta a punta con **0 errores de LaTeX**.
+- **Sección 05.01: Muestreo Aleatorio Simple, Media y Varianza Muestral Insesgada (Apertura del Capítulo 05)**:
+  - Nueva subsección "Estadísticos y Varianza Muestral Insesgada" (definición formal de estadístico, corrección de Bessel y demostración de $E(S^2)=\sigma^2$) agregada a `latex/distribuciones_muestreo_avanzado.tex` y su espejo `latex/en_distribuciones_muestreo_avanzado.tex`.
+  - Creado `latex/distribuciones_muestreo_avanzado(p).tex` (no existía) con 10 problemas 3-3-2-2 (Problemas 5.1.1 a 5.1.10), conectado al libro maestro.
+  - Script de laboratorio en Python `presentaciones/code/05_distribuciones_muestreo/05.01_sample_statistics.py` (insesgadez de $S^2$ vía Monte Carlo, distribución muestral de la media, y corrección por población finita).
+  - Mazos Beamer bilingües en `presentaciones/es/05_distribuciones_muestreo/05.01_sample_statistics.tex` (18 diapositivas) y `presentaciones/en/05_sampling_distributions/05.01_sample_statistics.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 05 (Distribuciones de Muestreo) inicia su desarrollo: 1 de 5 secciones completadas.
 
 ## 2026-07-14
 

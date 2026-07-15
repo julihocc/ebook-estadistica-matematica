@@ -1,0 +1,377 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Estadísticos y Varianza Insesgada]{Sección 05.01: Muestreo Aleatorio, Media y Varianza Muestral Insesgada}
+\subtitle{Estadísticos, Corrección de Bessel y Corrección por Población Finita}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 05: Distribuciones de Muestreo}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{05.01} Muestreo Aleatorio Simple, Media y Varianza Muestral Insesgada \emph{(Hoy)} \pause
+    \item \textbf{05.02} Teorema del Límite Central Asintótico \pause
+    \item \textbf{05.03} Distribución Chi-Cuadrada y Varianza Muestral \pause
+    \item \textbf{05.04} Distribución $t$ de Student y Muestras Pequeñas \pause
+    \item \textbf{05.05} Distribución $F$ de Fisher-Snedecor
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Formalizar el concepto de \emph{estadístico} como variable aleatoria, dominar la distribución muestral de la media ($E(\bar{X})=\mu$, $\Var(\bar{X})=\sigma^2/n$), y demostrar por qué la varianza muestral $S^2$ debe dividirse entre $n-1$ (corrección de Bessel) para ser un estimador insesgado de $\sigma^2$.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De las Distribuciones a los Estadísticos}
+  \footnotesize
+  \begin{motivacion}
+    Hasta ahora hemos estudiado variables aleatorias individuales. En inferencia estadística, trabajamos con \emph{muestras}: colecciones de observaciones $X_1, \ldots, X_n$. Cualquier función de la muestra --- como la media o la varianza muestral --- es en sí misma una variable aleatoria, con su propia distribución de probabilidad.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Estadístico:} función de la muestra que no depende de parámetros desconocidos ($\bar{X}$, $S^2$, $\hat{p}$). \pause
+    \item \textbf{Distribución muestral:} la distribución de probabilidad de un estadístico. \pause
+    \item \textbf{Pregunta central:} ¿cómo se comporta $\bar{X}$ y $S^2$ al repetir el muestreo?
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Estadístico y Distribución Muestral de la Media
+\begin{frame}{Estadísticos y la Distribución Muestral de la Media}
+  \footnotesize
+  Sea $X_1, \ldots, X_n$ una muestra aleatoria simple (iid) de una población con media $\mu$ y varianza $\sigma^2$. \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Media y Varianza de $\bar{X}$}
+    $$E(\bar{X}) = \mu, \qquad \Var(\bar{X}) = \dfrac{\sigma^2}{n}, \qquad \text{DE}(\bar{X}) = \dfrac{\sigma}{\sqrt{n}}$$
+    $\bar{X}$ es un estimador \emph{insesgado} de $\mu$, y su dispersión disminuye con $n$: al cuadruplicar $n$, el error estándar se reduce a la mitad.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Consistencia}
+    \begin{itemize}\itemsep=0.05cm
+      \item Como $\Var(\bar{X}) = \sigma^2/n \to 0$ cuando $n\to\infty$, y $E(\bar{X})=\mu$ para todo $n$, $\bar{X}$ converge en probabilidad a $\mu$ (desigualdad de Chebyshev).
+      \item Decimos que $\bar{X}$ es un estimador \emph{consistente} de $\mu$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Varianza Muestral Insesgada
+\begin{frame}{Varianza Muestral Insesgada: Corrección de Bessel}
+  \footnotesize
+  Definimos la varianza muestral con divisor $n-1$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Definición y Teorema de Insesgadez}
+    $$S^2 = \dfrac{1}{n-1}\sum_{i=1}^n (X_i-\bar{X})^2, \qquad E(S^2) = \sigma^2$$
+    El divisor $n-1$ no es arbitrario: es exactamente el que hace a $S^2$ insesgado.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{¿Por qué no dividir entre $n$?}
+    \begin{itemize}\itemsep=0.05cm
+      \item El estimador ``natural'' $\hat{\sigma}^2 = \frac{1}{n}\sum(X_i-\bar{X})^2$ tiene $E(\hat{\sigma}^2) = \frac{n-1}{n}\sigma^2 < \sigma^2$: subestima sistemáticamente.
+      \item $\bar{X}$ está, por construcción, más cerca de cada $X_i$ que la media poblacional desconocida $\mu$; dividir entre $n-1$ (``perder un grado de libertad'') corrige ese sesgo.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Demostración de la Insesgadez
+\begin{frame}{Demostración: $E(S^2) = \sigma^2$}
+  \footnotesize
+  Escribimos $(X_i-\bar{X}) = (X_i-\mu) - (\bar{X}-\mu)$ y expandimos: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Desarrollo}
+    $$\sum_{i=1}^n (X_i-\bar{X})^2 = \sum_{i=1}^n (X_i-\mu)^2 - n(\bar{X}-\mu)^2$$
+    usando que $\sum(X_i-\mu) = n(\bar{X}-\mu)$ para cancelar el término cruzado.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Tomando Esperanza}
+    Con $E[(X_i-\mu)^2]=\sigma^2$ y $E[(\bar{X}-\mu)^2]=\Var(\bar{X})=\sigma^2/n$:
+    $$E\left[\sum(X_i-\bar{X})^2\right] = n\sigma^2 - n\cdot\frac{\sigma^2}{n} = (n-1)\sigma^2 \implies E(S^2)=\sigma^2.$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Corrección por Población Finita
+\begin{frame}{Muestreo sin Reemplazo: Corrección por Población Finita (FPC)}
+  \footnotesize
+  Al muestrear \emph{sin reemplazo} de una población finita de tamaño $N$, la fórmula de $\Var(\bar{X})$ se ajusta: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Factor de Corrección por Población Finita}
+    $$\Var(\bar{X}) = \dfrac{\sigma^2}{n}\cdot\underbrace{\dfrac{N-n}{N-1}}_{\text{FPC}}$$
+    El factor FPC es siempre $< 1$ cuando $n>1$, reduciendo la varianza respecto al caso de población infinita.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \begin{itemize}\itemsep=0.05cm
+      \item Cuando $N\to\infty$ (o la fracción muestreada $n/N \to 0$), el factor FPC $\to 1$ y ambas fórmulas coinciden.
+      \item Relevante en auditorías, encuestas electorales y control de calidad sobre lotes finitos.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Aplicaciones
+\begin{frame}{Aplicaciones en Inferencia y Ciencia de Datos}
+  \footnotesize
+  Los estadísticos $\bar{X}$ y $S^2$ son la base de toda la inferencia estadística: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Intervalos de Confianza:} $S^2$ insesgado permite construir errores estándar confiables para $\mu$. \pause
+    \item \textbf{Pruebas de Hipótesis:} el estadístico $t = (\bar{X}-\mu_0)/(S/\sqrt{n})$ (Capítulo 05.04) depende directamente de $S^2$. \pause
+    \item \textbf{Auditoría y Control de Calidad:} FPC ajusta la incertidumbre al muestrear lotes finitos sin reemplazo. \pause
+    \item \textbf{Machine Learning:} varianza insesgada en validación cruzada y estimación de error de generalización.
+  \end{itemize}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Varianza Muestral Insesgada}
+  \scriptsize
+  Verificación Monte Carlo de $E(S^2)=\sigma^2$ vs. el estimador sesgado, y la fórmula abreviada (\texttt{05.01\_sample\_statistics.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=43]{../../code/05_distribuciones_muestreo/05.01_sample_statistics.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Distribución Muestral de la Media}
+  \scriptsize
+  Verificación de $E(\bar{X})=\mu$ y $\Var(\bar{X})=\sigma^2/n$ para distintos tamaños de muestra:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=46, lastline=68]{../../code/05_distribuciones_muestreo/05.01_sample_statistics.py}}
+\end{frame}
+
+% Slide 11: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Corrección por Población Finita}
+  \scriptsize
+  Comparación de la varianza ingenua vs. la FPC, con verificación empírica por muestreo sin reemplazo:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=71, lastline=102]{../../code/05_distribuciones_muestreo/05.01_sample_statistics.py}}
+\end{frame}
+
+% Slide 12: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Unbiased Sample Variance (Bessel's Correction) ===
+Population: N(50.0, 100.0), n=5, trials=200000
+  E(S^2) [unbiased]: 100.1676 (theoretical: 100.0000)
+  E(sigma_hat^2) [biased]: 80.1341 (theoretical: 80.0000)
+  Worked example {8,12,10,14,6}: mean=10.0000, S^2=10.0000
+
+=== Block 2: Sampling Distribution of the Mean ===
+  n=25:  Var(Xbar)=63.98 (theo 64.00) | n=100: 16.04 (theo 16.00) | n=400: 4.00 (theo 4.00)
+
+=== Block 3: Finite Population Correction (FPC) ===
+N=200, n=20: naive Var=34.83, FPC factor=0.9045, FPC Var=31.50
+Empirical Var(Xbar) [without replacement]: 31.61
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.1.1 --- Media y Varianza Muestral (Enunciado)}
+    Una muestra aleatoria simple de tamaño $n=5$ produce las observaciones $\{8, 12, 10, 14, 6\}$. Calcule la media muestral $\bar{X}$ y la varianza muestral insesgada $S^2$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    \begin{itemize}\itemsep=0.04cm
+      \item $\bar{X} = \frac{1}{n}\sum X_i$.
+      \item $S^2 = \frac{1}{n-1}\sum(X_i-\bar{X})^2$, divisor $n-1=4$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Calculamos media y desviaciones al cuadrado: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculos}
+    \begin{itemize}\itemsep=0.05cm
+      \item $\bar{X} = (8+12+10+14+6)/5 = 50/5 = 10$.
+      \item Desviaciones al cuadrado: $4, 4, 0, 16, 16$; suma $= 40$.
+      \item $S^2 = 40/(5-1) = 10$.
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    $S^2=10$ es nuestra mejor estimación insesgada de la varianza poblacional $\sigma^2$ a partir de esta única muestra de 5 observaciones.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.1.4 --- Derivación de $\Var(\bar{X})=\sigma^2/n$ (Enunciado)}
+    Sean $X_1, \ldots, X_n$ independientes con la misma varianza $\sigma^2$. Partiendo de $\Var(\sum_i X_i) = \sum_i \Var(X_i)$ para variables independientes, derive $\Var(\bar{X}) = \sigma^2/n$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Escriba $\bar{X}=\frac{1}{n}\sum X_i$ y use $\Var(aY)=a^2\Var(Y)$ junto con la aditividad de la varianza bajo independencia.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Aplicamos linealidad y aditividad: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Derivación}
+    \begin{align*}
+      \Var(\bar{X}) = \Var\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2}\Var\left(\sum_{i=1}^n X_i\right) = \frac{1}{n^2}\sum_{i=1}^n \Var(X_i) = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}. \quad \qedhere
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    El factor $1/n^2$ (de sacar la constante fuera del cuadrado en $\Var(aY)$) es lo que hace que la varianza de la media \emph{decrezca} con $n$, a diferencia de la varianza de la suma, que crece con $n$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.1.7 --- Insesgadez de $S^2$ (Enunciado)}
+    Demuestre que $E(S^2) = \sigma^2$ para $X_1, \ldots, X_n$ iid con media $\mu$ y varianza $\sigma^2$. Justifique explícitamente por qué $\sum_{i=1}^n(X_i-\mu) = n(\bar{X}-\mu)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Escriba $(X_i-\bar{X}) = (X_i-\mu)-(\bar{X}-\mu)$, expanda el cuadrado, sume sobre $i$ y cancele el término cruzado usando la identidad indicada.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Expandimos y tomamos esperanza: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Demostración}
+    \scriptsize
+    \begin{align*}
+      \sum_{i=1}^n(X_i-\bar X)^2 &= \sum_{i=1}^n(X_i-\mu)^2 - n(\bar X-\mu)^2 \\
+      E\left[\sum_{i=1}^n(X_i-\bar X)^2\right] &= n\sigma^2 - n\cdot\frac{\sigma^2}{n} = (n-1)\sigma^2 \implies E(S^2)=\sigma^2. \quad \qedhere
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    La identidad $\sum(X_i-\mu)=n(\bar X-\mu)$ se sigue directamente de la definición $\bar X = \frac{1}{n}\sum X_i$: es la clave que permite cancelar el término cruzado y aislar el factor $(n-1)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema 5.1.10 --- Corrección por Población Finita (Enunciado)}
+    Una población finita de $N=200$ cuentas tiene varianza $\sigma^2=900$. Se extrae una muestra de $n=20$ cuentas \emph{sin reemplazo}. Calcule $\Var(\bar{X})$ con la fórmula ingenua y con la FPC, y explique por qué la FPC siempre reduce la varianza.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Compare $\sigma^2/n$ contra $(\sigma^2/n)\cdot(N-n)/(N-1)$, y analice el signo de $(N-n)/(N-1) - 1$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Comparamos ambas fórmulas: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    \begin{align*}
+      \Var(\bar{X})_{\text{ingenua}} = \frac{900}{20} = 45, \qquad
+      \Var(\bar{X})_{\text{FPC}} = 45\cdot\frac{180}{199} \approx 40.70.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{¿Por qué la FPC siempre reduce la varianza?}
+    \scriptsize
+    El factor $(N-n)/(N-1)$ es estrictamente menor que 1 siempre que $n>1$ y $N$ sea finito (pues $N-n<N-1$). Cuando $N\to\infty$, el factor $\to 1$ y ambas fórmulas coinciden: la corrección solo importa cuando se muestrea una fracción no despreciable de una población finita.
+  \end{alertblock}
+\end{frame}
+
+% Slide 17: Cierre
+\begin{frame}{Cierre de Sección: Estadísticos y Varianza Insesgada}
+  \begin{reflexion}
+    Todo estadístico calculado de una muestra --- la media, la varianza, la proporción --- es en sí mismo una variable aleatoria con su propia distribución muestral. Formalizar la insesgadez de $\bar{X}$ y $S^2$ es el primer paso para construir intervalos de confianza y pruebas de hipótesis rigurosas en las secciones siguientes.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Distribución muestral de $\bar{X}$:} $E(\bar{X})=\mu$, $\Var(\bar{X})=\sigma^2/n$; estimador insesgado y consistente.
+      \item \textbf{Corrección de Bessel:} $S^2$ divide entre $n-1$, no $n$, para ser insesgado: $E(S^2)=\sigma^2$.
+      \item \textbf{FPC:} al muestrear sin reemplazo de una población finita, $\Var(\bar{X})$ se multiplica por $(N-n)/(N-1) < 1$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 18: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Con la media y varianza muestral formalizadas, la Sección 05.02 profundizará en el Teorema del Límite Central de forma asintótica y rigurosa, y las Secciones 05.03--05.05 introducirán las distribuciones Chi-cuadrada, $t$ de Student y $F$ de Fisher-Snedecor: las herramientas exactas que sustituyen a la aproximación Normal cuando la muestra es pequeña o se desconoce $\sigma$.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la conexión Gamma--Chi-cuadrada (Sección 04.07): $\chi^2_\nu = \text{Gamma}(\nu/2, 2)$.
+      \item Reflexiona sobre por qué $(n-1)S^2/\sigma^2 \sim \chi^2_{n-1}$: la varianza muestral insesgada de hoy es la pieza central de esa distribución.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

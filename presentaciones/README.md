@@ -202,7 +202,17 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
+## 5c. Catálogo e Índice de Presentaciones --- Capítulo 05 (En Curso)
+
+A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 4 / Capítulo 05: Distribuciones de Muestreo**:
+
+| Sección | Título en Español | Título en Inglés | Script Python (en `code/05_distribuciones_muestreo/`) | Estado |
+| :---: | :--- | :--- | :--- | :---: |
+| **05.01** | [05.01 Estadísticos y Varianza Insesgada](es/05_distribuciones_muestreo/05.01_sample_statistics.tex) ([PDF](es/05_distribuciones_muestreo/05.01_sample_statistics.pdf)) | [05.01 Sample Statistics and Unbiased Variance](en/05_sampling_distributions/05.01_sample_statistics.tex) ([PDF](en/05_sampling_distributions/05.01_sample_statistics.pdf)) | `05.01_sample_statistics.py` | $\checkmark$ **Completado (18 diapositivas ES / 19 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 05** |
+
+---
+
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-El Capítulo 04 (Variables Aleatorias Continuas) está 100% completo. Para ver la planificación del siguiente hito curricular del proyecto (**Capítulo 05: Distribuciones de Muestreo**, iniciando con la Sección 05.01), consulta el documento oficial de planificación:
+El Capítulo 04 (Variables Aleatorias Continuas) está 100% completo. El Capítulo 05 (Distribuciones de Muestreo) está en curso (1 de 5 secciones completadas). Para ver la planificación del siguiente hito curricular del proyecto (**Sección 05.02: Teorema del Límite Central Asintótico**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

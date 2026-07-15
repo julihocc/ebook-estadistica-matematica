@@ -1,0 +1,312 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Simple Random Sampling and the Unbiased Sample Variance}
+\subtitle{Section 05.01 --- Statistics, Bessel's Correction, and the Finite Population Correction}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 05: Sampling Distributions}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 4}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textbf{\textcolor{TecRojo}{Section 05.01: Simple Random Sampling, Mean, and Unbiased Sample Variance}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 05.02: Asymptotic Central Limit Theorem}
+			\item \textcolor{gray}{Section 05.03: Chi-Squared Distribution and Sample Variance}
+			\item \textcolor{gray}{Section 05.04: Student's $t$-Distribution and Small Samples}
+			\item \textcolor{gray}{Section 05.05: Fisher-Snedecor $F$-Distribution}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Formalize the concept of a \emph{statistic} as a random variable, master the sampling distribution of the mean ($E(\bar{X})=\mu$, $\Var(\bar{X})=\sigma^2/n$), and prove why the sample variance $S^2$ must be divided by $n-1$ (Bessel's correction) to be an unbiased estimator of $\sigma^2$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Statistic and Sampling Distribution of the Mean
+\begin{frame}{Statistics and the Sampling Distribution of the Mean}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Mean and Variance of $\bar{X}$}
+				\footnotesize
+				$E(\bar{X})=\mu$, $\Var(\bar{X})=\sigma^2/n$, $\text{SD}(\bar{X})=\sigma/\sqrt{n}$. $\bar{X}$ is unbiased for $\mu$; its spread shrinks as $n$ grows.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Consistency}
+				\footnotesize
+				Since $\Var(\bar{X})\to 0$ as $n\to\infty$ and $E(\bar{X})=\mu$ for all $n$, $\bar{X}$ converges in probability to $\mu$ (Chebyshev): $\bar{X}$ is a \emph{consistent} estimator.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Unbiased Sample Variance
+\begin{frame}{Unbiased Sample Variance: Bessel's Correction}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Definition and Theorem}
+				\footnotesize
+				$S^2 = \frac{1}{n-1}\sum(X_i-\bar{X})^2$, and $E(S^2)=\sigma^2$. The divisor $n-1$ is exactly what makes $S^2$ unbiased.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Why Not Divide by $n$?}
+				\footnotesize
+				$\hat{\sigma}^2=\frac{1}{n}\sum(X_i-\bar{X})^2$ has $E(\hat{\sigma}^2)=\frac{n-1}{n}\sigma^2 < \sigma^2$: it systematically underestimates, since $\bar{X}$ is closer to the data than the unknown $\mu$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 05: Proof and FPC
+\begin{frame}{Proof Sketch and the Finite Population Correction}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Proof of $E(S^2)=\sigma^2$}
+				\footnotesize
+				$\sum(X_i-\bar X)^2 = \sum(X_i-\mu)^2 - n(\bar X-\mu)^2$. Taking expectations: $E[\cdot] = n\sigma^2 - \sigma^2 = (n-1)\sigma^2 \Rightarrow E(S^2)=\sigma^2$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Sampling Without Replacement (FPC)}
+				\footnotesize
+				$\Var(\bar{X}) = \frac{\sigma^2}{n}\cdot\frac{N-n}{N-1}$. The FPC factor is $<1$ for $n>1$, and $\to 1$ as $N\to\infty$.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 06: Applications
+\begin{frame}{Applications in Inference and Data Science}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Confidence Intervals:} unbiased $S^2$ yields reliable standard errors for $\mu$. \pause
+		\item \textbf{Hypothesis Testing:} the $t$-statistic (Section 05.04) depends directly on $S^2$. \pause
+		\item \textbf{Auditing and Quality Control:} the FPC adjusts uncertainty when sampling finite batches without replacement. \pause
+		\item \textbf{Machine Learning:} unbiased variance in cross-validation and generalization error estimation.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: Unbiased Sample Variance}
+	\vspace{-0.05cm}
+	\scriptsize
+	Monte Carlo verification of $E(S^2)=\sigma^2$ vs. the biased estimator, and the shortcut formula (\texttt{05.01\_sample\_statistics.py}):
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=17, lastline=43]{../../code/05_distribuciones_muestreo/05.01_sample_statistics.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Sampling Distribution of the Mean}
+	\vspace{-0.05cm}
+	\scriptsize
+	Verification of $E(\bar{X})=\mu$ and $\Var(\bar{X})=\sigma^2/n$ across sample sizes:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=46, lastline=68]{../../code/05_distribuciones_muestreo/05.01_sample_statistics.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Finite Population Correction}
+	\vspace{-0.05cm}
+	\scriptsize
+	Naive variance vs. the FPC, with empirical verification via sampling without replacement:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=71, lastline=102]{../../code/05_distribuciones_muestreo/05.01_sample_statistics.py}}
+\end{frame}
+
+% SLIDE 10: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: Unbiased Sample Variance (Bessel's Correction) ===
+Population: N(50.0, 100.0), n=5, trials=200000
+  E(S^2) [unbiased]: 100.1676 (theoretical: 100.0000)
+  E(sigma_hat^2) [biased]: 80.1341 (theoretical: 80.0000)
+  Worked example {8,12,10,14,6}: mean=10.0000, S^2=10.0000
+
+=== Block 2: Sampling Distribution of the Mean ===
+  n=25:  Var(Xbar)=63.98 (theo 64.00) | n=100: 16.04 (theo 16.00) | n=400: 4.00 (theo 4.00)
+
+=== Block 3: Finite Population Correction (FPC) ===
+N=200, n=20: naive Var=34.83, FPC factor=0.9045, FPC Var=31.50
+Empirical Var(Xbar) [without replacement]: 31.61
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.1.1 --- Sample Mean and Variance (Statement)}
+		A simple random sample of size $n=5$ yields the observations $\{8, 12, 10, 14, 6\}$. Compute the sample mean $\bar{X}$ and the unbiased sample variance $S^2$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item $\bar{X} = \frac{1}{n}\sum X_i$.
+			\item $S^2 = \frac{1}{n-1}\sum(X_i-\bar{X})^2$, divisor $n-1=4$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compute the mean and squared deviations: \pause
+	\begin{block}{Calculations}
+		\begin{itemize}\itemsep=0.05cm
+			\item $\bar{X} = (8+12+10+14+6)/5 = 50/5 = 10$.
+			\item Squared deviations: $4, 4, 0, 16, 16$; sum $= 40$.
+			\item $S^2 = 40/(5-1) = 10$.
+		\end{itemize}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		$S^2=10$ is our best unbiased estimate of the population variance $\sigma^2$ from this single sample of 5 observations.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.1.4 --- Deriving $\Var(\bar{X})=\sigma^2/n$ (Statement)}
+		Let $X_1, \ldots, X_n$ be independent with common variance $\sigma^2$. Starting from $\Var(\sum_i X_i) = \sum_i \Var(X_i)$ for independent variables, derive $\Var(\bar{X}) = \sigma^2/n$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Write $\bar{X}=\frac{1}{n}\sum X_i$ and use $\Var(aY)=a^2\Var(Y)$ together with additivity of variance under independence.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Apply linearity and additivity: \pause
+	\begin{block}{Derivation}
+		\begin{align*}
+			\Var(\bar{X}) = \Var\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2}\Var\left(\sum_{i=1}^n X_i\right) = \frac{1}{n^2}\sum_{i=1}^n \Var(X_i) = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}. \quad \qedhere
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		The $1/n^2$ factor (from pulling the constant out of the square in $\Var(aY)$) is what makes the variance of the mean \emph{shrink} with $n$, unlike the variance of the sum, which grows with $n$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.1.7 --- Unbiasedness of $S^2$ (Statement)}
+		Prove that $E(S^2) = \sigma^2$ for $X_1, \ldots, X_n$ iid with mean $\mu$ and variance $\sigma^2$. Explicitly justify why $\sum_{i=1}^n(X_i-\mu) = n(\bar{X}-\mu)$.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Write $(X_i-\bar{X}) = (X_i-\mu)-(\bar{X}-\mu)$, expand the square, sum over $i$, and cancel the cross term using the given identity.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Expand and take expectations: \pause
+	\begin{block}{Proof}
+		\scriptsize
+		\begin{align*}
+			\sum_{i=1}^n(X_i-\bar X)^2 &= \sum_{i=1}^n(X_i-\mu)^2 - n(\bar X-\mu)^2 \\
+			E\left[\sum_{i=1}^n(X_i-\bar X)^2\right] &= n\sigma^2 - n\cdot\frac{\sigma^2}{n} = (n-1)\sigma^2 \implies E(S^2)=\sigma^2. \quad \qedhere
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		The identity $\sum(X_i-\mu)=n(\bar X-\mu)$ follows directly from the definition $\bar X = \frac{1}{n}\sum X_i$: it is the key step that cancels the cross term and isolates the $(n-1)$ factor.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 5.1.10 --- Finite Population Correction (Statement)}
+		A finite population of $N=200$ accounts has variance $\sigma^2=900$. A sample of $n=20$ accounts is drawn \emph{without replacement}. Compute $\Var(\bar{X})$ using the naive formula and with the FPC, and explain why the FPC always reduces the variance.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Compare $\sigma^2/n$ against $(\sigma^2/n)\cdot(N-n)/(N-1)$, and analyze the sign of $(N-n)/(N-1) - 1$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compare both formulas: \pause
+	\begin{block}{Calculation}
+		\scriptsize
+		\begin{align*}
+			\Var(\bar{X})_{\text{naive}} = \frac{900}{20} = 45, \qquad
+			\Var(\bar{X})_{\text{FPC}} = 45\cdot\frac{180}{199} \approx 40.70.
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Why Does the FPC Always Reduce the Variance?}
+		\scriptsize
+		The factor $(N-n)/(N-1)$ is strictly less than 1 whenever $n>1$ and $N$ is finite (since $N-n<N-1$). As $N\to\infty$, the factor approaches 1 and both formulas coincide: the correction only matters when sampling a non-negligible fraction of a finite population.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 19: Closing and Chapter Perspective
+\begin{frame}{Closing Section and Chapter Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: Statistics and Unbiased Estimation}
+		\scriptsize
+		Every statistic computed from a sample --- the mean, the variance, the proportion --- is itself a random variable with its own sampling distribution. Formalizing the unbiasedness of $\bar{X}$ and $S^2$ is the first step toward building rigorous confidence intervals and hypothesis tests in the sections ahead.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Sampling distribution of $\bar{X}$:} $E(\bar{X})=\mu$, $\Var(\bar{X})=\sigma^2/n$; unbiased and consistent.
+			\item \textbf{Bessel's correction:} $S^2$ divides by $n-1$, not $n$, to be unbiased: $E(S^2)=\sigma^2$.
+			\item \textbf{FPC:} sampling without replacement from a finite population multiplies $\Var(\bar{X})$ by $(N-n)/(N-1) < 1$.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Asymptotic Central Limit Theorem}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}
