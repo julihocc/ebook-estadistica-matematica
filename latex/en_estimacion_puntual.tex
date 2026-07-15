@@ -143,8 +143,48 @@ The logarithmic transformation converts products into sums, which greatly simpli
 	\end{align}
 \end{teorema}
 
+\subsubsection{The Score Function and Asymptotic Normality}
+
+The quantity set to zero in the first-order condition has its own name and importance: it is the \emph{score function}.
+
+\begin{definicion}[Score function]
+	For a single observation $X$ with density $f(x\mid\theta)$, the \emph{score function} is
+	\begin{align}
+		U(\theta; X) = \frac{\partial}{\partial\theta}\ln f(X\mid\theta).
+	\end{align}
+	For an iid sample $X_1,\ldots,X_n$, the \emph{total score} is $U_n(\theta) = \sum_{i=1}^n U(\theta; X_i) = \dfrac{d}{d\theta}\ell(\theta)$. The maximum likelihood estimator is, by definition, the solution of the \emph{score equation} $U_n(\hat\theta_{MLE}) = 0$.
+\end{definicion}
+
+\begin{propiedad}[Properties of the score]
+	Under regularity conditions permitting the interchange of differentiation and integration:
+	\begin{enumerate}
+		\item \textbf{Zero mean:} $E_\theta[U(\theta;X)] = 0$ at the true value of $\theta$.
+		\item \textbf{Information identity:} $\text{Var}_\theta[U(\theta;X)] = I(\theta)$, i.e., the variance of a single observation's score is exactly the Fisher Information.
+	\end{enumerate}
+\end{propiedad}
+
+\begin{proof}[Proof sketch of (1)]
+	Since $\int f(x\mid\theta)\,dx=1$ for all $\theta$, differentiating both sides with respect to $\theta$ and interchanging derivative and integral:
+	\begin{align}
+		0 = \frac{\partial}{\partial\theta}\int f(x\mid\theta)\,dx = \int \frac{\partial f(x\mid\theta)/\partial\theta}{f(x\mid\theta)} f(x\mid\theta)\,dx = E_\theta[U(\theta;X)]. \qedhere
+	\end{align}
+\end{proof}
+
+\begin{teorema}[Asymptotic normality of the MLE]
+	 \label{eq:6.3.1}
+	Under regularity conditions, as $n\to\infty$,
+	\begin{align}
+		\sqrt{n}\left(\hat\theta_{MLE} - \theta\right) \xrightarrow{d} N\!\left(0,\, \frac{1}{I(\theta)}\right),
+	\end{align}
+	i.e., for large $n$, $\hat\theta_{MLE} \overset{\text{approx.}}{\sim} N\!\left(\theta,\, \dfrac{1}{nI(\theta)}\right)$.
+\end{teorema}
+
+\begin{observacion}[Connection to the Cramer-Rao Bound]
+	This result formalizes the \emph{asymptotic efficiency} of the MLE mentioned in Section 06.01: the asymptotic variance of the MLE, $1/(nI(\theta))$, coincides exactly with the Cramer-Rao Lower Bound. Thus, even though the MLE may be neither unbiased nor optimal for finite $n$ (as we saw with $\hat\sigma^2_{MLE}$), it becomes asymptotically optimal: no consistent estimator can do better in the limit.
+\end{observacion}
+
 \begin{ejemplo}
-	\textbf{MLE for the Bernoulli Distribution.} 
+	\textbf{MLE for the Bernoulli Distribution.}
 	Suppose $X_1, X_2, \ldots, X_n$ is a random sample of Bernoulli random variables with parameter $p$, where $P(X_i = 1) = p$ and $P(X_i = 0) = 1-p$. The probability mass function for a single observation is:
 	\begin{align}
 		f(x_i \mid p) = p^{x_i}(1-p)^{1-x_i}, \quad x_i \in \{0, 1\}.

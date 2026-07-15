@@ -60,6 +60,12 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/06_estimacion_estadistica/06.02_method_of_moments.py` (MoM para la Gamma, el caso delicado, y comparación de eficiencia MoM vs. MLE).
   - Mazos Beamer bilingües en `presentaciones/es/06_estimacion_estadistica/06.02_method_of_moments.tex` (17 diapositivas) y `presentaciones/en/06_estimation_data_science/06.02_method_of_moments.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 06 (Estimación y su Relación con Ciencia de Datos): 2 de 5 secciones completadas.
+- **Sección 06.03: Estimación por Máxima Verosimilitud (MLE) y Score**:
+  - Nueva subsubsección "La Función de Score y Normalidad Asintótica" (definición del score, media cero con demostración, identidad de la información, Teorema de Normalidad Asintótica del MLE conectado con Cramér-Rao) agregada a `latex/estimacion_puntual.tex` y su espejo `latex/en_estimacion_puntual.tex`.
+  - 10 problemas nuevos bajo la taxonomía 3-3-2-2 (Problemas 6.3.1 a 6.3.10) en `latex/estimacion_puntual(p).tex`, incluyendo el MLE de la distribución Rayleigh y el método delta.
+  - Script de laboratorio en Python `presentaciones/code/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.py` (propiedades del score, normalidad asintótica vía Monte Carlo, MLE de Rayleigh y método delta).
+  - Mazos Beamer bilingües en `presentaciones/es/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.tex` (17 diapositivas) y `presentaciones/en/06_estimation_data_science/06.03_maximum_likelihood_estimation.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 06 (Estimación y su Relación con Ciencia de Datos): 3 de 5 secciones completadas.
 
 ## 2026-07-14
 

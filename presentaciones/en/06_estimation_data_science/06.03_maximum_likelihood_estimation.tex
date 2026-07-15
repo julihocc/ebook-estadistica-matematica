@@ -1,0 +1,293 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Maximum Likelihood Estimation (MLE) and Score}
+\subtitle{Section 06.03 --- The Score Function and Asymptotic Normality of the MLE}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 06: Estimation and Data Science}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 5}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 06.01: Point Estimation, Unbiasedness, Efficiency, and Consistency}
+			\item \textcolor{gray}{Section 06.02: Method of Moments (MoM)}
+			\item \textbf{\textcolor{TecRojo}{Section 06.03: Maximum Likelihood Estimation (MLE) and Score}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 06.04: Confidence Intervals for Population Means ($Z$ and $t$)}
+			\item \textcolor{gray}{Section 06.05: Confidence Intervals for Variances ($\chi^2$) and Proportions}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Formalize the score function and its properties (zero mean, information identity), establish the asymptotic normality of the MLE, and connect this result to the Cramer-Rao Bound from Section 06.01.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: The Score Function
+\begin{frame}{The Score Function}
+	\vspace{-0.15cm}
+	\begin{block}{Definition}
+		$$U(\theta;X) = \frac{\partial}{\partial\theta}\ln f(X\mid\theta), \qquad U_n(\theta) = \sum_{i=1}^n U(\theta;X_i) = \frac{d}{d\theta}\ell(\theta)$$
+		The MLE solves the \emph{score equation}: $U_n(\hat\theta_{MLE})=0$.
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Fundamental Properties}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Zero mean:} $E_\theta[U(\theta;X)]=0$.
+			\item \textbf{Information identity:} $\Var_\theta[U(\theta;X)] = I(\theta)$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 04: Asymptotic Normality
+\begin{frame}{Asymptotic Normality of the MLE}
+	\vspace{-0.15cm}
+	\begin{block}{Theorem}
+		$$\sqrt{n}(\hat\theta_{MLE}-\theta) \xrightarrow{d} N\!\left(0,\, \frac{1}{I(\theta)}\right) \implies \hat\theta_{MLE} \overset{\text{approx.}}{\sim} N\!\left(\theta,\, \frac{1}{nI(\theta)}\right)$$
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Connection to Cramer-Rao}
+		The asymptotic variance of the MLE matches the Cramer-Rao Lower Bound (Section 06.01) exactly: the MLE is \textbf{asymptotically optimal}, even though it may be neither unbiased nor optimal for finite $n$ (recall $\hat\sigma^2_{MLE}$, biased by a factor $(n-1)/n$).
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 05: Practical Application
+\begin{frame}{Application: Approximate Confidence Intervals}
+	\vspace{-0.15cm}
+	\begin{block}{General Formula}
+		$$\hat\theta_{MLE} \pm z_{\alpha/2}\sqrt{\dfrac{1}{n I(\hat\theta_{MLE})}}$$
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Example: Poisson}
+		With $I(\lambda)=1/\lambda$: for $n=100$, $\hat\lambda_{MLE}=3.5$, the 95\% CI is $3.5 \pm 1.96\sqrt{3.5/100} \approx [3.13, 3.87]$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 06: Applications
+\begin{frame}{Applications in Data Science}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Logistic regression and neural networks:} training via gradient descent directly maximizes $\ell(\theta)$; the gradient \emph{is} the score. \pause
+		\item \textbf{Model standard errors:} the inverse Fisher information matrix gives the standard errors reported by statistical software (\texttt{statsmodels}, \texttt{R}). \pause
+		\item \textbf{Score (LM) tests:} hypothesis tests based only on $U_n(\theta_0)$, without needing to fit the full alternative model. \pause
+		\item \textbf{Delta method:} propagates the MLE's asymptotic variance to nonlinear transformations of the parameters.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: Score Properties}
+	\vspace{-0.05cm}
+	\scriptsize
+	Verification of $E[U]=0$ and the information identity for the Exponential (\texttt{06.03\_maximum\_likelihood\_estimation.py}):
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=17, lastline=29]{../../code/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Asymptotic Normality}
+	\vspace{-0.05cm}
+	\scriptsize
+	Monte Carlo verification of the asymptotic normality of the Poisson MLE and construction of an approximate CI:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=32, lastline=55]{../../code/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Rayleigh MLE and the Delta Method}
+	\vspace{-0.05cm}
+	\scriptsize
+	Deriving the Rayleigh MLE and verifying the delta method for $\hat\sigma_{MLE}$:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=58, lastline=85]{../../code/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.py}}
+\end{frame}
+
+% SLIDE 10: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: Score Function Properties (Exponential) ===
+E[U]=0.00094 (theo 0) | Var[U]=0.249 (theo I(lambda)=0.25)
+
+=== Block 2: Asymptotic Normality (Poisson) ===
+Var[lambda_MLE]=0.0350 (theo 1/(nI)=0.0350)
+Approx. 95% CI (n=100, lambda_hat=3.5): [3.133, 3.867]
+
+=== Block 3: Rayleigh MLE and Delta Method ===
+Var(sigma_MLE)=0.0200 (theo sigma^2/(4n)=0.0200)
+Delta-method Var(sigma) from Var(sigma^2): 0.0200
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.3.1 --- Score of the Exponential (Statement)}
+		Let $X\sim\text{Exp}(\lambda)$. Derive the score function $U(\lambda;X)$, and verify that $E_\lambda[U(\lambda;X)]=0$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item $\ln f(x\mid\lambda) = \ln\lambda - \lambda x$; differentiate with respect to $\lambda$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Differentiate and take expectation: \pause
+	\begin{block}{Calculation}
+		$$U(\lambda;X) = \frac{1}{\lambda}-X, \qquad E[U(\lambda;X)] = \frac{1}{\lambda}-E(X) = \frac{1}{\lambda}-\frac{1}{\lambda} = 0$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		The score measures how much each observation ``pushes'' $\hat\lambda$ up or down; on average, evaluated at the true $\lambda$, this push cancels out exactly.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.3.4 --- MLE of the Geometric via Score (Statement)}
+		Let $X\sim\text{Geometric}(p)$, $f(x\mid p)=p(1-p)^{x-1}$. Construct the score equation and prove that $\hat p_{MLE}=1/\bar X$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Write $\ell(p)$, differentiate with respect to $p$, sum over the sample, and set equal to zero.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Solve the score equation: \pause
+	\begin{block}{Calculation}
+		\begin{align*}
+			\frac{d}{dp}\ell(p) = \frac{n}{p} - \frac{\sum x_i-n}{1-p} = 0 \implies n = p\sum x_i \implies \hat p_{MLE} = \frac{1}{\bar X}. \quad \qedhere
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		This matches the MoM estimator from Section 06.02 exactly: for single-parameter models with a simple monotone relationship between the parameter and the mean, MLE and MoM frequently coincide.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.3.7 --- General Information Identity (Statement)}
+		Prove that $-E_\theta\left[\dfrac{\partial^2}{\partial\theta^2}\ln f(X\mid\theta)\right] = \Var_\theta[U(\theta;X)]$, starting from $E_\theta[U(\theta;X)]=0$.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Differentiate the identity $E[U]=0$ once more with respect to $\theta$, under the integral sign, using the product rule.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Differentiate under the integral sign: \pause
+	\begin{block}{Proof}
+		\scriptsize
+		\begin{align*}
+			0 = \frac{\partial}{\partial\theta}\int U f\,dx = \int\frac{\partial U}{\partial\theta}f\,dx + \int U^2 f\,dx = E\left[\frac{\partial U}{\partial\theta}\right]+E[U^2].
+		\end{align*}
+		Since $\partial U/\partial\theta = \partial^2\ln f/\partial\theta^2$ and $E[U^2]=\Var(U)$: $-E[\partial^2\ln f/\partial\theta^2] = \Var(U)$. \quad \qedhere
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		This identity explains why $I(\theta)$ has two equivalent formulas: as the variance of the score, or as the negative expected curvature of the log-likelihood.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem 6.3.9 --- Rayleigh MLE (Statement)}
+		Let $X\sim\text{Rayleigh}(\sigma)$, $f(x\mid\sigma)=\frac{x}{\sigma^2}e^{-x^2/(2\sigma^2)}$, with $E(X^2)=2\sigma^2$. Derive the score, $\hat\sigma^2_{MLE}$, $I(\sigma)$, and the asymptotic variance of $\hat\sigma_{MLE}$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Differentiate $\ln f$ with respect to $\sigma$ twice; use $E(X^2)=2\sigma^2$ to evaluate the expectation.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Differentiate twice: \pause
+	\begin{block}{Calculation}
+		\scriptsize
+		\begin{align*}
+			\hat\sigma^2_{MLE} = \frac{1}{2n}\sum x_i^2, \qquad I(\sigma) = -E\left[\frac{2}{\sigma^2}-\frac{3X^2}{\sigma^4}\right] = \frac{4}{\sigma^2}.
+		\end{align*}
+		\begin{align*}
+			\Var(\hat\sigma_{MLE}) \approx \frac{1}{nI(\sigma)} = \frac{\sigma^2}{4n}. \quad \qedhere
+		\end{align*}
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		The same pattern repeats: the Rayleigh log-likelihood is analytically tractable, allowing both the MLE and its Fisher Information to be derived in closed form.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 19: Closing and Chapter Perspective
+\begin{frame}{Closing Section and Chapter Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: MLE and Score}
+		\scriptsize
+		The score function is the connecting thread linking the construction of the MLE (score equation), Fisher Information (variance of the score), and the Cramer-Rao Bound (Section 06.01). Together, these ideas explain why the MLE is, in the limit, the best possible estimator.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Score:} $U(\theta;X)=\partial\ln f/\partial\theta$; zero mean, variance $I(\theta)$.
+			\item \textbf{Asymptotic normality:} $\hat\theta_{MLE} \overset{\text{approx.}}{\sim} N(\theta, 1/(nI(\theta)))$ --- the optimal Cramer-Rao variance.
+			\item \textbf{Application:} approximate confidence intervals and the delta method for transformations.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Confidence Intervals for Population Means ($Z$ and $t$)}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}

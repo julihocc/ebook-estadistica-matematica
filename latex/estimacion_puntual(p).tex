@@ -897,3 +897,204 @@
 
 	El MLE de la Gamma no tiene forma cerrada porque la derivada de $\ln\Gamma(\alpha)$ (la función digamma $\psi(\alpha)$) no se puede invertir algebraicamente; la ecuación de verosimilitud queda expresada implícitamente en términos de $\psi(\alpha)$, requiriendo Newton-Raphson u otro método iterativo. A pesar de este costo computacional, el MLE suele preferirse asintóticamente porque, bajo condiciones de regularidad, alcanza la eficiencia asintótica (la Cota de Cramér-Rao), mientras que el MoM generalmente tiene mayor varianza asintótica. \quad \qedhere
 \end{solucion}
+
+% ==============================================================================
+% SECCIÓN 06.03: ESTIMACIÓN POR MÁXIMA VEROSIMILITUD (MLE) Y SCORE
+% ==============================================================================
+
+\subsection*{Enunciados de los problemas --- Sección 06.03}
+
+\subsubsection*{Nivel Fundamental}
+
+\begin{problema}
+	\label{prob:6.3.1}
+	Sea $X\sim\text{Exp}(\lambda)$ con $f(x\mid\lambda)=\lambda e^{-\lambda x}$. Derive la función de score $U(\lambda;X)$ de una sola observación, y verifique que $E_\lambda[U(\lambda;X)]=0$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.2}
+	Para el modelo Exponencial del Problema \ref{prob:6.3.1}, calcule la Información de Fisher $I(\lambda) = -E\left[\dfrac{\partial^2}{\partial\lambda^2}\ln f(X\mid\lambda)\right]$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.3}
+	Usando el Teorema de Normalidad Asintótica del MLE y el resultado del Problema \ref{prob:6.3.2}, escriba la distribución aproximada de $\hat\lambda_{MLE}$ para una muestra de tamaño $n=50$ de una Exponencial con $\lambda=2$.
+\end{problema}
+
+\subsubsection*{Nivel Operativo}
+
+\begin{problema}
+	\label{prob:6.3.4}
+	Sea $X\sim\text{Geométrica}(p)$ (número de ensayos hasta el primer éxito), con $f(x\mid p)=p(1-p)^{x-1}$. Construya la ecuación de score y demuestre que $\hat{p}_{MLE} = 1/\bar X$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.5}
+	Una muestra de $n=100$ observaciones Poisson produce $\hat\lambda_{MLE}=3.5$. Sabiendo que $I(\lambda)=1/\lambda$ para la Poisson, use la normalidad asintótica del MLE para construir un intervalo de confianza aproximado del $95\%$ para $\lambda$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.6}
+	Para el modelo Exponencial de los Problemas \ref{prob:6.3.1}-\ref{prob:6.3.2}, calcule $\Var_\lambda[U(\lambda;X)]$ directamente a partir de $U(\lambda;X)=1/\lambda - X$, y verifique que coincide con $I(\lambda)$ (la identidad de la información).
+\end{problema}
+
+\subsubsection*{Nivel Analítico}
+
+\begin{problema}
+	\label{prob:6.3.7}
+	Demuestre la identidad general de la información, $-E_\theta\left[\dfrac{\partial^2}{\partial\theta^2}\ln f(X\mid\theta)\right] = \Var_\theta[U(\theta;X)]$, partiendo de $E_\theta[U(\theta;X)]=0$ y derivando esta identidad una vez más respecto a $\theta$ bajo el signo integral.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.8}
+	Para $X_1,\ldots,X_n \sim N(\mu,\sigma^2)$ (ambos parámetros desconocidos), escriba el vector de score $\left(\dfrac{\partial\ell}{\partial\mu}, \dfrac{\partial\ell}{\partial\sigma^2}\right)$ e iguale ambas componentes a cero simultáneamente para recuperar $\hat\mu_{MLE}=\bar X$ y $\hat\sigma^2_{MLE}=\frac{1}{n}\sum(X_i-\bar X)^2$.
+\end{problema}
+
+\subsubsection*{Nivel Desafiante}
+
+\begin{problema}
+	\label{prob:6.3.9}
+	Sea $X\sim\text{Rayleigh}(\sigma)$ con densidad $f(x\mid\sigma) = \dfrac{x}{\sigma^2}e^{-x^2/(2\sigma^2)}$, $x>0$, y $E(X^2)=2\sigma^2$. Derive la función de score, el estimador $\hat\sigma^2_{MLE}$, la Información de Fisher $I(\sigma)$, y la varianza asintótica de $\hat\sigma_{MLE}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.10}
+	Para el modelo Normal, se sabe que $\Var(\hat\sigma^2_{MLE}) \approx 2\sigma^4/n$ asintóticamente. Use el método delta (con $g(x)=\sqrt{x}$) para derivar la varianza asintótica de $\hat\sigma_{MLE}=\sqrt{\hat\sigma^2_{MLE}}$.
+\end{problema}
+
+\subsection*{Sugerencias de los problemas --- Sección 06.03}
+
+\begin{sugerencia}
+	\label{sug:6.3.1}
+	Para el Problema \ref{prob:6.3.1}, $\ln f = \ln\lambda - \lambda x$; derive respecto a $\lambda$ y use $E(X)=1/\lambda$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.2}
+	Para el Problema \ref{prob:6.3.2}, derive $U(\lambda;X)=1/\lambda-X$ una vez más respecto a $\lambda$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.3}
+	Para el Problema \ref{prob:6.3.3}, use $\hat\lambda_{MLE}\overset{\text{aprox.}}{\sim}N(\lambda, 1/(nI(\lambda)))$ con $I(\lambda)=1/\lambda^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.4}
+	Para el Problema \ref{prob:6.3.4}, $\ln f = \ln p + (x-1)\ln(1-p)$; sume sobre la muestra, derive respecto a $p$ e iguale a cero.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.5}
+	Para el Problema \ref{prob:6.3.5}, la varianza aproximada es $\hat\lambda/n$; construya $\hat\lambda \pm 1.96\sqrt{\hat\lambda/n}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.6}
+	Para el Problema \ref{prob:6.3.6}, $\Var(1/\lambda - X) = \Var(X) = 1/\lambda^2$, que coincide con $I(\lambda)$ del Problema \ref{prob:6.3.2}.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.7}
+	Para el Problema \ref{prob:6.3.7}, derive $0=\partial/\partial\theta\int f\,dx$ una segunda vez, use la regla del producto, y reconozca $\int (\partial^2 f/\partial\theta^2)\,dx$ en términos de $E[\partial^2\ln f/\partial\theta^2]$ y $E[U^2]$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.8}
+	Para el Problema \ref{prob:6.3.8}, use la log-verosimilitud normal ya derivada en la Sección 06.01/06.02 y calcule ambas derivadas parciales.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.9}
+	Para el Problema \ref{prob:6.3.9}, $\ln f = \ln x - 2\ln\sigma - x^2/(2\sigma^2)$; derive respecto a $\sigma$, iguale a cero, y luego derive una segunda vez para $I(\sigma)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.10}
+	Para el Problema \ref{prob:6.3.10}, use el método delta: $\Var(g(\hat\theta)) \approx [g'(\theta)]^2\Var(\hat\theta)$ con $g'(x)=1/(2\sqrt x)$.
+\end{sugerencia}
+
+\subsection*{Soluciones de los problemas --- Sección 06.03}
+
+\begin{solucion}
+	\label{sol:6.3.1}
+	Para el Problema \ref{prob:6.3.1}: $\ln f(x\mid\lambda) = \ln\lambda - \lambda x$, así que $U(\lambda;X) = \partial/\partial\lambda\ln f = 1/\lambda - X$. Tomando esperanza: $E[U(\lambda;X)] = 1/\lambda - E(X) = 1/\lambda - 1/\lambda = 0$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.2}
+	Para el Problema \ref{prob:6.3.2}: $\partial^2/\partial\lambda^2 \ln f = \partial/\partial\lambda(1/\lambda - x) = -1/\lambda^2$. Por lo tanto, $I(\lambda) = -E[-1/\lambda^2] = 1/\lambda^2$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.3}
+	Para el Problema \ref{prob:6.3.3}: con $\lambda=2$, $I(\lambda)=1/\lambda^2=1/4$, así que $1/(nI(\lambda)) = 1/(50\cdot 0.25) = 1/12.5 = 0.08$.
+	\begin{align*}
+		\hat\lambda_{MLE} \overset{\text{aprox.}}{\sim} N(2,\ 0.08). \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.4}
+	Para el Problema \ref{prob:6.3.4}: $\ell(p) = n\ln p + \left(\sum x_i - n\right)\ln(1-p)$. Derivando e igualando a cero:
+	\begin{align*}
+		\frac{d}{dp}\ell(p) = \frac{n}{p} - \frac{\sum x_i - n}{1-p} = 0 \implies n(1-p) = p\left(\sum x_i - n\right) \implies n = p\sum x_i \implies \hat p_{MLE} = \frac{1}{\bar X}. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.5}
+	Para el Problema \ref{prob:6.3.5}: varianza aproximada $\approx \hat\lambda/n = 3.5/100 = 0.035$, con error estándar $\approx 0.1871$.
+	\begin{align*}
+		\text{IC}_{95\%} \approx 3.5 \pm 1.96(0.1871) \approx 3.5 \pm 0.367 = [3.133,\ 3.867]. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.6}
+	Para el Problema \ref{prob:6.3.6}: $\Var(U(\lambda;X)) = \Var(1/\lambda - X) = \Var(X) = 1/\lambda^2$ (ya que $1/\lambda$ es constante). Esto coincide exactamente con $I(\lambda)=1/\lambda^2$ calculado en el Problema \ref{prob:6.3.2}, confirmando la identidad de la información. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.7}
+	Para el Problema \ref{prob:6.3.7}: partiendo de $0 = \int \dfrac{\partial f}{\partial\theta}\,dx = \int U(\theta;x) f(x\mid\theta)\,dx$ (usando $\partial f/\partial\theta = U\cdot f$), derivamos nuevamente respecto a $\theta$ bajo el signo integral, aplicando la regla del producto:
+	\begin{align*}
+		0 = \int \left[\frac{\partial U}{\partial\theta} f + U\cdot\frac{\partial f}{\partial\theta}\right]dx = \int \frac{\partial U}{\partial\theta} f\,dx + \int U^2 f\,dx = E\left[\frac{\partial U}{\partial\theta}\right] + E[U^2].
+	\end{align*}
+	Como $\partial U/\partial\theta = \partial^2\ln f/\partial\theta^2$ y $E[U]=0$ implica $E[U^2]=\Var(U)$:
+	\begin{align*}
+		E\left[\frac{\partial^2\ln f}{\partial\theta^2}\right] = -\Var(U) \implies -E\left[\frac{\partial^2\ln f}{\partial\theta^2}\right] = \Var_\theta[U(\theta;X)]. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.8}
+	Para el Problema \ref{prob:6.3.8}: de la log-verosimilitud normal $\ell(\mu,\sigma^2) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln\sigma^2 - \frac{1}{2\sigma^2}\sum(x_i-\mu)^2$:
+	\begin{align*}
+		\frac{\partial\ell}{\partial\mu} = \frac{1}{\sigma^2}\sum(x_i-\mu), \qquad \frac{\partial\ell}{\partial\sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4}\sum(x_i-\mu)^2.
+	\end{align*}
+	Igualando ambas a cero simultáneamente: de la primera, $\sum(x_i-\mu)=0 \implies \hat\mu_{MLE}=\bar X$; sustituyendo en la segunda, $\hat\sigma^2_{MLE} = \frac{1}{n}\sum(x_i-\bar X)^2$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.9}
+	Para el Problema \ref{prob:6.3.9}: $\ln f = \ln x - 2\ln\sigma - x^2/(2\sigma^2)$.
+	\begin{align*}
+		U(\sigma;X) = \frac{\partial}{\partial\sigma}\ln f = -\frac{2}{\sigma} + \frac{X^2}{\sigma^3}.
+	\end{align*}
+	Igualando la suma a cero: $-2n/\sigma + (1/\sigma^3)\sum x_i^2 = 0 \implies \hat\sigma^2_{MLE} = \dfrac{1}{2n}\sum x_i^2$.
+
+	Derivando el score una vez más: $\partial^2\ln f/\partial\sigma^2 = 2/\sigma^2 - 3X^2/\sigma^4$. Usando $E(X^2)=2\sigma^2$:
+	\begin{align*}
+		I(\sigma) = -E\left[\frac{2}{\sigma^2}-\frac{3X^2}{\sigma^4}\right] = -\frac{2}{\sigma^2}+\frac{3(2\sigma^2)}{\sigma^4} = -\frac{2}{\sigma^2}+\frac{6}{\sigma^2} = \frac{4}{\sigma^2}.
+	\end{align*}
+	La varianza asintótica es $\Var(\hat\sigma_{MLE}) \approx \dfrac{1}{nI(\sigma)} = \dfrac{\sigma^2}{4n}$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.10}
+	Para el Problema \ref{prob:6.3.10}: con $g(x)=\sqrt x$, $g'(x)=1/(2\sqrt x)$, así que $g'(\sigma^2)=1/(2\sigma)$. Por el método delta:
+	\begin{align*}
+		\Var(\hat\sigma_{MLE}) = \Var(g(\hat\sigma^2_{MLE})) \approx \left[g'(\sigma^2)\right]^2 \Var(\hat\sigma^2_{MLE}) = \left(\frac{1}{2\sigma}\right)^2 \cdot \frac{2\sigma^4}{n} = \frac{1}{4\sigma^2}\cdot\frac{2\sigma^4}{n} = \frac{\sigma^2}{2n}. \quad \qedhere
+	\end{align*}
+\end{solucion}

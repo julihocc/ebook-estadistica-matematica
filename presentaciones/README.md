@@ -224,10 +224,11 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | :---: | :--- | :--- | :--- | :---: |
 | **06.01** | [06.01 Calidad de Estimadores](es/06_estimacion_estadistica/06.01_point_estimation_quality.tex) ([PDF](es/06_estimacion_estadistica/06.01_point_estimation_quality.pdf)) | [06.01 Point Estimation Quality](en/06_estimation_data_science/06.01_point_estimation_quality.tex) ([PDF](en/06_estimation_data_science/06.01_point_estimation_quality.pdf)) | `06.01_point_estimation_quality.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 06** |
 | **06.02** | [06.02 Método de Momentos](es/06_estimacion_estadistica/06.02_method_of_moments.tex) ([PDF](es/06_estimacion_estadistica/06.02_method_of_moments.pdf)) | [06.02 Method of Moments](en/06_estimation_data_science/06.02_method_of_moments.tex) ([PDF](en/06_estimation_data_science/06.02_method_of_moments.pdf)) | `06.02_method_of_moments.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
+| **06.03** | [06.03 MLE y Score](es/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.tex) ([PDF](es/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.pdf)) | [06.03 MLE and Score](en/06_estimation_data_science/06.03_maximum_likelihood_estimation.tex) ([PDF](en/06_estimation_data_science/06.03_maximum_likelihood_estimation.pdf)) | `06.03_maximum_likelihood_estimation.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Los Capítulos 04 (Variables Aleatorias Continuas) y 05 (Distribuciones de Muestreo) están 100% completos. El Capítulo 06 (Estimación y su Relación con Ciencia de Datos) está en curso (2 de 5 secciones completadas). Para ver la planificación del siguiente hito curricular del proyecto (**Sección 06.03: Estimación por Máxima Verosimilitud (MLE) y Score**), consulta el documento oficial de planificación:
+Los Capítulos 04 (Variables Aleatorias Continuas) y 05 (Distribuciones de Muestreo) están 100% completos. El Capítulo 06 (Estimación y su Relación con Ciencia de Datos) está en curso (3 de 5 secciones completadas). Para ver la planificación del siguiente hito curricular del proyecto (**Sección 06.04: Intervalos de Confianza para Medias Poblacionales**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

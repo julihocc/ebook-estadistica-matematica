@@ -143,8 +143,48 @@ La transformación logarítmica convierte multiplicaciones en sumas, lo cual sim
 	\end{align}
 \end{teorema}
 
+\subsubsection{La Función de Score y Normalidad Asintótica}
+
+La cantidad que se iguala a cero en la condición de primer orden tiene nombre e importancia propios: es la \emph{función de score}.
+
+\begin{definicion}[Función de score]
+	Para una sola observación $X$ con densidad $f(x\mid\theta)$, la \emph{función de score} es
+	\begin{align}
+		U(\theta; X) = \frac{\partial}{\partial\theta}\ln f(X\mid\theta).
+	\end{align}
+	Para una muestra $X_1,\ldots,X_n$ iid, el \emph{score total} es $U_n(\theta) = \sum_{i=1}^n U(\theta; X_i) = \dfrac{d}{d\theta}\ell(\theta)$. El estimador de máxima verosimilitud es, por definición, la solución de la \emph{ecuación de score} $U_n(\hat\theta_{MLE}) = 0$.
+\end{definicion}
+
+\begin{propiedad}[Propiedades del score]
+	Bajo condiciones de regularidad que permiten intercambiar derivación e integración:
+	\begin{enumerate}
+		\item \textbf{Media cero:} $E_\theta[U(\theta;X)] = 0$ para el valor verdadero de $\theta$.
+		\item \textbf{Identidad de la información:} $\text{Var}_\theta[U(\theta;X)] = I(\theta)$, es decir, la varianza del score de una observación es exactamente la Información de Fisher.
+	\end{enumerate}
+\end{propiedad}
+
+\begin{proof}[Bosquejo de la demostración de (1)]
+	Como $\int f(x\mid\theta)\,dx=1$ para todo $\theta$, derivando ambos lados respecto a $\theta$ e intercambiando derivada e integral:
+	\begin{align}
+		0 = \frac{\partial}{\partial\theta}\int f(x\mid\theta)\,dx = \int \frac{\partial f(x\mid\theta)/\partial\theta}{f(x\mid\theta)} f(x\mid\theta)\,dx = E_\theta[U(\theta;X)]. \qedhere
+	\end{align}
+\end{proof}
+
+\begin{teorema}[Normalidad asintótica del MLE]
+	 \label{eq:6.3.1}
+	Bajo condiciones de regularidad, cuando $n\to\infty$,
+	\begin{align}
+		\sqrt{n}\left(\hat\theta_{MLE} - \theta\right) \xrightarrow{d} N\!\left(0,\, \frac{1}{I(\theta)}\right),
+	\end{align}
+	es decir, para $n$ grande, $\hat\theta_{MLE} \overset{\text{aprox.}}{\sim} N\!\left(\theta,\, \dfrac{1}{nI(\theta)}\right)$.
+\end{teorema}
+
+\begin{observacion}[Conexión con la Cota de Cramér-Rao]
+	Este resultado formaliza la \emph{eficiencia asintótica} del MLE mencionada en la Sección 06.01: la varianza asintótica del MLE, $1/(nI(\theta))$, coincide exactamente con la Cota Inferior de Cramér-Rao. Así, aunque el MLE no sea insesgado ni óptimo para $n$ finito (como vimos con $\hat\sigma^2_{MLE}$), se vuelve asintóticamente óptimo: ningún estimador consistente puede hacerlo mejor en el límite.
+\end{observacion}
+
 \begin{ejemplo}
-	\textbf{MLE para la distribución Bernoulli.} 
+	\textbf{MLE para la distribución Bernoulli.}
 	Supongamos que $X_1, X_2, \ldots, X_n$ es una muestra aleatoria de variables Bernoulli con parámetro $p$, donde $P(X_i = 1) = p$ y $P(X_i = 0) = 1-p$. La función de masa de probabilidad de una observación es:
 	\begin{align}
 		f(x_i \mid p) = p^{x_i}(1-p)^{1-x_i}, \quad x_i \in \{0, 1\}.
