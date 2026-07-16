@@ -1,0 +1,316 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Pruebas $Z$/$t$ para Medias]{Sección 07.02: Pruebas $Z$ y $t$ para Medias de Una y Dos Muestras}
+\subtitle{Independientes, Homoscedásticas, de Welch y Pareadas}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 07: Docimasia (Pruebas de Hipótesis)}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{07.01} Fundamentos: $H_0$ vs. $H_1$, Errores Tipo I y II, y Potencia \pause
+    \item \textbf{07.02} Pruebas $Z$ y $t$ para Medias de Una y Dos Muestras \emph{(Hoy)} \pause
+    \item \textbf{07.03} Pruebas de Bondad de Ajuste $\chi^2$ \pause
+    \item \textbf{07.04} Tablas de Contingencia y Pruebas de Independencia
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Extender el marco lógico de la Sección 07.01 (planteamiento de hipótesis, $\alpha$, $\beta$, potencia) a las pruebas concretas para una y dos medias: la prueba $t$ de una muestra, el caso de dos muestras independientes homoscedásticas (varianza agrupada), el caso heteroscedástico (Welch), y el caso de muestras pareadas.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De una Media a la Comparación de Grupos}
+  \footnotesize
+  \begin{motivacion}
+    En la Sección 07.01 aplicamos el marco de docimasia a una sola media con $\sigma$ conocida. En la práctica, casi nunca conocemos $\sigma$, y con frecuencia el objetivo real es \emph{comparar} dos grupos: ¿es el algoritmo A más rápido que B? ¿mejora el tratamiento el desempeño de los mismos sujetos?
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{$\sigma$ desconocida (una muestra):} reemplazamos $\sigma$ por $S$ y usamos la distribución $t$ con $n-1$ g.l. \pause
+    \item \textbf{Dos muestras independientes:} el estadístico depende de si las varianzas poblacionales son iguales o distintas. \pause
+    \item \textbf{Muestras pareadas:} se reducen algebraicamente a una prueba $t$ de una sola muestra sobre las diferencias.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Prueba t de una muestra
+\begin{frame}{Prueba $t$ de Una Muestra ($\sigma$ Desconocida)}
+  \footnotesize
+  \begin{block}{Estadístico de Prueba}
+    $$t = \frac{\bar X - \mu_0}{S/\sqrt n} \ \sim\ t_{n-1} \quad \text{bajo } H_0: \mu=\mu_0$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Comparación con la Sección 07.01}
+    La estructura es idéntica a la prueba $Z$, salvo que: (1) $\sigma$ se reemplaza por su estimador muestral $S$, y (2) la distribución de referencia pasa de $N(0,1)$ a $t_{n-1}$, más dispersa para compensar la incertidumbre adicional de estimar $\sigma$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Dos medias independientes (pooled y Welch)
+\begin{frame}{Dos Medias Independientes: Varianza Agrupada vs. Welch}
+  \footnotesize
+  \begin{block}{Caso Homoscedástico ($\sigma_1^2=\sigma_2^2$): Varianza Agrupada}
+    $$t = \frac{(\bar X_1-\bar X_2)-\Delta_0}{S_p\sqrt{1/n_1+1/n_2}}, \qquad S_p^2 = \frac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2}, \qquad \nu=n_1+n_2-2$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Caso Heteroscedástico ($\sigma_1^2\neq\sigma_2^2$): Welch-Satterthwaite}
+    $$t = \frac{(\bar X_1-\bar X_2)-\Delta_0}{\sqrt{S_1^2/n_1+S_2^2/n_2}}, \qquad \nu_{\text{Welch}} = \frac{(S_1^2/n_1+S_2^2/n_2)^2}{\frac{(S_1^2/n_1)^2}{n_1-1}+\frac{(S_2^2/n_2)^2}{n_2-1}}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Muestras pareadas
+\begin{frame}{Muestras Pareadas: Reducción a una Sola Muestra}
+  \footnotesize
+  \begin{block}{Variable de Diferencia}
+    Para mediciones repetidas sobre los mismos sujetos ($X_{1i}, X_{2i}$), definimos $D_i=X_{1i}-X_{2i}$ y reducimos el contraste sobre $\mu_1-\mu_2$ a una prueba $t$ de una sola muestra sobre $\mu_D$:
+    $$t = \frac{\bar D - \Delta_0}{S_D/\sqrt n} \ \sim\ t_{n-1}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{¿Por Qué Pareamos?}
+    El pareamiento elimina la variabilidad \emph{entre sujetos} (cada quien es su propio control), aumentando drásticamente la potencia de la prueba al reducir el error estándar frente al diseño de muestras independientes.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Elegir la prueba correcta
+\begin{frame}{¿Qué Prueba Elegir? Un Árbol de Decisión}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{¿Una sola muestra?} Use la prueba $t$ (o $Z$ si $\sigma$ es conocida) de la Sección 07.01. \pause
+    \item \textbf{¿Dos muestras, mismos sujetos medidos dos veces?} Use la prueba $t$ pareada sobre $D_i$. \pause
+    \item \textbf{¿Dos muestras independientes, varianzas similares?} Use la prueba $t$ con varianza agrupada. \pause
+    \item \textbf{¿Dos muestras independientes, varianzas claramente distintas?} Use la prueba $t$ de Welch.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Prueba $t$ de Una Muestra}
+  \scriptsize
+  Prueba $t$ con $\sigma$ desconocida, verificada contra \texttt{scipy.stats.ttest\_1samp} (\texttt{07.02\_z\_t\_tests\_means.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=37]{../../code/07_pruebas_hipotesis/07.02_z_t_tests_means.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Varianza Agrupada vs. Welch}
+  \scriptsize
+  Comparación directa de ambos estadísticos bajo homoscedasticidad y heteroscedasticidad:
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=40, lastline=77]{../../code/07_pruebas_hipotesis/07.02_z_t_tests_means.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Prueba $t$ Pareada}
+  \scriptsize
+  Reducción de un diseño pareado a una prueba $t$ de una sola muestra sobre las diferencias:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=80, lastline=101]{../../code/07_pruebas_hipotesis/07.02_z_t_tests_means.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: One-Sample t-Test ===
+t statistic = 1.7050, df=48, two-tailed p-value = 0.0947
+
+=== Block 2: Pooled vs. Welch t-Test ===
+Homoscedastic: Pooled t=-1.9815, df=32, p=0.0562
+Heteroscedastic: Welch t=4.2026, df=16.60, p=0.0006
+
+=== Block 3: Paired t-Test ===
+t statistic = 6.3743, df=11, one-tailed p-value = 0.000026
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema \ref{prob:doc_dos_medias_iguales})}
+    Una empresa de telemedicina compara el tiempo medio de respuesta entre dos plataformas: Plataforma 1 ($n_1=16$, $\bar X_1=14.2$, $S_1=2.4$) y Plataforma 2 ($n_2=18$, $\bar X_2=16.8$, $S_2=2.6$), asumiendo varianzas iguales. Pruebe al nivel $\alpha=0.05$ si existe diferencia real.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    Calcule primero la varianza agrupada $S_p^2$ con $\nu=n_1+n_2-2=32$ grados de libertad.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Calculamos la varianza agrupada y el estadístico $t$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$S_p^2 = \frac{15(2.4)^2+17(2.6)^2}{32} \approx 6.291, \qquad t = \frac{14.2-16.8}{2.508\sqrt{1/16+1/18}} \approx -3.017$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Con $t_{0.025,32}\approx2.037$, como $|-3.017|>2.037$ se \textbf{rechaza $H_0$}: la Plataforma 1 es significativamente más rápida al nivel del 5\%.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema \ref{prob:doc_welch_hetero})}
+    Un científico de datos compara tiempos de ejecución de dos algoritmos con varianzas explícitamente heterogéneas: Algoritmo 1 ($n_1=15$, $\bar X_1=85.2$, $S_1=12.4$), Algoritmo 2 ($n_2=18$, $\bar X_2=74.5$, $S_2=5.2$). Calcule $\nu$ de Welch y pruebe al $\alpha=0.05$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Use la fórmula de Welch-Satterthwaite para los grados de libertad efectivos (generalmente no enteros).
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos los grados de libertad de Welch y el estadístico $t$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\nu_{\text{Welch}} \approx 18.14, \qquad t = \frac{85.2-74.5}{\sqrt{12.4^2/15+5.2^2/18}} \approx 3.14$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Con $t_{0.025,18}\approx2.101$, como $3.14>2.101$ se \textbf{rechaza $H_0$}: los tiempos medios de ejecución difieren significativamente; usar la varianza agrupada aquí habría sido metodológicamente incorrecto.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Potencia y Tamaño de Muestra (Enunciado, Problema \ref{prob:doc_errores_potencia_muestra})}
+    Para $H_0:\mu\le100$ vs. $H_a:\mu>100$ ms con $\sigma=15$ conocida, $n=25$, $\alpha=0.05$: calcule $\beta$ si $\mu_a=108$, y el $n$ necesario para potencia del $90\%$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Este problema conecta directamente con la fórmula de tamaño de muestra de la Sección 07.01: $n=((Z_\alpha+Z_\beta)\sigma/(\mu_a-\mu_0))^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Aplicamos las fórmulas de la Sección 07.01 al contexto de latencia de red: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\beta \approx 0.153 \implies \text{Potencia}\approx0.847, \qquad n = \left(\frac{(1.645+1.282)(15)}{8}\right)^2 \approx 30.12 \to n=31$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Este ejercicio confirma que la maquinaria teórica de la Sección 07.01 (diseñada para una sola media con $\sigma$ conocida) se aplica sin cambios a cualquier contexto aplicado, aquí latencia de red en una fintech.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Razón de Verosimilitudes de Wilks (Enunciado, Problema \ref{prob:doc_desaf_lrt_wilks})}
+    Para $X_i\sim N(\mu_1,\sigma_1^2)$, $Y_i\sim N(\mu_2,\sigma_2^2)$ independientes, deduzca el estadístico LRT $-2\ln\Lambda$ para $H_0:\sigma_1^2=\sigma_2^2$ y justifique su convergencia a $\chi^2_1$ vía el Teorema de Wilks.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Derive primero los EMV de $\sigma_1^2,\sigma_2^2$ sin restricción, luego el EMV combinado bajo la restricción $\sigma_1^2=\sigma_2^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Construimos el estadístico de razón de verosimilitudes: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\hat\sigma_0^2 = \frac{n_1\hat\sigma_1^2+n_2\hat\sigma_2^2}{n_1+n_2}, \qquad -2\ln\Lambda = n_1\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_1^2}\right) + n_2\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_2^2}\right)$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Por el Teorema de Wilks, $-2\ln\Lambda \to \chi^2_{\nu}$ donde $\nu$ es la diferencia de dimensión paramétrica entre $\Theta$ (2 parámetros de varianza libres) y $\Theta_0$ (1 parámetro combinado), es decir $\nu=1$. Este es un enfoque alternativo y asintóticamente equivalente a la prueba $F$ clásica.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: Pruebas $Z$/$t$ para Medias}
+  \begin{reflexion}
+    Comparar medias exige primero diagnosticar la estructura del problema --- ¿una muestra o dos? ¿independientes o pareadas? ¿varianzas iguales o distintas? --- antes de aplicar mecánicamente una fórmula. Elegir el estadístico incorrecto (por ejemplo, varianza agrupada cuando las varianzas son claramente distintas) puede invalidar la inferencia.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Una muestra, $\sigma$ desconocida:} $t=(\bar X-\mu_0)/(S/\sqrt n)$, $\nu=n-1$.
+      \item \textbf{Dos muestras independientes:} varianza agrupada si $\sigma_1^2=\sigma_2^2$; Welch si no.
+      \item \textbf{Muestras pareadas:} reducir a una prueba $t$ de una muestra sobre las diferencias $D_i$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Hasta ahora hemos probado hipótesis sobre medias de variables \emph{continuas}. La Sección 07.03 cambia de terreno: probaremos si los datos \emph{categóricos} completos se ajustan a una distribución teórica propuesta, usando la prueba de bondad de ajuste $\chi^2$ --- la herramienta fundamental para validar modelos discretos completos, no solo un parámetro aislado.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la distribución $\chi^2$ y sus grados de libertad (Sección 05.03).
+      \item Reflexiona sobre por qué estimar parámetros de la propia muestra reduce los grados de libertad disponibles.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

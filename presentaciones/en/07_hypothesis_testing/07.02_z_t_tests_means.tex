@@ -1,0 +1,316 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[$Z$/$t$ Tests for Means]{Section 07.02: $Z$ and $t$ Tests for One- and Two-Sample Means}
+\subtitle{Independent, Homoscedastic, Welch, and Paired Designs}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 07: Hypothesis Testing}
+  \footnotesize
+  Where are we in the modular development of the chapter? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{07.01} Foundations: $H_0$ vs. $H_1$, Type I and II Errors, and Power \pause
+    \item \textbf{07.02} $Z$ and $t$ Tests for One- and Two-Sample Means \emph{(Today)} \pause
+    \item \textbf{07.03} Chi-Squared Goodness-of-Fit Tests \pause
+    \item \textbf{07.04} Contingency Tables and Independence Tests
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Extend the logical framework of Section 07.01 (hypothesis formulation, $\alpha$, $\beta$, power) to the concrete tests for one and two means: the one-sample $t$-test, the homoscedastic two-independent-sample case (pooled variance), the heteroscedastic case (Welch), and the paired-sample case.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{From One Mean to Comparing Groups}
+  \footnotesize
+  \begin{motivacion}
+    In Section 07.01 we applied the hypothesis-testing framework to a single mean with known $\sigma$. In practice, we almost never know $\sigma$, and the real goal is frequently to \emph{compare} two groups: is algorithm A faster than B? Does a treatment improve the performance of the same subjects?
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Unknown $\sigma$ (one sample):} replace $\sigma$ with $S$ and use the $t$-distribution with $n-1$ df. \pause
+    \item \textbf{Two independent samples:} the statistic depends on whether population variances are equal or different. \pause
+    \item \textbf{Paired samples:} algebraically reduce to a one-sample $t$-test on the differences.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: One-sample t-test
+\begin{frame}{One-Sample $t$-Test (Unknown $\sigma$)}
+  \footnotesize
+  \begin{block}{Test Statistic}
+    $$t = \frac{\bar X - \mu_0}{S/\sqrt n} \ \sim\ t_{n-1} \quad \text{under } H_0: \mu=\mu_0$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Comparison with Section 07.01}
+    The structure is identical to the $Z$-test, except that: (1) $\sigma$ is replaced by its sample estimator $S$, and (2) the reference distribution moves from $N(0,1)$ to $t_{n-1}$, which is more spread out to compensate for the additional uncertainty of estimating $\sigma$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Two independent means (pooled and Welch)
+\begin{frame}{Two Independent Means: Pooled Variance vs. Welch}
+  \footnotesize
+  \begin{block}{Homoscedastic Case ($\sigma_1^2=\sigma_2^2$): Pooled Variance}
+    $$t = \frac{(\bar X_1-\bar X_2)-\Delta_0}{S_p\sqrt{1/n_1+1/n_2}}, \qquad S_p^2 = \frac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2}, \qquad \nu=n_1+n_2-2$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Heteroscedastic Case ($\sigma_1^2\neq\sigma_2^2$): Welch-Satterthwaite}
+    $$t = \frac{(\bar X_1-\bar X_2)-\Delta_0}{\sqrt{S_1^2/n_1+S_2^2/n_2}}, \qquad \nu_{\text{Welch}} = \frac{(S_1^2/n_1+S_2^2/n_2)^2}{\frac{(S_1^2/n_1)^2}{n_1-1}+\frac{(S_2^2/n_2)^2}{n_2-1}}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Paired samples
+\begin{frame}{Paired Samples: Reduction to a Single Sample}
+  \footnotesize
+  \begin{block}{Difference Variable}
+    For repeated measurements on the same subjects ($X_{1i}, X_{2i}$), we define $D_i=X_{1i}-X_{2i}$ and reduce the contrast on $\mu_1-\mu_2$ to a one-sample $t$-test on $\mu_D$:
+    $$t = \frac{\bar D - \Delta_0}{S_D/\sqrt n} \ \sim\ t_{n-1}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Why Do We Pair?}
+    Pairing removes \emph{between-subject} variability (each subject is its own control), drastically increasing the test's power by shrinking the standard error relative to an independent-samples design.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Decision tree
+\begin{frame}{Which Test to Choose? A Decision Tree}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{One sample only?} Use the $t$-test (or $Z$-test if $\sigma$ is known) from Section 07.01. \pause
+    \item \textbf{Two samples, same subjects measured twice?} Use the paired $t$-test on $D_i$. \pause
+    \item \textbf{Two independent samples, similar variances?} Use the pooled-variance $t$-test. \pause
+    \item \textbf{Two independent samples, clearly different variances?} Use Welch's $t$-test.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: One-Sample $t$-Test}
+  \scriptsize
+  $t$-test with unknown $\sigma$, verified against \texttt{scipy.stats.ttest\_1samp} (\texttt{07.02\_z\_t\_tests\_means.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=37]{../../code/07_pruebas_hipotesis/07.02_z_t_tests_means.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Pooled Variance vs. Welch}
+  \scriptsize
+  Direct comparison of both statistics under homoscedasticity and heteroscedasticity:
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=40, lastline=77]{../../code/07_pruebas_hipotesis/07.02_z_t_tests_means.py}}
+\end{frame}
+
+% Slide 10: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: Paired $t$-Test}
+  \scriptsize
+  Reducing a paired design to a one-sample $t$-test on the differences:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=80, lastline=101]{../../code/07_pruebas_hipotesis/07.02_z_t_tests_means.py}}
+\end{frame}
+
+% Slide 11: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the Python lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: One-Sample t-Test ===
+t statistic = 1.7050, df=48, two-tailed p-value = 0.0947
+
+=== Block 2: Pooled vs. Welch t-Test ===
+Homoscedastic: Pooled t=-1.9815, df=32, p=0.0562
+Heteroscedastic: Welch t=4.2026, df=16.60, p=0.0006
+
+=== Block 3: Paired t-Test ===
+t statistic = 6.3743, df=11, one-tailed p-value = 0.000026
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem \ref{prob:doc_dos_medias_iguales})}
+    A telemedicine company compares mean response time between two platforms: Platform 1 ($n_1=16$, $\bar X_1=14.2$, $S_1=2.4$) and Platform 2 ($n_2=18$, $\bar X_2=16.8$, $S_2=2.6$), assuming equal variances. Test at level $\alpha=0.05$ whether a real difference exists.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Approach}
+    First compute the pooled variance $S_p^2$ with $\nu=n_1+n_2-2=32$ degrees of freedom.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Exercise Level 1 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+  \scriptsize
+  We compute the pooled variance and the $t$ statistic: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$S_p^2 = \frac{15(2.4)^2+17(2.6)^2}{32} \approx 6.291, \qquad t = \frac{14.2-16.8}{2.508\sqrt{1/16+1/18}} \approx -3.017$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    With $t_{0.025,32}\approx2.037$, since $|-3.017|>2.037$ we \textbf{reject $H_0$}: Platform 1 is significantly faster at the 5\% level.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem \ref{prob:doc_welch_hetero})}
+    A data scientist compares execution times of two algorithms with explicitly heterogeneous variances: Algorithm 1 ($n_1=15$, $\bar X_1=85.2$, $S_1=12.4$), Algorithm 2 ($n_2=18$, $\bar X_2=74.5$, $S_2=5.2$). Compute the Welch $\nu$ and test at $\alpha=0.05$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Use the Welch-Satterthwaite formula for the effective (typically non-integer) degrees of freedom.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Exercise Level 2 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+  \scriptsize
+  We compute the Welch degrees of freedom and the $t$ statistic: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\nu_{\text{Welch}} \approx 18.14, \qquad t = \frac{85.2-74.5}{\sqrt{12.4^2/15+5.2^2/18}} \approx 3.14$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    With $t_{0.025,18}\approx2.101$, since $3.14>2.101$ we \textbf{reject $H_0$}: the mean execution times differ significantly; using the pooled variance here would have been methodologically incorrect.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Power and Sample Size (Statement, Problem \ref{prob:doc_errores_potencia_muestra})}
+    For $H_0:\mu\le100$ vs. $H_a:\mu>100$ ms with known $\sigma=15$, $n=25$, $\alpha=0.05$: compute $\beta$ if $\mu_a=108$, and the $n$ needed for $90\%$ power.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    This problem connects directly with the sample size formula from Section 07.01: $n=((Z_\alpha+Z_\beta)\sigma/(\mu_a-\mu_0))^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Exercise Level 3 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+  \scriptsize
+  We apply the Section 07.01 formulas to the network latency context: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\beta \approx 0.153 \implies \text{Power}\approx0.847, \qquad n = \left(\frac{(1.645+1.282)(15)}{8}\right)^2 \approx 30.12 \to n=31$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    This exercise confirms that the theoretical machinery of Section 07.01 (designed for a single mean with known $\sigma$) applies unchanged to any applied context, here network latency at a fintech.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Wilks Likelihood Ratio Test (Statement, Problem \ref{prob:doc_desaf_lrt_wilks})}
+    For $X_i\sim N(\mu_1,\sigma_1^2)$, $Y_i\sim N(\mu_2,\sigma_2^2)$ independent, derive the LRT statistic $-2\ln\Lambda$ for $H_0:\sigma_1^2=\sigma_2^2$ and justify its convergence to $\chi^2_1$ via Wilks' Theorem.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    First derive the unrestricted MLEs of $\sigma_1^2,\sigma_2^2$, then the pooled MLE under the restriction $\sigma_1^2=\sigma_2^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Exercise Level 4 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+  \scriptsize
+  We construct the likelihood ratio statistic: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\hat\sigma_0^2 = \frac{n_1\hat\sigma_1^2+n_2\hat\sigma_2^2}{n_1+n_2}, \qquad -2\ln\Lambda = n_1\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_1^2}\right) + n_2\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_2^2}\right)$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    By Wilks' Theorem, $-2\ln\Lambda \to \chi^2_{\nu}$ where $\nu$ is the difference in parametric dimension between $\Theta$ (2 free variance parameters) and $\Theta_0$ (1 pooled parameter), i.e., $\nu=1$. This is an alternative, asymptotically equivalent approach to the classical $F$-test.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Closing
+\begin{frame}{Section Closing: $Z$/$t$ Tests for Means}
+  \begin{reflexion}
+    Comparing means first requires diagnosing the structure of the problem --- one sample or two? independent or paired? equal or unequal variances? --- before mechanically applying a formula. Choosing the wrong statistic (e.g., pooled variance when variances are clearly different) can invalidate the inference.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{One sample, unknown $\sigma$:} $t=(\bar X-\mu_0)/(S/\sqrt n)$, $\nu=n-1$.
+      \item \textbf{Two independent samples:} pooled variance if $\sigma_1^2=\sigma_2^2$; Welch otherwise.
+      \item \textbf{Paired samples:} reduce to a one-sample $t$-test on the differences $D_i$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    So far we have tested hypotheses about means of \emph{continuous} variables. Section 07.03 shifts terrain: we will test whether complete \emph{categorical} data fits a proposed theoretical distribution, using the $\chi^2$ goodness-of-fit test --- the fundamental tool for validating complete discrete models, not just a single isolated parameter.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Review the $\chi^2$ distribution and its degrees of freedom (Section 05.03).
+      \item Reflect on why estimating parameters from the sample itself reduces the available degrees of freedom.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
