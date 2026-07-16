@@ -216,7 +216,7 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
-## 5d. Catálogo e Índice de Presentaciones --- Capítulo 06 (En Curso)
+## 5d. Catálogo e Índice de Presentaciones --- Capítulo 06 (100% Completado)
 
 A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 5 / Capítulo 06: Estimación y su Relación con Ciencia de Datos**:
 
@@ -226,10 +226,11 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | **06.02** | [06.02 Método de Momentos](es/06_estimacion_estadistica/06.02_method_of_moments.tex) ([PDF](es/06_estimacion_estadistica/06.02_method_of_moments.pdf)) | [06.02 Method of Moments](en/06_estimation_data_science/06.02_method_of_moments.tex) ([PDF](en/06_estimation_data_science/06.02_method_of_moments.pdf)) | `06.02_method_of_moments.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
 | **06.03** | [06.03 MLE y Score](es/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.tex) ([PDF](es/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.pdf)) | [06.03 MLE and Score](en/06_estimation_data_science/06.03_maximum_likelihood_estimation.tex) ([PDF](en/06_estimation_data_science/06.03_maximum_likelihood_estimation.pdf)) | `06.03_maximum_likelihood_estimation.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
 | **06.04** | [06.04 IC para Medias](es/06_estimacion_estadistica/06.04_confidence_intervals_means.tex) ([PDF](es/06_estimacion_estadistica/06.04_confidence_intervals_means.pdf)) | [06.04 Confidence Intervals for Means](en/06_estimation_data_science/06.04_confidence_intervals_means.tex) ([PDF](en/06_estimation_data_science/06.04_confidence_intervals_means.pdf)) | `06.04_confidence_intervals_means.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
+| **06.05** | [06.05 IC para Varianzas y Proporciones](es/06_estimacion_estadistica/06.05_confidence_intervals_variances.tex) ([PDF](es/06_estimacion_estadistica/06.05_confidence_intervals_variances.pdf)) | [06.05 Confidence Intervals for Variances and Proportions](en/06_estimation_data_science/06.05_confidence_intervals_variances.tex) ([PDF](en/06_estimation_data_science/06.05_confidence_intervals_variances.pdf)) | `06.05_confidence_intervals_variances.py` | $\checkmark$ **Completado (17 diapositivas ES / 20 EN, 0 warnings) --- CIERRE DEL CAPÍTULO 06** |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Los Capítulos 04 (Variables Aleatorias Continuas) y 05 (Distribuciones de Muestreo) están 100% completos. El Capítulo 06 (Estimación y su Relación con Ciencia de Datos) está en curso (4 de 5 secciones completadas). Para ver la planificación del siguiente hito curricular del proyecto (**Sección 06.05: Intervalos de Confianza para Varianzas y Proporciones --- Cierre del Capítulo 06**), consulta el documento oficial de planificación:
+Los Capítulos 04 (Variables Aleatorias Continuas), 05 (Distribuciones de Muestreo) y 06 (Estimación y su Relación con Ciencia de Datos) están 100% completos. Para ver la planificación del siguiente hito curricular del proyecto (**Capítulo 07: Docimasia --- Pruebas de Hipótesis**, iniciando con la Sección 07.01), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

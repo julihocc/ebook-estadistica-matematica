@@ -72,6 +72,12 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/06_estimacion_estadistica/06.04_confidence_intervals_means.py` (IC $Z$ vs. $t$, IC de diferencia de medias con varianza agrupada, cobertura frecuentista vía Monte Carlo).
   - Mazos Beamer bilingües en `presentaciones/es/06_estimacion_estadistica/06.04_confidence_intervals_means.tex` (17 diapositivas) y `presentaciones/en/06_estimation_data_science/06.04_confidence_intervals_means.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 06 (Estimación y su Relación con Ciencia de Datos): 4 de 5 secciones completadas.
+- **Sección 06.05: Intervalos de Confianza para Varianzas y Proporciones (Cierre del Capítulo 06)**:
+  - Intervalo de Wilson (Score) explícito para una proporción, con explicación de su ventaja de cobertura sobre Wald, agregado a `latex/estimacion_intervalos_avanzado.tex` y su espejo `latex/en_estimacion_intervalos_avanzado.tex`.
+  - Se auditó `latex/estimacion_intervalos_avanzado(p).tex` y se confirmó que ya contenía un cuaderno 3-3-2-2 completo y avanzado (incluyendo la transformación de Fisher para correlación y el método delta) para este tema; no se creó un cuaderno duplicado.
+  - Script de laboratorio en Python `presentaciones/code/06_estimacion_estadistica/06.05_confidence_intervals_variances.py` (IC $\chi^2$ y $F$, IC de Fisher para correlación, y un estudio de cobertura Monte Carlo mostrando que Wald cubre solo $87.65\%$ vs. el $95.64\%$ de Wilson frente a un nominal del $95\%$).
+  - Mazos Beamer bilingües en `presentaciones/es/06_estimacion_estadistica/06.05_confidence_intervals_variances.tex` (17 diapositivas) y `presentaciones/en/06_estimation_data_science/06.05_confidence_intervals_variances.tex` (20 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 06 (Estimación y su Relación con Ciencia de Datos) queda 100% finalizado (5 de 5 secciones).
 
 ## 2026-07-14
 

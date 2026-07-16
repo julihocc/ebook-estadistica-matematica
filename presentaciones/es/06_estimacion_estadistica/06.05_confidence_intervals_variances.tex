@@ -1,0 +1,328 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[IC Varianzas y Proporciones]{Sección 06.05: Intervalos de Confianza para Varianzas y Proporciones}
+\subtitle{$\chi^2$, $F$, Wald, Wilson y la Transformación de Fisher}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 06: Estimación y su Relación con Ciencia de Datos}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{06.01} Estimación Puntual, Insesgadez, Eficiencia y Consistencia \pause
+    \item \textbf{06.02} Método de Momentos (MoM) \pause
+    \item \textbf{06.03} Estimación por Máxima Verosimilitud (MLE) y Score \pause
+    \item \textbf{06.04} Intervalos de Confianza para Medias Poblacionales ($Z$ y $t$) \pause
+    \item \textbf{06.05} Intervalos de Confianza para Varianzas y Proporciones \emph{(Hoy --- Cierre del Capítulo)}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Cerrar el capítulo aplicando la misma lógica de estimación por intervalo --- estimador $\pm$ margen --- a la varianza poblacional (vía $\chi^2$), a la razón de dos varianzas (vía $F$), y a proporciones, incluyendo alternativas más robustas que el intervalo de Wald clásico.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{Cerrando el Círculo: Todas las Distribuciones del Capítulo 05}
+  \footnotesize
+  \begin{motivacion}
+    Hoy usamos, en un mismo mazo, las tres distribuciones muestrales que construimos en el Capítulo 05: $\chi^2$ para la varianza, $F$ para la razón de varianzas, y la Normal para proporciones. Es el broche perfecto para cerrar el Capítulo 06.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Varianza:} $(n-1)S^2/\sigma^2 \sim \chi^2_{n-1}$ (Teorema de Fisher, Sección 05.03). \pause
+    \item \textbf{Razón de varianzas:} cociente de chi-cuadradas escaladas $\sim F$ (Sección 05.05). \pause
+    \item \textbf{Proporciones:} el estimador de Wald clásico tiene un competidor más robusto, el intervalo de Wilson.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: IC para Varianza y Razón de Varianzas
+\begin{frame}{IC para $\sigma^2$ y para $\sigma_1^2/\sigma_2^2$}
+  \footnotesize
+  \begin{block}{Varianza Poblacional (Sección 05.03)}
+    $$\frac{(n-1)S^2}{\chi^2_{\alpha/2,\,n-1}} \le \sigma^2 \le \frac{(n-1)S^2}{\chi^2_{1-\alpha/2,\,n-1}}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Razón de Dos Varianzas (Sección 05.05)}
+    $$\frac{S_1^2/S_2^2}{F_{\alpha/2,\,n_1-1,\,n_2-1}} \le \frac{\sigma_1^2}{\sigma_2^2} \le \frac{S_1^2/S_2^2}{F_{1-\alpha/2,\,n_1-1,\,n_2-1}}$$
+    Ambos intervalos son \textbf{asimétricos} alrededor del estimador puntual, a diferencia de los de $\mu$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Proporciones: Wald y Wilson
+\begin{frame}{Más Allá de Wald: el Intervalo de Wilson}
+  \footnotesize
+  \begin{block}{Intervalo de Wald (Clásico)}
+    $$\hat p \pm Z_{\alpha/2}\sqrt{\hat p(1-\hat p)/n}$$
+    Puede fallar gravemente para $n$ pequeña o $\hat p$ cerca de $0$/$1$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Intervalo de Wilson (Score)}
+    $$\frac{1}{1+\frac{Z_{\alpha/2}^2}{n}}\left[\hat p + \frac{Z_{\alpha/2}^2}{2n} \pm Z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}+\frac{Z_{\alpha/2}^2}{4n^2}}\right]$$
+    Se obtiene invirtiendo la prueba de score directamente; mantiene cobertura real mucho más cercana al nivel nominal.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Transformación de Fisher
+\begin{frame}{Un Caso Especial: IC para la Correlación de Pearson}
+  \footnotesize
+  El coeficiente $r$ vive en $[-1,1]$: un IC simétrico ingenuo puede salirse de ese rango. \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Transformación Estabilizadora de Varianza de Fisher}
+    $$Z(r) = \text{artanh}(r) \sim N\!\left(\text{artanh}(\rho),\ \frac{1}{n-3}\right)$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Construcción del IC}
+    Se construye el IC simétrico para $Z(\rho)$ y se invierte con $\tanh(\cdot)$, produciendo un intervalo \emph{asimétrico} para $\rho$ que jamás excede $[-1,1]$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Aplicaciones
+\begin{frame}{Aplicaciones en Ciencia de Datos e Ingeniería}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Control de calidad:} IC para la variabilidad de un proceso de manufactura. \pause
+    \item \textbf{A/B testing:} comparación robusta de tasas de conversión, especialmente con muestras pequeñas. \pause
+    \item \textbf{Finanzas cuantitativas:} IC para la volatilidad (varianza) de un activo. \pause
+    \item \textbf{Análisis de correlación:} IC de Fisher para validar relaciones entre variables en modelos predictivos.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: IC para Varianza y Wald vs. Wilson}
+  \scriptsize
+  IC $\chi^2$ para $\sigma^2$, y comparación Wald vs. Wilson para una proporción de muestra pequeña (\texttt{06.05\_confidence\_intervals\_variances.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=18, lastline=45]{../../code/06_estimacion_estadistica/06.05_confidence_intervals_variances.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Razón de Varianzas y Prueba A/B}
+  \scriptsize
+  IC $F$ para $\sigma_1^2/\sigma_2^2$, e IC para la diferencia de dos proporciones:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=48, lastline=69]{../../code/06_estimacion_estadistica/06.05_confidence_intervals_variances.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Fisher y Cobertura Wald vs. Wilson}
+  \scriptsize
+  IC de Fisher para correlación, y verificación Monte Carlo de la cobertura real Wald vs. Wilson:
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=72, lastline=107]{../../code/06_estimacion_estadistica/06.05_confidence_intervals_variances.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Variance CI and Wald vs. Wilson ===
+90% CI for sigma^2: [1.3387, 3.8753] | sigma: [1.1570, 1.9686]
+Wald 95% CI: [0.0247, 0.3753] | Wilson 95% CI: [0.0807, 0.4160]
+
+=== Block 2: Variance Ratio and A/B Test ===
+98% CI for ratio: [0.7482, 10.9987] (contains 1? Yes)
+95% CI for p1-p2: [-0.0785, -0.0015]
+
+=== Block 3: Fisher Z-Transformation & Coverage ===
+95% CI for rho: [0.6439, 0.9136]
+Wald coverage: 0.8765 (nominal 0.95) | Wilson coverage: 0.9564
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- IC para la Volatilidad (Enunciado)}
+    Los rendimientos diarios de un índice bursátil en $n=21$ días producen $S=1.45\%$. Asumiendo normalidad, construya un IC del $90\%$ para $\sigma^2$ y para $\sigma$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    \begin{itemize}\itemsep=0.04cm
+      \item $\nu=20$; use $\chi^2_{20,0.05}=31.410$ y $\chi^2_{20,0.95}=10.851$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Sustituimos en la fórmula del IC para $\sigma^2$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$(n-1)S^2 = 20(1.45)^2 = 42.05, \qquad \text{IC}_{90\%}(\sigma^2) = \left[\frac{42.05}{31.410}, \frac{42.05}{10.851}\right] = [1.339,\,3.875]\%^2$$
+    $$\text{IC}_{90\%}(\sigma) = [1.157,\,1.969]\%$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Con $90\%$ de confianza, la volatilidad diaria real del índice está entre $1.16\%$ y $1.97\%$ --- nótese la asimetría del intervalo, típica de $\chi^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Prueba A/B (Enunciado)}
+    Versión A: $n_1=800$, $144$ conversiones. Versión B: $n_2=850$, $187$ conversiones. Construya un IC del $95\%$ para $p_1-p_2$ y decida si se justifica adoptar la Versión B.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Verifique condiciones de muestra grande, calcule $\hat p_1$, $\hat p_2$, y el error estándar de la diferencia.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos ambas proporciones y su diferencia: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\hat p_1=0.18,\ \hat p_2=0.22,\ \hat p_1-\hat p_2=-0.04$$
+    $$\text{IC}_{95\%}(p_1-p_2) = -0.04\pm1.96(0.01966) = [-0.0785,\,-0.0015]$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Decisión}
+    \scriptsize
+    Como el intervalo completo es negativo (excluye el cero), hay evidencia estadística al $95\%$ de que la Versión B convierte mejor: se justifica adoptarla.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Razón de Varianzas (Enunciado)}
+    Sensor 1: $n_1=16$, $S_1^2=0.36$°C². Sensor 2: $n_2=13$, $S_2^2=0.12$°C². Construya el IC del $98\%$ para $\sigma_1^2/\sigma_2^2$ y determine si hay evidencia de variabilidad distinta.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Use $F_{15,12,0.01}=3.96$ y $F_{15,12,0.99}=1/F_{12,15,0.01}\approx 0.2725$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Calculamos el cociente empírico y el intervalo: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\frac{S_1^2}{S_2^2}=3.00, \qquad \text{IC}_{98\%}\left(\frac{\sigma_1^2}{\sigma_2^2}\right) = \left[\frac{3.00}{3.96},\,\frac{3.00}{0.2725}\right] = [0.758,\,11.01]$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como el intervalo contiene a $1$, no hay evidencia suficiente al $98\%$ de que un sensor sea más variable que el otro.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Transformación de Fisher (Enunciado)}
+    Un estudio bioinformático con $n=28$ pacientes observa $r=0.82$. Calcule el IC del $95\%$ para $\rho$ usando la transformación de Fisher.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Calcule $Z(r)=\text{artanh}(r)$, construya el IC simétrico en la escala $Z$ con $\text{SE}=1/\sqrt{n-3}$, e invierta con $\tanh(\cdot)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Transformamos, construimos el IC, e invertimos: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$Z(0.82)=1.1568,\quad \text{SE}_Z=1/\sqrt{25}=0.2$$
+    $$Z_L=0.7648,\ Z_U=1.5488 \implies \text{IC}_{95\%}(\rho) = [\tanh(0.7648),\,\tanh(1.5488)] = [0.644,\,0.914]$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    El intervalo es asimétrico alrededor de $r=0.82$ ($0.176$ hacia la izquierda vs. $0.094$ hacia la derecha) y nunca excede $[-1,1]$, a diferencia de lo que ocurriría con un IC ingenuo simétrico.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: IC para Varianzas y Proporciones}
+  \begin{reflexion}
+    Con esta sección cerramos el Capítulo 06: desde definir qué hace ``bueno'' a un estimador (06.01), pasando por dos métodos de construcción (MoM, MLE), hasta usar ambos para construir intervalos de confianza exactos para medias, varianzas y proporciones. Cada intervalo comparte la misma lógica --- estimador $\pm$ margen --- calibrada por la distribución muestral correcta.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Varianza:} IC vía $\chi^2$, asimétrico; \textbf{razón de varianzas:} IC vía $F$.
+      \item \textbf{Proporciones:} Wilson supera a Wald en cobertura real, especialmente para $n$ pequeña.
+      \item \textbf{Fisher:} transforma para estabilizar varianza y respetar los límites naturales del parámetro.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- Cierre del Capítulo 06}
+  \scriptsize
+  \begin{retoclase}
+    Con la Sección 06.05 concluimos el Capítulo 06: Estimación y su Relación con Ciencia de Datos, dominando la estimación puntual, sus métodos de construcción, y la estimación por intervalo. El Capítulo 07 --- Docimasia (Pruebas de Hipótesis) --- formalizará la dualidad IC-prueba de hipótesis que hemos mencionado repetidamente: errores Tipo I/II, potencia estadística, y pruebas para una y dos muestras.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la dualidad IC--prueba de hipótesis mencionada en varios ejercicios de este capítulo.
+      \item Reflexiona sobre qué significa rechazar o no rechazar $H_0$ cuando un valor hipotético cae dentro o fuera de un intervalo de confianza.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

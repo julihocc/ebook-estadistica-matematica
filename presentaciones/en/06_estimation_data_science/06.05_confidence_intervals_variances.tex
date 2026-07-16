@@ -1,0 +1,302 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Confidence Intervals for Variances and Proportions}
+\subtitle{Section 06.05 --- Chi-Squared, F, Wald, Wilson, and the Fisher Transformation}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 06: Estimation and Data Science}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 5}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 06.01: Point Estimation, Unbiasedness, Efficiency, and Consistency}
+			\item \textcolor{gray}{Section 06.02: Method of Moments (MoM)}
+			\item \textcolor{gray}{Section 06.03: Maximum Likelihood Estimation (MLE) and Score}
+			\item \textcolor{gray}{Section 06.04: Confidence Intervals for Population Means ($Z$ and $t$)}
+			\item \textbf{\textcolor{TecRojo}{Section 06.05: Confidence Intervals for Variances and Proportions}} $\leftarrow$ \emph{Current focus --- Chapter closes}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Close the chapter by applying the same interval-estimation logic --- estimator $\pm$ margin --- to the population variance (via $\chi^2$), to the ratio of two variances (via $F$), and to proportions, including alternatives more robust than the classical Wald interval.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Motivation
+\begin{frame}{Closing the Loop: Every Distribution from Chapter 05}
+	\vspace{-0.15cm}
+	\begin{block}{Today's Synthesis}
+		\footnotesize
+		We use, in a single deck, the three sampling distributions built in Chapter 05: $\chi^2$ for variance, $F$ for the ratio of variances, and the Normal for proportions.
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Key Ideas}
+		\footnotesize
+		Variance: $(n-1)S^2/\sigma^2 \sim \chi^2_{n-1}$ (Fisher's Theorem, Section 05.03). Ratio of variances: scaled chi-squared ratio $\sim F$ (Section 05.05). Proportions: classical Wald has a more robust competitor, the Wilson interval.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 04: CI for Variance and Ratio
+\begin{frame}{CI for $\sigma^2$ and for $\sigma_1^2/\sigma_2^2$}
+	\vspace{-0.15cm}
+	\begin{block}{Population Variance (Section 05.03)}
+		$$\frac{(n-1)S^2}{\chi^2_{\alpha/2,\,n-1}} \le \sigma^2 \le \frac{(n-1)S^2}{\chi^2_{1-\alpha/2,\,n-1}}$$
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Ratio of Two Variances (Section 05.05)}
+		$$\frac{S_1^2/S_2^2}{F_{\alpha/2,\,n_1-1,\,n_2-1}} \le \frac{\sigma_1^2}{\sigma_2^2} \le \frac{S_1^2/S_2^2}{F_{1-\alpha/2,\,n_1-1,\,n_2-1}}$$
+		Both intervals are \textbf{asymmetric} around the point estimator, unlike those for $\mu$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 05: Proportions: Wald and Wilson
+\begin{frame}{Beyond Wald: The Wilson Interval}
+	\vspace{-0.15cm}
+	\begin{block}{Classical Wald Interval}
+		$$\hat p \pm Z_{\alpha/2}\sqrt{\hat p(1-\hat p)/n}$$
+		Can fail badly for small $n$ or $\hat p$ near $0$/$1$.
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Wilson (Score) Interval}
+		$$\frac{1}{1+\frac{Z_{\alpha/2}^2}{n}}\left[\hat p + \frac{Z_{\alpha/2}^2}{2n} \pm Z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}+\frac{Z_{\alpha/2}^2}{4n^2}}\right]$$
+		Obtained by directly inverting the score test; maintains actual coverage much closer to the nominal level.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 06: Fisher Transformation
+\begin{frame}{A Special Case: CI for Pearson's Correlation}
+	\vspace{-0.15cm}
+	\begin{block}{Fisher's Variance-Stabilizing Transformation}
+		\footnotesize
+		The coefficient $r$ lives in $[-1,1]$: a naive symmetric CI can exceed that range. $Z(r) = \text{artanh}(r) \sim N(\text{artanh}(\rho),\ 1/(n-3))$.
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Building the CI}
+		\footnotesize
+		Build the symmetric CI for $Z(\rho)$ and invert with $\tanh(\cdot)$, producing an \emph{asymmetric} interval for $\rho$ that never exceeds $[-1,1]$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 07: Applications
+\begin{frame}{Applications in Data Science and Engineering}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Quality control:} CI for the variability of a manufacturing process. \pause
+		\item \textbf{A/B testing:} robust comparison of conversion rates, especially with small samples. \pause
+		\item \textbf{Quantitative finance:} CI for the volatility (variance) of an asset. \pause
+		\item \textbf{Correlation analysis:} Fisher's CI to validate relationships between variables in predictive models.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: Variance CI and Wald vs. Wilson}
+	\vspace{-0.05cm}
+	\scriptsize
+	Chi-squared CI for $\sigma^2$, and Wald vs. Wilson comparison for a small-sample proportion (\texttt{06.05\_confidence\_intervals\_variances.py}):
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=18, lastline=45]{../../code/06_estimacion_estadistica/06.05_confidence_intervals_variances.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Variance Ratio and A/B Test}
+	\vspace{-0.05cm}
+	\scriptsize
+	F-based CI for $\sigma_1^2/\sigma_2^2$, and CI for the difference of two proportions:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=48, lastline=69]{../../code/06_estimacion_estadistica/06.05_confidence_intervals_variances.py}}
+\end{frame}
+
+% SLIDE 10: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Fisher and Wald vs. Wilson Coverage}
+	\vspace{-0.05cm}
+	\scriptsize
+	Fisher CI for correlation, and Monte Carlo verification of actual Wald vs. Wilson coverage:
+	{\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+	\lstinputlisting[firstline=72, lastline=107]{../../code/06_estimacion_estadistica/06.05_confidence_intervals_variances.py}}
+\end{frame}
+
+% SLIDE 11: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: Variance CI and Wald vs. Wilson ===
+90% CI for sigma^2: [1.3387, 3.8753] | sigma: [1.1570, 1.9686]
+Wald 95% CI: [0.0247, 0.3753] | Wilson 95% CI: [0.0807, 0.4160]
+
+=== Block 2: Variance Ratio and A/B Test ===
+98% CI for ratio: [0.7482, 10.9987] (contains 1? Yes)
+95% CI for p1-p2: [-0.0785, -0.0015]
+
+=== Block 3: Fisher Z-Transformation & Coverage ===
+95% CI for rho: [0.6439, 0.9136]
+Wald coverage: 0.8765 (nominal 0.95) | Wilson coverage: 0.9564
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 12: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem --- CI for Volatility (Statement)}
+		Daily returns of a stock index over $n=21$ days yield $S=1.45\%$. Assuming normality, construct a 90\% CI for $\sigma^2$ and for $\sigma$.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item $\nu=20$; use $\chi^2_{20,0.05}=31.410$ and $\chi^2_{20,0.95}=10.851$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Substitute into the $\sigma^2$ CI formula: \pause
+	\begin{block}{Calculation}
+		$$(n-1)S^2 = 20(1.45)^2 = 42.05, \qquad \text{90\% CI}(\sigma^2) = \left[\frac{42.05}{31.410}, \frac{42.05}{10.851}\right] = [1.339,\,3.875]\%^2$$
+		$$\text{90\% CI}(\sigma) = [1.157,\,1.969]\%$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		With 90\% confidence, the true daily volatility of the index lies between 1.16\% and 1.97\% --- note the interval's asymmetry, typical of $\chi^2$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem --- A/B Test (Statement)}
+		Version A: $n_1=800$, 144 conversions. Version B: $n_2=850$, 187 conversions. Construct a 95\% CI for $p_1-p_2$ and decide whether adopting Version B is justified.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Verify large-sample conditions, compute $\hat p_1$, $\hat p_2$, and the standard error of the difference.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compute both proportions and their difference: \pause
+	\begin{block}{Calculation}
+		$$\hat p_1=0.18,\ \hat p_2=0.22,\ \hat p_1-\hat p_2=-0.04$$
+		$$\text{95\% CI}(p_1-p_2) = -0.04\pm1.96(0.01966) = [-0.0785,\,-0.0015]$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Decision}
+		\scriptsize
+		Since the entire interval is negative (excludes zero), there is 95\% statistical evidence that Version B converts better: adopting it is justified.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem --- Ratio of Variances (Statement)}
+		Sensor 1: $n_1=16$, $S_1^2=0.36$°C\textsuperscript{2}. Sensor 2: $n_2=13$, $S_2^2=0.12$°C\textsuperscript{2}. Construct the 98\% CI for $\sigma_1^2/\sigma_2^2$ and determine whether there is evidence of different variability.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Use $F_{15,12,0.01}=3.96$ and $F_{15,12,0.99}=1/F_{12,15,0.01}\approx 0.2725$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compute the empirical ratio and the interval: \pause
+	\begin{block}{Calculation}
+		$$\frac{S_1^2}{S_2^2}=3.00, \qquad \text{98\% CI}\left(\frac{\sigma_1^2}{\sigma_2^2}\right) = \left[\frac{3.00}{3.96},\,\frac{3.00}{0.2725}\right] = [0.758,\,11.01]$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		Since the interval contains 1, there is not enough evidence at 98\% confidence that one sensor is more variable than the other.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem --- Fisher Transformation (Statement)}
+		A bioinformatics study with $n=28$ patients observes $r=0.82$. Compute the 95\% CI for $\rho$ using the Fisher transformation.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Compute $Z(r)=\text{artanh}(r)$, build the symmetric CI on the $Z$-scale with $\text{SE}=1/\sqrt{n-3}$, and invert with $\tanh(\cdot)$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 19: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Transform, build the CI, and invert: \pause
+	\begin{block}{Calculation}
+		\scriptsize
+		$$Z(0.82)=1.1568,\quad \text{SE}_Z=1/\sqrt{25}=0.2$$
+		$$Z_L=0.7648,\ Z_U=1.5488 \implies \text{95\% CI}(\rho) = [\tanh(0.7648),\,\tanh(1.5488)] = [0.644,\,0.914]$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		The interval is asymmetric around $r=0.82$ ($0.176$ to the left vs. $0.094$ to the right) and never exceeds $[-1,1]$, unlike what would occur with a naive symmetric CI.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 20: Closing and Chapter Perspective
+\begin{frame}{Closing Section and Chapter Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: Confidence Intervals for Variances and Proportions}
+		\scriptsize
+		With this section we close Chapter 06: from defining what makes an estimator ``good'' (06.01), through two construction methods (MoM, MLE), to using both to build exact confidence intervals for means, variances, and proportions. Every interval shares the same logic --- estimator $\pm$ margin --- calibrated by the correct sampling distribution.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Chapter}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Variance:} CI via $\chi^2$, asymmetric; \textbf{ratio of variances:} CI via $F$.
+			\item \textbf{Proportions:} Wilson beats Wald in actual coverage, especially for small $n$.
+			\item \textbf{Fisher:} transforms to stabilize variance and respect the parameter's natural bounds.
+			\item \textbf{Chapter 06 complete.} \textbf{Next:} \textcolor{TecRojo}{Chapter 07 --- Hypothesis Testing}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}
