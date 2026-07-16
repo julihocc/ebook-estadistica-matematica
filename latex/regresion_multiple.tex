@@ -453,3 +453,67 @@ Parece adecuado abandonar el predictor \texttt{Newpaper} del modelo y escoger el
 	\texttt{Ventas} = 2.92 + 0.45*\texttt{TV} + 0.18*\texttt{Radio}
 \end{align}
 
+\subsection{Ecuación Normal en Notación Matricial}
+
+Cuando el número de predictores $p$ crece, expresar el modelo y su solución mediante sumatorias escalares se vuelve engorroso. La notación matricial generaliza de forma compacta y exacta el caso de un único predictor de la Sección 09.01.
+
+\begin{definicion}[Modelo Lineal Múltiple en Forma Matricial]
+	El modelo de regresión lineal con $p$ predictores se escribe como
+	\begin{align}
+		\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon},
+	\end{align}
+	donde $\mathbf{Y}$ es el vector de respuestas ($n\times1$), $\mathbf{X}$ es la matriz de diseño ($n\times(p+1)$, con una primera columna de unos para el intercepto), $\boldsymbol{\beta}$ es el vector de parámetros ($(p+1)\times1$) y $\boldsymbol{\varepsilon}$ es el vector de errores aleatorios con $E[\boldsymbol{\varepsilon}]=\mathbf{0}$ y $\text{Var}(\boldsymbol{\varepsilon})=\sigma^2\mathbf{I}_n$.
+\end{definicion}
+
+El objetivo de mínimos cuadrados se reescribe en forma cuadrática:
+\begin{align}
+	S(\boldsymbol{\beta}) = (\mathbf{Y}-\mathbf{X}\boldsymbol{\beta})^T(\mathbf{Y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align}
+
+\begin{teorema}[Ecuación Normal de Gauss]
+	El vector $\hat{\boldsymbol{\beta}}$ que minimiza $S(\boldsymbol{\beta})$ satisface el sistema de ecuaciones normales
+	\begin{align}
+		\mathbf{X}^T\mathbf{X}\hat{\boldsymbol{\beta}} = \mathbf{X}^T\mathbf{Y},
+	\end{align}
+	y si $\mathbf{X}$ tiene rango columna completo (los predictores no son perfectamente colineales), la solución es única y viene dada en forma cerrada por
+	\begin{align}
+		\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}.
+	\end{align}
+\end{teorema}
+
+\begin{definicion}[Matriz Sombrero]
+	La matriz $\mathbf{H}=\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$, llamada \emph{matriz proyectora} o \emph{matriz sombrero} (\emph{hat matrix}), transforma el vector de respuestas observadas en el vector de predicciones: $\hat{\mathbf{Y}}=\mathbf{H}\mathbf{Y}$. Es simétrica ($\mathbf{H}^T=\mathbf{H}$) e idempotente ($\mathbf{H}^2=\mathbf{H}$), propiedades que garantizan que $\mathbf{H}$ es efectivamente una proyección ortogonal sobre el espacio columna de $\mathbf{X}$.
+\end{definicion}
+
+\begin{observacion}
+	Cuando $p=1$ (un solo predictor), esta fórmula matricial se reduce exactamente a las expresiones escalares $\hat\beta_1=S_{XY}/S_{XX}$ y $\hat\beta_0=\bar Y-\hat\beta_1\bar X$ deducidas en la Sección 09.01.
+\end{observacion}
+
+\subsection{Regularización: Ridge y Lasso}
+
+La inversión de $\mathbf{X}^T\mathbf{X}$ requerida por la ecuación normal se vuelve numéricamente inestable cuando existe multicolinealidad severa entre los predictores (véase la subsección de \texttt{VIF} anterior): la matriz se aproxima a la singularidad y las varianzas de $\hat{\boldsymbol{\beta}}$ se disparan. La \emph{regularización} añade una penalización a la función objetivo para estabilizar la solución a cambio de un sesgo controlado.
+
+\begin{definicion}[Regresión Ridge (Penalización $L_2$)]
+	La regresión Ridge minimiza la suma de cuadrados residual penalizada por la norma $L_2$ del vector de coeficientes (excluyendo el intercepto):
+	\begin{align}
+		S_{\text{Ridge}}(\boldsymbol{\beta}) = \|\mathbf{Y}-\mathbf{X}\boldsymbol{\beta}\|^2 + \lambda\|\boldsymbol{\beta}\|_2^2, \qquad \lambda\geq0,
+	\end{align}
+	cuya solución cerrada es
+	\begin{align}
+		\hat{\boldsymbol{\beta}}_{\text{Ridge}} = (\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{Y}.
+	\end{align}
+	Sumar $\lambda\mathbf{I}$ a la diagonal de $\mathbf{X}^T\mathbf{X}$ garantiza que la matriz sea siempre invertible, incluso ante colinealidad perfecta.
+\end{definicion}
+
+\begin{definicion}[Regresión Lasso (Penalización $L_1$)]
+	La regresión Lasso (\emph{Least Absolute Shrinkage and Selection Operator}) reemplaza la penalización cuadrática por la norma $L_1$:
+	\begin{align}
+		S_{\text{Lasso}}(\boldsymbol{\beta}) = \|\mathbf{Y}-\mathbf{X}\boldsymbol{\beta}\|^2 + \lambda\|\boldsymbol{\beta}\|_1, \qquad \|\boldsymbol{\beta}\|_1=\sum_{j=1}^p|\beta_j|.
+	\end{align}
+	A diferencia de Ridge, esta penalización no admite una solución cerrada (se resuelve mediante optimización numérica), pero posee una propiedad distintiva: induce \emph{dispersión} (\emph{sparsity}), forzando exactamente a cero los coeficientes de los predictores menos relevantes, realizando así selección automática de variables.
+\end{definicion}
+
+\begin{observacion}[Compensación Sesgo-Varianza]
+	Ambos métodos introducen sesgo deliberado ($E[\hat{\boldsymbol{\beta}}_{\text{Ridge}}]\neq\boldsymbol{\beta}$) a cambio de una reducción sustancial en la varianza de los estimadores. El hiperparámetro $\lambda$ controla este compromiso: $\lambda=0$ recupera MCO ordinario, mientras que $\lambda\to\infty$ contrae todos los coeficientes hacia cero (Ridge) o los fuerza a cero (Lasso).
+\end{observacion}
+

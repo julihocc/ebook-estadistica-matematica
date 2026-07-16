@@ -28,6 +28,12 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/09_regresiones/09.01_simple_linear_regression.py` (estimación MCO verificada contra `scipy.stats.linregress`, descomposición SCT=SCR+SCE con verificación de la identidad $R^2=r^2$ contra `np.corrcoef`, y prueba $t$ de significancia de la pendiente con intervalos de confianza/predicción del 95\%).
   - Mazos Beamer bilingües en `presentaciones/es/09_regresiones/09.01_simple_linear_regression.tex` (17 diapositivas) y `presentaciones/en/09_regressions/09.01_simple_linear_regression.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 09 (Regresiones Lineales y Múltiples) inicia su desarrollo: 1 de 4 secciones completadas.
+- **Sección 09.02: Regresión Lineal Múltiple, Ecuación Normal y Regularización Ridge/Lasso**:
+  - `latex/regresion_multiple.tex` y su espejo EN ya cubrían la introducción a la regresión múltiple, selección de variables y el diagnóstico VIF, pero carecían de la Ecuación Normal en notación matricial y de Ridge/Lasso --- ambos nombrados explícitamente en el título de la sección y ya citados por el cuaderno de problemas. Se agregaron dos subsecciones nuevas: la Ecuación Normal de Gauss ($\hat{\boldsymbol\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$) con la Matriz Sombrero, y la regularización Ridge/Lasso con sus funciones objetivo penalizadas.
+  - Se auditó `latex/regresion_multiple(p).tex` y se confirmó un cuaderno 3-3-2-2 completo (10 problemas, auto-numerados 9.10.1 a 9.10.10); se citaron los Problemas 9.10.1, 9.10.4, 9.10.7 y 9.10.9 sin duplicar contenido.
+  - Script de laboratorio en Python `presentaciones/code/09_regresiones/09.02_multiple_linear_regression.py` (solución matricial verificada contra `np.linalg.lstsq` con verificación de simetría/idempotencia de la Matriz Sombrero; Ridge con solución cerrada mostrando contracción de coeficientes; Lasso implementado desde cero por descenso de coordenadas, mostrando sparsity progresiva).
+  - Mazos Beamer bilingües en `presentaciones/es/09_regresiones/09.02_multiple_linear_regression.tex` (17 diapositivas) y `presentaciones/en/09_regressions/09.02_multiple_linear_regression.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 09 (Regresiones Lineales y Múltiples): 2 de 4 secciones completadas.
 
 ## 2026-07-15
 

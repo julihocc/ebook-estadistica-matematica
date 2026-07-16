@@ -1,0 +1,319 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Multiple Regression]{Section 09.02: Multiple Linear Regression}
+\subtitle{The Normal Equation in Matrix Notation and Ridge/Lasso Regularization}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
+  \footnotesize
+  Where are we in the modular development of this chapter? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{09.01} Simple Linear Regression (OLS) and $R^2$ \pause
+    \item \textbf{09.02} Multiple Linear Regression, the Normal Equation, and Ridge/Lasso \emph{(Today)} \pause
+    \item \textbf{09.03} Residual Diagnostics, Multicollinearity (VIF), and Assumptions \pause
+    \item \textbf{09.04} Model Validation, $k$-fold Cross-Validation, and \texttt{scikit-learn}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Generalize simple regression to $p$ simultaneous predictors via matrix notation: derive the Normal Equation $\hat{\boldsymbol\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$, and present Ridge and Lasso regularization as a remedy when the design matrix is close to singular due to multicollinearity.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{From One Predictor to $p$ Simultaneous Predictors}
+  \footnotesize
+  \begin{motivacion}
+    In practice a single variable rarely explains a phenomenon: a vehicle's fuel efficiency depends on its weight \emph{and} its engine size; salary depends on experience \emph{and} education level. Writing and solving the normal equations with scalar summations for each $\beta_j$ becomes unmanageable as $p$ grows.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item Matrix notation solves the problem compactly and exactly for any $p$. \pause
+    \item The model, the objective function, and the solution have the \textbf{same structure} as in simple regression, only expressed with vectors and matrices.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Matrix model
+\begin{frame}{The Multiple Linear Model in Matrix Form}
+  \footnotesize
+  \begin{block}{Population Model}
+    $$\mathbf{Y}=\mathbf{X}\boldsymbol\beta+\boldsymbol\varepsilon, \qquad E[\boldsymbol\varepsilon]=\mathbf{0},\ \text{Var}(\boldsymbol\varepsilon)=\sigma^2\mathbf{I}_n$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Dimensions}
+    $\mathbf{Y}$ is $n\times1$; $\mathbf{X}$ is $n\times(p+1)$ (first column of ones); $\boldsymbol\beta$ is $(p+1)\times1$. The objective function is the quadratic form $S(\boldsymbol\beta)=(\mathbf{Y}-\mathbf{X}\boldsymbol\beta)^T(\mathbf{Y}-\mathbf{X}\boldsymbol\beta)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Normal equation
+\begin{frame}{Gauss's Normal Equation}
+  \footnotesize
+  \begin{block}{Closed-Form Solution}
+    $$\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y} \implies \hat{\boldsymbol\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Hat Matrix}
+    $\mathbf{H}=\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ projects $\mathbf{Y}$ onto $\hat{\mathbf{Y}}=\mathbf{H}\mathbf{Y}$. It is symmetric ($\mathbf{H}^T=\mathbf{H}$) and idempotent ($\mathbf{H}^2=\mathbf{H}$): an exact orthogonal projection onto the column space of $\mathbf{X}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Regularization motivation
+\begin{frame}{When $\mathbf{X}^T\mathbf{X}$ Is Nearly Singular}
+  \footnotesize
+  \begin{block}{The Multicollinearity Problem}
+    If two or more predictors are highly correlated, $\mathbf{X}^T\mathbf{X}$ approaches singularity: its inversion becomes numerically unstable and the variances of $\hat{\boldsymbol\beta}$ explode (formally diagnosed via \texttt{VIF} in Section 09.03).
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{The Idea Behind Regularization}
+    Penalizing the magnitude of the coefficients in the objective function stabilizes the solution in exchange for introducing controlled bias --- the \textbf{bias-variance tradeoff}.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Ridge and Lasso
+\begin{frame}{Ridge ($L_2$) and Lasso ($L_1$) Regression}
+  \footnotesize
+  \begin{block}{Ridge}
+    $$S_{\text{Ridge}}=\|\mathbf{Y}-\mathbf{X}\boldsymbol\beta\|^2+\lambda\|\boldsymbol\beta\|_2^2 \implies \hat{\boldsymbol\beta}_{\text{Ridge}}=(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{Y}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Lasso}
+    $$S_{\text{Lasso}}=\|\mathbf{Y}-\mathbf{X}\boldsymbol\beta\|^2+\lambda\|\boldsymbol\beta\|_1 \quad \text{(no closed form; induces \emph{sparsity})}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Normal Equation and Hat Matrix}
+  \scriptsize
+  Matrix solution $\hat{\boldsymbol\beta}$ verified against \texttt{np.linalg.lstsq}, and numerical verification of the symmetry/idempotence of $\mathbf{H}$ (\texttt{09.02\_multiple\_linear\_regression.py}):
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=18, lastline=40]{../../code/09_regresiones/09.02_multiple_linear_regression.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Ridge Regression}
+  \scriptsize
+  Closed-form Ridge solution for increasing $\lambda$, observing coefficient shrinkage:
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=43, lastline=51]{../../code/09_regresiones/09.02_multiple_linear_regression.py}}
+\end{frame}
+
+% Slide 10: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: Lasso via Coordinate Descent}
+  \scriptsize
+  Manual implementation of the soft-thresholding operator for Lasso:
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=54, lastline=76]{../../code/09_regresiones/09.02_multiple_linear_regression.py}}
+\end{frame}
+
+% Slide 11: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.6pt}{4.3pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Normal Equation and Hat Matrix ===
+beta_hat = [3.1001, 2.1533, -0.5180] (matches np.linalg.lstsq)
+Symmetry error=3.26e-16, Idempotence error=4.09e-16
+
+=== Block 2: Ridge Shrinkage ===
+lambda=0: [3.10, 2.15, -0.52]  lambda=100: [0.09, 1.41, 0.10]
+
+=== Block 3: Lasso Sparsity ===
+lambda=0:    zero coefficients=0/2
+lambda=200:  zero coefficients=1/2 (x2 dropped)
+lambda=1000: zero coefficients=2/2 (only intercept survives)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 9.10.1)}
+    With $n=30$ vehicles: $\hat Y=25.0-3.0X_1-1.5X_2$, $R^2=0.780$. Interpret $\hat\beta_1,\hat\beta_2$ \emph{ceteris paribus}, predict fuel efficiency for $X_1=1.5$ tons, $X_2=2.0$ L, and compute SSR/SSE given $S_Y^2=12.0$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Setup}
+    $\text{SST}=(n-1)S_Y^2$; $\text{SSR}=R^2\cdot\text{SST}$; $\text{SSE}=\text{SST}-\text{SSR}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Exercise Level 1 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+  \scriptsize
+  We substitute the given values into the fitted equation: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$\hat Y=25.0-3.0(1.5)-1.5(2.0)=25.0-4.5-3.0=17.5 \text{ km/l}$$
+    $$\text{SST}=(29)(12.0)=348.0, \quad \text{SSR}=0.780(348.0)\approx271.44, \quad \text{SSE}\approx76.56$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    Holding $X_2$ fixed, each additional ton of weight reduces efficiency by $3.0$ km/l; holding $X_1$ fixed, each additional liter of engine size reduces it by $1.5$ km/l. The model explains $78\%$ of the total variability in efficiency.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Partial $F$-Test (Statement, Problem 9.10.4)}
+    Model 1 (restricted, $p_1=2$): $R_1^2=0.750$. Model 2 (full, $p_2=3$): $R_2^2=0.780$, $n=40$. Run the Partial $F$-Test ($H_0:\beta_3=0$) at $\alpha=0.05$ ($F_{0.05,1,36}=4.113$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    $F_{\text{partial}}=\dfrac{(R_2^2-R_1^2)/(p_2-p_1)}{(1-R_2^2)/(n-p_2-1)}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Exercise Level 2 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+  \scriptsize
+  We substitute directly into the incremental statistic formula: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$F_{\text{partial}}=\frac{(0.780-0.750)/(3-2)}{(1-0.780)/(40-3-1)}=\frac{0.030/1}{0.220/36}=\frac{0.030}{0.006111}\approx4.909$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    Since $4.909>4.113$, \textbf{we reject $H_0$}: adding the third predictor ($X_3$, number of sales staff) significantly improves the fit; Model 2 is preferable to Model 1.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Exact Matrix Solution (Statement, Problem 9.10.7)}
+    With $n=5$, $\mathbf{X}^T\mathbf{X}=\begin{pmatrix}5&10&20\\10&30&40\\20&40&90\end{pmatrix}$, $\mathbf{X}^T\mathbf{Y}=\begin{pmatrix}50\\120\\230\end{pmatrix}$, and $(\mathbf{X}^T\mathbf{X})^{-1}=\begin{pmatrix}2.2&-0.2&-0.4\\-0.2&0.1&0.0\\-0.4&0.0&0.1\end{pmatrix}$. Compute $\hat{\boldsymbol\beta}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    $\hat{\boldsymbol\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$: multiply the inverse matrix by the vector $\mathbf{X}^T\mathbf{Y}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Exercise Level 3 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+  \scriptsize
+  We multiply row by column: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\hat\beta_0=2.2(50)-0.2(120)-0.4(230)=110-24-92=-6.0$$
+    $$\hat\beta_1=-0.2(50)+0.1(120)+0.0(230)=-10+12+0=2.0$$
+    $$\hat\beta_2=-0.4(50)+0.0(120)+0.1(230)=-20+0+23=3.0$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    $\hat Y=-6.0+2.0X_1+3.0X_2$. This exact miniature calculation ($n=5$) illustrates the same matrix procedure that solves models with hundreds of predictors.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Matrix Derivation of OLS (Statement, Problem 9.10.9)}
+    Starting from $S(\boldsymbol\beta)=(\mathbf{Y}-\mathbf{X}\boldsymbol\beta)^T(\mathbf{Y}-\mathbf{X}\boldsymbol\beta)$, derive the normal equations $\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y}$ and prove that $E[\hat{\boldsymbol\beta}]=\boldsymbol\beta$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Expand $S(\boldsymbol\beta)$, take the vector gradient $\nabla_{\boldsymbol\beta}S=\mathbf{0}$, and substitute the true model $\mathbf{Y}=\mathbf{X}\boldsymbol\beta+\boldsymbol\varepsilon$ into $\hat{\boldsymbol\beta}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Exercise Level 4 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+  \scriptsize
+  We expand the quadratic form and differentiate: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$S(\boldsymbol\beta)=\mathbf{Y}^T\mathbf{Y}-2\boldsymbol\beta^T\mathbf{X}^T\mathbf{Y}+\boldsymbol\beta^T\mathbf{X}^T\mathbf{X}\boldsymbol\beta \implies \nabla_{\boldsymbol\beta}S=-2\mathbf{X}^T\mathbf{Y}+2\mathbf{X}^T\mathbf{X}\boldsymbol\beta=\mathbf{0}$$
+    $$\hat{\boldsymbol\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T(\mathbf{X}\boldsymbol\beta+\boldsymbol\varepsilon)=\boldsymbol\beta+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\boldsymbol\varepsilon$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    $E[\hat{\boldsymbol\beta}]=\boldsymbol\beta+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T E[\boldsymbol\varepsilon]=\boldsymbol\beta+\mathbf{0}=\boldsymbol\beta$: the matrix OLS estimator is unbiased for any number of predictors $p$, exactly generalizing the scalar result from Section 09.01.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Closing
+\begin{frame}{Section Closing: Multiple Linear Regression}
+  \begin{reflexion}
+    We have generalized simple regression to $p$ predictors via matrix notation: the Normal Equation $\hat{\boldsymbol\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ solves the entire model in a single step, and Ridge/Lasso stabilize that solution when multicollinearity threatens to make the matrix nearly singular.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Normal Equation:} $\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y}$, an exact generalization of Section 09.01's scalar formula.
+      \item \textbf{Ridge:} $L_2$ penalty, closed-form solution, shrinks coefficients without eliminating them.
+      \item \textbf{Lasso:} $L_1$ penalty, no closed form, induces \emph{sparsity} (automatic variable selection).
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    With the multiple model fitted, Section 09.03 asks whether it is \textbf{trustworthy}: we will formally audit the classical assumptions (residual normality and homoscedasticity, independence) and quantify multicollinearity via the Variance Inflation Factor (VIF) --- the metric that determines exactly when Ridge or Lasso are needed.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Review the geometric interpretation of the residuals as the vector $(\mathbf{I}_n-\mathbf{H})\mathbf{Y}$.
+      \item Reflect on why a high VIF does not invalidate the model, but does drastically inflate the standard errors of the coefficients.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

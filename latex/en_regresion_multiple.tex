@@ -388,3 +388,67 @@ Thus, guided by both theoretical parsimony and quantitative diagnostics, we drop
 \begin{align}
 	\texttt{Sales} = 2.92 + 0.046 \times \texttt{TV} + 0.188 \times \texttt{Radio}
 \end{align}
+
+\subsection{The Normal Equation in Matrix Notation}
+
+As the number of predictors $p$ grows, expressing the model and its solution through scalar summations becomes unwieldy. Matrix notation compactly and exactly generalizes the single-predictor case from Section 09.01.
+
+\begin{definicion}[Multiple Linear Model in Matrix Form]
+	The linear regression model with $p$ predictors is written as
+	\begin{align}
+		\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon},
+	\end{align}
+	where $\mathbf{Y}$ is the response vector ($n\times1$), $\mathbf{X}$ is the design matrix ($n\times(p+1)$, with a first column of ones for the intercept), $\boldsymbol{\beta}$ is the parameter vector ($(p+1)\times1$), and $\boldsymbol{\varepsilon}$ is the random error vector with $E[\boldsymbol{\varepsilon}]=\mathbf{0}$ and $\text{Var}(\boldsymbol{\varepsilon})=\sigma^2\mathbf{I}_n$.
+\end{definicion}
+
+The least squares objective is rewritten as a quadratic form:
+\begin{align}
+	S(\boldsymbol{\beta}) = (\mathbf{Y}-\mathbf{X}\boldsymbol{\beta})^T(\mathbf{Y}-\mathbf{X}\boldsymbol{\beta}).
+\end{align}
+
+\begin{teorema}[Gauss's Normal Equation]
+	The vector $\hat{\boldsymbol{\beta}}$ that minimizes $S(\boldsymbol{\beta})$ satisfies the system of normal equations
+	\begin{align}
+		\mathbf{X}^T\mathbf{X}\hat{\boldsymbol{\beta}} = \mathbf{X}^T\mathbf{Y},
+	\end{align}
+	and if $\mathbf{X}$ has full column rank (the predictors are not perfectly collinear), the solution is unique and given in closed form by
+	\begin{align}
+		\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}.
+	\end{align}
+\end{teorema}
+
+\begin{definicion}[Hat Matrix]
+	The matrix $\mathbf{H}=\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$, called the \emph{projection matrix} or \emph{hat matrix}, maps the vector of observed responses onto the vector of predictions: $\hat{\mathbf{Y}}=\mathbf{H}\mathbf{Y}$. It is symmetric ($\mathbf{H}^T=\mathbf{H}$) and idempotent ($\mathbf{H}^2=\mathbf{H}$), properties that guarantee $\mathbf{H}$ is indeed an orthogonal projection onto the column space of $\mathbf{X}$.
+\end{definicion}
+
+\begin{observacion}
+	When $p=1$ (a single predictor), this matrix formula reduces exactly to the scalar expressions $\hat\beta_1=S_{XY}/S_{XX}$ and $\hat\beta_0=\bar Y-\hat\beta_1\bar X$ derived in Section 09.01.
+\end{observacion}
+
+\subsection{Regularization: Ridge and Lasso}
+
+Inverting $\mathbf{X}^T\mathbf{X}$ as required by the normal equation becomes numerically unstable when severe multicollinearity exists among the predictors (see the \texttt{VIF} subsection above): the matrix approaches singularity and the variances of $\hat{\boldsymbol{\beta}}$ blow up. \emph{Regularization} adds a penalty to the objective function to stabilize the solution in exchange for controlled bias.
+
+\begin{definicion}[Ridge Regression ($L_2$ Penalty)]
+	Ridge regression minimizes the residual sum of squares penalized by the $L_2$ norm of the coefficient vector (excluding the intercept):
+	\begin{align}
+		S_{\text{Ridge}}(\boldsymbol{\beta}) = \|\mathbf{Y}-\mathbf{X}\boldsymbol{\beta}\|^2 + \lambda\|\boldsymbol{\beta}\|_2^2, \qquad \lambda\geq0,
+	\end{align}
+	whose closed-form solution is
+	\begin{align}
+		\hat{\boldsymbol{\beta}}_{\text{Ridge}} = (\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{Y}.
+	\end{align}
+	Adding $\lambda\mathbf{I}$ to the diagonal of $\mathbf{X}^T\mathbf{X}$ guarantees the matrix is always invertible, even under perfect collinearity.
+\end{definicion}
+
+\begin{definicion}[Lasso Regression ($L_1$ Penalty)]
+	Lasso regression (\emph{Least Absolute Shrinkage and Selection Operator}) replaces the quadratic penalty with the $L_1$ norm:
+	\begin{align}
+		S_{\text{Lasso}}(\boldsymbol{\beta}) = \|\mathbf{Y}-\mathbf{X}\boldsymbol{\beta}\|^2 + \lambda\|\boldsymbol{\beta}\|_1, \qquad \|\boldsymbol{\beta}\|_1=\sum_{j=1}^p|\beta_j|.
+	\end{align}
+	Unlike Ridge, this penalty admits no closed-form solution (it is solved via numerical optimization), but it possesses a distinctive property: it induces \emph{sparsity}, forcing the coefficients of less relevant predictors to exactly zero, thereby performing automatic variable selection.
+\end{definicion}
+
+\begin{observacion}[Bias-Variance Tradeoff]
+	Both methods introduce deliberate bias ($E[\hat{\boldsymbol{\beta}}_{\text{Ridge}}]\neq\boldsymbol{\beta}$) in exchange for a substantial reduction in estimator variance. The hyperparameter $\lambda$ controls this tradeoff: $\lambda=0$ recovers ordinary OLS, while $\lambda\to\infty$ shrinks all coefficients toward zero (Ridge) or forces them to zero (Lasso).
+\end{observacion}
