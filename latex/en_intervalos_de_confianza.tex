@@ -102,3 +102,46 @@ Due to the symmetry of the normal distribution, there are three types of hypothe
 
 \subsection{Two Tails}
 We analyze both tails, and if the respective hypothesis test fails in either of the two tails, the hypothesis test is rejected.
+
+\subsection{Constructing the Confidence Interval for a Population Mean}
+
+Let us now formalize the explicit construction of the confidence interval for the population mean $\mu$ from a single sample, distinguishing the case where the population standard deviation $\sigma$ is known from the much more common practical case where it is unknown.
+
+\begin{teorema}[Confidence interval for $\mu$ with known $\sigma$]
+	Let $X_1, \ldots, X_n$ be a random sample from a normal population (or from any population if $n$ is large, by the CLT) with unknown mean $\mu$ and \emph{known} standard deviation $\sigma$. A $(1-\alpha)\times 100\%$ confidence interval for $\mu$ is:
+	\begin{align}
+		\bar{X} - Z_{\alpha/2}\frac{\sigma}{\sqrt{n}} \; \leq \; \mu \; \leq \; \bar{X} + Z_{\alpha/2}\frac{\sigma}{\sqrt{n}},
+	\end{align}
+	where $Z_{\alpha/2}$ is the upper $\alpha/2$ quantile of the standard normal distribution.
+\end{teorema}
+
+\begin{teorema}[Confidence interval for $\mu$ with unknown $\sigma$]
+	Let $X_1, \ldots, X_n$ be a random sample from a normal population with \emph{unknown} $\sigma$, estimated by the sample standard deviation $S$. Replacing $\sigma$ with $S$ changes the exact distribution of the standardized statistic from Normal to Student's $t$ with $n-1$ degrees of freedom (Section 05.04). The $(1-\alpha)\times 100\%$ confidence interval for $\mu$ is:
+	\begin{align}
+		\bar{X} - t_{\alpha/2,\,n-1}\frac{S}{\sqrt{n}} \; \leq \; \mu \; \leq \; \bar{X} + t_{\alpha/2,\,n-1}\frac{S}{\sqrt{n}}.
+	\end{align}
+\end{teorema}
+
+\begin{observacion}[Common structure: Estimator $\pm$ Margin of Error]
+	Both intervals share the same general structure:
+	\begin{align}
+		\text{Point estimator} \; \pm \; (\text{critical value}) \times (\text{standard error}).
+	\end{align}
+	This structure --- central estimator, critical value from a reference distribution, and standard error of the estimator --- recurs in every confidence interval we study, including those for the difference of means, proportions, and variances later in this chapter.
+\end{observacion}
+
+\begin{ejemplo}
+	The fill content of bottles from a bottling plant is approximately normally distributed. A sample of $n=16$ bottles yields $\bar{X}=500.4$ ml.
+	\begin{enumerate}
+		\item If, from the machine manufacturer's specifications, it is known that $\sigma=2$ ml, construct a 95\% CI for $\mu$.
+		\item If instead $\sigma$ is unknown and the sample yields $S=2.3$ ml, construct the corresponding 95\% CI (use $t_{15,0.025}\approx 2.131$).
+	\end{enumerate}
+\end{ejemplo}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item With known $\sigma=2$: $\text{SE}=2/\sqrt{16}=0.5$. $\text{95\% CI} = 500.4 \pm 1.96(0.5) = 500.4 \pm 0.98 = [499.42,\ 501.38]$ ml.
+		\item With unknown $\sigma$, $S=2.3$: $\text{SE}=2.3/\sqrt{16}=0.575$. $\text{95\% CI} = 500.4 \pm 2.131(0.575) = 500.4 \pm 1.225 = [499.18,\ 501.63]$ ml.
+	\end{enumerate}
+	Note that the $t$-based interval is wider than the $Z$-based one, reflecting the additional uncertainty of estimating $\sigma$ with $S$ (Section 05.04).
+\end{solucion}

@@ -1,0 +1,331 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[IC para Medias]{Sección 06.04: Intervalos de Confianza para Medias Poblacionales}
+\subtitle{Construcción con $Z$ y $t$, y su Interpretación Frecuentista}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 06: Estimación y su Relación con Ciencia de Datos}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{06.01} Estimación Puntual, Insesgadez, Eficiencia y Consistencia \pause
+    \item \textbf{06.02} Método de Momentos (MoM) \pause
+    \item \textbf{06.03} Estimación por Máxima Verosimilitud (MLE) y Score \pause
+    \item \textbf{06.04} Intervalos de Confianza para Medias Poblacionales ($Z$ y $t$) \emph{(Hoy)} \pause
+    \item \textbf{06.05} Intervalos de Confianza para Varianzas ($\chi^2$) y Proporciones
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Aplicar toda la maquinaria de estimación puntual y distribuciones muestrales para construir intervalos de confianza exactos para $\mu$ --- con $Z$ cuando $\sigma$ es conocida, con $t$ cuando no lo es --- y comprender rigurosamente qué significa la ``confianza'' desde la perspectiva frecuentista.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De la Teoría a la Práctica: Un Solo Número no Basta}
+  \footnotesize
+  \begin{motivacion}
+    Un estimador puntual $\bar X$ da un solo número, sin indicar qué tan confiable es. Un intervalo de confianza comunica \emph{ambas} cosas: una estimación central y un rango plausible, calibrado por la distribución muestral exacta de $\bar X$ (Capítulo 05).
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Estructura universal:} estimador $\pm$ (valor crítico) $\times$ (error estándar). \pause
+    \item \textbf{$\sigma$ conocida:} use $Z$ (raro en la práctica, pero pedagógicamente fundamental). \pause
+    \item \textbf{$\sigma$ desconocida:} use $t$ con $n-1$ grados de libertad (el caso común).
+  \end{itemize}
+\end{frame}
+
+% Slide 4: IC con Z y con t
+\begin{frame}{Intervalos de Confianza para $\mu$: $Z$ vs. $t$}
+  \footnotesize
+  \begin{block}{$\sigma$ Conocida}
+    $$\bar X \pm Z_{\alpha/2}\dfrac{\sigma}{\sqrt n}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{$\sigma$ Desconocida (Sección 05.04)}
+    $$\bar X \pm t_{\alpha/2,\,n-1}\dfrac{S}{\sqrt n}$$
+    Reemplazar $\sigma$ por $S$ cambia la distribución exacta de Normal a $t$; el intervalo resultante es siempre más ancho.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Estructura General y Extensión
+\begin{frame}{La Estructura Común y su Extensión}
+  \footnotesize
+  \begin{block}{Estimador $\pm$ Margen de Error}
+    Todo intervalo de confianza de este capítulo comparte la forma:
+    $$\text{Estimador puntual} \;\pm\; (\text{valor crítico}) \times (\text{error estándar})$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Diferencia de Dos Medias}
+    \begin{itemize}\itemsep=0.05cm
+      \item Varianzas conocidas: $Z_{\alpha/2}\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}$.
+      \item Varianzas desconocidas pero iguales: $t$ con varianza agrupada $S_p^2$, $\nu=n_1+n_2-2$.
+      \item Varianzas desconocidas y distintas: aproximación de Welch-Satterthwaite.
+      \item Muestras pareadas: reduzca a una sola muestra de diferencias $D_i$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Interpretación Frecuentista
+\begin{frame}{¿Qué Significa Realmente la ``Confianza''?}
+  \footnotesize
+  Una pregunta engañosamente simple con una respuesta sutil: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Interpretación Correcta (Ex-Ante)}
+    $$P\big(L(X) \le \mu \le U(X)\big) = 1-\alpha$$
+    Esta probabilidad describe el \textbf{procedimiento}, antes de observar los datos: $\bar X$, $L(X)$ y $U(X)$ son variables aleatorias.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{El Error Común (Ex-Post)}
+    Una vez calculado un intervalo numérico específico como $[74.08, 81.92]$, $\mu$ o está dentro o no está: \textbf{no hay probabilidad de por medio}. ``$95\%$ de confianza'' describe la tasa de éxito del \emph{método} bajo muestreo repetido infinito, no la probabilidad de ese intervalo particular.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Aplicaciones
+\begin{frame}{Aplicaciones en Ciencia de Datos e Ingeniería}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Control de calidad:} IC para el contenido promedio de un lote de producción. \pause
+    \item \textbf{A/B testing:} IC para la diferencia de medias entre variantes de un experimento. \pause
+    \item \textbf{Reportes de modelos:} errores estándar de coeficientes de regresión se traducen directamente en IC. \pause
+    \item \textbf{Contraste Bayesiano:} el intervalo de credibilidad Bayesiano sí permite afirmaciones probabilísticas directas sobre $\theta$, a diferencia del IC frecuentista.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: IC con $Z$ vs. $t$}
+  \scriptsize
+  Comparación de intervalos para una media con $\sigma$ conocida y desconocida (\texttt{06.04\_confidence\_intervals\_means.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=39]{../../code/06_estimacion_estadistica/06.04_confidence_intervals_means.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: IC de Diferencia de Medias Agrupada}
+  \scriptsize
+  Cálculo de la varianza agrupada $S_p^2$ y el IC para $\mu_A-\mu_B$:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=42, lastline=61]{../../code/06_estimacion_estadistica/06.04_confidence_intervals_means.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Cobertura Frecuentista}
+  \scriptsize
+  Verificación Monte Carlo de la interpretación frecuentista mediante muestreo repetido:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=64, lastline=89]{../../code/06_estimacion_estadistica/06.04_confidence_intervals_means.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Z-Based vs t-Based CI ===
+Known sigma=2.0: 95% CI [499.42, 501.38]
+Unknown sigma (S=2.3): 95% CI [499.17, 501.63] (25.1% wider)
+
+=== Block 2: Pooled Two-Sample t CI ===
+Sp^2=20.95, SE=1.96, df=20, diff=4.00
+95% CI: [-0.088, 8.088] -- contains zero? Yes
+
+=== Block 3: Frequentist Coverage ===
+Empirical coverage: 0.9496 (nominal: 0.95)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado)}
+    Una muestra de $n=36$ estudiantes produce $\bar X=78$ puntos; $\sigma=12$ conocida. Construya IC del $95\%$ y del $99\%$ para $\mu$, y compare sus amplitudes.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    \begin{itemize}\itemsep=0.04cm
+      \item $\text{SE}=12/\sqrt{36}=2$. Use $Z_{0.025}=1.96$ y $Z_{0.005}=2.576$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Calculamos ambos intervalos: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\text{IC}_{95\%} = 78\pm1.96(2) = [74.08,\,81.92], \qquad \text{IC}_{99\%} = 78\pm2.576(2) = [72.85,\,83.15]$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    El IC del $99\%$ es más ancho ($10.30$ vs. $7.84$ puntos): con $n$ fijo, aumentar la confianza requiere ceder precisión, capturando una fracción mayor del área bajo la Normal.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado)}
+    Un fabricante afirma que sus celdas de batería duran más de 500 ciclos. Una muestra de $n=25$ da $\bar X=490$, $S=30$ ciclos. Construya el IC del $95\%$ para $\mu$ y determine si el intervalo contiene el umbral publicitado de 500.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Use $t_{24,0.025}=2.064$; relacione el resultado con una prueba de hipótesis bilateral.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Construimos el intervalo: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\text{IC}_{95\%} = 490\pm2.064(6) = [477.62,\,502.38] \text{ ciclos}$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $500\in[477.62, 502.38]$, la discrepancia observada es admisible como fluctuación muestral: por la dualidad IC--prueba de hipótesis, no rechazaríamos $H_0:\mu=500$ a $\alpha=0.05$. No se puede refutar concluyentemente la publicidad.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Varianza Agrupada (Enunciado)}
+    Dos catalizadores: A ($n_1=10$, $\bar X_1=85.0\%$, $S_1=4.0\%$), B ($n_2=12$, $\bar X_2=81.0\%$, $S_2=5.0\%$), varianzas supuestamente iguales. Calcule $S_p^2$ y el IC del $95\%$ para $\mu_A-\mu_B$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    $S_p^2 = \dfrac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2}$; use $t_{20,0.025}=2.086$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Calculamos la varianza agrupada: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$S_p^2 = \frac{9(16)+11(25)}{20} = \frac{419}{20} = 20.95, \qquad \text{SE}_p = \sqrt{20.95(1/10+1/12)} \approx 1.96$$
+    $$\text{IC}_{95\%}(\mu_A-\mu_B) = 4.0 \pm 2.086(1.96) \approx [-0.09,\ 8.09]\%$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Aunque A supera nominalmente a B por $4\%$, el intervalo contiene al cero: con estas muestras reducidas, no se puede declarar a A estadísticamente superior a B al $95\%$ de confianza.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Fundamentación Epistemológica (Enunciado)}
+    Para el IC $[74.08, 81.92]$ del Nivel 1, explique por qué es epistemológicamente erróneo afirmar ``$P(74.08\le\mu\le81.92)=0.95$'', y contraste la interpretación frecuentista con el intervalo de credibilidad Bayesiano.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Distinga entre la probabilidad ex-ante (antes de observar los datos, sobre el procedimiento) y ex-post (después, sobre un intervalo numérico ya fijo).
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Distinguimos ex-ante de ex-post: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Argumento}
+    \scriptsize
+    Ex-ante, $\bar X$ es aleatoria y $P(L(X)\le\mu\le U(X))=0.95$ es válido. Una vez observados los datos, $[74.08,81.92]$ es un conjunto fijo de números: $\mu$ o pertenece a él (probabilidad 1) o no (probabilidad 0) --- no hay término medio con incertidumbre del $95\%$.
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Frecuentista vs. Bayesiano}
+    \scriptsize
+    ``$95\%$ de confianza'' describe la tasa de éxito del \emph{procedimiento} bajo muestreo repetido infinito. Solo el intervalo de credibilidad Bayesiano, $P(A\le\theta\le B\mid X=x)=0.95$, permite una afirmación probabilística directa sobre el parámetro dados los datos observados.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: Intervalos de Confianza para Medias}
+  \begin{reflexion}
+    Construir un intervalo de confianza no es solo aplicar una fórmula: requiere elegir la distribución de referencia correcta ($Z$ o $t$), entender su estructura común (estimador $\pm$ margen), y sobre todo, interpretar correctamente qué garantiza la ``confianza'' --- una propiedad del método, no del intervalo particular obtenido.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{$\sigma$ conocida:} $\bar X \pm Z_{\alpha/2}\sigma/\sqrt n$. \textbf{$\sigma$ desconocida:} $\bar X \pm t_{\alpha/2,n-1}S/\sqrt n$.
+      \item \textbf{Diferencia de medias:} varianza agrupada (iguales) o Welch (distintas).
+      \item \textbf{Interpretación:} la confianza es una propiedad del procedimiento bajo muestreo repetido, no una probabilidad del intervalo ya calculado.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Ya sabemos estimar $\mu$ por intervalo. La Sección 06.05 cerrará el Capítulo 06 aplicando la misma lógica --- estimador $\pm$ margen --- a la varianza poblacional $\sigma^2$ (usando $\chi^2$, Sección 05.03) y a proporciones (usando la aproximación Normal de Wald y sus alternativas más robustas).
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa el intervalo de confianza para $\sigma^2$ de la Sección 05.03 (Teorema de Fisher).
+      \item Reflexiona sobre por qué el IC para $\sigma^2$ es asimétrico, a diferencia del IC para $\mu$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

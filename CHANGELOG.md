@@ -66,6 +66,12 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.py` (propiedades del score, normalidad asintótica vía Monte Carlo, MLE de Rayleigh y método delta).
   - Mazos Beamer bilingües en `presentaciones/es/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.tex` (17 diapositivas) y `presentaciones/en/06_estimation_data_science/06.03_maximum_likelihood_estimation.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 06 (Estimación y su Relación con Ciencia de Datos): 3 de 5 secciones completadas.
+- **Sección 06.04: Intervalos de Confianza para Medias Poblacionales ($Z$ y $t$)**:
+  - Nueva subsección "Construcción del Intervalo de Confianza para una Media Poblacional" (teoremas para $Z$ y $t$, estructura común, ejemplo resuelto) agregada a `latex/intervalos_de_confianza.tex` y su espejo `latex/en_intervalos_de_confianza.tex`.
+  - Se auditó `latex/intervalos_de_confianza(p).tex` y se confirmó que ya contenía un cuaderno 3-3-2-2 completo y de alta calidad para este tema exacto; no se creó un cuaderno duplicado.
+  - Script de laboratorio en Python `presentaciones/code/06_estimacion_estadistica/06.04_confidence_intervals_means.py` (IC $Z$ vs. $t$, IC de diferencia de medias con varianza agrupada, cobertura frecuentista vía Monte Carlo).
+  - Mazos Beamer bilingües en `presentaciones/es/06_estimacion_estadistica/06.04_confidence_intervals_means.tex` (17 diapositivas) y `presentaciones/en/06_estimation_data_science/06.04_confidence_intervals_means.tex` (19 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 06 (Estimación y su Relación con Ciencia de Datos): 4 de 5 secciones completadas.
 
 ## 2026-07-14
 

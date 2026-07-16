@@ -103,3 +103,46 @@ Debido a la simetría de la distribución normal, existen tres tipos de pruebas 
 \subsection{Dos colas}
 Analizamos ambas colas y si en alguna de las dos colas, falla la respectiva prueba de hipótesis, la prueba de hipótesis se rechaza.
 
+\subsection{Construcción del Intervalo de Confianza para una Media Poblacional}
+
+Formalicemos ahora la construcción explícita del intervalo de confianza para la media poblacional $\mu$ de una sola muestra, distinguiendo el caso en que la desviación estándar poblacional $\sigma$ es conocida del caso, mucho más común en la práctica, en que es desconocida.
+
+\begin{teorema}[Intervalo de confianza para $\mu$ con $\sigma$ conocida]
+	Sea $X_1, \ldots, X_n$ una muestra aleatoria de una población normal (o de cualquier población si $n$ es grande, por el TLC) con media $\mu$ desconocida y desviación estándar $\sigma$ \emph{conocida}. Un intervalo de confianza del $(1-\alpha)\times 100\%$ para $\mu$ es:
+	\begin{align}
+		\bar{X} - Z_{\alpha/2}\frac{\sigma}{\sqrt{n}} \; \leq \; \mu \; \leq \; \bar{X} + Z_{\alpha/2}\frac{\sigma}{\sqrt{n}},
+	\end{align}
+	donde $Z_{\alpha/2}$ es el cuantil superior $\alpha/2$ de la distribución normal estándar.
+\end{teorema}
+
+\begin{teorema}[Intervalo de confianza para $\mu$ con $\sigma$ desconocida]
+	Sea $X_1, \ldots, X_n$ una muestra aleatoria de una población normal con $\sigma$ \emph{desconocida}, estimada por la desviación estándar muestral $S$. Reemplazar $\sigma$ por $S$ cambia la distribución exacta del estadístico estandarizado de Normal a $t$ de Student con $n-1$ grados de libertad (Sección 05.04). El intervalo de confianza del $(1-\alpha)\times 100\%$ para $\mu$ es:
+	\begin{align}
+		\bar{X} - t_{\alpha/2,\,n-1}\frac{S}{\sqrt{n}} \; \leq \; \mu \; \leq \; \bar{X} + t_{\alpha/2,\,n-1}\frac{S}{\sqrt{n}}.
+	\end{align}
+\end{teorema}
+
+\begin{observacion}[Estructura común: Estimador $\pm$ Margen de Error]
+	Ambos intervalos comparten la misma estructura general:
+	\begin{align}
+		\text{Estimador puntual} \; \pm \; (\text{valor crítico}) \times (\text{error estándar}).
+	\end{align}
+	Esta estructura --- estimador central, valor crítico de una distribución de referencia, y error estándar del estimador --- se repite en todos los intervalos de confianza que estudiaremos, incluyendo los de diferencia de medias, proporciones y varianzas más adelante en este capítulo.
+\end{observacion}
+
+\begin{ejemplo}
+	El contenido de líquido en botellas de una embotelladora se distribuye aproximadamente normal. Una muestra de $n=16$ botellas produce $\bar{X}=500.4$ ml.
+	\begin{enumerate}
+		\item Si se sabe, por especificaciones del fabricante de la máquina, que $\sigma=2$ ml, construya un IC del $95\%$ para $\mu$.
+		\item Si en cambio $\sigma$ es desconocida y la muestra produce $S=2.3$ ml, construya el IC del $95\%$ correspondiente (use $t_{15,0.025}\approx 2.131$).
+	\end{enumerate}
+\end{ejemplo}
+
+\begin{solucion}
+	\begin{enumerate}
+		\item Con $\sigma=2$ conocida: $\text{SE}=2/\sqrt{16}=0.5$. $\text{IC}_{95\%} = 500.4 \pm 1.96(0.5) = 500.4 \pm 0.98 = [499.42,\ 501.38]$ ml.
+		\item Con $S=2.3$ desconocida: $\text{SE}=2.3/\sqrt{16}=0.575$. $\text{IC}_{95\%} = 500.4 \pm 2.131(0.575) = 500.4 \pm 1.225 = [499.18,\ 501.63]$ ml.
+	\end{enumerate}
+	Nótese que el intervalo basado en $t$ es más ancho que el basado en $Z$, reflejando la incertidumbre adicional de estimar $\sigma$ con $S$ (Sección 05.04).
+\end{solucion}
+

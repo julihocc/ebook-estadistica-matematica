@@ -1,0 +1,291 @@
+% !TeX program = pdflatex
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
+
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title{Confidence Intervals for Population Means}
+\subtitle{Section 06.04 --- Construction with Z and t, and Frequentist Interpretation}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute[Tec de Monterrey]{Tecnologico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% SLIDE 01: Title Page
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% SLIDE 02: Roadmap
+\begin{frame}{Roadmap --- Chapter 06: Estimation and Data Science}
+	\vspace{-0.15cm}
+	\begin{block}{Curricular Structure of Unit 5}
+		\footnotesize
+		\begin{enumerate}\itemsep=0.03cm
+			\item \textcolor{gray}{Section 06.01: Point Estimation, Unbiasedness, Efficiency, and Consistency}
+			\item \textcolor{gray}{Section 06.02: Method of Moments (MoM)}
+			\item \textcolor{gray}{Section 06.03: Maximum Likelihood Estimation (MLE) and Score}
+			\item \textbf{\textcolor{TecRojo}{Section 06.04: Confidence Intervals for Population Means ($Z$ and $t$)}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 06.05: Confidence Intervals for Variances ($\chi^2$) and Proportions}
+		\end{enumerate}
+	\end{block}
+	\vspace{-0.2cm}
+	\begin{alertblock}{Learning Objective}
+		\scriptsize
+		Apply the machinery of point estimation and sampling distributions to construct exact confidence intervals for $\mu$ --- using $Z$ when $\sigma$ is known, $t$ when it is not --- and rigorously understand what ``confidence'' means from the frequentist perspective.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 03: Z vs t Intervals
+\begin{frame}{Confidence Intervals for $\mu$: $Z$ vs. $t$}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Known $\sigma$}
+				\footnotesize
+				$$\bar X \pm Z_{\alpha/2}\dfrac{\sigma}{\sqrt n}$$
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Unknown $\sigma$ (Section 05.04)}
+				\footnotesize
+				$$\bar X \pm t_{\alpha/2,\,n-1}\dfrac{S}{\sqrt n}$$
+				Always wider than the $Z$-interval.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04: Common Structure and Extension
+\begin{frame}{The Common Structure and Its Extension}
+	\vspace{-0.15cm}
+	\begin{block}{Estimator $\pm$ Margin of Error}
+		\footnotesize
+		Every confidence interval in this chapter shares the form: $\text{Point estimator} \pm (\text{critical value}) \times (\text{standard error})$.
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{Difference of Two Means}
+		\footnotesize
+		Known variances: $Z_{\alpha/2}\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}$. Unknown equal variances: pooled $t$ with $S_p^2$, $\nu=n_1+n_2-2$. Unknown unequal variances: Welch-Satterthwaite. Paired samples: reduce to differences $D_i$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 05: Frequentist Interpretation
+\begin{frame}{What Does ``Confidence'' Really Mean?}
+	\vspace{-0.15cm}
+	\begin{block}{Correct Interpretation (Ex-Ante)}
+		\footnotesize
+		$P(L(X) \le \mu \le U(X)) = 1-\alpha$ describes the \textbf{procedure}, before observing data: $\bar X$, $L(X)$, $U(X)$ are random variables.
+	\end{block}
+	\pause
+	\vspace{0.1cm}
+	\begin{alertblock}{The Common Mistake (Ex-Post)}
+		\footnotesize
+		Once a specific numeric interval like $[74.08, 81.92]$ is computed, $\mu$ either is or isn't in it: no probability is involved. ``95\% confidence'' describes the success rate of the \emph{method} under infinite repeated sampling.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 06: Applications
+\begin{frame}{Applications in Data Science and Engineering}
+	\vspace{-0.1cm}
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Quality control:} CI for the average content of a production batch. \pause
+		\item \textbf{A/B testing:} CI for the difference of means between experiment variants. \pause
+		\item \textbf{Model reporting:} regression coefficient standard errors translate directly into CIs. \pause
+		\item \textbf{Bayesian contrast:} the Bayesian credible interval does allow direct probabilistic statements about $\theta$, unlike the frequentist CI.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 07: Python Lab Block 1
+\begin{frame}[fragile]{Python Lab: $Z$-Based vs. $t$-Based CI}
+	\vspace{-0.05cm}
+	\scriptsize
+	Comparing intervals for a mean with known and unknown $\sigma$ (\texttt{06.04\_confidence\_intervals\_means.py}):
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=17, lastline=39]{../../code/06_estimacion_estadistica/06.04_confidence_intervals_means.py}}
+\end{frame}
+
+% SLIDE 08: Python Lab Block 2
+\begin{frame}[fragile]{Python Lab: Pooled Two-Sample Mean-Difference CI}
+	\vspace{-0.05cm}
+	\scriptsize
+	Computing the pooled variance $S_p^2$ and the CI for $\mu_A-\mu_B$:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=42, lastline=61]{../../code/06_estimacion_estadistica/06.04_confidence_intervals_means.py}}
+\end{frame}
+
+% SLIDE 09: Python Lab Block 3
+\begin{frame}[fragile]{Python Lab: Frequentist Coverage}
+	\vspace{-0.05cm}
+	\scriptsize
+	Monte Carlo verification of the frequentist interpretation via repeated sampling:
+	{\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+	\lstinputlisting[firstline=64, lastline=89]{../../code/06_estimacion_estadistica/06.04_confidence_intervals_means.py}}
+\end{frame}
+
+% SLIDE 10: Python Lab Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+	\vspace{-0.1cm}
+	\begin{block}{}
+		\fontsize{4pt}{5pt}\selectfont
+		\begin{verbatim}
+=== Block 1: Z-Based vs t-Based CI ===
+Known sigma=2.0: 95% CI [499.42, 501.38]
+Unknown sigma (S=2.3): 95% CI [499.17, 501.63] (25.1% wider)
+
+=== Block 2: Pooled Two-Sample t CI ===
+Sp^2=20.95, SE=1.96, df=20, diff=4.00
+95% CI: [-0.088, 8.088] -- contains zero? Yes
+
+=== Block 3: Frequentist Coverage ===
+Empirical coverage: 0.9496 (nominal: 0.95)
+		\end{verbatim}
+	\end{block}
+\end{frame}
+
+% SLIDE 11: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem (Statement)}
+		A sample of $n=36$ students yields $\bar X=78$ points; known $\sigma=12$. Construct 95\% and 99\% CIs for $\mu$, and compare their widths.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Model Setup}
+		\begin{itemize}\itemsep=0.04cm
+			\item $\text{SE}=12/\sqrt{36}=2$. Use $Z_{0.025}=1.96$ and $Z_{0.005}=2.576$.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Exercise Level 1 (Solution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compute both intervals: \pause
+	\begin{block}{Calculation}
+		$$\text{95\% CI} = 78\pm1.96(2) = [74.08,\,81.92], \qquad \text{99\% CI} = 78\pm2.576(2) = [72.85,\,83.15]$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		The 99\% CI is wider ($10.30$ vs. $7.84$ points): with fixed $n$, increasing confidence requires sacrificing precision, capturing a larger fraction of the area under the Normal.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem (Statement)}
+		A manufacturer claims battery cells last more than 500 cycles. A sample of $n=25$ gives $\bar X=490$, $S=30$ cycles. Construct the 95\% CI for $\mu$ and determine whether it contains the advertised threshold of 500.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Use $t_{24,0.025}=2.064$; relate the result to a two-sided hypothesis test.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14: Exercise Level 2 (Solution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Construct the interval: \pause
+	\begin{block}{Calculation}
+		$$\text{95\% CI} = 490\pm2.064(6) = [477.62,\,502.38] \text{ cycles}$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		Since $500\in[477.62, 502.38]$, the observed discrepancy is admissible as sampling fluctuation: by the CI--hypothesis-test duality, we would not reject $H_0:\mu=500$ at $\alpha=0.05$. The advertising claim cannot be conclusively refuted.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 15: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem --- Pooled Variance (Statement)}
+		Two catalysts: A ($n_1=10$, $\bar X_1=85.0\%$, $S_1=4.0\%$), B ($n_2=12$, $\bar X_2=81.0\%$, $S_2=5.0\%$), assumed equal variances. Compute $S_p^2$ and the 95\% CI for $\mu_A-\mu_B$.
+	\end{block}
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		$S_p^2 = \dfrac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2}$; use $t_{20,0.025}=2.086$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16: Exercise Level 3 (Solution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Compute the pooled variance: \pause
+	\begin{block}{Calculation}
+		\scriptsize
+		$$S_p^2 = \frac{9(16)+11(25)}{20} = \frac{419}{20} = 20.95, \qquad \text{SE}_p = \sqrt{20.95(1/10+1/12)} \approx 1.96$$
+		$$\text{95\% CI}(\mu_A-\mu_B) = 4.0 \pm 2.086(1.96) \approx [-0.09,\ 8.09]\%$$
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Interpretation}
+		\scriptsize
+		Although A nominally exceeds B by $4\%$, the interval contains zero: with these small samples, A cannot be declared statistically superior to B at 95\% confidence.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 17: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+	\vspace{-0.1cm}
+	\begin{block}{Problem --- Epistemological Foundation (Statement)}
+		For the CI $[74.08, 81.92]$ from Level 1, explain why it is epistemologically wrong to state ``$P(74.08\le\mu\le81.92)=0.95$'', and contrast the frequentist interpretation with the Bayesian credible interval.
+	\end{block}
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Strategy}
+		\scriptsize
+		Distinguish ex-ante probability (before observing data, about the procedure) from ex-post (after, about a fixed numeric interval).
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Exercise Level 4 (Solution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+	\vspace{-0.05cm}
+	\scriptsize
+	Distinguish ex-ante from ex-post: \pause
+	\begin{block}{Argument}
+		\scriptsize
+		Ex-ante, $\bar X$ is random and $P(L(X)\le\mu\le U(X))=0.95$ is valid. Once data are observed, $[74.08,81.92]$ is a fixed set of numbers: $\mu$ either belongs to it (probability 1) or not (probability 0) --- there is no middle ground with 95\% uncertainty.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Frequentist vs. Bayesian}
+		\scriptsize
+		``95\% confidence'' describes the success rate of the \emph{procedure} under infinite repeated sampling. Only the Bayesian credible interval, $P(A\le\theta\le B\mid X=x)=0.95$, allows a direct probabilistic statement about the parameter given the observed data.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 19: Closing and Chapter Perspective
+\begin{frame}{Closing Section and Chapter Perspective}
+	\vspace{-0.2cm}
+	\begin{block}{Synthesis: Confidence Intervals for Means}
+		\scriptsize
+		Building a confidence interval is not just applying a formula: it requires choosing the correct reference distribution ($Z$ or $t$), understanding its common structure (estimator $\pm$ margin), and above all, correctly interpreting what ``confidence'' guarantees --- a property of the method, not of the particular interval obtained.
+	\end{block}
+	\vspace{0.05cm}
+	\pause
+	\begin{alertblock}{Key Lessons and Next Step}
+		\begin{itemize}\itemsep=0.05cm
+			\item \textbf{Known $\sigma$:} $\bar X \pm Z_{\alpha/2}\sigma/\sqrt n$. \textbf{Unknown $\sigma$:} $\bar X \pm t_{\alpha/2,n-1}S/\sqrt n$.
+			\item \textbf{Mean difference:} pooled variance (equal) or Welch (unequal).
+			\item \textbf{Interpretation:} confidence is a property of the procedure under repeated sampling, not a probability of the already-computed interval.
+			\item \textbf{Next Section:} \textcolor{TecRojo}{Confidence Intervals for Variances ($\chi^2$) and Proportions}.
+		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\end{document}
