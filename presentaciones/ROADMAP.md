@@ -221,6 +221,14 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/08_diseno_experimentos/08.02_anova_assumptions.tex` (17 frames) y `presentaciones/en/08_experimental_design/08.02_anova_assumptions.tex` (17 frames), citando los Problemas 8.6.11, 8.6.12, 8.6.7 y 8.6.13 (uno por nivel), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
   - *Libro Maestro:* Recompilado limpiamente (`[Modelación Estadística].tex` y `[Statistical Modeling].tex`), confirmando **0 errores y 0 referencias indefinidas** tras el cierre completo del Capítulo 08.
 
+### Unidad 8 / Capítulo 09: Regresiones Lineales y Múltiples (`Avance actual: 1 de 4 secciones completadas --- 25%`)
+- $\checkmark$ **09.01 Regresión Lineal Simple (MCO) y Coeficiente $R^2$:** 100% completado (**APERTURA DEL CAPÍTULO 09**).
+  - *Teoría del Libro Maestro:* siete archivos ya existentes (`latex/correlacion.tex`, `introduccion_regresiones_lineales.tex`, `regresiones_lineales.tex`, `matematicas_regresiones.tex`, `simulacion_regresion.tex`, `valores_optimos.tex`, `implementacion_regresion.tex`, y sus espejos EN) ya contenían un desarrollo completo y riguroso: motivación vía correlación, el modelo lineal poblacional, la derivación de las ecuaciones normales de Gauss por cálculo diferencial, la descomposición $\text{SCT}=\text{SCR}+\text{SCE}$, las propiedades del coeficiente $R^2$ (incluyendo $R^2=r^2$ y el $R^2$ ajustado), la prueba de significancia $t$ para la pendiente, y el estadístico $F$ general. No se requirió teoría nueva.
+  - *Cuaderno de Problemas:* Se auditó `latex/regresiones_lineales(p).tex` y se confirmó un cuaderno 3-3-2-2 completo (10 problemas con etiquetas descriptivas, auto-numerados como Problemas 9.8.1 a 9.8.10 al compilar) cubriendo estimación MCO básica, predicción, partición de varianza, pruebas de significancia, intervalos de confianza/predicción, la identidad $R^2=r_{XY}^2$, la deducción de las ecuaciones normales de Gauss, e insesgo y varianzas de los estimadores. Se citaron los Problemas 9.8.1, 9.8.5, 9.8.7 y 9.8.9 (uno por nivel) sin duplicar contenido.
+  - *Laboratorio Python:* `presentaciones/code/09_regresiones/09.01_simple_linear_regression.py` (estimación MCO de $\hat\beta_0,\hat\beta_1$ verificada contra `scipy.stats.linregress`; descomposición SCT=SCR+SCE con verificación numérica de la identidad $R^2=r^2$ contra `np.corrcoef`; prueba $t$ de significancia de la pendiente e intervalos de confianza/predicción del 95\% verificados con `scipy.stats.t`).
+  - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/09_regresiones/09.01_simple_linear_regression.tex` (17 frames) y `presentaciones/en/09_regressions/09.01_simple_linear_regression.tex` (17 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
+  - *Libro Maestro:* Recompilado limpiamente (`[Modelación Estadística].tex` y `[Statistical Modeling].tex`), confirmando **0 errores y 0 referencias indefinidas**.
+
 ---
 
 ## 3. Plan de Armonización Estructural y Curricular (Notas y Presentaciones ES/EN)
@@ -377,9 +385,9 @@ Directorio base Python: `presentaciones/code/08_diseno_experimentos/`
 
 ---
 
-### Tema Complementario / Capítulo 09: Regresiones Lineales y Múltiples
+### Tema Complementario / Capítulo 09: Regresiones Lineales y Múltiples (`Avance actual: 1 de 4 secciones completadas --- 25%`)
 Directorio base Python: `presentaciones/code/09_regresiones/`
-- **Sección 09.01:** Regresión Lineal Simple (OLS) y Coeficiente de Determinación $R^2$ (`09.01_simple_linear_regression.py`).
+- **Sección 09.01:** Regresión Lineal Simple (OLS) y Coeficiente de Determinación $R^2$ (`09.01_simple_linear_regression.py`). **100% COMPLETADO** --- ver descripción detallada arriba.
 - **Sección 09.02:** Regresión Lineal Múltiple, Ecuación Normal y Regularización Ridge/Lasso (`09.02_multiple_linear_regression.py`).
 - **Sección 09.03:** Diagnóstico de Residuos, Multicolinealidad (VIF) y Supuestos Clásicos (`09.03_regression_diagnostics.py`).
 - **Sección 09.04:** Validación de Modelos, $k$-fold Cross-Validation y `scikit-learn` (`09.04_model_validation.py`).

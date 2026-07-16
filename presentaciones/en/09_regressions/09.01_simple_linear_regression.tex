@@ -1,0 +1,325 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Simple Linear Regression]{Section 09.01: Simple Linear Regression (OLS)}
+\subtitle{Ordinary Least Squares and the Coefficient of Determination $R^2$}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
+  \footnotesize
+  Where are we in the modular development of this chapter? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{09.01} Simple Linear Regression (OLS) and $R^2$ \emph{(Today)} \pause
+    \item \textbf{09.02} Multiple Linear Regression, the Normal Equation, and Ridge/Lasso \pause
+    \item \textbf{09.03} Residual Diagnostics, Multicollinearity (VIF), and Assumptions \pause
+    \item \textbf{09.04} Model Validation, $k$-fold Cross-Validation, and \texttt{scikit-learn}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Generalize correlation (Chapter 03) into a predictive model: derive the Ordinary Least Squares (OLS) estimators for the line $\hat Y=\hat\beta_0+\hat\beta_1 X$, decompose total variability into explained and residual variability, and assess the statistical significance of the slope.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{From Correlation to Regression}
+  \footnotesize
+  \begin{motivacion}
+    Pearson's correlation $r_{XY}$ measures the \emph{strength and direction} of a linear association between $X$ and $Y$, but does not let us \emph{predict} new values. Linear regression answers a different question: given a value of $X$, what is the best point estimate of $Y$?
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item The proposed model is $Y_e=\hat\beta_0+\hat\beta_1 X$: a line summarizing the central trend of the scatter of points. \pause
+    \item The fitting criterion is minimizing the sum of squared residuals $\sum(Y-Y_e)^2$ (Ordinary Least Squares).
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Model and objective function
+\begin{frame}{The Linear Model and the Objective Function}
+  \footnotesize
+  \begin{block}{Population Model}
+    $$Y_i=\beta_0+\beta_1 X_i+\varepsilon_i, \qquad E[\varepsilon_i]=0,\ \text{Var}(\varepsilon_i)=\sigma^2,\ \text{Cov}(\varepsilon_i,\varepsilon_j)=0$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Least Squares Objective Function}
+    $$Q(\beta_0,\beta_1)=\sum_{i=1}^n\left(Y_i-(\beta_0+\beta_1 X_i)\right)^2 \quad \longrightarrow \quad \min_{\beta_0,\beta_1} Q$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Deriving the formulas
+\begin{frame}{Deriving Gauss's Normal Equations}
+  \footnotesize
+  Setting the partial derivatives $\partial Q/\partial\beta_0=0$ and $\partial Q/\partial\beta_1=0$ to zero: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Least Squares Estimators}
+    $$\hat\beta_1=\frac{\sum_{i=1}^n(X_i-\bar X)(Y_i-\bar Y)}{\sum_{i=1}^n(X_i-\bar X)^2}=\frac{S_{XY}}{S_{XX}}, \qquad \hat\beta_0=\bar Y-\hat\beta_1\bar X$$
+  \end{block}
+  \pause
+
+  \vspace{0.05cm}
+  \begin{alertblock}{Orthogonal Projection Properties}
+    The residuals $\hat\varepsilon_i=Y_i-\hat Y_i$ satisfy exactly $\sum\hat\varepsilon_i=0$ and $\sum X_i\hat\varepsilon_i=0$: the fitted line always passes through $(\bar X,\bar Y)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Decomposition and R²
+\begin{frame}{Variance Decomposition and the Coefficient $R^2$}
+  \footnotesize
+  \begin{block}{Partition Theorem}
+    $$\underbrace{\sum(Y_i-\bar Y)^2}_{\text{SST}} = \underbrace{\sum(\hat Y_i-\bar Y)^2}_{\text{SSR}} + \underbrace{\sum(Y_i-\hat Y_i)^2}_{\text{SSE}}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Coefficient of Determination}
+    $$R^2=\frac{\text{SSR}}{\text{SST}}=1-\frac{\text{SSE}}{\text{SST}} \in[0,1], \qquad \text{in simple regression: } R^2=r_{XY}^2$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Slope significance
+\begin{frame}{Statistical Significance of the Slope}
+  \footnotesize
+  \begin{block}{Hypothesis Test}
+    $$H_0:\beta_1=0 \quad (\text{no linear relationship}) \qquad \text{vs.} \qquad H_a:\beta_1\neq0$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Test Statistic}
+    $$t=\frac{\hat\beta_1}{SE(\hat\beta_1)}, \qquad SE(\hat\beta_1)=\sqrt{\frac{\text{CME}}{S_{XX}}} \ \sim\ t_{n-2} \quad\text{under } H_0$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: OLS Estimation}
+  \scriptsize
+  Estimating $\hat\beta_0,\hat\beta_1$, verified against \texttt{scipy.stats.linregress} (\texttt{09.01\_simple\_linear\_regression.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=32]{../../code/09_regresiones/09.01_simple_linear_regression.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Decomposition and $R^2$}
+  \scriptsize
+  Verifying SST=SSR+SSE and the identity $R^2=r^2$:
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=35, lastline=48]{../../code/09_regresiones/09.01_simple_linear_regression.py}}
+\end{frame}
+
+% Slide 10: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: $t$-Test and Intervals}
+  \scriptsize
+  Testing slope significance and computing confidence/prediction intervals:
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=51, lastline=71]{../../code/09_regresiones/09.01_simple_linear_regression.py}}
+\end{frame}
+
+% Slide 11: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.8pt}{4.6pt}\selectfont
+    \begin{verbatim}
+=== Block 1: OLS Coefficient Estimation ===
+beta_1_hat=3.0910, beta_0_hat=6.8202 (matches scipy.stats.linregress)
+
+=== Block 2: Sum-of-Squares Decomposition ===
+SST=4592.92 = SSR(4422.38)+SSE(170.54); R^2=0.9629 = r^2 (Pearson r=0.9813)
+
+=== Block 3: Slope Significance and Intervals ===
+t=18.3608 (df=13), p=0.000000
+95% CI mean: (41.86, 45.97);  95% PI new obs: (35.82, 52.00)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 9.8.1)}
+    The relationship between study hours ($X$) and exam score ($Y$) is studied for $n=10$ students: $X=\{2,3,4,5,6,7,8,9,10,12\}$, $Y=\{45,50,55,60,65,70,75,80,85,90\}$. Compute $\hat\beta_0,\hat\beta_1$, predict the score for $X=7.5$ hours, and compute $R^2$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Setup}
+    Compute $\bar X,\bar Y,S_{XX},S_{XY}$ from the 10 data pairs.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Exercise Level 1 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+  \scriptsize
+  The data are nearly perfectly linear: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$\bar X=6.6,\ \bar Y=67.5, \qquad \hat\beta_1\approx4.708,\ \hat\beta_0\approx36.43 \implies \hat Y=36.43+4.708X$$
+    $$\hat Y(7.5)\approx71.74, \qquad R^2\approx0.993$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    A student studying 7.5 hours would obtain an expected score of $\approx71.7$. The $R^2\approx0.993$ indicates the linear model explains virtually all the variability in scores.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 9.8.5)}
+    With $n=15$ days, $\bar X=25.0°C$, $\bar Y=450.0$ MWh, $S_{XX}=500.0$, $S_{XY}=2000.0$, and $\text{SST}=10000.0$. Compute $\hat\beta_0,\hat\beta_1$, the $\text{SSR}$ and $\text{SSE}$, and test $H_0:\beta_1=0$ at $\alpha=0.05$ ($t_{0.025,13}=2.160$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    $\hat\beta_1=S_{XY}/S_{XX}$; $\text{SSR}=\hat\beta_1 S_{XY}$; $\text{SSE}=\text{SST}-\text{SSR}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Exercise Level 2 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+  \scriptsize
+  We compute the slope, the variance partition, and the $t$ statistic: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$\hat\beta_1=\frac{2000.0}{500.0}=4.0, \quad \hat\beta_0=450.0-4.0(25.0)=350.0$$
+    $$\text{SSR}=4.0(2000.0)=8000.0, \quad \text{SSE}=10000.0-8000.0=2000.0, \quad \text{CME}=\frac{2000.0}{13}\approx153.85$$
+    $$SE(\hat\beta_1)=\sqrt{\frac{153.85}{500.0}}\approx0.5547, \qquad t=\frac{4.0}{0.5547}\approx7.211$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    Since $7.211>2.160$, \textbf{we reject $H_0$}: ambient temperature has a statistically significant linear effect on electricity consumption.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Partition and $R^2=r^2$ (Statement, Problem 9.8.7)}
+    With $n=30$, $S_X=4.5$, $S_Y=12.0$, $\bar X=8.0\%$, $\bar Y=15.0\%$, and $r_{XY}=0.820$. Prove that $R^2=r_{XY}^2$, compute $\text{SST}$, $\text{SSR}$, $\text{SSE}$, and obtain $\hat\beta_1=r_{XY}(S_Y/S_X)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    $\text{SST}=(n-1)S_Y^2$; use the algebraic relationship between $r_{XY}$ and $\hat\beta_1$ through the standard deviations.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Exercise Level 3 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+  \scriptsize
+  We compute the variance partition and verify the identity: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\text{SST}=(30-1)(12.0)^2=4176.0, \qquad R^2=r_{XY}^2=(0.820)^2=0.6724$$
+    $$\text{SSR}=R^2\cdot\text{SST}\approx2807.9, \qquad \text{SSE}=\text{SST}-\text{SSR}\approx1368.1$$
+    $$\hat\beta_1=0.820\left(\frac{12.0}{4.5}\right)\approx2.187, \qquad \hat\beta_0=15.0-2.187(8.0)\approx-2.493$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    The identity $R^2=r_{XY}^2$ is exact in simple regression: both coefficients quantify the same proportion of shared variability, except $r$ retains the sign of the association while $R^2$ does not.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Gauss's Normal Equations and Unbiasedness (Statement, Problem 9.8.9)}
+    Under the population model $Y_i=\beta_0+\beta_1 X_i+\varepsilon_i$ with $E[\varepsilon_i]=0$, derive Gauss's normal equations from $\partial Q/\partial\beta_0=0$ and $\partial Q/\partial\beta_1=0$, and prove that $E[\hat\beta_1]=\beta_1$ and $E[\hat\beta_0]=\beta_0$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Substitute the true model $Y_i=\beta_0+\beta_1X_i+\varepsilon_i$ into the closed-form formula for $\hat\beta_1$ and apply linearity of $E[\cdot]$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Exercise Level 4 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+  \scriptsize
+  We substitute the true model into the slope estimator: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\hat\beta_1=\sum_i c_i Y_i, \quad c_i=\frac{X_i-\bar X}{S_{XX}} \implies \hat\beta_1=\sum_i c_i(\beta_0+\beta_1X_i+\varepsilon_i)=\beta_0\underbrace{\sum c_i}_{0}+\beta_1\underbrace{\sum c_iX_i}_{1}+\sum c_i\varepsilon_i$$
+    $$E[\hat\beta_1]=\beta_1+\sum c_i E[\varepsilon_i]=\beta_1+0=\beta_1$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    Since $\hat\beta_0=\bar Y-\hat\beta_1\bar X$ and $E[\bar Y]=\beta_0+\beta_1\bar X$, it follows directly that $E[\hat\beta_0]=\beta_0$. Both OLS estimators are unbiased without needing to assume normality of the errors.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Closing
+\begin{frame}{Section Closing: Simple Linear Regression}
+  \begin{reflexion}
+    We have generalized correlation into a predictive model: the Ordinary Least Squares estimators minimize the sum of squared residuals, the decomposition $\text{SST}=\text{SSR}+\text{SSE}$ quantifies how much variability the model explains ($R^2$), and the $t$-test certifies whether that relationship is statistically significant.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{OLS:} $\hat\beta_1=S_{XY}/S_{XX}$, $\hat\beta_0=\bar Y-\hat\beta_1\bar X$, both unbiased.
+      \item \textbf{$R^2=r^2$:} in simple regression, the coefficient of determination is the square of Pearson's correlation.
+      \item \textbf{Significance:} $H_0:\beta_1=0$ is tested via $t=\hat\beta_1/SE(\hat\beta_1)\sim t_{n-2}$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    With single-predictor regression mastered, Section 09.02 generalizes the model to \textbf{multiple} simultaneous predictor variables via the Normal Equation in matrix notation $\hat{\boldsymbol\beta}=(X^TX)^{-1}X^T\mathbf{Y}$, and introduces Ridge and Lasso regularization to control model complexity when many correlated predictors are present.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Review linear algebra notation (matrices, transpose, inverse) that will replace scalar summations.
+      \item Reflect on why $R^2$ never decreases when adding predictors, and what problem the adjusted $R^2$ solves.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,325 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Regresión Lineal Simple]{Sección 09.01: Regresión Lineal Simple (MCO)}
+\subtitle{Mínimos Cuadrados Ordinarios y el Coeficiente de Determinación $R^2$}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 09: Regresiones Lineales y Múltiples}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{09.01} Regresión Lineal Simple (MCO) y Coeficiente $R^2$ \emph{(Hoy)} \pause
+    \item \textbf{09.02} Regresión Lineal Múltiple, Ecuación Normal y Ridge/Lasso \pause
+    \item \textbf{09.03} Diagnóstico de Residuos, Multicolinealidad (VIF) y Supuestos \pause
+    \item \textbf{09.04} Validación de Modelos, $k$-fold Cross-Validation y \texttt{scikit-learn}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Generalizar la correlación (Capítulo 03) a un modelo predictivo: derivar los estimadores de Mínimos Cuadrados Ordinarios (MCO) para la recta $\hat Y=\hat\beta_0+\hat\beta_1 X$, descomponer la variabilidad total en variabilidad explicada y residual, y evaluar la significancia estadística de la pendiente.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De la Correlación a la Regresión}
+  \footnotesize
+  \begin{motivacion}
+    La correlación de Pearson $r_{XY}$ mide la \emph{fuerza y dirección} de una asociación lineal entre $X$ y $Y$, pero no permite \emph{predecir} valores nuevos. La regresión lineal responde una pregunta distinta: dado un valor de $X$, ¿cuál es la mejor estimación puntual de $Y$?
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item El modelo propuesto es $Y_e=\hat\beta_0+\hat\beta_1 X$: una recta que resume la tendencia central de la nube de puntos. \pause
+    \item El criterio de ajuste es minimizar la suma de cuadrados de los residuos $\sum(Y-Y_e)^2$ (Mínimos Cuadrados Ordinarios).
+  \end{itemize}
+\end{frame}
+
+% Slide 4: El modelo y el objetivo
+\begin{frame}{El Modelo Lineal y la Función Objetivo}
+  \footnotesize
+  \begin{block}{Modelo Poblacional}
+    $$Y_i=\beta_0+\beta_1 X_i+\varepsilon_i, \qquad E[\varepsilon_i]=0,\ \text{Var}(\varepsilon_i)=\sigma^2,\ \text{Cov}(\varepsilon_i,\varepsilon_j)=0$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Función Objetivo de Mínimos Cuadrados}
+    $$Q(\beta_0,\beta_1)=\sum_{i=1}^n\left(Y_i-(\beta_0+\beta_1 X_i)\right)^2 \quad \longrightarrow \quad \min_{\beta_0,\beta_1} Q$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Derivación de las fórmulas
+\begin{frame}{Derivación de las Ecuaciones Normales de Gauss}
+  \footnotesize
+  Igualando a cero las derivadas parciales $\partial Q/\partial\beta_0=0$ y $\partial Q/\partial\beta_1=0$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Estimadores de Mínimos Cuadrados}
+    $$\hat\beta_1=\frac{\sum_{i=1}^n(X_i-\bar X)(Y_i-\bar Y)}{\sum_{i=1}^n(X_i-\bar X)^2}=\frac{S_{XY}}{S_{XX}}, \qquad \hat\beta_0=\bar Y-\hat\beta_1\bar X$$
+  \end{block}
+  \pause
+
+  \vspace{0.05cm}
+  \begin{alertblock}{Propiedades de Proyección Ortogonal}
+    Los residuos $\hat\varepsilon_i=Y_i-\hat Y_i$ satisfacen exactamente $\sum\hat\varepsilon_i=0$ y $\sum X_i\hat\varepsilon_i=0$: la recta ajustada siempre pasa por $(\bar X,\bar Y)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Descomposición y R²
+\begin{frame}{Descomposición de la Varianza y el Coeficiente $R^2$}
+  \footnotesize
+  \begin{block}{Teorema de Partición}
+    $$\underbrace{\sum(Y_i-\bar Y)^2}_{\text{SCT}} = \underbrace{\sum(\hat Y_i-\bar Y)^2}_{\text{SCR}} + \underbrace{\sum(Y_i-\hat Y_i)^2}_{\text{SCE}}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Coeficiente de Determinación}
+    $$R^2=\frac{\text{SCR}}{\text{SCT}}=1-\frac{\text{SCE}}{\text{SCT}} \in[0,1], \qquad \text{en regresión simple: } R^2=r_{XY}^2$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Significancia de la pendiente
+\begin{frame}{Significancia Estadística de la Pendiente}
+  \footnotesize
+  \begin{block}{Prueba de Hipótesis}
+    $$H_0:\beta_1=0 \quad (\text{sin relación lineal}) \qquad \text{vs.} \qquad H_a:\beta_1\neq0$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Estadístico de Prueba}
+    $$t=\frac{\hat\beta_1}{SE(\hat\beta_1)}, \qquad SE(\hat\beta_1)=\sqrt{\frac{\text{CME}}{S_{XX}}} \ \sim\ t_{n-2} \quad\text{bajo } H_0$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Estimación MCO}
+  \scriptsize
+  Estimación de $\hat\beta_0,\hat\beta_1$ verificada contra \texttt{scipy.stats.linregress} (\texttt{09.01\_simple\_linear\_regression.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=32]{../../code/09_regresiones/09.01_simple_linear_regression.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Descomposición y $R^2$}
+  \scriptsize
+  Verificación de SCT=SCR+SCE y de la identidad $R^2=r^2$:
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=35, lastline=48]{../../code/09_regresiones/09.01_simple_linear_regression.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Prueba $t$ e Intervalos}
+  \scriptsize
+  Prueba de significancia de la pendiente e intervalos de confianza/predicción:
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=51, lastline=71]{../../code/09_regresiones/09.01_simple_linear_regression.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{3.8pt}{4.6pt}\selectfont
+    \begin{verbatim}
+=== Block 1: OLS Coefficient Estimation ===
+beta_1_hat=3.0910, beta_0_hat=6.8202 (matches scipy.stats.linregress)
+
+=== Block 2: Sum-of-Squares Decomposition ===
+SST=4592.92 = SSR(4422.38)+SSE(170.54); R^2=0.9629 = r^2 (Pearson r=0.9813)
+
+=== Block 3: Slope Significance and Intervals ===
+t=18.3608 (df=13), p=0.000000
+95% CI mean: (41.86, 45.97);  95% PI new obs: (35.82, 52.00)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 9.8.1)}
+    Se estudia la relación entre horas de estudio ($X$) y calificación ($Y$) en $n=10$ estudiantes: $X=\{2,3,4,5,6,7,8,9,10,12\}$, $Y=\{45,50,55,60,65,70,75,80,85,90\}$. Calcule $\hat\beta_0,\hat\beta_1$, prediga la calificación para $X=7.5$ horas, y calcule $R^2$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    Calcule $\bar X,\bar Y,S_{XX},S_{XY}$ a partir de las 10 parejas de datos.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Los datos son casi perfectamente lineales: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\bar X=6.6,\ \bar Y=67.5, \qquad \hat\beta_1\approx4.708,\ \hat\beta_0\approx36.43 \implies \hat Y=36.43+4.708X$$
+    $$\hat Y(7.5)\approx71.74, \qquad R^2\approx0.993$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Un estudiante con 7.5 horas de estudio obtendría una calificación esperada de $\approx71.7$. El $R^2\approx0.993$ indica que el modelo lineal explica prácticamente toda la variabilidad de las calificaciones.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 9.8.5)}
+    Con $n=15$ días, $\bar X=25.0°C$, $\bar Y=450.0$ MWh, $S_{XX}=500.0$, $S_{XY}=2000.0$ y $\text{SCT}=10000.0$. Calcule $\hat\beta_0,\hat\beta_1$, la $\text{SCR}$ y $\text{SCE}$, y pruebe $H_0:\beta_1=0$ al $\alpha=0.05$ ($t_{0.025,13}=2.160$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    $\hat\beta_1=S_{XY}/S_{XX}$; $\text{SCR}=\hat\beta_1 S_{XY}$; $\text{SCE}=\text{SCT}-\text{SCR}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos la pendiente, la partición de varianza y el estadístico $t$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\hat\beta_1=\frac{2000.0}{500.0}=4.0, \quad \hat\beta_0=450.0-4.0(25.0)=350.0$$
+    $$\text{SCR}=4.0(2000.0)=8000.0, \quad \text{SCE}=10000.0-8000.0=2000.0, \quad \text{CME}=\frac{2000.0}{13}\approx153.85$$
+    $$SE(\hat\beta_1)=\sqrt{\frac{153.85}{500.0}}\approx0.5547, \qquad t=\frac{4.0}{0.5547}\approx7.211$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $7.215>2.160$, \textbf{se rechaza $H_0$}: la temperatura ambiente tiene un efecto lineal estadísticamente significativo sobre el consumo eléctrico.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Partición y $R^2=r^2$ (Enunciado, Problema 9.8.7)}
+    Con $n=30$, $S_X=4.5$, $S_Y=12.0$, $\bar X=8.0\%$, $\bar Y=15.0\%$ y $r_{XY}=0.820$. Demuestre que $R^2=r_{XY}^2$, calcule $\text{SCT}$, $\text{SCR}$, $\text{SCE}$, y obtenga $\hat\beta_1=r_{XY}(S_Y/S_X)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    $\text{SCT}=(n-1)S_Y^2$; use la relación algebraica entre $r_{XY}$ y $\hat\beta_1$ a través de las desviaciones estándar.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Calculamos la partición de varianza y verificamos la identidad: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\text{SCT}=(30-1)(12.0)^2=4176.0, \qquad R^2=r_{XY}^2=(0.820)^2=0.6724$$
+    $$\text{SCR}=R^2\cdot\text{SCT}\approx2807.9, \qquad \text{SCE}=\text{SCT}-\text{SCR}\approx1368.1$$
+    $$\hat\beta_1=0.820\left(\frac{12.0}{4.5}\right)\approx2.187, \qquad \hat\beta_0=15.0-2.187(8.0)\approx-2.493$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    La identidad $R^2=r_{XY}^2$ es exacta en regresión simple: ambos coeficientes cuantifican la misma proporción de variabilidad compartida, solo que $r$ conserva el signo de la asociación mientras $R^2$ no.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Ecuaciones Normales de Gauss e Insesgo (Enunciado, Problema 9.8.9)}
+    Bajo el modelo poblacional $Y_i=\beta_0+\beta_1 X_i+\varepsilon_i$ con $E[\varepsilon_i]=0$, deduzca el sistema de ecuaciones normales de Gauss a partir de $\partial Q/\partial\beta_0=0$ y $\partial Q/\partial\beta_1=0$, y demuestre que $E[\hat\beta_1]=\beta_1$ y $E[\hat\beta_0]=\beta_0$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Sustituya el modelo verdadero $Y_i=\beta_0+\beta_1X_i+\varepsilon_i$ dentro de la fórmula cerrada de $\hat\beta_1$ y aplique linealidad de $E[\cdot]$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Sustituimos el modelo verdadero en el estimador de pendiente: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\hat\beta_1=\sum_i c_i Y_i, \quad c_i=\frac{X_i-\bar X}{S_{XX}} \implies \hat\beta_1=\sum_i c_i(\beta_0+\beta_1X_i+\varepsilon_i)=\beta_0\underbrace{\sum c_i}_{0}+\beta_1\underbrace{\sum c_iX_i}_{1}+\sum c_i\varepsilon_i$$
+    $$E[\hat\beta_1]=\beta_1+\sum c_i E[\varepsilon_i]=\beta_1+0=\beta_1$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $\hat\beta_0=\bar Y-\hat\beta_1\bar X$ y $E[\bar Y]=\beta_0+\beta_1\bar X$, se sigue directamente $E[\hat\beta_0]=\beta_0$. Ambos estimadores MCO son insesgados sin necesidad de asumir normalidad de los errores.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: Regresión Lineal Simple}
+  \begin{reflexion}
+    Hemos generalizado la correlación a un modelo predictivo: los estimadores de Mínimos Cuadrados Ordinarios minimizan la suma de cuadrados de los residuos, la descomposición $\text{SCT}=\text{SCR}+\text{SCE}$ cuantifica cuánta variabilidad explica el modelo ($R^2$), y la prueba $t$ certifica si esa relación es estadísticamente significativa.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{MCO:} $\hat\beta_1=S_{XY}/S_{XX}$, $\hat\beta_0=\bar Y-\hat\beta_1\bar X$, ambos insesgados.
+      \item \textbf{$R^2=r^2$:} en regresión simple, el coeficiente de determinación es el cuadrado de la correlación de Pearson.
+      \item \textbf{Significancia:} $H_0:\beta_1=0$ se contrasta con $t=\hat\beta_1/SE(\hat\beta_1)\sim t_{n-2}$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Con la regresión de un solo predictor dominada, la Sección 09.02 generaliza el modelo a \textbf{múltiples} variables predictoras simultáneas mediante la Ecuación Normal en notación matricial $\hat{\boldsymbol\beta}=(X^TX)^{-1}X^T\mathbf{Y}$, e introduce la regularización Ridge y Lasso para controlar la complejidad del modelo cuando hay muchos predictores correlacionados.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la notación de álgebra lineal (matrices, transpuesta, inversa) que sustituirá a las sumatorias escalares.
+      \item Reflexiona sobre por qué $R^2$ nunca disminuye al agregar predictores, y qué problema resuelve el $R^2$ ajustado.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

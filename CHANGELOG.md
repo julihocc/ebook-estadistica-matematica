@@ -22,6 +22,12 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/08_diseno_experimentos/08.02_anova_assumptions.py` (Bartlett y Levene verificados contra `scipy.stats.bartlett`/`scipy.stats.levene`, Shapiro-Wilk sobre residuos de un ANOVA, y comparación de ANOVA paramétrico vs. Kruskal-Wallis sobre datos asimétricos).
   - Mazos Beamer bilingües en `presentaciones/es/08_diseno_experimentos/08.02_anova_assumptions.tex` (17 diapositivas) y `presentaciones/en/08_experimental_design/08.02_anova_assumptions.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 08 (Elementos de Diseño de Experimentos --- ANOVA) queda 100% finalizado (2 de 2 secciones).
+- **Sección 09.01: Regresión Lineal Simple (MCO) y Coeficiente $R^2$ (Apertura del Capítulo 09)**:
+  - Teoría (motivación vía correlación, modelo lineal poblacional, derivación de las ecuaciones normales de Gauss, descomposición SCT=SCR+SCE, propiedades de $R^2$ incluyendo $R^2=r^2$ y el $R^2$ ajustado, prueba de significancia $t$ para la pendiente) ya existía de forma completa en siete archivos (`latex/correlacion.tex`, `introduccion_regresiones_lineales.tex`, `regresiones_lineales.tex`, `matematicas_regresiones.tex`, `simulacion_regresion.tex`, `valores_optimos.tex`, `implementacion_regresion.tex`) y sus espejos EN; no se requirió teoría nueva.
+  - Se auditó `latex/regresiones_lineales(p).tex` y se confirmó un cuaderno 3-3-2-2 completo (10 problemas, auto-numerados 9.8.1 a 9.8.10); se citaron los Problemas 9.8.1, 9.8.5, 9.8.7 y 9.8.9 sin duplicar contenido.
+  - Script de laboratorio en Python `presentaciones/code/09_regresiones/09.01_simple_linear_regression.py` (estimación MCO verificada contra `scipy.stats.linregress`, descomposición SCT=SCR+SCE con verificación de la identidad $R^2=r^2$ contra `np.corrcoef`, y prueba $t$ de significancia de la pendiente con intervalos de confianza/predicción del 95\%).
+  - Mazos Beamer bilingües en `presentaciones/es/09_regresiones/09.01_simple_linear_regression.tex` (17 diapositivas) y `presentaciones/en/09_regressions/09.01_simple_linear_regression.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 09 (Regresiones Lineales y Múltiples) inicia su desarrollo: 1 de 4 secciones completadas.
 
 ## 2026-07-15
 
