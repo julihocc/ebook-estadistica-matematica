@@ -1,0 +1,318 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[$\chi^2$ Goodness-of-Fit]{Section 07.03: Chi-Squared Goodness-of-Fit Tests}
+\subtitle{Uniformity, Estimated Parameters, and Cochran's Rule}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 07: Hypothesis Testing}
+  \footnotesize
+  Where are we in the modular development of the chapter? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{07.01} Foundations: $H_0$ vs. $H_1$, Type I and II Errors, and Power \pause
+    \item \textbf{07.02} $Z$ and $t$ Tests for One- and Two-Sample Means \pause
+    \item \textbf{07.03} Chi-Squared Goodness-of-Fit Tests \emph{(Today)} \pause
+    \item \textbf{07.04} Contingency Tables and Independence Tests
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Learn to test whether a \emph{complete} set of categorical data fits a proposed theoretical distribution --- uniform, or with parameters estimated from the sample itself --- using Pearson's $\chi^2$ statistic, respecting the validity conditions of Cochran's Rule.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{From a Single Parameter to a Complete Distribution}
+  \footnotesize
+  \begin{motivacion}
+    So far we have tested hypotheses about a single parameter (a mean). Many data science questions are more ambitious: does my categorical data follow a uniform distribution? Is it reasonable to model these counts as Poisson? The $\chi^2$ goodness-of-fit test contrasts the \emph{entire model}, not just one isolated parameter.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Core idea:} compare \emph{observed} frequencies against those \emph{expected} under $H_0$. \pause
+    \item \textbf{Applications:} fairness of a die, fit to a theoretical model (Poisson, Binomial), verification of distributional assumptions.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Statistic and reference distribution
+\begin{frame}{The $\chi^2$ Statistic and Its Reference Distribution}
+  \footnotesize
+  \begin{block}{Pearson's Statistic}
+    $$\chi^2 = \sum_{i=1}^k \frac{(O_i-E_i)^2}{E_i}, \qquad E_i = Np_i$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Formal Goodness-of-Fit Test}
+    Under $H_0$, the statistic converges asymptotically to $\chi^2_\nu$ with $\nu=k-1-m$ degrees of freedom, where $m$ is the number of parameters of the theoretical model \emph{estimated from the same sample}. If $p_i$ are fully known in advance, $m=0$ and $\nu=k-1$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Cochran's Rule
+\begin{frame}{Cochran's Rule: Validity of the Approximation}
+  \footnotesize
+  \begin{block}{Regularity Condition}
+    The continuous $\chi^2_\nu$ approximation of the exact discrete distribution of the statistic is only reliable when expected frequencies are not too small.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Cochran's Practical Rule}
+    \begin{itemize}\itemsep=0.05cm
+      \item No $E_i$ should be smaller than $1$.
+      \item No more than $20\%$ of cells should have $E_i<5$.
+    \end{itemize}
+    If violated, the standard remedy is to \textbf{merge adjacent} low-expected-frequency categories until the rule is satisfied, correspondingly reducing the degrees of freedom.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Two scenarios
+\begin{frame}{Two Scenarios: Simple $H_0$ vs. $H_0$ With an Estimated Parameter}
+  \footnotesize
+  \begin{block}{Simple $H_0$ (Known Probabilities)}
+    Example: is a die fair? $H_0: p_i=1/6$ for $i=1,\ldots,6$. Here $m=0$, $\nu=k-1=5$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{$H_0$ With an Estimated Parameter}
+    Example: do the counts follow a Poisson distribution? $\hat\lambda=\bar X$ is estimated from the same sample before computing expected frequencies. Here $m=1$, $\nu=k-1-1=k-2$: \textbf{each estimated parameter costs one additional degree of freedom}.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Applications
+\begin{frame}{Applications in Data Science and Engineering}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Quality control:} verify whether defects per batch follow an expected distribution. \pause
+    \item \textbf{Generative model validation:} does simulated noise really follow the assumed distribution? \pause
+    \item \textbf{A/B/n testing:} verify whether traffic was split according to the planned allocation proportions. \pause
+    \item \textbf{Fraud detection:} Benford's Law is, in essence, a goodness-of-fit test on the leading digit.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Goodness-of-Fit Against Uniformity}
+  \scriptsize
+  Die-fairness test, verified against \texttt{scipy.stats.chisquare} (\texttt{07.03\_goodness\_of\_fit\_tests.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=31]{../../code/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Poisson Fit With an Estimated Parameter}
+  \scriptsize
+  Estimating $\hat\lambda$ and adjusting the degrees of freedom ($\nu=k-1-m$):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=38, lastline=63]{../../code/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.py}}
+\end{frame}
+
+% Slide 10: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: Cochran's Rule and Cell Merging}
+  \scriptsize
+  Detecting the Cochran violation and correcting it by merging categories:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=66, lastline=85]{../../code/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.py}}
+\end{frame}
+
+% Slide 11: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the Python lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: GOF Against Uniform Hypothesis ===
+chi2 statistic = 1.1000, df=5, p-value = 0.9541
+
+=== Block 2: GOF With Estimated Parameter (Poisson) ===
+lambda_hat = 0.9400, chi2 = 0.6977, df = 4-1-1 = 2, p-value = 0.7055
+
+=== Block 3: Cochran's Rule and Cell Merging ===
+Cells with E_i<5: 2 of 4 (50%) -- Cochran's Rule violated? True
+Merged chi2 = 0.6890, df=2, p-value = 0.7086
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 3.9.1)}
+    A fair die is rolled 120 times, yielding observed frequencies $\{18,22,20,19,23,18\}$. Formulate $H_0/H_a$, compute the $\chi^2$ statistic and degrees of freedom, and decide at $\alpha=0.05$ (critical value $\chi^2_{0.05,5}=11.07$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Approach}
+    Under uniformity, each face has $E_i=120/6=20$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Exercise Level 1 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+  \scriptsize
+  We compute the statistic by summing the 6 contributions: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$\chi^2 = \frac{(-2)^2+2^2+0^2+(-1)^2+3^2+(-2)^2}{20} = \frac{22}{20} = 1.10, \qquad \nu=5$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    Since $1.10<11.07$, \textbf{we do not reject $H_0$}: the observed variations are attributable to sampling randomness; the die behaves as fair.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 3.9.2)}
+    A survey of $n=200$ consumers on packaging color preference yields $\{55,48,42,35,20\}$ for 5 options. Test uniformity at $\alpha=0.05$ and identify which colors generate the largest divergence.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Under uniformity, $E_i=200/5=40$ for each color; compare with $\chi^2_{0.05,4}=9.488$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Exercise Level 2 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+  \scriptsize
+  We compute the statistic broken down by color: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\chi^2 = \frac{15^2+8^2+2^2+5^2+20^2}{40} = 5.625+1.600+0.100+0.625+10.000 = 17.95$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    Since $17.95>9.488$, \textbf{we reject $H_0$}. The ``Other'' category contributes more than half of the statistic (preference far below expectation); ``Red'' is the market's clear favorite.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Poisson With an Estimated Parameter (Statement, Section 3.9)}
+    An engineer records daily interruptions over $n=100$ days: $\{36,40,18,6\}$ for $k=0,1,2,\ge3$. Estimate $\hat\lambda$, compute the expected frequencies under Poisson, and determine $\nu$ correctly.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    $\hat\lambda=\bar X$; the correct degrees of freedom are $\nu=k-1-m$ with $m=1$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Exercise Level 3 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+  \scriptsize
+  We estimate $\hat\lambda$ and compute the adjusted statistic: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\hat\lambda = \frac{0(36)+1(40)+2(18)+3(6)}{100} = 0.94, \qquad \chi^2 \approx 0.697, \qquad \nu = 4-1-1 = 2$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    Since $\chi^2=0.697 \ll \chi^2_{0.05,2}=5.991$, \textbf{we accept with high fidelity} that the interruptions follow a Poisson process with $\lambda=0.94$. Ignoring the $m=1$ adjustment would have artificially inflated $\nu$ to 3.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Justification of $\nu=k-1$ (Statement, Section 3.9)}
+    Let $\mathbf O=(O_1,\ldots,O_k)\sim\text{Multinomial}(N,\mathbf p)$. Analytically justify why Pearson's statistic $Q=\sum Z_i^2$ is distributed as $\chi^2_{k-1}$, not $\chi^2_k$, explaining the role of the constraint $\sum(O_i-Np_i)=0$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Observe that the fixed total $N$ imposes an exact linear restriction on the $k$ deviations.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Exercise Level 4 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+  \scriptsize
+  We identify the linear constraint and its geometric consequence: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Argument}
+    \scriptsize
+    $\sum_i O_i = N \implies \sum_i(O_i-Np_i)=0$: the deviation vector $\mathbf Z$ lives in a $(k-1)$-dimensional hyperplane, not in full $\mathbb R^k$. The last cell is determined by the first $k-1$.
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    Projecting onto this hyperplane, the effective spectral rank of the quadratic form is $k-1$, not $k$. This is why Pearson's statistic loses exactly one degree of freedom relative to the naive intuition of summing $k$ independent squared normals.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Closing
+\begin{frame}{Section Closing: $\chi^2$ Goodness-of-Fit}
+  \begin{reflexion}
+    The goodness-of-fit test contrasts a \emph{complete} distributional model, not a single isolated parameter. Its validity critically depends on expected frequencies not being too small (Cochran's Rule), and its degrees of freedom depend exactly on how many model parameters were estimated from the same sample.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Statistic:} $\chi^2=\sum(O_i-E_i)^2/E_i$, with $\nu=k-1-m$.
+      \item \textbf{Cochran's Rule:} no $E_i<1$; at most 20\% of cells with $E_i<5$; merge if violated.
+      \item \textbf{Estimated parameters:} each one estimated from the sample subtracts one additional degree of freedom.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    We now know how to test whether \emph{one} categorical variable follows a theoretical distribution. Section 07.04 closes Chapter 07 by extending the same $\chi^2$ statistic to \textbf{two} simultaneous categorical variables: independence and homogeneity tests in contingency tables.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Review computing expected frequencies $E_{ij}=R_iC_j/N$ in two-dimensional tables.
+      \item Reflect on the conceptual difference between designing sampling with fixed rows versus fixed columns.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

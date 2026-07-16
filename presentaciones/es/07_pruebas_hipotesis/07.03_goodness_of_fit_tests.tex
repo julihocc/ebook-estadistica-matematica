@@ -1,0 +1,318 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Bondad de Ajuste $\chi^2$]{Sección 07.03: Pruebas de Bondad de Ajuste $\chi^2$}
+\subtitle{Uniformidad, Parámetros Estimados y la Regla de Cochran}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 07: Docimasia (Pruebas de Hipótesis)}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{07.01} Fundamentos: $H_0$ vs. $H_1$, Errores Tipo I y II, y Potencia \pause
+    \item \textbf{07.02} Pruebas $Z$ y $t$ para Medias de Una y Dos Muestras \pause
+    \item \textbf{07.03} Pruebas de Bondad de Ajuste $\chi^2$ \emph{(Hoy)} \pause
+    \item \textbf{07.04} Tablas de Contingencia y Pruebas de Independencia
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Aprender a contrastar si un conjunto \emph{completo} de datos categóricos se ajusta a una distribución teórica propuesta --- uniforme, o con parámetros estimados de la propia muestra --- usando el estadístico $\chi^2$ de Pearson, respetando las condiciones de validez de la Regla de Cochran.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De un Parámetro a una Distribución Completa}
+  \footnotesize
+  \begin{motivacion}
+    Hasta ahora hemos probado hipótesis sobre un solo parámetro (una media). Muchas preguntas de ciencia de datos son más ambiciosas: ¿siguen mis datos categóricos una distribución uniforme? ¿es razonable modelar estos conteos como Poisson? La prueba de bondad de ajuste $\chi^2$ contrasta el \emph{modelo completo}, no solo un parámetro aislado.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Idea central:} comparar frecuencias \emph{observadas} contra las \emph{esperadas} bajo $H_0$. \pause
+    \item \textbf{Aplicaciones:} justicia de un dado, ajuste a un modelo teórico (Poisson, Binomial), verificación de supuestos distribucionales.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Estadístico y distribución
+\begin{frame}{El Estadístico $\chi^2$ y su Distribución de Referencia}
+  \footnotesize
+  \begin{block}{Estadístico de Pearson}
+    $$\chi^2 = \sum_{i=1}^k \frac{(O_i-E_i)^2}{E_i}, \qquad E_i = Np_i$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Prueba Formal de Bondad de Ajuste}
+    Bajo $H_0$, el estadístico converge asintóticamente a $\chi^2_\nu$ con $\nu=k-1-m$ grados de libertad, donde $m$ es el número de parámetros del modelo teórico \emph{estimados de la misma muestra}. Si $p_i$ son completamente conocidas de antemano, $m=0$ y $\nu=k-1$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Regla de Cochran
+\begin{frame}{La Regla de Cochran: Validez de la Aproximación}
+  \footnotesize
+  \begin{block}{Condición de Regularidad}
+    La aproximación continua $\chi^2_\nu$ de la distribución discreta exacta del estadístico solo es confiable cuando las frecuencias esperadas no son demasiado pequeñas.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Regla Práctica de Cochran}
+    \begin{itemize}\itemsep=0.05cm
+      \item Ninguna $E_i$ debe ser menor a $1$.
+      \item No más del $20\%$ de las celdas deben tener $E_i<5$.
+    \end{itemize}
+    Si se viola, la solución estándar es \textbf{fusionar categorías adyacentes} de baja frecuencia esperada hasta cumplir la regla, reduciendo correspondientemente los grados de libertad.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Casos particulares
+\begin{frame}{Dos Escenarios: $H_0$ Simple vs. $H_0$ con Parámetro Estimado}
+  \footnotesize
+  \begin{block}{$H_0$ Simple (Probabilidades Conocidas)}
+    Ejemplo: ¿es un dado justo? $H_0: p_i=1/6$ para $i=1,\ldots,6$. Aquí $m=0$, $\nu=k-1=5$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{$H_0$ con Parámetro Estimado}
+    Ejemplo: ¿siguen los conteos una Poisson? Se estima $\hat\lambda=\bar X$ de la misma muestra antes de calcular las frecuencias esperadas. Aquí $m=1$, $\nu=k-1-1=k-2$: \textbf{cada parámetro estimado cuesta un grado de libertad adicional}.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Aplicaciones
+\begin{frame}{Aplicaciones en Ciencia de Datos e Ingeniería}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Control de calidad:} verificar si defectos por lote siguen una distribución esperada. \pause
+    \item \textbf{Validación de modelos generativos:} ¿el ruido simulado sigue realmente la distribución supuesta? \pause
+    \item \textbf{A/B/n testing:} verificar si el tráfico se distribuyó según las proporciones de asignación planeadas. \pause
+    \item \textbf{Detección de fraude:} la Ley de Benford es, en esencia, una prueba de bondad de ajuste sobre el primer dígito.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Bondad de Ajuste Uniforme}
+  \scriptsize
+  Prueba de justicia de un dado, verificada contra \texttt{scipy.stats.chisquare} (\texttt{07.03\_goodness\_of\_fit\_tests.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=31]{../../code/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Ajuste Poisson con Parámetro Estimado}
+  \scriptsize
+  Estimación de $\hat\lambda$ y ajuste de grados de libertad ($\nu=k-1-m$):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=38, lastline=63]{../../code/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Regla de Cochran y Fusión de Celdas}
+  \scriptsize
+  Detección de la violación de Cochran y corrección mediante fusión de categorías:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=66, lastline=85]{../../code/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: GOF Against Uniform Hypothesis ===
+chi2 statistic = 1.1000, df=5, p-value = 0.9541
+
+=== Block 2: GOF With Estimated Parameter (Poisson) ===
+lambda_hat = 0.9400, chi2 = 0.6977, df = 4-1-1 = 2, p-value = 0.7055
+
+=== Block 3: Cochran's Rule and Cell Merging ===
+Cells with E_i<5: 2 of 4 (50%) -- Cochran's Rule violated? True
+Merged chi2 = 0.6890, df=2, p-value = 0.7086
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 3.9.1)}
+    Se lanza un dado regular 120 veces, obteniendo frecuencias observadas $\{18,22,20,19,23,18\}$. Formule $H_0/H_a$, calcule el estadístico $\chi^2$ y los grados de libertad, y decida al $\alpha=0.05$ (valor crítico $\chi^2_{0.05,5}=11.07$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    Bajo uniformidad, cada cara tiene $E_i=120/6=20$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Calculamos el estadístico sumando las 6 contribuciones: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\chi^2 = \frac{(-2)^2+2^2+0^2+(-1)^2+3^2+(-2)^2}{20} = \frac{22}{20} = 1.10, \qquad \nu=5$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Como $1.10<11.07$, \textbf{no se rechaza $H_0$}: las variaciones observadas son atribuibles al azar del muestreo; el dado se comporta como justo.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 3.9.2)}
+    Una encuesta a $n=200$ consumidores sobre preferencia de color de empaque arroja $\{55,48,42,35,20\}$ para 5 opciones. Pruebe la uniformidad al $\alpha=0.05$ e identifique qué colores generan la mayor divergencia.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Bajo uniformidad, $E_i=200/5=40$ para cada color; compare con $\chi^2_{0.05,4}=9.488$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos el estadístico desglosado por color: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\chi^2 = \frac{15^2+8^2+2^2+5^2+20^2}{40} = 5.625+1.600+0.100+0.625+10.000 = 17.95$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $17.95>9.488$, \textbf{se rechaza $H_0$}. El color ``Otro'' aporta más de la mitad del estadístico (preferencia muy inferior a lo esperado); ``Rojo'' es el favorito indiscutible del mercado.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Poisson con Parámetro Estimado (Enunciado, Sección 3.9)}
+    Un ingeniero registra interrupciones diarias en $n=100$ días: $\{36,40,18,6\}$ para $k=0,1,2,\ge3$. Estime $\hat\lambda$, calcule las frecuencias esperadas bajo Poisson, y determine $\nu$ correctamente.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    $\hat\lambda=\bar X$; los grados de libertad correctos son $\nu=k-1-m$ con $m=1$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Estimamos $\hat\lambda$ y calculamos el estadístico ajustado: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\hat\lambda = \frac{0(36)+1(40)+2(18)+3(6)}{100} = 0.94, \qquad \chi^2 \approx 0.697, \qquad \nu = 4-1-1 = 2$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $\chi^2=0.697 \ll \chi^2_{0.05,2}=5.991$, \textbf{se acepta con alta fidelidad} que las interrupciones siguen un proceso de Poisson con $\lambda=0.94$. Ignorar el ajuste $m=1$ habría inflado artificialmente $\nu$ a 3.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Fundamentación de $\nu=k-1$ (Enunciado, Sección 3.9)}
+    Sea $\mathbf O=(O_1,\ldots,O_k)\sim\text{Multinomial}(N,\mathbf p)$. Justifique analíticamente por qué el estadístico de Pearson $Q=\sum Z_i^2$ se distribuye como $\chi^2_{k-1}$, y no $\chi^2_k$, explicando el rol de la ligadura $\sum(O_i-Np_i)=0$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Observe que la suma fija $N$ impone una restricción lineal exacta sobre las $k$ desviaciones.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Identificamos la ligadura lineal y su consecuencia geométrica: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Argumento}
+    \scriptsize
+    $\sum_i O_i = N \implies \sum_i(O_i-Np_i)=0$: el vector de desviaciones $\mathbf Z$ vive en un hiperplano de dimensión $k-1$, no en $\mathbb R^k$ completo. La última celda queda determinada por las primeras $k-1$.
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Al proyectar sobre este hiperplano, el rango espectral efectivo de la forma cuadrática es $k-1$, no $k$. Por eso el estadístico de Pearson pierde exactamente un grado de libertad respecto a la intuición ingenua de sumar $k$ normales cuadráticas independientes.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: Bondad de Ajuste $\chi^2$}
+  \begin{reflexion}
+    La prueba de bondad de ajuste contrasta un modelo distribucional \emph{completo}, no un parámetro aislado. Su validez depende críticamente de que las frecuencias esperadas no sean demasiado pequeñas (Regla de Cochran), y sus grados de libertad dependen exactamente de cuántos parámetros del modelo se estimaron de la misma muestra.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Estadístico:} $\chi^2=\sum(O_i-E_i)^2/E_i$, con $\nu=k-1-m$.
+      \item \textbf{Regla de Cochran:} ningún $E_i<1$; máximo 20\% de celdas con $E_i<5$; fusione si se viola.
+      \item \textbf{Parámetros estimados:} cada uno estimado de la muestra resta un grado de libertad adicional.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Ya sabemos contrastar si \emph{una} variable categórica sigue una distribución teórica. La Sección 07.04 cierra el Capítulo 07 extendiendo el mismo estadístico $\chi^2$ a \textbf{dos} variables categóricas simultáneas: las pruebas de independencia y de homogeneidad en tablas de contingencia.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa el cálculo de frecuencias esperadas $E_{ij}=R_iC_j/N$ en tablas bidimensionales.
+      \item Reflexiona sobre la diferencia conceptual entre diseñar el muestreo por filas o por columnas fijas.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

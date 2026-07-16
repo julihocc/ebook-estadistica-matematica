@@ -91,6 +91,20 @@ a la que llamaremos \emph{chi cuadrada.} Su correspondiente distribución de pro
 \end{center}
 
 
+\subsection{Prueba formal de bondad de ajuste}
+
+\begin{teorema}[Prueba $\chi^2$ de bondad de ajuste]
+	Sea una muestra clasificada en $k$ categorías mutuamente excluyentes con frecuencias observadas $O_1,\ldots,O_k$ ($\sum_i O_i = N$), y sea $H_0$ la hipótesis de que la población sigue una distribución teórica que asigna probabilidades $p_1,\ldots,p_k$ a dichas categorías. Bajo $H_0$, el estadístico
+	\begin{align}
+		\chi^2 = \sum_{i=1}^k \frac{(O_i-E_i)^2}{E_i}, \qquad E_i = Np_i,
+	\end{align}
+	se distribuye asintóticamente como $\chi^2_{\nu}$ con $\nu = k-1-m$ grados de libertad, donde $m\ge 0$ es el número de parámetros del modelo teórico que fueron estimados a partir de la misma muestra (si las probabilidades $p_i$ son completamente conocidas de antemano, $m=0$ y $\nu=k-1$).
+\end{teorema}
+
+\begin{observacion}[Regla de Cochran]
+	La aproximación $\chi^2$ solo es confiable cuando las frecuencias esperadas no son demasiado pequeñas. La regla práctica de Cochran exige que ninguna $E_i$ sea menor a $1$, y que no más del $20\%$ de las celdas tengan $E_i<5$. Cuando esta condición se viola, la solución estándar es \emph{colapsar o fusionar} categorías adyacentes de baja frecuencia esperada hasta cumplirla, reduciendo correspondientemente los grados de libertad.
+\end{observacion}
+
 \subsection{Regresando a nuestro ejemplo...}
 El número de grados de libertad es el número de categorías menos uno.  En nuestro ejemplo $\nu = 2-1 =1.$  Supongamos un nivel de significación $\beta=0.05.$
 

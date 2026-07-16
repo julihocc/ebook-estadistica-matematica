@@ -75,6 +75,20 @@ which we will call \emph{chi-square.} Its corresponding probability distribution
 	% statsChi2Several.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
 \end{center}
 
+\subsection{Formal Goodness-of-Fit Test}
+
+\begin{teorema}[$\chi^2$ Goodness-of-Fit Test]
+	Let a sample be classified into $k$ mutually exclusive categories with observed frequencies $O_1,\ldots,O_k$ ($\sum_i O_i = N$), and let $H_0$ be the hypothesis that the population follows a theoretical distribution assigning probabilities $p_1,\ldots,p_k$ to those categories. Under $H_0$, the statistic
+	\begin{align}
+		\chi^2 = \sum_{i=1}^k \frac{(O_i-E_i)^2}{E_i}, \qquad E_i = Np_i,
+	\end{align}
+	is asymptotically distributed as $\chi^2_{\nu}$ with $\nu = k-1-m$ degrees of freedom, where $m\ge 0$ is the number of parameters of the theoretical model that were estimated from the same sample (if the probabilities $p_i$ are fully known in advance, $m=0$ and $\nu=k-1$).
+\end{teorema}
+
+\begin{observacion}[Cochran's Rule]
+	The $\chi^2$ approximation is only reliable when expected frequencies are not too small. Cochran's practical rule requires that no $E_i$ be smaller than $1$, and that no more than $20\%$ of cells have $E_i<5$. When this condition is violated, the standard remedy is to \emph{collapse or merge} adjacent low-expected-frequency categories until it is satisfied, correspondingly reducing the degrees of freedom.
+\end{observacion}
+
 \subsection{Returning to our example...}
 The number of degrees of freedom is the number of categories minus one. In our example $\nu = 2-1 =1.$ Assume a significance level $\beta=0.05.$
 
