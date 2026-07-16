@@ -78,6 +78,29 @@ Al tomar decisiones basadas en datos muestrales, podemos cometer dos tipos de er
 	\end{align}
 \end{observacion}
 
+\subsection{Potencia y tamaño de muestra}
+
+La \emph{potencia} de una prueba no es un valor fijo: depende del tamaño real del efecto que se desea detectar ($\mu_a - \mu_0$), del tamaño de muestra $n$ y del nivel de significación $\alpha$ elegido. En el diseño experimental, el investigador puede fijar de antemano tanto $\alpha$ como la potencia deseada $1-\beta$ para determinar cuántas observaciones $n$ debe recolectar.
+
+\begin{teorema}[Tamaño de muestra para una potencia objetivo, prueba $Z$ de una cola]
+	Sea una prueba de hipótesis sobre la media de una población normal con desviación estándar conocida $\sigma$, de la forma $H_0: \mu = \mu_0$ contra $H_a: \mu > \mu_0$ (o su análoga de cola izquierda). Si se desea que la prueba alcance una potencia $1-\beta$ para detectar un efecto real de tamaño $\mu_a \neq \mu_0$ al nivel de significación $\alpha$, el tamaño de muestra mínimo requerido es:
+	\begin{align}
+		n = \left( \frac{(Z_\alpha + Z_\beta)\, \sigma}{\mu_a - \mu_0} \right)^2,
+		\label{eq:tam_muestra_potencia}
+	\end{align}
+	donde $Z_\alpha$ y $Z_\beta$ son los cuantiles superiores de la normal estándar correspondientes a $\alpha$ y $\beta$ respectivamente. Para una prueba de dos colas, se reemplaza $Z_\alpha$ por $Z_{\alpha/2}$.
+\end{teorema}
+
+\begin{observacion}
+	La fórmula \eqref{eq:tam_muestra_potencia} revela relaciones fundamentales de diseño experimental:
+	\begin{itemize}
+		\item A mayor tamaño de efecto deseado ($\mu_a - \mu_0$ más grande), \textbf{menor} es el tamaño de muestra necesario: los efectos grandes son más fáciles de detectar.
+		\item A mayor potencia exigida (por ejemplo, pasar de $1-\beta = 0.80$ a $1-\beta = 0.95$), \textbf{mayor} es el tamaño de muestra requerido, pues $Z_\beta$ crece.
+		\item A menor $\alpha$ (una prueba más estricta contra falsos positivos), también \textbf{mayor} es el tamaño de muestra requerido, pues $Z_\alpha$ crece.
+	\end{itemize}
+	Esto formaliza la intuición de que existe un \emph{trade-off} triangular entre el error Tipo I, el error Tipo II y el costo (tamaño de muestra) de un experimento.
+\end{observacion}
+
 \subsection{Nivel de significación}
 
 El \emph{nivel de significación} $\alpha$ es la probabilidad máxima aceptable de cometer un error tipo I. Valores comunes son:

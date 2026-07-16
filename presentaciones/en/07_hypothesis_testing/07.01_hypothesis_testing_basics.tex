@@ -1,0 +1,327 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Hypothesis Testing Foundations]{Section 07.01: Foundations of Hypothesis Testing}
+\subtitle{$H_0$ vs. $H_1$, Type I and II Errors, and Statistical Power}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 07: Hypothesis Testing}
+  \footnotesize
+  Where are we in the modular development of the chapter? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{07.01} Foundations: $H_0$ vs. $H_1$, Type I and II Errors, and Power \emph{(Today)} \pause
+    \item \textbf{07.02} $Z$ and $t$ Tests for One- and Two-Sample Means \pause
+    \item \textbf{07.03} Chi-Squared Goodness-of-Fit Tests \pause
+    \item \textbf{07.04} Contingency Tables and Independence Tests
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Formalize the complete logical and probabilistic framework of hypothesis testing: how $H_0$ and $H_a$ are formulated, what Type I ($\alpha$) and Type II ($\beta$) errors are, what a test's power measures, and how to determine the sample size needed to reach a target power.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{From Estimation to Decision}
+  \footnotesize
+  \begin{motivacion}
+    In Chapter 06 we learned to \emph{estimate} population parameters via points and intervals. We now take the next logical step: using sample data to \emph{decide} between two opposing claims about those parameters --- the heart of applied statistical inference.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Null hypothesis ($H_0$):} the standing claim, assumed true until evidence against it. \pause
+    \item \textbf{Alternative hypothesis ($H_a$):} what we seek to establish; it negates $H_0$. \pause
+    \item \textbf{Every decision is uncertain:} no test is infallible; we must quantify the risk of being wrong.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Formal notation and test types
+\begin{frame}{Formal Notation and Test Types}
+  \footnotesize
+  \begin{block}{Formulating Hypotheses}
+    $$H_0: \mu = \mu_0 \qquad \text{versus} \qquad H_a: \mu \neq \mu_0 \ \text{(or } < \ \text{or } > \text{)}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Three Possible Structures}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Left-tailed:} $H_a: \mu < \mu_0$.
+      \item \textbf{Right-tailed:} $H_a: \mu > \mu_0$.
+      \item \textbf{Two-tailed:} $H_a: \mu \neq \mu_0$.
+    \end{itemize}
+    The direction of $H_a$ always reflects the suspicion or claim being tested.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Type I and II Errors
+\begin{frame}{The Two Types of Error in Hypothesis Testing}
+  \footnotesize
+  Every statistical decision based on a sample can go wrong in two distinct ways: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Type I Error ($\alpha$)}
+    Rejecting $H_0$ when it is actually true.
+    $$\alpha = P(\text{Reject } H_0 \mid H_0 \text{ true})$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Type II Error ($\beta$)}
+    Failing to reject $H_0$ when it is actually false.
+    $$\beta = P(\text{Do not reject } H_0 \mid H_0 \text{ false})$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Power and sample size formula
+\begin{frame}{Power and Sample Size}
+  \footnotesize
+  \begin{block}{Power of the Test}
+    $$\text{Power} = 1-\beta = P(\text{Reject } H_0 \mid H_0 \text{ false})$$
+    It is the test's ability to detect a real effect when one truly exists.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Sample Size for a Target Power (One-Tailed $Z$-Test)}
+    $$n = \left(\frac{(Z_\alpha+Z_\beta)\sigma}{\mu_a-\mu_0}\right)^2$$
+    Higher required power or a smaller tolerated $\alpha$ increases the required $n$; a larger effect size ($\mu_a-\mu_0$) decreases the required $n$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Significance, p-value, decision rule
+\begin{frame}{Significance, $p$-value, and Decision Rule}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Significance level ($\alpha$):} the maximum acceptable probability of a Type I Error, fixed \emph{before} observing the data (typically $0.10$, $0.05$, or $0.01$). \pause
+    \item \textbf{$p$-value:} the probability of observing a result at least as extreme as the one obtained, assuming $H_0$ is true. \pause
+    \item \textbf{Decision rule:} if $p\text{-value} \le \alpha$, reject $H_0$; otherwise, do not reject (which is \emph{not} the same as accepting it).
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Type I Error Rate}
+  \scriptsize
+  Monte Carlo verification that the false-rejection rate equals $\alpha$ under a true $H_0$ (\texttt{07.01\_hypothesis\_testing\_basics.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=36]{../../code/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Type II Error and Power Function}
+  \scriptsize
+  Analytic computation and simulation-based verification of $\beta$ and power:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=39, lastline=62]{../../code/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.py}}
+\end{frame}
+
+% Slide 10: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: Sample Size for a Target Power}
+  \scriptsize
+  Computing the minimum $n$ and verifying the achieved power empirically:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=70, lastline=92]{../../code/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.py}}
+\end{frame}
+
+% Slide 11: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the Python lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Type I Error Rate ===
+Critical value z_crit (alpha=0.05): 1.6449
+Empirical Type I error rate: 0.0503  (nominal alpha: 0.0500)
+
+=== Block 2: Type II Error and Power ===
+Analytic beta (mu_a=108): 0.1534, Analytic power: 0.8466
+Empirical power via Monte Carlo: 0.8460
+
+=== Block 3: Sample Size for Target Power ===
+Exact n = 30.11 -> rounded up: n=31
+Verification with n=31: empirical power = 0.9073 (target=0.90)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem \ref{prob:en7.1.1})}
+    A battery manufacturer claims the mean lifetime of its product is $\mu_0=500$ hours. An independent laboratory suspects the true mean lifetime is \emph{lower}. Formulate $H_0$ and $H_a$, and identify the test type.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Approach}
+    The claimed (known) value always goes into $H_0$ as an equality.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Exercise Level 1 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+  \scriptsize
+  We formulate the hypotheses: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$H_0: \mu = 500 \text{ hours}, \qquad H_a: \mu < 500 \text{ hours}$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    Since $H_a$ points toward smaller values, this is a \textbf{left-tailed test}. We will only reject $H_0$ if the sample evidence is \emph{significantly} below 500 hours.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem \ref{prob:en7.1.5})}
+    For $H_0:\mu=100$ versus $H_a:\mu>100$ with known $\sigma=15$ and $n=25$, the rejection region at level $\alpha=0.05$ is $\bar X>104.93$. If the true mean is $\mu_a=108$, compute $\beta$ and the power.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    $\beta = P(\bar X \le 104.93 \mid \mu=108)$; standardize using the standard error $\sigma/\sqrt n$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Exercise Level 2 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+  \scriptsize
+  We compute $\beta$ standardizing under the true mean: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$\beta = \Phi\left(\frac{104.93-108}{15/\sqrt{25}}\right) = \Phi(-1.023) \approx 0.153, \qquad \text{Power} = 1-\beta \approx 0.847$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    If the true mean were 108, the test would correctly detect this deviation in approximately $84.7\%$ of experiment repetitions --- a reasonably high power, but not guaranteed.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Power Function (Statement, Problem \ref{prob:en7.1.7})}
+    For $H_0:\mu=\mu_0$ versus $H_a:\mu>\mu_0$ with known $\sigma$ and fixed $n$, derive $\text{Pow}(\mu_a)$ in terms of $\Phi(\cdot)$, and analyze its limits as $\mu_a\to\mu_0$ and $\mu_a\to\infty$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Write the rejection region $\bar X>c$ and compute $P(\bar X>c\mid\mu=\mu_a)$ standardizing with $\mu_a$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Exercise Level 3 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+  \scriptsize
+  We derive the general power function: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\text{Pow}(\mu_a) = 1-\Phi\left(\frac{c-\mu_a}{\sigma/\sqrt n}\right) = 1-\Phi\left(Z_\alpha + \frac{\mu_0-\mu_a}{\sigma/\sqrt n}\right)$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    As $\mu_a\to\mu_0$: $\text{Pow}\to\alpha$ (with no real effect, the only way to reject is a Type I Error). As $\mu_a\to\infty$: $\text{Pow}\to 1$ (arbitrarily large effects are detected with asymptotic certainty). $\text{Pow}(\mu_a)$ is strictly increasing.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Neyman-Pearson Lemma (Statement, Problem \ref{prob:en7.1.9})}
+    For $H_0:\mu=\mu_0$ versus $H_a:\mu=\mu_1$ (simple versus simple, $\mu_1>\mu_0$), use the Neyman-Pearson Lemma to prove that the optimal rejection region reduces to $\bar X>c$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Write $\Lambda(\mathbf x)=L(\mu_1)/L(\mu_0)$ explicitly and simplify by taking the logarithm.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Exercise Level 4 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+  \scriptsize
+  We simplify the likelihood ratio: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\ln\Lambda(\mathbf x) = \frac{n(\mu_1-\mu_0)}{\sigma^2}\bar X - \frac{n(\mu_1^2-\mu_0^2)}{2\sigma^2} > \ln k \iff \bar X > c$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    Since $\mu_1>\mu_0$, the coefficient of $\bar X$ is positive and the optimal region is $\bar X>c$ --- the same form as the usual $Z$-test. Since $c$ does not depend on the specific $\mu_1$, the same test is \textbf{Uniformly Most Powerful (UMP)} against any $\mu_1>\mu_0$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Closing
+\begin{frame}{Section Closing: Foundations of Hypothesis Testing}
+  \begin{reflexion}
+    Every hypothesis test is a decision procedure under uncertainty, explicitly calibrated by two opposing risks: $\alpha$ (rejecting too often) and $\beta$ (rejecting too rarely). Designing a good experiment means consciously choosing $\alpha$, $n$, and the desired power --- not leaving them to chance.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{$H_0$ vs. $H_a$:} the known/claimed value goes in $H_0$; the suspicion or finding goes in $H_a$.
+      \item \textbf{$\alpha$ and $\beta$:} complementary risks; reducing one (with $n$ fixed) generally increases the other.
+      \item \textbf{Power and sample size:} $n=((Z_\alpha+Z_\beta)\sigma/(\mu_a-\mu_0))^2$ links experimental design to tolerated risk.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    We now master the full logical framework of hypothesis testing. Section 07.02 applies this framework to $Z$ and $t$ tests for one and two means --- independent samples with equal or unequal variances (Welch), and paired samples --- extending the single-mean example to group comparisons.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Review Student's $t$-distribution and its degrees of freedom (Section 05.04).
+      \item Reflect on why pooling variances ($S_p^2$) requires the homoscedasticity assumption.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,264 @@
+% ==============================================================================
+% SECTION 07.01: FOUNDATIONS OF HYPOTHESIS TESTING ($H_0$ VS $H_1$, ERRORS AND POWER)
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 07.01}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:en7.1.1}
+	A battery manufacturer claims the mean lifetime of its product is $\mu_0 = 500$ hours. An independent laboratory suspects the true mean lifetime is \emph{lower}. Formulate the null hypothesis ($H_0$) and alternative hypothesis ($H_a$), and identify whether the test is left-tailed, right-tailed, or two-tailed.
+\end{problema}
+
+\begin{problema}
+	\label{prob:en7.1.2}
+	A screening test for a rare disease is designed with $H_0:$ ``the patient is healthy'' versus $H_a:$ ``the patient is sick''. Describe in words what the Type I Error and the Type II Error represent in this specific medical context, and reason which of the two errors has more severe practical consequences.
+\end{problema}
+
+\begin{problema}
+	\label{prob:en7.1.3}
+	A right-tailed hypothesis test yields a $p$-value of $0.023$ at significance level $\alpha = 0.05$. Apply the $p$-value decision rule and state the formal conclusion (reject or fail to reject $H_0$).
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:en7.1.4}
+	A restaurant chain claims the average waiting time is $\mu_0 = 12$ minutes. A sample of $n = 49$ customers reports $\bar{x} = 12.9$ minutes with known population standard deviation $\sigma = 2.8$ minutes. Formulate the hypotheses for a two-tailed test, compute the $Z$ statistic, obtain the corresponding $p$-value, and decide at level $\alpha = 0.05$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:en7.1.5}
+	For the test $H_0: \mu = 100$ versus $H_a: \mu > 100$ with known $\sigma = 15$ and $n = 25$, the rejection region at level $\alpha = 0.05$ is $\bar{X} > 104.93$. Suppose the true population mean is $\mu_a = 108$. Compute the Type II Error probability ($\beta$) and the power of the test ($1-\beta$).
+\end{problema}
+
+\begin{problema}
+	\label{prob:en7.1.6}
+	Continuing the context of Problem \ref{prob:en7.1.5} ($\sigma=15$, $\mu_0=100$, $\mu_a=108$, one-tailed $\alpha=0.05$), determine the minimum sample size $n$ needed for the test to achieve a power of $1-\beta = 0.90$ (use $Z_{0.10} = 1.282$).
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:en7.1.7}
+	For the test $H_0: \mu=\mu_0$ versus $H_a: \mu>\mu_0$ with known $\sigma$ and fixed sample size $n$, derive the general expression for the power function $\text{Pow}(\mu_a) = 1-\beta(\mu_a)$ as a function of the true value $\mu_a$, expressed in terms of the standard normal CDF $\Phi(\cdot)$. Analyze and justify the behavior of $\text{Pow}(\mu_a)$ in the limits $\mu_a \to \mu_0$ and $\mu_a \to \infty$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:en7.1.8}
+	A data scientist runs $m = 20$ statistically independent hypothesis tests on distinct true null hypotheses, each at the individual level $\alpha = 0.05$. Derive the general formula for the Family-Wise Error Rate (FWER) --- the probability of committing at least one Type I Error across the entire set of tests --- and compute its numerical value. Propose and justify the corrected individual significance level $\alpha^*$ (Bonferroni correction) needed to keep the overall FWER at $0.05$.
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:en7.1.9}
+	\textbf{Neyman-Pearson Lemma and optimality of the $Z$-test:} Let $X_1,\ldots,X_n$ be iid $N(\mu,\sigma^2)$ with known $\sigma^2$, and consider the \emph{simple versus simple} contrast $H_0: \mu=\mu_0$ versus $H_a: \mu=\mu_1$ with fixed $\mu_1>\mu_0$. Using the Neyman-Pearson Lemma (the most powerful test at level $\alpha$ rejects $H_0$ when the likelihood ratio $\Lambda(\mathbf{x})=L(\mu_1)/L(\mu_0)$ exceeds a critical constant $k$), prove that the optimal rejection region reduces exactly to $\bar{X} > c$ for some constant $c$, i.e., that the usual $Z$-test is \emph{uniformly most powerful} among all level-$\alpha$ tests for this contrast.
+\end{problema}
+
+\begin{problema}
+	\label{prob:en7.1.10}
+	\textbf{Rigorous derivation of the sample size formula:} Starting strictly from the definitions $\alpha = P(\bar{X} > c \mid \mu=\mu_0)$ and $\beta = P(\bar{X} \le c \mid \mu=\mu_a)$ for a right-tailed $Z$-test with known $\sigma$, algebraically derive --- without assuming it --- the sample size formula
+	\begin{align}
+		n = \left( \frac{(Z_\alpha + Z_\beta)\sigma}{\mu_a - \mu_0} \right)^2
+	\end{align}
+	by first expressing the critical point $c$ in two distinct ways (one from each equation) and equating both expressions.
+\end{problema}
+
+\subsection*{Hints --- Section 07.01}
+
+\begin{sugerencia}
+	\label{sug:en7.1.1}
+	For Problem \ref{prob:en7.1.1}, the claimed/known value always goes into $H_0$ as an equality; the laboratory's suspicion (``lower'') determines the direction of $H_a$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:en7.1.2}
+	For Problem \ref{prob:en7.1.2}, the Type I Error occurs when rejecting $H_0$ while it is true (declaring a healthy patient sick); the Type II Error occurs when failing to reject $H_0$ while it is false (declaring a sick patient healthy).
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:en7.1.3}
+	For Problem \ref{prob:en7.1.3}, directly compare $p=0.023$ against $\alpha=0.05$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:en7.1.4}
+	For Problem \ref{prob:en7.1.4}, compute $Z=(\bar x-\mu_0)/(\sigma/\sqrt n)$ and then the $p$-value $= 2(1-\Phi(|Z|))$ since this is a two-tailed test.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:en7.1.5}
+	For Problem \ref{prob:en7.1.5}, $\beta = P(\bar X \le 104.93 \mid \mu=108) = \Phi\left(\dfrac{104.93-108}{15/\sqrt{25}}\right)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:en7.1.6}
+	For Problem \ref{prob:en7.1.6}, substitute $Z_\alpha=1.645$, $Z_\beta=1.282$, $\sigma=15$, $\mu_a-\mu_0=8$ directly into the sample size formula.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:en7.1.7}
+	For Problem \ref{prob:en7.1.7}, write the rejection region in terms of $\bar X$, then compute $P(\bar X > c \mid \mu=\mu_a)$ standardizing with the true mean $\mu_a$; the result is $\text{Pow}(\mu_a)=1-\Phi\left(\frac{c-\mu_a}{\sigma/\sqrt n}\right)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:en7.1.8}
+	For Problem \ref{prob:en7.1.8}, use independence: $P(\text{no false rejection}) = (1-\alpha)^m$, so FWER $=1-(1-\alpha)^m$; for Bonferroni, solve $\alpha^* = \alpha/m$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:en7.1.9}
+	For Problem \ref{prob:en7.1.9}, write $\Lambda(\mathbf x)$ explicitly using the joint normal likelihood and simplify the logarithm; observe that $\ln\Lambda(\mathbf x) > \ln k$ is equivalent to a linear inequality in $\bar X$ (or in $\sum x_i$).
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:en7.1.10}
+	For Problem \ref{prob:en7.1.10}, solve for $c$ from $\alpha=P(\bar X>c\mid\mu_0)$ as $c=\mu_0+Z_\alpha\sigma/\sqrt n$, solve for $c$ from $\beta = P(\bar X\le c\mid\mu_a)$ as $c=\mu_a - Z_\beta\sigma/\sqrt n$, and equate both expressions solving for $n$.
+\end{sugerencia}
+
+\subsection*{Detailed Solutions --- Section 07.01}
+
+\begin{solucion}
+	\label{sol:en7.1.1}
+	For Problem \ref{prob:en7.1.1}: The manufacturer's claimed value is taken as the null hypothesis:
+	\begin{align}
+		H_0&: \mu = 500 \text{ hours} \\
+		H_a&: \mu < 500 \text{ hours}
+	\end{align}
+	Since the inequality in $H_a$ points toward smaller values, this is a \textbf{left-tailed test}. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:en7.1.2}
+	For Problem \ref{prob:en7.1.2}:
+	\begin{itemize}
+		\item \textbf{Type I Error} (rejecting $H_0$ while true): the test declares a truly \emph{healthy} patient \emph{sick} (false positive).
+		\item \textbf{Type II Error} (failing to reject $H_0$ while false): the test declares a truly \emph{sick} patient \emph{healthy} (false negative).
+	\end{itemize}
+	In the context of a disease, the Type II Error (false negative) is usually the more severe: a sick patient does not receive timely treatment, with potentially irreversible health consequences, while a false positive (Type I Error) usually only implies additional confirmatory testing. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:en7.1.3}
+	For Problem \ref{prob:en7.1.3}: Since $p = 0.023 \le \alpha = 0.05$, the decision rule indicates we \textbf{reject $H_0$}. There is sufficient statistical evidence at the 5\% significance level to support $H_a$. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:en7.1.4}
+	For Problem \ref{prob:en7.1.4}:
+	\textbf{Step 1 (hypotheses):}
+	\begin{align}
+		H_0&: \mu = 12 \\
+		H_a&: \mu \neq 12
+	\end{align}
+	\textbf{Step 2 ($Z$ statistic):}
+	\begin{align}
+		Z = \frac{\bar x - \mu_0}{\sigma/\sqrt n} = \frac{12.9-12}{2.8/\sqrt{49}} = \frac{0.9}{0.4} = 2.25.
+	\end{align}
+	\textbf{Step 3 ($p$-value, two-tailed):}
+	\begin{align}
+		p\text{-value} = 2\left(1-\Phi(2.25)\right) = 2(1-0.98778) = 2(0.01222) = 0.02444.
+	\end{align}
+	\textbf{Step 4 (decision):} Since $p=0.02444 < \alpha=0.05$, \textbf{we reject $H_0$}: there is statistical evidence that the average waiting time differs from 12 minutes. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:en7.1.5}
+	For Problem \ref{prob:en7.1.5}: The standard error is $\sigma/\sqrt n = 15/\sqrt{25}=3$. We compute $\beta$ as the probability of not falling in the rejection region when the true mean is $\mu_a=108$:
+	\begin{align}
+		\beta = P(\bar X \le 104.93 \mid \mu=108) = \Phi\left(\frac{104.93-108}{3}\right) = \Phi(-1.023) \approx 0.153.
+	\end{align}
+	The power of the test is then:
+	\begin{align}
+		1-\beta \approx 1-0.153 = 0.847.
+	\end{align}
+	That is, if the true mean were $108$, the test would correctly detect this deviation (rejecting $H_0$) in approximately $84.7\%$ of experiment repetitions. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:en7.1.6}
+	For Problem \ref{prob:en7.1.6}: We apply the sample size formula directly with $Z_\alpha=Z_{0.05}=1.645$, $Z_\beta=Z_{0.10}=1.282$, $\sigma=15$, and $\mu_a-\mu_0=108-100=8$:
+	\begin{align}
+		n = \left(\frac{(1.645+1.282)(15)}{8}\right)^2 = \left(\frac{2.927 \times 15}{8}\right)^2 = \left(\frac{43.905}{8}\right)^2 = (5.488)^2 \approx 30.12.
+	\end{align}
+	Rounding up (we always round up to the next integer to guarantee at least the desired power), a sample of \textbf{$n=31$} observations is required. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:en7.1.7}
+	For Problem \ref{prob:en7.1.7}: The rejection region of the right-tailed test is $\bar X > c$, where $c=\mu_0+Z_\alpha\sigma/\sqrt n$ (fixed under $H_0$). The power function is the probability of rejecting $H_0$ when the true mean is $\mu_a$:
+	\begin{align}
+		\text{Pow}(\mu_a) = P(\bar X > c \mid \mu=\mu_a) = 1-\Phi\left(\frac{c-\mu_a}{\sigma/\sqrt n}\right) = 1-\Phi\left(Z_\alpha + \frac{\mu_0-\mu_a}{\sigma/\sqrt n}\right).
+	\end{align}
+	\textbf{Limit $\mu_a \to \mu_0$:} the argument of $\Phi$ tends to $Z_\alpha$, so $\text{Pow}(\mu_0) \to 1-\Phi(Z_\alpha) = \alpha$. This confirms that when there is no real effect, the power reduces exactly to the significance level (the only way to ``reject'' is to commit a Type I Error).
+	\textbf{Limit $\mu_a \to \infty$:} the argument of $\Phi$ tends to $-\infty$, so $\Phi(\cdot)\to 0$ and $\text{Pow}(\mu_a) \to 1$. This confirms that for arbitrarily large effects, the test detects the deviation with asymptotic certainty, and that $\text{Pow}(\mu_a)$ is a strictly increasing function of $\mu_a$. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:en7.1.8}
+	For Problem \ref{prob:en7.1.8}: Under independence among the $m$ tests, the probability that \emph{none} of them commits a Type I Error (all true $H_0$'s are correctly retained) is $(1-\alpha)^m$. Therefore:
+	\begin{align}
+		\text{FWER} = 1-(1-\alpha)^m = 1-(1-0.05)^{20} = 1-(0.95)^{20} \approx 1-0.3585 = 0.6415.
+	\end{align}
+	That is, even though each individual test controls risk at only $5\%$, the probability of committing \emph{at least one} false positive across the set of 20 tests is an alarming $64.15\%$.
+	The \textbf{Bonferroni correction} requires dividing the overall significance level by the number of tests:
+	\begin{align}
+		\alpha^* = \frac{\alpha}{m} = \frac{0.05}{20} = 0.0025.
+	\end{align}
+	Using $\alpha^*=0.0025$ as the individual threshold for each of the 20 tests, the combined FWER is bounded (by the Bonferroni inequality, $\text{FWER} \le m\alpha^* = 20(0.0025)=0.05$) at the desired global $5\%$ level. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:en7.1.9}
+	For Problem \ref{prob:en7.1.9}: The joint likelihood function under $\mu=\mu_i$ is
+	\begin{align}
+		L(\mu_i) = \left(\frac{1}{\sqrt{2\pi}\sigma}\right)^n \exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^n (x_j-\mu_i)^2\right).
+	\end{align}
+	The likelihood ratio is:
+	\begin{align}
+		\Lambda(\mathbf x) = \frac{L(\mu_1)}{L(\mu_0)} = \exp\left(-\frac{1}{2\sigma^2}\left[\sum_j(x_j-\mu_1)^2 - \sum_j(x_j-\mu_0)^2\right]\right).
+	\end{align}
+	Expanding the squares, the $x_j^2$ terms cancel between both sums, leaving:
+	\begin{align}
+		\sum_j(x_j-\mu_1)^2 - \sum_j(x_j-\mu_0)^2 = -2(\mu_1-\mu_0)\sum_j x_j + n(\mu_1^2-\mu_0^2).
+	\end{align}
+	Therefore:
+	\begin{align}
+		\Lambda(\mathbf x) = \exp\left(\frac{n(\mu_1-\mu_0)}{\sigma^2}\bar X - \frac{n(\mu_1^2-\mu_0^2)}{2\sigma^2}\right).
+	\end{align}
+	The Neyman-Pearson Lemma states that the most powerful test rejects $H_0$ when $\Lambda(\mathbf x) > k$ for some constant $k$. Taking the natural logarithm (a strictly increasing function, preserving the inequality):
+	\begin{align}
+		\ln\Lambda(\mathbf x) > \ln k \iff \frac{n(\mu_1-\mu_0)}{\sigma^2}\bar X - \frac{n(\mu_1^2-\mu_0^2)}{2\sigma^2} > \ln k.
+	\end{align}
+	Since $\mu_1 > \mu_0$ by hypothesis, the coefficient $n(\mu_1-\mu_0)/\sigma^2$ of $\bar X$ is strictly positive, so we may solve for $\bar X$ without reversing the inequality:
+	\begin{align}
+		\bar X > \underbrace{\frac{\sigma^2 \ln k}{n(\mu_1-\mu_0)} + \frac{\mu_1+\mu_0}{2}}_{=:c}.
+	\end{align}
+	The optimal Neyman-Pearson rejection region is exactly $\bar X > c$ for some constant $c$ --- the same structural form as the usual right-tailed $Z$-test rejection region. Since this form does not depend on the specific value of $\mu_1$ (only on $\mu_1>\mu_0$), the same test is simultaneously the most powerful against \emph{any} alternative $\mu_1>\mu_0$, i.e., it is \textbf{Uniformly Most Powerful (UMP)} for the composite contrast $H_a:\mu>\mu_0$. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:en7.1.10}
+	For Problem \ref{prob:en7.1.10}: We start from the two defining equations for the Type I and Type II errors.
+	\textbf{From the $\alpha$ equation:} under $H_0$, $\bar X \sim N(\mu_0, \sigma^2/n)$, so standardizing:
+	\begin{align}
+		\alpha = P(\bar X > c \mid \mu_0) = P\left(Z > \frac{c-\mu_0}{\sigma/\sqrt n}\right) \implies \frac{c-\mu_0}{\sigma/\sqrt n} = Z_\alpha \implies c = \mu_0 + Z_\alpha\frac{\sigma}{\sqrt n}.
+		\label{eq:en_c1}
+	\end{align}
+	\textbf{From the $\beta$ equation:} under $H_a$, $\bar X \sim N(\mu_a, \sigma^2/n)$, so:
+	\begin{align}
+		\beta = P(\bar X \le c \mid \mu_a) = P\left(Z \le \frac{c-\mu_a}{\sigma/\sqrt n}\right) \implies \frac{c-\mu_a}{\sigma/\sqrt n} = -Z_\beta \implies c = \mu_a - Z_\beta\frac{\sigma}{\sqrt n}.
+		\label{eq:en_c2}
+	\end{align}
+	\textbf{Equating \eqref{eq:en_c1} and \eqref{eq:en_c2}} (both express the same critical point $c$):
+	\begin{align}
+		\mu_0 + Z_\alpha\frac{\sigma}{\sqrt n} = \mu_a - Z_\beta\frac{\sigma}{\sqrt n} \implies (Z_\alpha+Z_\beta)\frac{\sigma}{\sqrt n} = \mu_a-\mu_0.
+	\end{align}
+	Solving for $\sqrt n$ and squaring:
+	\begin{align}
+		\sqrt n = \frac{(Z_\alpha+Z_\beta)\sigma}{\mu_a-\mu_0} \implies n = \left(\frac{(Z_\alpha+Z_\beta)\sigma}{\mu_a-\mu_0}\right)^2,
+	\end{align}
+	rigorously deriving the sample size formula from the pure definitions of $\alpha$ and $\beta$, without having assumed it beforehand. \qedhere
+\end{solucion}

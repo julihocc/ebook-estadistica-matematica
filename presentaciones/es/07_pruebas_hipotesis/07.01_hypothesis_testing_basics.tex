@@ -1,0 +1,327 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Fundamentos de Docimasia]{Sección 07.01: Fundamentos de Pruebas de Hipótesis}
+\subtitle{$H_0$ vs. $H_1$, Errores Tipo I y II, y Potencia Estadística}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 07: Docimasia (Pruebas de Hipótesis)}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{07.01} Fundamentos: $H_0$ vs. $H_1$, Errores Tipo I y II, y Potencia \emph{(Hoy)} \pause
+    \item \textbf{07.02} Pruebas $Z$ y $t$ para Medias de Una y Dos Muestras \pause
+    \item \textbf{07.03} Pruebas de Bondad de Ajuste $\chi^2$ \pause
+    \item \textbf{07.04} Tablas de Contingencia y Pruebas de Independencia
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Formalizar el marco lógico y probabilístico de toda prueba de hipótesis: cómo se plantean $H_0$ y $H_a$, qué son los errores Tipo I ($\alpha$) y Tipo II ($\beta$), qué mide la potencia de una prueba, y cómo se determina el tamaño de muestra necesario para alcanzar una potencia objetivo.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De la Estimación a la Decisión}
+  \footnotesize
+  \begin{motivacion}
+    En el Capítulo 06 aprendimos a \emph{estimar} parámetros poblacionales mediante puntos e intervalos. Ahora damos el siguiente paso lógico: usar los datos muestrales para \emph{decidir} entre dos afirmaciones contrapuestas sobre esos parámetros --- el corazón de la inferencia estadística aplicada.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Hipótesis nula ($H_0$):} la afirmación vigente, que se asume verdadera hasta tener evidencia en contra. \pause
+    \item \textbf{Hipótesis alternativa ($H_a$):} lo que buscamos evidenciar; niega a $H_0$. \pause
+    \item \textbf{Toda decisión es incierta:} ninguna prueba es infalible; debemos cuantificar el riesgo de equivocarnos.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Notación formal y tipos de prueba
+\begin{frame}{Notación Formal y Tipos de Prueba}
+  \footnotesize
+  \begin{block}{Formulación de Hipótesis}
+    $$H_0: \mu = \mu_0 \qquad \text{contra} \qquad H_a: \mu \neq \mu_0 \ \text{(o } < \ \text{o } > \text{)}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Tres Estructuras Posibles}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Cola izquierda:} $H_a: \mu < \mu_0$.
+      \item \textbf{Cola derecha:} $H_a: \mu > \mu_0$.
+      \item \textbf{Dos colas:} $H_a: \mu \neq \mu_0$.
+    \end{itemize}
+    La dirección de $H_a$ siempre refleja la sospecha o afirmación que se busca contrastar.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Errores Tipo I y II
+\begin{frame}{Los Dos Tipos de Error en la Docimasia}
+  \footnotesize
+  Toda decisión estadística basada en una muestra puede equivocarse de dos maneras distintas: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Error Tipo I ($\alpha$)}
+    Rechazar $H_0$ cuando en realidad es verdadera.
+    $$\alpha = P(\text{Rechazar } H_0 \mid H_0 \text{ verdadera})$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Error Tipo II ($\beta$)}
+    No rechazar $H_0$ cuando en realidad es falsa.
+    $$\beta = P(\text{No rechazar } H_0 \mid H_0 \text{ falsa})$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Potencia y su fórmula de tamaño de muestra
+\begin{frame}{Potencia y Tamaño de Muestra}
+  \footnotesize
+  \begin{block}{Potencia de la Prueba}
+    $$\text{Potencia} = 1-\beta = P(\text{Rechazar } H_0 \mid H_0 \text{ falsa})$$
+    Es la capacidad de la prueba para detectar un efecto real cuando en verdad existe.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Tamaño de Muestra para una Potencia Objetivo (Prueba $Z$, una cola)}
+    $$n = \left(\frac{(Z_\alpha+Z_\beta)\sigma}{\mu_a-\mu_0}\right)^2$$
+    A mayor potencia exigida o menor $\alpha$ tolerado, mayor es el $n$ requerido; a mayor tamaño de efecto ($\mu_a-\mu_0$), menor el $n$ necesario.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Nivel de significación, valor p y regla de decisión
+\begin{frame}{Significación, Valor $p$ y Regla de Decisión}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Nivel de significación ($\alpha$):} la probabilidad máxima aceptable de Error Tipo I, fijada \emph{antes} de observar los datos (típicamente $0.10$, $0.05$ o $0.01$). \pause
+    \item \textbf{Valor $p$:} la probabilidad de observar un resultado al menos tan extremo como el obtenido, asumiendo que $H_0$ es verdadera. \pause
+    \item \textbf{Regla de decisión:} si $p\text{-valor} \le \alpha$, se rechaza $H_0$; en caso contrario, no se rechaza (lo cual \emph{no} equivale a aceptarla).
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Tasa de Error Tipo I}
+  \scriptsize
+  Verificación Monte Carlo de que la tasa de falso rechazo iguala a $\alpha$ bajo $H_0$ verdadera (\texttt{07.01\_hypothesis\_testing\_basics.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=36]{../../code/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Error Tipo II y Función de Potencia}
+  \scriptsize
+  Cálculo analítico y verificación por simulación de $\beta$ y la potencia:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=39, lastline=62]{../../code/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Tamaño de Muestra para Potencia Objetivo}
+  \scriptsize
+  Cálculo del $n$ mínimo y verificación empírica de la potencia lograda:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=70, lastline=92]{../../code/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Type I Error Rate ===
+Critical value z_crit (alpha=0.05): 1.6449
+Empirical Type I error rate: 0.0503  (nominal alpha: 0.0500)
+
+=== Block 2: Type II Error and Power ===
+Analytic beta (mu_a=108): 0.1534, Analytic power: 0.8466
+Empirical power via Monte Carlo: 0.8460
+
+=== Block 3: Sample Size for Target Power ===
+Exact n = 30.11 -> rounded up: n=31
+Verification with n=31: empirical power = 0.9073 (target=0.90)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema \ref{prob:7.1.1})}
+    Un fabricante de baterías afirma que la vida media de su producto es de $\mu_0=500$ horas. Un laboratorio independiente sospecha que la vida media real es \emph{menor}. Formule $H_0$ y $H_a$, e identifique el tipo de prueba.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    El valor afirmado (conocido) siempre se coloca en $H_0$ como igualdad.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Formulamos las hipótesis: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$H_0: \mu = 500 \text{ horas}, \qquad H_a: \mu < 500 \text{ horas}$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Como $H_a$ apunta hacia valores menores, es una \textbf{prueba de cola izquierda}. Solo rechazaremos $H_0$ si la evidencia muestral es \emph{significativamente} menor a 500 horas.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema \ref{prob:7.1.5})}
+    Para $H_0:\mu=100$ contra $H_a:\mu>100$ con $\sigma=15$ conocida y $n=25$, la región de rechazo al nivel $\alpha=0.05$ es $\bar X>104.93$. Si la media real es $\mu_a=108$, calcule $\beta$ y la potencia.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    $\beta = P(\bar X \le 104.93 \mid \mu=108)$; estandarice usando el error estándar $\sigma/\sqrt n$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos $\beta$ estandarizando bajo la verdadera media: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\beta = \Phi\left(\frac{104.93-108}{15/\sqrt{25}}\right) = \Phi(-1.023) \approx 0.153, \qquad \text{Potencia} = 1-\beta \approx 0.847$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Si la media real fuera 108, la prueba detectaría correctamente esta desviación en aproximadamente el $84.7\%$ de las repeticiones del experimento --- una potencia razonablemente alta, pero no garantizada.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Función de Potencia (Enunciado, Problema \ref{prob:7.1.7})}
+    Para $H_0:\mu=\mu_0$ contra $H_a:\mu>\mu_0$ con $\sigma$ conocida y $n$ fijo, deduzca $\text{Pot}(\mu_a)$ en términos de $\Phi(\cdot)$, y analice sus límites cuando $\mu_a\to\mu_0$ y $\mu_a\to\infty$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Escriba la región de rechazo $\bar X>c$ y calcule $P(\bar X>c\mid\mu=\mu_a)$ estandarizando con $\mu_a$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Derivamos la función de potencia general: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\text{Pot}(\mu_a) = 1-\Phi\left(\frac{c-\mu_a}{\sigma/\sqrt n}\right) = 1-\Phi\left(Z_\alpha + \frac{\mu_0-\mu_a}{\sigma/\sqrt n}\right)$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Cuando $\mu_a\to\mu_0$: $\text{Pot}\to\alpha$ (sin efecto real, la única forma de rechazar es un Error Tipo I). Cuando $\mu_a\to\infty$: $\text{Pot}\to 1$ (efectos arbitrariamente grandes se detectan con certeza asintótica). $\text{Pot}(\mu_a)$ es estrictamente creciente.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Lema de Neyman-Pearson (Enunciado, Problema \ref{prob:7.1.9})}
+    Para $H_0:\mu=\mu_0$ contra $H_a:\mu=\mu_1$ (simple contra simple, $\mu_1>\mu_0$), use el Lema de Neyman-Pearson para demostrar que la región de rechazo óptima se reduce a $\bar X>c$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Escriba $\Lambda(\mathbf x)=L(\mu_1)/L(\mu_0)$ explícitamente y simplifique tomando logaritmo.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Simplificamos el cociente de verosimilitudes: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\ln\Lambda(\mathbf x) = \frac{n(\mu_1-\mu_0)}{\sigma^2}\bar X - \frac{n(\mu_1^2-\mu_0^2)}{2\sigma^2} > \ln k \iff \bar X > c$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $\mu_1>\mu_0$, el coeficiente de $\bar X$ es positivo y la región óptima es $\bar X>c$ --- la misma forma del test $Z$ usual. Como $c$ no depende de $\mu_1$ específico, el mismo test es \textbf{Uniformemente Más Potente (UMP)} contra cualquier $\mu_1>\mu_0$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: Fundamentos de Docimasia}
+  \begin{reflexion}
+    Toda prueba de hipótesis es un procedimiento de decisión bajo incertidumbre, calibrado explícitamente por dos riesgos contrapuestos: $\alpha$ (rechazar de más) y $\beta$ (rechazar de menos). Diseñar bien un experimento significa elegir $\alpha$, $n$ y la potencia deseada de manera consciente, no accidental.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{$H_0$ vs. $H_a$:} el valor conocido/afirmado va en $H_0$; la sospecha o hallazgo va en $H_a$.
+      \item \textbf{$\alpha$ y $\beta$:} riesgos complementarios; reducir uno (con $n$ fijo) generalmente aumenta el otro.
+      \item \textbf{Potencia y tamaño de muestra:} $n=((Z_\alpha+Z_\beta)\sigma/(\mu_a-\mu_0))^2$ vincula el diseño experimental con el riesgo tolerado.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Ya dominamos el marco lógico completo de la docimasia. La Sección 07.02 aplicará este marco a las pruebas $Z$ y $t$ para una y dos medias --- muestras independientes con varianzas iguales o distintas (Welch), y muestras pareadas --- extendiendo el ejemplo de una sola media a comparaciones entre grupos.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la distribución $t$ de Student y sus grados de libertad (Sección 05.04).
+      \item Reflexiona sobre por qué combinar varianzas ($S_p^2$) requiere el supuesto de homoscedasticidad.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

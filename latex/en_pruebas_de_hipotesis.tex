@@ -78,6 +78,29 @@ When making decisions based on sample data, we can commit two types of errors:
 	\end{align}
 \end{observacion}
 
+\subsection{Power and Sample Size}
+
+The \emph{power} of a test is not a fixed value: it depends on the real effect size to be detected ($\mu_a - \mu_0$), on the sample size $n$, and on the chosen significance level $\alpha$. In experimental design, the researcher can fix both $\alpha$ and the desired power $1-\beta$ in advance to determine how many observations $n$ must be collected.
+
+\begin{teorema}[Sample size for a target power, one-tailed $Z$-test]
+	Consider a hypothesis test about the mean of a normal population with known standard deviation $\sigma$, of the form $H_0: \mu = \mu_0$ versus $H_a: \mu > \mu_0$ (or its left-tailed analogue). If the test is required to achieve a power $1-\beta$ to detect a real effect of size $\mu_a \neq \mu_0$ at significance level $\alpha$, the minimum required sample size is:
+	\begin{align}
+		n = \left( \frac{(Z_\alpha + Z_\beta)\, \sigma}{\mu_a - \mu_0} \right)^2,
+		\label{eq:tam_muestra_potencia_en}
+	\end{align}
+	where $Z_\alpha$ and $Z_\beta$ are the upper standard normal quantiles corresponding to $\alpha$ and $\beta$ respectively. For a two-tailed test, $Z_\alpha$ is replaced by $Z_{\alpha/2}$.
+\end{teorema}
+
+\begin{observacion}
+	Formula \eqref{eq:tam_muestra_potencia_en} reveals fundamental experimental-design relationships:
+	\begin{itemize}
+		\item The larger the desired effect size ($\mu_a - \mu_0$), the \textbf{smaller} the required sample size: large effects are easier to detect.
+		\item The higher the required power (for example, moving from $1-\beta = 0.80$ to $1-\beta = 0.95$), the \textbf{larger} the required sample size, since $Z_\beta$ grows.
+		\item The smaller $\alpha$ (a stricter test against false positives), the \textbf{larger} the required sample size as well, since $Z_\alpha$ grows.
+	\end{itemize}
+	This formalizes the intuition that there is a triangular trade-off among Type I error, Type II error, and the cost (sample size) of an experiment.
+\end{observacion}
+
 \subsection{Significance Level}
 
 The \emph{significance level} $\alpha$ is the maximum acceptable probability of committing a Type I error. Common values are:
