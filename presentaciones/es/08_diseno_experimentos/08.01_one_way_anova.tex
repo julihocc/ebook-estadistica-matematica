@@ -1,0 +1,313 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[ANOVA de un Factor]{Sección 08.01: Análisis de Varianza de un Factor}
+\subtitle{Diseño de Experimentos, Descomposición de la Varianza y la Prueba $F$}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 08: Elementos de Diseño de Experimentos (ANOVA)}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{08.01} Análisis de Varianza de un Factor (One-Way ANOVA) y Prueba $F$ \emph{(Hoy)} \pause
+    \item \textbf{08.02} Supuestos del ANOVA, Prueba de Levene/Bartlett y Diagnóstico
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Generalizar la comparación de dos medias (Capítulo 07) a la comparación simultánea de $k \geq 3$ medias poblacionales sin inflar el error Tipo I: construir el modelo lineal del ANOVA de un factor, descomponer la varianza total, deducir el estadístico $F$, y aplicar procedimientos post-hoc (LSD, Tukey, Bonferroni) para identificar qué pares de tratamientos difieren.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{El Problema de Comparar $k$ Grupos Simultáneamente}
+  \footnotesize
+  \begin{motivacion}
+    Comparar $k=5$ algoritmos de aprendizaje automático realizando $\binom{5}{2}=10$ pruebas $t$ por pares, cada una a $\alpha=0.05$, produce una tasa de error Tipo I familiar de $1-(0.95)^{10}\approx 40.13\%$ ---incluso si los cinco algoritmos son en realidad idénticos.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Solución de Fisher:} una sola prueba global ($F$) que contraste las $k$ medias simultáneamente. \pause
+    \item \textbf{Idea clave:} particionar la varianza total observada en una componente \emph{entre} tratamientos y una componente \emph{dentro} de cada tratamiento (error).
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Modelo y Descomposición
+\begin{frame}{Modelo Lineal y Descomposición de la Suma de Cuadrados}
+  \footnotesize
+  \begin{block}{Modelo Paramétrico Aditivo}
+    $$Y_{ij} = \mu + \tau_i + \epsilon_{ij}, \qquad \epsilon_{ij}\sim N(0,\sigma^2) \text{ i.i.d.}, \qquad \sum_{i=1}^k n_i\tau_i = 0$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Teorema de Partición}
+    $$\underbrace{\sum_i\sum_j (Y_{ij}-\bar Y_{..})^2}_{\text{SCT},\ \nu_T=N-1} = \underbrace{\sum_i n_i(\bar Y_{i.}-\bar Y_{..})^2}_{\text{SCTR},\ \nu_{TR}=k-1} + \underbrace{\sum_i\sum_j (Y_{ij}-\bar Y_{i.})^2}_{\text{SCE},\ \nu_E=N-k}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Tabla ANOVA y estadístico F
+\begin{frame}{Cuadrados Medios y el Estadístico de Prueba $F$}
+  \footnotesize
+  \begin{block}{Esperanzas Matemáticas}
+    $$E(\text{CME})=\sigma^2, \qquad E(\text{CMTR}) = \sigma^2 + \frac{\sum_i n_i\tau_i^2}{k-1}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Regla de Decisión}
+    $$F = \frac{\text{CMTR}}{\text{CME}} = \frac{\text{SCTR}/(k-1)}{\text{SCE}/(N-k)} \sim F_{k-1,\,N-k} \quad\text{bajo } H_0; \qquad \text{Rechazar } H_0 \text{ si } F>F_{\alpha,k-1,N-k}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Post-hoc
+\begin{frame}{Procedimientos Post-Hoc: ¿Cuáles Pares Difieren?}
+  \footnotesize
+  Si $F$ es significativo, sabemos que al menos un par difiere, pero no cuál. \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{LSD de Fisher:} $|\bar Y_{i.}-\bar Y_{j.}| > t_{\alpha/2,N-k}\sqrt{\text{CME}(1/n_i+1/n_j)}$. Potente pero no controla el FWER. \pause
+    \item \textbf{HSD de Tukey:} usa la distribución del rango estandarizado $q$; controla el FWER exactamente para todas las comparaciones por pares. \pause
+    \item \textbf{Corrección de Bonferroni:} ajusta $\alpha^* = \alpha/\binom{k}{2}$; universal pero conservadora.
+  \end{itemize}
+\end{frame}
+
+% Slide 7: Aplicaciones
+\begin{frame}{Aplicaciones en Ciencia de Datos e Ingeniería}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Benchmarking de algoritmos:} comparar $F_1$-score entre múltiples arquitecturas de clasificación. \pause
+    \item \textbf{Pruebas A/B/n:} evaluar simultáneamente varias variantes de una campaña o interfaz. \pause
+    \item \textbf{Ingeniería de sistemas:} comparar latencia entre configuraciones de servidores o protocolos. \pause
+    \item \textbf{Diseño en Bloques (DBCA):} cuando las unidades experimentales no son homogéneas, bloquear el ruido conocido aumenta drásticamente la potencia de la prueba.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: ANOVA de un Factor y Prueba $F$}
+  \scriptsize
+  Descomposición SCT = SCTR + SCE para 4 configuraciones de servidor, verificada contra \texttt{scipy.stats.f\_oneway} (\texttt{08.01\_one\_way\_anova.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=39]{../../code/08_diseno_experimentos/08.01_one_way_anova.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: HSD de Tukey}
+  \scriptsize
+  Comparaciones múltiples por pares usando el rango estandarizado de \texttt{scipy.stats.studentized\_range}:
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=48, lastline=63]{../../code/08_diseno_experimentos/08.01_one_way_anova.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Diseño en Bloques (RCBD)}
+  \scriptsize
+  Descomposición SCT = SCTR + SCB + SCE y Eficiencia Relativa del bloqueo:
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=66, lastline=92]{../../code/08_diseno_experimentos/08.01_one_way_anova.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{3.8pt}{4.6pt}\selectfont
+    \begin{verbatim}
+=== Block 1: One-Way ANOVA ===
+SSTR=3754.20 (df=3), SSE=979.26 (df=20), F=25.5580, p=0.000000
+scipy.stats.f_oneway check: F=25.5580, p=0.000000
+
+=== Block 2: Tukey HSD ===
+q(0.05,4,20)=3.9583, HSD=11.3075
+Config B vs Config C: 7.52 -> not significant (all other pairs SIGNIFICANT)
+
+=== Block 3: RCBD ===
+SST=437.67 = SSTR(52.67) + SSB(382.00) + SSE(3.00)
+F_TR=52.67 (p=0.000157), F_B=254.67 (p=0.000001), Relative Efficiency=70.18
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 8.6.3)}
+    Un ingeniero de calidad audita la resistencia a la tracción (MPa) de un polímero en $k=4$ formulaciones, $N=30$ observaciones balanceadas. Se sabe $\text{SCT}=520.0$ y $\text{SCE}=180.0$ MPa$^2$. Construya la tabla ANOVA y decida al $\alpha=0.01$ ($F_{0.01,3,26}=4.637$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    $\text{SCTR}=\text{SCT}-\text{SCE}$; $\nu_{TR}=k-1=3$, $\nu_E=N-k=26$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Aplicamos la aditividad de la descomposición de cuadrados: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\text{SCTR}=520.0-180.0=340.0,\quad \text{CMTR}=\frac{340.0}{3}\approx113.33,\quad \text{CME}=\frac{180.0}{26}\approx6.923$$
+    $$F=\frac{113.33}{6.923}\approx16.37$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Como $16.37>4.637$, \textbf{se rechaza $H_0$}: al menos una formulación produce una resistencia a la tracción media estadísticamente diferente al nivel del 1\%.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 8.6.5)}
+    Una firma compara la latencia de $k=5$ protocolos de enrutamiento: $\text{CME}=18.0$ ms$^2$ con $\nu_E=25$, $n=6$ réplicas por protocolo. Calcule el LSD de Fisher y el margen de Bonferroni al $\alpha=0.05$, y compare ambos umbrales.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    $\text{LSD}=t_{\alpha/2,25}\sqrt{\text{CME}(2/n)}$; Bonferroni usa $t_{\alpha/(2m),25}$ con $m=\binom{5}{2}=10$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos ambos márgenes críticos con el mismo $\text{CME}$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$t_{0.025,25}\approx2.060, \qquad \text{LSD}=2.060\sqrt{18.0(2/6)}\approx4.243 \text{ ms}$$
+    $$t_{0.0025,25}\approx3.078, \qquad \text{Bonferroni}\approx3.078\sqrt{18.0(2/6)}\approx6.339 \text{ ms}$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    El umbral de Bonferroni es $\approx 49\%$ mayor que el LSD: al controlar rigurosamente el error familiar entre las 10 comparaciones, se sacrifica sensibilidad (mayor riesgo de error Tipo II) a cambio de mayor confianza global.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Potencia y Tamaño de Muestra (Enunciado, Problema 8.6.8)}
+    Se planea un ANOVA de un factor para $k=4$ lenguajes de backend con $\sigma^2=16$ ms$^2$. Determine $n$ por lenguaje para lograr potencia $1-\beta=0.80$ al detectar una diferencia máxima $\Delta=5$ ms al nivel $\alpha=0.05$, usando el efecto estandarizado de Cohen $f$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Aproxime $f\approx \Delta/(2\sigma)$ y consulte las tablas de potencia de Pearson-Hartley con $\nu_1=k-1$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Calculamos el tamaño de efecto y consultamos las curvas de potencia: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$f\approx\frac{5}{2(4)}=0.625 \implies \Phi=f\sqrt{n}$$
+    Iterando sobre las tablas de Pearson-Hartley con $\nu_1=3$, se requiere $\Phi\approx1.85$ para potencia $0.80$, lo que exige $n\approx9$ réplicas por lenguaje.
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Con $n=9$ (total $N=36$), el experimento detectará con $80\%$ de probabilidad una diferencia de al menos 5 ms entre el lenguaje más rápido y el más lento, si en verdad existe.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Teorema de Cochran (Enunciado, Problema 8.6.9)}
+    Demuestre que bajo $H_0:\tau_i=0\ \forall i$, las formas cuadráticas normalizadas $\text{SCTR}/\sigma^2$ y $\text{SCE}/\sigma^2$ son variables Chi-cuadrada \emph{independientes}, justificando por qué $F=\text{CMTR}/\text{CME}\sim F_{k-1,N-k}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Invoque el Teorema de Cochran sobre descomposición de la matriz identidad en proyecciones idempotentes ortogonales.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Aplicamos la descomposición espectral de las matrices de proyección: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $\text{SCTR}$ y $\text{SCE}$ son formas cuadráticas asociadas a matrices idempotentes $P_{TR}$ y $P_E$ con $P_{TR}+P_E=I_N$ y $P_{TR}P_E=0$ (ortogonalidad). Por el Teorema de Cochran, $\text{rango}(P_{TR})=k-1$ y $\text{rango}(P_E)=N-k$ determinan los grados de libertad, y la ortogonalidad de las proyecciones implica independencia estocástica de las dos formas cuadráticas.
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como el cociente de dos Chi-cuadradas independientes divididas por sus grados de libertad sigue por definición una distribución $F$, queda rigurosamente justificado que $F=\text{CMTR}/\text{CME}\sim F_{k-1,N-k}$ bajo $H_0$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: ANOVA de un Factor}
+  \begin{reflexion}
+    Hemos generalizado la comparación de dos medias a $k\geq3$ grupos sin inflar el error Tipo I: el ANOVA particiona la varianza total en una componente entre-tratamientos y una componente de error, y el estadístico $F$ formaliza la decisión. Los procedimientos post-hoc (LSD, Tukey, Bonferroni) completan el análisis identificando exactamente qué pares difieren.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Descomposición:} $\text{SCT}=\text{SCTR}+\text{SCE}$, base de todo diseño experimental.
+      \item \textbf{Estadístico $F$:} cociente de dos estimadores independientes de $\sigma^2$ bajo $H_0$.
+      \item \textbf{Bloqueo (DBCA):} incorporar el ruido conocido como un factor separado aumenta drásticamente la potencia.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Todo lo demostrado hoy --- la distribución $F$ del estadístico, la validez de los procedimientos post-hoc --- descansa sobre tres supuestos del modelo paramétrico: normalidad, homoscedasticidad e independencia de los errores. La Sección 08.02 (cierre del capítulo) audita rigurosamente estos supuestos con las pruebas de Levene, Bartlett y Shapiro-Wilk, y presenta la alternativa no paramétrica de Kruskal-Wallis cuando fallan.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa por qué el ANOVA es robusto a la homoscedasticidad únicamente si los tamaños muestrales son iguales.
+      \item Reflexiona sobre qué ocurre con la validez de la prueba $F$ si los errores no son independientes.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

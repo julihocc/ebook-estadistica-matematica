@@ -1,0 +1,313 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[One-Way ANOVA]{Section 08.01: One-Way Analysis of Variance}
+\subtitle{Experimental Design, Variance Decomposition, and the $F$-Test}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 08: Elements of Experimental Design (ANOVA)}
+  \footnotesize
+  Where are we in the modular development of this chapter? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{08.01} One-Way Analysis of Variance (ANOVA) and the $F$-Test \emph{(Today)} \pause
+    \item \textbf{08.02} ANOVA Assumptions, the Levene/Bartlett Tests, and Diagnostics
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Generalize the comparison of two means (Chapter 07) to the simultaneous comparison of $k \geq 3$ population means without inflating the Type I error rate: build the one-way ANOVA linear model, decompose total variance, derive the $F$ statistic, and apply post-hoc procedures (LSD, Tukey, Bonferroni) to identify exactly which treatment pairs differ.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{The Problem of Comparing $k$ Groups Simultaneously}
+  \footnotesize
+  \begin{motivacion}
+    Comparing $k=5$ machine learning algorithms by running $\binom{5}{2}=10$ pairwise $t$-tests, each at $\alpha=0.05$, produces a family-wise Type I error rate of $1-(0.95)^{10}\approx 40.13\%$ ---even if all five algorithms are in truth identical.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Fisher's solution:} a single global test ($F$) that contrasts all $k$ means simultaneously. \pause
+    \item \textbf{Key idea:} partition the total observed variance into a component \emph{between} treatments and a component \emph{within} each treatment (error).
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Model and Decomposition
+\begin{frame}{Linear Model and Sum-of-Squares Decomposition}
+  \footnotesize
+  \begin{block}{Additive Parametric Model}
+    $$Y_{ij} = \mu + \tau_i + \epsilon_{ij}, \qquad \epsilon_{ij}\sim N(0,\sigma^2) \text{ i.i.d.}, \qquad \sum_{i=1}^k n_i\tau_i = 0$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Partition Theorem}
+    $$\underbrace{\sum_i\sum_j (Y_{ij}-\bar Y_{..})^2}_{\text{SST},\ \nu_T=N-1} = \underbrace{\sum_i n_i(\bar Y_{i.}-\bar Y_{..})^2}_{\text{SSTR},\ \nu_{TR}=k-1} + \underbrace{\sum_i\sum_j (Y_{ij}-\bar Y_{i.})^2}_{\text{SSE},\ \nu_E=N-k}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: ANOVA Table and F Statistic
+\begin{frame}{Mean Squares and the $F$ Test Statistic}
+  \footnotesize
+  \begin{block}{Expected Values}
+    $$E(\text{MSE})=\sigma^2, \qquad E(\text{MSTR}) = \sigma^2 + \frac{\sum_i n_i\tau_i^2}{k-1}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Decision Rule}
+    $$F = \frac{\text{MSTR}}{\text{MSE}} = \frac{\text{SSTR}/(k-1)}{\text{SSE}/(N-k)} \sim F_{k-1,\,N-k} \quad\text{under } H_0; \qquad \text{Reject } H_0 \text{ if } F>F_{\alpha,k-1,N-k}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Post-hoc
+\begin{frame}{Post-Hoc Procedures: Which Pairs Differ?}
+  \footnotesize
+  If $F$ is significant, we know at least one pair differs, but not which. \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Fisher's LSD:} $|\bar Y_{i.}-\bar Y_{j.}| > t_{\alpha/2,N-k}\sqrt{\text{MSE}(1/n_i+1/n_j)}$. Powerful but does not control the FWER. \pause
+    \item \textbf{Tukey's HSD:} uses the studentized range distribution $q$; controls the FWER exactly for all pairwise comparisons. \pause
+    \item \textbf{Bonferroni Correction:} adjusts $\alpha^* = \alpha/\binom{k}{2}$; universal but conservative.
+  \end{itemize}
+\end{frame}
+
+% Slide 7: Applications
+\begin{frame}{Applications in Data Science and Engineering}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Algorithm benchmarking:} comparing $F_1$-score across multiple classification architectures. \pause
+    \item \textbf{A/B/n testing:} evaluating several campaign or interface variants simultaneously. \pause
+    \item \textbf{Systems engineering:} comparing latency across server configurations or protocols. \pause
+    \item \textbf{Randomized Block Design (RCBD):} when experimental units are not homogeneous, blocking known noise dramatically increases test power.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: One-Way ANOVA and the $F$-Test}
+  \scriptsize
+  SST = SSTR + SSE decomposition for 4 server configurations, verified against \texttt{scipy.stats.f\_oneway} (\texttt{08.01\_one\_way\_anova.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=39]{../../code/08_diseno_experimentos/08.01_one_way_anova.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Tukey's HSD}
+  \scriptsize
+  Pairwise multiple comparisons using the studentized range from \texttt{scipy.stats.studentized\_range}:
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=48, lastline=63]{../../code/08_diseno_experimentos/08.01_one_way_anova.py}}
+\end{frame}
+
+% Slide 10: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: Randomized Complete Block Design}
+  \scriptsize
+  SST = SSTR + SSB + SSE decomposition and the Relative Efficiency of blocking:
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=66, lastline=92]{../../code/08_diseno_experimentos/08.01_one_way_anova.py}}
+\end{frame}
+
+% Slide 11: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.8pt}{4.6pt}\selectfont
+    \begin{verbatim}
+=== Block 1: One-Way ANOVA ===
+SSTR=3754.20 (df=3), SSE=979.26 (df=20), F=25.5580, p=0.000000
+scipy.stats.f_oneway check: F=25.5580, p=0.000000
+
+=== Block 2: Tukey HSD ===
+q(0.05,4,20)=3.9583, HSD=11.3075
+Config B vs Config C: 7.52 -> not significant (all other pairs SIGNIFICANT)
+
+=== Block 3: RCBD ===
+SST=437.67 = SSTR(52.67) + SSB(382.00) + SSE(3.00)
+F_TR=52.67 (p=0.000157), F_B=254.67 (p=0.000001), Relative Efficiency=70.18
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 8.6.3)}
+    A quality engineer audits the tensile strength (MPa) of a polymer across $k=4$ formulations, $N=30$ balanced observations. It is known that $\text{SST}=520.0$ and $\text{SSE}=180.0$ MPa$^2$. Build the ANOVA table and decide at $\alpha=0.01$ ($F_{0.01,3,26}=4.637$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Setup}
+    $\text{SSTR}=\text{SST}-\text{SSE}$; $\nu_{TR}=k-1=3$, $\nu_E=N-k=26$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Exercise Level 1 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+  \scriptsize
+  We apply the additivity of the sum-of-squares decomposition: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$\text{SSTR}=520.0-180.0=340.0,\quad \text{MSTR}=\frac{340.0}{3}\approx113.33,\quad \text{MSE}=\frac{180.0}{26}\approx6.923$$
+    $$F=\frac{113.33}{6.923}\approx16.37$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    Since $16.37>4.637$, \textbf{we reject $H_0$}: at least one formulation produces a statistically different mean tensile strength at the 1\% level.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 8.6.5)}
+    A firm compares the latency of $k=5$ routing protocols: $\text{MSE}=18.0$ ms$^2$ with $\nu_E=25$, $n=6$ replicates per protocol. Compute Fisher's LSD and the Bonferroni margin at $\alpha=0.05$, and compare both thresholds.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    $\text{LSD}=t_{\alpha/2,25}\sqrt{\text{MSE}(2/n)}$; Bonferroni uses $t_{\alpha/(2m),25}$ with $m=\binom{5}{2}=10$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Exercise Level 2 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+  \scriptsize
+  We compute both critical margins with the same $\text{MSE}$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$t_{0.025,25}\approx2.060, \qquad \text{LSD}=2.060\sqrt{18.0(2/6)}\approx4.243 \text{ ms}$$
+    $$t_{0.0025,25}\approx3.078, \qquad \text{Bonferroni}\approx3.078\sqrt{18.0(2/6)}\approx6.339 \text{ ms}$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    The Bonferroni threshold is $\approx 49\%$ larger than the LSD: by rigorously controlling the family-wise error across the 10 comparisons, we sacrifice sensitivity (higher Type II error risk) in exchange for stronger global confidence.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Power and Sample Size (Statement, Problem 8.6.8)}
+    A one-way ANOVA is planned for $k=4$ backend languages with $\sigma^2=16$ ms$^2$. Determine $n$ per language to achieve power $1-\beta=0.80$ detecting a maximum difference $\Delta=5$ ms at $\alpha=0.05$, using Cohen's standardized effect size $f$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Approximate $f\approx \Delta/(2\sigma)$ and consult the Pearson-Hartley power tables with $\nu_1=k-1$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Exercise Level 3 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+  \scriptsize
+  We compute the effect size and consult the power curves: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$f\approx\frac{5}{2(4)}=0.625 \implies \Phi=f\sqrt{n}$$
+    Iterating over the Pearson-Hartley tables with $\nu_1=3$, $\Phi\approx1.85$ is required for power $0.80$, which demands $n\approx9$ replicates per language.
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    With $n=9$ (total $N=36$), the experiment will detect, with $80\%$ probability, a difference of at least 5 ms between the fastest and slowest language, if it truly exists.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Cochran's Theorem (Statement, Problem 8.6.9)}
+    Prove that under $H_0:\tau_i=0\ \forall i$, the normalized quadratic forms $\text{SSTR}/\sigma^2$ and $\text{SSE}/\sigma^2$ are \emph{independent} Chi-squared random variables, justifying why $F=\text{MSTR}/\text{MSE}\sim F_{k-1,N-k}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Invoke Cochran's Theorem on the decomposition of the identity matrix into orthogonal idempotent projections.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Exercise Level 4 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+  \scriptsize
+  We apply the spectral decomposition of the projection matrices: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $\text{SSTR}$ and $\text{SSE}$ are quadratic forms associated with idempotent matrices $P_{TR}$ and $P_E$ with $P_{TR}+P_E=I_N$ and $P_{TR}P_E=0$ (orthogonality). By Cochran's Theorem, $\text{rank}(P_{TR})=k-1$ and $\text{rank}(P_E)=N-k$ determine the degrees of freedom, and the orthogonality of the projections implies stochastic independence of the two quadratic forms.
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    Since the ratio of two independent Chi-squared variables divided by their degrees of freedom follows, by definition, an $F$ distribution, it is rigorously established that $F=\text{MSTR}/\text{MSE}\sim F_{k-1,N-k}$ under $H_0$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Closing
+\begin{frame}{Section Closing: One-Way ANOVA}
+  \begin{reflexion}
+    We have generalized the comparison of two means to $k\geq3$ groups without inflating the Type I error rate: ANOVA partitions total variance into a between-treatments component and an error component, and the $F$ statistic formalizes the decision. Post-hoc procedures (LSD, Tukey, Bonferroni) complete the analysis by identifying exactly which pairs differ.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Decomposition:} $\text{SST}=\text{SSTR}+\text{SSE}$, the foundation of all experimental design.
+      \item \textbf{$F$ statistic:} the ratio of two independent estimators of $\sigma^2$ under $H_0$.
+      \item \textbf{Blocking (RCBD):} incorporating known noise as a separate factor dramatically increases power.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    Everything demonstrated today --- the $F$ distribution of the test statistic, the validity of the post-hoc procedures --- rests on three assumptions of the parametric model: normality, homoscedasticity, and independence of the errors. Section 08.02 (chapter closing) rigorously audits these assumptions with the Levene, Bartlett, and Shapiro-Wilk tests, and presents the nonparametric Kruskal-Wallis alternative when they fail.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Review why ANOVA is robust to homoscedasticity violations only when sample sizes are equal.
+      \item Reflect on what happens to the validity of the $F$-test if the errors are not independent.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
