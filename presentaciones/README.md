@@ -230,7 +230,20 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
+## 5e. Catálogo e Índice de Presentaciones --- Capítulo 07 (100% Completado)
+
+A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 6 / Capítulo 07: Docimasia (Pruebas de Hipótesis)**:
+
+| Sección | Título en Español | Título en Inglés | Script Python (en `code/07_pruebas_hipotesis/`) | Estado |
+| :---: | :--- | :--- | :--- | :---: |
+| **07.01** | [07.01 Fundamentos de Docimasia](es/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.tex) ([PDF](es/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.pdf)) | [07.01 Hypothesis Testing Foundations](en/07_hypothesis_testing/07.01_hypothesis_testing_basics.tex) ([PDF](en/07_hypothesis_testing/07.01_hypothesis_testing_basics.pdf)) | `07.01_hypothesis_testing_basics.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 07** |
+| **07.02** | [07.02 Pruebas $Z$/$t$ para Medias](es/07_pruebas_hipotesis/07.02_z_t_tests_means.tex) ([PDF](es/07_pruebas_hipotesis/07.02_z_t_tests_means.pdf)) | [07.02 Z/t Tests for Means](en/07_hypothesis_testing/07.02_z_t_tests_means.tex) ([PDF](en/07_hypothesis_testing/07.02_z_t_tests_means.pdf)) | `07.02_z_t_tests_means.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings)** |
+| **07.03** | [07.03 Bondad de Ajuste $\chi^2$](es/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.tex) ([PDF](es/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.pdf)) | [07.03 Chi-Squared Goodness-of-Fit](en/07_hypothesis_testing/07.03_goodness_of_fit_tests.tex) ([PDF](en/07_hypothesis_testing/07.03_goodness_of_fit_tests.pdf)) | `07.03_goodness_of_fit_tests.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings)** |
+| **07.04** | [07.04 Contingencia e Independencia](es/07_pruebas_hipotesis/07.04_contingency_tables.tex) ([PDF](es/07_pruebas_hipotesis/07.04_contingency_tables.pdf)) | [07.04 Contingency Tables and Independence](en/07_hypothesis_testing/07.04_contingency_tables.tex) ([PDF](en/07_hypothesis_testing/07.04_contingency_tables.pdf)) | `07.04_contingency_tables.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings) --- CIERRE DEL CAPÍTULO 07** |
+
+---
+
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Los Capítulos 04 (Variables Aleatorias Continuas), 05 (Distribuciones de Muestreo) y 06 (Estimación y su Relación con Ciencia de Datos) están 100% completos. Para ver la planificación del siguiente hito curricular del proyecto (**Capítulo 07: Docimasia --- Pruebas de Hipótesis**, iniciando con la Sección 07.01), consulta el documento oficial de planificación:
+Los Capítulos 04 (Variables Aleatorias Continuas), 05 (Distribuciones de Muestreo), 06 (Estimación y su Relación con Ciencia de Datos) y 07 (Docimasia --- Pruebas de Hipótesis) están 100% completos. Para ver la planificación del siguiente hito curricular del proyecto (**Capítulo 08: Elementos de Diseño de Experimentos (ANOVA)**, iniciando con la Sección 08.01), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

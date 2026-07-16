@@ -78,6 +78,30 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/06_estimacion_estadistica/06.05_confidence_intervals_variances.py` (IC $\chi^2$ y $F$, IC de Fisher para correlación, y un estudio de cobertura Monte Carlo mostrando que Wald cubre solo $87.65\%$ vs. el $95.64\%$ de Wilson frente a un nominal del $95\%$).
   - Mazos Beamer bilingües en `presentaciones/es/06_estimacion_estadistica/06.05_confidence_intervals_variances.tex` (17 diapositivas) y `presentaciones/en/06_estimation_data_science/06.05_confidence_intervals_variances.tex` (20 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 06 (Estimación y su Relación con Ciencia de Datos) queda 100% finalizado (5 de 5 secciones).
+- **Sección 07.01: Fundamentos de Pruebas de Hipótesis (Apertura del Capítulo 07)**:
+  - Nueva subsección "Potencia y Tamaño de Muestra" (teorema del tamaño de muestra $n=((Z_\alpha+Z_\beta)\sigma/(\mu_a-\mu_0))^2$ y observación del *trade-off* $\alpha$-$\beta$-$n$) agregada a `latex/pruebas_de_hipotesis.tex` y su espejo `latex/en_pruebas_de_hipotesis.tex`.
+  - Creado desde cero `latex/pruebas_de_hipotesis(p).tex` y su espejo `latex/en_pruebas_de_hipotesis(p).tex` (no existía cuaderno de problemas para esta sección) con 10 problemas 3-3-2-2 (Problemas 7.1.1 a 7.1.10), incluyendo el Lema de Neyman-Pearson y la deducción rigurosa de la fórmula de tamaño de muestra; conectado (`\input`) al libro maestro ES y EN.
+  - Script de laboratorio en Python `presentaciones/code/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.py` (tasa de Error Tipo I verificada vía Monte Carlo, función de potencia, y verificación empírica del tamaño de muestra para una potencia objetivo).
+  - Mazos Beamer bilingües en `presentaciones/es/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.tex` (17 diapositivas) y `presentaciones/en/07_hypothesis_testing/07.01_hypothesis_testing_basics.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 07 (Docimasia --- Pruebas de Hipótesis) inicia su desarrollo: 1 de 4 secciones completadas.
+- **Sección 07.02: Pruebas $Z$ y $t$ para Medias de Una y Dos Muestras**:
+  - Se auditó `latex/pruebas_hipotesis_avanzadas.tex` y se confirmó que ya contenía teoremas rigurosos completos para los cuatro casos de comparación de dos medias; no se requirió teoría nueva.
+  - Se auditó `latex/pruebas_hipotesis_avanzadas(p).tex` y se confirmó que ya contenía un cuaderno 3-3-2-2 completo y avanzado; no se creó un cuaderno duplicado.
+  - Script de laboratorio en Python `presentaciones/code/07_pruebas_hipotesis/07.02_z_t_tests_means.py` (prueba $t$ de una muestra, comparación varianza agrupada vs. Welch, y prueba $t$ pareada, todas verificadas contra `scipy.stats`).
+  - Mazos Beamer bilingües en `presentaciones/es/07_pruebas_hipotesis/07.02_z_t_tests_means.tex` (17 diapositivas) y `presentaciones/en/07_hypothesis_testing/07.02_z_t_tests_means.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 07: 2 de 4 secciones completadas.
+- **Sección 07.03: Pruebas de Bondad de Ajuste $\chi^2$**:
+  - Nueva subsección "Prueba formal de bondad de ajuste" (teorema con $\nu=k-1-m$ y formalización de la Regla de Cochran) agregada a `latex/chi_cuadrada.tex` y su espejo `latex/en_chi_cuadrada.tex`.
+  - Se auditó `latex/chi_cuadrada(p).tex` y se confirmó que ya contenía un cuaderno 3-3-2-2 completo (mezclando bondad de ajuste e independencia); se citaron los problemas de sabor "bondad de ajuste" sin duplicar contenido.
+  - Script de laboratorio en Python `presentaciones/code/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.py` (bondad de ajuste uniforme y Poisson con parámetro estimado, y detección/corrección de la violación de la Regla de Cochran mediante fusión de celdas).
+  - Mazos Beamer bilingües en `presentaciones/es/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.tex` (17 diapositivas) y `presentaciones/en/07_hypothesis_testing/07.03_goodness_of_fit_tests.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 07: 3 de 4 secciones completadas.
+- **Sección 07.04: Tablas de Contingencia y Pruebas de Independencia (Cierre del Capítulo 07)**:
+  - Teoría de independencia y homogeneidad ya existía de forma rigurosa en `latex/chi_cuadrada.tex` y `latex/pruebas_hipotesis_avanzadas.tex`; no se requirió teoría nueva.
+  - Se reutilizaron los problemas de sabor "independencia/homogeneidad" ya existentes en `latex/chi_cuadrada(p).tex` y `latex/pruebas_hipotesis_avanzadas(p).tex`, citándolos sin duplicar contenido.
+  - Script de laboratorio en Python `presentaciones/code/07_pruebas_hipotesis/07.04_contingency_tables.py` (prueba de independencia y de homogeneidad, y verificación numérica a precisión de máquina de la identidad exacta $Z^2=\chi^2$ en tablas $2\times2$).
+  - Mazos Beamer bilingües en `presentaciones/es/07_pruebas_hipotesis/07.04_contingency_tables.tex` (17 diapositivas) y `presentaciones/en/07_hypothesis_testing/07.04_contingency_tables.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 07 (Docimasia --- Pruebas de Hipótesis) queda 100% finalizado (4 de 4 secciones).
 
 ## 2026-07-14
 

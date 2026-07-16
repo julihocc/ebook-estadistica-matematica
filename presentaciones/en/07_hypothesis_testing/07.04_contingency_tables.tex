@@ -1,0 +1,312 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Contingency and Independence]{Section 07.04: Contingency Tables and Independence Tests}
+\subtitle{Independence, Homogeneity, and the $Z^2=\chi^2$ Identity}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 07: Hypothesis Testing}
+  \footnotesize
+  Where are we in the modular development of the chapter? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{07.01} Foundations: $H_0$ vs. $H_1$, Type I and II Errors, and Power \pause
+    \item \textbf{07.02} $Z$ and $t$ Tests for One- and Two-Sample Means \pause
+    \item \textbf{07.03} Chi-Squared Goodness-of-Fit Tests \pause
+    \item \textbf{07.04} Contingency Tables and Independence Tests \emph{(Today --- Chapter Closing)}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Extend the $\chi^2$ statistic from Section 07.03 (one categorical variable) to \textbf{two} simultaneous categorical variables: formally distinguish between independence and homogeneity tests, and demonstrate the exact algebraic connection between the $\chi^2$ test and the two-proportion $Z$-test in $2\times2$ tables.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{From One Variable to Two Categorical Variables}
+  \footnotesize
+  \begin{motivacion}
+    In Section 07.03 we asked whether \emph{one} categorical variable follows a theoretical distribution. Now we ask something different and richer: are two categorical variables \emph{related}? Does gender influence career choice? Does generation influence preferred monetization model?
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Same mathematical formula}, $\sum(O-E)^2/E$, in both cases. \pause
+    \item \textbf{Crucial difference:} the experimental design --- how the sample was collected --- determines whether it is called ``independence'' or ``homogeneity''.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Independence vs Homogeneity
+\begin{frame}{Independence vs. Homogeneity: the Conceptual Difference}
+  \footnotesize
+  \begin{block}{Independence Test}
+    \textbf{One single sample} of size $N$ is drawn from a single population, and classified \emph{a posteriori} by two variables $A$ and $B$. No marginal total is fixed in advance (except $N$). $H_0: P(A_i\cap B_j)=P(A_i)P(B_j)$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Homogeneity Test}
+    $c$ \textbf{independent} samples of predetermined sizes ($n_1,\ldots,n_c$, fixed columns by design) are drawn from $c$ distinct subpopulations, measuring a single categorical variable. $H_0: p_{i1}=p_{i2}=\ldots=p_{ic}$ for each category $i$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Common statistic
+\begin{frame}{The Common Statistic for Both Tests}
+  \footnotesize
+  \begin{block}{Expected Frequencies and $\chi^2$ Statistic}
+    $$E_{ij} = \frac{R_i C_j}{N}, \qquad \chi^2 = \sum_{i=1}^r\sum_{j=1}^c \frac{(O_{ij}-E_{ij})^2}{E_{ij}} \ \sim\ \chi^2_{(r-1)(c-1)}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Key Point}
+    Despite the conceptual difference in sampling design, the calculation formula, the degrees of freedom $(r-1)(c-1)$, and the decision procedure are \textbf{identical} for independence and homogeneity. The distinction matters for \emph{interpretation}, not for computation.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Z^2 = chi^2 identity
+\begin{frame}{The Exact $Z^2=\chi^2$ Identity in $2\times2$ Tables}
+  \footnotesize
+  \begin{block}{Algebraic Derivation}
+    For a $2\times2$ table with cells $a,b,c,d$: $\chi^2 = \dfrac{N(ad-bc)^2}{(a+b)(c+d)(a+c)(b+d)}$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Connection to the Two-Proportion $Z$-Test}
+    Since $Z\sim N(0,1) \implies Z^2\sim\chi^2_1$, and the two-proportion $Z$-test (Section 07.02) is structurally the signed square root of the homogeneity statistic in a $2\times2$ table: exactly $Z^2\equiv\chi^2$ holds. Both tests are mathematically identical for the binary case.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Applications
+\begin{frame}{Applications in Data Science and Engineering}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Market segmentation:} does preferred monetization model depend on user generation? \pause
+    \item \textbf{Clinical trials:} does infection rate depend on the treatment arm (vaccine vs. placebo)? \pause
+    \item \textbf{Algorithmic fairness auditing:} are a model's decisions independent of a protected attribute? \pause
+    \item \textbf{Multi-group comparison (Marascuilo):} identify exactly which group pairs differ after a global rejection.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Independence Test}
+  \scriptsize
+  $4\times3$ table (vehicle type vs. day), verified against \texttt{scipy.stats.chi2\_contingency} (\texttt{07.04\_contingency\_tables.py}):
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=32]{../../code/07_pruebas_hipotesis/07.04_contingency_tables.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Homogeneity Test}
+  \scriptsize
+  Comparing three independent generational cohorts, same formula different design:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=43, lastline=64]{../../code/07_pruebas_hipotesis/07.04_contingency_tables.py}}
+\end{frame}
+
+% Slide 10: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: $Z^2=\chi^2$ Identity}
+  \scriptsize
+  Exact numerical verification of the algebraic equivalence in a $2\times2$ table:
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=67, lastline=82]{../../code/07_pruebas_hipotesis/07.04_contingency_tables.py}}
+\end{frame}
+
+% Slide 11: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the Python lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Independence Test ===
+chi2 = 8.4896, df=6, p-value = 0.2044
+
+=== Block 2: Homogeneity Test (3 Cohorts) ===
+chi2 = 56.1485, df=4, p-value = 0.000000
+
+=== Block 3: Z^2 = Chi^2 Identity ===
+chi2 = 7.3846, Z^2 = 7.3846, |chi2-Z^2| = 0.0000000000
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 3.9.3)}
+    A road-safety audit compares vehicle type vs. day of week in $n=300$ reports ($4\times3$ table). Compute the $E_{ij}$ matrix, the $\chi^2$ statistic, df, and decide at $\alpha=0.05$ against $\chi^2_{0.05,6}=12.59$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Approach}
+    $E_{ij}=R_iC_j/300$; $\nu=(4-1)(3-1)=6$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Exercise Level 1 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+  \scriptsize
+  We compute the 12 expected cells and sum the contributions: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$\chi^2 = \sum_{i,j}\frac{(O_{ij}-E_{ij})^2}{E_{ij}} \approx 8.49, \qquad \nu=6$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    Since $8.49<12.59$, \textbf{we do not reject $H_0$}: there is no statistically significant relationship between vehicle type and the day of the week the accident occurs.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 3.9.5)}
+    HR analyzes job satisfaction vs. department in $n=250$ employees ($4\times3$ table). Compute $\chi^2$ and determine whether significant dependence exists at $\alpha=0.05$ ($\chi^2_{0.05,6}=12.59$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Identify which cell contributes the most to the global statistic for the executive diagnosis.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Exercise Level 2 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+  \scriptsize
+  We sum the 12 cell-by-cell contributions: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$\chi^2 \approx 16.13, \qquad \nu=6$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    Since $16.13>12.59$, \textbf{we reject $H_0$}: significant dependence exists. Production concentrates the greatest risk focus (excess of dissatisfied employees); Administration shows far fewer dissatisfied employees than expected.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- $Z^2\equiv\chi^2$ Equivalence (Statement, Section 3.9)}
+    Clinical trial: Vaccine ($n_1=150$, 12 infected), Placebo ($n_2=150$, 28 infected). Run the $\chi^2$ homogeneity test ($\nu=1$) and the two-proportion $Z$-test, verifying $Z^2\equiv\chi^2$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Compute the pooled $\bar p$ for the $Z$ standard error; compare the result with $\chi^2$ computed directly on the $2\times2$ table.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Exercise Level 3 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+  \scriptsize
+  We compute both statistics independently: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\chi^2 = 7.3846, \qquad \bar p=2/15,\ \text{SE}_p\approx0.03925, \qquad Z=\frac{0.08-0.18667}{0.03925}\approx-2.7175,\ Z^2\approx7.3846$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    The values match up to rounding: $Z^2\equiv\chi^2$ is an exact algebraic identity, not a numerical coincidence. Both tests are 100\% equivalent for the binary $2\times2$ case.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Closed-Form $2\times2$ Formula (Statement, Section 3.9)}
+    Algebraically derive, starting from Pearson's general definition, that in any $2\times2$ table $\chi^2 = \dfrac{N(ad-bc)^2}{(a+b)(c+d)(a+c)(b+d)}$, and relate $(ad-bc)$ to the Odds Ratio.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    First show that the 4 deviations $O_{ij}-E_{ij}$ share the same magnitude $|ad-bc|/N$, alternating sign in a checkerboard pattern.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Exercise Level 4 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+  \scriptsize
+  We factor out the common determinant from the four cells: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$O_{11}-E_{11}=\frac{ad-bc}{N}, \qquad \chi^2 = \frac{(ad-bc)^2}{N}\left(\frac{1}{R_1}+\frac{1}{R_2}\right)\left(\frac{1}{C_1}+\frac{1}{C_2}\right) = \frac{N(ad-bc)^2}{(a+b)(c+d)(a+c)(b+d)}$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    The factor $(ad-bc)=\det(\mathbf M)$ is the determinant of the table; $\det=0 \iff ad=bc \iff \text{OR}=ad/bc=1$ (total independence). As the Odds Ratio moves away from 1, $|ad-bc|$ grows quadratically and pushes $\chi^2$ toward rejection.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Closing
+\begin{frame}{Section and Chapter Closing: Contingency and Independence}
+  \begin{reflexion}
+    With this section we close Chapter 07: we have built the complete logical framework of hypothesis testing --- from formulating $H_0/H_a$ and the $\alpha$-$\beta$ trade-off, through means ($Z$/$t$), to complete categorical models ($\chi^2$ goodness-of-fit and contingency tests). All applied statistical inference rests on these tools.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Independence vs. homogeneity:} same formula, different sampling design.
+      \item \textbf{Common statistic:} $\chi^2=\sum(O_{ij}-E_{ij})^2/E_{ij}$, $\nu=(r-1)(c-1)$.
+      \item \textbf{$Z^2=\chi^2$ identity:} proportion tests and $2\times2$ contingency tests are mathematically identical.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    With Chapter 07 complete, we master comparing \textbf{two} groups or variables. Chapter 08 (Design of Experiments) generalizes this logic to simultaneously comparing \textbf{three or more} groups via one-way Analysis of Variance (ANOVA) and the $F$-test, avoiding the Type I error inflation that would arise from multiple pairwise $t$-tests.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Review the Fisher-Snedecor $F$-test and its interpretation as a ratio of variances (Section 05.05).
+      \item Reflect on why running $\binom{k}{2}$ pairwise $t$-tests inflates the family-wise Type I error (FWER).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

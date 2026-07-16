@@ -1,0 +1,312 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Contingencia e Independencia]{Sección 07.04: Tablas de Contingencia y Pruebas de Independencia}
+\subtitle{Independencia, Homogeneidad, y la Identidad $Z^2=\chi^2$}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 07: Docimasia (Pruebas de Hipótesis)}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{07.01} Fundamentos: $H_0$ vs. $H_1$, Errores Tipo I y II, y Potencia \pause
+    \item \textbf{07.02} Pruebas $Z$ y $t$ para Medias de Una y Dos Muestras \pause
+    \item \textbf{07.03} Pruebas de Bondad de Ajuste $\chi^2$ \pause
+    \item \textbf{07.04} Tablas de Contingencia y Pruebas de Independencia \emph{(Hoy --- Cierre del Capítulo)}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Extender el estadístico $\chi^2$ de la Sección 07.03 (una variable categórica) a \textbf{dos} variables categóricas simultáneas: distinguir formalmente entre pruebas de independencia y de homogeneidad, y demostrar la conexión algebraica exacta entre la prueba $\chi^2$ y la prueba $Z$ de dos proporciones en tablas $2\times2$.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De Una Variable a Dos Variables Categóricas}
+  \footnotesize
+  \begin{motivacion}
+    En la Sección 07.03 preguntamos si \emph{una} variable categórica sigue una distribución teórica. Ahora preguntamos algo distinto y más rico: ¿están \emph{relacionadas} dos variables categóricas? ¿El género influye en la elección de carrera? ¿La generación influye en el modelo de monetización preferido?
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Misma fórmula matemática}, $\sum(O-E)^2/E$, en ambos casos. \pause
+    \item \textbf{Diferencia crucial:} el diseño experimental --- cómo se recolectó la muestra --- determina si se llama ``independencia'' u ``homogeneidad''.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Independencia vs Homogeneidad
+\begin{frame}{Independencia vs. Homogeneidad: la Diferencia Conceptual}
+  \footnotesize
+  \begin{block}{Prueba de Independencia}
+    Se extrae \textbf{una sola muestra} de tamaño $N$ de una única población, y se clasifica \emph{a posteriori} según dos variables $A$ y $B$. Ningún total marginal está fijado de antemano (salvo $N$). $H_0: P(A_i\cap B_j)=P(A_i)P(B_j)$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Prueba de Homogeneidad}
+    Se extraen $c$ muestras \textbf{independientes} de tamaños prefijados ($n_1,\ldots,n_c$, columnas fijas por diseño) de $c$ subpoblaciones distintas, midiendo una sola variable categórica. $H_0: p_{i1}=p_{i2}=\ldots=p_{ic}$ para cada categoría $i$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Estadístico común
+\begin{frame}{El Estadístico Común para Ambas Pruebas}
+  \footnotesize
+  \begin{block}{Frecuencias Esperadas y Estadístico $\chi^2$}
+    $$E_{ij} = \frac{R_i C_j}{N}, \qquad \chi^2 = \sum_{i=1}^r\sum_{j=1}^c \frac{(O_{ij}-E_{ij})^2}{E_{ij}} \ \sim\ \chi^2_{(r-1)(c-1)}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Punto Clave}
+    A pesar de la diferencia conceptual de diseño muestral, la fórmula de cálculo, los grados de libertad $(r-1)(c-1)$, y el procedimiento de decisión son \textbf{idénticos} para independencia y homogeneidad. La distinción importa para la \emph{interpretación}, no para el cálculo.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Identidad Z^2 = chi^2
+\begin{frame}{La Identidad Exacta $Z^2=\chi^2$ en Tablas $2\times2$}
+  \footnotesize
+  \begin{block}{Deducción Algebraica}
+    Para una tabla $2\times2$ con celdas $a,b,c,d$: $\chi^2 = \dfrac{N(ad-bc)^2}{(a+b)(c+d)(a+c)(b+d)}$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Conexión con la Prueba $Z$ de Dos Proporciones}
+    Como $Z\sim N(0,1) \implies Z^2\sim\chi^2_1$, y la prueba $Z$ de dos proporciones (Sección 07.02) es estructuralmente la raíz cuadrada firmada del estadístico de homogeneidad en una tabla $2\times2$: se cumple exactamente $Z^2\equiv\chi^2$. Ambas docimasias son matemáticamente idénticas para el caso binario.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Aplicaciones
+\begin{frame}{Aplicaciones en Ciencia de Datos e Ingeniería}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Segmentación de mercado:} ¿el modelo de monetización preferido depende de la generación del usuario? \pause
+    \item \textbf{Ensayos clínicos:} ¿la tasa de infección depende del brazo de tratamiento (vacuna vs. placebo)? \pause
+    \item \textbf{Auditoría de equidad algorítmica:} ¿las decisiones de un modelo son independientes de un atributo protegido? \pause
+    \item \textbf{Comparación multi-grupo (Marascuilo):} identificar exactamente qué pares de grupos difieren tras un rechazo global.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Prueba de Independencia}
+  \scriptsize
+  Tabla $4\times3$ (tipo de vehículo vs. día), verificada contra \texttt{scipy.stats.chi2\_contingency} (\texttt{07.04\_contingency\_tables.py}):
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=32]{../../code/07_pruebas_hipotesis/07.04_contingency_tables.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Prueba de Homogeneidad}
+  \scriptsize
+  Comparación de tres cohortes generacionales independientes, misma fórmula distinto diseño:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=43, lastline=64]{../../code/07_pruebas_hipotesis/07.04_contingency_tables.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Identidad $Z^2=\chi^2$}
+  \scriptsize
+  Verificación numérica exacta de la equivalencia algebraica en una tabla $2\times2$:
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=67, lastline=82]{../../code/07_pruebas_hipotesis/07.04_contingency_tables.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Independence Test ===
+chi2 = 8.4896, df=6, p-value = 0.2044
+
+=== Block 2: Homogeneity Test (3 Cohorts) ===
+chi2 = 56.1485, df=4, p-value = 0.000000
+
+=== Block 3: Z^2 = Chi^2 Identity ===
+chi2 = 7.3846, Z^2 = 7.3846, |chi2-Z^2| = 0.0000000000
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 3.9.3)}
+    Una auditoría vial compara tipo de vehículo vs. día de la semana en $n=300$ reportes (tabla $4\times3$). Calcule la matriz de $E_{ij}$, el estadístico $\chi^2$, los g.l., y decida al $\alpha=0.05$ contra $\chi^2_{0.05,6}=12.59$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    $E_{ij}=R_iC_j/300$; $\nu=(4-1)(3-1)=6$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Calculamos las 12 celdas esperadas y sumamos las contribuciones: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\chi^2 = \sum_{i,j}\frac{(O_{ij}-E_{ij})^2}{E_{ij}} \approx 8.49, \qquad \nu=6$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Como $8.49<12.59$, \textbf{no se rechaza $H_0$}: no existe relación estadística significativa entre el tipo de vehículo y el día de la semana en que ocurre el siniestro.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 3.9.5)}
+    RR.HH. analiza satisfacción laboral vs. departamento en $n=250$ colaboradores (tabla $4\times3$). Calcule $\chi^2$ y determine si existe dependencia significativa al $\alpha=0.05$ ($\chi^2_{0.05,6}=12.59$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Identifique cuál celda aporta más al estadístico global para el diagnóstico ejecutivo.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Sumamos las 12 contribuciones celda por celda: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\chi^2 \approx 16.13, \qquad \nu=6$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $16.13>12.59$, \textbf{se rechaza $H_0$}: existe dependencia significativa. Producción concentra el mayor foco de riesgo (exceso de insatisfechos); Administración presenta muy pocos insatisfechos frente a lo esperado.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Equivalencia $Z^2\equiv\chi^2$ (Enunciado, Sección 3.9)}
+    Ensayo clínico: Vacuna ($n_1=150$, 12 infectados), Placebo ($n_2=150$, 28 infectados). Ejecute la prueba $\chi^2$ de homogeneidad ($\nu=1$) y la prueba $Z$ de dos proporciones, verificando $Z^2\equiv\chi^2$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Calcule $\bar p$ combinada para el error estándar de $Z$; compare el resultado con $\chi^2$ calculado directamente sobre la tabla $2\times2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Calculamos ambos estadísticos de forma independiente: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\chi^2 = 7.3846, \qquad \bar p=2/15,\ \text{SE}_p\approx0.03925, \qquad Z=\frac{0.08-0.18667}{0.03925}\approx-2.7175,\ Z^2\approx7.3846$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Los valores coinciden hasta el redondeo: $Z^2\equiv\chi^2$ es una identidad algebraica exacta, no una coincidencia numérica. Ambas pruebas son 100\% equivalentes para el caso binario $2\times2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Fórmula Cerrada $2\times2$ (Enunciado, Sección 3.9)}
+    Deduzca algebraicamente, partiendo de la definición general de Pearson, que en toda tabla $2\times2$ se cumple $\chi^2 = \dfrac{N(ad-bc)^2}{(a+b)(c+d)(a+c)(b+d)}$, y relacione $(ad-bc)$ con la Razón de Momios (Odds Ratio).
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Muestre primero que las 4 desviaciones $O_{ij}-E_{ij}$ comparten la misma magnitud $|ad-bc|/N$, alternando signo en tablero de ajedrez.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Factorizamos el determinante común de las cuatro celdas: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$O_{11}-E_{11}=\frac{ad-bc}{N}, \qquad \chi^2 = \frac{(ad-bc)^2}{N}\left(\frac{1}{R_1}+\frac{1}{R_2}\right)\left(\frac{1}{C_1}+\frac{1}{C_2}\right) = \frac{N(ad-bc)^2}{(a+b)(c+d)(a+c)(b+d)}$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    El factor $(ad-bc)=\det(\mathbf M)$ es el determinante de la tabla; $\det=0 \iff ad=bc \iff \text{OR}=ad/bc=1$ (independencia total). A medida que el Odds Ratio se aleja de 1, $|ad-bc|$ crece cuadráticamente y empuja $\chi^2$ hacia el rechazo.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección y de Capítulo: Contingencia e Independencia}
+  \begin{reflexion}
+    Con esta sección cerramos el Capítulo 07: hemos construido el marco lógico completo de la docimasia --- desde el planteamiento de $H_0/H_a$ y el balance $\alpha$-$\beta$, pasando por medias (Z/t), hasta modelos categóricos completos ($\chi^2$ de bondad de ajuste y de contingencia). Toda inferencia estadística aplicada descansa sobre estas herramientas.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Independencia vs. homogeneidad:} misma fórmula, diseño muestral distinto.
+      \item \textbf{Estadístico común:} $\chi^2=\sum(O_{ij}-E_{ij})^2/E_{ij}$, $\nu=(r-1)(c-1)$.
+      \item \textbf{Identidad $Z^2=\chi^2$:} las pruebas de proporciones y de contingencia $2\times2$ son matemáticamente idénticas.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Con el Capítulo 07 completo, dominamos la comparación de \textbf{dos} grupos o variables. El Capítulo 08 (Diseño de Experimentos) generaliza esta lógica a la comparación simultánea de \textbf{tres o más} grupos mediante el Análisis de Varianza (ANOVA) de un factor y la prueba $F$, evitando la inflación del error Tipo I que surgiría de múltiples pruebas $t$ por pares.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la prueba $F$ de Fisher-Snedecor y su interpretación como cociente de varianzas (Sección 05.05).
+      \item Reflexiona sobre por qué realizar $\binom{k}{2}$ pruebas $t$ por pares infla el error Tipo I familiar (FWER).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
