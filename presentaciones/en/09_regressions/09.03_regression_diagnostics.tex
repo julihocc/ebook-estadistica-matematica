@@ -1,0 +1,315 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Regression Diagnostics]{Section 09.03: Residual Diagnostics and Multicollinearity}
+\subtitle{Classical Assumptions, VIF, and Influential Observations}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
+  \footnotesize
+  Where are we in the modular development of this chapter? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{09.01} Simple Linear Regression (OLS) and $R^2$ \pause
+    \item \textbf{09.02} Multiple Linear Regression, the Normal Equation, and Ridge/Lasso \pause
+    \item \textbf{09.03} Residual Diagnostics, Multicollinearity (VIF), and Assumptions \emph{(Today)} \pause
+    \item \textbf{09.04} Model Validation, $k$-fold Cross-Validation, and \texttt{scikit-learn}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Rigorously audit whether a fitted regression model is \emph{trustworthy}: verify the classical assumptions via residual analysis and formal tests (Durbin-Watson, Breusch-Pagan), quantify multicollinearity with the Variance Inflation Factor, and identify influential observations via Cook's Distance.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{Is the Model We Fit Trustworthy?}
+  \footnotesize
+  \begin{motivacion}
+    In Sections 09.01 and 09.02 we built and solved the regression model, but all inference (intervals, $t$/$F$ tests) rests on assumptions about the error term $\varepsilon$ that are \textbf{never automatically verified}. A model with high $R^2$ can be completely invalid if its residuals violate these assumptions.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Residuals} $e_i=Y_i-\hat Y_i$ are the primary diagnostic tool. \pause
+    \item We complement graphical analysis with formal tests and the identification of problematic observations.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Classical assumptions and residuals
+\begin{frame}{Classical Assumptions and Residual Analysis}
+  \footnotesize
+  \begin{block}{Five Assumptions on $\varepsilon_i$}
+    Linearity, Independence, Homoscedasticity ($\text{Var}(\varepsilon_i)=\sigma^2$), Normality ($\varepsilon_i\sim N(0,\sigma^2)$), and Zero Mean.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Patterns in the Residuals-vs-Fitted Plot}
+    U-shape $\to$ non-linearity; \textbf{funnel shape} $\to$ heteroscedasticity; isolated extreme points $\to$ possible outliers.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Formal tests
+\begin{frame}{Formal Tests: Durbin-Watson and Breusch-Pagan}
+  \footnotesize
+  \begin{block}{Durbin-Watson (Independence)}
+    $$DW=\frac{\sum_{i=2}^n(e_i-e_{i-1})^2}{\sum_{i=1}^n e_i^2}\approx2(1-\hat\rho), \qquad DW\in(0,4),\ DW\approx2 \text{ ideal}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Breusch-Pagan (Homoscedasticity)}
+    Auxiliary regression of $\hat\varepsilon_i^2$ on the predictors: $$LM=n\cdot R_{\text{aux}}^2 \sim \chi^2_p \text{ under } H_0\text{: homoscedasticity}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: VIF
+\begin{frame}{Multicollinearity: the Variance Inflation Factor}
+  \footnotesize
+  \begin{block}{Operational Definition}
+    $$\text{VIF}_j=\frac{1}{1-R_j^2}, \qquad R_j^2: \text{ coeff. of regressing } X_j \text{ on the other predictors}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Identity with the Correlation Matrix}
+    $\text{VIF}_j=(\mathbf{R}^{-1})_{jj}$: a high VIF is the diagnostic manifestation that $\mathbf{X}^T\mathbf{X}$ is approaching singularity (Section 09.02). Conventional threshold: $\text{VIF}>5$ warrants Ridge, Lasso, or variable elimination.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Influential observations
+\begin{frame}{Influential Observations: Cook's Distance}
+  \footnotesize
+  \begin{block}{Computational Formula}
+    $$D_i=\frac{r_i^2}{p+1}\cdot\frac{h_{ii}}{1-h_{ii}}, \qquad \text{threshold: } D_i>4/n$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Two Distinct Mechanisms}
+    High leverage $h_{ii}$ (extreme position in $X$) \textbf{or} a large residual $r_i$ (possible outlier in $Y$) --- either one, or both, can drive $D_i$ up.
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Durbin-Watson and Breusch-Pagan}
+  \scriptsize
+  Both tests implemented from scratch with \texttt{numpy}/\texttt{scipy} (\texttt{09.03\_regression\_diagnostics.py}):
+  {\lstset{basicstyle=\fontsize{3.3pt}{4.0pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=19, lastline=41]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: VIF and its Matrix Identity}
+  \scriptsize
+  VIF computed via auxiliary regression and verified against $\text{diag}(\mathbf{R}^{-1})$:
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=44, lastline=70]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+\end{frame}
+
+% Slide 10: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: Cook's Distance}
+  \scriptsize
+  Detecting influential observations via high leverage vs. large residual:
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=73, lastline=103]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+\end{frame}
+
+% Slide 11: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.6pt}{4.3pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Durbin-Watson and Breusch-Pagan ===
+DW=0.5759 (approx 2(1-rho)=0.7866) -> strong positive autocorrelation
+Breusch-Pagan: R2_aux=0.1760, LM=10.5576, p=0.0051 -> heteroscedasticity
+
+=== Block 2: VIF ===
+Predictor 1: VIF=94.59  Predictor 2: VIF=94.55  Predictor 3: VIF=1.01
+VIF via 1/(1-R^2) matches VIF via diag(R^-1) exactly
+
+=== Block 3: Cook's Distance ===
+Obs 0: leverage=0.59, resid=-0.85, D=0.52 -> INFLUENTIAL (leverage-driven)
+Obs 1: leverage=0.04, resid=5.10,  D=0.54 -> INFLUENTIAL (residual-driven)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 9.14.1)}
+    With $n=10$ residuals in temporal order: $e=\{2.1,1.8,-0.5,-1.2,-2.0,-1.5,0.8,1.9,2.2,1.0\}$. Compute the Durbin-Watson statistic and determine the type of autocorrelation present.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Setup}
+    $DW=\sum(e_i-e_{i-1})^2/\sum e_i^2$; compare against the reference value $DW=2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Exercise Level 1 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
+  \scriptsize
+  We compute the numerator and denominator separately: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$\sum(e_i-e_{i-1})^2=14.79, \qquad \sum e_i^2=25.68, \qquad DW=\frac{14.79}{25.68}\approx0.576$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    Since $DW\approx0.576\ll2$, there is strong evidence of \textbf{positive autocorrelation}: consecutive observations tend to share the same sign, violating the independence of the errors.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- VIF (Statement, Problem 9.14.5)}
+    With $p=3$ financial predictors: $R_1^2=0.85$, $R_2^2=0.55$, $R_3^2=0.30$. Compute the VIF of each, decide which exceed the threshold $\text{VIF}>5$, and propose a remedy from Section 09.02.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    $\text{VIF}_j=1/(1-R_j^2)$ for each predictor.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Exercise Level 2 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
+  \scriptsize
+  We compute the three VIFs directly: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$\text{VIF}_1=\frac{1}{1-0.85}\approx6.667, \quad \text{VIF}_2=\frac{1}{1-0.55}\approx2.222, \quad \text{VIF}_3=\frac{1}{1-0.30}\approx1.429$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    Only predictor 1 exceeds the threshold ($6.667>5$): severe multicollinearity. Since dropping it is undesirable, \textbf{Ridge regression} is the most suitable remedy: it stabilizes $(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}$ without discarding the variable.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Cook's Distance (Statement, Problem 9.14.7)}
+    With $n=50$, $p=4$ ($p+1=5$): Obs. A ($h_{ii}=0.15,r_i=1.2$), Obs. B ($h_{ii}=0.45,r_i=0.8$), Obs. C ($h_{ii}=0.08,r_i=3.5$). Compute $D_i$ for each and decide which are influential ($4/n=0.08$).
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    $D_i=\dfrac{r_i^2}{p+1}\cdot\dfrac{h_{ii}}{1-h_{ii}}$ for each observation.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Exercise Level 3 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
+  \scriptsize
+  We substitute into the computational formula: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$D_A=\frac{1.44}{5}(0.1765)\approx0.051, \quad D_B=\frac{0.64}{5}(0.8182)\approx0.105, \quad D_C=\frac{12.25}{5}(0.0870)\approx0.213$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    $D_A<0.08$ (not influential); $D_B,D_C>0.08$ (influential). B is influential due to \textbf{high leverage} despite a moderate residual; C is influential due to a \textbf{large residual} despite low leverage: two distinct mechanisms of influence.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Deriving $DW\approx2(1-\hat\rho)$ (Statement, Problem 9.14.9)}
+    Prove that $DW\approx2(1-\hat\rho)$ where $\hat\rho=\sum e_ie_{i-1}/\sum e_i^2$, and derive the theoretical range $DW\in(0,4)$ with its three limiting cases.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Expand $(e_i-e_{i-1})^2$ and approximate the partial sums by the complete sum $\sum e_i^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Exercise Level 4 (Resolution)
+\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
+  \scriptsize
+  We expand the numerator and substitute: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\sum(e_i-e_{i-1})^2\approx2\sum e_i^2-2\sum e_ie_{i-1} \implies DW\approx2-2\hat\rho=2(1-\hat\rho)$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    Since $\hat\rho\in[-1,1]$: $\hat\rho\to1\implies DW\to0$ (perfect positive autocorrelation); $\hat\rho=0\implies DW=2$ (ideal); $\hat\rho\to-1\implies DW\to4$ (perfect negative autocorrelation).
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Closing
+\begin{frame}{Section Closing: Regression Diagnostics}
+  \begin{reflexion}
+    A fitted model is never trustworthy by decree: we have audited the classical assumptions via residuals and formal tests (Durbin-Watson, Breusch-Pagan), quantified multicollinearity with VIF, and detected influential observations via Cook's Distance --- closing the full cycle of internal model validation.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{$DW\approx2$:} the ideal value; deviations indicate positive or negative autocorrelation.
+      \item \textbf{VIF$_j=(\mathbf{R}^{-1})_{jj}$:} a high VIF reflects the same numerical instability of $\mathbf{X}^T\mathbf{X}$ seen in Section 09.02.
+      \item \textbf{Cook's Distance:} high leverage and large residuals are independent mechanisms of influence.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    With the model internally audited, the chapter's final question is the most important one in practice: does the model generalize to \textbf{new}, unseen data? Section 09.04 (chapter closing) presents $k$-fold cross-validation, out-of-sample error metrics, and a professional implementation with \texttt{scikit-learn}.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Reflect on why a model can pass every diagnostic in this section and still generalize poorly (overfitting).
+      \item Review the conceptual difference between in-sample error and out-of-sample error.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

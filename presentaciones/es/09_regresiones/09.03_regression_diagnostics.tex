@@ -1,0 +1,315 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Diagnóstico de Regresión]{Sección 09.03: Diagnóstico de Residuos y Multicolinealidad}
+\subtitle{Supuestos Clásicos, VIF, y Observaciones Influyentes}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 09: Regresiones Lineales y Múltiples}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{09.01} Regresión Lineal Simple (MCO) y Coeficiente $R^2$ \pause
+    \item \textbf{09.02} Regresión Lineal Múltiple, Ecuación Normal y Ridge/Lasso \pause
+    \item \textbf{09.03} Diagnóstico de Residuos, Multicolinealidad (VIF) y Supuestos \emph{(Hoy)} \pause
+    \item \textbf{09.04} Validación de Modelos, $k$-fold Cross-Validation y \texttt{scikit-learn}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Auditar rigurosamente si un modelo de regresión ajustado es \emph{confiable}: verificar los supuestos clásicos mediante análisis de residuos y pruebas formales (Durbin-Watson, Breusch-Pagan), cuantificar la multicolinealidad con el Factor de Inflación de Varianza, e identificar observaciones influyentes mediante la Distancia de Cook.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{¿Es Confiable el Modelo que Ajustamos?}
+  \footnotesize
+  \begin{motivacion}
+    En las Secciones 09.01 y 09.02 construimos y resolvimos el modelo de regresión, pero toda inferencia (intervalos, pruebas $t$/$F$) descansa en supuestos sobre el término de error $\varepsilon$ que \textbf{nunca se verifican automáticamente}. Un modelo con $R^2$ alto puede ser completamente inválido si sus residuos violan estos supuestos.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item Los \textbf{residuos} $e_i=Y_i-\hat Y_i$ son la principal herramienta diagnóstica. \pause
+    \item Complementamos el análisis gráfico con pruebas formales y con la identificación de observaciones problemáticas.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Supuestos clásicos y residuos
+\begin{frame}{Los Supuestos Clásicos y el Análisis de Residuos}
+  \footnotesize
+  \begin{block}{Cinco Supuestos sobre $\varepsilon_i$}
+    Linealidad, Independencia, Homocedasticidad ($\text{Var}(\varepsilon_i)=\sigma^2$), Normalidad ($\varepsilon_i\sim N(0,\sigma^2)$), y Media Cero.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Patrones en la Gráfica de Residuos vs. Ajustados}
+    Forma de U $\to$ no linealidad; \textbf{forma de embudo} $\to$ heterocedasticidad; puntos aislados extremos $\to$ posibles atípicos.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Pruebas formales
+\begin{frame}{Pruebas Formales: Durbin-Watson y Breusch-Pagan}
+  \footnotesize
+  \begin{block}{Durbin-Watson (Independencia)}
+    $$DW=\frac{\sum_{i=2}^n(e_i-e_{i-1})^2}{\sum_{i=1}^n e_i^2}\approx2(1-\hat\rho), \qquad DW\in(0,4),\ DW\approx2 \text{ ideal}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Breusch-Pagan (Homocedasticidad)}
+    Regresión auxiliar de $\hat\varepsilon_i^2$ sobre los predictores: $$LM=n\cdot R_{\text{aux}}^2 \sim \chi^2_p \text{ bajo } H_0\text{: homocedasticidad}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: VIF
+\begin{frame}{Multicolinealidad: el Factor de Inflación de Varianza}
+  \footnotesize
+  \begin{block}{Definición Operativa}
+    $$\text{VIF}_j=\frac{1}{1-R_j^2}, \qquad R_j^2: \text{ coef. de regredir } X_j \text{ contra los demás predictores}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Identidad con la Matriz de Correlación}
+    $\text{VIF}_j=(\mathbf{R}^{-1})_{jj}$: un VIF alto es la manifestación diagnóstica de que $\mathbf{X}^T\mathbf{X}$ se aproxima a la singularidad (Sección 09.02). Umbral convencional: $\text{VIF}>5$ amerita Ridge, Lasso, o eliminación de variables.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Observaciones influyentes
+\begin{frame}{Observaciones Influyentes: la Distancia de Cook}
+  \footnotesize
+  \begin{block}{Fórmula Computacional}
+    $$D_i=\frac{r_i^2}{p+1}\cdot\frac{h_{ii}}{1-h_{ii}}, \qquad \text{umbral: } D_i>4/n$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Dos Mecanismos Distintos}
+    Alto apalancamiento $h_{ii}$ (posición extrema en $X$) \textbf{o} residuo grande $r_i$ (posible atípico en $Y$) --- cualquiera de los dos, o ambos, puede disparar $D_i$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Durbin-Watson y Breusch-Pagan}
+  \scriptsize
+  Ambas pruebas implementadas desde cero con \texttt{numpy}/\texttt{scipy} (\texttt{09.03\_regression\_diagnostics.py}):
+  {\lstset{basicstyle=\fontsize{3.3pt}{4.0pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=19, lastline=41]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: VIF y su Identidad Matricial}
+  \scriptsize
+  VIF calculado por regresión auxiliar y verificado contra $\text{diag}(\mathbf{R}^{-1})$:
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=44, lastline=70]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Distancia de Cook}
+  \scriptsize
+  Detección de observaciones influyentes por alto apalancamiento vs. residuo grande:
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=73, lastline=103]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{3.6pt}{4.3pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Durbin-Watson and Breusch-Pagan ===
+DW=0.5759 (approx 2(1-rho)=0.7866) -> strong positive autocorrelation
+Breusch-Pagan: R2_aux=0.1760, LM=10.5576, p=0.0051 -> heteroscedasticity
+
+=== Block 2: VIF ===
+Predictor 1: VIF=94.59  Predictor 2: VIF=94.55  Predictor 3: VIF=1.01
+VIF via 1/(1-R^2) matches VIF via diag(R^-1) exactly
+
+=== Block 3: Cook's Distance ===
+Obs 0: leverage=0.59, resid=-0.85, D=0.52 -> INFLUENTIAL (leverage-driven)
+Obs 1: leverage=0.04, resid=5.10,  D=0.54 -> INFLUENTIAL (residual-driven)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 9.14.1)}
+    Con $n=10$ residuos ordenados temporalmente: $e=\{2.1,1.8,-0.5,-1.2,-2.0,-1.5,0.8,1.9,2.2,1.0\}$. Calcule el estadístico de Durbin-Watson y determine el tipo de autocorrelación presente.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    $DW=\sum(e_i-e_{i-1})^2/\sum e_i^2$; compare contra el valor de referencia $DW=2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Calculamos numerador y denominador por separado: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\sum(e_i-e_{i-1})^2=14.79, \qquad \sum e_i^2=25.68, \qquad DW=\frac{14.79}{25.68}\approx0.576$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Como $DW\approx0.576\ll2$, existe evidencia fuerte de \textbf{autocorrelación positiva}: observaciones consecutivas tienden a compartir signo, violando la independencia de los errores.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- VIF (Enunciado, Problema 9.14.5)}
+    Con $p=3$ predictores financieros: $R_1^2=0.85$, $R_2^2=0.55$, $R_3^2=0.30$. Calcule el VIF de cada uno, decida cuáles superan el umbral $\text{VIF}>5$, y proponga un remedio de la Sección 09.02.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    $\text{VIF}_j=1/(1-R_j^2)$ para cada predictor.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Calculamos los tres VIF directamente: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\text{VIF}_1=\frac{1}{1-0.85}\approx6.667, \quad \text{VIF}_2=\frac{1}{1-0.55}\approx2.222, \quad \text{VIF}_3=\frac{1}{1-0.30}\approx1.429$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Solo el predictor 1 supera el umbral ($6.667>5$): multicolinealidad severa. Dado que no se desea eliminarlo, la \textbf{regresión Ridge} es el remedio más adecuado, pues estabiliza $(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}$ sin descartar la variable.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Distancia de Cook (Enunciado, Problema 9.14.7)}
+    Con $n=50$, $p=4$ ($p+1=5$): Obs. A ($h_{ii}=0.15,r_i=1.2$), Obs. B ($h_{ii}=0.45,r_i=0.8$), Obs. C ($h_{ii}=0.08,r_i=3.5$). Calcule $D_i$ para cada una y decida cuáles son influyentes ($4/n=0.08$).
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    $D_i=\dfrac{r_i^2}{p+1}\cdot\dfrac{h_{ii}}{1-h_{ii}}$ para cada observación.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Sustituimos en la fórmula computacional: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$D_A=\frac{1.44}{5}(0.1765)\approx0.051, \quad D_B=\frac{0.64}{5}(0.8182)\approx0.105, \quad D_C=\frac{12.25}{5}(0.0870)\approx0.213$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    $D_A<0.08$ (no influyente); $D_B,D_C>0.08$ (influyentes). B lo es por \textbf{alto apalancamiento} pese a residuo moderado; C lo es por \textbf{residuo grande} pese a apalancamiento bajo: dos mecanismos distintos de influencia.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Deducción de $DW\approx2(1-\hat\rho)$ (Enunciado, Problema 9.14.9)}
+    Demuestre que $DW\approx2(1-\hat\rho)$ donde $\hat\rho=\sum e_ie_{i-1}/\sum e_i^2$, y deduzca el rango teórico $DW\in(0,4)$ con sus tres casos límite.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Expanda $(e_i-e_{i-1})^2$ y aproxime las sumas parciales por la suma completa $\sum e_i^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Expandimos el numerador y sustituimos: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\sum(e_i-e_{i-1})^2\approx2\sum e_i^2-2\sum e_ie_{i-1} \implies DW\approx2-2\hat\rho=2(1-\hat\rho)$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $\hat\rho\in[-1,1]$: $\hat\rho\to1\implies DW\to0$ (autocorrelación positiva perfecta); $\hat\rho=0\implies DW=2$ (ideal); $\hat\rho\to-1\implies DW\to4$ (autocorrelación negativa perfecta).
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: Diagnóstico de Regresión}
+  \begin{reflexion}
+    Un modelo ajustado nunca es confiable por decreto: hemos auditado los supuestos clásicos mediante residuos y pruebas formales (Durbin-Watson, Breusch-Pagan), cuantificado la multicolinealidad con el VIF, y detectado observaciones influyentes mediante la Distancia de Cook --- cerrando el ciclo completo de validación interna del modelo.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{$DW\approx2$:} valor ideal; desviaciones indican autocorrelación positiva o negativa.
+      \item \textbf{VIF$_j=(\mathbf{R}^{-1})_{jj}$:} un VIF alto refleja la misma inestabilidad numérica de $\mathbf{X}^T\mathbf{X}$ vista en la Sección 09.02.
+      \item \textbf{Distancia de Cook:} apalancamiento alto y residuo grande son mecanismos de influencia independientes.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Con el modelo auditado internamente, la pregunta final del capítulo es la más importante en la práctica: ¿generaliza el modelo a datos \textbf{nuevos}, nunca vistos durante el ajuste? La Sección 09.04 (cierre del capítulo) presenta la validación cruzada $k$-fold, las métricas de error extra-muestral, y la implementación profesional con \texttt{scikit-learn}.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Reflexiona sobre por qué un modelo puede pasar todos los diagnósticos de esta sección y aun así generalizar mal (sobreajuste).
+      \item Repasa la diferencia conceptual entre error dentro de la muestra y error fuera de la muestra.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

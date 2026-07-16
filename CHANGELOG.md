@@ -34,6 +34,12 @@ por fechas e hitos editoriales.
   - Script de laboratorio en Python `presentaciones/code/09_regresiones/09.02_multiple_linear_regression.py` (solución matricial verificada contra `np.linalg.lstsq` con verificación de simetría/idempotencia de la Matriz Sombrero; Ridge con solución cerrada mostrando contracción de coeficientes; Lasso implementado desde cero por descenso de coordenadas, mostrando sparsity progresiva).
   - Mazos Beamer bilingües en `presentaciones/es/09_regresiones/09.02_multiple_linear_regression.tex` (17 diapositivas) y `presentaciones/en/09_regressions/09.02_multiple_linear_regression.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
   - Capítulo 09 (Regresiones Lineales y Múltiples): 2 de 4 secciones completadas.
+- **Sección 09.03: Diagnóstico de Residuos, Multicolinealidad (VIF) y Supuestos Clásicos**:
+  - Teoría (supuestos clásicos, análisis de residuos, gráficas Q-Q/escala, Durbin-Watson, Breusch-Pagan, transformaciones correctivas, Distancia de Cook) ya existía de forma completa en `latex/supuestos_regresion.tex` y su espejo EN; el diagnóstico de VIF ya vivía en `latex/regresion_multiple.tex` (Sección 09.02). No se requirió teoría nueva.
+  - **No existía un cuaderno de problemas para esta sección.** Se creó desde cero `latex/supuestos_regresion(p).tex` y su espejo `latex/en_supuestos_regresion(p).tex` con 10 problemas nuevos 3-3-2-2 (auto-numerados 9.14.1 a 9.14.10), conectados al libro maestro ES y EN.
+  - Script de laboratorio en Python `presentaciones/code/09_regresiones/09.03_regression_diagnostics.py` (Durbin-Watson y Breusch-Pagan implementados desde cero sin `statsmodels`; VIF verificado exactamente contra $\text{diag}(\mathbf{R}^{-1})$; Distancia de Cook detectando observaciones influyentes por alto apalancamiento y por residuo grande).
+  - Mazos Beamer bilingües en `presentaciones/es/09_regresiones/09.03_regression_diagnostics.tex` (17 diapositivas) y `presentaciones/en/09_regressions/09.03_regression_diagnostics.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 09 (Regresiones Lineales y Múltiples): 3 de 4 secciones completadas.
 
 ## 2026-07-15
 

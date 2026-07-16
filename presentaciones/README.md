@@ -254,7 +254,7 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
-## 5g. Catálogo e Índice de Presentaciones --- Capítulo 09 (50% Completado, En Curso)
+## 5g. Catálogo e Índice de Presentaciones --- Capítulo 09 (75% Completado, En Curso)
 
 A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 8 / Capítulo 09: Regresiones Lineales y Múltiples**:
 
@@ -262,12 +262,12 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | :---: | :--- | :--- | :--- | :---: |
 | **09.01** | [09.01 Regresión Lineal Simple](es/09_regresiones/09.01_simple_linear_regression.tex) ([PDF](es/09_regresiones/09.01_simple_linear_regression.pdf)) | [09.01 Simple Linear Regression](en/09_regressions/09.01_simple_linear_regression.tex) ([PDF](en/09_regressions/09.01_simple_linear_regression.pdf)) | `09.01_simple_linear_regression.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 09** |
 | **09.02** | [09.02 Regresión Lineal Múltiple](es/09_regresiones/09.02_multiple_linear_regression.tex) ([PDF](es/09_regresiones/09.02_multiple_linear_regression.pdf)) | [09.02 Multiple Linear Regression](en/09_regressions/09.02_multiple_linear_regression.tex) ([PDF](en/09_regressions/09.02_multiple_linear_regression.pdf)) | `09.02_multiple_linear_regression.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings)** |
-| **09.03** | Diagnóstico de Residuos, Multicolinealidad (VIF) | Regression Diagnostics | `09.03_regression_diagnostics.py` | ⏳ Pendiente |
+| **09.03** | [09.03 Diagnóstico de Regresión](es/09_regresiones/09.03_regression_diagnostics.tex) ([PDF](es/09_regresiones/09.03_regression_diagnostics.pdf)) | [09.03 Regression Diagnostics](en/09_regressions/09.03_regression_diagnostics.tex) ([PDF](en/09_regressions/09.03_regression_diagnostics.pdf)) | `09.03_regression_diagnostics.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings)** |
 | **09.04** | Validación de Modelos, $k$-fold CV, `scikit-learn` | Model Validation | `09.04_model_validation.py` | ⏳ Pendiente |
 
 ---
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Los Capítulos 04 (Variables Aleatorias Continuas), 05 (Distribuciones de Muestreo), 06 (Estimación y su Relación con Ciencia de Datos), 07 (Docimasia --- Pruebas de Hipótesis) y 08 (Elementos de Diseño de Experimentos --- ANOVA) están 100% completos. El Capítulo 09 (Regresiones Lineales y Múltiples) lleva 2 de 4 secciones completadas al 100% (09.01 Regresión Lineal Simple, 09.02 Regresión Lineal Múltiple con Ecuación Normal y Ridge/Lasso). Para ver la planificación del siguiente hito curricular del proyecto (**Sección 09.03: Diagnóstico de Residuos y Multicolinealidad**), consulta el documento oficial de planificación:
+Los Capítulos 04 (Variables Aleatorias Continuas), 05 (Distribuciones de Muestreo), 06 (Estimación y su Relación con Ciencia de Datos), 07 (Docimasia --- Pruebas de Hipótesis) y 08 (Elementos de Diseño de Experimentos --- ANOVA) están 100% completos. El Capítulo 09 (Regresiones Lineales y Múltiples) lleva 3 de 4 secciones completadas al 100% (09.01 Regresión Lineal Simple, 09.02 Regresión Lineal Múltiple con Ecuación Normal y Ridge/Lasso, 09.03 Diagnóstico de Residuos y Multicolinealidad). Para ver la planificación del siguiente y último hito curricular del capítulo (**Sección 09.04: Validación de Modelos y `scikit-learn`**), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.
