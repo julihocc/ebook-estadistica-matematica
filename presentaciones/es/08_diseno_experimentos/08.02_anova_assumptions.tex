@@ -1,0 +1,306 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Supuestos del ANOVA]{Sección 08.02: Supuestos del ANOVA y Diagnóstico}
+\subtitle{Homoscedasticidad, Normalidad, Independencia y Alternativas No Paramétricas}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 08: Elementos de Diseño de Experimentos (ANOVA)}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{08.01} Análisis de Varianza de un Factor (One-Way ANOVA) y Prueba $F$ \pause
+    \item \textbf{08.02} Supuestos del ANOVA, Prueba de Levene/Bartlett y Diagnóstico \emph{(Hoy --- Cierre del Capítulo)}
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Auditar rigurosamente los tres supuestos sobre los que descansa la validez de toda la maquinaria construida en la Sección 08.01 --- homoscedasticidad, normalidad e independencia de los errores --- y presentar las alternativas metodológicas (ANOVA de Welch, Kruskal-Wallis) cuando dichos supuestos fallan.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{¿Por Qué Auditar los Supuestos?}
+  \footnotesize
+  \begin{motivacion}
+    El estadístico $F=\text{CMTR}/\text{CME}$ solo sigue una distribución $F_{k-1,N-k}$ \emph{exacta} si el modelo paramétrico subyacente ($\epsilon_{ij}\sim N(0,\sigma^2)$ i.i.d.) es correcto. Un ANOVA calculado sobre datos que violan estos supuestos puede producir decisiones completamente erróneas, aun con aritmética perfecta.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item Todo científico de datos debe auditar estos supuestos \textbf{antes} de reportar resultados de un ANOVA en producción o investigación. \pause
+    \item Las pruebas de diagnóstico reutilizan, en su mayoría, la misma maquinaria de descomposición de varianza de la Sección 08.01.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Los tres supuestos
+\begin{frame}{Los Tres Pilares del Modelo Paramétrico}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Homoscedasticidad:} $\sigma_1^2=\sigma_2^2=\ldots=\sigma_k^2$. El ANOVA es robusto a violaciones moderadas \emph{solo si} los tamaños muestrales son iguales. \pause
+    \item \textbf{Normalidad de los errores:} $\epsilon_{ij}\sim N(0,\sigma^2)$. Se audita con gráficos Q-Q y pruebas formales sobre los residuos. \pause
+    \item \textbf{Independencia:} $\text{Cov}(\epsilon_{ij},\epsilon_{lm})=0$. El supuesto más crítico: su violación invalida por completo la prueba $F$ y no se corrige con transformaciones; se garantiza \emph{a priori} mediante aleatorización.
+  \end{itemize}
+\end{frame}
+
+% Slide 5: Homoscedasticidad
+\begin{frame}{Verificación de Homoscedasticidad: Bartlett y Levene}
+  \footnotesize
+  \begin{block}{Prueba de Bartlett}
+    Sensible a la normalidad. Contrasta $H_0:\sigma_1^2=\ldots=\sigma_k^2$ mediante un estadístico basado en el cociente ponderado de varianzas muestrales, $\sim\chi^2_{k-1}$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Prueba de Levene (centrada en la media) y Brown-Forsythe (mediana)}
+    Estándar de oro moderno: aplica el ANOVA de un factor completo de la Sección 08.01 sobre las desviaciones absolutas $Z_{ij}=|Y_{ij}-\bar Y_{i.}|$. Robusta ante no-normalidad.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Normalidad
+\begin{frame}{Diagnóstico de Normalidad de los Residuos}
+  \footnotesize
+  \begin{block}{Auditoría Cualitativa}
+    El gráfico de probabilidad normal (\textbf{Q-Q Plot}) de los residuos estandarizados $\hat\epsilon_{ij}=Y_{ij}-\bar Y_{i.}$ revela visualmente desviaciones sistemáticas de la normalidad.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Auditoría Cuantitativa}
+    La \textbf{Prueba de Shapiro-Wilk} (o Kolmogorov-Smirnov) contrasta formalmente $H_0:$ los residuos provienen de una población normal. Es la prueba de referencia para muestras pequeñas y moderadas.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Alternativas
+\begin{frame}{Cuando los Supuestos Fallan: Alternativas Metodológicas}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Homoscedasticidad violada:} ANOVA de Welch (ajusta grados de libertad del denominador ponderando por $S_i^2/n_i$) o transformaciones Box-Cox ($\log Y$, $\sqrt{Y}$). \pause
+    \item \textbf{Normalidad violada (asimetría extrema, atípicos):} \textbf{Prueba de Kruskal-Wallis}, la alternativa no paramétrica basada en rangos en lugar de medias. \pause
+    \item \textbf{Independencia violada:} no existe corrección algebraica a posteriori; requiere modelos de series de tiempo o efectos mixtos longitudinales.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Bartlett y Levene}
+  \scriptsize
+  Auditoría de homoscedasticidad para 3 \emph{pipelines} CI/CD, verificada contra \texttt{scipy.stats.bartlett} y \texttt{scipy.stats.levene} (\texttt{08.02\_anova\_assumptions.py}):
+  {\lstset{basicstyle=\fontsize{3.5pt}{4.2pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=38]{../../code/08_diseno_experimentos/08.02_anova_assumptions.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Shapiro-Wilk sobre Residuos}
+  \scriptsize
+  Ajuste de un ANOVA de 3 grupos y auditoría de normalidad de los residuos:
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=41, lastline=52]{../../code/08_diseno_experimentos/08.02_anova_assumptions.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Kruskal-Wallis}
+  \scriptsize
+  Comparación entre ANOVA paramétrico y Kruskal-Wallis sobre datos asimétricos (exponenciales):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=55, lastline=70]{../../code/08_diseno_experimentos/08.02_anova_assumptions.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{3.8pt}{4.6pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Bartlett and Levene ===
+Bartlett: B=4.4660, p=0.1072
+Levene (manual): W=2.9880, p=0.0885 (matches scipy.stats.levene center='mean')
+
+=== Block 2: Shapiro-Wilk ===
+W=0.9781, p=0.7721 -> no evidence against normality
+
+=== Block 3: Kruskal-Wallis ===
+Parametric ANOVA: F=3.5514, p=0.0376
+Kruskal-Wallis:    H=11.9985, p=0.0025
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 8.6.11)}
+    Un analista audita la homoscedasticidad de $k=4$ configuraciones de un \emph{pipeline} distribuido, $n_i=8$ cada una, con $S_1^2=4.0$, $S_2^2=4.5$, $S_3^2=5.2$, $S_4^2=4.8$. Calcule el estadístico de Bartlett y compárelo con $\chi^2_{0.05,3}=7.815$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Planteamiento}
+    Primero calcule la varianza combinada $S_p^2 = \sum(n_i-1)S_i^2/(N-k)$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
+  \scriptsize
+  Calculamos la varianza combinada y el estadístico de Bartlett: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$S_p^2=\frac{7(18.5)}{28}=4.625, \qquad B \approx \frac{28\ln(4.625)-42.754}{1.0595} \approx 0.121$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Como $0.121 \ll 7.815$, \textbf{no se rechaza $H_0$}: las cuatro varianzas son estadísticamente compatibles con la homoscedasticidad.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 8.6.12)}
+    Tres \emph{pipelines} CI/CD con $n=5$ corridas: A$=\{40,42,38,44,41\}$, B$=\{50,55,48,52,60\}$, C$=\{41,40,42,39,43\}$. Calcule $Z_{ij}=|Y_{ij}-\bar Y_{i.}|$ y aplique el ANOVA de la Sección 08.01 sobre $Z_{ij}$ (Levene) al $\alpha=0.05$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Medias: $\bar Y_{A.}=41$, $\bar Y_{B.}=53$, $\bar Y_{C.}=41$; compare $W$ contra $F_{0.05,2,12}=3.885$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
+  \scriptsize
+  Aplicamos la descomposición de sumas de cuadrados a las $Z_{ij}$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\text{SCTR}_Z\approx16.533,\ \text{SCE}_Z=33.2, \qquad \text{CMTR}_Z\approx8.267,\ \text{CME}_Z\approx2.767, \qquad W\approx2.988$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como $2.988<3.885$, \textbf{no se rechaza $H_0$}: aunque el Pipeline B luce más disperso visualmente, $n=5$ por grupo es insuficiente para declarar heteroscedasticidad significativa.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 8.6.7)}
+    Un ANOVA con $k=3$ configuraciones de caché, $n_i=6$ cada una, tiene $S_1^2=1.2$, $S_2^2=1.5$, $S_3^2=8.9$. Un analista alega que ``el ANOVA es robusto si los tamaños son iguales''. ¿Es correcto? ¿Qué procedimiento y alternativa proceden?
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Calcule el cociente de varianzas extremas y contraste formalmente con Levene.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
+  \scriptsize
+  Evaluamos la magnitud de la disparidad de varianzas: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$S_3^2/S_1^2 = 8.9/1.2 \approx 7.41$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    La afirmación es \textbf{incompleta}: la robustez del ANOVA no soporta disparidades extremas como $7.4:1$. La Prueba de Levene rechazará contundentemente $H_0$; el analista debe usar el \textbf{ANOVA de Welch} o una transformación logarítmica.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Levene como ANOVA (Enunciado, Problema 8.6.13)}
+    Demuestre que la Prueba de Levene centrada en la media es idéntica a aplicar el ANOVA de un factor de la Sección 08.01 a $Z_{ij}=|Y_{ij}-\bar Y_{i.}|$: muestre que $W\equiv\text{CMTR}_Z/\text{CME}_Z$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    \scriptsize
+    Aplique el Teorema de partición de sumas de cuadrados de la Sección 08.01 directamente sobre $Z$ en lugar de $Y$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
+  \scriptsize
+  Reutilizamos íntegramente la maquinaria del ANOVA sobre la variable transformada: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\text{SCT}_Z=\text{SCTR}_Z+\text{SCE}_Z \implies F_Z=\frac{\text{SCTR}_Z/(k-1)}{\text{SCE}_Z/(N-k)}=\frac{N-k}{k-1}\cdot\frac{\sum_i n_i(\bar Z_{i.}-\bar Z_{..})^2}{\sum_i\sum_j(Z_{ij}-\bar Z_{i.})^2}\equiv W$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    $W$ y $F_Z$ son algebraicamente idénticos: Levene no es una prueba nueva, sino el mismo ANOVA aplicado a una variable reexpresada. Auditar homoscedasticidad no exige herramientas adicionales a las ya construidas en 08.01.
+  \end{alertblock}
+\end{frame}
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección y de Capítulo: Supuestos del ANOVA}
+  \begin{reflexion}
+    Con esta sección cerramos el Capítulo 08: construimos el ANOVA de un factor como generalización de la comparación de medias, y ahora auditamos rigurosamente los supuestos que garantizan su validez. Ningún resultado de un ANOVA es confiable sin verificar homoscedasticidad, normalidad e independencia de los errores.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Levene $\equiv$ ANOVA sobre desviaciones:} ninguna maquinaria nueva, solo una transformación de variable.
+      \item \textbf{Robustez condicionada:} el ANOVA tolera heteroscedasticidad moderada solo con tamaños muestrales iguales.
+      \item \textbf{Alternativas:} Welch para heteroscedasticidad, Kruskal-Wallis para no-normalidad severa.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Con el Capítulo 08 completo, dominamos la comparación de $k$ medias mediante un único factor categórico. El Capítulo 09 (Regresiones Lineales y Múltiples) generaliza esta lógica a variables predictoras \textbf{continuas}: en lugar de comparar grupos discretos, modelaremos la relación funcional entre una variable respuesta y uno o varios regresores mediante mínimos cuadrados ordinarios (OLS).
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la interpretación geométrica de la descomposición de sumas de cuadrados $\text{SCT}=\text{SCTR}+\text{SCE}$: en regresión aparecerá como $\text{SCT}=\text{SCReg}+\text{SCE}$.
+      \item Reflexiona sobre cómo el coeficiente de determinación $R^2$ del ANOVA (Sección 08.01) anticipa el $R^2$ de un modelo de regresión.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

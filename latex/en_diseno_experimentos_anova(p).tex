@@ -147,6 +147,36 @@
 \end{problema}
 
 
+\subsubsection*{5. Supplement --- Verifying Assumptions (Section 08.02)}
+
+\begin{problema}
+	\label{prob:bartlett_pipelines_ci}
+	An analyst audits the homoscedasticity of $k = 4$ configurations of a distributed computing pipeline, each with $n_i = 8$ independent runs. The sample variances of the response time are $S_1^2 = 4.0$, $S_2^2 = 4.5$, $S_3^2 = 5.2$, and $S_4^2 = 4.8$ ($\text{s}^2$ units).
+
+	Compute the \textbf{Bartlett Test} statistic and compare it against the critical value $\chi^2_{0.05, \, 3} = 7.815$. Is there sufficient evidence to reject the hypothesis of homoscedasticity?
+\end{problema}
+
+\begin{problema}
+	\label{prob:levene_pipelines_cicd}
+	An engineer measures the build time (in seconds) of $k = 3$ continuous-integration pipelines, with $n = 5$ runs each:
+	\begin{itemize}
+		\item \textbf{Pipeline A:} $40, 42, 38, 44, 41$.
+		\item \textbf{Pipeline B:} $50, 55, 48, 52, 60$.
+		\item \textbf{Pipeline C:} $41, 40, 42, 39, 43$.
+	\end{itemize}
+	Compute the absolute deviations from the group mean ($Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$) and apply the full one-way ANOVA procedure from Section 08.01 to the $Z_{ij}$ (\textbf{mean-centered Levene Test}) to determine whether there is evidence of heteroscedasticity at $\alpha = 0.05$ ($F_{0.05, 2, 12} = 3.885$).
+\end{problema}
+
+\begin{problema}
+	\label{prob:levene_como_anova_demo}
+	\textbf{Proof of the structural equivalence between the Levene Test and one-way ANOVA:}
+	Formally prove that the mean-centered Levene Test is mathematically identical to applying the full one-way ANOVA procedure (Section 08.01) to the transformed variable $Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$. That is, show that the Levene statistic
+	\begin{align}
+		W = \frac{N-k}{k-1} \cdot \frac{\sum_{i=1}^k n_i (\bar{Z}_{i.} - \bar{Z}_{..})^2}{\sum_{i=1}^k \sum_{j=1}^{n_i} (Z_{ij} - \bar{Z}_{i.})^2}
+	\end{align}
+	satisfies exactly $W \equiv \text{CMTR}_Z / \text{CME}_Z$, the ordinary $F$ statistic of one-way ANOVA computed on $Z_{ij}$. Explain why this structural equivalence justifies reusing the entire computational machinery of Section 08.01 to audit the homoscedasticity assumption.
+\end{problema}
+
 \subsection{Detailed Solutions}
 
 \subsubsection*{1. Fundamental Level (Simple / Direct)}
@@ -645,4 +675,76 @@
 		\end{align}
 		\textbf{Theoretical conclusion:} The Randomized Complete Block Design \textbf{yields a strict, tangible gain in estimation efficiency ($\text{ER} > 1$) whenever the Block Mean Square exceeds the Error Mean Square ($F_{\text{Block}} > 1$)}. If the blocking factor was irrelevant or poorly chosen such that $\text{CMB} < \text{CME}$, blocking acts as an analytical drag that unnecessarily wastes error degrees of freedom without absorbing infrastructure variance.
 	\end{enumerate}
+\end{solproblema}
+
+\subsection{Solutions --- Assumption-Verification Supplement (Section 08.02)}
+
+\begin{solproblema}
+	\textbf{Step 1: Pooled variance.}
+	With $n_i - 1 = 7$ for all four groups and $N - k = 32 - 4 = 28$:
+	\begin{align}
+		S_p^2 = \frac{\sum_{i=1}^4 (n_i-1)S_i^2}{N-k} = \frac{7(4.0+4.5+5.2+4.8)}{28} = \frac{7(18.5)}{28} = 4.625.
+	\end{align}
+
+	\textbf{Step 2: Bartlett statistic.}
+	\begin{align}
+		B = \frac{(N-k)\ln(S_p^2) - \sum_{i=1}^4 (n_i-1)\ln(S_i^2)}{1 + \dfrac{1}{3(k-1)}\left(\sum_{i=1}^4 \dfrac{1}{n_i-1} - \dfrac{1}{N-k}\right)}.
+	\end{align}
+	The numerator is $28\ln(4.625) - 7[\ln(4.0)+\ln(4.5)+\ln(5.2)+\ln(4.8)] \approx 42.879 - 42.754 = 0.125$.
+	The denominator correction factor is $1 + \frac{1}{9}\left(4(1/7) - 1/28\right) = 1 + \frac{1}{9}(0.5357) \approx 1.0595$.
+	\begin{align}
+		B \approx \frac{0.125}{1.0595} \approx 0.121.
+	\end{align}
+
+	\textbf{Step 3: Decision.}
+	Since $B \approx 0.121 \ll \chi^2_{0.05,3} = 7.815$, \textbf{we do not reject $H_0$}: the four group variances are statistically compatible with homoscedasticity. Unlike Problem \ref{prob:verificacion_supuestos_anova} (variance ratio $7.4:1$), here the spread among sample variances is minimal and standard ANOVA proceeds with full validity.
+\end{solproblema}
+
+\begin{solproblema}
+	\textbf{Step 1: Computing absolute deviations from the group mean.}
+	\begin{align}
+		\bar{Y}_{A.} = 41, \quad \bar{Y}_{B.} = 53, \quad \bar{Y}_{C.} = 41.
+	\end{align}
+	\begin{itemize}
+		\item $Z_{A} = |Y_{Aj} - 41| = \{1, 1, 3, 3, 0\}$, with $\bar{Z}_{A.} = 1.6$.
+		\item $Z_{B} = |Y_{Bj} - 53| = \{3, 2, 5, 1, 7\}$, with $\bar{Z}_{B.} = 3.6$.
+		\item $Z_{C} = |Y_{Cj} - 41| = \{0, 1, 1, 2, 2\}$, with $\bar{Z}_{C.} = 1.2$.
+	\end{itemize}
+
+	\textbf{Step 2: One-way ANOVA applied to the $Z_{ij}$.}
+	The grand mean is $\bar{Z}_{..} = (1.6+3.6+1.2)/3 \approx 2.133$. Applying the decomposition from Section 08.01:
+	\begin{align}
+		\text{SCTR}_Z = 5\left[(1.6-2.133)^2+(3.6-2.133)^2+(1.2-2.133)^2\right] \approx 16.533, \qquad \nu_{TR}=2,
+	\end{align}
+	\begin{align}
+		\text{SCE}_Z = 7.2 + 23.2 + 2.8 = 33.2, \qquad \nu_E = 12.
+	\end{align}
+	\begin{align}
+		\text{CMTR}_Z = \frac{16.533}{2} \approx 8.267, \qquad \text{CME}_Z = \frac{33.2}{12} \approx 2.767, \qquad W = \frac{8.267}{2.767} \approx 2.988.
+	\end{align}
+
+	\textbf{Step 3: Decision.}
+	Since $W \approx 2.988 < F_{0.05,2,12} = 3.885$, \textbf{we do not reject $H_0$}: although Pipeline B visibly exhibits greater dispersion (range of $12$ seconds versus $6$ and $4$), the sample of $n=5$ per group is insufficient to declare statistically significant heteroscedasticity at $\alpha=0.05$. This illustrates why visual impressions of dispersion do not substitute for the formal test.
+\end{solproblema}
+
+\begin{solproblema}
+	\textbf{Proof of the equivalence $W \equiv \text{CMTR}_Z/\text{CME}_Z$:}
+
+	By construction, the mean-centered Levene Test is defined by transforming each original observation $Y_{ij}$ into its absolute deviation from its own treatment's mean: $Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$. Once this transformation is performed, Levene's procedure introduces no new statistic whatsoever: it applies, verbatim, the one-way ANOVA machinery of Section 08.01 to the transformed values $Z_{ij}$ instead of the original values $Y_{ij}$.
+
+	Specifically, let $\bar{Z}_{i.} = \frac{1}{n_i}\sum_j Z_{ij}$ be the group mean of the absolute deviations and $\bar{Z}_{..}$ its grand mean. By the sum-of-squares partition theorem (identical to that of Section 08.01, now applied to $Z$ instead of $Y$):
+	\begin{align}
+		\text{SCT}_Z = \text{SCTR}_Z + \text{SCE}_Z, \qquad \text{SCTR}_Z = \sum_{i=1}^k n_i(\bar{Z}_{i.}-\bar{Z}_{..})^2, \qquad \text{SCE}_Z = \sum_{i=1}^k \sum_{j=1}^{n_i}(Z_{ij}-\bar{Z}_{i.})^2.
+	\end{align}
+	Dividing each sum of squares by its respective degrees of freedom ($k-1$ and $N-k$) yields exactly $\text{CMTR}_Z$ and $\text{CME}_Z$, and their ratio is, by definition, the ordinary $F$ statistic of one-way ANOVA applied to $Z$:
+	\begin{align}
+		F_Z = \frac{\text{CMTR}_Z}{\text{CME}_Z} = \frac{\text{SCTR}_Z/(k-1)}{\text{SCE}_Z/(N-k)}.
+	\end{align}
+	Substituting $\text{SCTR}_Z = \sum_i n_i(\bar{Z}_{i.}-\bar{Z}_{..})^2$ and $\text{SCE}_Z = \sum_i\sum_j (Z_{ij}-\bar{Z}_{i.})^2$ into the expression above and regrouping the degrees of freedom as a single multiplicative factor $(N-k)/(k-1)$ in front of the sum-of-squares ratio yields precisely the Levene statistic $W$ stated in the problem:
+	\begin{align}
+		F_Z = \frac{N-k}{k-1}\cdot\frac{\sum_i n_i(\bar{Z}_{i.}-\bar{Z}_{..})^2}{\sum_i\sum_j (Z_{ij}-\bar{Z}_{i.})^2} \equiv W.
+	\end{align}
+	Therefore, $W$ and $F_Z$ are algebraically the same quantity computed on the same transformed data: there are not two distinct procedures, but a single one applied to a re-expressed variable.
+
+	\textbf{Practical implication:} This structural equivalence means that auditing homoscedasticity requires no computational tool beyond what was already built in Section 08.01: it suffices to transform the data into absolute deviations from their group mean and reuse the entire sum-of-squares decomposition engine and ANOVA table. Additionally, since $Z_{ij}$ measures dispersion rather than the original variable, the resulting test is asymptotically robust to departures from normality in $Y_{ij}$, unlike the Bartlett Test.
 \end{solproblema}

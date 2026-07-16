@@ -147,6 +147,36 @@
 \end{problema}
 
 
+\subsubsection*{5. Complemento --- Verificación de Supuestos (Sección 08.02)}
+
+\begin{problema}
+	\label{prob:bartlett_pipelines_ci}
+	Un analista audita la homoscedasticidad de $k = 4$ configuraciones de un pipeline de cómputo distribuido, cada una con $n_i = 8$ corridas independientes. Las varianzas muestrales del tiempo de respuesta son $S_1^2 = 4.0$, $S_2^2 = 4.5$, $S_3^2 = 5.2$ y $S_4^2 = 4.8$ (unidades $\text{s}^2$).
+
+	Calcule el estadístico de la \textbf{Prueba de Bartlett} y compárelo contra el valor crítico $\chi^2_{0.05, \, 3} = 7.815$. ¿Existe evidencia suficiente para rechazar la hipótesis de homoscedasticidad?
+\end{problema}
+
+\begin{problema}
+	\label{prob:levene_pipelines_cicd}
+	Un ingeniero mide el tiempo de compilación (en segundos) de $k = 3$ \emph{pipelines} de integración continua, con $n = 5$ corridas cada uno:
+	\begin{itemize}
+		\item \textbf{Pipeline A:} $40, 42, 38, 44, 41$.
+		\item \textbf{Pipeline B:} $50, 55, 48, 52, 60$.
+		\item \textbf{Pipeline C:} $41, 40, 42, 39, 43$.
+	\end{itemize}
+	Calcule las desviaciones absolutas respecto a la media grupal ($Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$) y aplique el procedimiento completo de ANOVA de un factor de la Sección 08.01 sobre las $Z_{ij}$ (\textbf{Prueba de Levene centrada en la media}) para determinar si existe evidencia de heteroscedasticidad al nivel $\alpha = 0.05$ ($F_{0.05, 2, 12} = 3.885$).
+\end{problema}
+
+\begin{problema}
+	\label{prob:levene_como_anova_demo}
+	\textbf{Demostración de la equivalencia estructural entre la Prueba de Levene y el ANOVA de un factor:}
+	Demuestre formalmente que la Prueba de Levene centrada en la media es matemáticamente idéntica a aplicar el procedimiento íntegro de ANOVA de un factor (Sección 08.01) a la variable transformada $Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$. Es decir, muestre que el estadístico de Levene
+	\begin{align}
+		W = \frac{N-k}{k-1} \cdot \frac{\sum_{i=1}^k n_i (\bar{Z}_{i.} - \bar{Z}_{..})^2}{\sum_{i=1}^k \sum_{j=1}^{n_i} (Z_{ij} - \bar{Z}_{i.})^2}
+	\end{align}
+	satisface exactamente $W \equiv \text{CMTR}_Z / \text{CME}_Z$, el estadístico $F$ ordinario del ANOVA de un factor calculado sobre $Z_{ij}$. Explique por qué esta equivalencia estructural justifica reutilizar toda la maquinaria computacional de la Sección 08.01 para auditar el supuesto de homoscedasticidad.
+\end{problema}
+
 \subsection{Soluciones detalladas}
 
 \subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
@@ -645,4 +675,76 @@
 		\end{align}
 		\textbf{Conclusión teórica:} El Diseño en Bloques Completos al Azar \textbf{aporta una ganancia estricta y real de eficiencia en estimación ($\text{ER} > 1$) siempre que el Cuadrado Medio del Bloque supere al Cuadrado Medio del Error ($F_{\text{Bloque}} > 1$)}. Si el factor de bloqueo fue irrelevante o mal escogido de modo que $\text{CMB} < \text{CME}$, el bloqueo habrá sido un lastre analítico que habrá destruido innecesariamente grados de libertad del error sin absorber varianza de la infraestructura.
 	\end{enumerate}
+\end{solproblema}
+
+\subsection{Soluciones --- Complemento de Verificación de Supuestos (Sección 08.02)}
+
+\begin{solproblema}
+	\textbf{Paso 1: Varianza combinada (\emph{pooled}).}
+	Con $n_i - 1 = 7$ para los cuatro grupos y $N - k = 32 - 4 = 28$:
+	\begin{align}
+		S_p^2 = \frac{\sum_{i=1}^4 (n_i-1)S_i^2}{N-k} = \frac{7(4.0+4.5+5.2+4.8)}{28} = \frac{7(18.5)}{28} = 4.625.
+	\end{align}
+
+	\textbf{Paso 2: Estadístico de Bartlett.}
+	\begin{align}
+		B = \frac{(N-k)\ln(S_p^2) - \sum_{i=1}^4 (n_i-1)\ln(S_i^2)}{1 + \dfrac{1}{3(k-1)}\left(\sum_{i=1}^4 \dfrac{1}{n_i-1} - \dfrac{1}{N-k}\right)}.
+	\end{align}
+	El numerador es $28\ln(4.625) - 7[\ln(4.0)+\ln(4.5)+\ln(5.2)+\ln(4.8)] \approx 42.879 - 42.754 = 0.125$.
+	El factor de corrección del denominador es $1 + \frac{1}{9}\left(4(1/7) - 1/28\right) = 1 + \frac{1}{9}(0.5357) \approx 1.0595$.
+	\begin{align}
+		B \approx \frac{0.125}{1.0595} \approx 0.121.
+	\end{align}
+
+	\textbf{Paso 3: Decisión.}
+	Como $B \approx 0.121 \ll \chi^2_{0.05,3} = 7.815$, \textbf{no se rechaza $H_0$}: las cuatro varianzas grupales son estadísticamente compatibles con la homoscedasticidad. A diferencia del Problema \ref{prob:verificacion_supuestos_anova} (razón de varianzas $7.4:1$), aquí la dispersión entre varianzas muestrales es mínima y el ANOVA estándar procede con plena validez.
+\end{solproblema}
+
+\begin{solproblema}
+	\textbf{Paso 1: Cálculo de las desviaciones absolutas respecto a la media grupal.}
+	\begin{align}
+		\bar{Y}_{A.} = 41, \quad \bar{Y}_{B.} = 53, \quad \bar{Y}_{C.} = 41.
+	\end{align}
+	\begin{itemize}
+		\item $Z_{A} = |Y_{Aj} - 41| = \{1, 1, 3, 3, 0\}$, con $\bar{Z}_{A.} = 1.6$.
+		\item $Z_{B} = |Y_{Bj} - 53| = \{3, 2, 5, 1, 7\}$, con $\bar{Z}_{B.} = 3.6$.
+		\item $Z_{C} = |Y_{Cj} - 41| = \{0, 1, 1, 2, 2\}$, con $\bar{Z}_{C.} = 1.2$.
+	\end{itemize}
+
+	\textbf{Paso 2: ANOVA de un factor aplicado a las $Z_{ij}$.}
+	La gran media es $\bar{Z}_{..} = (1.6+3.6+1.2)/3 \approx 2.133$. Aplicando la descomposición de la Sección 08.01:
+	\begin{align}
+		\text{SCTR}_Z = 5\left[(1.6-2.133)^2+(3.6-2.133)^2+(1.2-2.133)^2\right] \approx 16.533, \qquad \nu_{TR}=2,
+	\end{align}
+	\begin{align}
+		\text{SCE}_Z = 7.2 + 23.2 + 2.8 = 33.2, \qquad \nu_E = 12.
+	\end{align}
+	\begin{align}
+		\text{CMTR}_Z = \frac{16.533}{2} \approx 8.267, \qquad \text{CME}_Z = \frac{33.2}{12} \approx 2.767, \qquad W = \frac{8.267}{2.767} \approx 2.988.
+	\end{align}
+
+	\textbf{Paso 3: Decisión.}
+	Como $W \approx 2.988 < F_{0.05,2,12} = 3.885$, \textbf{no se rechaza $H_0$}: a pesar de que el Pipeline B exhibe visualmente mayor dispersión (rango de $12$ segundos frente a $6$ y $4$), la muestra de $n=5$ por grupo es insuficiente para declarar heteroscedasticidad estadísticamente significativa al nivel $\alpha=0.05$. Esto ilustra por qué la impresión visual de la dispersión no sustituye a la prueba formal.
+\end{solproblema}
+
+\begin{solproblema}
+	\textbf{Demostración de la equivalencia $W \equiv \text{CMTR}_Z/\text{CME}_Z$:}
+
+	Por construcción, la Prueba de Levene centrada en la media se define transformando cada observación original $Y_{ij}$ en su desviación absoluta respecto a la media de su propio tratamiento: $Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$. Una vez realizada esta transformación, el procedimiento de Levene no introduce ningún estadístico nuevo: aplica textualmente la maquinaria del ANOVA de un factor de la Sección 08.01 a los valores transformados $Z_{ij}$ en lugar de a los valores originales $Y_{ij}$.
+
+	Concretamente, sea $\bar{Z}_{i.} = \frac{1}{n_i}\sum_j Z_{ij}$ la media grupal de las desviaciones absolutas y $\bar{Z}_{..}$ su gran media. Por el Teorema de partición de la suma de cuadrados (idéntico al de la Sección 08.01, aplicado ahora a $Z$ en lugar de a $Y$):
+	\begin{align}
+		\text{SCT}_Z = \text{SCTR}_Z + \text{SCE}_Z, \qquad \text{SCTR}_Z = \sum_{i=1}^k n_i(\bar{Z}_{i.}-\bar{Z}_{..})^2, \qquad \text{SCE}_Z = \sum_{i=1}^k \sum_{j=1}^{n_i}(Z_{ij}-\bar{Z}_{i.})^2.
+	\end{align}
+	Dividiendo cada suma de cuadrados entre sus grados de libertad respectivos ($k-1$ y $N-k$) se obtienen exactamente $\text{CMTR}_Z$ y $\text{CME}_Z$, y su cociente es por definición el estadístico $F$ ordinario del ANOVA de un factor aplicado a $Z$:
+	\begin{align}
+		F_Z = \frac{\text{CMTR}_Z}{\text{CME}_Z} = \frac{\text{SCTR}_Z/(k-1)}{\text{SCE}_Z/(N-k)}.
+	\end{align}
+	Sustituyendo $\text{SCTR}_Z = \sum_i n_i(\bar{Z}_{i.}-\bar{Z}_{..})^2$ y $\text{SCE}_Z = \sum_i\sum_j (Z_{ij}-\bar{Z}_{i.})^2$ en la fórmula anterior y reagrupando los grados de libertad como un único factor multiplicativo $(N-k)/(k-1)$ delante del cociente de sumas de cuadrados, se obtiene exactamente la expresión del estadístico de Levene $W$ enunciada en el problema:
+	\begin{align}
+		F_Z = \frac{N-k}{k-1}\cdot\frac{\sum_i n_i(\bar{Z}_{i.}-\bar{Z}_{..})^2}{\sum_i\sum_j (Z_{ij}-\bar{Z}_{i.})^2} \equiv W.
+	\end{align}
+	Por tanto, $W$ y $F_Z$ son algebraicamente la misma cantidad calculada sobre los mismos datos transformados: no existen dos procedimientos distintos, sino uno solo aplicado a una variable reexpresada.
+
+	\textbf{Implicación práctica:} Esta equivalencia estructural significa que auditar la homoscedasticidad no requiere ninguna herramienta computacional nueva más allá de la ya construida en la Sección 08.01: basta con transformar los datos a desviaciones absolutas respecto a su media grupal y reutilizar íntegramente el mismo motor de descomposición de sumas de cuadrados y la misma tabla ANOVA. Adicionalmente, como $Z_{ij}$ mide dispersión y no la variable original, la prueba resultante es asintóticamente robusta ante desviaciones de normalidad en $Y_{ij}$, a diferencia de la Prueba de Bartlett.
 \end{solproblema}

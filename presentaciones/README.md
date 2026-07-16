@@ -243,7 +243,18 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
+## 5f. Catálogo e Índice de Presentaciones --- Capítulo 08 (100% Completado)
+
+A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 7 / Capítulo 08: Elementos de Diseño de Experimentos (ANOVA)**:
+
+| Sección | Título en Español | Título en Inglés | Script Python (en `code/08_diseno_experimentos/`) | Estado |
+| :---: | :--- | :--- | :--- | :---: |
+| **08.01** | [08.01 ANOVA de un Factor](es/08_diseno_experimentos/08.01_one_way_anova.tex) ([PDF](es/08_diseno_experimentos/08.01_one_way_anova.pdf)) | [08.01 One-Way ANOVA](en/08_experimental_design/08.01_one_way_anova.tex) ([PDF](en/08_experimental_design/08.01_one_way_anova.pdf)) | `08.01_one_way_anova.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 08** |
+| **08.02** | [08.02 Supuestos del ANOVA](es/08_diseno_experimentos/08.02_anova_assumptions.tex) ([PDF](es/08_diseno_experimentos/08.02_anova_assumptions.pdf)) | [08.02 ANOVA Assumptions](en/08_experimental_design/08.02_anova_assumptions.tex) ([PDF](en/08_experimental_design/08.02_anova_assumptions.pdf)) | `08.02_anova_assumptions.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings) --- CIERRE DEL CAPÍTULO 08** |
+
+---
+
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Los Capítulos 04 (Variables Aleatorias Continuas), 05 (Distribuciones de Muestreo), 06 (Estimación y su Relación con Ciencia de Datos) y 07 (Docimasia --- Pruebas de Hipótesis) están 100% completos. Para ver la planificación del siguiente hito curricular del proyecto (**Capítulo 08: Elementos de Diseño de Experimentos (ANOVA)**, iniciando con la Sección 08.01), consulta el documento oficial de planificación:
+Los Capítulos 04 (Variables Aleatorias Continuas), 05 (Distribuciones de Muestreo), 06 (Estimación y su Relación con Ciencia de Datos), 07 (Docimasia --- Pruebas de Hipótesis) y 08 (Elementos de Diseño de Experimentos --- ANOVA) están 100% completos. Para ver la planificación del siguiente hito curricular del proyecto (**Capítulo 09: Regresiones Lineales y Múltiples**, iniciando con la Sección 09.01), consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.

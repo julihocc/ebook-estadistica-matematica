@@ -4,6 +4,25 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-16
+
+### Corregido
+- **Corrupción de codificación en `latex/diseno_experimentos_anova.tex`**: 33 instancias del macro `\textbf{` habían perdido el carácter `\` y quedado como un carácter tabulador literal seguido de `extbf{` (corrupción a nivel de bytes, probablemente de una sustitución automática defectuosa en una sesión anterior). No producía errores de compilación, pero renderizaba texto literal "extbf{...}" en el PDF en lugar de negritas. Corregido programáticamente; el libro maestro se recompiló dos veces confirmando **0 errores y 0 referencias indefinidas**.
+
+### Añadido
+- **Sección 08.01: Análisis de Varianza de un Factor (ANOVA 1-Way) y Prueba $F$ (Apertura del Capítulo 08)**:
+  - Teoría (fundamentos del DoE, modelo lineal del ANOVA, partición de sumas de cuadrados, estadístico $F$, post-hoc LSD/Tukey/Bonferroni, DBCA) ya existía de forma completa y rigurosa en `latex/diseno_experimentos_anova.tex` y su espejo EN; no se requirió teoría nueva.
+  - Se auditó `latex/diseno_experimentos_anova(p).tex` y se confirmó un cuaderno 3-3-2-2 completo (10 problemas, auto-numerados 8.6.1 a 8.6.10); se citaron los Problemas 8.6.3, 8.6.5, 8.6.8 y 8.6.9 sin duplicar contenido.
+  - Script de laboratorio en Python `presentaciones/code/08_diseno_experimentos/08.01_one_way_anova.py` (descomposición SCT=SCTR+SCE verificada contra `scipy.stats.f_oneway`, HSD de Tukey vía `scipy.stats.studentized_range`, y Diseño en Bloques Completos al Azar con cálculo de Eficiencia Relativa del bloqueo).
+  - Mazos Beamer bilingües en `presentaciones/es/08_diseno_experimentos/08.01_one_way_anova.tex` (17 diapositivas) y `presentaciones/en/08_experimental_design/08.01_one_way_anova.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 08 (Elementos de Diseño de Experimentos --- ANOVA) inicia su desarrollo: 1 de 2 secciones completadas.
+- **Sección 08.02: Supuestos del ANOVA, Prueba de Levene/Bartlett y Diagnóstico (Cierre del Capítulo 08)**:
+  - Teoría de verificación de supuestos (homoscedasticidad vía Bartlett/Levene, normalidad de residuos vía Shapiro-Wilk, independencia, ANOVA de Welch y Kruskal-Wallis como alternativas) ya existía de forma completa en `latex/diseno_experimentos_anova.tex` y su espejo EN; no se requirió teoría nueva.
+  - Se detectó que solo 1 de los 10 problemas existentes abordaba específicamente la verificación de supuestos; se agregaron 3 problemas nuevos (Problemas 8.6.11 a 8.6.13, ES y EN) sobre el estadístico de Bartlett, la Prueba de Levene como ANOVA sobre desviaciones absolutas, y la demostración formal de la equivalencia algebraica entre Levene y el ANOVA de un factor.
+  - Script de laboratorio en Python `presentaciones/code/08_diseno_experimentos/08.02_anova_assumptions.py` (Bartlett y Levene verificados contra `scipy.stats.bartlett`/`scipy.stats.levene`, Shapiro-Wilk sobre residuos de un ANOVA, y comparación de ANOVA paramétrico vs. Kruskal-Wallis sobre datos asimétricos).
+  - Mazos Beamer bilingües en `presentaciones/es/08_diseno_experimentos/08.02_anova_assumptions.tex` (17 diapositivas) y `presentaciones/en/08_experimental_design/08.02_anova_assumptions.tex` (17 diapositivas), certificados con **0 `Overfull \vbox`/`\hbox`** en contenido.
+  - Capítulo 08 (Elementos de Diseño de Experimentos --- ANOVA) queda 100% finalizado (2 de 2 secciones).
+
 ## 2026-07-15
 
 ### Añadido
