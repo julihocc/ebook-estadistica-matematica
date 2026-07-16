@@ -1,0 +1,188 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Regression on Simulated Data]{Section 09.04: Linear Regression on Simulated Data}
+\subtitle{From True Population Parameters to the Sample Fit}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
+  \scriptsize
+  Where are we in the modular development of this chapter?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlation as the Premise of Regression
+    \item \textbf{09.02} Introduction to Linear Regression
+    \item \textbf{09.03} The Mathematics of Regression: OLS Derivation and $R^2$
+    \item \textbf{09.04} Linear Regression on Simulated Data \emph{(Today)}
+    \item \textbf{09.05} Optimal Coefficients, $t$/$F$ Tests, and RSE
+    \item \textbf{09.06} Implementation in Python with \texttt{statsmodels}
+    \item \textbf{09.07} Multiple Regression, the Normal Equation, and Ridge/Lasso
+    \item \textbf{09.08} Model Validation and $k$-fold Cross-Validation
+    \item \textbf{09.09} Residual Diagnostics and Multicollinearity (VIF)
+    \item \textbf{09.10} Regression with \texttt{scikit-learn}
+    \item \textbf{09.11} Categorical Variables and Dummy Variables
+    \item \textbf{09.12} Nonlinear Transformations and Polynomial Regression
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Apply the formulas derived in Section 09.03 to a dataset simulated with known population parameters, compare the OLS fit against the population truth, and discover why the exact decomposition $\text{SST}=\text{SSR}+\text{SSD}$ requires specifically the fitted line, not just any line.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{Why Simulate Data with Known Parameters?}
+  \footnotesize
+  \begin{motivacion}
+    In practice we never know the true population parameters $\alpha,\beta$: we only observe data and estimate $\hat\alpha,\hat\beta$. By \textbf{simulating} data, we invert the problem: we fix true $\alpha,\beta,\sigma$, generate noisy observations, and verify how well OLS recovers the truth we ourselves constructed.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  We write the population model with its error component: $Y=\alpha+\beta X+K$, where $K\sim N(0,\sigma^2)$.
+\end{frame}
+
+% Slide 4: Experiment design
+\begin{frame}{Simulation Experiment Design}
+  \footnotesize
+  \begin{block}{True Population Parameters}
+    $$\alpha=2.0, \qquad \beta=0.3, \qquad \sigma=0.5$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Data Generation}
+    $X\sim N(1.5,\,2.5^2)$, with $n=100$ observations. For each $X_i$, we generate $Y_i=\alpha+\beta X_i+K_i$ with $K_i\sim N(0,0.5^2)$: the observed "actual" value, distinct from the value "predicted" by the pure population line.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: SST, SSR, SSD
+\begin{frame}{Sums of Squares: Total, Regression, and Difference}
+  \footnotesize
+  \begin{block}{The Three Quantities}
+    $$\text{SST}=\sum(Y_i-\bar Y)^2, \quad \text{SSR}=\sum(Y_{e,i}-\bar Y)^2, \quad \text{SSD}=\sum(Y_i-Y_{e,i})^2$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Interpretation}
+    SSR is the variability \emph{explained} by the model; SSD is the variability \emph{unexplained}. The larger the ratio SSR:SST, the better the model --- this is exactly $R^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: The subtlety of this section
+\begin{frame}{An Important Subtlety: Which Line to Use?}
+  \footnotesize
+  \begin{alertblock}{Question}
+    Section 09.03 proved $\text{SST}=\text{SSR}+\text{SSD}$ for the line \textbf{fitted via OLS}. Does this identity hold if we instead use the \textbf{true} population line ($\alpha=2.0,\beta=0.3$) to compute $Y_{e,i}$?
+  \end{alertblock}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Preview of the Answer}
+    Not exactly --- the Section 09.03 proof depends on $\sum e_i=0$ and $\sum X_ie_i=0$, properties guaranteed by the normal equations \textbf{only} for the line that minimizes $S(\alpha,\beta)$ on this specific sample.
+  \end{block}
+\end{frame}
+
+% Slide 7: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Simulating the Population Model}
+  \scriptsize
+  Generating data with known true parameters (\texttt{09.04\_regression\_on\_simulated\_data.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=27]{../../code/09_regresiones/09.04_regression_on_simulated_data.py}}
+\end{frame}
+
+% Slide 8: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: OLS Fit vs. Population Truth}
+  \scriptsize
+  Comparing $\hat\alpha,\hat\beta$ against the true $\alpha,\beta$, and exact verification of SST=SSR+SSD:
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=30, lastline=45]{../../code/09_regresiones/09.04_regression_on_simulated_data.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: Fitted Line vs. Oracle Line}
+  \scriptsize
+  The exact decomposition only holds for the fitted line, not for the true population line:
+  {\lstset{basicstyle=\fontsize{3.0pt}{3.7pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=48, lastline=68]{../../code/09_regresiones/09.04_regression_on_simulated_data.py}}
+\end{frame}
+
+% Slide 10: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.6pt}{4.3pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Simulation ===
+True: alpha=2.0, beta=0.3, sigma=0.5; n=100
+
+=== Block 2: OLS Fit vs. Truth ===
+Fitted:  alpha_hat=2.0166, beta_hat=0.3105
+True:    alpha=2.0000,     beta=0.3000
+Fitted-line: SST=102.2657, SSR=75.6532, SSE=26.6126, SSR+SSE=102.2657 (exact match)
+
+=== Block 3: Fitted vs. Oracle Line ===
+Fitted line:  SSR+SSE=102.2657 (matches SST), R^2=0.7398
+Oracle line:  SSR+SSE=97.5712  (does NOT match SST=102.2657), R^2=0.6918
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 11: Interpreting the results
+\begin{frame}{Interpretation: Estimation vs. Truth}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item The estimates $\hat\alpha\approx2.017$, $\hat\beta\approx0.311$ are very close to the true $\alpha=2.0$, $\beta=0.3$: empirical evidence of the unbiasedness proved analytically in Section 09.03. \pause
+    \item The fitted line's $R^2\approx0.74$ is, by construction, the \textbf{maximum} $R^2$ achievable with a linear model on this sample --- no other line, not even the true population one, can beat it. \pause
+    \item This is a direct consequence of OLS minimizing SSD (and hence maximizing SSR) \emph{on this specific sample}, not on the population.
+  \end{itemize}
+\end{frame}
+
+% Slide 12: Closing
+\begin{frame}{Section Closing: Regression on Simulated Data}
+  \begin{reflexion}
+    Simulating with known parameters lets us empirically verify that OLS recovers the population truth with increasing precision, and reveals an important subtlety: the exact decomposition SST=SSR+SSD --- and hence the maximum possible $R^2$ --- belongs exclusively to the least-squares fitted line on the observed sample.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Simulation as verification:} generating data with known parameters is the most direct way to audit an estimation method.
+      \item \textbf{OLS is optimal \emph{on the sample}:} it minimizes error on \emph{this} sample, not necessarily matching the population line.
+      \item \textbf{The SST=SSR+SSD identity belongs exclusively to the OLS fit}, not to any reasonable line.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 13: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    We have seen that $\hat\alpha,\hat\beta$ are point estimators, but how reliable are they? Section 09.05 formally answers this: we will subject $\hat\beta$ to a hypothesis test to verify its statistical significance, build its confidence interval, and compute the Residual Standard Error (RSE) as an absolute measure of fit quality.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Review the sampling distribution of an estimator (Chapter 05) and its relationship to hypothesis test construction.
+      \item Reflect on what it would mean if $\hat\beta$ were not statistically different from zero.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

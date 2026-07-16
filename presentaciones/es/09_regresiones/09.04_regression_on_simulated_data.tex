@@ -1,0 +1,188 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Regresión sobre Datos Simulados]{Sección 09.04: Regresión Lineal sobre Datos Simulados}
+\subtitle{De los Parámetros Poblacionales Verdaderos al Ajuste Muestral}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 09: Regresiones Lineales y Múltiples}
+  \scriptsize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlación como Premisa de la Regresión
+    \item \textbf{09.02} Introducción a la Regresión Lineal
+    \item \textbf{09.03} Matemáticas de la Regresión: Derivación MCO y $R^2$
+    \item \textbf{09.04} Regresión Lineal sobre Datos Simulados \emph{(Hoy)}
+    \item \textbf{09.05} Coeficientes Óptimos, Pruebas $t$/$F$ y RSE
+    \item \textbf{09.06} Implementación en Python con \texttt{statsmodels}
+    \item \textbf{09.07} Regresión Múltiple, Ecuación Normal y Ridge/Lasso
+    \item \textbf{09.08} Validación de Modelos y $k$-fold Cross-Validation
+    \item \textbf{09.09} Diagnóstico de Residuos y Multicolinealidad (VIF)
+    \item \textbf{09.10} Regresión con \texttt{scikit-learn}
+    \item \textbf{09.11} Variables Categóricas y Variables Muda
+    \item \textbf{09.12} Transformaciones No Lineales y Regresión Polinomial
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Aplicar las fórmulas derivadas en la Sección 09.03 a un conjunto de datos simulado con parámetros poblacionales conocidos, comparar el ajuste MCO contra la verdad poblacional, y descubrir por qué la descomposición exacta $\text{SCT}=\text{SCR}+\text{SCD}$ requiere específicamente la recta ajustada, no cualquier recta.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{¿Por Qué Simular Datos con Parámetros Conocidos?}
+  \footnotesize
+  \begin{motivacion}
+    En la práctica nunca conocemos los parámetros poblacionales verdaderos $\alpha,\beta$: solo observamos datos y estimamos $\hat\alpha,\hat\beta$. Al \textbf{simular} datos, invertimos el problema: fijamos $\alpha,\beta,\sigma$ verdaderos, generamos observaciones ruidosas, y verificamos qué tan bien MCO recupera la verdad que nosotros mismos construimos.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  Escribimos el modelo poblacional con su componente de error: $Y=\alpha+\beta X+K$, donde $K\sim N(0,\sigma^2)$.
+\end{frame}
+
+% Slide 4: Diseño del experimento
+\begin{frame}{Diseño del Experimento de Simulación}
+  \footnotesize
+  \begin{block}{Parámetros Poblacionales Verdaderos}
+    $$\alpha=2.0, \qquad \beta=0.3, \qquad \sigma=0.5$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Generación de Datos}
+    $X\sim N(1.5,\,2.5^2)$, con $n=100$ observaciones. Para cada $X_i$, generamos $Y_i=\alpha+\beta X_i+K_i$ con $K_i\sim N(0,0.5^2)$: el valor "actual" observado, distinto del valor "predicho" por la recta poblacional pura.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: SST, SCR, SCD
+\begin{frame}{Suma de Cuadrados: Total, de Regresión, y de Diferencia}
+  \footnotesize
+  \begin{block}{Las Tres Cantidades}
+    $$\text{SCT}=\sum(Y_i-\bar Y)^2, \quad \text{SCR}=\sum(Y_{e,i}-\bar Y)^2, \quad \text{SCD}=\sum(Y_i-Y_{e,i})^2$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Interpretación}
+    SCR es la variabilidad \emph{explicada} por el modelo; SCD es la variabilidad \emph{no explicada}. Entre mayor la proporción SCR:SCT, mejor el modelo --- esto es exactamente $R^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: La sutileza de esta sección
+\begin{frame}{Una Sutileza Importante: ¿Qué Recta Usar?}
+  \footnotesize
+  \begin{alertblock}{Pregunta}
+    La Sección 09.03 demostró $\text{SCT}=\text{SCR}+\text{SCD}$ para la recta \textbf{ajustada por MCO}. ¿Se cumple esta identidad si en su lugar usamos la recta poblacional \textbf{verdadera} ($\alpha=2.0,\beta=0.3$) para calcular $Y_{e,i}$?
+  \end{alertblock}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Respuesta Adelantada}
+    No exactamente --- la demostración de la Sección 09.03 depende de que $\sum e_i=0$ y $\sum X_ie_i=0$, propiedades garantizadas por las ecuaciones normales \textbf{solo} para la recta que minimiza $S(\alpha,\beta)$ en esta muestra específica.
+  \end{block}
+\end{frame}
+
+% Slide 7: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Simulación del Modelo Poblacional}
+  \scriptsize
+  Generación de datos con parámetros verdaderos conocidos (\texttt{09.04\_regression\_on\_simulated\_data.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=27]{../../code/09_regresiones/09.04_regression_on_simulated_data.py}}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Ajuste MCO vs. Verdad Poblacional}
+  \scriptsize
+  Comparación de $\hat\alpha,\hat\beta$ contra $\alpha,\beta$ verdaderos, y verificación exacta de SCT=SCR+SCD:
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=30, lastline=45]{../../code/09_regresiones/09.04_regression_on_simulated_data.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Recta Ajustada vs. Recta Oráculo}
+  \scriptsize
+  La descomposición exacta solo se cumple para la recta ajustada, no para la recta poblacional verdadera:
+  {\lstset{basicstyle=\fontsize{3.0pt}{3.7pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=48, lastline=68]{../../code/09_regresiones/09.04_regression_on_simulated_data.py}}
+\end{frame}
+
+% Slide 10: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{3.6pt}{4.3pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Simulation ===
+True: alpha=2.0, beta=0.3, sigma=0.5; n=100
+
+=== Block 2: OLS Fit vs. Truth ===
+Fitted:  alpha_hat=2.0166, beta_hat=0.3105
+True:    alpha=2.0000,     beta=0.3000
+Fitted-line: SST=102.2657, SSR=75.6532, SSE=26.6126, SSR+SSE=102.2657 (exact match)
+
+=== Block 3: Fitted vs. Oracle Line ===
+Fitted line:  SSR+SSE=102.2657 (matches SST), R^2=0.7398
+Oracle line:  SSR+SSE=97.5712  (does NOT match SST=102.2657), R^2=0.6918
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 11: Interpretación de resultados
+\begin{frame}{Interpretación: Estimación vs. Verdad}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Los estimadores $\hat\alpha\approx2.017$, $\hat\beta\approx0.311$ están muy cerca de los verdaderos $\alpha=2.0$, $\beta=0.3$: evidencia empírica del insesgo demostrado analíticamente en la Sección 09.03. \pause
+    \item El $R^2\approx0.74$ de la recta ajustada es, por construcción, el \textbf{máximo} $R^2$ alcanzable con un modelo lineal en esta muestra --- ninguna otra recta, ni siquiera la poblacional verdadera, puede superarlo. \pause
+    \item Esto es consecuencia directa de que MCO minimiza SCD (y por tanto maximiza SCR) \emph{sobre esta muestra específica}, no sobre la población.
+  \end{itemize}
+\end{frame}
+
+% Slide 12: Cierre
+\begin{frame}{Cierre de Sección: Regresión sobre Datos Simulados}
+  \begin{reflexion}
+    La simulación con parámetros conocidos nos permite verificar empíricamente que MCO recupera la verdad poblacional con precisión creciente, y revela una sutileza importante: la descomposición exacta SCT=SCR+SCD --- y por tanto el $R^2$ máximo posible --- pertenece exclusivamente a la recta ajustada por mínimos cuadrados sobre la muestra observada.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Simulación como verificación:} generar datos con parámetros conocidos es la forma más directa de auditar un método de estimación.
+      \item \textbf{MCO es óptimo \emph{muestralmente}:} minimiza el error en \emph{esta} muestra, no necesariamente iguala a la recta poblacional.
+      \item \textbf{La identidad SCT=SCR+SCD es exclusiva del ajuste MCO}, no de cualquier recta razonable.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 13: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Hemos visto que $\hat\alpha,\hat\beta$ son estimadores puntuales, pero ¿qué tan confiables son? La Sección 09.05 responde formalmente: someteremos $\hat\beta$ a una prueba de hipótesis para verificar su significancia estadística, construiremos su intervalo de confianza, y calcularemos el Error Estándar Residual (RSE) como medida absoluta de la calidad del ajuste.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la distribución muestral de un estimador (Capítulo 05) y su relación con la construcción de pruebas de hipótesis.
+      \item Reflexiona sobre qué significaría que $\hat\beta$ no fuera estadísticamente distinto de cero.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

@@ -2,7 +2,7 @@
 \input{../../_en_preambulo_beamer}
 \input{../../_en_comandos_beamer}
 
-\title[Regression Diagnostics]{Section 09.03: Residual Diagnostics and Multicollinearity}
+\title[Regression Diagnostics]{Section 09.09: Residual Diagnostics and Multicollinearity}
 \subtitle{Classical Assumptions, VIF, and Influential Observations}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
@@ -17,14 +17,23 @@
 
 % Slide 2: Roadmap
 \begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
-  \footnotesize
-  Where are we in the modular development of this chapter? \pause
-  \begin{itemize}\itemsep=0.08em
-    \item \textbf{09.01} Simple Linear Regression (OLS) and $R^2$ \pause
-    \item \textbf{09.02} Multiple Linear Regression, the Normal Equation, and Ridge/Lasso \pause
-    \item \textbf{09.03} Residual Diagnostics, Multicollinearity (VIF), and Assumptions \emph{(Today)} \pause
-    \item \textbf{09.04} Model Validation, $k$-fold Cross-Validation, and \texttt{scikit-learn}
+  \scriptsize
+  Where are we in the modular development of this chapter?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlation as the Premise of Regression
+    \item \textbf{09.02} Introduction to Linear Regression
+    \item \textbf{09.03} The Mathematics of Regression: OLS Derivation and $R^2$
+    \item \textbf{09.04} Linear Regression on Simulated Data
+    \item \textbf{09.05} Optimal Coefficients, $t$/$F$ Tests, and RSE
+    \item \textbf{09.06} Implementation in Python with \texttt{statsmodels}
+    \item \textbf{09.07} Multiple Regression, the Normal Equation, and Ridge/Lasso
+    \item \textbf{09.08} Model Validation and $k$-fold Cross-Validation
+    \item \textbf{09.09} Residual Diagnostics and Multicollinearity (VIF) \emph{(Today)}
+    \item \textbf{09.10} Regression with \texttt{scikit-learn}
+    \item \textbf{09.11} Categorical Variables and Dummy Variables
+    \item \textbf{09.12} Nonlinear Transformations and Polynomial Regression
   \end{itemize}
+  \pause
   \vspace{-0.05cm}
   \begin{block}{Session Objective}
     Rigorously audit whether a fitted regression model is \emph{trustworthy}: verify the classical assumptions via residual analysis and formal tests (Durbin-Watson, Breusch-Pagan), quantify multicollinearity with the Variance Inflation Factor, and identify influential observations via Cook's Distance.
@@ -35,7 +44,7 @@
 \begin{frame}{Is the Model We Fit Trustworthy?}
   \footnotesize
   \begin{motivacion}
-    In Sections 09.01 and 09.02 we built and solved the regression model, but all inference (intervals, $t$/$F$ tests) rests on assumptions about the error term $\varepsilon$ that are \textbf{never automatically verified}. A model with high $R^2$ can be completely invalid if its residuals violate these assumptions.
+    In Sections 09.03 through 09.07 we built and solved the regression model (simple and multiple), but all inference (intervals, $t$/$F$ tests) rests on assumptions about the error term $\varepsilon$ that are \textbf{never automatically verified}. A model with high $R^2$ can be completely invalid if its residuals violate these assumptions.
   \end{motivacion}
 
   \vspace{0.15cm}
@@ -84,7 +93,7 @@
 
   \vspace{0.1cm}
   \begin{alertblock}{Identity with the Correlation Matrix}
-    $\text{VIF}_j=(\mathbf{R}^{-1})_{jj}$: a high VIF is the diagnostic manifestation that $\mathbf{X}^T\mathbf{X}$ is approaching singularity (Section 09.02). Conventional threshold: $\text{VIF}>5$ warrants Ridge, Lasso, or variable elimination.
+    $\text{VIF}_j=(\mathbf{R}^{-1})_{jj}$: a high VIF is the diagnostic manifestation that $\mathbf{X}^T\mathbf{X}$ is approaching singularity (Section 09.07). Conventional threshold: $\text{VIF}>5$ warrants Ridge, Lasso, or variable elimination.
   \end{alertblock}
 \end{frame}
 
@@ -107,7 +116,7 @@
   \scriptsize
   Both tests implemented from scratch with \texttt{numpy}/\texttt{scipy} (\texttt{09.03\_regression\_diagnostics.py}):
   {\lstset{basicstyle=\fontsize{3.3pt}{4.0pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=19, lastline=41]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+  \lstinputlisting[firstline=19, lastline=41]{../../code/09_regresiones/09.09_regression_diagnostics.py}}
 \end{frame}
 
 % Slide 9: Python Lab (Block 2)
@@ -115,7 +124,7 @@
   \scriptsize
   VIF computed via auxiliary regression and verified against $\text{diag}(\mathbf{R}^{-1})$:
   {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=44, lastline=70]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+  \lstinputlisting[firstline=44, lastline=70]{../../code/09_regresiones/09.09_regression_diagnostics.py}}
 \end{frame}
 
 % Slide 10: Python Lab (Block 3)
@@ -123,7 +132,7 @@
   \scriptsize
   Detecting influential observations via high leverage vs. large residual:
   {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=73, lastline=103]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+  \lstinputlisting[firstline=73, lastline=103]{../../code/09_regresiones/09.09_regression_diagnostics.py}}
 \end{frame}
 
 % Slide 11: Terminal Output
@@ -184,7 +193,7 @@ Obs 1: leverage=0.04, resid=5.10,  D=0.54 -> INFLUENTIAL (residual-driven)
 \begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
   \footnotesize
   \begin{block}{Problem --- VIF (Statement, Problem 9.14.5)}
-    With $p=3$ financial predictors: $R_1^2=0.85$, $R_2^2=0.55$, $R_3^2=0.30$. Compute the VIF of each, decide which exceed the threshold $\text{VIF}>5$, and propose a remedy from Section 09.02.
+    With $p=3$ financial predictors: $R_1^2=0.85$, $R_2^2=0.55$, $R_3^2=0.30$. Compute the VIF of each, decide which exceed the threshold $\text{VIF}>5$, and propose a remedy from Section 09.07.
   \end{block}
 
   \vspace{0.15cm}
@@ -289,7 +298,7 @@ Obs 1: leverage=0.04, resid=5.10,  D=0.54 -> INFLUENTIAL (residual-driven)
   \begin{block}{Key Takeaways}
     \begin{itemize}\itemsep=0.08cm
       \item \textbf{$DW\approx2$:} the ideal value; deviations indicate positive or negative autocorrelation.
-      \item \textbf{VIF$_j=(\mathbf{R}^{-1})_{jj}$:} a high VIF reflects the same numerical instability of $\mathbf{X}^T\mathbf{X}$ seen in Section 09.02.
+      \item \textbf{VIF$_j=(\mathbf{R}^{-1})_{jj}$:} a high VIF reflects the same numerical instability of $\mathbf{X}^T\mathbf{X}$ seen in Section 09.07.
       \item \textbf{Cook's Distance:} high leverage and large residuals are independent mechanisms of influence.
     \end{itemize}
   \end{block}
@@ -299,15 +308,15 @@ Obs 1: leverage=0.04, resid=5.10,  D=0.54 -> INFLUENTIAL (residual-driven)
 \begin{frame}{Modular Perspective --- The Next Challenge}
   \scriptsize
   \begin{retoclase}
-    With the model internally audited, the chapter's final question is the most important one in practice: does the model generalize to \textbf{new}, unseen data? Section 09.04 (chapter closing) presents $k$-fold cross-validation, out-of-sample error metrics, and a professional implementation with \texttt{scikit-learn}.
+    With the model internally audited and already externally validated in Section 09.08, we close the chapter's statistical core. The three final sections (09.10-09.12) are more applied in nature: Section 09.10 shows how everything built by hand in \texttt{numpy}/\texttt{scipy} translates into professional practice with \texttt{scikit-learn}.
   \end{retoclase}
 
   \vspace{0.08cm}
   \pause
   \begin{alertblock}{Recommended Preparation}
     \begin{itemize}\itemsep=0.06cm
-      \item Reflect on why a model can pass every diagnostic in this section and still generalize poorly (overfitting).
-      \item Review the conceptual difference between in-sample error and out-of-sample error.
+      \item Reflect on why a model can pass every diagnostic in this section and still generalize poorly (overfitting) --- that's why the validation in Section 09.08 is independent of this internal diagnosis.
+      \item Review the basic \texttt{scikit-learn} API (\texttt{fit}, \texttt{predict}, \texttt{score}) that unifies the interface across all of the library's models.
     \end{itemize}
   \end{alertblock}
 \end{frame}

@@ -2,7 +2,7 @@
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title[Regresión Múltiple]{Sección 09.02: Regresión Lineal Múltiple}
+\title[Regresión Múltiple]{Sección 09.07: Regresión Lineal Múltiple}
 \subtitle{Ecuación Normal en Notación Matricial y Regularización Ridge/Lasso}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
@@ -17,14 +17,23 @@
 
 % Slide 2: Hoja de Ruta
 \begin{frame}{Hoja de Ruta --- Capítulo 09: Regresiones Lineales y Múltiples}
-  \footnotesize
-  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
-  \begin{itemize}\itemsep=0.08em
-    \item \textbf{09.01} Regresión Lineal Simple (MCO) y Coeficiente $R^2$ \pause
-    \item \textbf{09.02} Regresión Lineal Múltiple, Ecuación Normal y Ridge/Lasso \emph{(Hoy)} \pause
-    \item \textbf{09.03} Diagnóstico de Residuos, Multicolinealidad (VIF) y Supuestos \pause
-    \item \textbf{09.04} Validación de Modelos, $k$-fold Cross-Validation y \texttt{scikit-learn}
+  \scriptsize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlación como Premisa de la Regresión
+    \item \textbf{09.02} Introducción a la Regresión Lineal
+    \item \textbf{09.03} Matemáticas de la Regresión: Derivación MCO y $R^2$
+    \item \textbf{09.04} Regresión Lineal sobre Datos Simulados
+    \item \textbf{09.05} Coeficientes Óptimos, Pruebas $t$/$F$ y RSE
+    \item \textbf{09.06} Implementación en Python con \texttt{statsmodels}
+    \item \textbf{09.07} Regresión Múltiple, Ecuación Normal y Ridge/Lasso \emph{(Hoy)}
+    \item \textbf{09.08} Validación de Modelos y $k$-fold Cross-Validation
+    \item \textbf{09.09} Diagnóstico de Residuos y Multicolinealidad (VIF)
+    \item \textbf{09.10} Regresión con \texttt{scikit-learn}
+    \item \textbf{09.11} Variables Categóricas y Variables Muda
+    \item \textbf{09.12} Transformaciones No Lineales y Regresión Polinomial
   \end{itemize}
+  \pause
   \vspace{-0.05cm}
   \begin{block}{Objetivo de la Sesión}
     Generalizar la regresión simple a $p$ predictores simultáneos mediante notación matricial: derivar la Ecuación Normal $\hat{\boldsymbol\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$, y presentar la regularización Ridge y Lasso como remedio cuando la matriz de diseño está cerca de ser singular por multicolinealidad.
@@ -78,7 +87,7 @@
 \begin{frame}{Cuando $\mathbf{X}^T\mathbf{X}$ Está Cerca de Ser Singular}
   \footnotesize
   \begin{block}{El Problema de la Multicolinealidad}
-    Si dos o más predictores están altamente correlacionados, $\mathbf{X}^T\mathbf{X}$ se aproxima a la singularidad: su inversión se vuelve numéricamente inestable y las varianzas de $\hat{\boldsymbol\beta}$ se disparan (diagnosticado formalmente vía \texttt{VIF} en la Sección 09.03).
+    Si dos o más predictores están altamente correlacionados, $\mathbf{X}^T\mathbf{X}$ se aproxima a la singularidad: su inversión se vuelve numéricamente inestable y las varianzas de $\hat{\boldsymbol\beta}$ se disparan (diagnosticado formalmente vía \texttt{VIF} en la Sección 09.09).
   \end{block}
   \pause
 
@@ -107,7 +116,7 @@
   \scriptsize
   Solución matricial $\hat{\boldsymbol\beta}$ verificada contra \texttt{np.linalg.lstsq}, y verificación numérica de simetría/idempotencia de $\mathbf{H}$ (\texttt{09.02\_multiple\_linear\_regression.py}):
   {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=18, lastline=40]{../../code/09_regresiones/09.02_multiple_linear_regression.py}}
+  \lstinputlisting[firstline=18, lastline=40]{../../code/09_regresiones/09.07_multiple_linear_regression.py}}
 \end{frame}
 
 % Slide 9: Lab Python (Bloque 2)
@@ -115,7 +124,7 @@
   \scriptsize
   Solución cerrada de Ridge para $\lambda$ creciente, observando la contracción de los coeficientes:
   {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=43, lastline=51]{../../code/09_regresiones/09.02_multiple_linear_regression.py}}
+  \lstinputlisting[firstline=43, lastline=51]{../../code/09_regresiones/09.07_multiple_linear_regression.py}}
 \end{frame}
 
 % Slide 10: Lab Python (Bloque 3)
@@ -123,7 +132,7 @@
   \scriptsize
   Implementación manual del operador de umbral suave (\emph{soft-thresholding}) para Lasso:
   {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=54, lastline=76]{../../code/09_regresiones/09.02_multiple_linear_regression.py}}
+  \lstinputlisting[firstline=54, lastline=76]{../../code/09_regresiones/09.07_multiple_linear_regression.py}}
 \end{frame}
 
 % Slide 11: Salida Terminal
@@ -278,7 +287,7 @@ lambda=1000: zero coefficients=2/2 (only intercept survives)
   \vspace{0.05cm}
   \pause
   \begin{alertblock}{Interpretación}
-    $E[\hat{\boldsymbol\beta}]=\boldsymbol\beta+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T E[\boldsymbol\varepsilon]=\boldsymbol\beta+\mathbf{0}=\boldsymbol\beta$: el estimador MCO matricial es insesgado para cualquier número de predictores $p$, generalizando exactamente el resultado escalar de la Sección 09.01.
+    $E[\hat{\boldsymbol\beta}]=\boldsymbol\beta+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T E[\boldsymbol\varepsilon]=\boldsymbol\beta+\mathbf{0}=\boldsymbol\beta$: el estimador MCO matricial es insesgado para cualquier número de predictores $p$, generalizando exactamente el resultado escalar de la Sección 09.03.
   \end{alertblock}
 \end{frame}
 
@@ -292,7 +301,7 @@ lambda=1000: zero coefficients=2/2 (only intercept survives)
   \pause
   \begin{block}{Lecciones Clave}
     \begin{itemize}\itemsep=0.08cm
-      \item \textbf{Ecuación Normal:} $\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y}$, generalización exacta de la fórmula escalar de la 09.01.
+      \item \textbf{Ecuación Normal:} $\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y}$, generalización exacta de la fórmula escalar de la 09.03.
       \item \textbf{Ridge:} penalización $L_2$, solución cerrada, contrae coeficientes sin eliminarlos.
       \item \textbf{Lasso:} penalización $L_1$, sin solución cerrada, induce \emph{sparsity} (selección automática de variables).
     \end{itemize}
@@ -303,15 +312,15 @@ lambda=1000: zero coefficients=2/2 (only intercept survives)
 \begin{frame}{Perspectiva Modular --- El Próximo Reto}
   \scriptsize
   \begin{retoclase}
-    Con el modelo múltiple ajustado, la Sección 09.03 se pregunta si es \textbf{confiable}: auditaremos formalmente los supuestos clásicos (normalidad y homoscedasticidad de residuos, independencia) y cuantificaremos la multicolinealidad mediante el Factor de Inflación de Varianza (VIF) --- la métrica que determina exactamente cuándo Ridge o Lasso son necesarios.
+    Con el modelo múltiple ajustado, la pregunta natural es: ¿generaliza a datos nuevos, o solo memoriza la muestra de entrenamiento? La Sección 09.08 introduce la \textbf{validación de modelos}: la división entrenamiento/prueba y la validación cruzada de $k$ iteraciones ($k$-fold), las herramientas estándar para estimar el error extra-muestral antes de auditar los supuestos internos del modelo (Sección 09.09) o pasar a su implementación profesional (Secciones 09.10-09.12).
   \end{retoclase}
 
   \vspace{0.08cm}
   \pause
   \begin{alertblock}{Preparación Recomendada}
     \begin{itemize}\itemsep=0.06cm
-      \item Repasa la interpretación geométrica de los residuos como el vector $(\mathbf{I}_n-\mathbf{H})\mathbf{Y}$.
-      \item Reflexiona sobre por qué un VIF alto no invalida el modelo, pero sí infla drásticamente los errores estándar de los coeficientes.
+      \item Reflexiona sobre la diferencia entre el error de ajuste (dentro de la muestra) y el error de predicción (fuera de la muestra).
+      \item Repasa por qué evaluar un modelo sobre los mismos datos con los que fue entrenado produce una estimación optimista y sesgada de su desempeño real.
     \end{itemize}
   \end{alertblock}
 \end{frame}

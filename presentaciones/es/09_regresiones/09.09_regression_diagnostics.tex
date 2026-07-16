@@ -2,7 +2,7 @@
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title[Diagnóstico de Regresión]{Sección 09.03: Diagnóstico de Residuos y Multicolinealidad}
+\title[Diagnóstico de Regresión]{Sección 09.09: Diagnóstico de Residuos y Multicolinealidad}
 \subtitle{Supuestos Clásicos, VIF, y Observaciones Influyentes}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
@@ -17,14 +17,23 @@
 
 % Slide 2: Hoja de Ruta
 \begin{frame}{Hoja de Ruta --- Capítulo 09: Regresiones Lineales y Múltiples}
-  \footnotesize
-  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
-  \begin{itemize}\itemsep=0.08em
-    \item \textbf{09.01} Regresión Lineal Simple (MCO) y Coeficiente $R^2$ \pause
-    \item \textbf{09.02} Regresión Lineal Múltiple, Ecuación Normal y Ridge/Lasso \pause
-    \item \textbf{09.03} Diagnóstico de Residuos, Multicolinealidad (VIF) y Supuestos \emph{(Hoy)} \pause
-    \item \textbf{09.04} Validación de Modelos, $k$-fold Cross-Validation y \texttt{scikit-learn}
+  \scriptsize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlación como Premisa de la Regresión
+    \item \textbf{09.02} Introducción a la Regresión Lineal
+    \item \textbf{09.03} Matemáticas de la Regresión: Derivación MCO y $R^2$
+    \item \textbf{09.04} Regresión Lineal sobre Datos Simulados
+    \item \textbf{09.05} Coeficientes Óptimos, Pruebas $t$/$F$ y RSE
+    \item \textbf{09.06} Implementación en Python con \texttt{statsmodels}
+    \item \textbf{09.07} Regresión Múltiple, Ecuación Normal y Ridge/Lasso
+    \item \textbf{09.08} Validación de Modelos y $k$-fold Cross-Validation
+    \item \textbf{09.09} Diagnóstico de Residuos y Multicolinealidad (VIF) \emph{(Hoy)}
+    \item \textbf{09.10} Regresión con \texttt{scikit-learn}
+    \item \textbf{09.11} Variables Categóricas y Variables Muda
+    \item \textbf{09.12} Transformaciones No Lineales y Regresión Polinomial
   \end{itemize}
+  \pause
   \vspace{-0.05cm}
   \begin{block}{Objetivo de la Sesión}
     Auditar rigurosamente si un modelo de regresión ajustado es \emph{confiable}: verificar los supuestos clásicos mediante análisis de residuos y pruebas formales (Durbin-Watson, Breusch-Pagan), cuantificar la multicolinealidad con el Factor de Inflación de Varianza, e identificar observaciones influyentes mediante la Distancia de Cook.
@@ -35,7 +44,7 @@
 \begin{frame}{¿Es Confiable el Modelo que Ajustamos?}
   \footnotesize
   \begin{motivacion}
-    En las Secciones 09.01 y 09.02 construimos y resolvimos el modelo de regresión, pero toda inferencia (intervalos, pruebas $t$/$F$) descansa en supuestos sobre el término de error $\varepsilon$ que \textbf{nunca se verifican automáticamente}. Un modelo con $R^2$ alto puede ser completamente inválido si sus residuos violan estos supuestos.
+    En las Secciones 09.03 a 09.07 construimos y resolvimos el modelo de regresión (simple y múltiple), pero toda inferencia (intervalos, pruebas $t$/$F$) descansa en supuestos sobre el término de error $\varepsilon$ que \textbf{nunca se verifican automáticamente}. Un modelo con $R^2$ alto puede ser completamente inválido si sus residuos violan estos supuestos.
   \end{motivacion}
 
   \vspace{0.15cm}
@@ -84,7 +93,7 @@
 
   \vspace{0.1cm}
   \begin{alertblock}{Identidad con la Matriz de Correlación}
-    $\text{VIF}_j=(\mathbf{R}^{-1})_{jj}$: un VIF alto es la manifestación diagnóstica de que $\mathbf{X}^T\mathbf{X}$ se aproxima a la singularidad (Sección 09.02). Umbral convencional: $\text{VIF}>5$ amerita Ridge, Lasso, o eliminación de variables.
+    $\text{VIF}_j=(\mathbf{R}^{-1})_{jj}$: un VIF alto es la manifestación diagnóstica de que $\mathbf{X}^T\mathbf{X}$ se aproxima a la singularidad (Sección 09.07). Umbral convencional: $\text{VIF}>5$ amerita Ridge, Lasso, o eliminación de variables.
   \end{alertblock}
 \end{frame}
 
@@ -107,7 +116,7 @@
   \scriptsize
   Ambas pruebas implementadas desde cero con \texttt{numpy}/\texttt{scipy} (\texttt{09.03\_regression\_diagnostics.py}):
   {\lstset{basicstyle=\fontsize{3.3pt}{4.0pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=19, lastline=41]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+  \lstinputlisting[firstline=19, lastline=41]{../../code/09_regresiones/09.09_regression_diagnostics.py}}
 \end{frame}
 
 % Slide 9: Lab Python (Bloque 2)
@@ -115,7 +124,7 @@
   \scriptsize
   VIF calculado por regresión auxiliar y verificado contra $\text{diag}(\mathbf{R}^{-1})$:
   {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=44, lastline=70]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+  \lstinputlisting[firstline=44, lastline=70]{../../code/09_regresiones/09.09_regression_diagnostics.py}}
 \end{frame}
 
 % Slide 10: Lab Python (Bloque 3)
@@ -123,7 +132,7 @@
   \scriptsize
   Detección de observaciones influyentes por alto apalancamiento vs. residuo grande:
   {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=73, lastline=103]{../../code/09_regresiones/09.03_regression_diagnostics.py}}
+  \lstinputlisting[firstline=73, lastline=103]{../../code/09_regresiones/09.09_regression_diagnostics.py}}
 \end{frame}
 
 % Slide 11: Salida Terminal
@@ -184,7 +193,7 @@ Obs 1: leverage=0.04, resid=5.10,  D=0.54 -> INFLUENTIAL (residual-driven)
 \begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
   \footnotesize
   \begin{block}{Problema --- VIF (Enunciado, Problema 9.14.5)}
-    Con $p=3$ predictores financieros: $R_1^2=0.85$, $R_2^2=0.55$, $R_3^2=0.30$. Calcule el VIF de cada uno, decida cuáles superan el umbral $\text{VIF}>5$, y proponga un remedio de la Sección 09.02.
+    Con $p=3$ predictores financieros: $R_1^2=0.85$, $R_2^2=0.55$, $R_3^2=0.30$. Calcule el VIF de cada uno, decida cuáles superan el umbral $\text{VIF}>5$, y proponga un remedio de la Sección 09.07.
   \end{block}
 
   \vspace{0.15cm}
@@ -289,7 +298,7 @@ Obs 1: leverage=0.04, resid=5.10,  D=0.54 -> INFLUENTIAL (residual-driven)
   \begin{block}{Lecciones Clave}
     \begin{itemize}\itemsep=0.08cm
       \item \textbf{$DW\approx2$:} valor ideal; desviaciones indican autocorrelación positiva o negativa.
-      \item \textbf{VIF$_j=(\mathbf{R}^{-1})_{jj}$:} un VIF alto refleja la misma inestabilidad numérica de $\mathbf{X}^T\mathbf{X}$ vista en la Sección 09.02.
+      \item \textbf{VIF$_j=(\mathbf{R}^{-1})_{jj}$:} un VIF alto refleja la misma inestabilidad numérica de $\mathbf{X}^T\mathbf{X}$ vista en la Sección 09.07.
       \item \textbf{Distancia de Cook:} apalancamiento alto y residuo grande son mecanismos de influencia independientes.
     \end{itemize}
   \end{block}
@@ -299,15 +308,15 @@ Obs 1: leverage=0.04, resid=5.10,  D=0.54 -> INFLUENTIAL (residual-driven)
 \begin{frame}{Perspectiva Modular --- El Próximo Reto}
   \scriptsize
   \begin{retoclase}
-    Con el modelo auditado internamente, la pregunta final del capítulo es la más importante en la práctica: ¿generaliza el modelo a datos \textbf{nuevos}, nunca vistos durante el ajuste? La Sección 09.04 (cierre del capítulo) presenta la validación cruzada $k$-fold, las métricas de error extra-muestral, y la implementación profesional con \texttt{scikit-learn}.
+    Con el modelo auditado internamente y ya validado externamente en la Sección 09.08, cerramos el núcleo estadístico del capítulo. Las tres secciones finales (09.10-09.12) son de naturaleza más aplicada: la Sección 09.10 muestra cómo todo lo construido a mano en \texttt{numpy}/\texttt{scipy} se traduce a la práctica profesional con \texttt{scikit-learn}.
   \end{retoclase}
 
   \vspace{0.08cm}
   \pause
   \begin{alertblock}{Preparación Recomendada}
     \begin{itemize}\itemsep=0.06cm
-      \item Reflexiona sobre por qué un modelo puede pasar todos los diagnósticos de esta sección y aun así generalizar mal (sobreajuste).
-      \item Repasa la diferencia conceptual entre error dentro de la muestra y error fuera de la muestra.
+      \item Reflexiona sobre por qué un modelo puede pasar todos los diagnósticos de esta sección y aun así generalizar mal (sobreajuste) --- por eso la validación de la Sección 09.08 es independiente de este diagnóstico interno.
+      \item Repasa la API básica de \texttt{scikit-learn} (\texttt{fit}, \texttt{predict}, \texttt{score}) que unifica la interfaz de todos los modelos de la librería.
     \end{itemize}
   \end{alertblock}
 \end{frame}

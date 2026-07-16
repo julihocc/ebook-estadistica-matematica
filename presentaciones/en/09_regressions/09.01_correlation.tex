@@ -1,0 +1,221 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Correlation]{Section 09.01: Correlation as the Premise of Regression}
+\subtitle{Definition, Properties, and the Correlation-Causation Warning}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
+  \scriptsize
+  Where are we in the modular development of this chapter?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlation as the Premise of Regression \emph{(Today)}
+    \item \textbf{09.02} Introduction to Linear Regression
+    \item \textbf{09.03} The Mathematics of Regression: OLS Derivation and $R^2$
+    \item \textbf{09.04} Linear Regression on Simulated Data
+    \item \textbf{09.05} Optimal Coefficients, $t$/$F$ Tests, and RSE
+    \item \textbf{09.06} Implementation in Python with \texttt{statsmodels}
+    \item \textbf{09.07} Multiple Regression, the Normal Equation, and Ridge/Lasso
+    \item \textbf{09.08} Model Validation and $k$-fold Cross-Validation
+    \item \textbf{09.09} Residual Diagnostics and Multicollinearity (VIF)
+    \item \textbf{09.10} Regression with \texttt{scikit-learn}
+    \item \textbf{09.11} Categorical Variables and Dummy Variables
+    \item \textbf{09.12} Nonlinear Transformations and Polynomial Regression
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Establish correlation as the conceptual premise of all predictive modeling: formally define the Pearson coefficient, study its properties and range, and rigorously warn that correlation does \textbf{not} imply causation --- the distinction that opens the door to linear regression in Section 09.02.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{Why Start with Correlation?}
+  \footnotesize
+  \begin{motivacion}
+    Correlation is the premise of predictive modeling: it is the factor on which we can anticipate the behavior of one variable from another. If $X$ and $Y$ are strongly correlated, a change in one suggests an associated change in the other.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item A good correlation guarantees an approximate functional mathematical relationship $Y=f(X)$. \pause
+    \item That relationship can take any form: linear ($y=ax+b$), exponential ($y=be^{ax}$), or other --- linear regression focuses on the linear case.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Formal definition
+\begin{frame}{Formal Definition of the Correlation Coefficient}
+  \footnotesize
+  \begin{block}{Pearson's Correlation Coefficient}
+    For variables $X,Y$ with sample means $\bar x,\bar y$:
+    $$r_{XY}=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sqrt{\sum_i(x_i-\bar x)^2\sum_i(y_i-\bar y)^2}}=\frac{S_{XY}}{\sqrt{S_{XX}S_{YY}}}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Interpretation}
+    $r_{XY}$ normalizes the covariance $S_{XY}$ by the individual dispersions of $X$ and $Y$, producing a dimensionless measure of linear association comparable across any pair of variables.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Properties
+\begin{frame}{Properties of the Correlation Coefficient}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Bounded range:} $-1\leq r_{XY}\leq1$, a direct consequence of the Cauchy-Schwarz inequality. \pause
+    \item \textbf{Sign:} $r_{XY}>0$ indicates a direct relationship (both variables rise or fall together); $r_{XY}<0$ indicates an inverse relationship. \pause
+    \item \textbf{Magnitude:} the larger $|r_{XY}|$, the stronger and more predictable the linear relationship; $|r_{XY}|=1$ indicates an exact linear relationship.
+  \end{itemize}
+\end{frame}
+
+% Slide 6: Warning
+\begin{frame}{Warning! Correlation Does Not Imply Causation}
+  \footnotesize
+  \begin{alertblock}{Critical Observation}
+    A strong correlation suggests a relationship useful for prediction, but \textbf{does not imply that relationship is the only factor} explaining the observed behavior, nor that one variable \emph{causes} the other.
+  \end{alertblock}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Classic Example: the Confounding Variable}
+    There is a very strong positive correlation between the number of words a child knows and their shoe size. Neither causes the other: both are consequences of a third hidden variable, \textbf{age}.
+  \end{block}
+\end{frame}
+
+% Slide 7: Advertising case study
+\begin{frame}{Case Study: Advertising and Sales}
+  \footnotesize
+  Classic dataset: advertising spend by medium (\texttt{TV}, \texttt{Radio}, \texttt{Newspaper}) vs. \texttt{Sales} of a product.
+  \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Observed Correlation Coefficients}
+    $$r(\texttt{TV},\texttt{Sales})\approx0.782, \qquad r(\texttt{Radio},\texttt{Sales})\approx0.576$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Preliminary Reading}
+    \texttt{TV} shows the strongest linear association with \texttt{Sales}: a natural candidate for the first predictor of a regression model (Sections 09.02 onward).
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Pearson's Coefficient from Its Definition}
+  \scriptsize
+  Direct computation of $r_{XY}$ from sums of deviations, verified against \texttt{np.corrcoef} (\texttt{09.01\_correlation.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=27]{../../code/09_regresiones/09.01_correlation.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Range and Strength of Correlation}
+  \scriptsize
+  Six scenarios illustrating the $[-1,1]$ range and sign/magnitude interpretation:
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=30, lastline=45]{../../code/09_regresiones/09.01_correlation.py}}
+\end{frame}
+
+% Slide 10: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: Correlation Is Not Causation}
+  \scriptsize
+  Spurious correlation between shoe size and vocabulary, resolved via partial correlation controlling for age:
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=48, lastline=64]{../../code/09_regresiones/09.01_correlation.py}}
+\end{frame}
+
+% Slide 11: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.8pt}{4.6pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Pearson from Definition ===
+r (from definition) = 0.8959 (matches np.corrcoef)
+
+=== Block 2: Range and Strength ===
+perfect positive: r=+1.0000   strong positive: r=+0.9638
+weak positive:     r=+0.3710   no relationship: r=-0.1333
+strong negative:   r=-0.9690   perfect negative: r=-1.0000
+
+=== Block 3: Correlation is Not Causation ===
+Raw correlation(shoe size, vocabulary) = 0.9517 (spurious)
+Partial correlation(... | age)         = 0.0486 (collapses)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12: In-class discussion (Statement)
+\begin{frame}{In-Class Discussion --- The Danger of a Single Coefficient}
+  \footnotesize
+  \begin{block}{Question}
+    In the advertising case, $r(\texttt{Radio},\texttt{Sales})\approx0.576$ is a moderate, not weak, correlation. Why isn't looking at $r$ alone enough to decide whether \texttt{Radio} should be included in a multiple regression model together with \texttt{TV}?
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Hint}
+    Think about whether \texttt{Radio} and \texttt{TV} might themselves be correlated with each other.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13: In-class discussion (Answer)
+\begin{frame}{In-Class Discussion --- Answer}
+  \scriptsize
+  The bivariate correlation $r(\texttt{Radio},\texttt{Sales})$ completely ignores the possible relationship between \texttt{Radio} and \texttt{TV}: \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Interpretation}
+    If \texttt{Radio} and \texttt{TV} share variability (for example, campaigns combining both media simultaneously), part of what $r(\texttt{Radio},\texttt{Sales})$ captures is already being explained by \texttt{TV}. This is exactly why \textbf{multiple regression} (Section 09.07) --- rather than a collection of isolated bivariate correlations --- is the correct tool for quantifying each predictor's effect \emph{controlling for the others}.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14: Closing
+\begin{frame}{Section Closing: Correlation}
+  \begin{reflexion}
+    Correlation quantifies the strength and direction of a linear association, and is the conceptual motivation for the whole chapter: if two variables are unrelated, no regression model can usefully predict one from the other. But correlation describes association, not causal mechanism --- a distinction every data scientist must keep in mind.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Range:} $r_{XY}\in[-1,1]$, with sign indicating direction and magnitude indicating strength.
+      \item \textbf{Correlation $\neq$ causation:} a confounding third variable can generate spurious association.
+      \item \textbf{Bivariate correlation $\neq$ controlled effect:} predictors correlated with each other require multiple regression, not isolated correlations.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 15: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    Correlation measures association but does not let us predict a specific numeric value of $Y$ given a value of $X$. Section 09.02 introduces \textbf{linear regression}: the model $Y_e=\hat\beta_0+\hat\beta_1X$ that turns the association measured by $r_{XY}$ into a concrete predictive tool.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Reflect on what additional information (beyond $r_{XY}$) you would need to predict a specific \texttt{Sales} value given a level of \texttt{TV} spending.
+      \item Review the equation of a line $y=ax+b$: linear regression will estimate $a$ and $b$ from the data.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

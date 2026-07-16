@@ -1,0 +1,221 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Correlación]{Sección 09.01: Correlación como Premisa de la Regresión}
+\subtitle{Definición, Propiedades, y la Advertencia Correlación-Causalidad}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 09: Regresiones Lineales y Múltiples}
+  \scriptsize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlación como Premisa de la Regresión \emph{(Hoy)}
+    \item \textbf{09.02} Introducción a la Regresión Lineal
+    \item \textbf{09.03} Matemáticas de la Regresión: Derivación MCO y $R^2$
+    \item \textbf{09.04} Regresión Lineal sobre Datos Simulados
+    \item \textbf{09.05} Coeficientes Óptimos, Pruebas $t$/$F$ y RSE
+    \item \textbf{09.06} Implementación en Python con \texttt{statsmodels}
+    \item \textbf{09.07} Regresión Múltiple, Ecuación Normal y Ridge/Lasso
+    \item \textbf{09.08} Validación de Modelos y $k$-fold Cross-Validation
+    \item \textbf{09.09} Diagnóstico de Residuos y Multicolinealidad (VIF)
+    \item \textbf{09.10} Regresión con \texttt{scikit-learn}
+    \item \textbf{09.11} Variables Categóricas y Variables Muda
+    \item \textbf{09.12} Transformaciones No Lineales y Regresión Polinomial
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Establecer la correlación como la premisa conceptual de toda la modelación predictiva: definir formalmente el coeficiente de Pearson, estudiar sus propiedades y rango, y advertir rigurosamente que correlación \textbf{no} implica causalidad --- la distinción que abrirá la puerta a la regresión lineal en la Sección 09.02.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{¿Por Qué Empezar con Correlación?}
+  \footnotesize
+  \begin{motivacion}
+    La correlación es la premisa de la modelación predictiva: es el factor con base en el cual podemos anticipar el comportamiento de una variable a partir de otra. Si $X$ y $Y$ están fuertemente correlacionadas, un cambio en una sugiere un cambio asociado en la otra.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item Una buena correlación asegura una relación matemática funcional aproximada $Y=f(X)$. \pause
+    \item Esa relación puede ser de cualquier forma: lineal ($y=ax+b$), exponencial ($y=be^{ax}$), u otra --- la regresión lineal se enfoca en el caso lineal.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición formal
+\begin{frame}{Definición Formal del Coeficiente de Correlación}
+  \footnotesize
+  \begin{block}{Coeficiente de Correlación de Pearson}
+    Para variables $X,Y$ con promedios muestrales $\bar x,\bar y$:
+    $$r_{XY}=\frac{\sum_i(x_i-\bar x)(y_i-\bar y)}{\sqrt{\sum_i(x_i-\bar x)^2\sum_i(y_i-\bar y)^2}}=\frac{S_{XY}}{\sqrt{S_{XX}S_{YY}}}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Interpretación}
+    $r_{XY}$ normaliza la covarianza $S_{XY}$ por las dispersiones individuales de $X$ y $Y$, produciendo una medida adimensional de asociación lineal comparable entre cualquier par de variables.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Propiedades
+\begin{frame}{Propiedades del Coeficiente de Correlación}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Rango acotado:} $-1\leq r_{XY}\leq1$, consecuencia directa de la desigualdad de Cauchy-Schwarz. \pause
+    \item \textbf{Signo:} $r_{XY}>0$ indica relación directa (ambas variables suben o bajan juntas); $r_{XY}<0$ indica relación inversa. \pause
+    \item \textbf{Magnitud:} entre mayor $|r_{XY}|$, más fuerte y predecible es la relación lineal; $|r_{XY}|=1$ indica una relación lineal exacta.
+  \end{itemize}
+\end{frame}
+
+% Slide 6: Advertencia
+\begin{frame}{¡Advertencia! Correlación No Implica Causalidad}
+  \footnotesize
+  \begin{alertblock}{Observación Crítica}
+    Una correlación fuerte sugiere una relación útil para la predicción, pero \textbf{no implica que esa relación sea el único factor} que explica el comportamiento observado, ni que una variable \emph{cause} a la otra.
+  \end{alertblock}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Ejemplo Clásico: la Variable de Confusión (\emph{Confounder})}
+    Existe una correlación positiva muy fuerte entre el número de palabras que conoce un niño y el número de calzado que usa. Ninguna causa a la otra: ambas son consecuencia de una tercera variable oculta, la \textbf{edad}.
+  \end{block}
+\end{frame}
+
+% Slide 7: El caso publicitario
+\begin{frame}{Caso de Estudio: Publicidad y Ventas}
+  \footnotesize
+  Conjunto de datos clásico: gasto en publicidad por medio (\texttt{TV}, \texttt{Radio}, \texttt{Newspaper}) vs. \texttt{Sales} de un producto.
+  \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Coeficientes de Correlación Observados}
+    $$r(\texttt{TV},\texttt{Sales})\approx0.782, \qquad r(\texttt{Radio},\texttt{Sales})\approx0.576$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Lectura Preliminar}
+    \texttt{TV} exhibe la asociación lineal más fuerte con \texttt{Sales}: un candidato natural para el primer predictor de un modelo de regresión (Secciones 09.02 en adelante).
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Coeficiente de Pearson desde su Definición}
+  \scriptsize
+  Cálculo directo de $r_{XY}$ a partir de sumas de desviaciones, verificado contra \texttt{np.corrcoef} (\texttt{09.01\_correlation.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=27]{../../code/09_regresiones/09.01_correlation.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Rango y Fuerza de la Correlación}
+  \scriptsize
+  Seis escenarios ilustrando el rango $[-1,1]$ y la interpretación de signo/magnitud:
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=30, lastline=45]{../../code/09_regresiones/09.01_correlation.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Correlación No Es Causalidad}
+  \scriptsize
+  Correlación espuria entre tamaño de calzado y vocabulario, resuelta vía correlación parcial controlando por edad:
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=48, lastline=64]{../../code/09_regresiones/09.01_correlation.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{3.8pt}{4.6pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Pearson from Definition ===
+r (from definition) = 0.8959 (matches np.corrcoef)
+
+=== Block 2: Range and Strength ===
+perfect positive: r=+1.0000   strong positive: r=+0.9638
+weak positive:     r=+0.3710   no relationship: r=-0.1333
+strong negative:   r=-0.9690   perfect negative: r=-1.0000
+
+=== Block 3: Correlation is Not Causation ===
+Raw correlation(shoe size, vocabulary) = 0.9517 (spurious)
+Partial correlation(... | age)         = 0.0486 (collapses)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12: Discusión en clase (Enunciado)
+\begin{frame}{Discusión en Clase --- El Peligro de un Solo Coeficiente}
+  \footnotesize
+  \begin{block}{Pregunta}
+    En el caso publicitario, $r(\texttt{Radio},\texttt{Sales})\approx0.576$ es una correlación moderada, no débil. ¿Por qué no basta con mirar $r$ para decidir si \texttt{Radio} debe incluirse en un modelo de regresión múltiple junto con \texttt{TV}?
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Pista}
+    Piensa en si \texttt{Radio} y \texttt{TV} podrían estar, a su vez, correlacionadas entre sí.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13: Discusión en clase (Respuesta)
+\begin{frame}{Discusión en Clase --- Respuesta}
+  \scriptsize
+  La correlación bivariada $r(\texttt{Radio},\texttt{Sales})$ ignora por completo la posible relación entre \texttt{Radio} y \texttt{TV}: \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Interpretación}
+    Si \texttt{Radio} y \texttt{TV} comparten variabilidad (por ejemplo, campañas que combinan ambos medios simultáneamente), parte de lo que $r(\texttt{Radio},\texttt{Sales})$ captura ya está siendo explicado por \texttt{TV}. Esta es exactamente la razón por la que la \textbf{regresión múltiple} (Sección 09.07) --- y no una colección de correlaciones bivariadas aisladas --- es la herramienta correcta para cuantificar el efecto de cada predictor \emph{controlando por los demás}.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14: Cierre
+\begin{frame}{Cierre de Sección: Correlación}
+  \begin{reflexion}
+    La correlación cuantifica la fuerza y dirección de una asociación lineal, y es la motivación conceptual de todo el capítulo: si dos variables no están relacionadas, ningún modelo de regresión podrá predecir la una a partir de la otra con utilidad práctica. Pero la correlación describe asociación, no mecanismo causal --- una distinción que todo científico de datos debe mantener presente.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Rango:} $r_{XY}\in[-1,1]$, con signo indicando dirección y magnitud indicando fuerza.
+      \item \textbf{Correlación $\neq$ causalidad:} una tercera variable de confusión puede generar asociación espuria.
+      \item \textbf{Correlación bivariada $\neq$ efecto controlado:} predictores correlacionados entre sí requieren regresión múltiple, no correlaciones aisladas.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 15: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    La correlación mide asociación pero no permite predecir un valor numérico específico de $Y$ dado un valor de $X$. La Sección 09.02 introduce la \textbf{regresión lineal}: el modelo $Y_e=\hat\beta_0+\hat\beta_1X$ que convierte la asociación medida por $r_{XY}$ en una herramienta predictiva concreta.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Reflexiona sobre qué información adicional (más allá de $r_{XY}$) necesitarías para predecir un valor concreto de \texttt{Sales} dado un nivel de gasto en \texttt{TV}.
+      \item Repasa la ecuación de una recta $y=ax+b$: la regresión lineal estimará $a$ y $b$ a partir de los datos.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

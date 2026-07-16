@@ -1,0 +1,295 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Mathematics of Regression]{Section 09.03: The Mathematics of Linear Regression}
+\subtitle{OLS Derivation, the SST=SSR+SSE Decomposition, and $R^2$ Properties}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
+  \scriptsize
+  Where are we in the modular development of this chapter?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlation as the Premise of Regression
+    \item \textbf{09.02} Introduction to Linear Regression
+    \item \textbf{09.03} The Mathematics of Regression: OLS Derivation and $R^2$ \emph{(Today)}
+    \item \textbf{09.04} Linear Regression on Simulated Data
+    \item \textbf{09.05} Optimal Coefficients, $t$/$F$ Tests, and RSE
+    \item \textbf{09.06} Implementation in Python with \texttt{statsmodels}
+    \item \textbf{09.07} Multiple Regression, the Normal Equation, and Ridge/Lasso
+    \item \textbf{09.08} Model Validation and $k$-fold Cross-Validation
+    \item \textbf{09.09} Residual Diagnostics and Multicollinearity (VIF)
+    \item \textbf{09.10} Regression with \texttt{scikit-learn}
+    \item \textbf{09.11} Categorical Variables and Dummy Variables
+    \item \textbf{09.12} Nonlinear Transformations and Polynomial Regression
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Rigorously derive the Ordinary Least Squares (OLS) formulas via differential calculus, prove the fundamental decomposition $\text{SST}=\text{SSR}+\text{SSE}$, and establish the properties of the coefficient of determination $R^2$.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{The Goal: Minimizing the Fitting Error}
+  \footnotesize
+  \begin{motivacion}
+    We propose the model $Y_e=\hat\alpha+\hat\beta X$ to estimate $Y$ from $X$. The purpose of linear regression is to find the values $\hat\alpha,\hat\beta$ that \emph{minimize} the difference between $Y$ and $Y_e$, represented by the error $\epsilon=Y-Y_e$.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  The \textbf{least squares} method minimizes the sum of squared errors, not absolute errors: this makes the problem differentiable and penalizes large errors more heavily.
+\end{frame}
+
+% Slide 4: Objective function
+\begin{frame}{The Least Squares Objective Function}
+  \footnotesize
+  \begin{block}{Objective Function}
+    $$S(\alpha,\beta) = \sum_{i=1}^n\left(Y_i-(\alpha+\beta X_i)\right)^2 \quad \longrightarrow \quad \min_{\alpha,\beta} S$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Minimization Strategy}
+    We set the partial derivatives $\partial S/\partial\alpha=0$ and $\partial S/\partial\beta=0$ to zero: the resulting system is known as the \textbf{normal equations}.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Derivation
+\begin{frame}{Deriving the Least Squares Formulas}
+  \footnotesize
+  \begin{block}{Derivative with respect to $\alpha$}
+    $$\frac{\partial S}{\partial\alpha}=-2\sum_i(Y_i-\alpha-\beta X_i)=0 \implies \hat\alpha=\bar Y-\hat\beta\bar X$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Derivative with respect to $\beta$ (substituting $\hat\alpha$)}
+    $$\hat\beta=\frac{\sum_i(X_i-\bar X)(Y_i-\bar Y)}{\sum_i(X_i-\bar X)^2}=\frac{S_{XY}}{S_{XX}}$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Partition theorem
+\begin{frame}{Partition Theorem: SST = SSR + SSE}
+  \footnotesize
+  \begin{block}{Partition Identity}
+    $$\underbrace{\sum(Y_i-\bar Y)^2}_{\text{SST}} = \underbrace{\sum(\hat Y_i-\bar Y)^2}_{\text{SSR}} + \underbrace{\sum(Y_i-\hat Y_i)^2}_{\text{SSE}}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Key to the Proof}
+    The cross term $\sum(\hat Y_i-\bar Y)(Y_i-\hat Y_i)$ vanishes exactly because the normal equations guarantee $\sum e_i=0$ and $\sum X_ie_i=0$ (and hence $\sum\hat Y_ie_i=0$).
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: R²
+\begin{frame}{The Coefficient of Determination $R^2$}
+  \footnotesize
+  \begin{block}{Definition and Properties}
+    $$R^2=\frac{\text{SSR}}{\text{SST}}=1-\frac{\text{SSE}}{\text{SST}} \in[0,1], \qquad R^2=1 \iff \text{SSE}=0$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Adjusted $R^2$}
+    $$R^2_{\text{adj}}=1-\frac{n-1}{n-p-1}(1-R^2)$$
+    $R^2$ never decreases when adding predictors; $R^2_{\text{adj}}$ can decrease if the new predictor doesn't contribute enough explanatory power.
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Verifying the Normal Equations}
+  \scriptsize
+  Numeric confirmation that OLS satisfies $\sum e_i=0$ and $\sum X_ie_i=0$ (\texttt{09.03\_mathematics\_of\_regression.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=27]{../../code/09_regresiones/09.03_mathematics_of_regression.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: SST=SSR+SSE Decomposition}
+  \scriptsize
+  Verifying the identity and the vanishing cross term that proves it:
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=32, lastline=44]{../../code/09_regresiones/09.03_mathematics_of_regression.py}}
+\end{frame}
+
+% Slide 10: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: $R^2$ Properties}
+  \scriptsize
+  The $R^2=r^2$ identity and adjusted $R^2$ behavior facing a useless predictor:
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=48, lastline=69]{../../code/09_regresiones/09.03_mathematics_of_regression.py}}
+\end{frame}
+
+% Slide 11: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.6pt}{4.3pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Normal Equations ===
+sum(residuals)=0.0000000000, sum(x*residuals)=0.0000000000
+
+=== Block 2: SST=SSR+SSE ===
+SST=14309.41, SSR=12304.00, SSE=2005.41; cross term=0.0000000000
+
+=== Block 3: R^2 Properties ===
+R^2=0.8599 = r^2=0.8599
+Adding useless predictor: R^2 0.8599->0.8602 (up); adj-R^2 0.8591->0.8587 (down)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Analytical Exercise (Statement)
+\begin{frame}{In-Class Exercise --- Analytical Level (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- $R^2=r^2$ (Statement, Problem 9.8.7)}
+    With $n=30$, $S_X=4.5$, $S_Y=12.0$, $\bar X=8.0\%$, $\bar Y=15.0\%$, and $r_{XY}=0.820$. Prove that $R^2=r_{XY}^2$, compute SST/SSR/SSE, and obtain $\hat\beta=r_{XY}(S_Y/S_X)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    $\text{SST}=(n-1)S_Y^2$; use the algebraic relationship between $r_{XY}$ and $\hat\beta$ through the standard deviations.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Analytical Exercise (Resolution)
+\begin{frame}{In-Class Exercise --- Analytical Level (2/2)}
+  \scriptsize
+  We compute the variance partition and verify the identity: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\text{SST}=(29)(12.0)^2=4176.0, \qquad R^2=(0.820)^2=0.6724$$
+    $$\text{SSR}=R^2\cdot\text{SST}\approx2807.9, \qquad \text{SSE}\approx1368.1, \qquad \hat\beta=0.820(12.0/4.5)\approx2.187$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    The identity $R^2=r_{XY}^2$ is exact in simple regression: both coefficients quantify the same proportion of shared variability.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Challenging Exercise 1 (Statement)
+\begin{frame}{In-Class Exercise --- Challenging Level 1/2 (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Normal Equations and Unbiasedness (Statement, Problem 9.8.9)}
+    Under $Y_i=\alpha+\beta X_i+\varepsilon_i$ with $E[\varepsilon_i]=0$, derive the normal equations from $\partial S/\partial\alpha=0$ and $\partial S/\partial\beta=0$, and prove that $\hat\alpha,\hat\beta$ are unbiased.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Substitute the true model into the closed-form slope estimator and apply linearity of $E[\cdot]$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Challenging Exercise 1 (Resolution)
+\begin{frame}{In-Class Exercise --- Challenging Level 1/2 (2/2)}
+  \scriptsize
+  We substitute the true model into the slope estimator: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\hat\beta=\sum_ic_iY_i,\ c_i=\frac{X_i-\bar X}{S_{XX}} \implies \hat\beta=\beta\underbrace{\sum c_iX_i}_{1}+\alpha\underbrace{\sum c_i}_{0}+\sum c_i\varepsilon_i \implies E[\hat\beta]=\beta$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    Since $\hat\alpha=\bar Y-\hat\beta\bar X$ and $E[\bar Y]=\alpha+\beta\bar X$, it follows that $E[\hat\alpha]=\alpha$: both OLS estimators are unbiased without assuming normality.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Challenging Exercise 2 (Statement)
+\begin{frame}{In-Class Exercise --- Challenging Level 2/2 (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Variances and Residual Orthogonality (Statement, Problem 9.8.10)}
+    With $c_i=(X_i-\bar X)/S_{XX}$, prove $\sum c_i=0$, $\sum c_iX_i=1$, $\sum c_i^2=1/S_{XX}$; derive $\text{Var}(\hat\beta)=\sigma^2/S_{XX}$; and prove the 4 orthogonality properties of the OLS residuals.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    \scriptsize
+    Apply the variance laws for sums of independent variables to the linear representation $\hat\beta=\sum c_iY_i$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Challenging Exercise 2 (Resolution)
+\begin{frame}{In-Class Exercise --- Challenging Level 2/2 (2/2)}
+  \scriptsize
+  We apply variance to the linear combination of independent observations: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\text{Var}(\hat\beta)=\text{Var}\left(\sum c_iY_i\right)=\sigma^2\sum c_i^2=\frac{\sigma^2}{S_{XX}}$$
+    The 4 properties of the residuals $\hat\varepsilon_i=Y_i-\hat Y_i$: (a) $\sum\hat\varepsilon_i=0$; (b) $\sum X_i\hat\varepsilon_i=0$; (c) $\sum\hat Y_i\hat\varepsilon_i=0$; (d) $\bar Y=\hat\alpha+\hat\beta\bar X$.
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    These four identities are the exact geometric reason behind the SST=SSR+SSE decomposition proven in this section.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15: Closing
+\begin{frame}{Section Closing: Mathematics of Regression}
+  \begin{reflexion}
+    We have rigorously derived the OLS formulas from first principles (differential calculus), proven that the SST=SSR+SSE decomposition is an exact consequence of the normal equations, and established the fundamental properties of the $R^2$ coefficient.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{OLS:} $\hat\beta=S_{XY}/S_{XX}$, $\hat\alpha=\bar Y-\hat\beta\bar X$, unbiased by construction.
+      \item \textbf{Orthogonality:} $\sum e_i=0$ and $\sum X_ie_i=0$ are the algebraic key to all subsequent theory.
+      \item \textbf{$R^2$ vs. $R^2_{\text{adj}}$:} the former never decreases; the latter penalizes unhelpful predictors.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 16: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    With the formulas rigorously derived, Section 09.04 applies them to a simulated dataset generated explicitly with known parameters (true $\alpha,\beta,\sigma$), allowing a direct comparison between the OLS-estimated values and the actual population values that generated the data.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Review the difference between population parameters ($\alpha,\beta$) and their sample estimators ($\hat\alpha,\hat\beta$).
+      \item Reflect on how close you'd expect $\hat\beta$ to be to $\beta$ as the sample size $n$ grows.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

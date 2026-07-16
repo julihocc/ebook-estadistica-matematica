@@ -2,7 +2,7 @@
 \input{../../_en_preambulo_beamer}
 \input{../../_en_comandos_beamer}
 
-\title[Multiple Regression]{Section 09.02: Multiple Linear Regression}
+\title[Multiple Regression]{Section 09.07: Multiple Linear Regression}
 \subtitle{The Normal Equation in Matrix Notation and Ridge/Lasso Regularization}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
@@ -17,14 +17,23 @@
 
 % Slide 2: Roadmap
 \begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
-  \footnotesize
-  Where are we in the modular development of this chapter? \pause
-  \begin{itemize}\itemsep=0.08em
-    \item \textbf{09.01} Simple Linear Regression (OLS) and $R^2$ \pause
-    \item \textbf{09.02} Multiple Linear Regression, the Normal Equation, and Ridge/Lasso \emph{(Today)} \pause
-    \item \textbf{09.03} Residual Diagnostics, Multicollinearity (VIF), and Assumptions \pause
-    \item \textbf{09.04} Model Validation, $k$-fold Cross-Validation, and \texttt{scikit-learn}
+  \scriptsize
+  Where are we in the modular development of this chapter?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlation as the Premise of Regression
+    \item \textbf{09.02} Introduction to Linear Regression
+    \item \textbf{09.03} The Mathematics of Regression: OLS Derivation and $R^2$
+    \item \textbf{09.04} Linear Regression on Simulated Data
+    \item \textbf{09.05} Optimal Coefficients, $t$/$F$ Tests, and RSE
+    \item \textbf{09.06} Implementation in Python with \texttt{statsmodels}
+    \item \textbf{09.07} Multiple Regression, the Normal Equation, and Ridge/Lasso \emph{(Today)}
+    \item \textbf{09.08} Model Validation and $k$-fold Cross-Validation
+    \item \textbf{09.09} Residual Diagnostics and Multicollinearity (VIF)
+    \item \textbf{09.10} Regression with \texttt{scikit-learn}
+    \item \textbf{09.11} Categorical Variables and Dummy Variables
+    \item \textbf{09.12} Nonlinear Transformations and Polynomial Regression
   \end{itemize}
+  \pause
   \vspace{-0.05cm}
   \begin{block}{Session Objective}
     Generalize simple regression to $p$ simultaneous predictors via matrix notation: derive the Normal Equation $\hat{\boldsymbol\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$, and present Ridge and Lasso regularization as a remedy when the design matrix is close to singular due to multicollinearity.
@@ -78,7 +87,7 @@
 \begin{frame}{When $\mathbf{X}^T\mathbf{X}$ Is Nearly Singular}
   \footnotesize
   \begin{block}{The Multicollinearity Problem}
-    If two or more predictors are highly correlated, $\mathbf{X}^T\mathbf{X}$ approaches singularity: its inversion becomes numerically unstable and the variances of $\hat{\boldsymbol\beta}$ explode (formally diagnosed via \texttt{VIF} in Section 09.03).
+    If two or more predictors are highly correlated, $\mathbf{X}^T\mathbf{X}$ approaches singularity: its inversion becomes numerically unstable and the variances of $\hat{\boldsymbol\beta}$ explode (formally diagnosed via \texttt{VIF} in Section 09.09).
   \end{block}
   \pause
 
@@ -107,7 +116,7 @@
   \scriptsize
   Matrix solution $\hat{\boldsymbol\beta}$ verified against \texttt{np.linalg.lstsq}, and numerical verification of the symmetry/idempotence of $\mathbf{H}$ (\texttt{09.02\_multiple\_linear\_regression.py}):
   {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=18, lastline=40]{../../code/09_regresiones/09.02_multiple_linear_regression.py}}
+  \lstinputlisting[firstline=18, lastline=40]{../../code/09_regresiones/09.07_multiple_linear_regression.py}}
 \end{frame}
 
 % Slide 9: Python Lab (Block 2)
@@ -115,7 +124,7 @@
   \scriptsize
   Closed-form Ridge solution for increasing $\lambda$, observing coefficient shrinkage:
   {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=43, lastline=51]{../../code/09_regresiones/09.02_multiple_linear_regression.py}}
+  \lstinputlisting[firstline=43, lastline=51]{../../code/09_regresiones/09.07_multiple_linear_regression.py}}
 \end{frame}
 
 % Slide 10: Python Lab (Block 3)
@@ -123,7 +132,7 @@
   \scriptsize
   Manual implementation of the soft-thresholding operator for Lasso:
   {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
-  \lstinputlisting[firstline=54, lastline=76]{../../code/09_regresiones/09.02_multiple_linear_regression.py}}
+  \lstinputlisting[firstline=54, lastline=76]{../../code/09_regresiones/09.07_multiple_linear_regression.py}}
 \end{frame}
 
 % Slide 11: Terminal Output
@@ -278,7 +287,7 @@ lambda=1000: zero coefficients=2/2 (only intercept survives)
   \vspace{0.05cm}
   \pause
   \begin{alertblock}{Interpretation}
-    $E[\hat{\boldsymbol\beta}]=\boldsymbol\beta+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T E[\boldsymbol\varepsilon]=\boldsymbol\beta+\mathbf{0}=\boldsymbol\beta$: the matrix OLS estimator is unbiased for any number of predictors $p$, exactly generalizing the scalar result from Section 09.01.
+    $E[\hat{\boldsymbol\beta}]=\boldsymbol\beta+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T E[\boldsymbol\varepsilon]=\boldsymbol\beta+\mathbf{0}=\boldsymbol\beta$: the matrix OLS estimator is unbiased for any number of predictors $p$, exactly generalizing the scalar result from Section 09.03.
   \end{alertblock}
 \end{frame}
 
@@ -292,7 +301,7 @@ lambda=1000: zero coefficients=2/2 (only intercept survives)
   \pause
   \begin{block}{Key Takeaways}
     \begin{itemize}\itemsep=0.08cm
-      \item \textbf{Normal Equation:} $\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y}$, an exact generalization of Section 09.01's scalar formula.
+      \item \textbf{Normal Equation:} $\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y}$, an exact generalization of Section 09.03's scalar formula.
       \item \textbf{Ridge:} $L_2$ penalty, closed-form solution, shrinks coefficients without eliminating them.
       \item \textbf{Lasso:} $L_1$ penalty, no closed form, induces \emph{sparsity} (automatic variable selection).
     \end{itemize}
@@ -303,15 +312,15 @@ lambda=1000: zero coefficients=2/2 (only intercept survives)
 \begin{frame}{Modular Perspective --- The Next Challenge}
   \scriptsize
   \begin{retoclase}
-    With the multiple model fitted, Section 09.03 asks whether it is \textbf{trustworthy}: we will formally audit the classical assumptions (residual normality and homoscedasticity, independence) and quantify multicollinearity via the Variance Inflation Factor (VIF) --- the metric that determines exactly when Ridge or Lasso are needed.
+    With the multiple model fitted, the natural question is: does it generalize to new data, or does it merely memorize the training sample? Section 09.08 introduces \textbf{model validation}: the train/test split and $k$-fold cross-validation, the standard tools for estimating out-of-sample error before auditing the model's internal assumptions (Section 09.09) or moving on to its professional implementation (Sections 09.10-09.12).
   \end{retoclase}
 
   \vspace{0.08cm}
   \pause
   \begin{alertblock}{Recommended Preparation}
     \begin{itemize}\itemsep=0.06cm
-      \item Review the geometric interpretation of the residuals as the vector $(\mathbf{I}_n-\mathbf{H})\mathbf{Y}$.
-      \item Reflect on why a high VIF does not invalidate the model, but does drastically inflate the standard errors of the coefficients.
+      \item Reflect on the difference between fitting error (in-sample) and prediction error (out-of-sample).
+      \item Review why evaluating a model on the same data it was trained on produces an optimistic, biased estimate of its real performance.
     \end{itemize}
   \end{alertblock}
 \end{frame}

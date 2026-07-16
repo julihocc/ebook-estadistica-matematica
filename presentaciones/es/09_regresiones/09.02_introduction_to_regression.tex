@@ -1,0 +1,224 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Introducción a la Regresión]{Sección 09.02: Introducción a la Regresión Lineal}
+\subtitle{Modelos Estocásticos, Supuestos Clásicos, y Aplicaciones}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 09: Regresiones Lineales y Múltiples}
+  \scriptsize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlación como Premisa de la Regresión
+    \item \textbf{09.02} Introducción a la Regresión Lineal \emph{(Hoy)}
+    \item \textbf{09.03} Matemáticas de la Regresión: Derivación MCO y $R^2$
+    \item \textbf{09.04} Regresión Lineal sobre Datos Simulados
+    \item \textbf{09.05} Coeficientes Óptimos, Pruebas $t$/$F$ y RSE
+    \item \textbf{09.06} Implementación en Python con \texttt{statsmodels}
+    \item \textbf{09.07} Regresión Múltiple, Ecuación Normal y Ridge/Lasso
+    \item \textbf{09.08} Validación de Modelos y $k$-fold Cross-Validation
+    \item \textbf{09.09} Diagnóstico de Residuos y Multicolinealidad (VIF)
+    \item \textbf{09.10} Regresión con \texttt{scikit-learn}
+    \item \textbf{09.11} Variables Categóricas y Variables Muda
+    \item \textbf{09.12} Transformaciones No Lineales y Regresión Polinomial
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Presentar la regresión lineal como modelo estocástico predictivo: distinguirla de los modelos determinísticos, diferenciarla formalmente de la correlación (Sección 09.01), enumerar sus cinco supuestos clásicos, y ubicar la regresión simple y múltiple dentro del panorama de aplicaciones en ciencia de datos.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De la Asociación al Modelo Predictivo}
+  \footnotesize
+  \begin{motivacion}
+    La regresión lineal es una técnica desarrollada en el siglo XIX por Francis Galton y formalizada matemáticamente por Karl Pearson y Ronald Fisher. A pesar de su simplicidad, sirve de base para técnicas más avanzadas: regresión polinomial, modelos lineales generalizados, y métodos de aprendizaje automático.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Predicción:} estimar valores futuros a partir de datos históricos. \pause
+    \item \textbf{Inferencia:} comprender y cuantificar relaciones entre variables.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Modelos determinísticos vs. estocásticos
+\begin{frame}{Modelos Determinísticos vs. Estocásticos}
+  \footnotesize
+  \begin{block}{Modelo Determinístico}
+    Produce siempre el mismo resultado para las mismas entradas (ej. $F=ma$): no hay término de error.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Modelo Estocástico}
+    La regresión lineal reconoce que las observaciones reales no siguen perfectamente una relación lineal: incluye un componente de error aleatorio $\epsilon$, reflejando factores no capturados por el modelo.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Ejemplo del modelo
+\begin{frame}{Ejemplo: el Precio de una Casa como Modelo Lineal}
+  \footnotesize
+  \begin{block}{Especificación del Modelo}
+    Si el precio $P$ depende linealmente del tamaño $S$, las comodidades $A$ y el acceso a transporte $T$:
+    $$P = a_1 S + a_2 A + a_3 T + \epsilon$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Componentes}
+    $P$ es la variable de salida (predicha); $S,A,T$ son las variables de entrada (conocidas); $a_1,a_2,a_3$ son parámetros que deben \textbf{estimarse a partir de datos históricos}; $\epsilon$ es el error aleatorio irreducible.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Correlación vs. regresión
+\begin{frame}{Correlación vs. Regresión: la Distinción Formal}
+  \footnotesize
+  \begin{block}{Correlación (Sección 09.01)}
+    Mide fuerza y dirección; es \textbf{simétrica} ($r_{XY}=r_{YX}$) y adimensional.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Regresión}
+    Modela la relación funcional para \textbf{predecir} valores; \textbf{no es simétrica} (regredir $Y$ sobre $X$ da coeficientes distintos que regredir $X$ sobre $Y$) y sus coeficientes tienen unidades.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Supuestos clásicos
+\begin{frame}{Los Cinco Supuestos Clásicos (Vista Previa)}
+  \footnotesize
+  Para que las inferencias de un modelo de regresión sean válidas:
+  \begin{enumerate}\itemsep=0.06cm
+    \item \textbf{Linealidad} de la relación predictor-respuesta. \pause
+    \item \textbf{Independencia} de las observaciones. \pause
+    \item \textbf{Homocedasticidad}: varianza constante del error. \pause
+    \item \textbf{Normalidad} de los errores. \pause
+    \item \textbf{No multicolinealidad} entre predictores.
+  \end{enumerate}
+  \vspace{0.05cm}
+  \begin{alertblock}{Nota}
+    El diagnóstico formal completo de estos cinco supuestos se desarrolla en la Sección 09.09.
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Tipos de regresión
+\begin{frame}{Regresión Simple vs. Regresión Múltiple}
+  \footnotesize
+  \begin{block}{Regresión Lineal Simple}
+    Una sola variable predictora: $Y=\beta_0+\beta_1X+\epsilon$ (Secciones 09.03-09.06).
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Regresión Lineal Múltiple}
+    Dos o más predictores: $Y=\beta_0+\beta_1X_1+\cdots+\beta_pX_p+\epsilon$ (Sección 09.07). Ambos tipos comparten el mismo principio: mínimos cuadrados ordinarios.
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Determinístico vs. Estocástico}
+  \scriptsize
+  Varianza residual nula en un modelo determinístico vs. varianza no nula en uno estocástico (\texttt{09.02\_introduction\_to\_regression.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=27]{../../code/09_regresiones/09.02_introduction_to_regression.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Regresión Simple vs. Múltiple}
+  \scriptsize
+  Comparación de $R^2$ al pasar de un predictor a tres, usando el ejemplo del precio de la vivienda:
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=30, lastline=47]{../../code/09_regresiones/09.02_introduction_to_regression.py}}
+\end{frame}
+
+% Slide 11: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Vista Previa de los Supuestos}
+  \scriptsize
+  Verificación numérica rápida de media-cero y homoscedasticidad (auditoría completa en 09.09):
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=50, lastline=64]{../../code/09_regresiones/09.02_introduction_to_regression.py}}
+\end{frame}
+
+% Slide 12: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{3.6pt}{4.3pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Deterministic vs. Stochastic ===
+Deterministic (F=ma):     residual variance = 0.000000
+Stochastic (price~size):  residual variance = 65.9973
+
+=== Block 2: Simple vs. Multiple Regression ===
+Simple (price~size):                  R^2=0.6728
+Multiple (price~size+amenities+transit): R^2=0.8893 (+0.2165)
+
+=== Block 3: Assumptions Quick Preview ===
+mean(residuals) = -0.000000 (zero-mean OK)
+Var(first half)=2.35, Var(second half)=2.45 (homoscedasticity OK)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13: Aplicaciones
+\begin{frame}{Aplicaciones Prácticas de la Regresión Lineal}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Finanzas:} predicción de precios de acciones, evaluación de riesgo crediticio. \pause
+    \item \textbf{Marketing:} modelar el impacto de la publicidad en ventas (el caso de la Sección 09.01). \pause
+    \item \textbf{Medicina:} relacionar dosis de medicamentos con respuestas clínicas. \pause
+    \item \textbf{Ingeniería y ciencias sociales:} control de calidad, predicción de fallas, estudios socioeconómicos.
+  \end{itemize}
+\end{frame}
+
+% Slide 14: Cierre
+\begin{frame}{Cierre de Sección: Introducción a la Regresión Lineal}
+  \begin{reflexion}
+    La regresión lineal formaliza la asociación medida por la correlación en un modelo estocástico predictivo: reconoce explícitamente que las observaciones reales incluyen error aleatorio, y descansa sobre cinco supuestos clásicos que garantizan la validez de sus inferencias.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Estocástico, no determinístico:} el término $\epsilon$ es central, no un detalle menor.
+      \item \textbf{Correlación $\neq$ regresión:} la regresión predice y sus coeficientes tienen unidades e interpretación asimétrica.
+      \item \textbf{Simple vs. múltiple:} mismo principio (mínimos cuadrados), distinto número de predictores.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 15: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Con el modelo conceptualmente establecido, la Sección 09.03 responde la pregunta matemática central: ¿cómo se estiman exactamente los parámetros $\beta_0,\beta_1$ a partir de los datos? Derivaremos rigurosamente las fórmulas de mínimos cuadrados ordinarios (MCO) y demostraremos la descomposición fundamental $\text{SCT}=\text{SCR}+\text{SCE}$ que da origen al coeficiente $R^2$.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa el cálculo diferencial básico: mínimos de una función mediante derivadas parciales.
+      \item Reflexiona sobre qué significa "minimizar la suma de errores cuadráticos" geométricamente.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

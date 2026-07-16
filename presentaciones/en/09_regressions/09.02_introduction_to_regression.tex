@@ -1,0 +1,224 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Introduction to Regression]{Section 09.02: Introduction to Linear Regression}
+\subtitle{Stochastic Models, Classical Assumptions, and Applications}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
+  \scriptsize
+  Where are we in the modular development of this chapter?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlation as the Premise of Regression
+    \item \textbf{09.02} Introduction to Linear Regression \emph{(Today)}
+    \item \textbf{09.03} The Mathematics of Regression: OLS Derivation and $R^2$
+    \item \textbf{09.04} Linear Regression on Simulated Data
+    \item \textbf{09.05} Optimal Coefficients, $t$/$F$ Tests, and RSE
+    \item \textbf{09.06} Implementation in Python with \texttt{statsmodels}
+    \item \textbf{09.07} Multiple Regression, the Normal Equation, and Ridge/Lasso
+    \item \textbf{09.08} Model Validation and $k$-fold Cross-Validation
+    \item \textbf{09.09} Residual Diagnostics and Multicollinearity (VIF)
+    \item \textbf{09.10} Regression with \texttt{scikit-learn}
+    \item \textbf{09.11} Categorical Variables and Dummy Variables
+    \item \textbf{09.12} Nonlinear Transformations and Polynomial Regression
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Present linear regression as a predictive stochastic model: distinguish it from deterministic models, formally differentiate it from correlation (Section 09.01), enumerate its five classical assumptions, and place simple and multiple regression within the landscape of data science applications.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{From Association to Predictive Model}
+  \footnotesize
+  \begin{motivacion}
+    Linear regression is a technique developed in the 19th century by Francis Galton and mathematically formalized by Karl Pearson and Ronald Fisher. Despite its simplicity, it serves as the foundation for more advanced techniques: polynomial regression, generalized linear models, and machine learning methods.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Prediction:} estimating future values from historical data. \pause
+    \item \textbf{Inference:} understanding and quantifying relationships between variables.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Deterministic vs stochastic models
+\begin{frame}{Deterministic vs. Stochastic Models}
+  \footnotesize
+  \begin{block}{Deterministic Model}
+    Always produces the same output for the same inputs (e.g. $F=ma$): there is no error term.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Stochastic Model}
+    Linear regression recognizes that real observations do not follow a linear relationship perfectly: it includes a random error component $\epsilon$, reflecting factors not captured by the model.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Model example
+\begin{frame}{Example: House Price as a Linear Model}
+  \footnotesize
+  \begin{block}{Model Specification}
+    If house price $P$ depends linearly on size $S$, amenities $A$, and transit access $T$:
+    $$P = a_1 S + a_2 A + a_3 T + \epsilon$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Components}
+    $P$ is the output (predicted) variable; $S,A,T$ are the input (known) variables; $a_1,a_2,a_3$ are parameters that must be \textbf{estimated from historical data}; $\epsilon$ is the irreducible random error.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Correlation vs regression
+\begin{frame}{Correlation vs. Regression: the Formal Distinction}
+  \footnotesize
+  \begin{block}{Correlation (Section 09.01)}
+    Measures strength and direction; is \textbf{symmetric} ($r_{XY}=r_{YX}$) and dimensionless.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Regression}
+    Models the functional relationship to \textbf{predict} values; is \textbf{not symmetric} (regressing $Y$ on $X$ gives different coefficients than regressing $X$ on $Y$) and its coefficients carry units.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Classical assumptions
+\begin{frame}{The Five Classical Assumptions (Preview)}
+  \footnotesize
+  For a regression model's inferences to be valid:
+  \begin{enumerate}\itemsep=0.06cm
+    \item \textbf{Linearity} of the predictor-response relationship. \pause
+    \item \textbf{Independence} of observations. \pause
+    \item \textbf{Homoscedasticity}: constant error variance. \pause
+    \item \textbf{Normality} of the errors. \pause
+    \item \textbf{No multicollinearity} among predictors.
+  \end{enumerate}
+  \vspace{0.05cm}
+  \begin{alertblock}{Note}
+    The full formal audit of these five assumptions is developed in Section 09.09.
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Types of regression
+\begin{frame}{Simple vs. Multiple Regression}
+  \footnotesize
+  \begin{block}{Simple Linear Regression}
+    A single predictor variable: $Y=\beta_0+\beta_1X+\epsilon$ (Sections 09.03-09.06).
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Multiple Linear Regression}
+    Two or more predictors: $Y=\beta_0+\beta_1X_1+\cdots+\beta_pX_p+\epsilon$ (Section 09.07). Both types share the same underlying principle: ordinary least squares.
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Deterministic vs. Stochastic}
+  \scriptsize
+  Zero residual variance in a deterministic model vs. nonzero variance in a stochastic one (\texttt{09.02\_introduction\_to\_regression.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=27]{../../code/09_regresiones/09.02_introduction_to_regression.py}}
+\end{frame}
+
+% Slide 10: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Simple vs. Multiple Regression}
+  \scriptsize
+  Comparing $R^2$ when going from one predictor to three, using the house-price example:
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=30, lastline=47]{../../code/09_regresiones/09.02_introduction_to_regression.py}}
+\end{frame}
+
+% Slide 11: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: Assumptions Preview}
+  \scriptsize
+  Quick numeric check of zero-mean and homoscedasticity (full audit in 09.09):
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=50, lastline=64]{../../code/09_regresiones/09.02_introduction_to_regression.py}}
+\end{frame}
+
+% Slide 12: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.6pt}{4.3pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Deterministic vs. Stochastic ===
+Deterministic (F=ma):     residual variance = 0.000000
+Stochastic (price~size):  residual variance = 65.9973
+
+=== Block 2: Simple vs. Multiple Regression ===
+Simple (price~size):                  R^2=0.6728
+Multiple (price~size+amenities+transit): R^2=0.8893 (+0.2165)
+
+=== Block 3: Assumptions Quick Preview ===
+mean(residuals) = -0.000000 (zero-mean OK)
+Var(first half)=2.35, Var(second half)=2.45 (homoscedasticity OK)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13: Applications
+\begin{frame}{Practical Applications of Linear Regression}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Finance:} stock price prediction, credit risk assessment. \pause
+    \item \textbf{Marketing:} modeling the impact of advertising on sales (the Section 09.01 case). \pause
+    \item \textbf{Medicine:} relating drug dosages to clinical responses. \pause
+    \item \textbf{Engineering and social sciences:} quality control, failure prediction, socioeconomic studies.
+  \end{itemize}
+\end{frame}
+
+% Slide 14: Closing
+\begin{frame}{Section Closing: Introduction to Linear Regression}
+  \begin{reflexion}
+    Linear regression formalizes the association measured by correlation into a predictive stochastic model: it explicitly recognizes that real observations include random error, and rests on five classical assumptions that guarantee the validity of its inferences.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Stochastic, not deterministic:} the $\epsilon$ term is central, not a minor detail.
+      \item \textbf{Correlation $\neq$ regression:} regression predicts and its coefficients have units and asymmetric interpretation.
+      \item \textbf{Simple vs. multiple:} same principle (least squares), different number of predictors.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 15: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    With the model conceptually established, Section 09.03 answers the central mathematical question: how exactly are the parameters $\beta_0,\beta_1$ estimated from the data? We will rigorously derive the ordinary least squares (OLS) formulas and prove the fundamental decomposition $\text{SST}=\text{SSR}+\text{SSE}$ that gives rise to the coefficient $R^2$.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Review basic differential calculus: minimizing a function via partial derivatives.
+      \item Reflect on what "minimizing the sum of squared errors" means geometrically.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

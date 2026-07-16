@@ -1,0 +1,248 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Coeficientes Óptimos]{Sección 09.05: Coeficientes Óptimos y Pruebas de Significancia}
+\subtitle{Prueba $t$ para la Pendiente, la Identidad $F=t^2$, y el Error Estándar Residual}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 09: Regresiones Lineales y Múltiples}
+  \scriptsize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlación como Premisa de la Regresión
+    \item \textbf{09.02} Introducción a la Regresión Lineal
+    \item \textbf{09.03} Matemáticas de la Regresión: Derivación MCO y $R^2$
+    \item \textbf{09.04} Regresión Lineal sobre Datos Simulados
+    \item \textbf{09.05} Coeficientes Óptimos, Pruebas $t$/$F$ y RSE \emph{(Hoy)}
+    \item \textbf{09.06} Implementación en Python con \texttt{statsmodels}
+    \item \textbf{09.07} Regresión Múltiple, Ecuación Normal y Ridge/Lasso
+    \item \textbf{09.08} Validación de Modelos y $k$-fold Cross-Validation
+    \item \textbf{09.09} Diagnóstico de Residuos y Multicolinealidad (VIF)
+    \item \textbf{09.10} Regresión con \texttt{scikit-learn}
+    \item \textbf{09.11} Variables Categóricas y Variables Muda
+    \item \textbf{09.12} Transformaciones No Lineales y Regresión Polinomial
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Someter el coeficiente de pendiente estimado a una prueba de hipótesis formal, verificar la identidad algebraica $F=t^2$ que conecta la significancia individual con la global en regresión simple, y calcular el Error Estándar Residual (RSE) como medida absoluta --- no relativa --- de la calidad del ajuste.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{¿Son Confiables los Coeficientes Estimados?}
+  \footnotesize
+  \begin{motivacion}
+    Al calcular los valores de $\hat\alpha$ y $\hat\beta$, obtenemos \textbf{estimados}, no valores exactos: cada uno lleva asociado un valor-$p$. Necesitamos demostrar su significancia estadística mediante una prueba de hipótesis antes de confiar en el modelo.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  La pregunta central: ¿el valor $\hat\beta$ que obtuvimos es diferente de cero, o podría ser simplemente ruido muestral alrededor de $\beta=0$ (ausencia real de relación lineal)?
+\end{frame}
+
+% Slide 4: Prueba de hipótesis para beta
+\begin{frame}{Prueba de Hipótesis para la Pendiente}
+  \footnotesize
+  \begin{block}{Planteamiento}
+    $$H_0:\beta=0 \quad (\text{no hay relación lineal}) \qquad \text{vs.} \qquad H_a:\beta\neq0$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Estadístico de Prueba}
+    $$t=\frac{\hat\beta}{SE(\hat\beta)}, \qquad SE(\hat\beta)=\sqrt{\frac{\text{CME}}{S_{XX}}} \ \sim\ t_{n-2} \quad\text{bajo } H_0$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: La identidad F=t²
+\begin{frame}{La Identidad $F=t^2$ en Regresión Simple}
+  \footnotesize
+  \begin{block}{Prueba $F$ Global}
+    $$F=\frac{\text{SCR}/1}{\text{SCE}/(n-2)} \sim F_{1,n-2}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Conexión Exacta con la Prueba $t$}
+    En regresión simple ($p=1$ predictor), la prueba $F$ global de significancia del modelo y la prueba $t$ individual de la pendiente son \textbf{matemáticamente equivalentes}: $F=t^2$. Con múltiples predictores (Sección 09.07), esta equivalencia desaparece: el estadístico $F$ evalúa la significancia \emph{conjunta}, mientras que cada $t_j$ evalúa una significancia \emph{individual}.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Error Estándar Residual
+\begin{frame}{El Error Estándar Residual (RSE)}
+  \footnotesize
+  \begin{block}{Definición}
+    $$RSE=\sqrt{\frac{\text{SCE}}{n-2}}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Interpretación}
+    RSE estima la desviación estándar del término de error: es el error de predicción típico \emph{en las unidades originales de $Y$}, incluso si los coeficientes fueran conocidos con exactitud absoluta. Se interpreta comparándolo contra $\bar Y$: $RSE/\bar Y$ da un error relativo porcentual.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Coeficientes Óptimos y Prueba $t$}
+  \scriptsize
+  Ajuste MCO y prueba de significancia de la pendiente (\texttt{09.05\_optimal\_coefficients\_and\_tests.py}):
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=18, lastline=35]{../../code/09_regresiones/09.05_optimal_coefficients_and_tests.py}}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Verificación de $F=t^2$}
+  \scriptsize
+  Confirmación numérica de la identidad algebraica exacta entre las pruebas $t$ y $F$:
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=41, lastline=51]{../../code/09_regresiones/09.05_optimal_coefficients_and_tests.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Error Estándar Residual}
+  \scriptsize
+  Cálculo del RSE y su interpretación como error relativo:
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=54, lastline=63]{../../code/09_regresiones/09.05_optimal_coefficients_and_tests.py}}
+\end{frame}
+
+% Slide 10: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{3.6pt}{4.3pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Optimal Coefficients and t-Test ===
+alpha_hat=2.0072, beta_hat=0.3005
+SE(beta_hat)=0.0186, t=16.1441 (df=98), p-value=8.13e-29
+
+=== Block 2: F-Test (F = t^2) ===
+F statistic = 260.6304 (df=1,98), p-value=1.13e-29
+t^2 = 260.6304, |F - t^2| = 0.0000000000
+
+=== Block 3: Residual Standard Error ===
+RSE = 0.4959
+mean(Y) = 2.4568
+Relative error = RSE/mean(Y) = 0.2019 (20.2%)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 11A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel Operativo 1 (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 9.8.4)}
+    Con $n=12$ automóviles, $\sum X_i=57$, $\sum Y_i=170$, $\sum X_i^2=349$, $\sum Y_i^2=2828$, $\sum X_iY_i=644$. Calcule $S_{XX}$, $S_{XY}$, la recta de regresión $\hat Y=\hat\alpha+\hat\beta X$, y el $R^2$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    $S_{XX}=\sum X_i^2-n\bar X^2$; $S_{XY}=\sum X_iY_i-n\bar X\bar Y$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 11B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel Operativo 1 (2/2)}
+  \scriptsize
+  Calculamos las cantidades preliminares y aplicamos las fórmulas de MCO: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\bar X=4.75,\ \bar Y=14.1\overline{6}, \qquad S_{XX}=349-12(4.75)^2\approx77.75, \quad S_{XY}=644-12(4.75)(14.1\overline{6})\approx-163.5$$
+    $$\hat\beta=\frac{-163.5}{77.75}\approx-2.103, \qquad \hat\alpha=14.1\overline{6}-(-2.103)(4.75)\approx24.15$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    La pendiente negativa confirma la depreciación esperada: cada año adicional de antigüedad reduce el precio estimado en $\approx2.10$ mil dólares.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel Operativo 2 (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Prueba $t$ e IC de la Pendiente (Enunciado, Problema 9.8.6)}
+    Con $n=25$ baterías: $\hat Y=60.0-0.80X$, $R^2=0.720$, $S_{XX}=800.0$. Calcule $SE(\hat\beta)$ y construya el IC del $95\%$ para $\beta$ ($t_{0.025,23}=2.069$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    Obtenga $\text{CME}$ a partir de $\text{SCR}=R^2\cdot\text{SCT}$ y $\text{SCE}=\text{SCT}-\text{SCR}$ (requiere $\text{SCT}$; use $\text{SCT}=\hat\beta^2S_{XX}/R^2$).
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel Operativo 2 (2/2)}
+  \scriptsize
+  Despejamos SCT a partir de la pendiente conocida y $R^2$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\text{SCR}=\hat\beta^2S_{XX}=(-0.80)^2(800.0)=512.0, \qquad \text{SCT}=\frac{512.0}{0.720}\approx711.1, \qquad \text{SCE}\approx199.1$$
+    $$\text{CME}=\frac{199.1}{23}\approx8.657, \qquad SE(\hat\beta)=\sqrt{\frac{8.657}{800.0}}\approx0.1040$$
+    $$\text{IC}_{95\%}(\beta): -0.80\pm2.069(0.1040) = (-1.015,\,-0.585)$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Como el intervalo no contiene el cero, $\beta$ es estadísticamente significativo al 95\% de confianza.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13: Cierre
+\begin{frame}{Cierre de Sección: Coeficientes Óptimos y Pruebas de Significancia}
+  \begin{reflexion}
+    Un coeficiente estimado sin una prueba de significancia es solo un número: hemos formalizado cuándo $\hat\beta$ representa evidencia real de una relación lineal, descubierto la elegante identidad $F=t^2$ propia de la regresión simple, y establecido el RSE como la medida absoluta de referencia para juzgar la calidad predictiva de cualquier modelo.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Prueba $t$:} $t=\hat\beta/SE(\hat\beta)\sim t_{n-2}$ bajo $H_0:\beta=0$.
+      \item \textbf{$F=t^2$:} equivalencia exacta exclusiva de la regresión de un solo predictor.
+      \item \textbf{RSE:} error absoluto de predicción en las unidades de $Y$; $RSE/\bar Y$ da el error relativo.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 14: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Hemos calculado todo manualmente con fórmulas cerradas. La Sección 09.06 muestra cómo obtener exactamente los mismos resultados --- coeficientes, valores-$p$, $R^2$, RSE --- con una sola línea de código profesional usando la librería \texttt{statsmodels}, la herramienta estándar de la industria para regresión estadística en Python.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Instala \texttt{statsmodels} si aún no lo tienes (\texttt{pip install statsmodels}).
+      \item Reflexiona sobre las ventajas y riesgos de usar una librería "caja negra" vs. implementar las fórmulas manualmente como en esta sección.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
