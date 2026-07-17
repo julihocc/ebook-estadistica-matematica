@@ -1,0 +1,170 @@
+\section{Problemas resueltos de variables categóricas y transformaciones no lineales}
+
+\subsection{Enunciados de los problemas}
+
+\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
+
+\begin{problema}
+	\label{prob:dummy_dos_niveles_basico}
+	Un modelo de regresión con una variable muda \texttt{Sex\_Male} (1 si el cliente es hombre, 0 si es mujer) ajustado sobre el Ingreso Mensual reporta:
+	\begin{align}
+		\hat{\texttt{Total\_Spend}} = 3570.91 + 0.146\,\texttt{Monthly\_Income} + 231.41\,\texttt{Sex\_Male}.
+	\end{align}
+	Interprete el coeficiente de \texttt{Sex\_Male} y prediga el gasto total para un cliente hombre y una clienta mujer, ambos con un ingreso mensual de $\$10{,}000$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:regla_n_menos_1}
+	Una variable categórica \texttt{Región} tiene 4 niveles: Norte, Sur, Este, Oeste. Aplicando la regla $(n-1)$ de codificación de variables muda, determine cuántas variables muda deben crearse, defina explícitamente cada una en notación de indicador, y especifique cuál nivel queda como referencia base.
+\end{problema}
+
+\begin{problema}
+	\label{prob:prediccion_tres_niveles_dummy}
+	Con las variables muda \texttt{Tier\_1} y \texttt{Tier\_2} (nivel de referencia: \texttt{Tier\_3}) para la variable \texttt{City Tier}, un modelo reporta:
+	\begin{align}
+		\hat{\texttt{Total\_Spend}} = 2997.19 + 0.1205\,\texttt{Monthly\_Income} + 390.72\,\texttt{Tier\_1} + 125.35\,\texttt{Tier\_2}.
+	\end{align}
+	Escriba la ecuación reducida del modelo (en función únicamente del ingreso) para cada uno de los tres niveles de ciudad por separado.
+\end{problema}
+
+\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
+
+\begin{problema}
+	\label{prob:interpretacion_completa_dummy}
+	Para el modelo del Problema \ref{prob:prediccion_tres_niveles_dummy}, prediga el gasto total esperado de un cliente con ingreso mensual de $\$8{,}000$ que vive en una ciudad de Nivel 1, y compárelo contra un cliente idéntico en ingreso pero residente en una ciudad de Nivel 3.
+\end{problema}
+
+\begin{problema}
+	\label{prob:prueba_f_parcial_categorica}
+	Un analista compara dos modelos anidados sobre $n=150$ observaciones: el Modelo 1 (restringido, sin variables muda de ciudad) tiene $R_1^2=0.68$ con $p_1=1$ predictor; el Modelo 2 (completo, con las 2 variables muda de \texttt{City Tier}) tiene $R_2^2=0.74$ con $p_2=3$ predictores. Realice la Prueba $F$ Parcial ($H_0:$ ambos coeficientes de las variables muda son cero) al $\alpha=0.05$ ($F_{0.05,2,146}\approx3.06$), usando $F_{\text{parcial}}=\dfrac{(R_2^2-R_1^2)/(p_2-p_1)}{(1-R_2^2)/(n-p_2-1)}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:rango_matriz_diseno_dummies}
+	Para una variable categórica con $k=5$ niveles, determine el rango de la matriz de diseño $\mathbf{X}$ (incluyendo el intercepto) en dos escenarios: (a) codificación correcta con $(k-1)=4$ variables muda, y (b) codificación incorrecta incluyendo las $k=5$ variables muda junto con el intercepto. Explique la diferencia.
+\end{problema}
+
+\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
+
+\begin{problema}
+	\label{prob:dummy_equivale_diferencia_medias}
+	Considere un modelo de regresión simple con una única variable muda de dos niveles $D_i\in\{0,1\}$ y ningún otro predictor: $Y_i=\beta_0+\beta_1D_i+\varepsilon_i$. Demuestre que el estimador de mínimos cuadrados $\hat\beta_1$ es exactamente igual a la diferencia de las medias muestrales entre el grupo $D=1$ y el grupo $D=0$ ($\hat\beta_1=\bar Y_{D=1}-\bar Y_{D=0}$), y que $\hat\beta_0=\bar Y_{D=0}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:interaccion_dummy_continua}
+	Un modelo incluye una interacción entre una variable muda $D$ y un predictor continuo $X$: $\hat Y=\hat\beta_0+\hat\beta_1X+\hat\beta_2D+\hat\beta_3(X\times D)$. Derive las dos ecuaciones reducidas del modelo para $D=0$ y $D=1$ por separado, e interprete qué representa específicamente el coeficiente $\hat\beta_3$ en términos de la diferencia de pendientes entre los dos grupos.
+\end{problema}
+
+\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
+
+\begin{problema}
+	\label{prob:trampa_variable_dummy_deduccion}
+	\textbf{Demostración formal de la Trampa de la Variable Muda:}
+	Sea $\mathbf{X}$ la matriz de diseño de un modelo con intercepto y las $k$ variables muda completas ($D_1,\ldots,D_k$) para una variable categórica de $k$ niveles, sin omitir ningún nivel de referencia. Demuestre algebraicamente que las columnas de $\mathbf{X}$ satisfacen una dependencia lineal exacta ($\sum_{j=1}^k D_j = \mathbf{1}$, el vector de unos, para toda observación), y concluya formalmente por qué esto implica que $\mathbf{X}^T\mathbf{X}$ es exactamente singular y la Ecuación Normal de la Sección 09.07 no tiene solución única.
+\end{problema}
+
+\begin{problema}
+	\label{prob:equivalencia_anova_regresion_dummy}
+	\textbf{Equivalencia formal entre ANOVA de un factor y regresión con variables muda:}
+	Considere el modelo de ANOVA de un factor de la Sección 08.01 con $k$ tratamientos, $Y_{ij}=\mu+\tau_i+\epsilon_{ij}$, y su reformulación equivalente como un modelo de regresión múltiple con $(k-1)$ variables muda: $Y=\beta_0+\beta_1D_1+\cdots+\beta_{k-1}D_{k-1}+\epsilon$, donde $D_j=1$ si la observación pertenece al tratamiento $j$ (para $j=1,\ldots,k-1$) y el tratamiento $k$ es el nivel de referencia. Demuestre que: (a) $\beta_0=\mu_k$ (la media del grupo de referencia), (b) $\beta_j=\mu_j-\mu_k$ para $j=1,\ldots,k-1$, y (c) la Prueba $F$ Parcial de significancia conjunta de los $(k-1)$ coeficientes de las variables muda ($H_0:\beta_1=\cdots=\beta_{k-1}=0$) es algebraicamente idéntica a la Prueba $F$ global del ANOVA de un factor ($H_0:\tau_1=\cdots=\tau_k=0$).
+\end{problema}
+
+
+\subsection{Soluciones detalladas}
+
+\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
+
+\begin{solproblema}
+	El coeficiente $231.41$ indica que, manteniendo el ingreso mensual constante, un cliente hombre gasta en promedio $\$231.41$ más que una clienta mujer (el nivel de referencia). Para ingreso $=\$10{,}000$:
+	\begin{align}
+		\text{Hombre:}\ \hat Y = 3570.91+0.146(10000)+231.41(1) = 3570.91+1460+231.41 = 5262.32.
+	\end{align}
+	\begin{align}
+		\text{Mujer:}\ \hat Y = 3570.91+0.146(10000)+231.41(0) = 3570.91+1460 = 5030.91.
+	\end{align}
+	La diferencia es exactamente $\$231.41$, el coeficiente de la variable muda.
+\end{solproblema}
+
+\begin{solproblema}
+	Con $k=4$ niveles, la regla $(n-1)$ exige crear $4-1=3$ variables muda. Definimos, tomando Oeste como referencia base:
+	\begin{align}
+		D_{\text{Norte}}=\begin{cases}1 & \text{si Región}=\text{Norte}\\0&\text{en otro caso}\end{cases}, \quad D_{\text{Sur}}=\begin{cases}1 & \text{si Región}=\text{Sur}\\0&\text{en otro caso}\end{cases}, \quad D_{\text{Este}}=\begin{cases}1 & \text{si Región}=\text{Este}\\0&\text{en otro caso}\end{cases}.
+	\end{align}
+	El nivel Oeste queda representado implícitamente cuando las tres variables muda son simultáneamente cero.
+\end{solproblema}
+
+\begin{solproblema}
+	Sustituyendo cada combinación de variables muda:
+	\begin{align}
+		\text{Tier 1} & (\texttt{Tier\_1}=1,\texttt{Tier\_2}=0):\quad \hat Y = (2997.19+390.72)+0.1205\,\texttt{Income} = 3387.91+0.1205\,\texttt{Income}.
+	\end{align}
+	\begin{align}
+		\text{Tier 2} & (\texttt{Tier\_1}=0,\texttt{Tier\_2}=1):\quad \hat Y = (2997.19+125.35)+0.1205\,\texttt{Income} = 3122.54+0.1205\,\texttt{Income}.
+	\end{align}
+	\begin{align}
+		\text{Tier 3} & (\texttt{Tier\_1}=0,\texttt{Tier\_2}=0):\quad \hat Y = 2997.19+0.1205\,\texttt{Income}.
+	\end{align}
+\end{solproblema}
+
+\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
+
+\begin{solproblema}
+	Para Tier 1 con ingreso $\$8{,}000$: $\hat Y = 3387.91+0.1205(8000) = 3387.91+964.0 = 4351.91$.
+	Para Tier 3 con el mismo ingreso: $\hat Y = 2997.19+0.1205(8000) = 2997.19+964.0 = 3961.19$.
+	La diferencia es $4351.91-3961.19=390.72$, exactamente el coeficiente de \texttt{Tier\_1} (la diferencia respecto al nivel de referencia Tier 3), como era de esperarse.
+\end{solproblema}
+
+\begin{solproblema}
+	\begin{align}
+		F_{\text{parcial}} = \frac{(0.74-0.68)/(3-1)}{(1-0.74)/(150-3-1)} = \frac{0.06/2}{0.26/146} = \frac{0.03}{0.001781} \approx 16.85.
+	\end{align}
+	Como $16.85>3.06$, \textbf{se rechaza $H_0$}: las variables muda de \texttt{City Tier} son conjuntamente significativas; incluir la categoría de ciudad mejora significativamente el modelo.
+\end{solproblema}
+
+\begin{solproblema}
+	(a) Con $(k-1)=4$ variables muda más el intercepto, $\mathbf{X}$ tiene 5 columnas linealmente independientes: rango completo $=5$.
+	(b) Con las $k=5$ variables muda más el intercepto, $\mathbf{X}$ tiene 6 columnas, pero la suma de las 5 columnas muda es idénticamente igual a la columna de unos (el intercepto) en cada fila: existe una dependencia lineal exacta, por lo que el rango sigue siendo $5$, no $6$. La matriz es rango-deficiente (Trampa de la Variable Muda), y $\mathbf{X}^T\mathbf{X}$ no es invertible.
+\end{solproblema}
+
+\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
+
+\begin{solproblema}
+	Sea $n_0$ el número de observaciones con $D=0$ y $n_1$ con $D=1$ ($n=n_0+n_1$). La matriz de diseño es $\mathbf{X}=[\mathbf{1}\ \ \mathbf{D}]$. Calculamos:
+	\begin{align}
+		\mathbf{X}^T\mathbf{X} = \begin{pmatrix} n & n_1 \\ n_1 & n_1 \end{pmatrix}, \qquad \mathbf{X}^T\mathbf{Y} = \begin{pmatrix} \sum Y_i \\ \sum_{D_i=1} Y_i \end{pmatrix} = \begin{pmatrix} n_0\bar Y_{D=0}+n_1\bar Y_{D=1} \\ n_1\bar Y_{D=1} \end{pmatrix}.
+	\end{align}
+	Resolviendo el sistema $\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y}$ por sustitución directa: de la segunda ecuación, $n_1\hat\beta_0+n_1\hat\beta_1=n_1\bar Y_{D=1} \implies \hat\beta_0+\hat\beta_1=\bar Y_{D=1}$. De la primera ecuación menos la segunda: $(n-n_1)\hat\beta_0 = n_0\bar Y_{D=0} \implies \hat\beta_0=\bar Y_{D=0}$ (ya que $n-n_1=n_0$). Sustituyendo de vuelta: $\hat\beta_1=\bar Y_{D=1}-\bar Y_{D=0}$.
+\end{solproblema}
+
+\begin{solproblema}
+	Para $D=0$: $\hat Y=\hat\beta_0+\hat\beta_1X$ (la ecuación se reduce eliminando los términos con $D$).
+	Para $D=1$: $\hat Y=(\hat\beta_0+\hat\beta_2)+(\hat\beta_1+\hat\beta_3)X$.
+	La pendiente del grupo $D=0$ es $\hat\beta_1$; la pendiente del grupo $D=1$ es $\hat\beta_1+\hat\beta_3$. Por tanto, $\hat\beta_3$ representa exactamente la \textbf{diferencia de pendientes} entre los dos grupos: si $\hat\beta_3=0$, ambos grupos comparten la misma pendiente (rectas paralelas); si $\hat\beta_3\neq0$, el efecto de $X$ sobre $Y$ es distinto según el grupo (interacción genuina).
+\end{solproblema}
+
+\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
+
+\begin{solproblema}
+	\textbf{Demostración de la Trampa de la Variable Muda:}
+
+	Por construcción, cada variable muda $D_j$ para $j=1,\ldots,k$ satisface $D_j=1$ si y solo si la observación pertenece al nivel $j$, y $D_j=0$ en caso contrario. Como cada observación pertenece a \textbf{exactamente un} nivel de la variable categórica (los $k$ niveles son mutuamente excluyentes y colectivamente exhaustivos), para cada fila $i$ exactamente una de las $D_{ij}$ vale $1$ y todas las demás valen $0$. Por lo tanto:
+	\begin{align}
+		\sum_{j=1}^k D_{ij} = 1 \quad \text{para toda observación } i \implies \sum_{j=1}^k \mathbf{D}_j = \mathbf{1}_n,
+	\end{align}
+	donde $\mathbf{D}_j$ es la $j$-ésima columna de variable muda y $\mathbf{1}_n$ es el vector de unos (la columna del intercepto). Esta es una combinación lineal exacta y no trivial entre las $(k+1)$ columnas de $\mathbf{X}=[\mathbf{1}_n\ \ \mathbf{D}_1\ \cdots\ \mathbf{D}_k]$: la columna del intercepto es idénticamente igual a la suma de las $k$ columnas muda.
+
+	Como existe una dependencia lineal exacta entre las columnas, el rango de $\mathbf{X}$ es estrictamente menor que su número de columnas $(k+1)$: $\text{rango}(\mathbf{X})\leq k$. En consecuencia, $\mathbf{X}^T\mathbf{X}$ (una matriz de $(k+1)\times(k+1)$) también tiene rango $\leq k<k+1$, por lo que es \textbf{singular} (determinante cero, no invertible). La Ecuación Normal $\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y}$ de la Sección 09.07 no tiene solución única: existen infinitas soluciones $\hat{\boldsymbol\beta}$ que producen el mismo ajuste, exactamente el mismo fenómeno analizado para colinealidad perfecta en la Sección 09.10.
+\end{solproblema}
+
+\begin{solproblema}
+	\textbf{Demostración de la equivalencia ANOVA--regresión con variables muda:}
+
+	\textbf{(a) y (b): Interpretación de los coeficientes.} Para una observación del tratamiento de referencia $k$, todas las variables muda son cero, de modo que el modelo de regresión se reduce a $E[Y]=\beta_0$. Bajo el modelo ANOVA equivalente, $E[Y_{kj}]=\mu+\tau_k=\mu_k$. Igualando: $\beta_0=\mu_k$.
+
+	Para una observación del tratamiento $j$ (con $j<k$), $D_j=1$ y las demás variables muda son cero, de modo que $E[Y]=\beta_0+\beta_j$. Bajo ANOVA, $E[Y_{ij}]=\mu_j$. Igualando y usando $\beta_0=\mu_k$: $\beta_j = \mu_j-\mu_k$ para cada $j=1,\ldots,k-1$.
+
+	\textbf{(c): Equivalencia de las pruebas $F$.} La hipótesis nula de la regresión $H_0:\beta_1=\cdots=\beta_{k-1}=0$ equivale, por las identidades anteriores, exactamente a $H_0:\mu_1=\mu_2=\cdots=\mu_{k-1}=\mu_k$ (todas las medias de tratamiento son iguales a la media de referencia, y por tanto iguales entre sí) --- que es \textbf{precisamente} la hipótesis nula del ANOVA de un factor, $H_0:\tau_1=\cdots=\tau_k=0$.
+
+	Además, puede demostrarse que la Suma de Cuadrados de la Regresión (SCR) atribuible a las $(k-1)$ variables muda es algebraicamente idéntica a la Suma de Cuadrados de Tratamientos (SCTR) del ANOVA, ya que ambas miden exactamente la misma variabilidad: la dispersión de las $k$ medias de grupo respecto a la media global, ponderada por los tamaños de cada grupo. Como los grados de libertad también coinciden ($k-1$ para el numerador, $N-k$ para el denominador en ambos casos, con $\text{SCE}$ idéntica en ambas formulaciones), el estadístico $F_{\text{parcial}}=\dfrac{\text{SCR}/(k-1)}{\text{SCE}/(N-k)}$ de la regresión es el \textbf{mismo número exacto} que el estadístico $F=\text{CMTR}/\text{CME}$ del ANOVA de un factor de la Sección 08.01: dos formulaciones matemáticas distintas del mismo procedimiento inferencial subyacente.
+\end{solproblema}

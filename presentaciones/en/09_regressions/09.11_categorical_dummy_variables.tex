@@ -1,0 +1,305 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Categorical Variables]{Section 09.11: Categorical Variables and Dummy Variables}
+\subtitle{Dummy Encoding, the $(n-1)$ Rule, and the Dummy Variable Trap}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
+  \scriptsize
+  Where are we in the modular development of this chapter?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlation as the Premise of Regression
+    \item \textbf{09.02} Introduction to Linear Regression
+    \item \textbf{09.03} The Mathematics of Regression: OLS Derivation and $R^2$
+    \item \textbf{09.04} Linear Regression on Simulated Data
+    \item \textbf{09.05} Optimal Coefficients, $t$/$F$ Tests, and RSE
+    \item \textbf{09.06} Implementation in Python with \texttt{statsmodels}
+    \item \textbf{09.07} Multiple Regression, the Normal Equation, and Ridge/Lasso
+    \item \textbf{09.08} Model Validation and $k$-fold Cross-Validation
+    \item \textbf{09.09} Residual Diagnostics and Multicollinearity (VIF)
+    \item \textbf{09.10} Regression with \texttt{scikit-learn}
+    \item \textbf{09.11} Categorical Variables and Dummy Variables \emph{(Today)}
+    \item \textbf{09.12} Nonlinear Transformations and Polynomial Regression
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Incorporate categorical predictors (gender, city category) into a regression model via dummy variables; apply the $(n-1)$ rule to avoid the Dummy Variable Trap; and discover the exact mathematical equivalence between this technique and the one-way ANOVA from Chapter 08.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{The Problem of Non-Numeric Predictors}
+  \footnotesize
+  \begin{motivacion}
+    So far every predictor has been numeric. But many real datasets include categorical variables: gender, product category, geographic region. Assigning arbitrary codes (Female$=0$, Male$=1$, or worse: Tier1$=1$, Tier2$=2$, Tier3$=3$) would impose a \textbf{fictitious} order and numeric scale on categories that have none.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  The standard solution: represent each category via \textbf{binary indicator variables} (dummy variables).
+\end{frame}
+
+% Slide 4: Two-level encoding
+\begin{frame}{Encoding a Two-Level Variable}
+  \footnotesize
+  \begin{block}{Definition}
+    For a 2-level variable (e.g., Gender), we define a single indicator variable:
+    $$D=\begin{cases}1 & \text{if the category of interest (e.g., Male)}\\0 & \text{if the reference category (Female)}\end{cases}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Model}
+    $Y=\beta_0+\beta_1X+\beta_2D+\varepsilon$: the coefficient $\beta_2$ measures the average difference between categories, holding $X$ fixed.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: The (n-1) rule
+\begin{frame}{The $(n-1)$ Rule for Multi-Level Variables}
+  \footnotesize
+  \begin{block}{General Rule}
+    For a categorical variable with $k$ levels, exactly $(k-1)$ dummy variables are created. One level remains the \textbf{base reference}, implicitly represented when all dummy variables are simultaneously zero.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Why Not $k$ Variables?}
+    Including all $k$ dummy variables alongside the intercept produces the \textbf{Dummy Variable Trap}: perfect multicollinearity, since $\sum_{j=1}^kD_j=1$ for every observation.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Connection to ANOVA
+\begin{frame}{A Deep Connection: Dummy Variables and ANOVA}
+  \footnotesize
+  \begin{block}{A Remarkable Discovery}
+    One-way ANOVA (Section 08.01, $Y_{ij}=\mu+\tau_i+\epsilon_{ij}$) and regression with $(k-1)$ dummy variables are \textbf{mathematically identical}: $\beta_0=\mu_k$ (reference mean), $\beta_j=\mu_j-\mu_k$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Same $F$-Test}
+    The Partial $F$-Test on the dummy variable coefficients ($H_0:\beta_1=\cdots=\beta_{k-1}=0$) is \textbf{numerically identical} to the global $F$-Test of one-way ANOVA.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Two-Level Variable}
+  \scriptsize
+  Manually encoding \texttt{Gender} as a dummy variable (\texttt{09.11\_categorical\_dummy\_variables.py}):
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=37]{../../code/09_regresiones/09.11_categorical_dummy_variables.py}}
+\end{frame}
+
+% Slide 8: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Three-Level Variable}
+  \scriptsize
+  Encoding \texttt{City Tier} (3 levels) with exactly 2 dummy variables:
+  {\lstset{basicstyle=\fontsize{3.0pt}{3.7pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=39, lastline=61]{../../code/09_regresiones/09.11_categorical_dummy_variables.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: the Dummy Variable Trap}
+  \scriptsize
+  Numeric verification: including all 3 dummy variables makes the design matrix singular:
+  {\lstset{basicstyle=\fontsize{2.8pt}{3.4pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=64, lastline=86]{../../code/09_regresiones/09.11_categorical_dummy_variables.py}}
+\end{frame}
+
+% Slide 10: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.2pt}{3.9pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Two-Level (Gender) ===
+Male dummy coefficient: 231.41 (male spends $231.41 more, holding income fixed)
+
+=== Block 2: Three-Level (City Tier), n-1 Rule ===
+Tier1=390.72, Tier2=125.35 (baseline: Tier 3); 4 columns for 3 levels, no trap
+
+=== Block 3: Dummy Variable Trap ===
+Correct encoding (2 dummies):  condition number = 3.57
+Trap encoding (all 3 dummies): condition number = 2.92e+15
+Rank of trap matrix: 3 (columns: 4, rank-deficient: True)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 11A: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Fundamental Level (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 9.19.1)}
+    A model reports $\hat{\texttt{Total\_Spend}}=3570.91+0.146\,\texttt{Monthly\_Income}+231.41\,\texttt{Sex\_Male}$. Interpret the \texttt{Sex\_Male} coefficient and predict spend for a male and a female, both with $\$10{,}000$ income.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    Substitute \texttt{Sex\_Male}$=1$ and $=0$ respectively, holding income fixed.
+  \end{alertblock}
+\end{frame}
+
+% Slide 11B: Exercise Level 1 (Resolution)
+\begin{frame}{In-Class Exercise --- Fundamental Level (2/2)}
+  \scriptsize
+  We substitute both cases into the model equation: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$\text{Male: } \hat Y=3570.91+0.146(10000)+231.41(1)=5262.32$$
+    $$\text{Female: } \hat Y=3570.91+0.146(10000)+231.41(0)=5030.91$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    The difference is exactly $\$231.41$, the dummy coefficient: holding income fixed, males spend on average $\$231.41$ more than females (the reference level).
+  \end{alertblock}
+\end{frame}
+
+% Slide 12A: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Operational Level (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Partial $F$-Test (Statement, Problem 9.19.5)}
+    With $n=150$: Model 1 (no dummies) $R_1^2=0.68$, $p_1=1$; Model 2 (with 2 city dummies) $R_2^2=0.74$, $p_2=3$. Run the Partial $F$-Test at $\alpha=0.05$ ($F_{0.05,2,146}\approx3.06$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    $F_{\text{partial}}=\dfrac{(R_2^2-R_1^2)/(p_2-p_1)}{(1-R_2^2)/(n-p_2-1)}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Exercise Level 2 (Resolution)
+\begin{frame}{In-Class Exercise --- Operational Level (2/2)}
+  \scriptsize
+  We substitute directly into the formula: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    $$F_{\text{partial}}=\frac{(0.74-0.68)/2}{(1-0.74)/146}=\frac{0.03}{0.001781}\approx16.85$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    Since $16.85>3.06$, \textbf{we reject $H_0$}: the \texttt{City Tier} dummy variables are jointly significant.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Exercise Level 3 (Statement)
+\begin{frame}{In-Class Exercise --- Analytical Level (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- Dummy = Mean Difference (Statement, Problem 9.19.7)}
+    For $Y_i=\beta_0+\beta_1D_i+\varepsilon_i$ with $D_i\in\{0,1\}$ and no other predictor, prove that $\hat\beta_1=\bar Y_{D=1}-\bar Y_{D=0}$ and $\hat\beta_0=\bar Y_{D=0}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    Compute $\mathbf{X}^T\mathbf{X}$ and $\mathbf{X}^T\mathbf{Y}$ explicitly and solve the 2-equation system.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Exercise Level 3 (Resolution)
+\begin{frame}{In-Class Exercise --- Analytical Level (2/2)}
+  \scriptsize
+  We solve the $2\times2$ system of normal equations: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\mathbf{X}^T\mathbf{X}=\begin{pmatrix}n&n_1\\n_1&n_1\end{pmatrix}, \quad \mathbf{X}^T\mathbf{Y}=\begin{pmatrix}n_0\bar Y_{D=0}+n_1\bar Y_{D=1}\\n_1\bar Y_{D=1}\end{pmatrix} \implies \hat\beta_0=\bar Y_{D=0}, \quad \hat\beta_1=\bar Y_{D=1}-\bar Y_{D=0}$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    Regression with a single dummy variable is exactly equivalent to comparing two sample means --- the same problem solved with two-sample $t$-tests in Chapter 07.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Exercise Level 4 (Statement)
+\begin{frame}{In-Class Exercise --- Challenging Level (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- ANOVA-Regression Equivalence (Statement, Problem 9.19.10)}
+    For one-way ANOVA ($Y_{ij}=\mu+\tau_i+\epsilon_{ij}$, $k$ treatments) and its equivalent regression with $(k-1)$ dummies, prove $\beta_0=\mu_k$, $\beta_j=\mu_j-\mu_k$, and that the Partial $F$-Test is identical to the ANOVA $F$-Test.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    Equate the expectations of both models for each treatment separately.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Exercise Level 4 (Resolution)
+\begin{frame}{In-Class Exercise --- Challenging Level (2/2)}
+  \scriptsize
+  We equate the conditional expectations treatment by treatment: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\text{Treatment } k: E[Y]=\beta_0=\mu+\tau_k=\mu_k \qquad \text{Treatment } j: E[Y]=\beta_0+\beta_j=\mu_j \implies \beta_j=\mu_j-\mu_k$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    $H_0:\beta_1=\cdots=\beta_{k-1}=0 \iff H_0:\mu_1=\cdots=\mu_k$, exactly ANOVA's hypothesis. The SSTR/SSE coincide in both formulations: one-way ANOVA \textbf{is} a special case of multiple regression.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15: Closing
+\begin{frame}{Section Closing: Categorical Variables}
+  \begin{reflexion}
+    Dummy variables extend regression to categorical predictors without imposing an artificial order, strictly following the $(k-1)$ rule to avoid the Dummy Variable Trap. Their exact equivalence with one-way ANOVA reveals that both techniques --- seemingly distinct in Chapters 08 and 09 --- are really the same statistical tool viewed from two angles.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{$(k-1)$ rule:} $k$ levels require exactly $k-1$ dummy variables plus the intercept.
+      \item \textbf{Dummy Variable Trap:} including all $k$ produces perfect collinearity (rank deficiency).
+      \item \textbf{ANOVA $\equiv$ dummy regression:} same mathematics, same $F$-statistic, different notation.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 16: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    We have handled \textbf{categorical} nonlinearity (qualitative variables). Section 09.12, the chapter's closing section, addresses \textbf{functional} nonlinearity: when the relationship between a numeric predictor and the response is not a straight line but a curve (quadratic, polynomial), showing that the same multiple regression engine from Section 09.07 solves this case too.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Reflect on how you might include $X^2$ as a "new variable" within the already-familiar design matrix.
+      \item Review the geometric interpretation of a parabola: vertex, concavity, and its meaning in a predictive model.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

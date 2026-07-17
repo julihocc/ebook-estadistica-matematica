@@ -1,0 +1,194 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Implementation in Python]{Section 09.06: Implementation in Python with \texttt{statsmodels}}
+\subtitle{From Manual Formulas to the Professional Summary Table}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
+  \scriptsize
+  Where are we in the modular development of this chapter?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlation as the Premise of Regression
+    \item \textbf{09.02} Introduction to Linear Regression
+    \item \textbf{09.03} The Mathematics of Regression: OLS Derivation and $R^2$
+    \item \textbf{09.04} Linear Regression on Simulated Data
+    \item \textbf{09.05} Optimal Coefficients, $t$/$F$ Tests, and RSE
+    \item \textbf{09.06} Implementation in Python with \texttt{statsmodels} \emph{(Today)}
+    \item \textbf{09.07} Multiple Regression, the Normal Equation, and Ridge/Lasso
+    \item \textbf{09.08} Model Validation and $k$-fold Cross-Validation
+    \item \textbf{09.09} Residual Diagnostics and Multicollinearity (VIF)
+    \item \textbf{09.10} Regression with \texttt{scikit-learn}
+    \item \textbf{09.11} Categorical Variables and Dummy Variables
+    \item \textbf{09.12} Nonlinear Transformations and Polynomial Regression
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Recognize how the professional \texttt{statsmodels} library condenses into a single summary table exactly the same calculations manually derived in Sections 09.03-09.05: coefficients, standard errors, $t$/$F$ statistics, $R^2$, and RSE.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{From Manual Formulas to the Professional Tool}
+  \footnotesize
+  \begin{motivacion}
+    We have manually derived and computed every component of a regression model. In professional practice, libraries like \texttt{statsmodels} automate these calculations in a single line of code, producing a standardized summary table used across industry and academia.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  Python offers two main routes for regression: \texttt{statsmodels.formula.api} (statistical/inferential focus, similar to R) and \texttt{scikit-learn} (machine-learning focus, Section 09.10).
+\end{frame}
+
+% Slide 4: The ols method
+\begin{frame}[fragile]{The \texttt{statsmodels} \texttt{ols} Method}
+  \footnotesize
+  \begin{block}{Fitting with Formula Notation}
+    \begin{verbatim}
+import statsmodels.formula.api as smf
+model = smf.ols(formula='Sales~TV', data=advert).fit()
+print(model.params)
+    \end{verbatim}
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Output}
+    \texttt{Intercept} $\approx7.03$, \texttt{TV} $\approx0.0475$ --- exactly the same $\hat\alpha,\hat\beta$ we would compute by hand with the Section 09.03 formulas.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: The full summary table
+\begin{frame}{The \texttt{model.summary()} Table}
+  \footnotesize
+  A single call (\texttt{model.summary()}) simultaneously reports:
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{Coefficients} and their \textbf{standard errors} (Section 09.05). \pause
+    \item \textbf{$t$-statistics and $p$-values} per coefficient (Section 09.05). \pause
+    \item \textbf{$R^2$ and adjusted $R^2$} (Section 09.03). \pause
+    \item Overall \textbf{$F$-statistic} and its $p$-value (Section 09.05). \pause
+    \item \textbf{Durbin-Watson}, AIC, BIC --- diagnostics we will develop further in Section 09.09.
+  \end{itemize}
+\end{frame}
+
+% Slide 6: Prediction and RSE
+\begin{frame}[fragile]{Prediction and Residual Standard Error}
+  \footnotesize
+  \begin{block}{Predicting on New Data}
+    \begin{verbatim}
+sales_pred = model.predict(pd.DataFrame(advert['TV']))
+    \end{verbatim}
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{RSE and Relative Error}
+    With $\text{RSE}\approx3.25$ over an average sale of $\approx14.02$, the model's relative error is $\approx23\%$: substantial, and it motivates adding more predictors (\texttt{Radio}, \texttt{Newspaper}) --- the subject of Section 09.07.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Reconstructing the Dataset}
+  \scriptsize
+  Synthetic reconstruction of the classic advertising TV/Sales example (\texttt{09.06\_statsmodels\_style\_summary.py}):
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=18, lastline=25]{../../code/09_regresiones/09.06_statsmodels_style_summary.py}}
+\end{frame}
+
+% Slide 8: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Full Summary Table from Scratch}
+  \scriptsize
+  Manually reproducing every entry of a \texttt{statsmodels} table using only \texttt{numpy}/\texttt{scipy}:
+  {\lstset{basicstyle=\fontsize{3.0pt}{3.7pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=29, lastline=48]{../../code/09_regresiones/09.06_statsmodels_style_summary.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: $R^2$, $F$-Statistic, and RSE}
+  \scriptsize
+  Computing the final global fit-quality metrics:
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=51, lastline=64]{../../code/09_regresiones/09.06_statsmodels_style_summary.py}}
+\end{frame}
+
+% Slide 10: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.4pt}{4.1pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Reconstructing Advertising-Style Dataset ===
+n=200 observations; mean(TV)=146.74, mean(Sales)=14.05
+
+=== Block 2: Full OLS Summary Table ===
+Coefficient    Estimate     Std Err         t       P>|t|
+Intercept        6.0202      0.4670     12.8914    5.24e-28
+TV               0.0547      0.0028     19.7788    9.01e-49
+
+=== Block 3: R^2, F-Statistic, and RSE ===
+R-squared = 0.6640
+F-statistic = 391.2003 (p-value=9.01e-49)
+RSE = 3.2595, mean(Sales) = 14.0533, relative error = 0.2319 (23.2%)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 11: Comparison with the book's example
+\begin{frame}{Comparison: Our Engine vs. \texttt{statsmodels}}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Our synthetic reconstruction produces, for this particular sample, intercept $\approx6.02$, \texttt{TV} slope $\approx0.055$, $R^2\approx0.664$, RSE$\approx3.26$ with relative error $\approx23\%$ --- the same order of magnitude as the book's classic example (intercept $\approx7.03$, slope $\approx0.0475$, $R^2\approx0.61$); the specific differences are due to the sampling variability inherent to a distinct synthetic reconstruction of the original dataset. \pause
+    \item This confirms that our manual OLS engine (Sections 09.03-09.05) computes \textbf{exactly} what \texttt{statsmodels} would report on the same data --- the library uses no different mathematics, it just automates the calculation. \pause
+    \item The $\approx23\%$ relative error is substantial: it motivates incorporating more predictors into a multiple regression model (Section 09.07).
+  \end{itemize}
+\end{frame}
+
+% Slide 12: Closing
+\begin{frame}{Section Closing: Implementation with \texttt{statsmodels}}
+  \begin{reflexion}
+    All the machinery manually derived in Sections 09.03-09.05 --- OLS coefficients, $t$/$F$ tests, RSE --- is exactly what a professional library automates into a single summary table. Understanding the underlying mathematics is what allows one to correctly interpret that table, rather than treating it as a black box.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{\texttt{statsmodels.formula.api.ols}:} R-style formula syntax, inferential focus.
+      \item \textbf{\texttt{model.summary()}:} condenses coefficients, standard errors, $t$, $F$, $R^2$, and diagnostics into one table.
+      \item \textbf{No additional "trick":} the library reproduces exactly the already-derived formulas, introducing no new mathematics.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 13: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    Our single-predictor model's $\approx23\%$ relative error suggests that \texttt{TV} does not tell the whole story. Section 09.07 generalizes the model to \textbf{multiple} simultaneous predictors (\texttt{TV}, \texttt{Radio}, \texttt{Newspaper}) via the Normal Equation in matrix notation, and presents Ridge/Lasso for when those predictors are correlated with each other.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Review basic matrix notation: vectors, matrices, transpose, and inverse.
+      \item Reflect on why adding reasonable predictors should, in principle, reduce the RSE.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

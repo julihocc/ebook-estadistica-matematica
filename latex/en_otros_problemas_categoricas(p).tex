@@ -1,0 +1,170 @@
+\section{Solved Problems on Categorical Variables and Nonlinear Transformations}
+
+\subsection{Problem Statements}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{problema}
+	\label{prob:dummy_dos_niveles_basico}
+	A regression model with a dummy variable \texttt{Sex\_Male} (1 if the customer is male, 0 if female) fitted on Monthly Income reports:
+	\begin{align}
+		\hat{\texttt{Total\_Spend}} = 3570.91 + 0.146\,\texttt{Monthly\_Income} + 231.41\,\texttt{Sex\_Male}.
+	\end{align}
+	Interpret the \texttt{Sex\_Male} coefficient and predict total spend for a male customer and a female customer, both with a monthly income of $\$10{,}000$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:regla_n_menos_1}
+	A categorical variable \texttt{Region} has 4 levels: North, South, East, West. Applying the $(n-1)$ dummy-encoding rule, determine how many dummy variables must be created, explicitly define each one in indicator notation, and specify which level remains as the base reference.
+\end{problema}
+
+\begin{problema}
+	\label{prob:prediccion_tres_niveles_dummy}
+	With dummy variables \texttt{Tier\_1} and \texttt{Tier\_2} (reference level: \texttt{Tier\_3}) for the \texttt{City Tier} variable, a model reports:
+	\begin{align}
+		\hat{\texttt{Total\_Spend}} = 2997.19 + 0.1205\,\texttt{Monthly\_Income} + 390.72\,\texttt{Tier\_1} + 125.35\,\texttt{Tier\_2}.
+	\end{align}
+	Write the reduced model equation (as a function of income only) for each of the three city levels separately.
+\end{problema}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{problema}
+	\label{prob:interpretacion_completa_dummy}
+	For the model in Problem \ref{prob:prediccion_tres_niveles_dummy}, predict the expected total spend of a customer with $\$8{,}000$ monthly income living in a Tier 1 city, and compare it against an identical customer (in income) residing in a Tier 3 city.
+\end{problema}
+
+\begin{problema}
+	\label{prob:prueba_f_parcial_categorica}
+	An analyst compares two nested models on $n=150$ observations: Model 1 (restricted, without city dummy variables) has $R_1^2=0.68$ with $p_1=1$ predictor; Model 2 (full, with the 2 \texttt{City Tier} dummies) has $R_2^2=0.74$ with $p_2=3$ predictors. Run the Partial $F$-Test ($H_0:$ both dummy coefficients are zero) at $\alpha=0.05$ ($F_{0.05,2,146}\approx3.06$), using $F_{\text{partial}}=\dfrac{(R_2^2-R_1^2)/(p_2-p_1)}{(1-R_2^2)/(n-p_2-1)}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:rango_matriz_diseno_dummies}
+	For a categorical variable with $k=5$ levels, determine the rank of the design matrix $\mathbf{X}$ (including the intercept) in two scenarios: (a) correct encoding with $(k-1)=4$ dummy variables, and (b) incorrect encoding including all $k=5$ dummy variables alongside the intercept. Explain the difference.
+\end{problema}
+
+\subsubsection*{3. Analytical Level (Advanced / Connective)}
+
+\begin{problema}
+	\label{prob:dummy_equivale_diferencia_medias}
+	Consider a simple regression model with a single two-level dummy variable $D_i\in\{0,1\}$ and no other predictor: $Y_i=\beta_0+\beta_1D_i+\varepsilon_i$. Prove that the least-squares estimator $\hat\beta_1$ is exactly equal to the difference of sample means between the $D=1$ group and the $D=0$ group ($\hat\beta_1=\bar Y_{D=1}-\bar Y_{D=0}$), and that $\hat\beta_0=\bar Y_{D=0}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:interaccion_dummy_continua}
+	A model includes an interaction between a dummy variable $D$ and a continuous predictor $X$: $\hat Y=\hat\beta_0+\hat\beta_1X+\hat\beta_2D+\hat\beta_3(X\times D)$. Derive the two reduced model equations for $D=0$ and $D=1$ separately, and interpret specifically what the coefficient $\hat\beta_3$ represents in terms of the slope difference between the two groups.
+\end{problema}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{problema}
+	\label{prob:trampa_variable_dummy_deduccion}
+	\textbf{Formal proof of the Dummy Variable Trap:}
+	Let $\mathbf{X}$ be the design matrix of a model with an intercept and all $k$ dummy variables ($D_1,\ldots,D_k$) for a $k$-level categorical variable, without omitting any reference level. Prove algebraically that the columns of $\mathbf{X}$ satisfy an exact linear dependency ($\sum_{j=1}^k D_j = \mathbf{1}$, the vector of ones, for every observation), and formally conclude why this implies $\mathbf{X}^T\mathbf{X}$ is exactly singular and the Section 09.07 Normal Equation has no unique solution.
+\end{problema}
+
+\begin{problema}
+	\label{prob:equivalencia_anova_regresion_dummy}
+	\textbf{Formal equivalence between one-way ANOVA and dummy-variable regression:}
+	Consider the Section 08.01 one-way ANOVA model with $k$ treatments, $Y_{ij}=\mu+\tau_i+\epsilon_{ij}$, and its equivalent reformulation as a multiple regression model with $(k-1)$ dummy variables: $Y=\beta_0+\beta_1D_1+\cdots+\beta_{k-1}D_{k-1}+\epsilon$, where $D_j=1$ if the observation belongs to treatment $j$ (for $j=1,\ldots,k-1$) and treatment $k$ is the reference level. Prove that: (a) $\beta_0=\mu_k$ (the reference group's mean), (b) $\beta_j=\mu_j-\mu_k$ for $j=1,\ldots,k-1$, and (c) the Partial $F$-Test for joint significance of the $(k-1)$ dummy coefficients ($H_0:\beta_1=\cdots=\beta_{k-1}=0$) is algebraically identical to the global $F$-Test of the one-way ANOVA ($H_0:\tau_1=\cdots=\tau_k=0$).
+\end{problema}
+
+
+\subsection{Detailed Solutions}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{solproblema}
+	The coefficient $231.41$ indicates that, holding monthly income fixed, a male customer spends on average $\$231.41$ more than a female customer (the reference level). For income $=\$10{,}000$:
+	\begin{align}
+		\text{Male:}\ \hat Y = 3570.91+0.146(10000)+231.41(1) = 3570.91+1460+231.41 = 5262.32.
+	\end{align}
+	\begin{align}
+		\text{Female:}\ \hat Y = 3570.91+0.146(10000)+231.41(0) = 3570.91+1460 = 5030.91.
+	\end{align}
+	The difference is exactly $\$231.41$, the dummy variable's coefficient.
+\end{solproblema}
+
+\begin{solproblema}
+	With $k=4$ levels, the $(n-1)$ rule requires creating $4-1=3$ dummy variables. Taking West as the base reference:
+	\begin{align}
+		D_{\text{North}}=\begin{cases}1 & \text{if Region}=\text{North}\\0&\text{otherwise}\end{cases}, \quad D_{\text{South}}=\begin{cases}1 & \text{if Region}=\text{South}\\0&\text{otherwise}\end{cases}, \quad D_{\text{East}}=\begin{cases}1 & \text{if Region}=\text{East}\\0&\text{otherwise}\end{cases}.
+	\end{align}
+	The West level is implicitly represented when all three dummy variables are simultaneously zero.
+\end{solproblema}
+
+\begin{solproblema}
+	Substituting each dummy variable combination:
+	\begin{align}
+		\text{Tier 1} & (\texttt{Tier\_1}=1,\texttt{Tier\_2}=0):\quad \hat Y = (2997.19+390.72)+0.1205\,\texttt{Income} = 3387.91+0.1205\,\texttt{Income}.
+	\end{align}
+	\begin{align}
+		\text{Tier 2} & (\texttt{Tier\_1}=0,\texttt{Tier\_2}=1):\quad \hat Y = (2997.19+125.35)+0.1205\,\texttt{Income} = 3122.54+0.1205\,\texttt{Income}.
+	\end{align}
+	\begin{align}
+		\text{Tier 3} & (\texttt{Tier\_1}=0,\texttt{Tier\_2}=0):\quad \hat Y = 2997.19+0.1205\,\texttt{Income}.
+	\end{align}
+\end{solproblema}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{solproblema}
+	For Tier 1 with $\$8{,}000$ income: $\hat Y = 3387.91+0.1205(8000) = 3387.91+964.0 = 4351.91$.
+	For Tier 3 with the same income: $\hat Y = 2997.19+0.1205(8000) = 2997.19+964.0 = 3961.19$.
+	The difference is $4351.91-3961.19=390.72$, exactly the \texttt{Tier\_1} coefficient (the difference relative to the Tier 3 reference level), as expected.
+\end{solproblema}
+
+\begin{solproblema}
+	\begin{align}
+		F_{\text{partial}} = \frac{(0.74-0.68)/(3-1)}{(1-0.74)/(150-3-1)} = \frac{0.06/2}{0.26/146} = \frac{0.03}{0.001781} \approx 16.85.
+	\end{align}
+	Since $16.85>3.06$, \textbf{we reject $H_0$}: the \texttt{City Tier} dummy variables are jointly significant; including the city category significantly improves the model.
+\end{solproblema}
+
+\begin{solproblema}
+	(a) With $(k-1)=4$ dummy variables plus the intercept, $\mathbf{X}$ has 5 linearly independent columns: full rank $=5$.
+	(b) With all $k=5$ dummy variables plus the intercept, $\mathbf{X}$ has 6 columns, but the sum of the 5 dummy columns is identically equal to the column of ones (the intercept) in every row: an exact linear dependency exists, so the rank remains $5$, not $6$. The matrix is rank-deficient (the Dummy Variable Trap), and $\mathbf{X}^T\mathbf{X}$ is not invertible.
+\end{solproblema}
+
+\subsubsection*{3. Analytical Level (Advanced / Connective)}
+
+\begin{solproblema}
+	Let $n_0$ be the number of observations with $D=0$ and $n_1$ with $D=1$ ($n=n_0+n_1$). The design matrix is $\mathbf{X}=[\mathbf{1}\ \ \mathbf{D}]$. We compute:
+	\begin{align}
+		\mathbf{X}^T\mathbf{X} = \begin{pmatrix} n & n_1 \\ n_1 & n_1 \end{pmatrix}, \qquad \mathbf{X}^T\mathbf{Y} = \begin{pmatrix} \sum Y_i \\ \sum_{D_i=1} Y_i \end{pmatrix} = \begin{pmatrix} n_0\bar Y_{D=0}+n_1\bar Y_{D=1} \\ n_1\bar Y_{D=1} \end{pmatrix}.
+	\end{align}
+	Solving the system $\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y}$ by direct substitution: from the second equation, $n_1\hat\beta_0+n_1\hat\beta_1=n_1\bar Y_{D=1} \implies \hat\beta_0+\hat\beta_1=\bar Y_{D=1}$. From the first equation minus the second: $(n-n_1)\hat\beta_0 = n_0\bar Y_{D=0} \implies \hat\beta_0=\bar Y_{D=0}$ (since $n-n_1=n_0$). Substituting back: $\hat\beta_1=\bar Y_{D=1}-\bar Y_{D=0}$.
+\end{solproblema}
+
+\begin{solproblema}
+	For $D=0$: $\hat Y=\hat\beta_0+\hat\beta_1X$ (the equation reduces by eliminating the terms with $D$).
+	For $D=1$: $\hat Y=(\hat\beta_0+\hat\beta_2)+(\hat\beta_1+\hat\beta_3)X$.
+	The slope for group $D=0$ is $\hat\beta_1$; the slope for group $D=1$ is $\hat\beta_1+\hat\beta_3$. Therefore, $\hat\beta_3$ represents exactly the \textbf{slope difference} between the two groups: if $\hat\beta_3=0$, both groups share the same slope (parallel lines); if $\hat\beta_3\neq0$, the effect of $X$ on $Y$ differs by group (genuine interaction).
+\end{solproblema}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{solproblema}
+	\textbf{Proof of the Dummy Variable Trap:}
+
+	By construction, each dummy variable $D_j$ for $j=1,\ldots,k$ satisfies $D_j=1$ if and only if the observation belongs to level $j$, and $D_j=0$ otherwise. Since each observation belongs to \textbf{exactly one} level of the categorical variable (the $k$ levels are mutually exclusive and collectively exhaustive), for each row $i$ exactly one of the $D_{ij}$ equals $1$ and all others equal $0$. Therefore:
+	\begin{align}
+		\sum_{j=1}^k D_{ij} = 1 \quad \text{for every observation } i \implies \sum_{j=1}^k \mathbf{D}_j = \mathbf{1}_n,
+	\end{align}
+	where $\mathbf{D}_j$ is the $j$-th dummy column and $\mathbf{1}_n$ is the vector of ones (the intercept column). This is an exact, nontrivial linear combination among the $(k+1)$ columns of $\mathbf{X}=[\mathbf{1}_n\ \ \mathbf{D}_1\ \cdots\ \mathbf{D}_k]$: the intercept column is identically equal to the sum of the $k$ dummy columns.
+
+	Since an exact linear dependency exists among the columns, the rank of $\mathbf{X}$ is strictly less than its number of columns $(k+1)$: $\text{rank}(\mathbf{X})\leq k$. Consequently, $\mathbf{X}^T\mathbf{X}$ (a $(k+1)\times(k+1)$ matrix) also has rank $\leq k<k+1$, making it \textbf{singular} (zero determinant, non-invertible). The Section 09.07 Normal Equation $\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y}$ has no unique solution: infinitely many solutions $\hat{\boldsymbol\beta}$ produce the same fit, exactly the same phenomenon analyzed for perfect collinearity in Section 09.10.
+\end{solproblema}
+
+\begin{solproblema}
+	\textbf{Proof of the ANOVA--dummy-regression equivalence:}
+
+	\textbf{(a) and (b): Interpreting the coefficients.} For an observation from the reference treatment $k$, all dummy variables are zero, so the regression model reduces to $E[Y]=\beta_0$. Under the equivalent ANOVA model, $E[Y_{kj}]=\mu+\tau_k=\mu_k$. Equating: $\beta_0=\mu_k$.
+
+	For an observation from treatment $j$ (with $j<k$), $D_j=1$ and the other dummy variables are zero, so $E[Y]=\beta_0+\beta_j$. Under ANOVA, $E[Y_{ij}]=\mu_j$. Equating and using $\beta_0=\mu_k$: $\beta_j = \mu_j-\mu_k$ for each $j=1,\ldots,k-1$.
+
+	\textbf{(c): Equivalence of the $F$-tests.} The regression's null hypothesis $H_0:\beta_1=\cdots=\beta_{k-1}=0$ is equivalent, by the above identities, to exactly $H_0:\mu_1=\mu_2=\cdots=\mu_{k-1}=\mu_k$ (all treatment means equal the reference mean, and hence equal to each other) --- which is \textbf{precisely} the one-way ANOVA's null hypothesis, $H_0:\tau_1=\cdots=\tau_k=0$.
+
+	Moreover, it can be shown that the Regression Sum of Squares (SSR) attributable to the $(k-1)$ dummy variables is algebraically identical to the ANOVA's Treatment Sum of Squares (SSTR), since both measure exactly the same variability: the dispersion of the $k$ group means around the grand mean, weighted by each group's size. Since the degrees of freedom also coincide ($k-1$ for the numerator, $N-k$ for the denominator in both cases, with an identical SSE in both formulations), the regression's $F_{\text{partial}}=\dfrac{\text{SSR}/(k-1)}{\text{SSE}/(N-k)}$ statistic is the \textbf{exact same number} as the $F=\text{CMTR}/\text{CME}$ statistic of the Section 08.01 one-way ANOVA: two distinct mathematical formulations of the same underlying inferential procedure.
+\end{solproblema}

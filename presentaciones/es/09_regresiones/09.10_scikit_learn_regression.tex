@@ -1,0 +1,318 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Regresión con scikit-learn]{Sección 09.10: Regresión Lineal con \texttt{scikit-learn}}
+\subtitle{El Flujo de Trabajo Profesional y la Selección Automática de Variables}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 09: Regresiones Lineales y Múltiples}
+  \scriptsize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlación como Premisa de la Regresión
+    \item \textbf{09.02} Introducción a la Regresión Lineal
+    \item \textbf{09.03} Matemáticas de la Regresión: Derivación MCO y $R^2$
+    \item \textbf{09.04} Regresión Lineal sobre Datos Simulados
+    \item \textbf{09.05} Coeficientes Óptimos, Pruebas $t$/$F$ y RSE
+    \item \textbf{09.06} Implementación en Python con \texttt{statsmodels}
+    \item \textbf{09.07} Regresión Múltiple, Ecuación Normal y Ridge/Lasso
+    \item \textbf{09.08} Validación de Modelos y $k$-fold Cross-Validation
+    \item \textbf{09.09} Diagnóstico de Residuos y Multicolinealidad (VIF)
+    \item \textbf{09.10} Regresión con \texttt{scikit-learn} \emph{(Hoy)}
+    \item \textbf{09.11} Variables Categóricas y Variables Muda
+    \item \textbf{09.12} Transformaciones No Lineales y Regresión Polinomial
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Implementar regresión lineal con \texttt{scikit-learn}, el estándar de la industria en aprendizaje automático; verificar que resuelve exactamente la misma Ecuación Normal derivada en la Sección 09.07 mediante descomposición en valores singulares (SVD); y automatizar la selección de variables con Eliminación Recursiva de Características (RFE).
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{Nota Metodológica: la Única Excepción del Capítulo}
+  \footnotesize
+  \begin{motivacion}
+    Todo el capítulo ha construido sus laboratorios exclusivamente con \texttt{numpy}/\texttt{scipy}, incluso para reproducir lo que \texttt{statsmodels} calcula (Sección 09.06). Esta sección es la \textbf{única excepción}: su tema \emph{es} la librería \texttt{scikit-learn} en sí misma, así que la usamos directamente.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \texttt{scikit-learn} adopta un enfoque de \emph{aprendizaje automático} (interfaz \texttt{fit}/\texttt{predict}/\texttt{score} uniforme para todos los modelos), distinto al enfoque \emph{inferencial} de \texttt{statsmodels} (tablas de resumen estadístico).
+\end{frame}
+
+% Slide 4: El flujo fit/predict/score
+\begin{frame}[fragile]{El Flujo de Trabajo \texttt{fit}/\texttt{predict}/\texttt{score}}
+  \footnotesize
+  \begin{block}{Ajuste}
+    \begin{verbatim}
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+lm = LinearRegression()
+lm.fit(X_train, y_train)
+    \end{verbatim}
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Predicción y Evaluación}
+    \texttt{lm.coef\_} y \texttt{lm.intercept\_} contienen exactamente $\hat{\boldsymbol\beta}$; \texttt{lm.predict(X\_test)} calcula $\hat{\mathbf{Y}}$; \texttt{lm.score(X,y)} retorna $R^2$ sobre el conjunto proporcionado.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: SVD vs Ecuación Normal
+\begin{frame}{¿Cómo Resuelve \texttt{scikit-learn} el Sistema?}
+  \footnotesize
+  \begin{block}{No Invierte $\mathbf{X}^T\mathbf{X}$ Directamente}
+    Internamente, \texttt{LinearRegression} usa la descomposición en valores singulares (SVD) de $\mathbf{X}=\mathbf{U}\boldsymbol\Sigma\mathbf{V}^T$, resolviendo $\hat{\boldsymbol\beta}=\mathbf{X}^+\mathbf{Y}$ vía la pseudoinversa de Moore-Penrose $\mathbf{X}^+=\mathbf{V}\boldsymbol\Sigma^{-1}\mathbf{U}^T$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Equivalencia y Ventaja Numérica}
+    Cuando $\mathbf{X}$ tiene rango completo, esto es algebraicamente idéntico a $(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ (Sección 09.07). La SVD evita elevar al cuadrado el número de condición de $\mathbf{X}$, siendo mucho más estable ante multicolinealidad severa (Sección 09.09).
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: RFE
+\begin{frame}[fragile]{Selección Automática: Eliminación Recursiva de Características}
+  \footnotesize
+  \begin{block}{\texttt{RFE} (\emph{Recursive Feature Elimination})}
+    \begin{verbatim}
+selector = RFE(LinearRegression(), n_features_to_select=2)
+selector.fit(X, Y)
+    \end{verbatim}
+    Ajusta el modelo con todas las variables, elimina la de menor peso, y repite hasta dejar el número deseado.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Salida}
+    \texttt{selector.support\_} indica qué variables sobreviven; \texttt{selector.ranking\_} ordena las eliminadas por importancia relativa (rango 1 = seleccionada).
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Flujo de Trabajo de \texttt{scikit-learn}}
+  \scriptsize
+  Ajuste con \texttt{train\_test\_split} + \texttt{LinearRegression} (\texttt{09.10\_scikit\_learn\_regression.py}):
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=24, lastline=44]{../../code/09_regresiones/09.10_scikit_learn_regression.py}}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Verificación contra MCO Manual}
+  \scriptsize
+  Comparación exacta entre \texttt{scikit-learn} y la Ecuación Normal de la Sección 09.07:
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=47, lastline=59]{../../code/09_regresiones/09.10_scikit_learn_regression.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Eliminación Recursiva de Características}
+  \scriptsize
+  Selección automática de las 2 variables más relevantes entre 3 candidatas:
+  {\lstset{basicstyle=\fontsize{3.0pt}{3.7pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=62, lastline=82]{../../code/09_regresiones/09.10_scikit_learn_regression.py}}
+\end{frame}
+
+% Slide 10: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{3.4pt}{4.1pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Fit, Score, and Predict ===
+Intercept: 2.8772, Coefficients (TV, Radio): [0.0455 0.1947]
+R^2 train=0.8633, R^2 test=0.9016
+
+=== Block 2: Cross-Checking Against Scratch OLS ===
+From-scratch: [2.877152 0.04554  0.194653]
+scikit-learn: [2.877152 0.04554  0.194653]
+Max abs difference: 1.95e-14
+
+=== Block 3: RFE ===
+Support: TV=True, Radio=True, Newspaper=False
+Ranking: TV=1, Radio=1, Newspaper=2
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 11A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 9.17.2)}
+    Un modelo \texttt{LinearRegression} con predictores \texttt{TV} y \texttt{Radio} reporta \texttt{lm.intercept\_}$=2.92$, \texttt{lm.coef\_}$=[0.046, 0.188]$. Escriba la ecuación del modelo y calcule la venta predicha para \texttt{TV}$=100$, \texttt{Radio}$=20$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    $\hat Y = \texttt{intercept\_} + \texttt{coef\_}[0]\cdot X_1 + \texttt{coef\_}[1]\cdot X_2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 11B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel Fundamental (2/2)}
+  \scriptsize
+  Sustituimos directamente en la ecuación del modelo: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\hat{\texttt{Sales}}=2.92+0.046\,\texttt{TV}+0.188\,\texttt{Radio}$$
+    $$\hat{\texttt{Sales}}(100,20)=2.92+0.046(100)+0.188(20)=2.92+4.6+3.76=11.28$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Idéntico procedimiento algebraico al usado con las fórmulas manuales de la Sección 09.03; \texttt{scikit-learn} solo almacena los coeficientes con otros nombres de atributo.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- $R^2$ Manual vs. \texttt{score()} (Enunciado, Problema 9.17.4)}
+    Con $n=5$: $\hat Y=\{18.2,9.5,8.1,14.0,15.9\}$, $Y=\{17.9,10.4,7.8,14.2,15.6\}$. Calcule $R^2$ manualmente y explique por qué debe coincidir con \texttt{lm.score()}.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    $R^2=1-\text{SCE}/\text{SCT}$, con $\text{SCE}=\sum(Y_i-\hat Y_i)^2$ y $\text{SCT}=\sum(Y_i-\bar Y)^2$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel Operativo (2/2)}
+  \scriptsize
+  Calculamos $\bar Y$ y las sumas de cuadrados: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\bar Y=13.18, \qquad \text{SCT}\approx65.85, \qquad \text{SCE}=\sum(Y_i-\hat Y_i)^2=1.12$$
+    $$R^2=1-\frac{1.12}{65.85}\approx0.983$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \texttt{lm.score()} implementa exactamente esta misma fórmula internamente: no existe cálculo alternativo oculto.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- SVD vs. Ecuación Normal (Enunciado, Problema 9.17.7)}
+    Explique por qué la SVD y la inversión directa de $\mathbf{X}^T\mathbf{X}$ dan el mismo resultado cuando $\mathbf{X}$ tiene rango completo, y por qué la SVD es numéricamente superior ante multicolinealidad severa.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    Compare el número de condición de $\mathbf{X}$ contra el de $\mathbf{X}^T\mathbf{X}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel Analítico (2/2)}
+  \scriptsize
+  El número de condición de $\mathbf{X}^T\mathbf{X}$ es el cuadrado del de $\mathbf{X}$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\kappa(\mathbf{X}^T\mathbf{X}) = \kappa(\mathbf{X})^2$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    \scriptsize
+    Invertir $\mathbf{X}^T\mathbf{X}$ directamente amplifica cuadráticamente los errores de redondeo cuando $\mathbf{X}$ ya está mal condicionada por multicolinealidad. La SVD opera sobre $\mathbf{X}$ directamente, evitando ese cuadrado y produciendo una solución mucho más estable.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Equivalencia SVD--Ecuación Normal (Enunciado, Problema 9.17.9)}
+    Con $\mathbf{X}=\mathbf{U}\boldsymbol\Sigma\mathbf{V}^T$, demuestre que $\hat{\boldsymbol\beta}=\mathbf{X}^+\mathbf{Y}=\mathbf{V}\boldsymbol\Sigma^{-1}\mathbf{U}^T\mathbf{Y}$ es idéntico a $(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ cuando $\mathbf{X}$ tiene rango completo.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    Sustituya la SVD en $\mathbf{X}^T\mathbf{X}$ y en $\mathbf{X}^T\mathbf{Y}$ usando la ortogonalidad de $\mathbf{U},\mathbf{V}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel Desafiante (2/2)}
+  \scriptsize
+  Sustituimos y simplificamos usando $\mathbf{U}^T\mathbf{U}=\mathbf{V}^T\mathbf{V}=\mathbf{I}$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\mathbf{X}^T\mathbf{X}=\mathbf{V}\boldsymbol\Sigma^2\mathbf{V}^T \implies (\mathbf{X}^T\mathbf{X})^{-1}=\mathbf{V}\boldsymbol\Sigma^{-2}\mathbf{V}^T$$
+    $$\hat{\boldsymbol\beta}=\mathbf{V}\boldsymbol\Sigma^{-2}\mathbf{V}^T(\mathbf{V}\boldsymbol\Sigma\mathbf{U}^T\mathbf{Y})=\mathbf{V}\boldsymbol\Sigma^{-1}\mathbf{U}^T\mathbf{Y}=\mathbf{X}^+\mathbf{Y}$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Ambas expresiones son algebraicamente idénticas: la SVD no introduce matemática nueva, solo una ruta numéricamente más estable hacia la misma solución.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15: Cierre
+\begin{frame}{Cierre de Sección: Regresión con \texttt{scikit-learn}}
+  \begin{reflexion}
+    \texttt{scikit-learn} no introduce matemática nueva: resuelve exactamente la misma Ecuación Normal derivada en la Sección 09.07, solo que mediante SVD por robustez numérica, y automatiza la selección de variables que antes hacíamos manualmente comparando modelos (Secciones 09.02, 09.07-09.08).
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{\texttt{fit}/\texttt{predict}/\texttt{score}:} interfaz uniforme del ecosistema de aprendizaje automático.
+      \item \textbf{SVD $\equiv$ Ecuación Normal:} misma matemática, mayor estabilidad numérica.
+      \item \textbf{RFE:} automatiza la selección de variables mediante eliminación recursiva basada en importancia.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 16: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Hasta ahora todos los predictores han sido numéricos. Pero muchos conjuntos de datos reales incluyen variables \textbf{categóricas} (género, categoría de producto, región). La Sección 09.11 muestra cómo codificarlas correctamente mediante variables muda (\emph{dummy variables}) para incorporarlas en un modelo de regresión.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Reflexiona sobre por qué asignar códigos numéricos arbitrarios (0, 1, 2...) a categorías sin orden natural sería matemáticamente incorrecto.
+      \item Repasa la función \texttt{pandas.get\_dummies} si no la conoces.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

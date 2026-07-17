@@ -1,0 +1,185 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Model Validation]{Section 09.08: Model Validation}
+\subtitle{Train/Test Split and $k$-Fold Cross-Validation}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
+  \scriptsize
+  Where are we in the modular development of this chapter?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlation as the Premise of Regression
+    \item \textbf{09.02} Introduction to Linear Regression
+    \item \textbf{09.03} The Mathematics of Regression: OLS Derivation and $R^2$
+    \item \textbf{09.04} Linear Regression on Simulated Data
+    \item \textbf{09.05} Optimal Coefficients, $t$/$F$ Tests, and RSE
+    \item \textbf{09.06} Implementation in Python with \texttt{statsmodels}
+    \item \textbf{09.07} Multiple Regression, the Normal Equation, and Ridge/Lasso
+    \item \textbf{09.08} Model Validation and $k$-fold Cross-Validation \emph{(Today)}
+    \item \textbf{09.09} Residual Diagnostics and Multicollinearity (VIF)
+    \item \textbf{09.10} Regression with \texttt{scikit-learn}
+    \item \textbf{09.11} Categorical Variables and Dummy Variables
+    \item \textbf{09.12} Nonlinear Transformations and Polynomial Regression
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Determine whether a fitted model \textbf{generalizes} to new data: implement the train/test split to detect overfitting, build $k$-fold cross-validation from scratch, and use it to robustly compare competing models.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{Does the Model Generalize, or Just Memorize?}
+  \footnotesize
+  \begin{motivacion}
+    A predictive model needs to be validated by observing its performance on \textbf{data different} from what was used to fit it. A model can fit the training data extremely well (\emph{overfitting}) and still completely fail to predict new observations.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  All diagnostics from Sections 09.03-09.07 (including $R^2$, $t$/$F$ tests) are computed \textbf{within} the fitting sample: none of them, by itself, guarantees good performance outside of it.
+\end{frame}
+
+% Slide 4: Train/test split
+\begin{frame}{Train/Test Split}
+  \footnotesize
+  \begin{block}{Procedure}
+    We randomly split the dataset (typically 80\%/20\%): we fit the model \textbf{only} with the training data, and evaluate its error \textbf{only} with the test data, never seen during fitting.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Overfitting Signal}
+    If the error (RSE/RMSE) on the test set is substantially larger than on the training set, the model memorized peculiarities of the fitting sample instead of capturing the true underlying relationship.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: k-fold cross-validation
+\begin{frame}{$k$-Fold Cross-Validation}
+  \footnotesize
+  \begin{block}{Procedure}
+    We split the data into $k$ subsets (folds) of approximately equal size. In each of the $k$ iterations: we train on $k-1$ folds and evaluate on the remaining fold. We average the $k$ metrics obtained.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Advantages over a Single Split}
+    Lower variance (any single particular partition influences the final estimate less); efficient use of data (each observation is used exactly once for testing); detects overfitting more robustly than a single split.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Choosing k
+\begin{frame}{Choosing $k$ and Stratified Cross-Validation}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item $k=5$ or $k=10$: conventional values, good bias-variance balance. \pause
+    \item Small $k$: higher bias, lower variance, faster. \pause
+    \item $k=n$ (leave-one-out, LOOCV): nearly unbiased, but slow and high-variance. \pause
+    \item \textbf{Stratified CV:} preserves the distribution of a variable of interest across folds, useful with imbalanced data.
+  \end{itemize}
+\end{frame}
+
+% Slide 7: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Detecting Overfitting}
+  \scriptsize
+  An overparameterized model (16 predictors for $n=40$) fits training data well but fails on test (\texttt{09.08\_model\_validation.py}):
+  {\lstset{basicstyle=\fontsize{3.0pt}{3.7pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=36, lastline=62]{../../code/09_regresiones/09.08_model_validation.py}}
+\end{frame}
+
+% Slide 8: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: $k$-Fold from Scratch}
+  \scriptsize
+  Full implementation of 5-fold cross-validation with no external libraries:
+  {\lstset{basicstyle=\fontsize{2.9pt}{3.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=65, lastline=85]{../../code/09_regresiones/09.08_model_validation.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: Comparing Models via CV}
+  \scriptsize
+  Robust comparison between a single-predictor model and a two-predictor model:
+  {\lstset{basicstyle=\fontsize{3.2pt}{3.9pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=106, lastline=119]{../../code/09_regresiones/09.08_model_validation.py}}
+\end{frame}
+
+% Slide 10: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.4pt}{4.1pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Overfitting Detection ===
+n_train=32, n_test=8, p=16 (1 real + 15 pure noise)
+RSE train=8.0786, RMSE test=12.4452 (diff=4.3666) -> overfitting signature
+
+=== Block 2: k-Fold CV from Scratch ===
+Folds: 0.9056, 0.8083, 0.8765, 0.8452, 0.8409
+Mean R^2 = 0.8553 +/- 0.0332
+
+=== Block 3: Comparing Models via CV ===
+Model 1 (x1 only):  mean R^2 = 0.5727 +/- 0.0804
+Model 2 (x1+x2):    mean R^2 = 0.8553 +/- 0.0332
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 11: Interpretation
+\begin{frame}{Interpretation: Why Does Validation Matter?}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Block 1 shows the danger of having \textbf{more predictors than genuine information}: 15 pure-noise columns artificially reduce the training error, but the test error exposes it. \pause
+    \item Block 3 confirms, with \emph{out-of-sample} evidence, that the second genuine predictor substantially improves the model (average $R^2$ from $0.57$ to $0.86$) --- a more reliable conclusion than comparing in-sample $R^2$. \pause
+    \item The standard deviation across folds ($\pm0.033$ vs. $\pm0.080$) also reveals that the full model is more \textbf{stable}, not just more accurate on average.
+  \end{itemize}
+\end{frame}
+
+% Slide 12: Closing
+\begin{frame}{Section Closing: Model Validation}
+  \begin{reflexion}
+    No diagnostic computed within the fitting sample --- neither $R^2$ nor the $t$/$F$ tests --- guarantees that a model generalizes. $k$-fold cross-validation is the industry's robust standard for honestly estimating a model's performance on data it has never seen.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Train/test split:} fast but high-variance; useful for initial exploration.
+      \item \textbf{$k$-fold CV:} averages over $k$ partitions, reducing the variance of the error estimate.
+      \item \textbf{Model comparison:} CV is more reliable than comparing in-sample $R^2$.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 13: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    We have validated the model \textbf{externally} (generalization to new data). Section 09.09 audits it \textbf{internally}: we will verify the classical assumptions about the errors (normality, homoscedasticity, independence) and quantify multicollinearity via the Variance Inflation Factor --- two entirely different, complementary forms of trustworthiness.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Reflect on why a model can generalize reasonably well (good CV performance) and still violate the classical regression assumptions.
+      \item Review the Hat Matrix from Section 09.07: its diagonal will be key to diagnosing influential observations.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

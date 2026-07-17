@@ -1,0 +1,305 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Variables Categóricas]{Sección 09.11: Variables Categóricas y Variables Muda}
+\subtitle{Codificación Dummy, la Regla $(n-1)$, y la Trampa de la Variable Muda}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 09: Regresiones Lineales y Múltiples}
+  \scriptsize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlación como Premisa de la Regresión
+    \item \textbf{09.02} Introducción a la Regresión Lineal
+    \item \textbf{09.03} Matemáticas de la Regresión: Derivación MCO y $R^2$
+    \item \textbf{09.04} Regresión Lineal sobre Datos Simulados
+    \item \textbf{09.05} Coeficientes Óptimos, Pruebas $t$/$F$ y RSE
+    \item \textbf{09.06} Implementación en Python con \texttt{statsmodels}
+    \item \textbf{09.07} Regresión Múltiple, Ecuación Normal y Ridge/Lasso
+    \item \textbf{09.08} Validación de Modelos y $k$-fold Cross-Validation
+    \item \textbf{09.09} Diagnóstico de Residuos y Multicolinealidad (VIF)
+    \item \textbf{09.10} Regresión con \texttt{scikit-learn}
+    \item \textbf{09.11} Variables Categóricas y Variables Muda \emph{(Hoy)}
+    \item \textbf{09.12} Transformaciones No Lineales y Regresión Polinomial
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Incorporar predictores categóricos (género, categoría de ciudad) en un modelo de regresión mediante variables muda (\emph{dummy variables}); aplicar la regla $(n-1)$ para evitar la Trampa de la Variable Muda; y descubrir la equivalencia matemática exacta entre esta técnica y el ANOVA de un factor del Capítulo 08.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{El Problema de los Predictores No Numéricos}
+  \footnotesize
+  \begin{motivacion}
+    Hasta ahora todos los predictores han sido numéricos. Pero muchos conjuntos de datos reales incluyen variables categóricas: género, categoría de producto, región geográfica. Asignar códigos arbitrarios (Femenino$=0$, Masculino$=1$, o peor: Tier1$=1$, Tier2$=2$, Tier3$=3$) impondría un orden y una escala numérica \textbf{ficticios} sobre categorías que no los tienen.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  La solución estándar: representar cada categoría mediante \textbf{variables indicadoras binarias} (variables muda).
+\end{frame}
+
+% Slide 4: Codificación de 2 niveles
+\begin{frame}{Codificación de una Variable de Dos Niveles}
+  \footnotesize
+  \begin{block}{Definición}
+    Para una variable con 2 niveles (p. ej. Género), definimos una única variable indicadora:
+    $$D=\begin{cases}1 & \text{si es la categoría de interés (p. ej. Masculino)}\\0 & \text{si es la categoría de referencia (Femenino)}\end{cases}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Modelo}
+    $Y=\beta_0+\beta_1X+\beta_2D+\varepsilon$: el coeficiente $\beta_2$ mide la diferencia promedio entre categorías, manteniendo $X$ constante.
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: La regla (n-1)
+\begin{frame}{La Regla $(n-1)$ para Variables de Múltiples Niveles}
+  \footnotesize
+  \begin{block}{Regla General}
+    Para una variable categórica con $k$ niveles, se crean exactamente $(k-1)$ variables muda. Un nivel queda como \textbf{referencia base}, representado implícitamente cuando todas las variables muda son simultáneamente cero.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{¿Por Qué No $k$ Variables?}
+    Incluir las $k$ variables muda junto con el intercepto produce la \textbf{Trampa de la Variable Muda}: perfecta multicolinealidad, ya que $\sum_{j=1}^kD_j=1$ para toda observación.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Conexión con ANOVA
+\begin{frame}{Conexión Profunda: Variables Muda y ANOVA}
+  \footnotesize
+  \begin{block}{Un Descubrimiento Notable}
+    El ANOVA de un factor (Sección 08.01, $Y_{ij}=\mu+\tau_i+\epsilon_{ij}$) y la regresión con $(k-1)$ variables muda son \textbf{matemáticamente idénticos}: $\beta_0=\mu_k$ (media de referencia), $\beta_j=\mu_j-\mu_k$.
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Misma Prueba $F$}
+    La Prueba $F$ Parcial sobre los coeficientes de las variables muda ($H_0:\beta_1=\cdots=\beta_{k-1}=0$) es \textbf{numéricamente idéntica} a la Prueba $F$ global del ANOVA de un factor.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Variable de Dos Niveles}
+  \scriptsize
+  Codificación manual de \texttt{Gender} como una variable muda (\texttt{09.11\_categorical\_dummy\_variables.py}):
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=17, lastline=37]{../../code/09_regresiones/09.11_categorical_dummy_variables.py}}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Variable de Tres Niveles}
+  \scriptsize
+  Codificación de \texttt{City Tier} (3 niveles) con exactamente 2 variables muda:
+  {\lstset{basicstyle=\fontsize{3.0pt}{3.7pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=39, lastline=61]{../../code/09_regresiones/09.11_categorical_dummy_variables.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: la Trampa de la Variable Muda}
+  \scriptsize
+  Verificación numérica: incluir las 3 variables muda hace la matriz de diseño singular:
+  {\lstset{basicstyle=\fontsize{2.8pt}{3.4pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=64, lastline=86]{../../code/09_regresiones/09.11_categorical_dummy_variables.py}}
+\end{frame}
+
+% Slide 10: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{3.2pt}{3.9pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Two-Level (Gender) ===
+Male dummy coefficient: 231.41 (male spends $231.41 more, holding income fixed)
+
+=== Block 2: Three-Level (City Tier), n-1 Rule ===
+Tier1=390.72, Tier2=125.35 (baseline: Tier 3); 4 columns for 3 levels, no trap
+
+=== Block 3: Dummy Variable Trap ===
+Correct encoding (2 dummies):  condition number = 3.57
+Trap encoding (all 3 dummies): condition number = 2.92e+15
+Rank of trap matrix: 3 (columns: 4, rank-deficient: True)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 11A: Ejercicio Nivel 1 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel Fundamental (1/2)}
+  \footnotesize
+  \begin{block}{Problema (Enunciado, Problema 9.19.1)}
+    Un modelo reporta $\hat{\texttt{Total\_Spend}}=3570.91+0.146\,\texttt{Monthly\_Income}+231.41\,\texttt{Sex\_Male}$. Interprete el coeficiente de \texttt{Sex\_Male} y prediga el gasto para un hombre y una mujer, ambos con ingreso $\$10{,}000$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    Sustituya \texttt{Sex\_Male}$=1$ y $=0$ respectivamente, manteniendo el ingreso fijo.
+  \end{alertblock}
+\end{frame}
+
+% Slide 11B: Ejercicio Nivel 1 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel Fundamental (2/2)}
+  \scriptsize
+  Sustituimos ambos casos en la ecuación del modelo: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$\text{Hombre: } \hat Y=3570.91+0.146(10000)+231.41(1)=5262.32$$
+    $$\text{Mujer: } \hat Y=3570.91+0.146(10000)+231.41(0)=5030.91$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    La diferencia es exactamente $\$231.41$, el coeficiente de la variable muda: manteniendo el ingreso fijo, los hombres gastan en promedio $\$231.41$ más que las mujeres (nivel de referencia).
+  \end{alertblock}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 2 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel Operativo (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Prueba $F$ Parcial (Enunciado, Problema 9.19.5)}
+    Con $n=150$: Modelo 1 (sin dummies) $R_1^2=0.68$, $p_1=1$; Modelo 2 (con 2 dummies de ciudad) $R_2^2=0.74$, $p_2=3$. Realice la Prueba $F$ Parcial al $\alpha=0.05$ ($F_{0.05,2,146}\approx3.06$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    $F_{\text{parcial}}=\dfrac{(R_2^2-R_1^2)/(p_2-p_1)}{(1-R_2^2)/(n-p_2-1)}$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Ejercicio Nivel 2 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel Operativo (2/2)}
+  \scriptsize
+  Sustituimos directamente en la fórmula: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    $$F_{\text{parcial}}=\frac{(0.74-0.68)/2}{(1-0.74)/146}=\frac{0.03}{0.001781}\approx16.85$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    Como $16.85>3.06$, \textbf{se rechaza $H_0$}: las variables muda de \texttt{City Tier} son conjuntamente significativas.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 3 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel Analítico (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Dummy = Diferencia de Medias (Enunciado, Problema 9.19.7)}
+    Para $Y_i=\beta_0+\beta_1D_i+\varepsilon_i$ con $D_i\in\{0,1\}$ y ningún otro predictor, demuestre que $\hat\beta_1=\bar Y_{D=1}-\bar Y_{D=0}$ y $\hat\beta_0=\bar Y_{D=0}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    Calcule $\mathbf{X}^T\mathbf{X}$ y $\mathbf{X}^T\mathbf{Y}$ explícitamente y resuelva el sistema de 2 ecuaciones.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13B: Ejercicio Nivel 3 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel Analítico (2/2)}
+  \scriptsize
+  Resolvemos el sistema $2\times2$ de las ecuaciones normales: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\mathbf{X}^T\mathbf{X}=\begin{pmatrix}n&n_1\\n_1&n_1\end{pmatrix}, \quad \mathbf{X}^T\mathbf{Y}=\begin{pmatrix}n_0\bar Y_{D=0}+n_1\bar Y_{D=1}\\n_1\bar Y_{D=1}\end{pmatrix} \implies \hat\beta_0=\bar Y_{D=0}, \quad \hat\beta_1=\bar Y_{D=1}-\bar Y_{D=0}$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    La regresión con una sola variable muda es exactamente equivalente a comparar dos medias muestrales --- el mismo problema resuelto con pruebas $t$ de dos muestras en el Capítulo 07.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14A: Ejercicio Nivel 4 (Enunciado)
+\begin{frame}{Ejercicio en Clase --- Nivel Desafiante (1/2)}
+  \footnotesize
+  \begin{block}{Problema --- Equivalencia ANOVA-Regresión (Enunciado, Problema 9.19.10)}
+    Para el ANOVA de un factor ($Y_{ij}=\mu+\tau_i+\epsilon_{ij}$, $k$ tratamientos) y su regresión equivalente con $(k-1)$ dummies, demuestre que $\beta_0=\mu_k$, $\beta_j=\mu_j-\mu_k$, y que la Prueba $F$ Parcial es idéntica a la Prueba $F$ del ANOVA.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Estrategia}
+    Iguale las esperanzas de ambos modelos para cada tratamiento por separado.
+  \end{alertblock}
+\end{frame}
+
+% Slide 14B: Ejercicio Nivel 4 (Resolución)
+\begin{frame}{Ejercicio en Clase --- Nivel Desafiante (2/2)}
+  \scriptsize
+  Igualamos las esperanzas condicionales tratamiento por tratamiento: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Cálculo}
+    \scriptsize
+    $$\text{Tratamiento } k: E[Y]=\beta_0=\mu+\tau_k=\mu_k \qquad \text{Tratamiento } j: E[Y]=\beta_0+\beta_j=\mu_j \implies \beta_j=\mu_j-\mu_k$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretación}
+    $H_0:\beta_1=\cdots=\beta_{k-1}=0 \iff H_0:\mu_1=\cdots=\mu_k$, exactamente la hipótesis del ANOVA. Las SCTR/SCE coinciden en ambas formulaciones: el ANOVA de un factor \textbf{es} un caso particular de regresión múltiple.
+  \end{alertblock}
+\end{frame}
+
+% Slide 15: Cierre
+\begin{frame}{Cierre de Sección: Variables Categóricas}
+  \begin{reflexion}
+    Las variables muda extienden la regresión a predictores categóricos sin imponer un orden artificial, siguiendo estrictamente la regla $(k-1)$ para evitar la Trampa de la Variable Muda. Su equivalencia exacta con el ANOVA de un factor revela que ambas técnicas --- aparentemente distintas en los Capítulos 08 y 09 --- son en realidad la misma herramienta estadística vista desde dos ángulos.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Regla $(k-1)$:} $k$ niveles requieren exactamente $k-1$ variables muda más el intercepto.
+      \item \textbf{Trampa de la Variable Muda:} incluir las $k$ produce colinealidad perfecta (rango deficiente).
+      \item \textbf{ANOVA $\equiv$ regresión con dummies:} misma matemática, mismo estadístico $F$, distinta notación.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 16: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Hemos manejado la no-linealidad \textbf{categórica} (variables cualitativas). La Sección 09.12, cierre del capítulo, aborda la no-linealidad \textbf{funcional}: cuando la relación entre un predictor numérico y la respuesta no es una línea recta sino una curva (cuadrática, polinomial), mostrando que el mismo motor de regresión múltiple de la Sección 09.07 resuelve también este caso.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Reflexiona sobre cómo podrías incluir $X^2$ como una "nueva variable" dentro de la matriz de diseño ya conocida.
+      \item Repasa la interpretación geométrica de una parábola: vértice, concavidad, y su significado en un modelo predictivo.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}

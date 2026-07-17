@@ -1,0 +1,151 @@
+\section{Solved Problems on Nonlinear Transformations and Polynomial Regression}
+
+\subsection{Problem Statements}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{problema}
+	\label{prob:identificar_patron_no_lineal}
+	An engineer plots the scatter diagram between engine horsepower (\texttt{hp}) and fuel efficiency (\texttt{mpg}), observing that the points form a descending curve that flattens and then slightly rebounds for very high \texttt{hp} values (an asymmetric inverted-U shape). Identify what type of transformation or model specification would be most appropriate, and explain why a strictly linear model $\texttt{mpg}=c_0+c_1\,\texttt{hp}$ would be inadequate in this scenario.
+\end{problema}
+
+\begin{problema}
+	\label{prob:prediccion_modelo_cuadratico_basico}
+	A fitted quadratic model is $\hat{\texttt{mpg}} = 64.20 - 0.7634\,\texttt{hp} + 0.003657\,\texttt{hp}^2$. Compute the predicted \texttt{mpg} for cars with $\texttt{hp}=60$, $\texttt{hp}=100$, and $\texttt{hp}=180$, and identify the approximate \texttt{hp} range where the model predicts minimum \texttt{mpg}.
+\end{problema}
+
+\begin{problema}
+	\label{prob:comparacion_r2_lineal_cuadratico}
+	Fitting two models on the same dataset (\texttt{hp} vs. \texttt{mpg}) yields $R^2_{\text{linear}}=0.080$ for the model $\texttt{mpg}=c_0+c_1\,\texttt{hp}$ and $R^2_{\text{quadratic}}=0.994$ for the model $\texttt{mpg}=c_0+c_1\,\texttt{hp}+c_2\,\texttt{hp}^2$. Interpret this dramatic difference and explain what it tells you about the true functional form of the relationship between the variables.
+\end{problema}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{problema}
+	\label{prob:ajuste_manual_cuadratico}
+	With data $\texttt{hp}=\{50,75,100,125,150\}$ and $\texttt{mpg}=\{35,28,24,26,32\}$, fit a quadratic model $\texttt{mpg}=c_0+c_1\,\texttt{hp}+c_2\,\texttt{hp}^2$ by constructing the expanded design matrix $\mathbf{X}=[\mathbf{1},\ \texttt{hp},\ \texttt{hp}^2]$ and solving the Section 09.07 Normal Equation. Report the three estimated coefficients.
+\end{problema}
+
+\begin{problema}
+	\label{prob:prediccion_curva_completa}
+	Using the fitted model from Problem \ref{prob:ajuste_manual_cuadratico}, compute the predicted values $\hat{\texttt{mpg}}$ for each of the 5 observed \texttt{hp} values, and compute the resulting Residual Sum of Squares (SSE).
+\end{problema}
+
+\begin{problema}
+	\label{prob:transformacion_log_heterocedasticidad}
+	A regression model on count data (number of insurance claims) exhibits a funnel pattern in its residuals-vs-fitted plot: the spread of residuals grows proportionally with the fitted value. Propose the most appropriate transformation of the response variable and justify, using the delta method (first-order expansion), why that transformation approximately stabilizes the variance.
+\end{problema}
+
+\subsubsection*{3. Analytical Level (Advanced / Connective)}
+
+\begin{problema}
+	\label{prob:polinomial_como_lineal}
+	Prove that the least-squares problem of fitting a polynomial model $Y=c_0+c_1X+c_2X^2+\varepsilon$ is formally identical to the Section 09.07 multiple linear regression problem if the auxiliary variable $Z=X^2$ is defined and $Y=c_0+c_1X+c_2Z+\varepsilon$ is fit. Explain why the Normal Equation $\hat{\mathbf{c}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ applies without any modification, even though the model is "nonlinear" in the original variable $X$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:prueba_f_parcial_termino_cuadratico}
+	For the data in Problem \ref{prob:ajuste_manual_cuadratico} ($n=5$), run the Partial $F$-Test ($H_0:c_2=0$, i.e., the quadratic term is not needed) at $\alpha=0.05$, using $R^2_{\text{linear}}=0.080$ and $R^2_{\text{quadratic}}=0.994$ (approximate critical quantile $F_{0.05,1,2}=18.51$).
+\end{problema}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{problema}
+	\label{prob:multicolinealidad_polinomial_deduccion}
+	\textbf{The inherent multicollinearity of polynomial models:}
+	In a polynomial model $Y=c_0+c_1X+c_2X^2+\varepsilon$ where $X$ takes strictly positive values concentrated in a narrow range (for example, $X\in[95,105]$), prove that the columns $X$ and $X^2$ of the design matrix are necessarily highly correlated with each other (correlation close to $1$), and explain --- connecting to Section 09.09 --- why this inflates the VIF of both predictors without invalidating the model's predictions, although it does complicate the isolated interpretation of $c_1$ and $c_2$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:transformacion_log_deduccion_general}
+	\textbf{General derivation of the family of variance-stabilizing transformations:}
+	Suppose $\text{Var}(Y)=k\cdot[E(Y)]^{2\lambda}$ for some constant $k>0$ and an exponent $\lambda$ (this is the general Box-Cox framework for heteroscedasticity). Using the delta method on a general transformation $g(Y)$, derive the condition $g$ must satisfy for $\text{Var}(g(Y))$ to be approximately constant (not depending on $E(Y)$), and determine the correct transformation $g(Y)$ for the two particular cases $\lambda=1/2$ (i.e., $\text{Var}(Y)\propto E(Y)$, the Poisson-like count case) and $\lambda=1$ (i.e., $\text{Var}(Y)\propto[E(Y)]^2$, constant coefficient of variation).
+\end{problema}
+
+
+\subsection{Detailed Solutions}
+
+\subsubsection*{1. Fundamental Level (Simple / Direct)}
+
+\begin{solproblema}
+	The described pattern (asymmetric inverted-U shape, non-monotonic) is characteristic of a \textbf{quadratic} or higher-order relationship, not a simple linear one. A linear model $\texttt{mpg}=c_0+c_1\,\texttt{hp}$ can only capture a monotonic trend (always increasing or always decreasing); it cannot represent a change of direction in the curve. Forcing a linear fit on data with this curvature produces systematically biased residuals (positive at the extremes, negative in the middle, or vice versa), violating the linearity assumption and severely underestimating the true quality achievable. The appropriate specification is to add a quadratic term: $\texttt{mpg}=c_0+c_1\,\texttt{hp}+c_2\,\texttt{hp}^2$.
+\end{solproblema}
+
+\begin{solproblema}
+	Substituting directly:
+	\begin{align}
+		\hat{\texttt{mpg}}(60) &= 64.20-0.7634(60)+0.003657(60)^2 = 64.20-45.80+13.17 \approx 31.57.\\
+		\hat{\texttt{mpg}}(100) &= 64.20-0.7634(100)+0.003657(100)^2 = 64.20-76.34+36.57 \approx 24.43.\\
+		\hat{\texttt{mpg}}(180) &= 64.20-0.7634(180)+0.003657(180)^2 = 64.20-137.41+118.53 \approx 45.32.
+	\end{align}
+	The vertex of the parabola (minimum) occurs at $\texttt{hp}^*=-c_1/(2c_2)=0.7634/(2\times0.003657)\approx104.4$, i.e., minimum \texttt{mpg} is predicted around $\texttt{hp}\approx104$.
+\end{solproblema}
+
+\begin{solproblema}
+	The dramatic difference from $R^2=0.080$ to $R^2=0.994$ reveals that the relationship between \texttt{hp} and \texttt{mpg} is \textbf{not linear at all}: the linear model explains barely $8\%$ of the variability, practically indistinguishable from noise, while the quadratic model explains $99.4\%$. This confirms that the true underlying functional form is quadratic (or at least that a curvature term is indispensable), and that any conclusion based solely on the linear model (for example, about the significance or sign of \texttt{hp}'s effect) would be completely misleading.
+\end{solproblema}
+
+\subsubsection*{2. Operational Level (Intermediate / Developmental)}
+
+\begin{solproblema}
+	We construct $\mathbf{X}=\begin{pmatrix}1&50&2500\\1&75&5625\\1&100&10000\\1&125&15625\\1&150&22500\end{pmatrix}$ and $\mathbf{Y}=(35,28,24,26,32)^T$. Solving $\hat{\mathbf{c}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ (via direct matrix algebra or Gaussian elimination):
+	\begin{align}
+		\hat c_0\approx64.20, \qquad \hat c_1\approx-0.7634, \qquad \hat c_2\approx0.003657.
+	\end{align}
+\end{solproblema}
+
+\begin{solproblema}
+	Substituting each \texttt{hp} value into the fitted model:
+	\begin{align}
+		\hat{\texttt{mpg}} \approx \{35.17,\ 27.51,\ 24.43,\ 25.91,\ 31.97\} \quad \text{for } \texttt{hp}=\{50,75,100,125,150\}.
+	\end{align}
+	The residuals are approximately $\{-0.17,\ 0.49,\ -0.43,\ 0.09,\ 0.03\}$, and the Residual Sum of Squares is:
+	\begin{align}
+		\text{SSE} = (-0.17)^2+(0.49)^2+(-0.43)^2+(0.09)^2+(0.03)^2 \approx 0.029+0.240+0.185+0.008+0.001 \approx 0.463.
+	\end{align}
+\end{solproblema}
+
+\begin{solproblema}
+	The table of common transformations recommends $\sqrt{Y}$ for count data with $\text{Var}(Y)\propto E(Y)$ (Poisson-like behavior). Let $g(Y)=\sqrt{Y}$. By the delta method, expanding around $\mu=E(Y)$: $g(Y)\approx g(\mu)+g'(\mu)(Y-\mu)$, with $g'(\mu)=1/(2\sqrt\mu)$. Then:
+	\begin{align}
+		\text{Var}(g(Y)) \approx [g'(\mu)]^2\text{Var}(Y) = \frac{1}{4\mu}\cdot(c\mu) = \frac{c}{4},
+	\end{align}
+	a constant no longer depending on $\mu$: the square-root transformation exactly stabilizes the variance when $\text{Var}(Y)\propto E(Y)$.
+\end{solproblema}
+
+\subsubsection*{3. Analytical Level (Advanced / Connective)}
+
+\begin{solproblema}
+	By defining $Z=X^2$ as an explicitly computed auxiliary variable (not as an implicit transformation), the model $Y=c_0+c_1X+c_2X^2+\varepsilon$ is rewritten exactly as $Y=c_0+c_1X+c_2Z+\varepsilon$, which is \emph{linear in the parameters} $c_0,c_1,c_2$ --- the only condition required by the Section 09.07 least-squares theory, regardless of whether the predictor variables ($X$ and $Z=X^2$) have a nonlinear relationship with each other. The design matrix simply includes an additional column with the already-computed values of $X^2$: $\mathbf{X}_{\text{design}}=[\mathbf{1},\ X,\ X^2]$. Since the Normal Equation $(\mathbf{X}_{\text{design}}^T\mathbf{X}_{\text{design}})^{-1}\mathbf{X}_{\text{design}}^T\mathbf{Y}$ only requires that the relationship between $Y$ and the parameters $\mathbf{c}$ be linear (not that the relationship between $Y$ and $X$ be linear), it applies exactly the same way without any modification.
+\end{solproblema}
+
+\begin{solproblema}
+	\begin{align}
+		F_{\text{partial}} = \frac{(0.994-0.080)/(2-1)}{(1-0.994)/(5-2-1)} = \frac{0.914/1}{0.006/2} = \frac{0.914}{0.003} \approx304.7.
+	\end{align}
+	Since $304.7\gg18.51$, \textbf{we decisively reject $H_0$}: the quadratic term $c_2\,\texttt{hp}^2$ is highly significant and necessary in the model; the simple linear model is severely misspecified for this data.
+\end{solproblema}
+
+\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
+
+\begin{solproblema}
+	If $X$ takes values concentrated in a narrow range around a large central value (for example $X_0=100$), we can write $X=X_0+\delta$ with $|\delta|$ small relative to $X_0$. Then:
+	\begin{align}
+		X^2 = X_0^2+2X_0\delta+\delta^2 \approx X_0^2+2X_0\delta \quad (\text{since } \delta^2 \text{ is negligible compared to } 2X_0\delta \text{ when } |\delta|\ll X_0),
+	\end{align}
+	so that $X^2$ is approximately a \textbf{linear} function of $X$ (with slope $2X_0$) in that narrow range, producing a sample correlation $r_{X,X^2}$ very close to $1$. By the Section 09.09 identity $\text{VIF}_j=1/(1-R_j^2)$, such a high correlation between $X$ and $X^2$ produces an $R_j^2$ close to $1$ when regressing one against the other, and therefore a very high VIF for both predictors.
+
+	However, this \textbf{does not invalidate the model's predictions} $\hat Y$, which depend on the joint combination $\hat c_1X+\hat c_2X^2$ and remain numerically stable and precise. What is compromised is the isolated marginal interpretation of $\hat c_1$ or $\hat c_2$ individually (their individual standard errors are inflated, and separating "the effect of $X$" from "the effect of $X^2$" loses practical meaning) --- exactly the same interpretive phenomenon discussed for correlated predictors in general.
+\end{solproblema}
+
+\begin{solproblema}
+	By the delta method, for a general transformation $g(Y)$ expanded around $\mu=E(Y)$:
+	\begin{align}
+		\text{Var}(g(Y)) \approx [g'(\mu)]^2\,\text{Var}(Y) = [g'(\mu)]^2\cdot k\mu^{2\lambda}.
+	\end{align}
+	For this expression to be constant (not depending on $\mu$), we need $[g'(\mu)]^2\mu^{2\lambda}$ to be constant, i.e., $g'(\mu)\propto \mu^{-\lambda}$. Integrating:
+	\begin{align}
+		g(\mu) \propto \begin{cases} \mu^{1-\lambda} & \text{if } \lambda\neq1 \\ \log(\mu) & \text{if } \lambda=1 \end{cases}
+	\end{align}
+	(the general Box-Cox power-transformation family). For the case $\lambda=1/2$ (i.e., $\text{Var}(Y)=k\mu$, proportional to the mean, Poisson-like count behavior): $g'(\mu)\propto\mu^{-1/2}$, whose antiderivative is $g(\mu)\propto\mu^{1/2}=\sqrt\mu$, \textbf{not} $\log(\mu)$. The logarithmic transformation actually corresponds to the limiting case $\lambda=1$ ($\text{Var}(Y)\propto[E(Y)]^2$, i.e., when $Y$'s coefficient of variation is approximately constant), while $\sqrt{Y}$ is the correct transformation specifically for $\text{Var}(Y)\propto E(Y)$ ($\lambda=1/2$), consistent with the solution obtained in Problem \ref{prob:transformacion_log_heterocedasticidad}.
+\end{solproblema}

@@ -127,17 +127,17 @@
     \fontsize{3.6pt}{4.3pt}\selectfont
     \begin{verbatim}
 === Block 1: Optimal Coefficients and t-Test ===
-alpha_hat=2.0072, beta_hat=0.3005
-SE(beta_hat)=0.0186, t=16.1441 (df=98), p-value=8.13e-29
+alpha_hat=1.8577, beta_hat=0.3468
+SE(beta_hat)=0.0202, t=17.1624 (df=98), p-value=2.73e-31
 
 === Block 2: F-Test (F = t^2) ===
-F statistic = 260.6304 (df=1,98), p-value=1.13e-29
-t^2 = 260.6304, |F - t^2| = 0.0000000000
+F statistic = 294.5482 (df=1,98), p-value=2.73e-31
+t^2 = 294.5482, |F - t^2| = 0.0000000000
 
 === Block 3: Residual Standard Error ===
-RSE = 0.4959
-mean(Y) = 2.4568
-Relative error = RSE/mean(Y) = 0.2019 (20.2%)
+RSE = 0.4453
+mean(Y) = 2.4203
+Relative error = RSE/mean(Y) = 0.1840 (18.4%)
     \end{verbatim}
   \end{block}
 \end{frame}
@@ -146,13 +146,13 @@ Relative error = RSE/mean(Y) = 0.2019 (20.2%)
 \begin{frame}{Ejercicio en Clase --- Nivel Operativo 1 (1/2)}
   \footnotesize
   \begin{block}{Problema (Enunciado, Problema 9.8.4)}
-    Con $n=12$ automóviles, $\sum X_i=57$, $\sum Y_i=170$, $\sum X_i^2=349$, $\sum Y_i^2=2828$, $\sum X_iY_i=644$. Calcule $S_{XX}$, $S_{XY}$, la recta de regresión $\hat Y=\hat\alpha+\hat\beta X$, y el $R^2$.
+    Con $n=12$ automóviles: Antigüedad $X=\{1,2,2,3,4,5,5,6,7,8,9,10\}$ años, Precio $Y=\{25,22,20,18,16,14,13,12,10,8,7,5\}$ miles de dólares. Calcule $S_{XX}$, $S_{XY}$, la recta de regresión $\hat Y=\hat\alpha+\hat\beta X$, y el $R^2$.
   \end{block}
 
   \vspace{0.15cm}
   \pause
   \begin{alertblock}{Estrategia}
-    $S_{XX}=\sum X_i^2-n\bar X^2$; $S_{XY}=\sum X_iY_i-n\bar X\bar Y$.
+    Calcule $\sum X_i,\sum Y_i,\sum X_i^2,\sum Y_i^2,\sum X_iY_i$; luego $S_{XX}=\sum X_i^2-(\sum X_i)^2/n$, $S_{XY}=\sum X_iY_i-(\sum X_i)(\sum Y_i)/n$.
   \end{alertblock}
 \end{frame}
 
@@ -164,15 +164,16 @@ Relative error = RSE/mean(Y) = 0.2019 (20.2%)
   \vspace{0.05cm}
   \begin{block}{Cálculo}
     \scriptsize
-    $$\bar X=4.75,\ \bar Y=14.1\overline{6}, \qquad S_{XX}=349-12(4.75)^2\approx77.75, \quad S_{XY}=644-12(4.75)(14.1\overline{6})\approx-163.5$$
-    $$\hat\beta=\frac{-163.5}{77.75}\approx-2.103, \qquad \hat\alpha=14.1\overline{6}-(-2.103)(4.75)\approx24.15$$
+    $$\sum X_i=62,\ \sum Y_i=170,\ \sum X_i^2=414,\ \sum Y_i^2=2836,\ \sum X_iY_i=681, \qquad \bar X\approx5.167,\ \bar Y\approx14.167$$
+    $$S_{XX}=414-\frac{62^2}{12}\approx93.67, \quad S_{XY}=681-\frac{62(170)}{12}\approx-197.33$$
+    $$\hat\beta=\frac{-197.33}{93.67}\approx-2.107, \qquad \hat\alpha\approx14.167-(-2.107)(5.167)\approx25.05, \qquad R^2\approx0.972$$
   \end{block}
 
   \vspace{0.05cm}
   \pause
   \begin{alertblock}{Interpretación}
     \scriptsize
-    La pendiente negativa confirma la depreciación esperada: cada año adicional de antigüedad reduce el precio estimado en $\approx2.10$ mil dólares.
+    La pendiente negativa confirma la depreciación esperada: cada año adicional de antigüedad reduce el precio estimado en $\approx2.11$ mil dólares. El $R^2\approx0.972$ indica un ajuste excelente.
   \end{alertblock}
 \end{frame}
 

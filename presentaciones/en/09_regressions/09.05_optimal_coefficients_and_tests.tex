@@ -1,0 +1,249 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Optimal Coefficients]{Section 09.05: Optimal Coefficients and Significance Tests}
+\subtitle{The $t$-Test for the Slope, the $F=t^2$ Identity, and the Residual Standard Error}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% Slide 1: Title
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Roadmap
+\begin{frame}{Roadmap --- Chapter 09: Linear and Multiple Regressions}
+  \scriptsize
+  Where are we in the modular development of this chapter?
+  \begin{itemize}\itemsep=0.02em
+    \item \textbf{09.01} Correlation as the Premise of Regression
+    \item \textbf{09.02} Introduction to Linear Regression
+    \item \textbf{09.03} The Mathematics of Regression: OLS Derivation and $R^2$
+    \item \textbf{09.04} Linear Regression on Simulated Data
+    \item \textbf{09.05} Optimal Coefficients, $t$/$F$ Tests, and RSE \emph{(Today)}
+    \item \textbf{09.06} Implementation in Python with \texttt{statsmodels}
+    \item \textbf{09.07} Multiple Regression, the Normal Equation, and Ridge/Lasso
+    \item \textbf{09.08} Model Validation and $k$-fold Cross-Validation
+    \item \textbf{09.09} Residual Diagnostics and Multicollinearity (VIF)
+    \item \textbf{09.10} Regression with \texttt{scikit-learn}
+    \item \textbf{09.11} Categorical Variables and Dummy Variables
+    \item \textbf{09.12} Nonlinear Transformations and Polynomial Regression
+  \end{itemize}
+  \pause
+  \vspace{-0.05cm}
+  \begin{block}{Session Objective}
+    Subject the estimated slope coefficient to a formal hypothesis test, verify the algebraic identity $F=t^2$ connecting individual and global significance in simple regression, and compute the Residual Standard Error (RSE) as an absolute --- not relative --- measure of fit quality.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivation
+\begin{frame}{Are the Estimated Coefficients Trustworthy?}
+  \footnotesize
+  \begin{motivacion}
+    When we compute the values of $\hat\alpha$ and $\hat\beta$, we obtain \textbf{estimates}, not exact values: each carries an associated $p$-value. We need to demonstrate their statistical significance via a hypothesis test before trusting the model.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  The central question: is the $\hat\beta$ we obtained different from zero, or could it simply be sample noise around $\beta=0$ (no real linear relationship)?
+\end{frame}
+
+% Slide 4: Hypothesis test for beta
+\begin{frame}{Hypothesis Test for the Slope}
+  \footnotesize
+  \begin{block}{Setup}
+    $$H_0:\beta=0 \quad (\text{no linear relationship}) \qquad \text{vs.} \qquad H_a:\beta\neq0$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Test Statistic}
+    $$t=\frac{\hat\beta}{SE(\hat\beta)}, \qquad SE(\hat\beta)=\sqrt{\frac{\text{CME}}{S_{XX}}} \ \sim\ t_{n-2} \quad\text{under } H_0$$
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: The F=t² identity
+\begin{frame}{The $F=t^2$ Identity in Simple Regression}
+  \footnotesize
+  \begin{block}{Global $F$-Test}
+    $$F=\frac{\text{SSR}/1}{\text{SSE}/(n-2)} \sim F_{1,n-2}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Exact Connection to the $t$-Test}
+    In simple regression ($p=1$ predictor), the global $F$-test for model significance and the individual $t$-test for the slope are \textbf{mathematically equivalent}: $F=t^2$. With multiple predictors (Section 09.07), this equivalence disappears: the $F$ statistic tests \emph{joint} significance, while each $t_j$ tests \emph{individual} significance.
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Residual Standard Error
+\begin{frame}{The Residual Standard Error (RSE)}
+  \footnotesize
+  \begin{block}{Definition}
+    $$RSE=\sqrt{\frac{\text{SSE}}{n-2}}$$
+  \end{block}
+  \pause
+
+  \vspace{0.1cm}
+  \begin{alertblock}{Interpretation}
+    RSE estimates the standard deviation of the error term: it is the typical prediction error \emph{in the original units of $Y$}, even if the coefficients were known with absolute precision. It is interpreted by comparing it against $\bar Y$: $RSE/\bar Y$ gives a percentage relative error.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Python Lab (Block 1)
+\begin{frame}[fragile]{Python Lab: Optimal Coefficients and the $t$-Test}
+  \scriptsize
+  OLS fit and slope significance test (\texttt{09.05\_optimal\_coefficients\_and\_tests.py}):
+  {\lstset{basicstyle=\fontsize{3.4pt}{4.1pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=18, lastline=35]{../../code/09_regresiones/09.05_optimal_coefficients_and_tests.py}}
+\end{frame}
+
+% Slide 8: Python Lab (Block 2)
+\begin{frame}[fragile]{Python Lab: Verifying $F=t^2$}
+  \scriptsize
+  Numeric confirmation of the exact algebraic identity between the $t$- and $F$-tests:
+  {\lstset{basicstyle=\fontsize{3.6pt}{4.3pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=41, lastline=51]{../../code/09_regresiones/09.05_optimal_coefficients_and_tests.py}}
+\end{frame}
+
+% Slide 9: Python Lab (Block 3)
+\begin{frame}[fragile]{Python Lab: Residual Standard Error}
+  \scriptsize
+  Computing the RSE and its interpretation as a relative error:
+  {\lstset{basicstyle=\fontsize{3.8pt}{4.5pt}\selectfont\ttfamily,aboveskip=0.05em,belowskip=0.05em}
+  \lstinputlisting[firstline=54, lastline=63]{../../code/09_regresiones/09.05_optimal_coefficients_and_tests.py}}
+\end{frame}
+
+% Slide 10: Terminal Output
+\begin{frame}[fragile]{Python Lab: Terminal Output}
+  \scriptsize
+  Standard output produced when running the lab script:
+  \vspace{0.02cm}
+  \begin{block}{Standard Console Output}
+    \fontsize{3.6pt}{4.3pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Optimal Coefficients and t-Test ===
+alpha_hat=1.8577, beta_hat=0.3468
+SE(beta_hat)=0.0202, t=17.1624 (df=98), p-value=2.73e-31
+
+=== Block 2: F-Test (F = t^2) ===
+F statistic = 294.5482 (df=1,98), p-value=2.73e-31
+t^2 = 294.5482, |F - t^2| = 0.0000000000
+
+=== Block 3: Residual Standard Error ===
+RSE = 0.4453
+mean(Y) = 2.4203
+Relative error = RSE/mean(Y) = 0.1840 (18.4%)
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 11A: Exercise Level 1 (Statement)
+\begin{frame}{In-Class Exercise --- Operational Level 1 (1/2)}
+  \footnotesize
+  \begin{block}{Problem (Statement, Problem 9.8.4)}
+    With $n=12$ vehicles: Age $X=\{1,2,2,3,4,5,5,6,7,8,9,10\}$ years, Price $Y=\{25,22,20,18,16,14,13,12,10,8,7,5\}$ thousand dollars. Compute $S_{XX}$, $S_{XY}$, the regression line $\hat Y=\hat\alpha+\hat\beta X$, and $R^2$.
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    Compute $\sum X_i,\sum Y_i,\sum X_i^2,\sum Y_i^2,\sum X_iY_i$; then $S_{XX}=\sum X_i^2-(\sum X_i)^2/n$, $S_{XY}=\sum X_iY_i-(\sum X_i)(\sum Y_i)/n$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 11B: Exercise Level 1 (Resolution)
+\begin{frame}{In-Class Exercise --- Operational Level 1 (2/2)}
+  \scriptsize
+  We compute the preliminary quantities and apply the OLS formulas: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\sum X_i=62,\ \sum Y_i=170,\ \sum X_i^2=414,\ \sum Y_i^2=2836,\ \sum X_iY_i=681, \qquad \bar X\approx5.167,\ \bar Y\approx14.167$$
+    $$S_{XX}=414-\frac{62^2}{12}\approx93.67, \quad S_{XY}=681-\frac{62(170)}{12}\approx-197.33$$
+    $$\hat\beta=\frac{-197.33}{93.67}\approx-2.107, \qquad \hat\alpha\approx14.167-(-2.107)(5.167)\approx25.05, \qquad R^2\approx0.972$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    The negative slope confirms the expected depreciation: each additional year of age reduces the estimated price by $\approx\$2.11$ thousand. $R^2\approx0.972$ indicates an excellent fit.
+  \end{alertblock}
+\end{frame}
+
+% Slide 12A: Exercise Level 2 (Statement)
+\begin{frame}{In-Class Exercise --- Operational Level 2 (1/2)}
+  \footnotesize
+  \begin{block}{Problem --- $t$-Test and CI for the Slope (Statement, Problem 9.8.6)}
+    With $n=25$ batteries: $\hat Y=60.0-0.80X$, $R^2=0.720$, $S_{XX}=800.0$. Compute $SE(\hat\beta)$ and build the 95\% CI for $\beta$ ($t_{0.025,23}=2.069$).
+  \end{block}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{alertblock}{Strategy}
+    Obtain $\text{CME}$ from $\text{SSR}=R^2\cdot\text{SST}$ and $\text{SSE}=\text{SST}-\text{SSR}$ (needs $\text{SST}$; use $\text{SST}=\hat\beta^2S_{XX}/R^2$).
+  \end{alertblock}
+\end{frame}
+
+% Slide 12B: Exercise Level 2 (Resolution)
+\begin{frame}{In-Class Exercise --- Operational Level 2 (2/2)}
+  \scriptsize
+  We solve for SST from the known slope and $R^2$: \pause
+
+  \vspace{0.05cm}
+  \begin{block}{Calculation}
+    \scriptsize
+    $$\text{SSR}=\hat\beta^2S_{XX}=(-0.80)^2(800.0)=512.0, \qquad \text{SST}=\frac{512.0}{0.720}\approx711.1, \qquad \text{SSE}\approx199.1$$
+    $$\text{CME}=\frac{199.1}{23}\approx8.657, \qquad SE(\hat\beta)=\sqrt{\frac{8.657}{800.0}}\approx0.1040$$
+    $$\text{95\% CI}(\beta): -0.80\pm2.069(0.1040) = (-1.015,\,-0.585)$$
+  \end{block}
+
+  \vspace{0.05cm}
+  \pause
+  \begin{alertblock}{Interpretation}
+    \scriptsize
+    Since the interval does not contain zero, $\beta$ is statistically significant at the 95\% confidence level.
+  \end{alertblock}
+\end{frame}
+
+% Slide 13: Closing
+\begin{frame}{Section Closing: Optimal Coefficients and Significance Tests}
+  \begin{reflexion}
+    An estimated coefficient without a significance test is just a number: we have formalized when $\hat\beta$ represents real evidence of a linear relationship, discovered the elegant $F=t^2$ identity unique to simple regression, and established the RSE as the absolute reference measure for judging any model's predictive quality.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Key Takeaways}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{$t$-test:} $t=\hat\beta/SE(\hat\beta)\sim t_{n-2}$ under $H_0:\beta=0$.
+      \item \textbf{$F=t^2$:} exact equivalence exclusive to single-predictor regression.
+      \item \textbf{RSE:} absolute prediction error in $Y$'s units; $RSE/\bar Y$ gives the relative error.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 14: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \scriptsize
+  \begin{retoclase}
+    We have computed everything by hand with closed-form formulas. Section 09.06 shows how to obtain exactly the same results --- coefficients, $p$-values, $R^2$, RSE --- with a single line of professional code using the \texttt{statsmodels} library, the industry-standard tool for statistical regression in Python.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Recommended Preparation}
+    \begin{itemize}\itemsep=0.06cm
+      \item Install \texttt{statsmodels} if you don't have it yet (\texttt{pip install statsmodels}).
+      \item Reflect on the advantages and risks of using a "black-box" library vs. implementing the formulas manually as in this section.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
