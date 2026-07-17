@@ -520,3 +520,581 @@
 		We conclusively demonstrate that conditioning on the sufficient statistic drastically reduces the variance of the naive estimator from $\lambda$ down to $\dfrac{\lambda}{n}$ (an exact improvement factor of $n$ times), producing the uniformly minimum variance unbiased estimator possible.
 	\end{enumerate}
 \end{solproblema}
+
+% ==============================================================================
+% SECTION 06.01: POINT ESTIMATION, UNBIASEDNESS, EFFICIENCY AND CONSISTENCY
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 06.01}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:6.1.1}
+	Let $X_1, X_2$ be iid with $E(X_i)=\mu$. Consider the weighted estimator $\hat{\theta}_w = 0.3X_1 + 0.7X_2$. Show that $\hat{\theta}_w$ is unbiased for $\mu$, and explain in general what condition the weights must satisfy for any linear combination $\hat{\theta}=\sum w_i X_i$ to be unbiased.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.2}
+	An estimator $\hat{\theta}_n$ of a parameter $\theta=10$ has exact bias $\text{Bias}(\hat{\theta}_n) = -\theta/n$. Calculate the numerical bias for a sample of size $n=20$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.3}
+	An estimator $\hat{\theta}$ has $\Var(\hat{\theta})=2.3$ and $\text{Bias}(\hat{\theta})=1.1$. Calculate the Mean Squared Error $\text{MSE}(\hat{\theta})$.
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:6.1.4}
+	Two unbiased estimators of $\theta$ satisfy $\Var(\hat{\theta}_1)=4.5$ and $\Var(\hat{\theta}_2)=6.0$. Calculate the relative efficiency $\text{Eff}(\hat{\theta}_1,\hat{\theta}_2)$ and indicate which estimator is preferable.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.5}
+	A Bayesian estimator of the Poisson rate $\lambda$ is defined as $\hat{\theta}_n = \dfrac{n\bar{X}+1}{n+2}$, with exact bias $\text{Bias}(\hat{\theta}_n) = \dfrac{1-2\lambda}{n+2}$. For $\lambda=3$ and $n=10$, calculate the numerical bias and verify that $\lim_{n\to\infty}\text{Bias}(\hat{\theta}_n)=0$ (asymptotic unbiasedness).
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.6}
+	An unbiased estimator $\hat{\theta}_n$ has $\Var(\hat{\theta}_n) = 16/n$. Use Chebyshev's inequality to bound $P(|\hat{\theta}_n-\theta|\ge 1)$ when $n=64$, and explain why this bound confirms that $\hat{\theta}_n$ is consistent.
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:6.1.7}
+	Let $X_1,\ldots,X_n$ be an iid sample from $N(\mu,\sigma^2)$ with $\sigma^2$ \emph{known}. Calculate the Fisher Information $I(\mu)$ of a single observation, derive the Cramér-Rao Lower Bound for $\Var(\hat{\mu})$, and show that $\bar{X}$ attains it exactly, concluding that $\bar{X}$ is UMVUE for $\mu$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.8}
+	Let $\hat{\theta}$ be an unbiased estimator of $\theta$ with $\Var(\hat{\theta})=v$, and consider the ``shrunk'' (\emph{shrinkage}) estimator $\hat{\theta}_c = c\hat{\theta}$ for a constant $c\in(0,1]$. Derive expressions for $\text{Bias}(\hat{\theta}_c)$, $\Var(\hat{\theta}_c)$, and $\text{MSE}(\hat{\theta}_c)$ in terms of $c$, $v$, and $\theta$. Find the value $c^*$ that minimizes the MSE.
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:6.1.9}
+	Using the general result from Problem \ref{prob:6.1.8}, numerically evaluate $c^*$ and compare $\text{MSE}(\hat{\theta}_{c^*})$ against $\text{MSE}(\hat{\theta})=v$ (the unbiased case, $c=1$) for $v=5$ and $\theta=3$. How much does the MSE decrease by allowing a controlled bias?
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.1.10}
+	Let $\hat{p}_n$ be the sample proportion of a Bernoulli$(p)$. Show that $\hat{p}_n$ is unbiased and consistent for $p$. Then, for the maximum-variance case $p=0.5$, use Chebyshev's inequality (not the CLT) to find the minimum sample size $n$ such that $P(|\hat{p}_n-p|\ge 0.05) \le 0.10$.
+\end{problema}
+
+\subsection*{Problem Hints --- Section 06.01}
+
+\begin{sugerencia}
+	\label{sug:6.1.1}
+	For Problem \ref{prob:6.1.1}, calculate $E(\hat{\theta}_w)=0.3E(X_1)+0.7E(X_2)$ and note that the weights $0.3+0.7=1$; in general, $\sum w_i=1$ is the necessary and sufficient condition.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.2}
+	For Problem \ref{prob:6.1.2}, substitute $\theta=10$, $n=20$ into $-\theta/n$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.3}
+	For Problem \ref{prob:6.1.3}, use $\text{MSE}=\Var+\text{Bias}^2$ with the given values.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.4}
+	For Problem \ref{prob:6.1.4}, calculate $6.0/4.5$; the estimator with the smaller variance ($\hat{\theta}_1$) is the more efficient one.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.5}
+	For Problem \ref{prob:6.1.5}, substitute $\lambda=3$, $n=10$ into $(1-2\lambda)/(n+2)$; for the limit, note that the denominator grows without bound while the numerator remains constant.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.6}
+	For Problem \ref{prob:6.1.6}, Chebyshev's inequality gives $P(|\hat\theta_n-\theta|\ge\varepsilon)\le \Var(\hat\theta_n)/\varepsilon^2$; substitute $\Var=16/64$ and $\varepsilon=1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.7}
+	For Problem \ref{prob:6.1.7}, differentiate $\ln f(x\mid\mu)$ twice with respect to $\mu$ to obtain $I(\mu)=1/\sigma^2$; the CRLB is $1/(nI(\mu))=\sigma^2/n$, which coincides with $\Var(\bar X)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.8}
+	For Problem \ref{prob:6.1.8}, $\text{Bias}(\hat\theta_c)=(c-1)\theta$, $\Var(\hat\theta_c)=c^2v$, $\text{MSE}(c)=c^2v+(c-1)^2\theta^2$; differentiate with respect to $c$ and set equal to zero.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.9}
+	For Problem \ref{prob:6.1.9}, substitute $v=5,\theta=3$ into $c^*=\theta^2/(v+\theta^2)$ and then into the formula for $\text{MSE}(c)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.1.10}
+	For Problem \ref{prob:6.1.10}, use $\Var(\hat p_n)=p(1-p)/n=0.25/n$ in the Chebyshev bound and solve for $n$ from $\frac{0.25/n}{0.0025}\le 0.10$.
+\end{sugerencia}
+
+\subsection*{Problem Solutions --- Section 06.01}
+
+\begin{solucion}
+	\label{sol:6.1.1}
+	For Problem \ref{prob:6.1.1}: $E(\hat\theta_w) = 0.3E(X_1)+0.7E(X_2) = 0.3\mu+0.7\mu = (0.3+0.7)\mu = \mu$. In general, for $\hat\theta=\sum_i w_i X_i$ with $E(X_i)=\mu$ for all $i$, $E(\hat\theta)=\left(\sum_i w_i\right)\mu$, so $\hat\theta$ is unbiased if and only if $\sum_i w_i=1$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.2}
+	For Problem \ref{prob:6.1.2}: $\text{Bias}(\hat\theta_{20}) = -10/20 = -0.5$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.3}
+	For Problem \ref{prob:6.1.3}: $\text{MSE}(\hat\theta) = 2.3 + 1.1^2 = 2.3+1.21 = 3.51$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.4}
+	For Problem \ref{prob:6.1.4}: $\text{Eff}(\hat\theta_1,\hat\theta_2) = 6.0/4.5 \approx 1.333$. Since $\text{Eff}>1$, $\hat\theta_1$ is more efficient (has lower variance) and therefore preferable. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.5}
+	For Problem \ref{prob:6.1.5}: with $\lambda=3$, $n=10$: $\text{Bias} = (1-6)/12 = -5/12 \approx -0.417$. As $n\to\infty$, the denominator $n+2\to\infty$ while the numerator $1-2\lambda$ remains constant, so $\text{Bias}(\hat\theta_n)\to 0$: the estimator is asymptotically unbiased. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.6}
+	For Problem \ref{prob:6.1.6}: $P(|\hat\theta_{64}-\theta|\ge 1) \le \dfrac{16/64}{1^2} = 0.25$. Since this bound (and, in general, $16/n$) tends to $0$ as $n\to\infty$ for any fixed $\varepsilon$, this confirms that $\hat\theta_n$ converges in probability to $\theta$, that is, it is consistent. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.7}
+	For Problem \ref{prob:6.1.7}: $\ln f(x\mid\mu) = -\frac{1}{2}\ln(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}$. Differentiating twice with respect to $\mu$: $\frac{\partial}{\partial\mu}\ln f = \frac{x-\mu}{\sigma^2}$, $\frac{\partial^2}{\partial\mu^2}\ln f = -\frac{1}{\sigma^2}$. Therefore $I(\mu) = -E[-1/\sigma^2] = 1/\sigma^2$. The CRLB is
+	\begin{align*}
+		\Var(\hat\mu) \ge \frac{1}{nI(\mu)} = \frac{\sigma^2}{n}.
+	\end{align*}
+	Since $\Var(\bar X) = \sigma^2/n$ exactly, $\bar X$ attains the bound and is UMVUE for $\mu$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.8}
+	For Problem \ref{prob:6.1.8}: $\text{Bias}(\hat\theta_c) = E(c\hat\theta)-\theta = c\theta-\theta = (c-1)\theta$. $\Var(\hat\theta_c) = c^2\Var(\hat\theta) = c^2v$. Therefore,
+	\begin{align*}
+		\text{MSE}(c) = c^2v + (c-1)^2\theta^2.
+	\end{align*}
+	Differentiating with respect to $c$ and setting equal to zero:
+	\begin{align*}
+		\frac{d}{dc}\text{MSE}(c) = 2cv+2(c-1)\theta^2 = 0 \implies c(v+\theta^2) = \theta^2 \implies c^* = \frac{\theta^2}{v+\theta^2}.
+	\end{align*}
+	Since $v>0$, always $c^*<1$: the optimal MSE is attained by a \emph{biased} estimator (shrunk toward $0$). \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.9}
+	For Problem \ref{prob:6.1.9} with $v=5$, $\theta=3$ ($\theta^2=9$): $c^* = 9/(5+9) = 9/14 \approx 0.643$.
+	\begin{align*}
+		\text{MSE}(c^*) = (0.643)^2(5) + (0.643-1)^2(9) \approx 2.066 + 1.148 = 3.214.
+	\end{align*}
+	Compared with $\text{MSE}(c=1)=v=5$ (the unbiased estimator), the MSE is reduced by approximately $\left(1-\dfrac{3.214}{5}\right)\times100\% \approx 35.7\%$ by allowing a controlled bias. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.1.10}
+	For Problem \ref{prob:6.1.10}: $E(\hat p_n)=p$ (unbiased) and $\Var(\hat p_n)=p(1-p)/n \to 0$ as $n\to\infty$; by Chebyshev's inequality and the criterion MSE$\to 0$, $\hat p_n$ is consistent.
+
+	For $p=0.5$: $\Var(\hat p_n)=0.25/n$. The Chebyshev bound is
+	\begin{align*}
+		P(|\hat p_n-p|\ge 0.05) \le \frac{0.25/n}{0.05^2} = \frac{0.25/n}{0.0025} = \frac{100}{n}.
+	\end{align*}
+	Requiring this bound to be $\le 0.10$: $100/n \le 0.10 \implies n \ge 1000$. At least $1000$ observations are needed according to this conservative Chebyshev bound (a bound based on the CLT, like those in Chapter 05, would require a considerably smaller $n$ for the same guarantee). \quad \qedhere
+\end{solucion}
+
+% ==============================================================================
+% SECTION 06.02: METHOD OF MOMENTS (MoM)
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 06.02}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:6.2.1}
+	Let $X_1,\ldots,X_n$ be an iid sample from a Poisson distribution with parameter $\lambda>0$, where $E(X)=\lambda$. Derive the Method of Moments estimator $\hat\lambda_{MoM}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.2}
+	For the data $\{4, 7, 5, 6, 8\}$ ($n=5$), calculate the first sample moment $m_1$ and the second sample moment $m_2$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.3}
+	Let $X$ be the number of independent Bernoulli trials until the first success, $X\sim\text{Geometric}(p)$, with $E(X)=1/p$. Derive $\hat{p}_{MoM}$ in terms of $\bar X$, and evaluate it numerically if $\bar X = 4$.
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:6.2.4}
+	Let $X\sim U(a,b)$ with both $a<b$ unknown. Knowing that $\mu_1=(a+b)/2$ and $\text{Var}(X)=(b-a)^2/12$, derive the method of moments estimators $\hat{a}_{MoM}$ and $\hat{b}_{MoM}$ in terms of $\bar X$ and $S^2$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.5}
+	In a Binomial process with $n=20$ trials per observation and unknown success probability $p$, a sample of counts produces a sample mean $\bar X = 6.4$. Derive and evaluate $\hat{p}_{MoM}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.6}
+	A sample from a Beta$(\alpha,\beta)$ distribution produces $\bar X = 0.4$ and $S^2 = 0.03$. Using the formulas $\hat\alpha_{MoM} = \bar X\left[\dfrac{\bar X(1-\bar X)}{S^2}-1\right]$ and $\hat\beta_{MoM}=(1-\bar X)\left[\dfrac{\bar X(1-\bar X)}{S^2}-1\right]$, calculate $\hat\alpha_{MoM}$ and $\hat\beta_{MoM}$.
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:6.2.7}
+	Show that $\hat\lambda_{MoM}=\bar X$ (from Problem \ref{prob:6.2.1}) is a consistent estimator of $\lambda$, using the Law of Large Numbers.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.8}
+	Let $X\sim\text{Weibull}(\beta,\eta)$ with both parameters unknown, with moments $\mu_1=\eta\Gamma(1+1/\beta)$ and $\mu_2=\eta^2\Gamma(1+2/\beta)$. Show that the system of moment equations reduces to solving $\dfrac{\Gamma(1+2/\beta)}{\left[\Gamma(1+1/\beta)\right]^2} = \dfrac{\mu_2}{\mu_1^2}$ for $\beta$, and explain why this equation has no closed-form solution (unlike the Gamma case).
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:6.2.9}
+	For the data $\{-3, 2, -1, 4, -2\}$ ($n=5$) coming from $X\sim U(-\theta,\theta)$, use the result of the ``delicate case'' ($\hat\theta_{MoM}=\sqrt{3m_2}$) to estimate $\theta$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.2.10}
+	A sample from a Gamma distribution produces $\bar X=10$ and $S^2=25$. Calculate $\hat\alpha_{MoM}$ and $\hat\beta_{MoM}$. Explain why the MLE of these same parameters would require numerically solving the equation $\psi(\alpha)-\ln\alpha = \ln\bar X - \overline{\ln X}$ (where $\psi$ is the digamma function), and why, despite this, the MLE is usually preferred asymptotically.
+\end{problema}
+
+\subsection*{Problem Hints --- Section 06.02}
+
+\begin{sugerencia}
+	\label{sug:6.2.1}
+	For Problem \ref{prob:6.2.1}, equate $\mu_1=\lambda$ with $m_1=\bar X$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.2}
+	For Problem \ref{prob:6.2.2}, $m_1=\frac{1}{5}\sum x_i$ and $m_2=\frac{1}{5}\sum x_i^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.3}
+	For Problem \ref{prob:6.2.3}, equate $1/p=\bar X$ and solve for $p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.4}
+	For Problem \ref{prob:6.2.4}, equate $\mu_1=\bar X$ and $\text{Var}(X)=S^2$, obtaining two equations in $a,b$; solve the system simultaneously.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.5}
+	For Problem \ref{prob:6.2.5}, use $E(X)=np$ and solve for $\hat p = \bar X/n$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.6}
+	For Problem \ref{prob:6.2.6}, substitute directly $\bar X=0.4$, $S^2=0.03$ into the given formulas.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.7}
+	For Problem \ref{prob:6.2.7}, the LLN establishes directly that $\bar X \xrightarrow{P} E(X) = \lambda$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.8}
+	For Problem \ref{prob:6.2.8}, divide $\mu_2$ by $\mu_1^2$ to cancel $\eta$; the resulting equation in $\beta$ involves the gamma function in a non-algebraic way.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.9}
+	For Problem \ref{prob:6.2.9}, calculate $m_2=\frac{1}{5}\sum x_i^2$ and then $\hat\theta=\sqrt{3m_2}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.2.10}
+	For Problem \ref{prob:6.2.10}, use $\hat\alpha_{MoM}=\bar X^2/S^2$ and $\hat\beta_{MoM}=S^2/\bar X$ from Section 06.01.
+\end{sugerencia}
+
+\subsection*{Problem Solutions --- Section 06.02}
+
+\begin{solucion}
+	\label{sol:6.2.1}
+	For Problem \ref{prob:6.2.1}: equating $\mu_1=\lambda$ with $m_1=\bar X$: $\hat\lambda_{MoM}=\bar X$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.2}
+	For Problem \ref{prob:6.2.2}: $m_1 = (4+7+5+6+8)/5 = 30/5 = 6$. $m_2 = (16+49+25+36+64)/5 = 190/5 = 38$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.3}
+	For Problem \ref{prob:6.2.3}: equating $1/p=\bar X$: $\hat p_{MoM} = 1/\bar X$. With $\bar X=4$: $\hat p_{MoM} = 1/4 = 0.25$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.4}
+	For Problem \ref{prob:6.2.4}: the system is
+	\begin{align*}
+		\frac{a+b}{2} = \bar X, \qquad \frac{(b-a)^2}{12} = S^2.
+	\end{align*}
+	From the second equation, $b-a = \sqrt{12S^2} = 2\sqrt{3}S$. Together with $a+b=2\bar X$, solving the linear system:
+	\begin{align*}
+		\hat a_{MoM} = \bar X - \sqrt{3}S, \qquad \hat b_{MoM} = \bar X + \sqrt{3}S. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.5}
+	For Problem \ref{prob:6.2.5}: $E(X)=np \implies \hat p_{MoM} = \bar X/n = 6.4/20 = 0.32$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.6}
+	For Problem \ref{prob:6.2.6}: $\bar X(1-\bar X)/S^2 = (0.4\cdot 0.6)/0.03 = 0.24/0.03 = 8$. Subtracting $1$: $7$.
+	\begin{align*}
+		\hat\alpha_{MoM} = 0.4\cdot 7 = 2.8, \qquad \hat\beta_{MoM} = 0.6\cdot 7 = 4.2. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.7}
+	For Problem \ref{prob:6.2.7}: since $X_1,\ldots,X_n$ are iid with $E(X)=\lambda<\infty$, the (Weak) Law of Large Numbers directly guarantees that $\bar X \xrightarrow{P} E(X) = \lambda$. Since $\hat\lambda_{MoM}=\bar X$, we conclude that $\hat\lambda_{MoM}$ is consistent. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.8}
+	For Problem \ref{prob:6.2.8}: dividing $\mu_2$ by $\mu_1^2$,
+	\begin{align*}
+		\frac{\mu_2}{\mu_1^2} = \frac{\eta^2\Gamma(1+2/\beta)}{\eta^2\left[\Gamma(1+1/\beta)\right]^2} = \frac{\Gamma(1+2/\beta)}{\left[\Gamma(1+1/\beta)\right]^2},
+	\end{align*}
+	which depends only on $\beta$ (the scale parameter $\eta$ cancels out). Equating this expression with $m_2/m_1^2$ (computed from the data) yields an equation in $\beta$ that involves ratios of the gamma function evaluated at $1+1/\beta$ and $1+2/\beta$; since there is no closed algebraic form to invert the gamma function, this equation must be solved by iterative numerical methods (unlike the Gamma case, where the algebra simplifies exactly). \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.9}
+	For Problem \ref{prob:6.2.9}: $m_2 = (9+4+1+16+4)/5 = 34/5 = 6.8$.
+	\begin{align*}
+		\hat\theta_{MoM} = \sqrt{3\cdot 6.8} = \sqrt{20.4} \approx 4.517. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.2.10}
+	For Problem \ref{prob:6.2.10}: $\hat\alpha_{MoM} = \bar X^2/S^2 = 100/25 = 4$. $\hat\beta_{MoM} = S^2/\bar X = 25/10 = 2.5$.
+
+	The MLE for the Gamma distribution has no closed form because the derivative of $\ln\Gamma(\alpha)$ (the digamma function $\psi(\alpha)$) cannot be inverted algebraically; the likelihood equation is left expressed implicitly in terms of $\psi(\alpha)$, requiring Newton-Raphson or another iterative method. Despite this computational cost, the MLE is usually preferred asymptotically because, under regularity conditions, it attains asymptotic efficiency (the Cramér-Rao Lower Bound), while the MoM generally has larger asymptotic variance. \quad \qedhere
+\end{solucion}
+
+% ==============================================================================
+% SECTION 06.03: MAXIMUM LIKELIHOOD ESTIMATION (MLE) AND SCORE
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 06.03}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:6.3.1}
+	Let $X\sim\text{Exp}(\lambda)$ with $f(x\mid\lambda)=\lambda e^{-\lambda x}$. Derive the score function $U(\lambda;X)$ of a single observation, and verify that $E_\lambda[U(\lambda;X)]=0$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.2}
+	For the Exponential model from Problem \ref{prob:6.3.1}, calculate the Fisher Information $I(\lambda) = -E\left[\dfrac{\partial^2}{\partial\lambda^2}\ln f(X\mid\lambda)\right]$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.3}
+	Using the Asymptotic Normality Theorem for the MLE and the result from Problem \ref{prob:6.3.2}, write the approximate distribution of $\hat\lambda_{MLE}$ for a sample of size $n=50$ from an Exponential with $\lambda=2$.
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:6.3.4}
+	Let $X\sim\text{Geometric}(p)$ (number of trials until the first success), with $f(x\mid p)=p(1-p)^{x-1}$. Construct the score equation and show that $\hat{p}_{MLE} = 1/\bar X$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.5}
+	A sample of $n=100$ Poisson observations produces $\hat\lambda_{MLE}=3.5$. Knowing that $I(\lambda)=1/\lambda$ for the Poisson, use the asymptotic normality of the MLE to construct an approximate $95\%$ confidence interval for $\lambda$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.6}
+	For the Exponential model from Problems \ref{prob:6.3.1}-\ref{prob:6.3.2}, calculate $\Var_\lambda[U(\lambda;X)]$ directly from $U(\lambda;X)=1/\lambda - X$, and verify that it coincides with $I(\lambda)$ (the information identity).
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:6.3.7}
+	Prove the general information identity, $-E_\theta\left[\dfrac{\partial^2}{\partial\theta^2}\ln f(X\mid\theta)\right] = \Var_\theta[U(\theta;X)]$, starting from $E_\theta[U(\theta;X)]=0$ and differentiating this identity once more with respect to $\theta$ under the integral sign.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.8}
+	For $X_1,\ldots,X_n \sim N(\mu,\sigma^2)$ (both parameters unknown), write the score vector $\left(\dfrac{\partial\ell}{\partial\mu}, \dfrac{\partial\ell}{\partial\sigma^2}\right)$ and set both components equal to zero simultaneously to recover $\hat\mu_{MLE}=\bar X$ and $\hat\sigma^2_{MLE}=\frac{1}{n}\sum(X_i-\bar X)^2$.
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:6.3.9}
+	Let $X\sim\text{Rayleigh}(\sigma)$ with density $f(x\mid\sigma) = \dfrac{x}{\sigma^2}e^{-x^2/(2\sigma^2)}$, $x>0$, and $E(X^2)=2\sigma^2$. Derive the score function, the estimator $\hat\sigma^2_{MLE}$, the Fisher Information $I(\sigma)$, and the asymptotic variance of $\hat\sigma_{MLE}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:6.3.10}
+	For the Normal model, it is known that $\Var(\hat\sigma^2_{MLE}) \approx 2\sigma^4/n$ asymptotically. Use the delta method (with $g(x)=\sqrt{x}$) to derive the asymptotic variance of $\hat\sigma_{MLE}=\sqrt{\hat\sigma^2_{MLE}}$.
+\end{problema}
+
+\subsection*{Problem Hints --- Section 06.03}
+
+\begin{sugerencia}
+	\label{sug:6.3.1}
+	For Problem \ref{prob:6.3.1}, $\ln f = \ln\lambda - \lambda x$; differentiate with respect to $\lambda$ and use $E(X)=1/\lambda$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.2}
+	For Problem \ref{prob:6.3.2}, differentiate $U(\lambda;X)=1/\lambda-X$ once more with respect to $\lambda$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.3}
+	For Problem \ref{prob:6.3.3}, use $\hat\lambda_{MLE}\overset{\text{approx.}}{\sim}N(\lambda, 1/(nI(\lambda)))$ with $I(\lambda)=1/\lambda^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.4}
+	For Problem \ref{prob:6.3.4}, $\ln f = \ln p + (x-1)\ln(1-p)$; sum over the sample, differentiate with respect to $p$, and set equal to zero.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.5}
+	For Problem \ref{prob:6.3.5}, the approximate variance is $\hat\lambda/n$; construct $\hat\lambda \pm 1.96\sqrt{\hat\lambda/n}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.6}
+	For Problem \ref{prob:6.3.6}, $\Var(1/\lambda - X) = \Var(X) = 1/\lambda^2$, which coincides with $I(\lambda)$ from Problem \ref{prob:6.3.2}.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.7}
+	For Problem \ref{prob:6.3.7}, differentiate $0=\partial/\partial\theta\int f\,dx$ a second time, use the product rule, and recognize $\int (\partial^2 f/\partial\theta^2)\,dx$ in terms of $E[\partial^2\ln f/\partial\theta^2]$ and $E[U^2]$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.8}
+	For Problem \ref{prob:6.3.8}, use the normal log-likelihood already derived in Section 06.01/06.02 and calculate both partial derivatives.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.9}
+	For Problem \ref{prob:6.3.9}, $\ln f = \ln x - 2\ln\sigma - x^2/(2\sigma^2)$; differentiate with respect to $\sigma$, set equal to zero, and then differentiate a second time to obtain $I(\sigma)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:6.3.10}
+	For Problem \ref{prob:6.3.10}, use the delta method: $\Var(g(\hat\theta)) \approx [g'(\theta)]^2\Var(\hat\theta)$ with $g'(x)=1/(2\sqrt x)$.
+\end{sugerencia}
+
+\subsection*{Problem Solutions --- Section 06.03}
+
+\begin{solucion}
+	\label{sol:6.3.1}
+	For Problem \ref{prob:6.3.1}: $\ln f(x\mid\lambda) = \ln\lambda - \lambda x$, so $U(\lambda;X) = \partial/\partial\lambda\ln f = 1/\lambda - X$. Taking expectation: $E[U(\lambda;X)] = 1/\lambda - E(X) = 1/\lambda - 1/\lambda = 0$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.2}
+	For Problem \ref{prob:6.3.2}: $\partial^2/\partial\lambda^2 \ln f = \partial/\partial\lambda(1/\lambda - x) = -1/\lambda^2$. Therefore, $I(\lambda) = -E[-1/\lambda^2] = 1/\lambda^2$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.3}
+	For Problem \ref{prob:6.3.3}: with $\lambda=2$, $I(\lambda)=1/\lambda^2=1/4$, so $1/(nI(\lambda)) = 1/(50\cdot 0.25) = 1/12.5 = 0.08$.
+	\begin{align*}
+		\hat\lambda_{MLE} \overset{\text{approx.}}{\sim} N(2,\ 0.08). \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.4}
+	For Problem \ref{prob:6.3.4}: $\ell(p) = n\ln p + \left(\sum x_i - n\right)\ln(1-p)$. Differentiating and setting equal to zero:
+	\begin{align*}
+		\frac{d}{dp}\ell(p) = \frac{n}{p} - \frac{\sum x_i - n}{1-p} = 0 \implies n(1-p) = p\left(\sum x_i - n\right) \implies n = p\sum x_i \implies \hat p_{MLE} = \frac{1}{\bar X}. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.5}
+	For Problem \ref{prob:6.3.5}: approximate variance $\approx \hat\lambda/n = 3.5/100 = 0.035$, with standard error $\approx 0.1871$.
+	\begin{align*}
+		\text{CI}_{95\%} \approx 3.5 \pm 1.96(0.1871) \approx 3.5 \pm 0.367 = [3.133,\ 3.867]. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.6}
+	For Problem \ref{prob:6.3.6}: $\Var(U(\lambda;X)) = \Var(1/\lambda - X) = \Var(X) = 1/\lambda^2$ (since $1/\lambda$ is constant). This coincides exactly with $I(\lambda)=1/\lambda^2$ calculated in Problem \ref{prob:6.3.2}, confirming the information identity. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.7}
+	For Problem \ref{prob:6.3.7}: starting from $0 = \int \dfrac{\partial f}{\partial\theta}\,dx = \int U(\theta;x) f(x\mid\theta)\,dx$ (using $\partial f/\partial\theta = U\cdot f$), we differentiate once more with respect to $\theta$ under the integral sign, applying the product rule:
+	\begin{align*}
+		0 = \int \left[\frac{\partial U}{\partial\theta} f + U\cdot\frac{\partial f}{\partial\theta}\right]dx = \int \frac{\partial U}{\partial\theta} f\,dx + \int U^2 f\,dx = E\left[\frac{\partial U}{\partial\theta}\right] + E[U^2].
+	\end{align*}
+	Since $\partial U/\partial\theta = \partial^2\ln f/\partial\theta^2$ and $E[U]=0$ implies $E[U^2]=\Var(U)$:
+	\begin{align*}
+		E\left[\frac{\partial^2\ln f}{\partial\theta^2}\right] = -\Var(U) \implies -E\left[\frac{\partial^2\ln f}{\partial\theta^2}\right] = \Var_\theta[U(\theta;X)]. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.8}
+	For Problem \ref{prob:6.3.8}: from the normal log-likelihood $\ell(\mu,\sigma^2) = -\frac{n}{2}\ln(2\pi)-\frac{n}{2}\ln\sigma^2 - \frac{1}{2\sigma^2}\sum(x_i-\mu)^2$:
+	\begin{align*}
+		\frac{\partial\ell}{\partial\mu} = \frac{1}{\sigma^2}\sum(x_i-\mu), \qquad \frac{\partial\ell}{\partial\sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4}\sum(x_i-\mu)^2.
+	\end{align*}
+	Setting both equal to zero simultaneously: from the first, $\sum(x_i-\mu)=0 \implies \hat\mu_{MLE}=\bar X$; substituting into the second, $\hat\sigma^2_{MLE} = \frac{1}{n}\sum(x_i-\bar X)^2$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.9}
+	For Problem \ref{prob:6.3.9}: $\ln f = \ln x - 2\ln\sigma - x^2/(2\sigma^2)$.
+	\begin{align*}
+		U(\sigma;X) = \frac{\partial}{\partial\sigma}\ln f = -\frac{2}{\sigma} + \frac{X^2}{\sigma^3}.
+	\end{align*}
+	Setting the sum equal to zero: $-2n/\sigma + (1/\sigma^3)\sum x_i^2 = 0 \implies \hat\sigma^2_{MLE} = \dfrac{1}{2n}\sum x_i^2$.
+
+	Differentiating the score once more: $\partial^2\ln f/\partial\sigma^2 = 2/\sigma^2 - 3X^2/\sigma^4$. Using $E(X^2)=2\sigma^2$:
+	\begin{align*}
+		I(\sigma) = -E\left[\frac{2}{\sigma^2}-\frac{3X^2}{\sigma^4}\right] = -\frac{2}{\sigma^2}+\frac{3(2\sigma^2)}{\sigma^4} = -\frac{2}{\sigma^2}+\frac{6}{\sigma^2} = \frac{4}{\sigma^2}.
+	\end{align*}
+	The asymptotic variance is $\Var(\hat\sigma_{MLE}) \approx \dfrac{1}{nI(\sigma)} = \dfrac{\sigma^2}{4n}$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:6.3.10}
+	For Problem \ref{prob:6.3.10}: with $g(x)=\sqrt x$, $g'(x)=1/(2\sqrt x)$, so $g'(\sigma^2)=1/(2\sigma)$. By the delta method:
+	\begin{align*}
+		\Var(\hat\sigma_{MLE}) = \Var(g(\hat\sigma^2_{MLE})) \approx \left[g'(\sigma^2)\right]^2 \Var(\hat\sigma^2_{MLE}) = \left(\frac{1}{2\sigma}\right)^2 \cdot \frac{2\sigma^4}{n} = \frac{1}{4\sigma^2}\cdot\frac{2\sigma^4}{n} = \frac{\sigma^2}{2n}. \quad \qedhere
+	\end{align*}
+\end{solucion}

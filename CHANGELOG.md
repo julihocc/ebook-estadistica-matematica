@@ -4,6 +4,18 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-17
+
+### Corregido
+- **Alineación del libro maestro en inglés (`latex/[Statistical Modeling].tex`) con la fuente en español (`latex/[Modelación Estadística].tex`) — Fase A completa:** se detectó que el libro maestro EN no estaba fielmente alineado con la fuente ES, afectando la fidelidad de los slides en ambos idiomas. Una auditoría estructural de los 9 capítulos encontró: (1) 7 archivos de cuaderno de problemas "(p)" en inglés completamente inexistentes, con 270 problemas en español sin ningún equivalente EN, concentrados en los Capítulos 02-05; (2) `en_estimacion_puntual(p).tex` (Cap. 06) con solo 10 de 40 problemas (faltaban 3 lotes completos, Secciones 06.01-06.03); (3) `en_variables_aleatorias_discretas.tex` (Cap. 03) con una sección de teoría entera faltante ("Esperanza matemática y varianza en variables aleatorias discretas"); (4) una línea de preámbulo (`\input{_md_entornos}`) ausente en el master EN, investigada y confirmada como **falso positivo** (`_en_entornos.tex` ya fusiona esos entornos en inglés; agregar la línea habría causado conflicto de `\newtheorem` duplicado).
+  - Se agregó la sección de teoría faltante a `en_variables_aleatorias_discretas.tex`.
+  - Se crearon 7 archivos de cuaderno de problemas nuevos, traducidos fielmente del español preservando cifras, etiquetas `\label` y conteo exacto de problemas: `en_muestreo_aleatorio(p).tex` (10), `en_esperanza_matematica(p).tex` (10), `en_variables_aleatorias_discretas(p).tex` (30, 3 subsecciones), `en_variables_aleatorias_continuas(p).tex` (20), `en_variables_aleatorias_continuas_avanzado(p).tex` (40), `en_distribuciones_muestreo_avanzado(p).tex` (50), y `en_distribuciones_especiales(p).tex` (70, 7 subsecciones, el más grande, traducido en 7 partes paralelas por sección y ensamblado).
+  - Se completó `en_estimacion_puntual(p).tex` agregando los 30 problemas faltantes (Secciones 06.01-06.03).
+  - Cada archivo fue verificado independientemente (no solo por el proceso de traducción): conteo de `\begin{problema}`/`\begin{solucion}`/`\begin{sugerencia}` idéntico al original ES, diff vacío entre las listas ordenadas de `\label{prob:...}`, y verificación puntual de valores numéricos críticos (p. ej. la Paradoja de San Petersburgo, cifras financieras).
+  - El libro maestro EN se recompiló dos veces después de cada adición individual (11 verificaciones incrementales), confirmando **0 errores y 0 referencias indefinidas** en cada paso.
+  - **Verificación final agregada:** el libro maestro ES y el EN contienen ahora exactamente **483 problemas cada uno** (paridad total confirmada por conteo automatizado), y ambos recompilan limpiamente de punta a punta.
+  - Próximo paso (Fase B, pendiente): reconstruir los mazos Beamer EN que resultaron estructuralmente divergentes de sus espejos ES durante esta misma auditoría (Capítulo 3, secciones 03.02-03.06 con patrón de ejercicios incorrecto; Capítulos 03 cola, 04, 05 y 06 con frames de teoría condensados/faltantes).
+
 ## 2026-07-16
 
 ### Corregido

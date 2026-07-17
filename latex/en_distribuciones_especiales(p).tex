@@ -1,0 +1,2621 @@
+% ==============================================================================
+% SECTION 03.04: BERNOULLI AND BINOMIAL DISTRIBUTIONS
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 03.04}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:3.4.1}
+	Consider an elementary random experiment consisting of inspecting a single electronic component on an assembly line, where the probability that the component is fit for use is $p = 0.85$. Let $X$ be the random variable that takes the value $1$ if the component is fit (success) and $0$ if it turns out to be defective (failure).
+	\begin{enumerate}
+		\item Formally specify the probability mass function $f_X(x)$ using the compact form of the Bernoulli trial: $f_X(x) = p^x (1-p)^{1-x}$ for $x \in \set{0, 1}$.
+		\item Show directly from the definition that $\mathbb{E}[X] = p$ and $\text{Var}(X) = p(1-p)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.2}
+	In an automated quality-control process, $n = 8$ temperature sensors manufactured under identical and independent conditions are inspected. The probability that an individual sensor meets the precision standards is $p = 0.90$. Let $X$ be the total number of sensors that meet the standards among the $8$ inspected.
+	\begin{enumerate}
+		\item Identify the exact distribution of $X$ together with its parameters and compute the probability that exactly $7$ sensors meet the standards.
+		\item Compute the probability that at most $1$ sensor turns out to be unfit in the inspected sample.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.3}
+	Let there be a set of independent Bernoulli trials $X_1, X_2, \dots, X_n$, where each random variable satisfies $P(X_i = 1) = p$ and $P(X_i = 0) = q = 1-p$ for all $i \in \set{1, 2, \dots, n}$.
+	\begin{enumerate}
+		\item Define the sum variable $Y = \sum_{i=1}^n X_i$. Explain argumentatively why the number of sequences in the sample space $\Omega$ that produce exactly $k$ successes ($Y = k$) is given by the combinatorial coefficient $\comb{n}{k}$.
+		\item Use this reasoning to derive from first principles the probability mass function $P(Y = k) = \comb{n}{k} p^k q^{n-k}$ and explicitly verify its sum over the support $\mathcal{S}_Y = \set{0, 1, \dots, n}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:3.4.4}
+	A cybersecurity firm monitors a network of servers where the probability that an external access attempt is classified as malicious is $p = 0.15$. In a given time interval, $n = 12$ independent access attempts are recorded. Let $X \sim \text{Bin}(12, 0.15)$ be the number of malicious accesses detected.
+	\begin{enumerate}
+		\item Compute the probability that at most $2$ malicious accesses are detected ($P(X \le 2)$).
+		\item Compute the conditional probability that at least $4$ malicious accesses are detected given that at least one was detected ($P(X \ge 4 \mid X \ge 1)$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.5}
+	A bioinformatics research team develops an algorithm to detect a rare genetic sequence in clinical samples. The probability that a positive sample is correctly identified in a single trial is $p = 0.08$. If the trials are performed in a fully independent manner on distinct samples:
+	\begin{enumerate}
+		\item Set up the logarithmic inequality that allows determining the minimum number of independent samples $n$ that must be processed so that the probability of detecting the sequence at least once is at least $99\%$ ($P(X \ge 1) \ge 0.99$).
+		\item Solve numerically to obtain the exact integer value of $n^*$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.6}
+	A manufacturer of aerospace components supplies batches of $n = 20$ hydraulic valves. The probability that a defective valve escapes internal inspection is $p = 0.05$. The contract establishes an operational warranty cost modeled by the nonlinear loss function:
+	\begin{align*}
+		C(X) = 500 X^2 + 150 X + 1000 \quad \text{(in dollars)},
+	\end{align*}
+	where $X$ represents the number of defective valves in the delivered batch.
+	\begin{enumerate}
+		\item Determine the mathematical expectation of the warranty cost $\mathbb{E}[C(X)]$ using the properties of binomial moments.
+		\item Compute the standard deviation of the number of defects $\sigma_X$ and discuss the impact of the quadratic term $X^2$ on the overall expected cost.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:3.4.7}
+	Let $X \sim \text{Bin}(n, p)$ with $q = 1-p$.
+	\begin{enumerate}
+		\item Rigorously prove, using Newton's Binomial Theorem, the absolute normalization identity:
+		\begin{align*}
+			\sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = 1.
+		\end{align*}
+		\item Applying the differential operator $\frac{\partial}{\partial p}$ to the analytical identity $(p+q)^n = \sum_{k=0}^n \comb{n}{k} p^k q^{n-k}$ before substituting $q=1-p$, analytically show that $\mathbb{E}[X] = np$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.8}
+	For a discrete random variable $X \sim \text{Bin}(n, p)$, the second factorial moment is defined as the expected value of the descending product $\mathbb{E}[X(X-1)]$.
+	\begin{enumerate}
+		\item Analytically derive the closed-form formula for $\mathbb{E}[X(X-1)]$ by manipulating the combinatorial coefficients of the sum $\sum_{k=2}^n k(k-1)\comb{n}{k} p^k q^{n-k}$.
+		\item From the algebraic identity $\text{Var}(X) = \mathbb{E}[X(X-1)] + \mathbb{E}[X] - (\mathbb{E}[X])^2$, show exactly that $\text{Var}(X) = np(1-p)$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:3.4.9}
+	Let $X \sim \text{Bin}(n, p)$ be a binomial variable with success probability $0 < p < 1$. The mode of the distribution is defined as the value or values $k^* \in \set{0, 1, \dots, n}$ that maximize the probability $P(X = k^*)$.
+	\begin{enumerate}
+		\item Analyze the ratio of adjacent probabilities $R(k) = \dfrac{P(X = k)}{P(X = k-1)}$ for all $k \in \set{1, 2, \dots, n}$.
+		\item Analytically show that the mode of the distribution satisfies $k^* = \lfloor (n+1)p \rfloor$ when $(n+1)p$ is not an integer.
+		\item Determine exactly what happens with the distribution when $(n+1)p = m \in \mathbb{Z}^+$ (bimodal case).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.4.10}
+	Consider two mutually independent binomial random variables: $X \sim \text{Bin}(n_1, p)$ and $Y \sim \text{Bin}(n_2, p)$, both sharing exactly the same success probability $p$ on each trial.
+	\begin{enumerate}
+		\item Show combinatorially, using discrete convolution and the Vandermonde Identity, that the sum $Z = X + Y$ follows an exact $\text{Bin}(n_1 + n_2, p)$ distribution.
+		\item Verify that the additivity of the expectation and the variance is preserved exactly under this sum of independent distributions.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Hints for the Problems --- Section 03.04}
+
+\begin{sugerencia}
+	\label{sug:3.4.1}
+	For Problem \ref{prob:3.4.1}, evaluate the compact expression $p^x(1-p)^{1-x}$ at $x=0$ and $x=1$ to verify that it matches the definition of the success and failure probabilities. For the moments, apply the direct sum $\mathbb{E}[X^k] = 0^k \cdot (1-p) + 1^k \cdot p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.2}
+	For Problem \ref{prob:3.4.2}, recall that the condition "at most $1$ unfit sensor" is exactly equivalent to at least $7$ sensors meeting the standards ($X \ge 7$), which requires evaluating $P(X=7) + P(X=8)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.3}
+	For Problem \ref{prob:3.4.3}, each particular sequence of $k$ successes and $n-k$ failures has an individual probability of $p^k q^{n-k}$ by independence. The total number of distinct configurations for placing the $k$ successes among the $n$ positions is $\comb{n}{k}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.4}
+	For Problem \ref{prob:3.4.4}, in the conditional part use the definition of conditional probability: $P(X \ge 4 \mid X \ge 1) = \dfrac{P(X \ge 4 \cap X \ge 1)}{P(X \ge 1)} = \dfrac{1 - P(X \le 3)}{1 - P(X = 0)}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.5}
+	For Problem \ref{prob:3.4.5}, the event complementary to "detecting it at least once" is "zero detections in $n$ trials" ($X=0$), whose probability is exactly $(1-p)^n$. Express the condition as $1 - (1-p)^n \ge 0.99$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.6}
+	For Problem \ref{prob:3.4.6}, by linearity of the expectation operator, $\mathbb{E}[C(X)] = 500 \mathbb{E}[X^2] + 150 \mathbb{E}[X] + 1000$. Recall that the raw second moment is obtained as $\mathbb{E}[X^2] = \text{Var}(X) + (\mathbb{E}[X])^2 = np(1-p) + n^2 p^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.7}
+	For Problem \ref{prob:3.4.7}, differentiating $(p+q)^n$ with respect to $p$ gives $n(p+q)^{n-1}$. Differentiating the right-hand side of the sum gives $\sum k \comb{n}{k} p^{k-1} q^{n-k}$. Multiply both sides by $p$ and then substitute $q = 1-p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.8}
+	For Problem \ref{prob:3.4.8}, note that for $k \ge 2$, $k(k-1)\comb{n}{k} = n(n-1)\comb{n-2}{k-2}$. Factor $n(n-1)p^2$ out of the sum and recognize the normalization of a binomial with parameters $n-2$ and $p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.9}
+	For Problem \ref{prob:3.4.9}, set up the growth condition $R(k) = \dfrac{\comb{n}{k} p^k q^{n-k}}{\comb{n}{k-1} p^{k-1} q^{n-k+1}} = \dfrac{(n-k+1)p}{kq} \ge 1$. Solve for the variable $k$ in terms of $(n+1)p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.4.10}
+	For Problem \ref{prob:3.4.10}, express the probability mass of the sum as $P(Z = m) = \sum_{j=0}^m P(X = j) P(Y = m-j) = \sum_{j=0}^m \comb{n_1}{j}\comb{n_2}{m-j} p^m q^{(n_1+n_2)-m}$. Apply the Vandermonde Identity: $\sum_{j=0}^m \comb{n_1}{j}\comb{n_2}{m-j} = \comb{n_1+n_2}{m}$.
+\end{sugerencia}
+
+\subsection*{Solutions to the Problems --- Section 03.04}
+
+\begin{solucion}
+	\label{sol:3.4.1}
+	For Problem \ref{prob:3.4.1}:
+	\begin{enumerate}
+		\item For the electronic component, the discrete support is $\mathcal{S}_X = \set{0, 1}$. Evaluating the compact parametric form yields:
+		\begin{align*}
+			f_X(1) &= p^1 (1-p)^{1-1} = p = 0.85, \\
+			f_X(0) &= p^0 (1-p)^{1-0} = 1-p = 0.15.
+		\end{align*}
+		The sum over the support is $\sum_{x \in \set{0,1}} f_X(x) = p + (1-p) = 1$, confirming its exact normalization.
+		\item We compute the first raw moment (mathematical expectation):
+		\begin{align*}
+			\mathbb{E}[X] &= \sum_{x \in \set{0,1}} x \cdot f_X(x) = 0 \cdot (1-p) + 1 \cdot p = p.
+		\end{align*}
+		For the second raw moment, since $x^2 = x$ for all $x \in \set{0, 1}$:
+		\begin{align*}
+			\mathbb{E}[X^2] &= \sum_{x \in \set{0,1}} x^2 \cdot f_X(x) = 0^2 \cdot (1-p) + 1^2 \cdot p = p.
+		\end{align*}
+		By the König-Huygens identity, the variance is:
+		\begin{align*}
+			\text{Var}(X) &= \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = p - p^2 = p(1-p).
+		\end{align*}
+		Substituting $p = 0.85$, we obtain $\mathbb{E}[X] = 0.85$ and $\text{Var}(X) = 0.85 \times 0.15 = 0.1275$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.2}
+	For Problem \ref{prob:3.4.2}:
+	\begin{enumerate}
+		\item The random variable that counts independent successes among a fixed number of trials follows a binomial distribution: $X \sim \text{Bin}(n=8, p=0.90)$. The exact probability of obtaining $7$ fit sensors is:
+		\begin{align*}
+			P(X = 7) &= \comb{8}{7} (0.90)^7 (0.10)^{8-7} \\
+			&= 8 \times 0.4782969 \times 0.10 \approx 0.3826.
+		\end{align*}
+		\item At most $1$ unfit sensor means that the number of defective sensors ($8-X$) is $\le 1$, which occurs if and only if the fit sensors are exactly $7$ or $8$:
+		\begin{align*}
+			P(X \ge 7) &= P(X = 7) + P(X = 8) \\
+			&= 0.38263752 + \comb{8}{8} (0.90)^8 (0.10)^0 \\
+			&= 0.38263752 + 1 \times 0.43046721 \approx 0.8131.
+		\end{align*}
+		There is an $81.31\%$ probability that the inspected batch has at most one failure.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.3}
+	For Problem \ref{prob:3.4.3}:
+	\begin{enumerate}
+		\item The full sample space of the experiment consists of $2^n$ ordered sequences of zeros and ones of the form $\omega = (x_1, x_2, \dots, x_n)$. Since each variable is independent, the probability of any particular sequence containing exactly $k$ ones (successes) and $n-k$ zeros (failures) is given by the product of its marginal probabilities:
+		\begin{align*}
+			P(\omega) &= \prod_{i=1}^n P(X_i = x_i) = p^k q^{n-k}.
+		\end{align*}
+		The total number of sequences in $\Omega$ containing exactly $k$ successes is the combinatorial problem of choosing the $k$ positions of the successes among the $n$ available places, which is the combinatorial coefficient $\comb{n}{k} = \dfrac{n!}{k!(n-k)!}$.
+		\item Since the sequences that produce $Y=k$ are mutually exclusive events that are equiprobable with each other with probability $p^k q^{n-k}$, summing over the $\comb{n}{k}$ configurations we obtain the binomial probability mass function:
+		\begin{align*}
+			P(Y = k) = \comb{n}{k} p^k q^{n-k}, \quad k \in \set{0, 1, \dots, n}.
+		\end{align*}
+		Its sum over the entire support $\mathcal{S}_Y$ is:
+		\begin{align*}
+			\sum_{k=0}^n P(Y = k) = \sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = (p + q)^n = 1^n = 1,
+		\end{align*}
+		which confirms that it is a mathematically complete probability mass function.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.4}
+	For Problem \ref{prob:3.4.4}:
+	\begin{enumerate}
+		\item With $X \sim \text{Bin}(12, 0.15)$, we compute the cumulative probabilities up to $k=2$:
+		\begin{align*}
+			P(X = 0) &= \comb{12}{0} (0.15)^0 (0.85)^{12} = (0.85)^{12} \approx 0.14224, \\
+			P(X = 1) &= \comb{12}{1} (0.15)^1 (0.85)^{11} = 12 \times 0.15 \times 0.16734 \approx 0.30121, \\
+			P(X = 2) &= \comb{12}{2} (0.15)^2 (0.85)^{10} = 66 \times 0.0225 \times 0.19687 \approx 0.29236.
+		\end{align*}
+		Adding the three elementary probabilities:
+		\begin{align*}
+			P(X \le 2) = 0.14224 + 0.30121 + 0.29236 = 0.7358.
+		\end{align*}
+		\item For the conditional probability of at least $4$ detections given at least one, we first compute $P(X = 3)$:
+		\begin{align*}
+			P(X = 3) &= \comb{12}{3} (0.15)^3 (0.85)^9 = 220 \times 0.003375 \times 0.23162 \approx 0.17197.
+		\end{align*}
+		Therefore, the probability of having $3$ or fewer detections is $P(X \le 3) = 0.73581 + 0.17197 = 0.90778$. The required conditional probability is:
+		\begin{align*}
+			P(X \ge 4 \mid X \ge 1) &= \dfrac{P(X \ge 4 \cap X \ge 1)}{P(X \ge 1)} = \dfrac{P(X \ge 4)}{P(X \ge 1)} = \dfrac{1 - P(X \le 3)}{1 - P(X = 0)} \\
+			&= \dfrac{1 - 0.90778}{1 - 0.14224} = \dfrac{0.09222}{0.85776} \approx 0.1075.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.5}
+	For Problem \ref{prob:3.4.5}:
+	\begin{enumerate}
+		\item Let $X \sim \text{Bin}(n, p=0.08)$ be the number of sequences detected. We want to guarantee that:
+		\begin{align*}
+			P(X \ge 1) \ge 0.99.
+		\end{align*}
+		Using the complementary event, $P(X \ge 1) = 1 - P(X = 0) = 1 - (1-p)^n = 1 - (0.92)^n$. Substituting into the inequality:
+		\begin{align*}
+			1 - (0.92)^n \ge 0.99 \implies (0.92)^n \le 0.01.
+		\end{align*}
+		Applying the natural logarithm (and since $\ln(0.92) < 0$, the inequality sign is reversed):
+		\begin{align*}
+			n \cdot \ln(0.92) \le \ln(0.01) \implies n \ge \dfrac{\ln(0.01)}{\ln(0.92)}.
+		\end{align*}
+		\item Evaluating the logarithms numerically with high precision:
+		\begin{align*}
+			\ln(0.01) \approx -4.605170, \quad \ln(0.92) \approx -0.083382.
+		\end{align*}
+		The exact quotient is:
+		\begin{align*}
+			n \ge \dfrac{-4.605170}{-0.083382} \approx 55.2299.
+		\end{align*}
+		Since the sample size $n$ must be a positive integer, we apply the ceiling function:
+		\begin{align*}
+			n^* = \lceil 55.2299 \rceil = 56.
+		\end{align*}
+		Exactly $56$ independent samples are required to ensure the desired level of detection.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.6}
+	For Problem \ref{prob:3.4.6}:
+	\begin{enumerate}
+		\item For $X \sim \text{Bin}(n=20, p=0.05)$, we first compute the mean $\mathbb{E}[X]$ and the variance $\text{Var}(X)$:
+		\begin{align*}
+			\mathbb{E}[X] &= np = 20 \times 0.05 = 1.0, \\
+			\text{Var}(X) &= np(1-p) = 20 \times 0.05 \times 0.95 = 0.95.
+		\end{align*}
+		The raw second moment is $\mathbb{E}[X^2] = \text{Var}(X) + (\mathbb{E}[X])^2 = 0.95 + (1.0)^2 = 1.95$. Applying linearity to the warranty cost $C(X)$:
+		\begin{align*}
+			\mathbb{E}[C(X)] &= 500 \mathbb{E}[X^2] + 150 \mathbb{E}[X] + 1000 \\
+			&= 500(1.95) + 150(1.0) + 1000 = 975 + 150 + 1000 = \$2,125.
+		\end{align*}
+		\item The standard deviation of the number of defective components in the batch is:
+		\begin{align*}
+			\sigma_X = \sqrt{\text{Var}(X)} = \sqrt{0.95} \approx 0.9747.
+		\end{align*}
+		If the cost were purely linear in the mean ($150 \mathbb{E}[X] + 1000$), the expected cost would be $\$1,150$. However, the quadratic nonlinearity ($500 X^2$) strongly penalizes the inherent variability of the batch: even though the average number of failures is only one unit ($\mu=1$), the intrinsic dispersion adds an expected cost of $500 \times 1.95 = \$975$, which represents $45.88\%$ of the overall cost.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.7}
+	For Problem \ref{prob:3.4.7}:
+	\begin{enumerate}
+		\item Newton's Binomial Theorem states that for any pair of real numbers $a, b \in \mathbb{R}$ and positive integer $n \in \mathbb{Z}^+$:
+		\begin{align*}
+			(a + b)^n = \sum_{k=0}^n \comb{n}{k} a^k b^{n-k}.
+		\end{align*}
+		Substituting directly $a = p$ and $b = q$, we obtain the right-hand side identical to the total sum of probabilities of the binomial mass function:
+		\begin{align*}
+			\sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = (p + q)^n.
+		\end{align*}
+		Since by definition of the failure probability $p + q = 1$, the expression reduces to $1^n = 1$, formally proving the absolute normalization.
+		\item Treating $p$ and $q$ as independent variables in the general identity $(p+q)^n = \sum_{k=0}^n \comb{n}{k} p^k q^{n-k}$ and applying the differential operator with respect to $p$:
+		\begin{align*}
+			\dfrac{\partial}{\partial p} (p+q)^n &= \sum_{k=0}^n \comb{n}{k} \dfrac{\partial}{\partial p} (p^k q^{n-k}) \\
+			n(p+q)^{n-1} &= \sum_{k=1}^n k \comb{n}{k} p^{k-1} q^{n-k}.
+		\end{align*}
+		We multiply both sides of the equation by the parameter $p$:
+		\begin{align*}
+			np(p+q)^{n-1} = \sum_{k=1}^n k \comb{n}{k} p^k q^{n-k} = \sum_{k=0}^n k \comb{n}{k} p^k q^{n-k}.
+		\end{align*}
+		The right-hand side of this equation matches exactly the analytical definition of the expected value $\mathbb{E}[X] = \sum_{k=0}^n k P(X = k)$. Substituting the geometric condition $q = 1-p \implies p+q=1$ on the left-hand side, we conclude the proof:
+		\begin{align*}
+			\mathbb{E}[X] = np(1)^{n-1} = np.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.8}
+	For Problem \ref{prob:3.4.8}:
+	\begin{enumerate}
+		\item We evaluate the formal definition of the second factorial moment $\mathbb{E}[X(X-1)]$:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] &= \sum_{k=0}^n k(k-1) P(X = k) = \sum_{k=2}^n k(k-1) \comb{n}{k} p^k q^{n-k}.
+		\end{align*}
+		We expand the combinatorial coefficient and cancel the algebraic factors:
+		\begin{align*}
+			k(k-1) \comb{n}{k} &= k(k-1) \dfrac{n!}{k!(n-k)!} = \dfrac{n!}{(k-2)!(n-k)!} \\
+			&= n(n-1) \dfrac{(n-2)!}{(k-2)!((n-2)-(k-2))!} = n(n-1) \comb{n-2}{k-2}.
+		\end{align*}
+		Substituting this combinatorial development into the sum and factoring out $n(n-1)p^2$:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] &= \sum_{k=2}^n n(n-1)\comb{n-2}{k-2} p^2 p^{k-2} q^{(n-2)-(k-2)} \\
+			&= n(n-1)p^2 \sum_{j=0}^{n-2} \comb{n-2}{j} p^j q^{(n-2)-j}, \quad \text{where } j = k-2.
+		\end{align*}
+		By the Binomial Theorem proven previously, the inner sum is exactly equal to $(p+q)^{n-2} = 1$. Therefore:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] = n(n-1)p^2.
+		\end{align*}
+		\item We expand the factorial moment by relating it to the variance of the distribution:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] &= \mathbb{E}[X^2 - X] = \mathbb{E}[X^2] - \mathbb{E}[X] \\
+			\implies \mathbb{E}[X^2] &= \mathbb{E}[X(X-1)] + \mathbb{E}[X].
+		\end{align*}
+		Substituting $\mathbb{E}[X(X-1)] = n(n-1)p^2$ and $\mathbb{E}[X] = np$, we obtain the raw second moment:
+		\begin{align*}
+			\mathbb{E}[X^2] = n(n-1)p^2 + np = n^2 p^2 - np^2 + np.
+		\end{align*}
+		Finally, we compute the operational variance:
+		\begin{align*}
+			\text{Var}(X) &= \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = (n^2 p^2 - np^2 + np) - (np)^2 \\
+			&= np - np^2 = np(1-p),
+		\end{align*}
+		concluding the derivation of the binomial variance exactly.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.9}
+	For Problem \ref{prob:3.4.9}:
+	\begin{enumerate}
+		\item To determine where the binomial mass function reaches its maximum, we investigate when the probability increases from one term to the next ($P(X=k) \ge P(X=k-1)$). We evaluate the adjacent ratio $R(k)$:
+		\begin{align*}
+			R(k) = \dfrac{P(X=k)}{P(X=k-1)} &= \dfrac{\comb{n}{k} p^k q^{n-k}}{\comb{n}{k-1} p^{k-1} q^{n-k+1}} = \dfrac{\dfrac{n!}{k!(n-k)!}}{\dfrac{n!}{(k-1)!(n-k+1)!}} \cdot \dfrac{p}{q} \\
+			&= \dfrac{(k-1)!(n-k+1)!}{k!(n-k)!} \cdot \dfrac{p}{q} = \dfrac{n-k+1}{k} \cdot \dfrac{p}{1-p}.
+		\end{align*}
+		\item The binomial probability is increasing at step $k$ if and only if $R(k) \ge 1$:
+		\begin{align*}
+			\dfrac{n-k+1}{k} \cdot \dfrac{p}{1-p} \ge 1 &\implies (n-k+1)p \ge k(1-p) \\
+			&\implies np - kp + p \ge k - kp \\
+			&\implies (n+1)p \ge k.
+		\end{align*}
+		Therefore, the probabilities are strictly increasing for the integers $k$ such that $k \le (n+1)p$, and strictly decreasing for the integers $k > (n+1)p$. When the quantity $(n+1)p$ is not an integer, there exists a unique integer $k^*$ that satisfies the maximum condition, obtained by taking the greatest integer less than or equal to it:
+		\begin{align*}
+			k^* = \lfloor (n+1)p \rfloor.
+		\end{align*}
+		\item If the admissible value $(n+1)p = m$ turns out to be an exact positive integer, then at the transition point $k = m$ we have equality in the adjacent ratio:
+		\begin{align*}
+			R(m) = 1 \implies P(X = m) = P(X = m-1).
+		\end{align*}
+		In this extraordinary case, the distribution is exactly **bimodal**, reaching its identical maximum value at two contiguous integer points of the support: $k^* = m-1$ and $k^* = m$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.4.10}
+	For Problem \ref{prob:3.4.10}:
+	\begin{enumerate}
+		\item Since $X$ and $Y$ are independent with the same success probability $p$, the probability that the sum takes an integer value $Z = X+Y = m$ for $m \in \set{0, 1, \dots, n_1+n_2}$ is obtained via the discrete convolution formula:
+		\begin{align*}
+			P(Z = m) &= \sum_{j=0}^m P(X = j \cap Y = m-j) = \sum_{j=0}^m P(X = j)P(Y = m-j) \\
+			&= \sum_{j=0}^m \left[ \comb{n_1}{j} p^j q^{n_1-j} \right] \left[ \comb{n_2}{m-j} p^{m-j} q^{n_2-(m-j)} \right] \\
+			&= p^m q^{(n_1+n_2)-m} \sum_{j=0}^m \comb{n_1}{j} \comb{n_2}{m-j}.
+		\end{align*}
+		The remaining combinatorial sum is resolved via the celebrated **Vandermonde Combinatorial Identity**, which establishes that when selecting a subset of size $m$ from a combined group of $n_1 + n_2$ elements divided into two disjoint subgroups:
+		\begin{align*}
+			\sum_{j=0}^m \comb{n_1}{j} \comb{n_2}{m-j} = \comb{n_1+n_2}{m}.
+		\end{align*}
+		Substituting the Vandermonde Identity into the convolution, we obtain in closed form:
+		\begin{align*}
+			P(Z = m) = \comb{n_1+n_2}{m} p^m q^{(n_1+n_2)-m},
+		\end{align*}
+		which shows that $Z \sim \text{Bin}(n_1+n_2, p)$.
+		\item We verify the additivity of moments over the binomial sum:
+		\begin{align*}
+			\mathbb{E}[Z] &= (n_1 + n_2)p = n_1 p + n_2 p = \mathbb{E}[X] + \mathbb{E}[Y], \\
+			\text{Var}(Z) &= (n_1 + n_2)p(1-p) = n_1 p(1-p) + n_2 p(1-p) = \text{Var}(X) + \text{Var}(Y).
+		\end{align*}
+		The combinatorial and additive theorem is rigorously proven.
+	\end{enumerate}
+\end{solucion}
+
+% ==============================================================================
+% SECTION 03.05: GEOMETRIC AND NEGATIVE BINOMIAL DISTRIBUTIONS
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 03.05}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:3.5.1}
+	Consider an infinite sequence of independent Bernoulli trials with constant probability of success $p \in (0, 1)$ on each attempt and probability of failure $q = 1-p$. Let $X$ be the discrete random variable denoting the total number of trials required to obtain the **first success** (including the successful trial).
+	\begin{enumerate}
+		\item Specify the probability mass function $f_X(k) = P(X = k)$ and determine its support $\mathcal{S}_X$.
+		\item Analytically show that the sum over the entire support equals unity ($\sum_{k=1}^{\infty} f_X(k) = 1$) using geometric series.
+		\item Compute the upper tail probability $P(X > k)$ for an integer $k \ge 1$ and obtain a closed-form expression for the cumulative distribution function $F_X(k) = P(X \le k)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.2}
+	On a high-concurrency database server, independent transactions experience concurrency-lock failures with constant probability $p = 0.04$. Let $X$ be the number of attempts needed for a complex transaction to execute successfully for the first time.
+	\begin{enumerate}
+		\item Compute the exact probability that the transaction requires at most $3$ attempts to execute successfully.
+		\item If the transaction has already failed on its first $5$ attempts, what is the conditional probability that it requires more than $8$ attempts in total to succeed ($P(X > 8 \mid X > 5)$)?
+		\item Compare the previous conditional result with the unconditional probability of requiring more than $3$ attempts ($P(X > 3)$) and interpret the result in terms of the intrinsic property of the process.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.3}
+	An accounting audit firm inspects corporate transactions sequentially and independently. Historically, a fraction $p = 0.10$ of transactions is known to present some tax irregularity. The auditors decide to keep inspecting until they find **exactly $r = 3$ irregular transactions**. Let $X$ be the total number of transactions inspected.
+	\begin{enumerate}
+		\item Argue why the probability that the third irregularity is detected exactly on the twentieth inspection ($X = 20$) takes the combinatorial form $P(X = 20) = \comb{19}{2} (0.10)^3 (0.90)^{17}$.
+		\item Write the general mass function for $X \sim \text{BN}(r, p)$ over its support $\mathcal{S}_X = \set{r, r+1, \dots}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:3.5.4}
+	On an automated laser welding line for automotive components, critical defects occur independently with probability $p = 0.02$ per part. By industrial safety protocol, the line is stopped for a major recalibration at the exact moment the **fourth defective part** is detected ($r = 4$). Let $X$ be the total number of parts produced until the line stops.
+	\begin{enumerate}
+		\item Compute the expected number of parts produced until recalibration ($\mathbb{E}[X]$) and the standard deviation of production ($\sigma_X$).
+		\item Compute the probability that the welding line manages to produce at least $100$ parts before being stopped by the fourth defect ($P(X \ge 100)$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.5}
+	A biotechnology team performs microinjections on mouse oocytes to develop a transgenic model. The probability of success of each microinjection is an unknown parameter $p \in (0, 1)$. The team plans to inject oocytes one after another until obtaining exactly $r = 5$ viable embryos. Suppose that in the actual experiment, the fifth viable embryo was obtained exactly on microinjection number $25$ ($X = 25$).
+	\begin{enumerate}
+		\item Write the likelihood function $L(p \mid X = 25)$ based on the Negative Binomial distribution.
+		\item Compute the maximum likelihood estimator $\hat{p}_{\text{MLE}}$ for the viability probability and interpret its intuitive relationship with the observed proportion of successes.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.6}
+	A telecommunications engineer analyzes the number of connection retries per user during a peak hour on the central server. When fitting the number of prior failures before the first success with a discrete model, they observe that the sample mean is $\bar{x} = 3.2$ failures and the sample variance is $s^2 = 13.44$.
+	\begin{enumerate}
+		\item Explain theoretically why a pure Poisson distribution model is structurally inadequate for modeling this retry traffic.
+		\item If the number of failures $Y = X - r \sim \text{BN}(r, p)$ is modeled (where $Y \in \set{0, 1, \dots}$ has mean $\mu_Y = \frac{rq}{p}$ and variance $\sigma_Y^2 = \frac{rq}{p^2}$), use the method of moments by equating $\mu_Y = 3.2$ and $\sigma_Y^2 = 13.44$ to estimate the population parameters $\hat{p}$ and $\hat{r}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:3.5.7}
+	Let there be a sequential experiment where $X \sim \text{BN}(r, p)$ counts the total number of Bernoulli trials needed to accumulate $r$ independent successes.
+	\begin{enumerate}
+		\item Rigorously show by stochastic decomposition that $X$ can be expressed as the sum of $r$ independent and identically distributed geometric random variables ($X = \sum_{i=1}^r Y_i$, where $Y_i \sim \text{Geom}(p)$).
+		\item Show by differentiation of power series that for a single variable $Y_1 \sim \text{Geom}(p)$, the moment generating function is $M_{Y_1}(t) = \dfrac{p e^t}{1 - q e^t}$ for $t < -\ln(q)$.
+		\item Using the independence property, derive the moment generating function $M_X(t)$ of the Negative Binomial distribution.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.8}
+	Using the analytical properties of the differential operator on formal power series or the moment generating function $M_X(t) = \left(\dfrac{p e^t}{1 - q e^t}\right)^r$ obtained in Problem \ref{prob:3.5.7}:
+	\begin{enumerate}
+		\item Show exactly that the mathematical expectation of the total number of trials in a Negative Binomial is $\mathbb{E}[X] = \dfrac{r}{p}$.
+		\item Show algebraically that the variance is given by $\text{Var}(X) = \dfrac{r q}{p^2} = \dfrac{r(1-p)}{p^2}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:3.5.9}
+	It is claimed that the geometric distribution is the **only discrete distribution with support on the positive integers $\mathbb{Z}^+$** that possesses the memoryless property. Formally prove this characterization theorem:
+	\begin{align*}
+		P(X > m+n \mid X > m) = P(X > n) \quad \forall m, n \in \mathbb{Z}^+ \iff X \sim \text{Geom}(p).
+	\end{align*}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.5.10}
+	Consider the parametrization of the number of failures observed before obtaining $r$ successes: $Y = X - r \sim \text{BN}(r, p)$ with support $Y \in \set{0, 1, 2, \dots}$ and mass function $P(Y = y) = \comb{y+r-1}{y} p^r (1-p)^y$. Suppose the success requirement grows without bound ($r \to \infty$) while the probability of success of each individual trial tends to certainty ($p \to 1$), in such a way that the expected mean number of failures remains constant, equal to a fixed rate $\lambda > 0$. That is, $(1-p)r = \lambda \implies 1-p = \frac{\lambda}{r}$.
+	\begin{enumerate}
+		\item Show analytically, by means of combinatorial and exponential limits, that for any fixed non-negative integer $y \in \set{0, 1, \dots}$:
+		\begin{align*}
+			\lim_{r \to \infty} P(Y = y) = \dfrac{\lambda^y e^{-\lambda}}{y!}.
+		\end{align*}
+		\item Interpret this limit physically in the context of modeling rare phenomena and the transition from the Pascal combinatorial scheme to the Poisson point process.
+	\end{enumerate}
+\end{problema}
+
+% ------------------------------------------------------------------------------
+% HINTS --- SECTION 03.05
+% ------------------------------------------------------------------------------
+
+\subsection*{Hints for the Problems --- Section 03.05}
+
+\begin{sugerencia}
+	\label{sug:3.5.1}
+	For the sum over the support, recall the infinite geometric series $\sum_{k=0}^{\infty} x^k = \frac{1}{1-x}$ valid when $|x| < 1$. For the upper tail $P(X > k)$, sum the series from $j = k+1$ to $\infty$, factoring out the common power $q^k$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.2}
+	Express the conditional probability using the basic definition: $P(A \mid B) = \frac{P(A \cap B)}{P(B)}$. Note that the event $\set{X > m+n} \cap \set{X > m}$ is simply $\set{X > m+n}$. Substitute $P(X > j) = q^j$ derived in Problem \ref{prob:3.5.1}.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.3}
+	For the $r$-th success to occur on exact attempt $k$, two simultaneous and independent conditions must hold: (1) exactly $r-1$ successes must have accumulated in the first $k-1$ attempts, and (2) attempt $k$ must be a success. Multiply both probabilities, combining the Binomial and Bernoulli.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.4}
+	Apply the theoretical moment formulas of the Negative Binomial: $\mathbb{E}[X] = \frac{r}{p}$ and $\text{Var}(X) = \frac{rq}{p^2}$. For the probability $P(X \ge 100)$, recognize the equivalence with the binomial count: needing at least $100$ trials to achieve $4$ defects is equivalent to observing at most $3$ defects in the first $99$ parts manufactured.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.5}
+	Take the natural logarithm of the likelihood $\ln L(p) = \ln \comb{k-1}{r-1} + r \ln(p) + (k-r)\ln(1-p)$. Differentiate with respect to $p$, set equal to zero, and solve for $p$ in terms of $r$ and $k$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.6}
+	Recall that in a pure Poisson distribution $\mu = \sigma^2$. For the system of equations with $\text{BN}$, observe the ratio $\frac{\sigma_Y^2}{\mu_Y} = \frac{rq/p^2}{rq/p} = \frac{1}{p} = 1 + \frac{q}{p}$. Solve for $p$ from the variance-to-mean ratio and then substitute it into $\mu_Y$ to obtain $r$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.7}
+	The time until the $r$-th success is the sum of the time until the 1st success ($Y_1$), plus the additional time between the 1st and 2nd success ($Y_2$), and so on up to $Y_r$. For the MGF, sum the series $\sum_{k=1}^{\infty} e^{tk} q^{k-1} p$, rewriting it as $p e^t \sum_{j=0}^{\infty} (q e^t)^j$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.8}
+	You can differentiate $M_X(t) = \left(\frac{p e^t}{1-qe^t}\right)^r$ once and twice with respect to $t$ and evaluate at $t=0$, or, more efficiently, exploit the independence and linearity of moments arising from $X = \sum_{i=1}^r Y_i$ using the moments of the elementary geometric.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.9}
+	Define the discrete tail function $G(k) = P(X > k)$. The memoryless hypothesis translates into the discrete functional equation $G(m+n) = G(m)G(n)$ for all $m, n \ge 1$. By induction on $n$, show that $G(n) = [G(1)]^n$ and relate $G(1)$ to the failure probability $q = 1-p$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.5.10}
+	Substitute $p = 1 - \frac{\lambda}{r}$ into the negative binomial PMF. Expand the combinatorial coefficient $\comb{y+r-1}{y} = \frac{(r+y-1)(r+y-2)\cdots r}{y!}$ and group the $y$ terms that grow with $r$. Use the fundamental exponential limit $\lim_{r\to\infty} \left(1 - \frac{\lambda}{r}\right)^r = e^{-\lambda}$.
+\end{sugerencia}
+
+% ------------------------------------------------------------------------------
+% SOLUTIONS --- SECTION 03.05
+% ------------------------------------------------------------------------------
+
+\subsection*{Solutions to the Problems --- Section 03.05}
+
+\begin{solucion}
+	\label{sol:3.5.1}
+	For Problem \ref{prob:3.5.1}:
+	\begin{enumerate}
+		\item For the first success to occur exactly on trial $k \ge 1$, the first $k-1$ trials must have resulted in consecutive failures (probability $q^{k-1}$ by mutual independence) and trial $k$ must be a success (probability $p$). Therefore:
+		\begin{align*}
+			f_X(k) = P(X = k) = q^{k-1}p = (1-p)^{k-1}p, \quad \text{for } k \in \mathcal{S}_X = \set{1, 2, 3, \dots}.
+		\end{align*}
+		\item We sum the probability over the entire support of positive integers:
+		\begin{align*}
+			\sum_{k=1}^{\infty} f_X(k) &= \sum_{k=1}^{\infty} q^{k-1}p = p \sum_{j=0}^{\infty} q^j, \quad \text{by the index change } j = k-1.
+		\end{align*}
+		Since $p \in (0, 1)$, we have $q = 1-p \in (0, 1)$. Applying the exact sum of the convergent geometric series:
+		\begin{align*}
+			\sum_{j=0}^{\infty} q^j = \dfrac{1}{1 - q} = \dfrac{1}{1 - (1-p)} = \dfrac{1}{p}.
+		\end{align*}
+		Substituting into the original sum, we obtain $p \cdot \dfrac{1}{p} = 1$, which proves the absolute normalization of the distribution.
+		\item The upper tail probability $P(X > k)$ represents the event that the first $k$ attempts are all continuous failures. Summing the analytical series:
+		\begin{align*}
+			P(X > k) &= \sum_{j=k+1}^{\infty} q^{j-1}p = p q^k \sum_{m=0}^{\infty} q^m = p q^k \left(\dfrac{1}{1-q}\right) = p q^k \left(\dfrac{1}{p}\right) = q^k.
+		\end{align*}
+		By complementarity, the cumulative distribution function for any integer $k \ge 1$ is:
+		\begin{align*}
+			F_X(k) = P(X \le k) = 1 - P(X > k) = 1 - q^k = 1 - (1-p)^k.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.2}
+	For Problem \ref{prob:3.5.2}:
+	\begin{enumerate}
+		\item With probability of success $p = 1 - 0.04 = 0.96$ and failure $q = 0.04$:
+		\begin{align*}
+			P(X \le 3) = F_X(3) = 1 - q^3 = 1 - (0.04)^3 = 1 - 0.000064 = 0.999936.
+		\end{align*}
+		There is a practical certainty that the transaction will be processed within at most $3$ attempts.
+		\item Applying the conditional probability with the tail events derived in Problem \ref{prob:3.5.1} ($P(X > k) = q^k$):
+		\begin{align*}
+			P(X > 8 \mid X > 5) &= \dfrac{P(\set{X > 8} \cap \set{X > 5})}{P(X > 5)} = \dfrac{P(X > 8)}{P(X > 5)} \\
+			&= \dfrac{q^8}{q^5} = q^{8-5} = q^3 = (0.04)^3 = 0.000064.
+		\end{align*}
+		\item We observe that the unconditional probability of requiring more than $3$ attempts from the start of the process is identical:
+		\begin{align*}
+			P(X > 3) = q^3 = 0.000064 = P(X > 5 + 3 \mid X > 5).
+		\end{align*}
+		This result illustrates the **memoryless property**: the system does not accumulate fatigue nor keep a record of its past failure history. Having already failed $5$ times neither increases nor decreases the probability of requiring $3$ or more additional attempts to achieve success.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.3}
+	For Problem \ref{prob:3.5.3}:
+	\begin{enumerate}
+		\item For the third irregularity ($r=3$) to be discovered exactly on the twentieth audit ($X=20$), the event splits into two independent and unavoidable phases:
+		\begin{itemize}
+			\item **Phase A (First 19 inspections):** Exactly $r-1 = 2$ irregularities must have been detected in the first $k-1 = 19$ documents reviewed (in any order). The number of such combinations is the binomial coefficient $\comb{19}{2}$, and each occurs with joint probability $p^2 q^{17}$.
+			\item **Phase B (Inspection 20):** The twentieth audited document must necessarily be irregular, which has probability $p$.
+		\end{itemize}
+		By the multiplicative combinatorial principle:
+		\begin{align*}
+			P(X = 20) = \left[\comb{19}{2} p^2 q^{17}\right] \times p = \comb{19}{2} p^3 q^{17} = \comb{19}{2} (0.10)^3 (0.90)^{17} \approx 0.0285.
+		\end{align*}
+		\item Generalizing the previous argument for $r$ successes in $k$ total attempts:
+		\begin{align*}
+			f_X(k) = P(X = k) = \comb{k-1}{r-1} p^r q^{k-r}, \quad \text{for } k \in \mathcal{S}_X = \set{r, r+1, r+2, \dots}.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.4}
+	For Problem \ref{prob:3.5.4}:
+	\begin{enumerate}
+		\item With defect parameters $p = 0.02$, $q = 0.98$ and stopping requirement $r = 4$, we apply the analytical moment expressions:
+		\begin{align*}
+			\mathbb{E}[X] &= \dfrac{r}{p} = \dfrac{4}{0.02} = 200 \text{ parts produced on average before the stop.} \\
+			\text{Var}(X) &= \dfrac{rq}{p^2} = \dfrac{4(0.98)}{(0.02)^2} = \dfrac{3.92}{0.0004} = 9,800. \\
+			\sigma_X &= \sqrt{\text{Var}(X)} = \sqrt{9,800} \approx 98.9949 \text{ parts.}
+		\end{align*}
+		\item The event that the line manages to manufacture at least $100$ parts before being stopped ($X \ge 100$) is equivalent to the dual event that at most $3$ defects were observed among the first $99$ parts produced. Let $W \sim \text{Bin}(n=99, p=0.02)$ be the count of defective parts in that initial interval:
+		\begin{align*}
+			P(X \ge 100) &= P(W \le 3) = \sum_{j=0}^3 \comb{99}{j} (0.02)^j (0.98)^{99-j} \\
+			&= P(W=0) + P(W=1) + P(W=2) + P(W=3).
+		\end{align*}
+		Computing the individual terms algebraically:
+		\begin{align*}
+			P(W=0) &= (0.98)^{99} \approx 0.1353, \\
+			P(W=1) &= 99(0.02)(0.98)^{98} \approx 0.2734, \\
+			P(W=2) &= 4851(0.0004)(0.98)^{97} \approx 0.2734, \\
+			P(W=3) &= 156849(0.000008)(0.98)^{96} \approx 0.1804.
+		\end{align*}
+		Adding up all the probabilities: $P(X \ge 100) \approx 0.1353 + 0.2734 + 0.2734 + 0.1804 = 0.8625$. There is an $86.25\%$ probability of exceeding $99$ parts of continuous production.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.5}
+	For Problem \ref{prob:3.5.5}:
+	\begin{enumerate}
+		\item For a single sample observation $X = k = 25$ and $r = 5$, the likelihood function of the viability probability $p$ is:
+		\begin{align*}
+			L(p \mid X = 25) = \comb{24}{4} p^5 (1-p)^{20} = 10626 p^5 (1-p)^{20}, \quad \text{for } p \in (0, 1).
+		\end{align*}
+		\item We take the log-likelihood function $\ell(p) = \ln L(p)$ to simplify maximization:
+		\begin{align*}
+			\ell(p) = \ln(10626) + 5 \ln(p) + 20 \ln(1-p).
+		\end{align*}
+		We differentiate with respect to the parameter $p$ and set equal to zero to find the first-order condition:
+		\begin{align*}
+			\dfrac{d \ell(p)}{dp} = \dfrac{5}{p} - \dfrac{20}{1-p} = 0 &\implies 5(1-p) = 20p \\
+			&\implies 5 - 5p = 20p \implies 25p = 5 \\
+			&\implies \hat{p}_{\text{MLE}} = \dfrac{5}{25} = 0.20.
+		\end{align*}
+		In the general case for data $(r, k)$, the point estimator is exactly $\hat{p}_{\text{MLE}} = \dfrac{r}{k}$, which coincides intuitively and directly with the empirical proportion of the desired number of successes over the total number of attempts made.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.6}
+	For Problem \ref{prob:3.5.6}:
+	\begin{enumerate}
+		\item In a point or counting process governed by the Poisson distribution ($\text{Poisson}(\lambda)$), the theoretical variance is identical to its expectation ($\sigma^2 = \mu = \lambda$). However, in this server's network traffic we observe an empirical dispersion ratio:
+		\begin{align*}
+			\text{Dispersion Index} = \dfrac{s^2}{\bar{x}} = \dfrac{13.44}{3.2} = 4.2 \gg 1.
+		\end{align*}
+		The empirical variability is more than $4$ times greater than the mean. This **intrinsic overdispersion** directly violates the Poisson equidispersion assumption, which would lead to drastically underestimating the tails and unsafely sizing the connection buffers.
+		\item Using the parametrization in terms of the failure count $Y = X - r \sim \text{BN}(r, p)$, we equate the theoretical moments with the sample moments ($\mu_Y = 3.2$ and $\sigma_Y^2 = 13.44$):
+		\begin{align*}
+			\mu_Y &= \dfrac{r(1-p)}{p} = 3.2, \qquad \sigma_Y^2 = \dfrac{r(1-p)}{p^2} = 13.44.
+		\end{align*}
+		We take the exact ratio between the variance equation and the mean equation:
+		\begin{align*}
+			\dfrac{\sigma_Y^2}{\mu_Y} = \dfrac{\dfrac{r(1-p)}{p^2}}{\dfrac{r(1-p)}{p}} = \dfrac{1}{p} \implies \dfrac{13.44}{3.2} = \dfrac{1}{\hat{p}} \implies 4.2 = \dfrac{1}{\hat{p}} \implies \hat{p} = \dfrac{1}{4.2} = \dfrac{5}{21} \approx 0.2381.
+		\end{align*}
+		Substituting $\hat{p} = \frac{5}{21}$ into the sample mean equation to solve for $\hat{r}$:
+		\begin{align*}
+			\dfrac{\hat{r}\left(1 - \frac{5}{21}\right)}{\frac{5}{21}} = 3.2 &\implies \hat{r}\left(\dfrac{16/21}{5/21}\right) = 3.2 \implies \hat{r}\left(\dfrac{16}{5}\right) = 3.2 \\
+			&\implies \hat{r} = 3.2 \left(\dfrac{5}{16}\right) = \dfrac{16.0}{16} = 1.0.
+		\end{align*}
+		The method-of-moments estimators are $\hat{r} = 1$ and $\hat{p} \approx 0.2381$. Since $r=1$, the model that best absorbs the overdispersion of this data turns out to be precisely a **Geometric Distribution** counting failed retries.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.7}
+	For Problem \ref{prob:3.5.7}:
+	\begin{enumerate}
+		\item Let $X$ be the total time in trials until the $r$-th success. We decompose the stochastic process into waiting increments between consecutive successes:
+		\begin{itemize}
+			\item Let $Y_1$ be the number of trials needed to obtain the first success ($\implies Y_1 \sim \text{Geom}(p)$).
+			\item Let $Y_2$ be the additional number of trials elapsed *after* the 1st success until obtaining the 2nd success. By the memoryless property and the mutual independence of the Bernoulli trials, the interval variable $Y_2$ is independent of $Y_1$ and follows the identical geometric distribution $Y_2 \sim \text{Geom}(p)$.
+			\item By finite induction, for the $i$-th interval ($1 \le i \le r$), let $Y_i$ be the additional number of trials between success $(i-1)$ and success $i$.
+		\end{itemize}
+		Summing all successive intervals, the total time until the $r$-th success is the exact sum of the individual durations:
+		\begin{align*}
+			X = Y_1 + Y_2 + \dots + Y_r = \sum_{i=1}^r Y_i, \quad \text{where } Y_i \sim \text{Geom}(p) \text{ are i.i.d.}
+		\end{align*}
+		\item We evaluate by definition the moment generating function for $Y_1 \sim \text{Geom}(p)$ for an auxiliary parameter $t$:
+		\begin{align*}
+			M_{Y_1}(t) &= \mathbb{E}[e^{t Y_1}] = \sum_{k=1}^{\infty} e^{t k} P(Y_1 = k) = \sum_{k=1}^{\infty} e^{t k} q^{k-1} p \\
+			&= p e^t \sum_{k=1}^{\infty} e^{t(k-1)} q^{k-1} = p e^t \sum_{j=0}^{\infty} (q e^t)^j, \quad \text{where } j = k-1.
+		\end{align*}
+		The resulting sum is a pure geometric series with ratio $\rho = q e^t$. For it to converge finitely, we require $|\rho| < 1 \implies q e^t < 1 \implies t < -\ln(q)$. Under this region of convergence, we sum:
+		\begin{align*}
+			M_{Y_1}(t) = p e^t \left(\dfrac{1}{1 - q e^t}\right) = \dfrac{p e^t}{1 - q e^t}.
+		\end{align*}
+		\item By the fundamental convolution and MGF independence theorem, if a variable $X = \sum_{i=1}^r Y_i$ is the sum of $r$ independent variables, its MGF is the exact multiplicative product of the individual MGFs:
+		\begin{align*}
+			M_X(t) &= \prod_{i=1}^r M_{Y_i}(t) = \prod_{i=1}^r \left(\dfrac{p e^t}{1 - q e^t}\right) = \left(\dfrac{p e^t}{1 - q e^t}\right)^r, \quad \text{for } t < -\ln(q).
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.8}
+	For Problem \ref{prob:3.5.8}:
+	\begin{enumerate}
+		\item To obtain the mathematical expectation $\mu_X$, we can differentiate the MGF $M_X(t) = \left(\frac{p e^t}{1 - q e^t}\right)^r$ and evaluate it at $t=0$, or more directly, algebraically, by the linearity of the expectation operator over the sum of independent variables $X = \sum_{i=1}^r Y_i$:
+		\begin{align*}
+			\mathbb{E}[X] &= \sum_{i=1}^r \mathbb{E}[Y_i] = \sum_{i=1}^r \left(\dfrac{1}{p}\right) = \dfrac{r}{p}.
+		\end{align*}
+		*(Alternative proof by logarithmic differentiation of the MGF):* Let $\ln M_X(t) = r \ln(p) + r t - r \ln(1 - q e^t)$. Differentiating with respect to $t$:
+		\begin{align*}
+			\dfrac{d \ln M_X(t)}{dt} = \dfrac{M_X'(t)}{M_X(t)} = r + \dfrac{r q e^t}{1 - q e^t}.
+		\end{align*}
+		Evaluating at the origin $t = 0$ where by definition $M_X(0) = 1$:
+		\begin{align*}
+			M_X'(0) &= r + \dfrac{r q}{1 - q} = r + \dfrac{r(1-p)}{p} = r + \dfrac{r}{p} - r = \dfrac{r}{p} \implies \mathbb{E}[X] = \dfrac{r}{p}.
+		\end{align*}
+		\item By the additivity of variance over sums of stochastically independent variables:
+		\begin{align*}
+			\text{Var}(X) &= \sum_{i=1}^r \text{Var}(Y_i) = \sum_{i=1}^r \left(\dfrac{q}{p^2}\right) = \dfrac{r q}{p^2} = \dfrac{r(1-p)}{p^2}.
+		\end{align*}
+		*(Verification via second logarithmic derivative):* Differentiating the cumulant $\kappa(t) = \ln M_X(t)$ a second time:
+		\begin{align*}
+			\kappa''(t) &= \dfrac{d}{dt} \left[ r + \dfrac{r q e^t}{1 - q e^t} \right] = \dfrac{r q e^t (1 - q e^t) - (-q e^t) r q e^t}{(1 - q e^t)^2} = \dfrac{r q e^t}{(1 - q e^t)^2}.
+		\end{align*}
+		Evaluating the second derivative of the cumulant at the origin $t = 0$, we obtain the variance in a unified and exact way:
+		\begin{align*}
+			\text{Var}(X) = \kappa''(0) = \dfrac{r q}{(1 - q)^2} = \dfrac{r q}{p^2}.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.9}
+	For Problem \ref{prob:3.5.9}:
+	\begin{enumerate}
+		\item Let $X$ be a discrete random variable with support on $\mathbb{Z}^+ = \set{1, 2, 3, \dots}$ and probability survival tail function defined as $G(k) = P(X > k)$ for $k \ge 0$. By the axiom of total certainty for the strictly positive support, we know that $G(0) = P(X > 0) = 1$.
+		\item The fundamental memoryless condition establishes that for every pair of positive integers $m, n \in \mathbb{Z}^+$:
+		\begin{align*}
+			P(X > m+n \mid X > m) = P(X > n) &\implies \dfrac{P(\set{X > m+n} \cap \set{X > m})}{P(X > m)} = P(X > n) \\
+			&\implies \dfrac{P(X > m+n)}{P(X > m)} = P(X > n) \\
+			&\implies G(m+n) = G(m) G(n).
+		\end{align*}
+		\item We solve this discrete Cauchy functional equation by finite induction on $n$:
+		\begin{itemize}
+			\item For $n = 1$: $G(m+1) = G(m) G(1)$ for any integer $m \ge 0$.
+			\item Evaluating step by step from the origin:
+			\begin{align*}
+				G(1) &= G(0+1) = G(0) G(1) = 1 \cdot G(1), \\
+				G(2) &= G(1+1) = G(1) G(1) = [G(1)]^2, \\
+				G(3) &= G(2+1) = [G(1)]^2 G(1) = [G(1)]^3, \\
+				&\vdots \\
+				G(k) &= [G(1)]^k, \quad \text{for every integer } k \ge 0.
+			\end{align*}
+		\end{itemize}
+		\item Since the probability must decay for a proper random variable ($0 < G(1) < 1$), we denote the one-step survival constant as $q \equiv G(1) = P(X > 1)$. Consequently, the survival function has the unique form $P(X > k) = q^k$.
+		\item Finally, we reconstruct the probability mass function at each point integer $k \ge 1$ via the finite difference of tails:
+		\begin{align*}
+			P(X = k) &= P(X > k-1) - P(X > k) = G(k-1) - G(k) \\
+			&= q^{k-1} - q^k = q^{k-1}(1 - q).
+		\end{align*}
+		Defining the success parameter as $p \equiv 1 - q$, we obtain uniquely:
+		\begin{align*}
+			P(X = k) = q^{k-1} p = (1-p)^{k-1} p, \quad \text{for } k \in \set{1, 2, 3, \dots}.
+		\end{align*}
+		This concludes the formal proof: within the domain of discrete random variables over the positive integers, the memoryless property exclusively and necessarily characterizes the **Geometric Distribution**.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.5.10}
+	For Problem \ref{prob:3.5.10}:
+	\begin{enumerate}
+		\item Starting from the negative binomial mass function in its failure-count parametrization $Y \sim \text{BN}(r, p)$:
+		\begin{align*}
+			P(Y = y) = \comb{y+r-1}{y} p^r (1-p)^y, \quad \text{for } y \in \set{0, 1, 2, \dots}.
+		\end{align*}
+		Under the asymptotic regime fixed by $(1-p)r = \lambda$, we substitute the failure probability $1-p = \frac{\lambda}{r}$ and the success probability $p = 1 - \frac{\lambda}{r}$:
+		\begin{align*}
+			P(Y = y) = \comb{y+r-1}{y} \left(1 - \dfrac{\lambda}{r}\right)^r \left(\dfrac{\lambda}{r}\right)^y.
+		\end{align*}
+		We expand the combinatorial coefficient and algebraically rearrange the factors:
+		\begin{align*}
+			\comb{y+r-1}{y} \left(\dfrac{\lambda}{r}\right)^y &= \dfrac{(r+y-1)(r+y-2)\cdots(r+1)r}{y!} \cdot \dfrac{\lambda^y}{r^y} \\
+			&= \dfrac{\lambda^y}{y!} \left[ \left(\dfrac{r+y-1}{r}\right)\left(\dfrac{r+y-2}{r}\right)\cdots\left(\dfrac{r+1}{r}\right)\left(\dfrac{r}{r}\right) \right].
+		\end{align*}
+		Note that inside the bracket there are exactly $y$ factors that depend on $r$. Taking the limit as $r \to \infty$ for a fixed observed number of failures $y$:
+		\begin{align*}
+			\lim_{r \to \infty} \comb{y+r-1}{y} \left(\dfrac{\lambda}{r}\right)^y &= \dfrac{\lambda^y}{y!} \cdot \left[ 1 \cdot 1 \cdots 1 \cdot 1 \right] = \dfrac{\lambda^y}{y!}.
+		\end{align*}
+		On the other hand, by Euler's second notable limit, the coupled exponential factor converges to:
+		\begin{align*}
+			\lim_{r \to \infty} \left(1 - \dfrac{\lambda}{r}\right)^r = e^{-\lambda}.
+		\end{align*}
+		Multiplying both convergent pointwise limits, we obtain exactly the Poisson probability function:
+		\begin{align*}
+			\lim_{r \to \infty} P(Y = y) = \dfrac{\lambda^y e^{-\lambda}}{y!}.
+		\end{align*}
+		\item **Physical Interpretation and Model Transition:**
+		The negative binomial distribution (or Pascal's law) describes a process with a high rate of individual variation due to the wait for a finite number $r$ of macroscopic events. When the number of required successes becomes infinitely large ($r \to \infty$), but each individual trial is almost invariably a success ($p \to 1$), the occurrence of a failure over the course of the process becomes a **rare event**, independent of the others.
+
+		In this limiting regime, the sequential and overdispersed character of the Pascal geometric sums ($\sigma^2 > \mu$) homogenizes perfectly: the variance pushes its asymptotic value toward the mean ($\lim_{r \to \infty} \sigma_Y^2 = \lim_{r \to \infty} \frac{\lambda}{p} = \frac{\lambda}{1} = \lambda = \mu_Y$). Pascal's combinatorial law then collapses into the **Poisson Point Process**, providing the unified theoretical bridge between the discrete counting of repeated waits and rare events in continuous time.
+	\end{enumerate}
+\end{solucion}
+
+% ==============================================================================
+% SECTION 3.6: HYPERGEOMETRIC DISTRIBUTION
+% ==============================================================================
+
+\subsubsection*{Level 1: Fundamental (Basic and direct concepts)}
+
+\begin{problema}
+	\label{prob:3.6.1}
+	Let there be a finite population of size $N$ divided into $K$ successes and $N-K$ failures. A random sample of size $n$ is drawn \emph{without replacement}. Let $X$ be the number of successes in the sample.
+	\begin{enumerate}
+		\item Write the probability function $f_X(k) = P(X = k)$ and determine its exact support $\mathcal{S}_X$.
+		\item Show that the sum of the probabilities over the entire support equals $1$ using the Vandermonde identity.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	The Vandermonde identity states that for nonnegative integers $a, b, c$, the relation $\sum_{j=0}^{c} \comb{a}{j} \comb{b}{c-j} = \comb{a+b}{c}$ holds.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.2}
+	An assembly plant receives a lot of $N=30$ electronic tablets. The quality control department inspects a random sample of $n=5$ tablets without replacement and rejects the entire lot if it finds at least $2$ defective units. If the lot actually contains $K=6$ defective tablets:
+	\begin{enumerate}
+		\item Compute the exact probability of finding no defective tablet in the sample ($X = 0$).
+		\item Compute the exact probability that the lot is accepted ($X \le 1$).
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	The lot is accepted if and only if $X \in \set{0, 1}$. Use the formula $P(X=k) = \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}}$.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.3}
+	Let $X \sim \text{Hiper}(N, K, n)$ be the number of successes when drawing $n$ elements without replacement. We can express $X$ as the sum of indicator variables $X = \sum_{i=1}^n I_i$, where $I_i = 1$ if the $i$-th draw results in a success and $I_i = 0$ otherwise.
+	\begin{enumerate}
+		\item Determine the marginal probability $P(I_i = 1)$ for any $i \in \set{1, 2, \dots, n}$.
+		\item Using the linearity of mathematical expectation, show that $\mathbb{E}[X] = n \dfrac{K}{N}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	By unconditional symmetry, the marginal probability that the $i$-th draw is a success does not depend on the order $i$ if the previous path has not been observed.
+\end{sugerencia}
+
+\subsubsection*{Level 2: Operational (Computation and technical implementation)}
+
+\begin{problema}
+	\label{prob:3.6.4}
+	Consider a hypergeometric random variable $X \sim \text{Hiper}(N, K, n)$ with variance $\text{Var}(X) = n \dfrac{K}{N} \left(1 - \dfrac{K}{N}\right) \left(\dfrac{N-n}{N-1}\right)$.
+	\begin{enumerate}
+		\item Identify and explain the meaning of the term $\dfrac{N-n}{N-1}$, known as the Finite Population Correction Factor (FPCF).
+		\item Compare the numerical value of $\text{Var}(X)$ against the corresponding binomial model ($p = K/N$) when $N=50, K=10, n=20$. By what percentage is the true variance reduced relative to the with-replacement approximation?
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	Evaluate the ratio between the hypergeometric variance and the binomial variance $np(1-p)$.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.5}
+	A tax auditor reviews a register of $N=100$ corporate invoices, among which there are $K=15$ with severe tax irregularities. The auditor selects a random sample of $n=10$ invoices without replacement.
+	\begin{enumerate}
+		\item Compute the mean $\mu_X$ and the standard deviation $\sigma_X$ of the number of irregular invoices in the sample.
+		\item Determine the exact probability that the auditor detects at least $3$ irregular invoices ($P(X \ge 3)$).
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	For the upper tail, use the complement $P(X \ge 3) = 1 - [P(X=0) + P(X=1) + P(X=2)]$.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.6}
+	A municipal database contains $N=2000$ zoning records, of which $K=100$ have data-entry errors. A sample of $n=20$ records is drawn without replacement for internal control.
+	\begin{enumerate}
+		\item Check whether the empirical rule $\dfrac{n}{N} < 0.05$ is satisfied.
+		\item Compute $P(X = 2)$ using the exact hypergeometric formula and compare it with the binomial approximation $Y \sim \text{Bin}(20, p=0.05)$. Determine the absolute error $|P(X=2) - P(Y=2)|$.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	Compute $p = K/N = 100/2000 = 0.05$. The binomial approximation assumes sampling independence.
+\end{sugerencia}
+
+\subsubsection*{Level 3: Analytical (Proofs and mathematical modeling)}
+
+\begin{problema}
+	\label{prob:3.6.7}
+	Let $X \sim \text{Hiper}(N, K, n)$. Working directly with combinatorial identities on the sum of the probability mass function:
+	\begin{enumerate}
+		\item Show that the first factorial moment is $\mathbb{E}[X] = n \dfrac{K}{N}$ using the absorption identity $k \comb{K}{k} = K \comb{K-1}{k-1}$.
+		\item Show that the second factorial moment is $\mathbb{E}[X(X-1)] = n(n-1) \dfrac{K(K-1)}{N(N-1)}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	For the second factorial moment, use the second-order absorption identity $k(k-1)\comb{K}{k} = K(K-1)\comb{K-2}{k-2}$ and re-index the combinatorial sum.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.8}
+	Starting from the indicator-variable decomposition $X = \sum_{i=1}^n I_i$ of Problem \ref{prob:3.6.3}, where $I_i \sim \text{Bern}(K/N)$:
+	\begin{enumerate}
+		\item Show that for $i \neq j$, the joint probability is $P(I_i = 1, I_j = 1) = \dfrac{K(K-1)}{N(N-1)}$.
+		\item Deduce that the covariance between two distinct draws without replacement is negative and given by $\text{Cov}(I_i, I_j) = -\dfrac{K(N-K)}{N^2(N-1)}$.
+		\item Using the general variance formula for sums of correlated variables, obtain the exact expression for $\text{Var}(X)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	$\text{Var}\left(\sum_{i=1}^n I_i\right) = \sum_{i=1}^n \text{Var}(I_i) + \sum_{i \neq j} \text{Cov}(I_i, I_j)$. Express the result in terms of the FPCF $\frac{N-n}{N-1}$.
+\end{sugerencia}
+
+\subsubsection*{Level 4: Challenging (Advanced problems or engineering challenges)}
+
+\begin{problema}
+	\label{prob:3.6.9}
+	Formally prove the asymptotic combinatorial limit that connects sampling without replacement with sampling with replacement:
+	Let $X_N \sim \text{Hiper}(N, K_N, n)$ such that as $N \to \infty$ and $K_N \to \infty$, the proportion of successes in the population tends to a fixed constant $p = \lim_{N \to \infty} \dfrac{K_N}{N} \in (0, 1)$, while the sample size $n$ remains constant. Show pointwise that for every $k \in \set{0, 1, \dots, n}$:
+	\begin{align*}
+		\lim_{N \to \infty} P(X_N = k) = \comb{n}{k} p^k (1-p)^{n-k}.
+	\end{align*}
+\end{problema}
+
+\begin{sugerencia}
+	Decompose the combinatorial coefficients into falling factorials: $\comb{K}{k}\comb{N-K}{n-k}/\comb{N}{n} = \comb{n}{k} \frac{K^{(k)} (N-K)^{(n-k)}}{N^{(n)}}$ and take the limit of each linear ratio.
+\end{sugerencia}
+
+\begin{problema}
+	\label{prob:3.6.10}
+	**Fisher's Exact Test in Clinical Trials:**
+	In a clinical study on a new antithrombotic agent, $N=25$ patients were selected in total, of whom $K=12$ received the active therapy and $N-K=13$ received placebo. At the end of the study, it was observed that exactly $n=8$ patients experienced thrombus formation overall, while $17$ did not present thrombi.
+
+	Under the null hypothesis ($H_0$) that the treatment has no effect and thrombosis occurs independently of the group to which the patient was assigned:
+	\begin{enumerate}
+		\item Show theoretically that, conditioned on the fixed marginals of the $2 \times 2$ contingency table, the random variable $X$ (number of patients with thrombosis in the active-therapy group) follows a hypergeometric distribution with parameters $N=25, K=12, n=8$.
+		\item If in the study only $X = 1$ patient in the active-therapy group developed thrombi (versus $7$ in the placebo group), compute the *lower one-tailed p-value* ($P(X \le 1)$) and interpret statistically whether there is evidence of therapeutic efficacy at level $\alpha = 0.05$.
+	\end{enumerate}
+\end{problema}
+
+\begin{sugerencia}
+	The exact one-tailed Fisher p-value in the observed direction is the hypergeometric sum $\sum_{j=0}^{1} P(X=j)$.
+\end{sugerencia}
+
+% --- SOLUTIONS TO SECTION 3.6 ---
+
+\begin{solucion}
+	\label{sol:3.6.1}
+	For Problem \ref{prob:3.6.1}:
+	\begin{enumerate}
+		\item The number of ways to choose $k$ successes out of a total of $K$ available is $\comb{K}{k}$, and for each of these ways, $(n-k)$ failures must be chosen from the $(N-K)$ available, with $\comb{N-K}{n-k}$ possibilities. The total number of equiprobable configurations when drawing $n$ elements out of $N$ without order is $\comb{N}{n}$. Thus:
+		\begin{align*}
+			f_X(k) = P(X=k) = \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}}.
+		\end{align*}
+		The support $\mathcal{S}_X$ requires that the upper arguments be greater than or equal to the lower ones in each coefficient: $k \le K$ and $n-k \le N-K \implies k \ge n-(N-K)$. Also, $k \ge 0$ and $k \le n$. Therefore, the exact interval is:
+		\begin{align*}
+			\mathcal{S}_X = \set{\max(0, n-(N-K)), \dots, \min(n, K)}.
+		\end{align*}
+		\item Summing the probability function over all possible configurations and applying the Vandermonde combinatorial identity in the numerator:
+		\begin{align*}
+			\sum_{k \in \mathcal{S}_X} f_X(k) &= \dfrac{1}{\comb{N}{n}} \sum_{k \in \mathcal{S}_X} \comb{K}{k}\comb{N-K}{n-k} \\
+			&= \dfrac{1}{\comb{N}{n}} \comb{K + (N-K)}{k + (n-k)} = \dfrac{\comb{N}{n}}{\comb{N}{n}} = 1.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.2}
+	For Problem \ref{prob:3.6.2}:
+	Here the parameters are $N=30$, $K=6$ (defective), $N-K=24$ (good) and $n=5$ (sample).
+	\begin{enumerate}
+		\item The probability that all $5$ sampled tablets are good ($k=0$ defective):
+		\begin{align*}
+			P(X = 0) &= \dfrac{\comb{6}{0}\comb{24}{5}}{\comb{30}{5}} = \dfrac{1 \times 42504}{142506} \approx 0.298259 \approx 0.2983.
+		\end{align*}
+		\item The probability of finding exactly $k=1$ defective tablet:
+		\begin{align*}
+			P(X = 1) &= \dfrac{\comb{6}{1}\comb{24}{4}}{\comb{30}{5}} = \dfrac{6 \times 10626}{142506} = \dfrac{63756}{142506} \approx 0.447391 \approx 0.4474.
+		\end{align*}
+		The exact probability that the lot is accepted ($X \le 1$) is the pointwise sum:
+		\begin{align*}
+			P(\text{Acceptance}) &= P(X = 0) + P(X = 1) \approx 0.298259 + 0.447391 = 0.74565 \approx 0.7457.
+		\end{align*}
+		There is a $74.57\%$ probability of accepting this lot with 6 defective pieces. The probability of rejecting it is $1 - 0.7457 = 25.43\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.3}
+	For Problem \ref{prob:3.6.3}:
+	\begin{enumerate}
+		\item The indicator variable $I_i$ equals $1$ if the $i$-th tablet/element drawn is a success. By unconditional symmetry (before knowing the results of previous or subsequent draws), each of the $N$ elements of the population is equally likely to occupy the $i$-th position in the sample:
+		\begin{align*}
+			P(I_i = 1) = \dfrac{K}{N}, \quad \forall i \in \set{1, 2, \dots, n}.
+		\end{align*}
+		\item The expectation of an indicator variable is its own probability of success: $\mathbb{E}[I_i] = P(I_i = 1) = \dfrac{K}{N}$. By the linearity-of-expectation theorem (which holds even for dependent or correlated random variables):
+		\begin{align*}
+			\mathbb{E}[X] &= \mathbb{E}\left[\sum_{i=1}^n I_i\right] = \sum_{i=1}^n \mathbb{E}[I_i] = \sum_{i=1}^n \dfrac{K}{N} = n \dfrac{K}{N}.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.4}
+	For Problem \ref{prob:3.6.4}:
+	\begin{enumerate}
+		\item The term $\text{FPCF} = \dfrac{N-n}{N-1}$ measures the geometric reduction in sample variability due to the fact that each draw without replacement shrinks the available set.
+		- When $n=1$, the factor equals $\frac{N-1}{N-1} = 1$ (coinciding with Bernoulli).
+		- When $n=N$ (full census), the factor equals $\frac{0}{N-1} = 0$, since inspecting the entire population leaves no sampling uncertainty ($\text{Var}(X) = 0$).
+		\item With parameters $N=50, K=10, n=20$:
+		- Binomial variance (with replacement, $p = 10/50 = 0.20$):
+		  \begin{align*}
+		  	\text{Var}_{\text{Bin}}(X) = np(1-p) = 20(0.20)(0.80) = 3.20.
+		  \end{align*}
+		- Finite Population Correction Factor:
+		  \begin{align*}
+		  	\text{FPCF} = \dfrac{50-20}{50-1} = \dfrac{30}{49} \approx 0.612245.
+		  \end{align*}
+		- True hypergeometric variance:
+		  \begin{align*}
+		  	\text{Var}_{\text{Hiper}}(X) = 3.20 \times \dfrac{30}{49} = \dfrac{96}{49} \approx 1.9592.
+		  \end{align*}
+		The variance is reduced by $1 - 0.612245 = 38.78\%$ thanks to the non-redundant information captured by sampling without replacement.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.5}
+	For Problem \ref{prob:3.6.5}:
+	We have $N=100$, $K=15$ and $n=10$.
+	\begin{enumerate}
+		\item Computation of first- and second-order moments:
+		\begin{align*}
+			\mu_X &= 10 \left(\dfrac{15}{100}\right) = 1.50. \\
+			\sigma_X^2 &= 10(0.15)(0.85)\left(\dfrac{100-10}{100-1}\right) = 1.275 \left(\dfrac{90}{99}\right) = 1.275 \times \dfrac{10}{11} \approx 1.15909. \\
+			\sigma_X &= \sqrt{1.15909} \approx 1.0766.
+		\end{align*}
+		\item To find $P(X \ge 3)$, we compute the first three terms of the support ($k=0, 1, 2$):
+		\begin{align*}
+			P(X=0) &= \dfrac{\comb{15}{0}\comb{85}{10}}{\comb{100}{10}} \approx 0.18684, \\
+			P(X=1) &= \dfrac{\comb{15}{1}\comb{85}{9}}{\comb{100}{10}} \approx 0.36402, \\
+			P(X=2) &= \dfrac{\comb{15}{2}\comb{85}{8}}{\comb{100}{10}} \approx 0.28634.
+		\end{align*}
+		Adding the lower probabilities: $P(X \le 2) \approx 0.18684 + 0.36402 + 0.28634 = 0.83720$.
+		By the complement rule:
+		\begin{align*}
+			P(X \ge 3) = 1 - P(X \le 2) \approx 1 - 0.83720 = 0.1628.
+		\end{align*}
+		The auditor has a $16.28\%$ probability of detecting $3$ or more irregular invoices in a sample of only $10$ documents.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.6}
+	For Problem \ref{prob:3.6.6}:
+	\begin{enumerate}
+		\item The sample ratio is $\dfrac{n}{N} = \dfrac{20}{2000} = 0.01 = 1\%$. Since $1\% < 5\%$, the practical criterion of approximate independence is comfortably satisfied.
+		\item Exact hypergeometric probability ($N=2000, K=100, n=20, k=2$):
+		\begin{align*}
+			P(X=2) = \dfrac{\comb{100}{2}\comb{1900}{18}}{\comb{2000}{20}} \approx 0.189725.
+		\end{align*}
+		Approximate binomial probability ($n=20, p=100/2000=0.05, k=2$):
+		\begin{align*}
+			P(Y=2) = \comb{20}{2}(0.05)^2(0.95)^{18} = 190(0.0025)(0.397214) \approx 0.188677.
+		\end{align*}
+		The exact absolute error between the two models is:
+		\begin{align*}
+			|P(X=2) - P(Y=2)| \approx |0.189725 - 0.188677| = 0.001048 \approx 0.105\%.
+		\end{align*}
+		The binomial approximation introduces a marginal error of barely one tenth of a percentage point.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.7}
+	For Problem \ref{prob:3.6.7}:
+	\begin{enumerate}
+		\item Applying the combinatorial identity $k \comb{K}{k} = K \comb{K-1}{k-1}$ to the definition of expectation:
+		\begin{align*}
+			\mathbb{E}[X] &= \sum_{k=1}^n k \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}} = \dfrac{1}{\comb{N}{n}} \sum_{k=1}^n K \comb{K-1}{k-1}\comb{N-K}{n-k}.
+		\end{align*}
+		We factor out $K$ and rewrite the denominator using $n \comb{N}{n} = N \comb{N-1}{n-1} \implies \comb{N}{n} = \frac{N}{n} \comb{N-1}{n-1}$:
+		\begin{align*}
+			\mathbb{E}[X] &= n \dfrac{K}{N} \sum_{k=1}^n \dfrac{\comb{K-1}{k-1}\comb{N-K}{n-k}}{\comb{N-1}{n-1}}.
+		\end{align*}
+		With the change of variable $j = k-1$, the sum over $j \in \set{0, \dots, n-1}$ of $\comb{K-1}{j}\comb{(N-1)-(K-1)}{(n-1)-j}/\comb{N-1}{n-1}$ is the sum of a hypergeometric PMF with parameters $(N-1, K-1, n-1)$, whose total is exactly $1$. This proves $\mathbb{E}[X] = n \dfrac{K}{N}$.
+		\item For the second factorial moment, we apply $k(k-1)\comb{K}{k} = K(K-1)\comb{K-2}{k-2}$:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] &= \sum_{k=2}^n k(k-1) \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}} \\
+			&= \dfrac{K(K-1)}{\comb{N}{n}} \sum_{k=2}^n \comb{K-2}{k-2}\comb{N-K}{n-k}.
+		\end{align*}
+		Using $\comb{N}{n} = \dfrac{N(N-1)}{n(n-1)}\comb{N-2}{n-2}$:
+		\begin{align*}
+			\mathbb{E}[X(X-1)] &= n(n-1)\dfrac{K(K-1)}{N(N-1)} \sum_{j=0}^{n-2} \dfrac{\comb{K-2}{j}\comb{(N-2)-(K-2)}{(n-2)-j}}{\comb{N-2}{n-2}} \\
+			&= n(n-1)\dfrac{K(K-1)}{N(N-1)} \times 1 = n(n-1)\dfrac{K(K-1)}{N(N-1)}.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.8}
+	For Problem \ref{prob:3.6.8}:
+	\begin{enumerate}
+		\item For two distinct draws $i \neq j$, the event $(I_i = 1, I_j = 1)$ means that the $i$-th and $j$-th draws are both successes. By the unconditional multiplication rule:
+		\begin{align*}
+			P(I_i = 1, I_j = 1) &= P(I_i = 1) P(I_j = 1 \mid I_i = 1) = \dfrac{K}{N} \left(\dfrac{K-1}{N-1}\right).
+		\end{align*}
+		\item The covariance between two indicator variables is obtained by definition:
+		\begin{align*}
+			\text{Cov}(I_i, I_j) &= \mathbb{E}[I_i I_j] - \mathbb{E}[I_i]\mathbb{E}[I_j] = P(I_i = 1, I_j = 1) - \left(\dfrac{K}{N}\right)^2 \\
+			&= \dfrac{K(K-1)}{N(N-1)} - \dfrac{K^2}{N^2} = \dfrac{K}{N} \left[ \dfrac{K-1}{N-1} - \dfrac{K}{N} \right] \\
+			&= \dfrac{K}{N} \left[ \dfrac{N(K-1) - K(N-1)}{N(N-1)} \right] = \dfrac{K}{N} \left[ \dfrac{NK - N - NK + K}{N(N-1)} \right] \\
+			&= -\dfrac{K(N-K)}{N^2(N-1)} < 0.
+		\end{align*}
+		\item Variance of the sum of correlated indicators:
+		\begin{align*}
+			\text{Var}(X) &= \sum_{i=1}^n \text{Var}(I_i) + \sum_{i \neq j} \text{Cov}(I_i, I_j).
+		\end{align*}
+		Since $\text{Var}(I_i) = \frac{K}{N}\left(1 - \frac{K}{N}\right)$ and there are $n(n-1)$ ordered pairs $i \neq j$ with the same covariance:
+		\begin{align*}
+			\text{Var}(X) &= n \dfrac{K}{N}\left(\dfrac{N-K}{N}\right) - n(n-1) \dfrac{K(N-K)}{N^2(N-1)} \\
+			&= n \dfrac{K}{N}\left(\dfrac{N-K}{N}\right) \left[ 1 - \dfrac{n-1}{N-1} \right] \\
+			&= n \dfrac{K}{N}\left(1 - \dfrac{K}{N}\right) \left[ \dfrac{(N-1) - (n-1)}{N-1} \right] = n \dfrac{K}{N}\left(1 - \dfrac{K}{N}\right) \left(\dfrac{N-n}{N-1}\right).
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.9}
+	For Problem \ref{prob:3.6.9}:
+	We express the hypergeometric mass function using falling factorials $A^{(m)} = A(A-1)\cdots(A-m+1)$:
+	\begin{align*}
+		P(X_N = k) &= \dfrac{\comb{K_N}{k}\comb{N-K_N}{n-k}}{\comb{N}{n}} = \dfrac{\dfrac{K_N^{(k)}}{k!} \cdot \dfrac{(N-K_N)^{(n-k)}}{(n-k)!}}{\dfrac{N^{(n)}}{n!}} = \comb{n}{k} \dfrac{K_N^{(k)} (N-K_N)^{(n-k)}}{N^{(n)}}.
+	\end{align*}
+	For the factor with $K_N^{(k)}$, we divide each of the $k$ falling factors by $N$:
+	\begin{align*}
+		\dfrac{K_N^{(k)}}{N^k} &= \left(\dfrac{K_N}{N}\right)\left(\dfrac{K_N-1}{N}\right)\cdots\left(\dfrac{K_N-k+1}{N}\right) \xrightarrow[N \to \infty]{} p \cdot p \cdots p = p^k.
+	\end{align*}
+	Identically, for the $(n-k)$ factors of the second term, since $\frac{N-K_N}{N} = 1 - \frac{K_N}{N} \to 1-p$:
+	\begin{align*}
+		\dfrac{(N-K_N)^{(n-k)}}{N^{n-k}} &\xrightarrow[N \to \infty]{} (1-p)^{n-k}.
+	\end{align*}
+	Finally, the denominator $N^{(n)}/N^n \to 1$ since $n$ is a finite constant:
+	\begin{align*}
+		\lim_{N \to \infty} P(X_N = k) &= \comb{n}{k} \left[ \lim_{N \to \infty} \dfrac{K_N^{(k)}}{N^k} \right] \left[ \lim_{N \to \infty} \dfrac{(N-K_N)^{(n-k)}}{N^{n-k}} \right] \left[ \lim_{N \to \infty} \dfrac{N^n}{N^{(n)}} \right] \\
+		&= \comb{n}{k} p^k (1-p)^{n-k}.
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.6.10}
+	For Problem \ref{prob:3.6.10}:
+	\begin{enumerate}
+		\item In the $2 \times 2$ table, we have $N=25$ subjects with fixed treatment marginal totals ($K=12$ on active therapy, $N-K=13$ on placebo) and fixed response marginal totals ($n=8$ with thrombi, $N-n=17$ without thrombi).
+
+		Under the null hypothesis $H_0$ of independence (the $n=8$ thrombotic events are distributed at random among the $25$ patients), each combination of choosing the $8$ thrombotic patients among the $N$ available has probability $1/\comb{N}{n}$. The number of ways in which exactly $k$ of those $8$ thrombi fall in the active group (of size $K$) and the remaining $(n-k)$ fall in the placebo group (of size $N-K$) is $\comb{K}{k}\comb{N-K}{n-k}$. Therefore:
+		\begin{align*}
+			P(X = k \mid \text{fixed marginals}) = \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}} \sim \text{Hiper}(N=25, K=12, n=8).
+		\end{align*}
+		\item We evaluate the exact probability of the observed outcome ($X=1$) and the more extreme outcome favoring therapeutic efficacy ($X=0$):
+		\begin{align*}
+			P(X = 0) &= \dfrac{\comb{12}{0}\comb{13}{8}}{\comb{25}{8}} = \dfrac{1 \times 1287}{1081575} \approx 0.001190. \\
+			P(X = 1) &= \dfrac{\comb{12}{1}\comb{13}{7}}{\comb{25}{8}} = \dfrac{12 \times 1716}{1081575} = \dfrac{20592}{1081575} \approx 0.019039.
+		\end{align*}
+		The *lower one-tailed p-value* of Fisher's Exact Test is:
+		\begin{align*}
+			p\text{-value} = P(X \le 1) = P(X=0) + P(X=1) \approx 0.001190 + 0.019039 = 0.020229 \approx 0.0202.
+		\end{align*}
+		Since $p\text{-value} \approx 0.0202 < \alpha = 0.05$, the null hypothesis $H_0$ is rejected. There is statistically significant statistical evidence that the active therapy reduces the incidence of thrombosis relative to placebo.
+	\end{enumerate}
+\end{solucion}
+
+% ==============================================================================
+% SECTION 03.07: POISSON DISTRIBUTION AND ARRIVAL PROCESSES
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 03.07}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:3.7.1}
+	A call center receives calls independently at a constant average rate of $\lambda = 3$ calls per minute. Let $X$ be the random variable that counts the number of calls received in a fixed one-minute interval.
+	\begin{enumerate}
+		\item Formally specify the probability mass function $P(X = k)$ using the Poisson formula $P(X = k) = \dfrac{e^{-\lambda}\lambda^{k}}{k!}$ for $k \in \set{0, 1, 2, \dots}$.
+		\item Explicitly compute the point probabilities $P(X = 0)$, $P(X = 1)$ and $P(X = 2)$ and the cumulative probability $P(X \ge 4)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.2}
+	At an electronic component manufacturing plant, the number of defects per batch follows a Poisson distribution with parameter $\lambda = 2.5$ defects per batch.
+	\begin{enumerate}
+		\item Compute the mathematical expectation $\E[X]$ and the variance $\Var(X)$ by direct summation over the support $k \in \set{0, 1, 2, \dots, 15}$.
+		\item Numerically verify the equidispersion property $\E[X] = \Var(X) = \lambda$ and comment on its practical importance in statistical process control.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.3}
+	The number of people arriving per day at a hospital emergency room follows a Poisson distribution with mean $\lambda = 5$ people per day.
+	\begin{enumerate}
+		\item Compute the probability that at most $3$ people arrive on a given day, that is, $P(X \le 3) = \sum_{k=0}^{3} \dfrac{5^{k} e^{-5}}{k!}$.
+		\item Compute the probability that at least $8$ people arrive on a given day, $P(X \ge 8) = 1 - P(X \le 7)$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:3.7.4}
+	In a phase III clinical trial, $n = 2000$ patients are monitored over a year to detect an extremely rare adverse reaction with true probability $p = 0.001$ per patient-year (so that $\lambda = np = 2$).
+	\begin{enumerate}
+		\item Compute the exact probability of observing exactly $k = 2$ adverse reactions under the binomial model $Y \sim \text{Bin}(2000, 0.001)$.
+		\item Compute the Poisson approximation $P(X = 2) = \dfrac{e^{-2} 2^{2}}{2!}$ and determine the absolute error $\abs{P_{\text{Bin}}(Y=2) - P_{\text{Pois}}(X=2)}$.
+		\item Theoretically justify why the Poisson approximation is excellent under the operational rule $n \ge 50$ and $p \le 0.05$ (with $np \le 5$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.5}
+	A web server receives on average $\lambda = 8$ HTTP requests per second, modeled as a Poisson process.
+	\begin{enumerate}
+		\item Compute the probability that the server receives no requests in a particular second.
+		\item Compute the probability that the server becomes saturated by receiving $\ge 15$ requests in a second.
+		\item Find the quantile $q_{0.95}$, that is, the smallest integer $q$ such that $P(X \le q) \ge 0.95$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.6}
+	An industrial monitoring system records failures in a critical machine at an average rate of $\lambda = 0.5$ failures per hour, under a Poisson process.
+	\begin{enumerate}
+		\item Compute the probability that at least one failure occurs during a $4$-hour consecutive shift.
+		\item Compare the previous result with the one obtained by modeling the number of failures in $4$ hours as a binomial with $n = 4$ hourly Bernoulli trials with an equivalent $p$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:3.7.7}
+	Let $X \sim \text{Pois}(\lambda)$ be a random variable with a Poisson distribution and parameter $\lambda > 0$.
+	\begin{enumerate}
+		\item Analytically prove that $\E[X] = \lambda$ starting from the exponential series identity $e^{\lambda} = \sum_{k=0}^{\infty} \dfrac{\lambda^{k}}{k!}$ and differentiating term by term.
+		\item Analytically prove that $\E[X^{2}] = \lambda^{2} + \lambda$ using the second derivative of the same exponential series.
+		\item Conclude that $\Var(X) = \E[X^{2}] - (\E[X])^{2} = \lambda$, confirming the equidispersion property.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.8}
+	Consider two independent random variables $X \sim \text{Pois}(\lambda_{1})$ and $Y \sim \text{Pois}(\lambda_{2})$.
+	\begin{enumerate}
+		\item Rigorously prove, via discrete convolution, that the sum $Z = X + Y$ follows a $\text{Pois}(\lambda_{1} + \lambda_{2})$ distribution. Hint: apply Newton's Binomial Theorem to $(e^{-\lambda_{1}} e^{-\lambda_{2}})$.
+		\item Verify that the additivity property is consistent with the conservation of the expectation $\E[Z] = \lambda_{1} + \lambda_{2}$ and the variance $\Var(Z) = \lambda_{1} + \lambda_{2}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:3.7.9}
+	Let $X \sim \text{Pois}(\lambda_{1})$ and $Y \sim \text{Pois}(\lambda_{2})$ be two independent random variables representing the number of events handled by two web servers in the same time interval.
+	\begin{enumerate}
+		\item Analytically prove that the conditional distribution of $X$ given the event $(X + Y = n)$ is a binomial distribution with parameters $n$ and $p = \lambda_{1} / (\lambda_{1} + \lambda_{2})$:
+		\begin{align*}
+			P(X = k \mid X + Y = n) = \dfrac{P(X = k) P(Y = n - k)}{P(X + Y = n)} = \comb{n}{k} \left(\dfrac{\lambda_{1}}{\lambda_{1} + \lambda_{2}}\right)^{k} \left(\dfrac{\lambda_{2}}{\lambda_{1} + \lambda_{2}}\right)^{n-k}.
+		\end{align*}
+		\item Apply the result to a case where $\lambda_{1} = 3$ and $\lambda_{2} = 5$. If a total of $n = 8$ requests were handled in one hour between both servers, compute the probability that server $1$ handled exactly $k = 3$ of them.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.7.10}
+	In a spatial Poisson process, a metal sheet of $A = 10\,\text{m}^{2}$ has defects uniformly distributed with a density of $\lambda = 0.5$ defects per $\text{m}^{2}$.
+	\begin{enumerate}
+		\item Model the total number of defects $X$ on the complete sheet and compute $P(X = 0)$ and $P(X \ge 8)$.
+		\item The sheet is divided into two disjoint regions $A_{1} = 4\,\text{m}^{2}$ and $A_{2} = 6\,\text{m}^{2}$. Let $X_{1}$ and $X_{2}$ be the defects in each region. Prove that $X_{1} \sim \text{Pois}(2)$ and $X_{2} \sim \text{Pois}(3)$ are independent.
+		\item Prove that, conditionally on the total $X_{1} + X_{2} = n$, the distribution of $X_{1}$ is $\text{Bin}(n, 4/10)$, a result analogous to that of Problem \ref{prob:3.7.9} but with $p = A_{1}/A$.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Hints for the Problems --- Section 03.07}
+
+\begin{sugerencia}
+	\label{sug:3.7.1}
+	For Problem \ref{prob:3.7.1}, evaluate the formula $P(X=k) = e^{-\lambda}\lambda^{k}/k!$ directly with $\lambda = 3$ and $k \in \set{0, 1, 2}$. For $P(X \ge 4)$, use the complement $1 - \sum_{k=0}^{3} P(X=k)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.2}
+	For Problem \ref{prob:3.7.2}, evaluate the sums $\E[X] = \sum_{k=0}^{15} k \cdot P(X=k)$ and $\E[X^{2}] = \sum_{k=0}^{15} k^{2} \cdot P(X=k)$. Verify that the difference $\E[X^{2}] - (\E[X])^{2}$ approaches $2.5$ within a tolerance of $10^{-3}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.3}
+	For Problem \ref{prob:3.7.3}, use the truncated series $P(X \le 3) = e^{-5}\left(\dfrac{5^{0}}{0!} + \dfrac{5^{1}}{1!} + \dfrac{5^{2}}{2!} + \dfrac{5^{3}}{3!}\right)$ and analogously for $P(X \le 7)$. The common factor $e^{-5} \approx 0.006738$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.4}
+	For Problem \ref{prob:3.7.4}, use `scipy.stats.binom.pmf(2, 2000, 0.001)` and `scipy.stats.poisson.pmf(2, mu=2)`. The difference should be less than $5 \times 10^{-4}$ thanks to the rule $n \cdot p^{2} = 2000 \cdot 10^{-6} = 0.002 \ll 1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.5}
+	For Problem \ref{prob:3.7.5}, use the Poisson CDF `stats.poisson.cdf(q, mu=8)` evaluated at different $q$ to find the quantile. Iterate from $q = 10$ until the CDF exceeds $0.95$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.6}
+	For Problem \ref{prob:3.7.6}, the number of failures in $4$ hours follows a Poisson with $\lambda' = 4 \cdot 0.5 = 2$ (by linear time scaling). Compute $P(X \ge 1) = 1 - e^{-2}$. In the equivalent binomial model, use $n=4$ hourly trials and $p = 1 - e^{-0.5} \approx 0.3935$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.7}
+	For Problem \ref{prob:3.7.7}, multiply both sides of the identity $e^{\lambda} = \sum_{k=0}^{\infty} \lambda^{k}/k!$ by $e^{-\lambda}$ to obtain the normalization. Differentiate once with respect to $\lambda$ and multiply by $\lambda$ to obtain $\E[X]$. Differentiate twice to obtain $\E[X(X-1)] = \lambda^{2}$ and use $\E[X^{2}] = \E[X(X-1)] + \E[X]$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.8}
+	For Problem \ref{prob:3.7.8}, express the convolution $P(Z = m) = \sum_{k=0}^{m} P(X=k) P(Y=m-k) = \sum_{k=0}^{m} \dfrac{e^{-\lambda_{1}} \lambda_{1}^{k}}{k!} \cdot \dfrac{e^{-\lambda_{2}} \lambda_{2}^{m-k}}{(m-k)!}$. Factor out $e^{-(\lambda_{1}+\lambda_{2})}$ and recognize Newton's Binomial Theorem: $\sum_{k=0}^{m} \comb{m}{k} \lambda_{1}^{k} \lambda_{2}^{m-k} = (\lambda_{1} + \lambda_{2})^{m}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.9}
+	For Problem \ref{prob:3.7.9}, substitute the Poisson PMFs in the numerator and denominator, factor $e^{-(\lambda_{1}+\lambda_{2})}(\lambda_{1}+\lambda_{2})^{n}/n!$ in the denominator (from Problem \ref{prob:3.7.8}), and observe that the quotient collapses to a binomial PMF with $p = \lambda_{1}/(\lambda_{1}+\lambda_{2})$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.7.10}
+	For Problem \ref{prob:3.7.10}, use the fact that in a spatial Poisson process with intensity $\lambda$ per unit area, a region of area $A$ contains $X \sim \text{Pois}(\lambda A)$ defects. For (b), disjoint regions are independent. For (c), use the result of Problem \ref{prob:3.7.9} with $p = A_{1}/(A_{1}+A_{2}) = 4/10 = 0.4$.
+\end{sugerencia}
+
+\subsection*{Solutions to the Problems --- Section 03.07}
+
+\begin{solucion}
+	\label{sol:3.7.1}
+	For Problem \ref{prob:3.7.1}:
+	\begin{enumerate}
+		\item The support of $X$ is $\mathcal{S}_{X} = \set{0, 1, 2, \dots}$ (non-negative integers). The canonical PMF is:
+		\begin{align*}
+			P(X = k) = \dfrac{e^{-\lambda} \lambda^{k}}{k!}, \quad k \in \set{0, 1, 2, \dots}
+		\end{align*}
+		\item We explicitly evaluate with $\lambda = 3$:
+		\begin{align*}
+			P(X = 0) &= e^{-3} \cdot \dfrac{3^{0}}{0!} = e^{-3} \approx 0.04979, \\
+			P(X = 1) &= e^{-3} \cdot \dfrac{3^{1}}{1!} = 3 e^{-3} \approx 0.14936, \\
+			P(X = 2) &= e^{-3} \cdot \dfrac{3^{2}}{2!} = \dfrac{9}{2} e^{-3} \approx 0.22404.
+		\end{align*}
+		For the right tail:
+		\begin{align*}
+			P(X \ge 4) = 1 - P(X \le 3) = 1 - e^{-3}\left(1 + 3 + \dfrac{9}{2} + \dfrac{27}{6}\right) = 1 - 13 e^{-3} \approx 1 - 0.6472 = 0.3528.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.2}
+	For Problem \ref{prob:3.7.2}:
+	\begin{enumerate}
+		\item The PMF is $P(X = k) = e^{-2.5} \cdot 2.5^{k} / k!$. We compute the sums over $k = 0, 1, \dots, 15$ (the tail beyond this is negligible):
+		\begin{align*}
+			\E[X] &= \sum_{k=0}^{15} k \cdot P(X=k) \approx 2.500, \\
+			\E[X^{2}] &= \sum_{k=0}^{15} k^{2} \cdot P(X=k) \approx 8.750, \\
+			\Var(X) &= \E[X^{2}] - (\E[X])^{2} \approx 8.750 - 6.250 = 2.500.
+		\end{align*}
+		\item The equidispersion property is confirmed with numerical tolerance: $\E[X] = \Var(X) = \lambda = 2.5$ (error $< 10^{-3}$). In statistical process control, equidispersion implies that the $c$ control chart (based on Poisson) can use $3\sigma$ control limits equal to $\lambda \pm 3\sqrt{\lambda}$, simplifying industrial monitoring.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.3}
+	For Problem \ref{prob:3.7.3}:
+	\begin{enumerate}
+		\item With $\lambda = 5$:
+		\begin{align*}
+			P(X \le 3) &= e^{-5}\left(\dfrac{5^{0}}{0!} + \dfrac{5^{1}}{1!} + \dfrac{5^{2}}{2!} + \dfrac{5^{3}}{3!}\right) = e^{-5}\left(1 + 5 + 12.5 + 20.833\overline{3}\right) \\
+			&= e^{-5} \cdot 39.833\overline{3} \approx 0.006738 \cdot 39.833 \approx 0.2650.
+		\end{align*}
+		\item For the right-tail complement:
+		\begin{align*}
+			P(X \ge 8) = 1 - P(X \le 7) = 1 - e^{-5} \sum_{k=0}^{7} \dfrac{5^{k}}{k!} \approx 1 - 0.867 = 0.1330.
+		\end{align*}
+		Therefore, there is an approximate probability of $26.50\%$ that at most $3$ patients arrive and of $13.30\%$ that at least $8$ patients arrive on a typical day.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.4}
+	For Problem \ref{prob:3.7.4}:
+	\begin{enumerate}
+		\item Under the exact binomial model $Y \sim \text{Bin}(n = 2000, p = 0.001)$:
+		\begin{align*}
+			P(Y = 2) &= \comb{2000}{2}(0.001)^{2}(0.999)^{1998} \\
+			&= \dfrac{2000 \cdot 1999}{2} \cdot 10^{-6} \cdot 0.999^{1998} \\
+			&\approx 1\,999\,000 \cdot 10^{-6} \cdot 0.13534 \approx 0.27056.
+		\end{align*}
+		\item Under the Poisson approximation with $\lambda = np = 2$:
+		\begin{align*}
+			P(X = 2) = \dfrac{e^{-2} \cdot 2^{2}}{2!} = 2 e^{-2} \approx 2 \cdot 0.13534 \approx 0.27067.
+		\end{align*}
+		The absolute error is $\abs{0.27056 - 0.27067} \approx 0.00011 < 5 \times 10^{-4}$.
+		\item The Poisson approximation is excellent because the conditions of the law of rare events are satisfied: $n = 2000 \gg 50$ and $p = 0.001 \ll 0.05$ with $np = 2 \le 5$. Under these parameters, the descending factorial terms $(N-k)!/N!$ simplify, $(1-p)^{N-k} \to e^{-\lambda}$, and $\binom{N}{k} p^{k} \to \lambda^{k}/k!$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.5}
+	For Problem \ref{prob:3.7.5}:
+	\begin{enumerate}
+		\item With $\lambda = 8$:
+		\begin{align*}
+			P(X = 0) = e^{-8} \cdot \dfrac{8^{0}}{0!} = e^{-8} \approx 0.000335.
+		\end{align*}
+		\item The saturation probability is computed via the complement:
+		\begin{align*}
+			P(X \ge 15) = 1 - P(X \le 14) = 1 - \sum_{k=0}^{14} \dfrac{e^{-8} 8^{k}}{k!} \approx 1 - 0.9820 = 0.0180.
+		\end{align*}
+		\item For the quantile $q_{0.95}$, we iterate on `scipy.stats.poisson.cdf(q, mu=8)`:
+		\begin{align*}
+			P(X \le 11) &\approx 0.888, \quad P(X \le 12) \approx 0.936, \quad P(X \le 13) \approx 0.966.
+		\end{align*}
+		The smallest $q$ such that $P(X \le q) \ge 0.95$ is $q_{0.95} = 13$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.6}
+	For Problem \ref{prob:3.7.6}:
+	\begin{enumerate}
+		\item By the linear time-scaling property of a Poisson process, the number of failures in $4$ hours follows a $\text{Pois}(\lambda' = 4 \cdot 0.5 = 2)$:
+		\begin{align*}
+			P(X \ge 1) = 1 - P(X = 0) = 1 - e^{-2} \approx 1 - 0.1353 = 0.8647.
+		\end{align*}
+		\item In the equivalent binomial model, the shift is discretized into $n = 4$ independent hourly trials with $p = 1 - e^{-0.5} \approx 0.3935$ (probability of at least one failure in one hour):
+		\begin{align*}
+			P(Y \ge 1) = 1 - (1-p)^{4} = 1 - (0.6065)^{4} \approx 1 - 0.1353 = 0.8647.
+		\end{align*}
+		Both approaches produce exactly the same result, validating the operational equivalence between the continuous formulation (Poisson) and the hourly Bernoulli discretization.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.7}
+	For Problem \ref{prob:3.7.7}:
+	\begin{enumerate}
+		\item We start from the exponential series identity $e^{\lambda} = \sum_{k=0}^{\infty} \lambda^{k}/k!$ and multiply it by $e^{-\lambda}$ to obtain the Poisson normalization:
+		\begin{align*}
+			1 = e^{-\lambda} e^{\lambda} = \sum_{k=0}^{\infty} \dfrac{e^{-\lambda} \lambda^{k}}{k!} = \sum_{k=0}^{\infty} P(X = k).
+		\end{align*}
+		We differentiate term by term with respect to $\lambda$:
+		\begin{align*}
+			0 &= \dfrac{\partial}{\partial \lambda} \sum_{k=0}^{\infty} P(X = k) = \sum_{k=0}^{\infty} \dfrac{\partial}{\partial \lambda}\left(\dfrac{e^{-\lambda} \lambda^{k}}{k!}\right) = \sum_{k=0}^{\infty} \dfrac{e^{-\lambda} \lambda^{k-1}(\lambda - k)}{k!}.
+		\end{align*}
+		We multiply by $\lambda$ and separate out the $k = 0$ term:
+		\begin{align*}
+			0 = \sum_{k=0}^{\infty} \dfrac{e^{-\lambda} \lambda^{k}(k - \lambda)}{k!} = \sum_{k=0}^{\infty} k P(X = k) - \lambda \sum_{k=0}^{\infty} P(X = k) = \E[X] - \lambda.
+		\end{align*}
+		Therefore $\E[X] = \lambda$.
+		\item For the second moment, we differentiate twice and multiply by $\lambda^{2}$:
+		\begin{align*}
+			\E[X(X-1)] = \sum_{k=0}^{\infty} k(k-1) P(X = k) = \lambda^{2}.
+		\end{align*}
+		Then:
+		\begin{align*}
+			\E[X^{2}] = \E[X(X-1)] + \E[X] = \lambda^{2} + \lambda.
+		\end{align*}
+		\item The variance is:
+		\begin{align*}
+			\Var(X) = \E[X^{2}] - (\E[X])^{2} = (\lambda^{2} + \lambda) - \lambda^{2} = \lambda. \quad \blacksquare
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.8}
+	For Problem \ref{prob:3.7.8}:
+	\begin{enumerate}
+		\item By independence, the convolution of the PMFs is:
+		\begin{align*}
+			P(Z = m) &= \sum_{k=0}^{m} P(X = k) P(Y = m-k) \\
+			&= \sum_{k=0}^{m} \dfrac{e^{-\lambda_{1}} \lambda_{1}^{k}}{k!} \cdot \dfrac{e^{-\lambda_{2}} \lambda_{2}^{m-k}}{(m-k)!} \\
+			&= e^{-(\lambda_{1} + \lambda_{2})} \sum_{k=0}^{m} \dfrac{\lambda_{1}^{k} \lambda_{2}^{m-k}}{k! (m-k)!} \\
+			&= \dfrac{e^{-(\lambda_{1} + \lambda_{2})}}{m!} \sum_{k=0}^{m} \dfrac{m!}{k!(m-k)!} \lambda_{1}^{k} \lambda_{2}^{m-k}.
+		\end{align*}
+		Recognizing the binomial coefficient $\comb{m}{k} = m!/(k!(m-k)!)$ and applying Newton's Binomial Theorem:
+		\begin{align*}
+			P(Z = m) = \dfrac{e^{-(\lambda_{1} + \lambda_{2})}}{m!} (\lambda_{1} + \lambda_{2})^{m},
+		\end{align*}
+		which is exactly the PMF of a $\text{Pois}(\lambda_{1} + \lambda_{2})$.
+		\item The expectation and variance of $Z$ are:
+		\begin{align*}
+			\E[Z] = \E[X] + \E[Y] = \lambda_{1} + \lambda_{2}, \quad \Var(Z) = \Var(X) + \Var(Y) = \lambda_{1} + \lambda_{2}.
+		\end{align*}
+		These values are consistent with the derived PMF, confirming the algebraic coherence of the result. \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.9}
+	For Problem \ref{prob:3.7.9}:
+	\begin{enumerate}
+		\item By definition of conditional probability, independence, and the result of Problem \ref{prob:3.7.8}:
+		\begin{align*}
+			P(X = k \mid X + Y = n) &= \dfrac{P(X = k) P(Y = n-k)}{P(X + Y = n)} \\
+			&= \dfrac{\dfrac{e^{-\lambda_{1}} \lambda_{1}^{k}}{k!} \cdot \dfrac{e^{-\lambda_{2}} \lambda_{2}^{n-k}}{(n-k)!}}{\dfrac{e^{-(\lambda_{1}+\lambda_{2})} (\lambda_{1} + \lambda_{2})^{n}}{n!}} \\
+			&= \dfrac{n!}{k! (n-k)!} \cdot \dfrac{\lambda_{1}^{k} \lambda_{2}^{n-k}}{(\lambda_{1} + \lambda_{2})^{n}} \\
+			&= \comb{n}{k} \left(\dfrac{\lambda_{1}}{\lambda_{1} + \lambda_{2}}\right)^{k} \left(\dfrac{\lambda_{2}}{\lambda_{1} + \lambda_{2}}\right)^{n-k},
+		\end{align*}
+		which is the PMF of a $\text{Bin}(n, p)$ with $p = \lambda_{1}/(\lambda_{1} + \lambda_{2})$.
+		\item For $\lambda_{1} = 3$ and $\lambda_{2} = 5$, we have $p = 3/8 = 0.375$. If $n = 8$ and $k = 3$:
+		\begin{align*}
+			P(X = 3 \mid X + Y = 8) &= \comb{8}{3} \left(\dfrac{3}{8}\right)^{3} \left(\dfrac{5}{8}\right)^{5} \\
+			&= 56 \cdot \dfrac{27}{512} \cdot \dfrac{3125}{32768} \\
+			&= 56 \cdot \dfrac{84\,375}{16\,777\,216} \approx 56 \cdot 0.00503 \approx 0.2815.
+		\end{align*}
+		Therefore, given that a total of $8$ requests were handled, the probability that server $1$ handled exactly $3$ of them is approximately $28.15\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.7.10}
+	For Problem \ref{prob:3.7.10}:
+	\begin{enumerate}
+		\item In a spatial Poisson process with intensity $\lambda = 0.5$ defects/$\text{m}^{2}$ and total area $A = 10\,\text{m}^{2}$, the total number of defects follows $X \sim \text{Pois}(\lambda A) = \text{Pois}(5)$. We evaluate:
+		\begin{align*}
+			P(X = 0) &= e^{-5} \approx 0.00674, \\
+			P(X \ge 8) &= 1 - P(X \le 7) \approx 1 - 0.8666 = 0.1334.
+		\end{align*}
+		\item The regions $A_{1} = 4\,\text{m}^{2}$ and $A_{2} = 6\,\text{m}^{2}$ are disjoint, so the counts $X_{1}$ and $X_{2}$ are independent with $X_{i} \sim \text{Pois}(\lambda A_{i})$:
+		\begin{align*}
+			X_{1} \sim \text{Pois}(0.5 \cdot 4) = \text{Pois}(2), \quad X_{2} \sim \text{Pois}(0.5 \cdot 6) = \text{Pois}(3).
+		\end{align*}
+		\item By the result of Problem \ref{prob:3.7.9} applied with $\lambda_{1} = 2$ and $\lambda_{2} = 3$ (the effective means of the sub-regions), the conditional distribution is:
+		\begin{align*}
+			P(X_{1} = k \mid X_{1} + X_{2} = n) = \comb{n}{k} \left(\dfrac{2}{5}\right)^{k} \left(\dfrac{3}{5}\right)^{n-k} = \comb{n}{k} \left(\dfrac{A_{1}}{A}\right)^{k} \left(\dfrac{A_{2}}{A}\right)^{n-k}.
+		\end{align*}
+		With $A_{1}/A = 4/10 = 0.4$, we obtain $X_{1} \mid (X_{1} + X_{2} = n) \sim \text{Bin}(n, 0.4)$. This result is intuitive: given a fixed number $n$ of defects randomly distributed over a total area, the proportion falling in a sub-region is proportional to its relative area. \qedhere
+	\end{enumerate}
+\end{solucion}
+
+% ==============================================================================
+% SECTION 03.08: MULTINOMIAL DISTRIBUTION AND POLYTOMOUS TRIALS
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 03.08}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:3.8.1}
+	Consider a random experiment consisting of rolling a fair cubic die $n = 6$ times independently. Let $\bm{X} = (X_{1}, X_{2}, \dots, X_{6})$ be the random vector that counts the number of times each face appears, where $X_{i}$ is the number of times face $i$ comes up in the $6$ rolls.
+	\begin{enumerate}
+		\item Formally specify the distribution of the vector $\bm{X}$ using the multinomial distribution with parameters $n = 6$ and probabilities $p_{i} = 1/6$ for all $i$.
+		\item Explicitly compute the probability that each of the 6 faces appears exactly once.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.2}
+	A political opinion poll is administered to $n = 100$ randomly selected voters, where each voter chooses one of three candidates with probabilities $p_{1} = 0.45$, $p_{2} = 0.35$, and $p_{3} = 0.20$. Let $\bm{X} = (X_{1}, X_{2}, X_{3})$ be the number of votes obtained by each candidate.
+	\begin{enumerate}
+		\item Compute the probability that candidate 1 receives exactly $X_{1} = 50$ votes, candidate 2 receives $X_{2} = 30$, and candidate 3 receives $X_{3} = 20$.
+		\item Compute the probability that candidate 1 obtains an absolute majority ($X_{1} \ge 51$).
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.3}
+	A manufacturing company produces batches of chips in which each chip is classified into three mutually exclusive categories: ``Premium'' ($p_{1} = 0.70$), ``Standard'' ($p_{2} = 0.25$), and ``Defective'' ($p_{3} = 0.05$). In a batch of $n = 10$ chips, let $\bm{X} = (X_{1}, X_{2}, X_{3})$ be the vector of counts per category.
+	\begin{enumerate}
+		\item Compute the total number of distinct configurations in which the 10 chips can be distributed across the 3 categories: $\binom{10 + 3 - 1}{3 - 1} = \binom{12}{2}$.
+		\item Compute the probability that a batch of 10 chips yields exactly 7 Premium, 2 Standard, and 1 Defective.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:3.8.4}
+	Consider an experiment with $n = 100$ independent trials where each trial can result in one of three categories with probabilities $p_{1} = 0.5$, $p_{2} = 0.3$, and $p_{3} = 0.2$.
+	\begin{enumerate}
+		\item Show that the marginal $X_{1} \sim \text{Bin}(100, 0.5)$ by summing over all possible values of $X_{2}$ and $X_{3}$.
+		\item Compute $\E[X_{1}]$, $\Var(X_{1})$, and the probability $P(X_{1} = 50)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.5}
+	In a population genomics study, $n = 200$ independent genetic sites are analyzed, where each site can present one of three genotypes with probabilities $p_{1} = 0.36$ (homozygous dominant), $p_{2} = 0.48$ (heterozygous), and $p_{3} = 0.16$ (homozygous recessive) under Hardy-Weinberg equilibrium.
+	\begin{enumerate}
+		\item Compute the expectation and variance of the number of homozygous recessive sites $X_{3}$.
+		\item Compute the probability of observing at least 40 homozygous recessive sites, $P(X_{3} \ge 40)$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.6}
+	An insurance company classifies its portfolio of $n = 1000$ policies into three risk categories: low ($p_{1} = 0.60$), medium ($p_{2} = 0.30$), and high ($p_{3} = 0.10$). Let $\bm{X} = (X_{1}, X_{2}, X_{3})$ be the vector of counts.
+	\begin{enumerate}
+		\item Computationally simulate (using `numpy.random.multinomial`) a realization of $\bm{X}$ and report the counts obtained.
+		\item Repeat the simulation 250{,}000 times and compute the empirical means and variances of $X_{1}, X_{2}, X_{3}$ to verify that they match the theoretical values.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:3.8.7}
+	Let $\bm{X} = (X_{1}, X_{2}, \dots, X_{k}) \sim \text{Mult}(n, p_{1}, p_{2}, \dots, p_{k})$ be a random vector with a multinomial distribution.
+	\begin{enumerate}
+		\item Analytically show that the covariance between two distinct components is:
+		\begin{align*}
+			\cov(X_{i}, X_{j}) = -n p_{i} p_{j}, \quad \text{for } i \neq j.
+		\end{align*}
+		\item Interpret the negative sign of the covariance: why does an excess in category $i$ necessarily imply a deficit in category $j$?
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.8}
+	Let $\bm{X} = (X_{1}, X_{2}, X_{3}) \sim \text{Mult}(n, p_{1}, p_{2}, p_{3})$ with $n$ independent trials.
+	\begin{enumerate}
+		\item Analytically derive the joint factorial moment $\E[X_{1}(X_{1}-1)]$ by applying properties of the multinomial expansion.
+		\item Generalize the result to the case of $k$ categories: show that $\E[X_{i}(X_{i}-1)] = n(n-1)p_{i}^{2}$ and $\E[X_{i} X_{j}] = n(n-1)p_{i} p_{j}$ for $i \neq j$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:3.8.9}
+	Let $\bm{X} = (X_{1}, X_{2}, X_{3}, X_{4}) \sim \text{Mult}(n, p_{1}, p_{2}, p_{3}, p_{4})$ with four mutually exclusive categories.
+	\begin{enumerate}
+		\item Show that, conditioned on the total $X_{3} + X_{4} = m$, the joint distribution of the sub-vector $(X_{3}, X_{4})$ collapses to a binomial distribution $\text{Bin}(m, p_{3}/(p_{3} + p_{4}))$ in the count of $X_{3}$.
+		\item Apply the result to a case with $n = 100$, $p_{1} = 0.4$, $p_{2} = 0.3$, $p_{3} = 0.2$, $p_{4} = 0.1$: if in a sample of 100 trials it is observed that $X_{3} + X_{4} = 30$, compute the probability that $X_{3} = 18$ and $X_{4} = 12$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.8.10}
+	In a market study, the independence between brand preference (A, B, C) and age group (young, adult) is to be evaluated in a sample of $n = 500$ consumers. Let $X_{ij}$ be the count in cell $(i, j)$ of the $3 \times 2$ contingency table.
+	\begin{enumerate}
+		\item State the null hypothesis $H_{0}$ of independence between brand and age group, specifying the joint probabilities $p_{ij} = p_{i}^{\text{brand}} \cdot p_{j}^{\text{age}}$ under $H_{0}$.
+		\item Under $H_{0}$ with marginal probabilities $p_{1}^{\text{brand}} = 0.4$, $p_{2}^{\text{brand}} = 0.35$, $p_{3}^{\text{brand}} = 0.25$ and $p_{1}^{\text{age}} = 0.6$ (young), $p_{2}^{\text{age}} = 0.4$ (adult), compute the expected value of each cell: $E_{ij} = n p_{i}^{\text{brand}} p_{j}^{\text{age}}$.
+		\item Show that, conditioned on the fixed row and column marginals, the distribution of the cells follows a conditional multinomial distribution analogous to Problem \ref{prob:3.8.9}.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Hints for the Problems --- Section 03.08}
+
+\begin{sugerencia}
+	\label{sug:3.8.1}
+	For Problem \ref{prob:3.8.1}, use the multinomial PMF $P(\bm{X} = \bm{x}) = \dfrac{n!}{x_{1}!\cdots x_{k}!} p_{1}^{x_{1}} \cdots p_{k}^{x_{k}}$ with $n=6$, $k=6$, $p_{i} = 1/6$, and $x_{i} = 1$ for all $i$. The multinomial coefficient equals $6!/(1!)^{6} = 720$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.2}
+	For Problem \ref{prob:3.8.2}, evaluate the multinomial coefficient $\binom{100}{50, 30, 20} = \dfrac{100!}{50! \cdot 30! \cdot 20!}$ with `scipy.special.multinomial`. For the absolute majority, sum $P(X_{1} = k)$ over $k \ge 51$ marginalizing over the other categories.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.3}
+	For Problem \ref{prob:3.8.3}, use the fact that the number of ways to distribute $n$ objects into $k$ categories with internal order is the multinomial coefficient $\dfrac{n!}{x_{1}! \cdots x_{k}!}$, not the stars-and-bars coefficient. The multinomial coefficient of $n=10$ into $(7, 2, 1)$ equals $10!/(7! \cdot 2! \cdot 1!) = 360$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.4}
+	For Problem \ref{prob:3.8.4}, the marginalization is carried out by summing $P(X_{1} = x_{1}, X_{2} = x_{2}, X_{3} = x_{3})$ over all $x_{2} \in \set{0, \dots, n - x_{1}}$ with $x_{3} = n - x_{1} - x_{2}$. Use the Binomial Theorem: $\sum_{x_{2}=0}^{n-x_{1}} \binom{n - x_{1}}{x_{2}} (p_{2}/(1-p_{1}))^{x_{2}} = (1-p_{1})^{n-x_{1}} \cdot (1/(1-p_{1}))^{n-x_{1}} = 1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.5}
+	For Problem \ref{prob:3.8.5}, use the fact that $X_{3}$ is marginally binomial: $X_{3} \sim \text{Bin}(n = 200, p_{3} = 0.16)$. Then $\E[X_{3}] = np_{3} = 32$, $\Var(X_{3}) = np_{3}(1-p_{3}) = 26.88$, and $P(X_{3} \ge 40) = 1 - \text{stats.binom.cdf}(39, 200, 0.16)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.6}
+	For Problem \ref{prob:3.8.6}, use `np.random.seed(42)` and `np.random.multinomial(n=1000, pvals=[0.6, 0.3, 0.1])` for a single realization. For the large-scale simulation, generate an array of $250{,}000$ realizations and compute `np.mean(axis=0)` and `np.var(axis=0, ddof=1)` to obtain the empirical means and variances.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.7}
+	For Problem \ref{prob:3.8.7}, use the representation $X_{i} = \sum_{r=1}^{n} I_{r}^{(i)}$ where $I_{r}^{(i)} = 1$ if trial $r$ produces category $i$. Then $\cov(X_{i}, X_{j}) = \sum_{r=1}^{n} \sum_{s=1}^{n} \cov(I_{r}^{(i)}, I_{s}^{(j)})$. For $r = s$, $\cov(I_{r}^{(i)}, I_{r}^{(j)}) = -p_{i} p_{j}$ by mutual exclusivity; for $r \neq s$, the covariance is zero by independence between trials. Therefore $\cov(X_{i}, X_{j}) = -n p_{i} p_{j}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.8}
+	For Problem \ref{prob:3.8.8}, express the multinomial sum $\sum_{x_{1}+x_{2}+x_{3}=n} \dfrac{n!}{x_{1}! x_{2}! x_{3}!} p_{1}^{x_{1}} p_{2}^{x_{2}} p_{3}^{x_{3}}$. For $\E[X_{1}(X_{1}-1)]$, multiply the summand by $x_{1}(x_{1}-1)$ and use the identity $x_{1}(x_{1}-1) \dfrac{n!}{x_{1}!} = n(n-1) \dfrac{(n-2)!}{(x_{1}-2)!}$, recognizing a new multinomial distribution with $n-2$ trials.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.9}
+	For Problem \ref{prob:3.8.9}, use conditional probability and the multinomial PMF: $P(X_{3} = k \mid X_{3} + X_{4} = m) = \dfrac{P(X_{3} = k, X_{4} = m-k)}{P(X_{3} + X_{4} = m)}$. The numerator is the multinomial term with $(n, p_{1}, p_{2}, p_{3}, p_{4})$ with $X_{1}, X_{2}$ absorbed by marginalization. The denominator is the binomial term with $n$ trials and probability $p_{3} + p_{4}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.8.10}
+	For Problem \ref{prob:3.8.10}, under $H_{0}$, the cells $\{X_{ij}\}$ follow a multinomial distribution with $n = 500$ trials and probabilities $p_{ij} = p_{i}^{\text{brand}} p_{j}^{\text{age}}$. The expected values are $E_{ij} = 500 p_{ij}$. The conditional distribution of a cell given the fixed marginals is multivariate hypergeometric (a generalization of Fisher's exact test).
+\end{sugerencia}
+
+\subsection*{Solutions to the Problems --- Section 03.08}
+
+\begin{solucion}
+	\label{sol:3.8.1}
+	For Problem \ref{prob:3.8.1}:
+	\begin{enumerate}
+		\item The vector $\bm{X} = (X_{1}, \dots, X_{6})$ follows a multinomial distribution with parameters $n = 6$, $k = 6$ categories, and probabilities $p_{i} = 1/6$ for all $i$:
+		\begin{align*}
+			P(X_{1} = x_{1}, \dots, X_{6} = x_{6}) = \dfrac{6!}{x_{1}! \cdots x_{6}!} \left(\dfrac{1}{6}\right)^{6}, \quad \sum_{i=1}^{6} x_{i} = 6.
+		\end{align*}
+		\item For the event that each face appears exactly once, we have $x_{i} = 1$ for all $i$:
+		\begin{align*}
+			P(X_{1} = 1, \dots, X_{6} = 1) &= \dfrac{6!}{1! \cdot 1! \cdot 1! \cdot 1! \cdot 1! \cdot 1!} \cdot \left(\dfrac{1}{6}\right)^{6} \\
+			&= 720 \cdot \dfrac{1}{46{,}656} = \dfrac{720}{46{,}656} \approx 0.01543.
+		\end{align*}
+		Therefore, the probability of obtaining all 6 different faces in 6 rolls is approximately $1.54\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.2}
+	For Problem \ref{prob:3.8.2}:
+	\begin{enumerate}
+		\item With $\bm{X} \sim \text{Mult}(n = 100, p = (0.45, 0.35, 0.20))$ and count vector $(50, 30, 20)$:
+		\begin{align*}
+			P(X_{1} = 50, X_{2} = 30, X_{3} = 20) &= \binom{100}{50, 30, 20} \cdot (0.45)^{50} \cdot (0.35)^{30} \cdot (0.20)^{20} \\
+			&\approx 2.34 \times 10^{27} \cdot 9.13 \times 10^{-18} \cdot 1.93 \times 10^{-14} \cdot 1.05 \times 10^{-14} \\
+			&\approx 4.32 \times 10^{-18}.
+		\end{align*}
+		\item For the absolute majority of candidate 1, we marginalize over $X_{2}$ and $X_{3}$ with the restriction $X_{2} + X_{3} = 100 - X_{1}$:
+		\begin{align*}
+			P(X_{1} \ge 51) &= \sum_{x_{1}=51}^{100} \binom{100}{x_{1}} (0.45)^{x_{1}} (0.55)^{100-x_{1}} \\
+			&\approx 1 - \Phi\left(\dfrac{50.5 - 45}{\sqrt{100 \cdot 0.45 \cdot 0.55}}\right) \\
+			&\approx 1 - \Phi(1.099) \approx 1 - 0.864 = 0.136.
+		\end{align*}
+		The probability of an absolute majority for candidate 1 is approximately $13.6\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.3}
+	For Problem \ref{prob:3.8.3}:
+	\begin{enumerate}
+		\item The number of distinct configurations in which $n = 10$ chips can be distributed across $k = 3$ ordered categories (each chip belongs to a specific category) is given by the multinomial coefficient when the chips are enumerated:
+		\begin{align*}
+			\sum_{x_{1}+x_{2}+x_{3}=10} \binom{10}{x_{1}, x_{2}, x_{3}} = 3^{10} = 59{,}049.
+		\end{align*}
+		This is because each of the 10 chips can be assigned to 3 categories independently. The stars-and-bars count $\binom{12}{2} = 66$ counts only the partitions without chip identity, not the labeled configurations.
+		\item For the specific probability of the count $(7, 2, 1)$:
+		\begin{align*}
+			P(X_{1} = 7, X_{2} = 2, X_{3} = 1) &= \binom{10}{7, 2, 1} (0.70)^{7} (0.25)^{2} (0.05)^{1} \\
+			&= \dfrac{10!}{7! \cdot 2! \cdot 1!} \cdot (0.0824) \cdot (0.0625) \cdot (0.05) \\
+			&= 360 \cdot 2.575 \times 10^{-4} \approx 0.0927.
+		\end{align*}
+		The probability is approximately $9.27\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.4}
+	For Problem \ref{prob:3.8.4}:
+	\begin{enumerate}
+		\item We marginalize the multinomial distribution over $X_{2}$ and $X_{3}$ with the restriction $X_{2} + X_{3} = n - X_{1}$:
+		\begin{align*}
+			P(X_{1} = x_{1}) &= \sum_{x_{2}=0}^{n-x_{1}} P(X_{1} = x_{1}, X_{2} = x_{2}, X_{3} = n - x_{1} - x_{2}) \\
+			&= \sum_{x_{2}=0}^{n-x_{1}} \dfrac{n!}{x_{1}! x_{2}! (n - x_{1} - x_{2})!} p_{1}^{x_{1}} p_{2}^{x_{2}} p_{3}^{n-x_{1}-x_{2}} \\
+			&= \dfrac{n!}{x_{1}! (n-x_{1})!} p_{1}^{x_{1}} (p_{2} + p_{3})^{n-x_{1}} \sum_{x_{2}=0}^{n-x_{1}} \binom{n-x_{1}}{x_{2}} \left(\dfrac{p_{2}}{p_{2}+p_{3}}\right)^{x_{2}} \left(\dfrac{p_{3}}{p_{2}+p_{3}}\right)^{n-x_{1}-x_{2}}.
+		\end{align*}
+		The final sum is exactly $1$ by the Binomial Theorem, so that:
+		\begin{align*}
+			P(X_{1} = x_{1}) = \binom{n}{x_{1}} p_{1}^{x_{1}} (1 - p_{1})^{n - x_{1}} \implies X_{1} \sim \text{Bin}(n, p_{1}).
+		\end{align*}
+		\item With $n = 100$ and $p_{1} = 0.5$:
+		\begin{align*}
+			\E[X_{1}] &= 100 \cdot 0.5 = 50, \quad \Var(X_{1}) = 100 \cdot 0.5 \cdot 0.5 = 25, \\
+			P(X_{1} = 50) &= \binom{100}{50} (0.5)^{100} \approx \dfrac{1}{\sqrt{2\pi \cdot 25}} \approx 0.0798.
+		\end{align*}
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.5}
+	For Problem \ref{prob:3.8.5}:
+	\begin{enumerate}
+		\item By the result of Problem \ref{prob:3.8.4}, $X_{3} \sim \text{Bin}(n = 200, p_{3} = 0.16)$ is marginally binomial:
+		\begin{align*}
+			\E[X_{3}] &= np_{3} = 200 \cdot 0.16 = 32, \\
+			\Var(X_{3}) &= np_{3}(1 - p_{3}) = 200 \cdot 0.16 \cdot 0.84 = 26.88.
+		\end{align*}
+		\item For the right tail:
+		\begin{align*}
+			P(X_{3} \ge 40) &= 1 - P(X_{3} \le 39) = 1 - \text{stats.binom.cdf}(39, 200, 0.16) \\
+			&\approx 1 - 0.910 = 0.090.
+		\end{align*}
+		Therefore, the probability of observing at least 40 homozygous recessive sites is approximately $9.0\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.6}
+	For Problem \ref{prob:3.8.6}:
+	\begin{enumerate}
+		\item With `np.random.seed(42)` and `np.random.multinomial(1000, [0.6, 0.3, 0.1])`, a typical realization is, for example, $\bm{X} = (598, 305, 97)$.
+		\item With 250{,}000 simulations, the empirical moments converge to the theoretical ones:
+		\begin{align*}
+			\bar{X}_{1} &\approx 600.0, \quad s_{X_{1}}^{2} \approx 240.0 \quad (\text{theoretical: } \E = 600, \Var = 240) \\
+			\bar{X}_{2} &\approx 300.0, \quad s_{X_{2}}^{2} \approx 210.0 \quad (\text{theoretical: } \E = 300, \Var = 210) \\
+			\bar{X}_{3} &\approx 100.0, \quad s_{X_{3}}^{2} \approx 90.0 \quad (\text{theoretical: } \E = 100, \Var = 90)
+		\end{align*}
+		where $\Var(X_{i}) = np_{i}(1-p_{i})$. Additionally, the empirical covariances should match $\cov(X_{i}, X_{j}) = -np_{i}p_{j}$: for example, $\widehat{\cov}(X_{1}, X_{2}) \approx -1000 \cdot 0.6 \cdot 0.3 = -180$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.7}
+	For Problem \ref{prob:3.8.7}:
+	\begin{enumerate}
+		\item We represent each component as a sum of indicators: $X_{i} = \sum_{r=1}^{n} I_{r}^{(i)}$ where $I_{r}^{(i)} = 1$ if trial $r$ results in category $i$. By bilinearity of covariance:
+		\begin{align*}
+			\cov(X_{i}, X_{j}) &= \sum_{r=1}^{n} \sum_{s=1}^{n} \cov(I_{r}^{(i)}, I_{s}^{(j)}).
+		\end{align*}
+		If $r \neq s$, the trials are independent and $\cov(I_{r}^{(i)}, I_{s}^{(j)}) = 0$. If $r = s$, the covariance is:
+		\begin{align*}
+			\cov(I_{r}^{(i)}, I_{r}^{(j)}) &= \E[I_{r}^{(i)} I_{r}^{(j)}] - \E[I_{r}^{(i)}] \E[I_{r}^{(j)}].
+		\end{align*}
+		By mutual exclusivity, it is not possible for a trial to simultaneously produce categories $i$ and $j$ with $i \neq j$, so $I_{r}^{(i)} I_{r}^{(j)} = 0$ and $\E[I_{r}^{(i)} I_{r}^{(j)}] = 0$. Then:
+		\begin{align*}
+			\cov(I_{r}^{(i)}, I_{r}^{(j)}) = 0 - p_{i} p_{j} = -p_{i} p_{j}.
+		\end{align*}
+		Summing over the $n$ terms with $r = s$:
+		\begin{align*}
+			\cov(X_{i}, X_{j}) = n \cdot (-p_{i} p_{j}) = -n p_{i} p_{j} \quad \text{for } i \neq j. \quad \blacksquare
+		\end{align*}
+		\item The negative sign is interpreted via the restriction $\sum_{i} X_{i} = n$: if the count of category $i$ exceeds its expected value $np_{i}$ (that is, there is an ``excess'' in $i$), then necessarily some count $X_{j}$ with $j \neq i$ must fall below its expected value, since the total remains fixed at $n$. This is the algebraic signature of the linear constraint on the support of the multinomial vector.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.8}
+	For Problem \ref{prob:3.8.8}:
+	\begin{enumerate}
+		\item For $\E[X_{1}(X_{1}-1)]$, we multiply the multinomial summand by $x_{1}(x_{1}-1)$:
+		\begin{align*}
+			\E[X_{1}(X_{1}-1)] &= \sum_{x_{1}+x_{2}+x_{3}=n} x_{1}(x_{1}-1) \cdot \dfrac{n!}{x_{1}! x_{2}! x_{3}!} p_{1}^{x_{1}} p_{2}^{x_{2}} p_{3}^{x_{3}}.
+		\end{align*}
+		Using the identity $x_{1}(x_{1}-1) \cdot \dfrac{n!}{x_{1}!} = n(n-1) \cdot \dfrac{(n-2)!}{(x_{1}-2)!}$, we factor:
+		\begin{align*}
+			\E[X_{1}(X_{1}-1)] &= n(n-1) p_{1}^{2} \sum_{x_{1}+x_{2}+x_{3}=n} \dfrac{(n-2)!}{(x_{1}-2)! x_{2}! x_{3}!} p_{1}^{x_{1}-2} p_{2}^{x_{2}} p_{3}^{x_{3}}.
+		\end{align*}
+		With the change of variable $y_{1} = x_{1} - 2$ and recognizing the sum as a multinomial distribution with $n - 2$ trials:
+		\begin{align*}
+			\E[X_{1}(X_{1}-1)] = n(n-1) p_{1}^{2}.
+		\end{align*}
+		\item For $k$ categories, analogously:
+		\begin{align*}
+			\E[X_{i}(X_{i}-1)] &= n(n-1) p_{i}^{2}, \\
+			\E[X_{i} X_{j}] &= n(n-1) p_{i} p_{j} \quad (i \neq j).
+		\end{align*}
+		Combining both results: $\Var(X_{i}) = \E[X_{i}(X_{i}-1)] + \E[X_{i}] - (\E[X_{i}])^{2} = n(n-1)p_{i}^{2} + np_{i} - n^{2}p_{i}^{2} = np_{i}(1-p_{i})$, confirming the marginal binomial variance. \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.9}
+	For Problem \ref{prob:3.8.9}:
+	\begin{enumerate}
+		\item By conditional probability, marginalization, and the independence of the sum $X_{3} + X_{4}$ with respect to the complement:
+		\begin{align*}
+			P(X_{3} = k \mid X_{3} + X_{4} = m) &= \dfrac{P(X_{3} = k, X_{4} = m-k)}{P(X_{3} + X_{4} = m)} \\
+			&= \dfrac{\binom{n}{k, m-k, n-m} p_{3}^{k} p_{4}^{m-k} (1 - p_{3} - p_{4})^{n-m}}{\binom{n}{m} (p_{3} + p_{4})^{m} (1 - p_{3} - p_{4})^{n-m}} \\
+			&= \binom{m}{k} \left(\dfrac{p_{3}}{p_{3} + p_{4}}\right)^{k} \left(\dfrac{p_{4}}{p_{3} + p_{4}}\right)^{m-k}.
+		\end{align*}
+		This is the PMF of a $\text{Bin}(m, p_{3}/(p_{3}+p_{4}))$ distribution.
+		\item With $n = 100$, $p_{3} = 0.2$, $p_{4} = 0.1$, $m = 30$, $k = 18$:
+		\begin{align*}
+			P(X_{3} = 18 \mid X_{3} + X_{4} = 30) &= \binom{30}{18} \left(\dfrac{0.2}{0.3}\right)^{18} \left(\dfrac{0.1}{0.3}\right)^{12} \\
+			&= 86\,493\,225 \cdot (2/3)^{18} \cdot (1/3)^{12} \\
+			&\approx 86\,493\,225 \cdot 6.76 \times 10^{-4} \cdot 1.87 \times 10^{-6} \\
+			&\approx 0.1094.
+		\end{align*}
+		Therefore, given that $X_{3} + X_{4} = 30$, the probability that $X_{3} = 18$ and $X_{4} = 12$ is approximately $10.94\%$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.8.10}
+	For Problem \ref{prob:3.8.10}:
+	\begin{enumerate}
+		\item Under $H_{0}$ of independence, the joint probabilities factor: $p_{ij} = p_{i}^{\text{brand}} \cdot p_{j}^{\text{age}}$. The cells follow a multinomial distribution with $n = 500$ trials and $6$ categories (3 brands $\times$ 2 age groups). The null hypothesis is evaluated by comparing observed counts $X_{ij}$ with expected values $E_{ij} = 500 p_{ij}$.
+		\item We compute the expected values of the 6 cells using the given marginals:
+		\begin{align*}
+			E_{11} = 500 \cdot 0.4 \cdot 0.6 = 120, \quad E_{12} &= 500 \cdot 0.4 \cdot 0.4 = 80, \\
+			E_{21} = 500 \cdot 0.35 \cdot 0.6 = 105, \quad E_{22} &= 500 \cdot 0.35 \cdot 0.4 = 70, \\
+			E_{31} = 500 \cdot 0.25 \cdot 0.6 = 75, \quad E_{32} &= 500 \cdot 0.25 \cdot 0.4 = 50.
+		\end{align*}
+		\item Conditioned on the row marginals $\bm{X}_{i \bullet} = (X_{i1} + X_{i2})$ and column marginals $\bm{X}_{\bullet j} = (X_{1j} + X_{2j} + X_{3j})$, the joint distribution of the cells is the \emph{conditional multinomial} (or multivariate hypergeometric distribution): each cell $X_{ij}$ given the marginals follows a hypergeometric distribution with population parameters equal to the observed marginals. This is the multivariate analogue of Fisher's exact test for $r \times c$ tables. \qedhere
+	\end{enumerate}
+\end{solucion}
+
+% ==============================================================================
+% SECTION 03.09: NORMAL DISTRIBUTION AND CONTINUOUS APPROXIMATION OF DISCRETE VARIABLES
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 03.09}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:3.9.1}
+	A continuous random variable $X$ has a Normal distribution with mean $\mu = 100$ and standard deviation $\sigma = 15$. Formally specify the probability density function (PDF):
+	\begin{enumerate}
+		\item Write the analytical expression of the PDF $f(x)$ and identify each of its components.
+		\item Compute the probabilities $P(X \le 115)$ and $P(X \ge 85)$ using standardization to the $Z$ score and the standard Normal CDF.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.2}
+	Let $X \sim N(\mu, \sigma^{2})$ with $\mu = 50$ and $\sigma = 10$. Explicitly compute the following probabilities using the standardization $Z = (X - \mu)/\sigma$ and the standard Normal cumulative distribution function $\Phi(\cdot)$:
+	\begin{enumerate}
+		\item $P(40 \le X \le 60)$
+		\item $P(X \ge 70)$
+		\item $P(X \le 35)$
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.3}
+	In an industrial process, the diameter of a metal shaft follows a Normal distribution with $\mu = 2.50\,\text{cm}$ and $\sigma = 0.05\,\text{cm}$. Technical specifications require the diameter to lie in the interval $[2.42, 2.58]\,\text{cm}$. Compute the probability that a randomly selected shaft meets the specifications.
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:3.9.4}
+	On a standardized exam with $n = 200$ multiple-choice questions each having 4 options, suppose a student answers at random with probability $p = 0.25$ of getting a question right. Let $X$ be the number of correct answers. Use the Normal approximation to the Binomial (De Moivre-Laplace) with Yates' continuity correction to compute:
+	\begin{enumerate}
+		\item $P(X \ge 60)$ (Normal approximation)
+		\item Compare with the exact Binomial value.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.5}
+	A company receives an average of $\lambda = 100$ claims per day under a Poisson process. Use the Normal approximation $X \sim N(\lambda, \lambda)$ to compute:
+	\begin{enumerate}
+		\item $P(85 \le X \le 115)$ (range centered on the mean $\pm 1.5\sigma$).
+		\item $P(X \ge 120)$ (right tail).
+		\item Verify the operational rule $\lambda \ge 30$ for the Normal approximation to be reliable.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.6}
+	In a quality control process, lots of $n = 500$ components are inspected with a defect rate of $p = 0.04$. Use the Normal approximation to the Binomial with Yates' continuity correction to compute the probability of accepting the lot when the acceptance criterion is $\le 25$ defective units.
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:3.9.7}
+	Let $X \sim \text{Bin}(n, p)$ with mean $\mu = np$ and variance $\sigma^{2} = np(1-p)$. Show that the standardized variable $Z_{n} = \dfrac{X - np}{\sqrt{np(1-p)}}$ converges in distribution to the standard Normal $N(0, 1)$ as $n \to \infty$ (De Moivre-Laplace Theorem).
+	\begin{enumerate}
+		\item Write the moment generating function (MGF) of $X$ in terms of independent Bernoulli trials.
+		\item Derive the MGF of $Z_{n}$ and take the limit as $n \to \infty$, showing that it converges to $M_{Z}(t) = e^{t^{2}/2}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.8}
+	Show that if $X \sim N(\mu, \sigma^{2})$, its moment generating function (MGF) is $M_{X}(t) = \exp\left(\mu t + \dfrac{\sigma^{2} t^{2}}{2}\right)$, starting directly from the definition $M_{X}(t) = \int_{-\infty}^{\infty} e^{tx} f(x)\,dx$. Verify that this MGF implies $\E[X] = \mu$ and $\Var(X) = \sigma^{2}$.
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:3.9.9}
+	Let $X_{1}, X_{2}, \dots, X_{n}$ be a random sample of i.i.d. Poisson($\lambda$) variables. By the Central Limit Theorem, the sum $S_{n} = \sum_{i=1}^{n} X_{i}$ converges in distribution to $N(n\lambda, n\lambda)$ as $n \to \infty$. For $n = 100$ and $\lambda = 2$:
+	\begin{enumerate}
+		\item Compute the exact probability $P(S_{100} \le 220)$ using the Poisson distribution of the sum ($S_{100} \sim \text{Pois}(200)$).
+		\item Compute the Normal approximation $P(S_{100} \le 220) \approx \Phi\left(\dfrac{220.5 - 200}{\sqrt{200}}\right)$ with continuity correction.
+		\item Determine the absolute error between both approximations.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.9.10}
+	Consider $X_{1}, X_{2}, \dots, X_{n}$ i.i.d. random variables with an exponential distribution of parameter $\lambda = 1$ (mean $1$, variance $1$). Show that the standardized sum:
+	$$Z_{n} = \dfrac{\sum_{i=1}^{n} X_{i} - n}{\sqrt{n}}$$
+	converges in distribution to $N(0, 1)$ as $n \to \infty$. For $n = 50$:
+	\begin{enumerate}
+		\item Compute $P(45 \le \sum X_{i} \le 55)$ using the Normal approximation.
+		\item Compute the exact probability of the sum of 50 exponential variables (Gamma distribution with shape parameter $n$ and rate $1$).
+		\item Compare and comment on the quality of the approximation.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Hints for the Problems --- Section 03.09}
+
+\begin{sugerencia}
+	\label{sug:3.9.1}
+	For Problem \ref{prob:3.9.1}, the Normal PDF is $f(x) = \dfrac{1}{\sigma\sqrt{2\pi}} \exp\left(-\dfrac{(x-\mu)^{2}}{2\sigma^{2}}\right)$. Standardize: $Z = (X - 100)/15$. Use `scipy.stats.norm.cdf` to evaluate $\Phi(\cdot)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.2}
+	For Problem \ref{prob:3.9.2}, use the standardization: $P(40 \le X \le 60) = \Phi((60-50)/10) - \Phi((40-50)/10) = \Phi(1) - \Phi(-1) = 2\Phi(1) - 1$ by symmetry.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.3}
+	For Problem \ref{prob:3.9.3}, the specifications $[2.42, 2.58]$ correspond to $\pm 0.08\,\text{cm}$ relative to the mean, that is, $\pm 1.6\sigma$. Use the Normal CDF: $P = \Phi(1.6) - \Phi(-1.6) = 2\Phi(1.6) - 1 \approx 0.8904$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.4}
+	For Problem \ref{prob:3.9.4}, with $n = 200$, $p = 0.25$: $\mu = 50$, $\sigma = \sqrt{200 \cdot 0.25 \cdot 0.75} = \sqrt{37.5} \approx 6.124$. Yates' correction for $P(X \ge 60)$ uses $P(X \ge 60) \approx P(Y \ge 59.5)$ where $Y \sim N(50, 6.124^{2})$. Standardize: $Z = (59.5 - 50)/6.124 \approx 1.551$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.5}
+	For Problem \ref{prob:3.9.5}, the Normal approximation requires $\lambda \ge 30$; here $\lambda = 100$ satisfies this. With $\mu = 100$, $\sigma = \sqrt{100} = 10$: $P(85 \le X \le 115) = \Phi(1.5) - \Phi(-1.5) = 2\Phi(1.5) - 1 \approx 0.866$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.6}
+	For Problem \ref{prob:3.9.6}, with $n = 500$, $p = 0.04$: $\mu = 20$, $\sigma = \sqrt{500 \cdot 0.04 \cdot 0.96} = \sqrt{19.2} \approx 4.382$. The acceptance probability is $P(X \le 25) \approx \Phi((25.5 - 20)/4.382) = \Phi(1.255) \approx 0.895$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.7}
+	For Problem \ref{prob:3.9.7}, the MGF of $X = \sum_{i=1}^{n} I_{i}$ with $I_{i} \sim \text{Bern}(p)$ is $M_{X}(t) = (1 - p + p e^{t})^{n}$. For $Z_{n} = (X - np)/\sqrt{np(1-p)}$, derive $M_{Z_{n}}(t) = e^{-npt/\sigma} (1 - p + p e^{t/\sigma})^{n}$ and use the fact that $\log(1 - p + p e^{t/\sigma}) = \log(1 + p(e^{t/\sigma} - 1)) \to pt/\sigma + (p - p^{2})t^{2}/(2\sigma^{2}) + o(1/n)$ as $n \to \infty$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.8}
+	For Problem \ref{prob:3.9.8}, complete the square in the exponent: $tx - (x-\mu)^{2}/(2\sigma^{2}) = -\dfrac{(x - (\mu + \sigma^{2}t))^{2}}{2\sigma^{2}} + \mu t + \sigma^{2}t^{2}/2$. The integral is the product of the Normal PDF with mean $\mu + \sigma^{2}t$ and the constant $e^{\mu t + \sigma^{2}t^{2}/2}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.9}
+	For Problem \ref{prob:3.9.9}, with $n = 100$ and $\lambda = 2$: the sum $S_{100} \sim \text{Pois}(200)$. The Normal approximation with $\mu = 200$, $\sigma = \sqrt{200} \approx 14.142$. The continuity correction for $P(S_{100} \le 220)$ is $P(Y \le 220.5)$ with $Y \sim N(200, 200)$: $\Phi(20.5/\sqrt{200}) = \Phi(1.449) \approx 0.926$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.9.10}
+	For Problem \ref{prob:3.9.10}, with $n = 50$ and $\lambda = 1$: the sum $\sum_{i=1}^{50} X_{i} \sim \text{Gamma}(50, 1)$ with mean $50$ and variance $50$. The Normal approximation gives $P(45 \le S_{50} \le 55) \approx \Phi(5/\sqrt{50}) - \Phi(-5/\sqrt{50}) = 2\Phi(0.707) - 1 \approx 0.520$. For the exact value, use `scipy.stats.gamma.cdf(55, a=50) - scipy.stats.gamma.cdf(45, a=50)`.
+\end{sugerencia}
+
+\subsection*{Solutions to the Problems --- Section 03.09}
+
+\begin{solucion}
+	\label{sol:3.9.1}
+	For Problem \ref{prob:3.9.1}:
+	\begin{enumerate}
+		\item The PDF of the Normal distribution with parameters $\mu$ and $\sigma$ is:
+		\begin{align*}
+			f(x) = \dfrac{1}{\sigma\sqrt{2\pi}} \exp\left(-\dfrac{(x - \mu)^{2}}{2\sigma^{2}}\right), \quad x \in \mathbb{R}.
+		\end{align*}
+		With $\mu = 100$ and $\sigma = 15$: $f(x) = \dfrac{1}{15\sqrt{2\pi}} \exp\left(-\dfrac{(x-100)^{2}}{450}\right)$. The factor $1/(\sigma\sqrt{2\pi}) \approx 0.0266$ normalizes the integral to $1$; the exponential term concentrates the mass near $x = \mu = 100$.
+		\item We standardize: $Z = (X - 100)/15$. Then:
+		\begin{align*}
+			P(X \le 115) &= P\left(Z \le \dfrac{115 - 100}{15}\right) = P(Z \le 1) = \Phi(1) \approx 0.8413, \\
+			P(X \ge 85) &= P\left(Z \ge \dfrac{85 - 100}{15}\right) = P(Z \ge -1) = 1 - \Phi(-1) = \Phi(1) \approx 0.8413.
+		\end{align*}
+		By symmetry of the standard Normal, $P(X \le 115) = P(X \ge 85) \approx 0.8413$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.2}
+	For Problem \ref{prob:3.9.2} with $\mu = 50$ and $\sigma = 10$:
+	\begin{enumerate}
+		\item $P(40 \le X \le 60) = P\left(\dfrac{40-50}{10} \le Z \le \dfrac{60-50}{10}\right) = P(-1 \le Z \le 1) = \Phi(1) - \Phi(-1) = 2\Phi(1) - 1 \approx 0.6827$.
+		\item $P(X \ge 70) = P\left(Z \ge \dfrac{70-50}{10}\right) = P(Z \ge 2) = 1 - \Phi(2) \approx 1 - 0.9772 = 0.0228$.
+		\item $P(X \le 35) = P\left(Z \le \dfrac{35-50}{10}\right) = P(Z \le -1.5) = 1 - \Phi(1.5) \approx 1 - 0.9332 = 0.0668$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.3}
+	For Problem \ref{prob:3.9.3}, the technical specifications are $\mu \pm 0.08\,\text{cm}$, where $\sigma = 0.05\,\text{cm}$. The tolerance interval is $\pm 0.08/0.05 = \pm 1.6$ standard deviations. We standardize:
+	\begin{align*}
+		P(2.42 \le X \le 2.58) &= P\left(\dfrac{2.42 - 2.50}{0.05} \le Z \le \dfrac{2.58 - 2.50}{0.05}\right) \\
+		&= P(-1.6 \le Z \le 1.6) = \Phi(1.6) - \Phi(-1.6) = 2\Phi(1.6) - 1 \\
+		&\approx 2(0.9452) - 1 = 0.8904.
+	\end{align*}
+	Therefore, the probability that a shaft meets the specifications is approximately $89.04\%$.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.4}
+	For Problem \ref{prob:3.9.4} with $n = 200$, $p = 0.25$: the mean and standard deviation of the Binomial are $\mu = np = 50$ and $\sigma = \sqrt{np(1-p)} = \sqrt{200 \cdot 0.25 \cdot 0.75} = \sqrt{37.5} \approx 6.124$. The operational rules $np = 50 \ge 5$ and $n(1-p) = 150 \ge 5$ are satisfied.
+	\begin{enumerate}
+		\item With Yates' continuity correction, $P(X \ge 60) \approx P(Y \ge 59.5)$ where $Y \sim N(50, 6.124^{2})$:
+		\begin{align*}
+			P(X \ge 60) &\approx P\left(Z \ge \dfrac{59.5 - 50}{6.124}\right) = P(Z \ge 1.551) = 1 - \Phi(1.551) \approx 0.0604.
+		\end{align*}
+		\item The exact value using the Binomial distribution is:
+		\begin{align*}
+			P(X \ge 60) = 1 - \text{stats.binom.cdf}(59, 200, 0.25) \approx 0.0625.
+		\end{align*}
+		The absolute error is $\abs{0.0604 - 0.0625} \approx 0.0021 < 3 \times 10^{-3}$, confirming the accuracy of the approximation with Yates' correction.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.5}
+	For Problem \ref{prob:3.9.5}, the Normal approximation requires $\lambda \ge 30$, which is satisfied with $\lambda = 100$. We standardize $Z = (X - 100)/\sqrt{100} = (X - 100)/10$:
+	\begin{enumerate}
+		\item $P(85 \le X \le 115) = P(-1.5 \le Z \le 1.5) = 2\Phi(1.5) - 1 \approx 2(0.9332) - 1 = 0.8664$.
+		\item $P(X \ge 120) = P(Z \ge 2) = 1 - \Phi(2) \approx 1 - 0.9772 = 0.0228$.
+		\item With $\lambda = 100 \ge 30$, the approximation is reliable. The operational rule $\lambda \ge 30$ ensures that the skewness of the Poisson is negligible relative to the Normal bell curve.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.6}
+	For Problem \ref{prob:3.9.6} with $n = 500$ and $p = 0.04$: the mean and standard deviation are $\mu = 20$ and $\sigma = \sqrt{500 \cdot 0.04 \cdot 0.96} = \sqrt{19.2} \approx 4.382$. We verify the operational rules: $np = 20 \ge 5$ and $n(1-p) = 480 \ge 5$.
+	\begin{align*}
+		P(X \le 25) &\approx P\left(Z \le \dfrac{25.5 - 20}{4.382}\right) = P(Z \le 1.255) = \Phi(1.255) \approx 0.8954.
+	\end{align*}
+	The lot acceptance probability is approximately $89.54\%$.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.7}
+	For Problem \ref{prob:3.9.7}:
+	\begin{enumerate}
+		\item The MGF of the Binomial $X = \sum_{i=1}^{n} I_{i}$ with $I_{i} \sim \text{Bern}(p)$ independent is:
+		\begin{align*}
+			M_{X}(t) = (1 - p + p e^{t})^{n}.
+		\end{align*}
+		\item For $Z_{n} = (X - np)/\sqrt{np(1-p)} = (X - np)/\sigma_{n}$ with $\sigma_{n} = \sqrt{np(1-p)}$:
+		\begin{align*}
+			M_{Z_{n}}(t) = e^{-npt/\sigma_{n}} (1 - p + p e^{t/\sigma_{n}})^{n}.
+		\end{align*}
+		Taking the logarithm and using the Taylor expansion $\log(1 + x) = x - x^{2}/2 + O(x^{3})$ for small $x$:
+		\begin{align*}
+			\log(1 - p + p e^{t/\sigma_{n}}) &= \log(1 + p(e^{t/\sigma_{n}} - 1)) \\
+			&= p(e^{t/\sigma_{n}} - 1) - \dfrac{p^{2}(e^{t/\sigma_{n}} - 1)^{2}}{2} + O(n^{-3}).
+		\end{align*}
+		With $e^{t/\sigma_{n}} - 1 = t/\sigma_{n} + t^{2}/(2\sigma_{n}^{2}) + O(n^{-3/2})$:
+		\begin{align*}
+			\log(1 - p + p e^{t/\sigma_{n}}) &= \dfrac{pt}{\sigma_{n}} + \dfrac{pt^{2}}{2\sigma_{n}^{2}} - \dfrac{p^{2}t^{2}}{2\sigma_{n}^{2}} + O(n^{-3/2}) \\
+			&= \dfrac{pt}{\sigma_{n}} + \dfrac{p(1-p)t^{2}}{2\sigma_{n}^{2}} + O(n^{-3/2}).
+		\end{align*}
+		Multiplying by $n$ and adding the centering term $-npt/\sigma_{n}$:
+		\begin{align*}
+			n \log(1 - p + p e^{t/\sigma_{n}}) - \dfrac{npt}{\sigma_{n}} &= \dfrac{np(1-p)t^{2}}{2\sigma_{n}^{2}} = \dfrac{t^{2}}{2}.
+		\end{align*}
+		Therefore, $\lim_{n \to \infty} M_{Z_{n}}(t) = e^{t^{2}/2}$, which is the MGF of $N(0, 1)$. By Lévy's Continuity Theorem, $Z_{n} \xrightarrow{d} N(0, 1)$. \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.8}
+	For Problem \ref{prob:3.9.8}, we start from the definition:
+	\begin{align*}
+		M_{X}(t) &= \int_{-\infty}^{\infty} e^{tx} \cdot \dfrac{1}{\sigma\sqrt{2\pi}} \exp\left(-\dfrac{(x-\mu)^{2}}{2\sigma^{2}}\right)\,dx.
+		\end{align*}
+		We complete the square in the exponent:
+		\begin{align*}
+			tx - \dfrac{(x-\mu)^{2}}{2\sigma^{2}} &= -\dfrac{x^{2} - 2\mu x + \mu^{2} - 2\sigma^{2}tx}{2\sigma^{2}} \\
+			&= -\dfrac{(x - (\mu + \sigma^{2}t))^{2}}{2\sigma^{2}} + \mu t + \dfrac{\sigma^{2}t^{2}}{2}.
+		\end{align*}
+		Substituting:
+		\begin{align*}
+			M_{X}(t) &= \exp\left(\mu t + \dfrac{\sigma^{2}t^{2}}{2}\right) \cdot \int_{-\infty}^{\infty} \dfrac{1}{\sigma\sqrt{2\pi}} \exp\left(-\dfrac{(x - (\mu + \sigma^{2}t))^{2}}{2\sigma^{2}}\right)\,dx.
+		\end{align*}
+		The integral is exactly $1$ because the integrand is the PDF of $N(\mu + \sigma^{2}t, \sigma^{2})$. Therefore:
+		\begin{align*}
+			M_{X}(t) = \exp\left(\mu t + \dfrac{\sigma^{2}t^{2}}{2}\right).
+		\end{align*}
+		For the moments, we differentiate with respect to $t$:
+		\begin{align*}
+			\E[X] &= M_{X}'(0) = \left(\mu + \sigma^{2}t\right) \exp\left(\mu t + \sigma^{2}t^{2}/2\right)\Big|_{t=0} = \mu, \\
+			\E[X^{2}] &= M_{X}''(0) = \left[(\mu + \sigma^{2}t)^{2} + \sigma^{2}\right] \exp\left(\mu t + \sigma^{2}t^{2}/2\right)\Big|_{t=0} = \mu^{2} + \sigma^{2}.
+		\end{align*}
+		By König-Huygens: $\Var(X) = \E[X^{2}] - (\E[X])^{2} = (\mu^{2} + \sigma^{2}) - \mu^{2} = \sigma^{2}$. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.9}
+	For Problem \ref{prob:3.9.9} with $n = 100$ and $\lambda = 2$:
+	\begin{enumerate}
+		\item The sum $S_{100} = \sum_{i=1}^{100} X_{i} \sim \text{Pois}(n\lambda) = \text{Pois}(200)$. The exact probability is:
+		\begin{align*}
+			P(S_{100} \le 220) = \text{stats.poisson.cdf}(220, mu=200) \approx 0.9281.
+		\end{align*}
+		\item The Normal approximation with continuity correction uses $S_{100} \approx N(200, 200)$ with $\sigma = \sqrt{200} \approx 14.142$:
+		\begin{align*}
+			P(S_{100} \le 220) &\approx \Phi\left(\dfrac{220.5 - 200}{\sqrt{200}}\right) = \Phi\left(\dfrac{20.5}{14.142}\right) = \Phi(1.450) \approx 0.9265.
+		\end{align*}
+		\item The absolute error is $\abs{0.9281 - 0.9265} \approx 0.0016$. The Normal approximation is excellent because the Poisson sum satisfies the operational rule $n\lambda = 200 \ge 30$, which ensures that the skewness of the original Poisson is smoothed out by the sum of 100 variables.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.9.10}
+	For Problem \ref{prob:3.9.10} with $X_{i} \sim \text{Exp}(1)$ i.i.d. and $n = 50$:
+	\begin{enumerate}
+		\item The sum $S_{50} = \sum_{i=1}^{50} X_{i} \sim \text{Gamma}(\alpha = 50, \beta = 1)$ with mean $50$ and variance $50$. The Normal approximation gives:
+		\begin{align*}
+			P(45 \le S_{50} \le 55) &\approx \Phi\left(\dfrac{55 - 50}{\sqrt{50}}\right) - \Phi\left(\dfrac{45 - 50}{\sqrt{50}}\right) \\
+			&= \Phi(0.707) - \Phi(-0.707) = 2\Phi(0.707) - 1 \approx 0.520.
+		\end{align*}
+		\item The exact probability using the Gamma CDF is:
+		\begin{align*}
+			P(45 \le S_{50} \le 55) &= \text{stats.gamma.cdf}(55, a=50) - \text{stats.gamma.cdf}(45, a=50) \\
+			&\approx 0.7678 - 0.2468 = 0.5210.
+		\end{align*}
+		\item The difference between the Normal approximation ($0.5204$) and the exact value ($0.5210$) is $\abs{0.5204 - 0.5210} = 0.0006$ ($0.1\%$ relative), confirming the validity of the CLT for $n = 50$ in the exponential family. The quality of the approximation improves asymptotically as $n \to \infty$. \qedhere
+	\end{enumerate}
+\end{solucion}
+
+% ==============================================================================
+% SECTION 03.10: DISCRETE DISTRIBUTIONS IN DATA SCIENCE AND PRACTICAL CASES
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 03.10}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:3.10.1}
+	A web analytics team monitors the number of clicks received by $n = 100$ advertising banners in one hour. The observed data have sample mean $\bar{x} = 4.2$ and sample variance $s^{2} = 8.7$.
+	\begin{enumerate}
+		\item Compute the maximum likelihood estimator (MLE) $\hat{\lambda}$ of the Poisson parameter under the assumption of equidispersion.
+		\item Compute the dispersion ratio $D = s^{2}/\bar{x}$ and interpret whether the data exhibit overdispersion, underdispersion, or equidispersion.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.2}
+	In a customer churn study for a telecommunications company, the monthly number of cancellations is modeled with a Poisson distribution. For 12 months of data, the MLE of the parameter is $\hat{\lambda} = 47.3$ cancellations/month.
+	\begin{enumerate}
+		\item Compute a $95\%$ confidence interval for the Poisson $\lambda$ using the Normal approximation $\hat{\lambda} \pm z_{0.025}\sqrt{\hat{\lambda}}$.
+		\item Interpret the interval and discuss whether the Normal approximation is reliable with $\hat{\lambda} = 47.3$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.3}
+	Consider a dataset of $n = 500$ customers with monthly transaction counts (synthetic data). It is observed that $\bar{x} = 3.2$ and $s^{2} = 12.5$. Is it reasonable to model these data with a Poisson distribution? Justify your answer using the dispersion ratio and propose an alternative if necessary.
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:3.10.4}
+	The following defect counts per day are observed over 30 days of production: $\{2, 3, 5, 4, 6, 3, 4, 5, 7, 4, 3, 2, 5, 6, 4, 3, 4, 5, 6, 3, 4, 5, 4, 6, 3, 5, 4, 7, 3, 4\}$.
+	\begin{enumerate}
+		\item Compute the Poisson MLE $\hat{\lambda}$ for this dataset.
+		\item Compute the negative log-likelihood $-\log L(\hat{\lambda})$.
+		\item Perform a bootstrap simulation with $10{,}000$ samples to estimate the standard error of $\hat{\lambda}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.5}
+	A streaming platform analyzes the number of views per user in one day. 200 observations are taken, yielding $\bar{x} = 8.5$ and $s^{2} = 9.8$. Fit a Poisson model and a Negative Binomial model to these data using MLE:
+	\begin{enumerate}
+		\item Report the Poisson MLE $\hat{\lambda} = \bar{x}$ and the Negative Binomial MLEs ($\hat{r}, \hat{p}$).
+		\item Compute the AIC and BIC criteria for both models.
+		\item Decide which model is preferable according to the parsimony principle.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.6}
+	In a digital marketing A/B experiment, the control group has 1000 users with 50 conversions (rate $5\%$) and the treatment group has 1000 users with 75 conversions (rate $7.5\%$). Construct $95\%$ confidence intervals for the difference in proportions $p_{\text{trat}} - p_{\text{ctrl}}$ using the Wald method and determine whether the difference is statistically significant.
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:3.10.7}
+	Consider two candidate models for count data: (a) Poisson($\lambda$) with one parameter, and (b) Negative Binomial with two parameters $(r, p)$. Show analytically that the Negative Binomial collapses to the Poisson in the limit $r \to \infty$ with $rp = \lambda$ fixed, and discuss the implications for the model selection problem.
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.8}
+	Let $L_{0}(\theta)$ and $L_{1}(\theta)$ be the likelihood functions of a restricted model (with $k_{0}$ parameters) and a full model (with $k_{1} > k_{0}$ parameters), respectively. Define the likelihood ratio statistic:
+	\begin{align*}
+		\Lambda = -2(\log L_{0}(\hat{\theta}_{0}) - \log L_{1}(\hat{\theta}_{1})).
+	\end{align*}
+	\begin{enumerate}
+		\item Show that under $H_{0}$ (the restricted model is correct), $\Lambda \xrightarrow{d} \chi^{2}_{k_{1} - k_{0}}$ as $n \to \infty$ (Wilks' Theorem).
+		\item Apply this result to construct an overdispersion test: $H_{0}$: Poisson vs. $H_{1}$: Negative Binomial.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:3.10.9}
+	A reliability engineer analyzes the time to failure of 100 electronic components. The data follow an exponential distribution with unknown rate $\lambda$. Under the exponential model, the MLE is $\hat{\lambda} = 1/\bar{x}$, where $\bar{x}$ is the sample mean of the failure times.
+	\begin{enumerate}
+		\item Show that the exponential MLE is asymptotically unbiased and compute its asymptotic variance using the Fisher information.
+		\item Construct a $95\%$ confidence interval for $\lambda$ based on the asymptotic Normal distribution of the MLE.
+		\item If the real data show overdispersion, propose an alternative model and describe how the inference changes.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:3.10.10}
+	An insurance company detects that the number of claims per policyholder in a year has an empirical distribution with mean $\bar{x} = 1.2$ and variance $s^{2} = 3.4$. Management suspects that the excess variance is due to unobserved heterogeneity among policyholders (each policyholder has their own rate $\lambda_{i} \sim \text{Gamma}(\alpha, \beta)$).
+	\begin{enumerate}
+		\item Show that, marginally (integrating over $\lambda_{i}$), the number of claims follows a Negative Binomial distribution.
+		\item Estimate the parameters $(r, p)$ of the Negative Binomial using the method of moments: $\hat{r} = \bar{x}^{2}/(s^{2} - \bar{x})$ and $\hat{p} = \bar{x}/s^{2}$.
+		\item Compare with the Poisson model via the likelihood ratio test and conclude whether the unobserved heterogeneity is statistically significant.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Hints for the Problems --- Section 03.10}
+
+\begin{sugerencia}
+	\label{sug:3.10.1}
+	For Problem \ref{prob:3.10.1}, the Poisson MLE is $\hat{\lambda} = \bar{x} = 4.2$. The dispersion ratio is $D = s^{2}/\bar{x} = 8.7/4.2 \approx 2.07$. Since $D \gg 1$, the data exhibit \emph{overdispersion} and the Poisson is not adequate; a Negative Binomial or a Poisson model with random effects is recommended.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.2}
+	For Problem \ref{prob:3.10.2}, the $95\%$ confidence interval is $\hat{\lambda} \pm z_{0.025}\sqrt{\hat{\lambda}} = 47.3 \pm 1.96 \cdot \sqrt{47.3} = 47.3 \pm 13.58 = [33.72, 60.88]$. The Normal approximation is reliable because $\hat{\lambda} = 47.3 \ge 30$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.3}
+	For Problem \ref{prob:3.10.3}, the dispersion ratio is $D = 12.5/3.2 \approx 3.91$. Since $D \gg 1$, there is \emph{strong overdispersion}. The alternative is a Negative Binomial, which introduces an additional parameter to model the extra variability.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.4}
+	For Problem \ref{prob:3.10.4}, the MLE is $\hat{\lambda} = \bar{x} = \dfrac{1}{30}\sum_{i=1}^{30} x_{i}$. The negative log-likelihood is $-\ell(\hat{\lambda}) = -\sum_{i=1}^{30}\log P(X_{i} = x_{i} \mid \lambda) = -n\hat{\lambda} + \sum x_{i} \log \hat{\lambda} - \sum \log x_{i}!$. For the bootstrap, use `np.random.choice` with replacement over the 30 data points.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.5}
+	For Problem \ref{prob:3.10.5}, use `scipy.stats.fit` or a manual maximum likelihood fit. For the Negative Binomial, the MLEs satisfy $\hat{r} = \bar{x}^{2}/(s^{2} - \bar{x}) = 72.25/1.3 \approx 55.6$ and $\hat{p} = \bar{x}/(s^{2}) = 8.5/9.8 \approx 0.867$. Compare AIC $= 2k - 2\ell$ and BIC $= k \log n - 2\ell$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.6}
+	For Problem \ref{prob:3.10.6}, the difference in proportions is $\hat{p}_{\text{trat}} - \hat{p}_{\text{ctrl}} = 0.075 - 0.05 = 0.025$. The pooled standard error is $\sqrt{\hat{p}(1-\hat{p})(1/n_{1} + 1/n_{2})}$ with $\hat{p} = (50 + 75)/2000 = 0.0625$. The statistic $Z = 0.025/0.0077 \approx 3.25$, significant at the $0.001$ level.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.7}
+	For Problem \ref{prob:3.10.7}, the PMF of the Negative Binomial is $P(X = k) = \binom{k + r - 1}{k} p^{r}(1-p)^{k}$. With the change $p = r/(r + \lambda)$ and $\lambda = r(1-p)/p$, take the limit $r \to \infty$ with $\lambda$ fixed: $\binom{k+r-1}{k} p^{r} (1-p)^{k} \to \dfrac{e^{-\lambda} \lambda^{k}}{k!}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.8}
+	For Problem \ref{prob:3.10.8}, use the Taylor expansion of $\log L_{1}(\theta)$ around $\hat{\theta}_{1}$. Under $H_{0}$, the restricted MLE $\hat{\theta}_{0}$ is close to $\hat{\theta}_{1}$, and the difference in log-likelihoods is approximately $\frac{1}{2}(\hat{\theta}_{1} - \hat{\theta}_{0})^{T} I(\hat{\theta}_{1}) (\hat{\theta}_{1} - \hat{\theta}_{0})$, which has a $\chi^{2}_{k_{1} - k_{0}}$ distribution when the MLEs are consistent.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.9}
+	For Problem \ref{prob:3.10.9}, the exponential log-likelihood is $\ell(\lambda) = n\log \lambda - \lambda \sum x_{i}$. The derivative is $\ell'(\lambda) = n/\lambda - \sum x_{i}$, which set to zero gives $\hat{\lambda} = n/\sum x_{i} = 1/\bar{x}$. The Fisher information is $I(\lambda) = n/\lambda^{2}$, so $\Var(\hat{\lambda}) \approx \lambda^{2}/n$. The $95\%$ CI is $\hat{\lambda} \pm 1.96 \cdot \hat{\lambda}/\sqrt{n}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:3.10.10}
+	For Problem \ref{prob:3.10.10}, the marginal over $\lambda_{i}$ gives a Poisson-Gamma mixture that is the Negative Binomial. By the method of moments: $\hat{r} = \bar{x}^{2}/(s^{2} - \bar{x}) = 1.44/2.2 \approx 0.655$ and $\hat{p} = 1.2/3.4 \approx 0.353$. Compare with the Poisson model via a likelihood ratio test.
+\end{sugerencia}
+
+\subsection*{Solutions to the Problems --- Section 03.10}
+
+\begin{solucion}
+	\label{sol:3.10.1}
+	For Problem \ref{prob:3.10.1}:
+	\begin{enumerate}
+		\item Under the Poisson assumption, the log-likelihood is $\ell(\lambda) = -n\lambda + (\sum x_{i})\log \lambda - \sum \log x_{i}!$. Differentiating and setting equal to zero: $\hat{\lambda} = \bar{x} = 4.2$.
+		\item The dispersion ratio is:
+		\begin{align*}
+			D = \dfrac{s^{2}}{\bar{x}} = \dfrac{8.7}{4.2} \approx 2.07.
+		\end{align*}
+		Interpretation: since $D \approx 2.07 \gg 1$, the data exhibit significant \emph{overdispersion}. Under the Poisson model, we would expect $D \approx 1$. The empirical variance is more than double the mean, which suggests that the pure Poisson is structurally inadequate. Alternatives: Negative Binomial, Poisson model with random effects, or Poisson regression with robust variance.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.2}
+	For Problem \ref{prob:3.10.2}:
+	\begin{enumerate}
+		\item Under Poisson, the variance of the MLE $\hat{\lambda} = \bar{x}$ is approximately $\lambda/n$ by the CLT. The $95\%$ confidence interval is:
+		\begin{align*}
+			\hat{\lambda} \pm z_{0.025}\sqrt{\hat{\lambda}} = 47.3 \pm 1.96 \cdot \sqrt{47.3} = 47.3 \pm 1.96 \cdot 6.879 = 47.3 \pm 13.48.
+		\end{align*}
+		Therefore, $\text{CI}_{95\%} = [33.82, 60.78]$ cancellations/month.
+		\item The Normal approximation is reliable because $\hat{\lambda} = 47.3 \ge 30$. Under this assumption, we can interpret that with $95\%$ confidence, the true monthly cancellation rate lies between $33.8$ and $60.8$, a range narrow enough for operational planning.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.3}
+	For Problem \ref{prob:3.10.3}, the dispersion ratio is:
+	\begin{align*}
+		D = \dfrac{s^{2}}{\bar{x}} = \dfrac{12.5}{3.2} \approx 3.91.
+	\end{align*}
+	Since $D \approx 3.91 \gg 1$, the data exhibit \emph{strong overdispersion}: the empirical variance is almost four times the mean. The Poisson model is structurally inadequate because it assumes equidispersion. The natural alternative is the \emph{Negative Binomial}, which introduces an additional parameter $r$ to model the extra variability. Under the hierarchical model $\lambda_{i} \sim \text{Gamma}(r, p)$ with $p = r/(r + \mu)$, the marginal variance is $\mu + \mu^{2}/r$, capturing the observed overdispersion.
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.4}
+	For Problem \ref{prob:3.10.4} with the $30$ counts:
+	\begin{enumerate}
+		\item The Poisson MLE is $\hat{\lambda} = \bar{x} = \dfrac{1}{30}\sum x_{i} = \dfrac{131}{30} \approx 4.367$.
+		\item The negative log-likelihood is:
+		\begin{align*}
+			-\ell(\hat{\lambda}) = -n\hat{\lambda} + \sum x_{i} \log \hat{\lambda} - \sum \log x_{i}! \approx 80.45.
+		\end{align*}
+		\item With a bootstrap of $10{,}000$ samples, the empirical standard error is approximately $\text{SE}(\hat{\lambda}) \approx 0.39$, consistent with the asymptotic formula $\sqrt{\hat{\lambda}/n} = \sqrt{4.367/30} \approx 0.381$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.5}
+	For Problem \ref{prob:3.10.5} with $\bar{x} = 8.5$ and $s^{2} = 9.8$:
+	\begin{enumerate}
+		\item For Poisson: $\hat{\lambda} = 8.5$. For Negative Binomial, the method-of-moments MLEs are:
+		\begin{align*}
+			\hat{r} = \dfrac{\bar{x}^{2}}{s^{2} - \bar{x}} = \dfrac{72.25}{1.3} \approx 55.58, \quad \hat{p} = \dfrac{\bar{x}}{s^{2}} = \dfrac{8.5}{9.8} \approx 0.867.
+		\end{align*}
+		\item The AIC and BIC criteria favor the more parsimonious model when the improvement in log-likelihood does not justify the extra parameter. Since $\hat{r} = 55.58$ is very large, the Negative Binomial practically collapses to the Poisson (see Problem 3.10.7). The difference in AIC should be $< 2$, indicating a preference for the Poisson model on parsimony grounds.
+		\item Conclusion: given that the overdispersion is mild ($s^{2}/\bar{x} = 1.15$, barely $> 1$), the Poisson model remains adequate and preferable by parsimony.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.6}
+	For Problem \ref{prob:3.10.6} with $n_{1} = n_{2} = 1000$, $x_{1} = 50$, $x_{2} = 75$:
+	\begin{enumerate}
+		\item The sample proportions are $\hat{p}_{\text{ctrl}} = 0.05$ and $\hat{p}_{\text{trat}} = 0.075$. The pooled proportion is $\hat{p} = 125/2000 = 0.0625$. The Wald standard error is:
+		\begin{align*}
+			\text{SE}(\hat{p}_{\text{trat}} - \hat{p}_{\text{ctrl}}) = \sqrt{\hat{p}(1-\hat{p})\left(\dfrac{1}{n_{1}} + \dfrac{1}{n_{2}}\right)} = \sqrt{0.0625 \cdot 0.9375 \cdot 0.002} \approx 0.0108.
+		\end{align*}
+		\item The $95\%$ confidence interval is:
+		\begin{align*}
+			(\hat{p}_{\text{trat}} - \hat{p}_{\text{ctrl}}) \pm z_{0.025} \cdot \text{SE} = 0.025 \pm 1.96 \cdot 0.0108 = 0.025 \pm 0.0212 = [0.0038, 0.0462].
+		\end{align*}
+		Since the interval excludes $0$, the difference is statistically significant at level $\alpha = 0.05$. The statistic $Z = 0.025/0.0108 \approx 2.31$ has $p$-value $\approx 0.021$, confirming significance.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.7}
+	For Problem \ref{prob:3.10.7}, we start from the PMF of the Negative Binomial:
+	\begin{align*}
+		P(X = k) = \binom{k + r - 1}{k} p^{r} (1-p)^{k}, \quad k = 0, 1, 2, \dots
+	\end{align*}
+	We parametrize in terms of $\lambda = r(1-p)/p$, keeping $\lambda$ fixed and $p = r/(r + \lambda)$. The binomial coefficient:
+	\begin{align*}
+		\binom{k + r - 1}{k} = \dfrac{(k+r-1)!}{k! (r-1)!} = \dfrac{r(r+1)(r+2)\cdots(r+k-1)}{k!}.
+		\end{align*}
+	For large $r$ with $r + j \approx r$ when $j$ is fixed:
+	\begin{align*}
+		\binom{k + r - 1}{k} \approx \dfrac{r^{k}}{k!}.
+	\end{align*}
+	Substituting $p = r/(r + \lambda) \approx 1 - \lambda/r$ as $r \to \infty$, and $1 - p = \lambda/(r + \lambda) \approx \lambda/r$:
+	\begin{align*}
+		P(X = k) &\approx \dfrac{r^{k}}{k!} \cdot \left(1 - \dfrac{\lambda}{r}\right)^{r} \cdot \left(\dfrac{\lambda}{r}\right)^{k} \\
+		&\to \dfrac{1}{k!} \cdot e^{-\lambda} \cdot \lambda^{k} = \dfrac{e^{-\lambda}\lambda^{k}}{k!}.
+	\end{align*}
+	This last limit is the PMF of Poisson($\lambda$). Therefore, the Negative Binomial collapses to the Poisson in the light-tail limit ($r \to \infty$). \emph{Implication:} if the MLE $\hat{r}$ is very large, the data are consistent with Poisson and little is gained by using the more complex model. \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.8}
+	For Problem \ref{prob:3.10.8}:
+	\begin{enumerate}
+		\item Under $H_{0}$, the MLEs $\hat{\theta}_{0}$ (restricted) and $\hat{\theta}_{1}$ (full) are consistent. We expand $\log L_{1}(\theta)$ around $\hat{\theta}_{0}$:
+		\begin{align*}
+			\log L_{1}(\theta) \approx \log L_{1}(\hat{\theta}_{0}) + (\theta - \hat{\theta}_{0})^{T} U(\hat{\theta}_{0}) + \dfrac{1}{2}(\theta - \hat{\theta}_{0})^{T} H(\hat{\theta}_{0}) (\theta - \hat{\theta}_{0}),
+		\end{align*}
+		where $U$ is the score and $H$ is the Hessian. Under $H_{0}$, the score at $\hat{\theta}_{0}$ is zero if $\hat{\theta}_{0}$ also maximizes $L_{1}$. Evaluating at $\hat{\theta}_{1}$ and rearranging:
+		\begin{align*}
+			\Lambda = -2(\log L_{0}(\hat{\theta}_{0}) - \log L_{1}(\hat{\theta}_{1})) \xrightarrow{d} \chi^{2}_{k_{1} - k_{0}} \quad \text{as } n \to \infty.
+		\end{align*}
+		This is Wilks' Theorem (1938). The intuition is that $\Lambda$ measures the ``distance'' between the MLEs in units of Fisher information.
+		\item For the overdispersion test of Poisson vs. Negative Binomial, we compute:
+		\begin{align*}
+			\Lambda = -2(\log L_{\text{Poisson}}(\hat{\lambda}) - \log L_{\text{NB}}(\hat{r}, \hat{p})).
+		\end{align*}
+		Under $H_{0}$ (Poisson is correct), $\Lambda \sim \chi^{2}_{1}$ (the difference is $2 - 1 = 1$ parameter). We reject $H_{0}$ if $\Lambda > \chi^{2}_{1, 0.05} = 3.841$.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.9}
+	For Problem \ref{prob:3.10.9}:
+	\begin{enumerate}
+		\item The exponential log-likelihood is $\ell(\lambda) = n\log \lambda - \lambda \sum x_{i}$. Differentiating: $\ell'(\lambda) = n/\lambda - \sum x_{i} = 0 \implies \hat{\lambda} = 1/\bar{x}$. The Fisher information is $I(\lambda) = -\E[\ell''(\lambda)] = n/\lambda^{2}$, so $\Var(\hat{\lambda}) \approx 1/I(\lambda) = \lambda^{2}/n$. To verify asymptotic unbiasedness, we compute $\E[\hat{\lambda}] = n \cdot \E[1/\sum X_{i}]$. By the CLT for $\sum X_{i} \sim \text{Gamma}(n, \lambda)$ with mean $n/\lambda$ and variance $n/\lambda^{2}$:
+		\begin{align*}
+			\E[\hat{\lambda}] = \E\left[\dfrac{n}{\sum X_{i}}\right] \to \lambda \quad \text{as } n \to \infty
+		\end{align*}
+		by dominated convergence. Therefore, $\hat{\lambda}$ is asymptotically unbiased.
+		\item The $95\%$ confidence interval based on the asymptotic Normal distribution is:
+		\begin{align*}
+			\hat{\lambda} \pm z_{0.025} \cdot \text{SE}(\hat{\lambda}) = \hat{\lambda} \pm 1.96 \cdot \dfrac{\hat{\lambda}}{\sqrt{n}} = \hat{\lambda}\left(1 \pm \dfrac{1.96}{\sqrt{n}}\right).
+		\end{align*}
+		For $n = 100$ and $\hat{\lambda} = 0.01$ (sample mean $\bar{x} = 100$): $\text{CI}_{95\%} = 0.01 \pm 1.96 \cdot 0.001 = [0.0080, 0.0120]$ failures/hour.
+		\item If the data show overdispersion, the pure exponential distribution does not capture the extra variability. Alternatives: Weibull (introduces a shape parameter), Gamma (model with random effect), or log-normal. The inference changes: the variance of $\hat{\lambda}$ is larger, the intervals are wider, and goodness-of-fit tests must account for the overdispersion.
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:3.10.10}
+	For Problem \ref{prob:3.10.10} with $\bar{x} = 1.2$ and $s^{2} = 3.4$:
+	\begin{enumerate}
+		\item Under the hierarchical model: $X_{i} \mid \lambda_{i} \sim \text{Poisson}(\lambda_{i})$ with $\lambda_{i} \sim \text{Gamma}(\alpha, \beta)$, marginally:
+		\begin{align*}
+			P(X_{i} = k) = \int_{0}^{\infty} \dfrac{e^{-\lambda}\lambda^{k}}{k!} \cdot \dfrac{\beta^{\alpha}}{\Gamma(\alpha)}\lambda^{\alpha-1}e^{-\beta\lambda}\,d\lambda = \dfrac{\beta^{\alpha}}{k!\,\Gamma(\alpha)} \int_{0}^{\infty} \lambda^{k+\alpha-1} e^{-(\beta+1)\lambda}\,d\lambda.
+		\end{align*}
+		The integral is the Gamma function: $\Gamma(k + \alpha)/(\beta + 1)^{k+\alpha}$. Using the identity $\Gamma(k + \alpha) = \Gamma(\alpha)(k+r-1)!/(r-1)!$ with $r = \alpha$:
+		\begin{align*}
+			P(X_{i} = k) = \binom{k + r - 1}{k}\left(\dfrac{1}{\beta+1}\right)^{r}\left(\dfrac{\beta}{\beta+1}\right)^{k}.
+		\end{align*}
+		With $p = 1/(\beta+1)$, this is exactly the PMF of the Negative Binomial $(r, p)$.
+		\item By the method of moments:
+		\begin{align*}
+			\hat{r} = \dfrac{\bar{x}^{2}}{s^{2} - \bar{x}} = \dfrac{1.44}{2.2} \approx 0.655, \quad \hat{p} = \dfrac{\bar{x}}{s^{2}} = \dfrac{1.2}{3.4} \approx 0.353.
+		\end{align*}
+		\item The likelihood ratio test (Wilks) compares:
+		\begin{align*}
+			\Lambda = -2(\log L_{\text{Poisson}}(\hat{\lambda}) - \log L_{\text{NB}}(\hat{r}, \hat{p})) \sim \chi^{2}_{1}.
+		\end{align*}
+		Given that the dispersion ratio $s^{2}/\bar{x} = 3.4/1.2 \approx 2.83$ is much greater than $1$, the log-likelihood of the Negative Binomial substantially improves over the Poisson. With typical values for $\hat{r} = 0.655$ and overdispersion of $2.83$, we expect $\Lambda \gg 3.841$, rejecting $H_{0}$ with $p$-value $< 0.001$. Conclusion: the unobserved heterogeneity among policyholders is statistically significant and must be modeled explicitly. \qedhere
+	\end{enumerate}
+\end{solucion}
