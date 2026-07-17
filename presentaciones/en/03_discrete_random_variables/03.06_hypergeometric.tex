@@ -20,15 +20,16 @@
 % SLIDE 02: Roadmap
 \begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
 	\vspace{-0.15cm}
-	\begin{block}{Curricular Structure of Unit 2}
+	\begin{block}{Curricular Structure of Chapter 03}
 		\footnotesize
 		\begin{enumerate}
 			\itemsep=0.03cm
-			\item \textcolor{gray}{Section 03.01 to 03.03: Foundations, PMF, CDF, Expectation, and Variance}
-			\item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions (Sampling with replacement)}
-			\item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions (Waiting times)}
+			\item \textcolor{gray}{Section 03.01: Discrete Probability Mass Functions (PMF and Support)}
+			\item \textcolor{gray}{Section 03.02: Cumulative Distribution Functions (Discrete CDF)}
+			\item \textcolor{gray}{Section 03.03: Mathematical Expectation, Variance, and Moments}
+			\item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions}
+			\item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions}
 			\item \textbf{\textcolor{TecRojo}{Section 03.06: Hypergeometric Distribution}} $\leftarrow$ \emph{Current focus}
-			\item \textcolor{gray}{Section 03.07: Poisson Distribution and Poisson Processes}
 		\end{enumerate}
 	\end{block}
 	\vspace{-0.2cm}
@@ -271,224 +272,159 @@
 	\end{block}
 \end{frame}
 
-% SLIDE 11: Fundamental Tier Exercises I
-\begin{frame}{Fundamental Tier Exercises I --- Problems 3.6.1 and 3.6.2}
-	\vspace{-0.3cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.6.1: Support and Vandermonde}
-				\scriptsize
-				**Statement:** Determine support of $X \sim \text{Hyper}(N, K, n)$ and verify unity probability sum.
-				\vspace{-0.1cm}
-				\begin{exampleblock}{Analytical Solution}
-					Support: $k \le K$ and $k \ge n-(N-K) \implies$
-					$\mathcal{S}_X = \set{\max(0, n-N+K), \dots, \min(n, K)}$.
-					
-					By Vandermonde Identity:
-					$\sum_{k} \comb{K}{k}\comb{N-K}{n-k} = \comb{N}{n} \implies \sum f_X(k) = 1$.
-				\end{exampleblock}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.6.2: Batch Acceptance}
-				\scriptsize
-				**Statement:** Batch $N=30$ ($K=6$ defectives), sample $n=5$. Calculate $P(X \le 1)$.
-				\vspace{-0.1cm}
-				\begin{exampleblock}{Exact Solution}
-					Point probabilities ($k=0, 1$):
-					$P(X=0) = \frac{\comb{6}{0}\comb{24}{5}}{\comb{30}{5}} \approx 0.2983$,
-					$P(X=1) = \frac{\comb{6}{1}\comb{24}{4}}{\comb{30}{5}} \approx 0.4474$.
-					
-					Acceptance: $P(X \le 1) \approx 0.7457$.
-				\end{exampleblock}
-			\end{block}
-		\end{column}
-	\end{columns}
-\end{frame}
-
-% SLIDE 12: Fundamental Tier Exercises II
-\begin{frame}{Fundamental Tier Exercises II --- Problem 3.6.3}
-	\vspace{-0.15cm}
-	\begin{block}{Problem 3.6.3: Unconditional Linearity of Expectation}
-		\footnotesize
-		**Statement:** Let $X = \sum_{i=1}^n I_i$ be the success count in $n$ draws without replacement ($I_i = 1$ if $i$-th draw is success). Prove via linearity that $\mathbb{E}[X] = n \frac{K}{N}$.
+% SLIDE 11A: Classroom Exercise --- Tier 1: Fundamental (Statement)
+\begin{frame}{Classroom Exercise --- Tier 1: Fundamental (1/2)}
+	\footnotesize
+	\begin{block}{Problem 3.6.2 --- Industrial Quality Batch Acceptance (Statement)}
+		A receiving batch contains $N = 30$ electronic sensors, of which exactly $K = 6$ are defective ($20\%$). A quality engineer selects a random sample of $n = 5$ sensors \emph{without replacement}. The batch is accepted if at most 1 defective sensor is found ($X \le 1$). Compute the exact probability of accepting the batch.
 	\end{block}
-	\vspace{-0.2cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Marginal Probability Symmetry}
-				\scriptsize
-				Before observing prior trials, the marginal probability that the $i$-th element is a success is identical for any draw position $i \in \set{1, \dots, n}$:
-				\begin{align*}
-					P(I_i = 1) = \dfrac{K}{N} \implies \mathbb{E}[I_i] = \dfrac{K}{N}
-				\end{align*}
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Applying Universal Linearity}
-				\scriptsize
-				Linearity $\mathbb{E}[\sum Y_i] = \sum \mathbb{E}[Y_i]$ holds true **regardless of dependence** or covariance:
-				\begin{align*}
-					\mathbb{E}[X] = \sum_{i=1}^n \mathbb{E}[I_i] = \sum_{i=1}^n \dfrac{K}{N} = n \dfrac{K}{N}
-				\end{align*}
-				\vspace{-0.25cm}
-				Direct derivation bypassing complicated algebraic summations.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+
+	\vspace{0.2cm}
+	\pause
+	\begin{alertblock}{Setting Up the Exact Model}
+		The random variable $X$ represents the number of defective sensors in the sample. Since elements are drawn without replacement from a finite population, it follows a hypergeometric law:
+		$$X \sim \text{Hyper}(N=30, \; K=6, \; n=5)$$ \pause
+		The total acceptance probability corresponds to the sum for $X \le 1$:
+		$$P(\text{Accept}) = P(X = 0) + P(X = 1)$$
+	\end{alertblock}
 \end{frame}
 
-% SLIDE 13: Operational Tier Exercises I
-\begin{frame}{Operational Tier Exercises I --- Problems 3.6.4 and 3.6.5}
-\tiny
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.6.4: FPCF Reduction}
-\tiny
-				**Statement:** With $N=50, K=10, n=20$, compare Hypergeometric vs Binomial variance ($p=0.20$).
-				\vspace{-0.2cm}
-				\begin{exampleblock}{Sample Variance Reduction}
-					With replacement (Binomial):
-					\begin{align*}
-						\text{Var}_{\text{Bin}}(X) = 20(0.20)(0.80) = 3.20
-					\end{align*}
-					\vspace{-0.25cm}
-					FPCF factor: $\frac{50-20}{50-1} = \frac{30}{49} \approx 0.6122$.
-					\begin{align*}
-						\text{Var}_{\text{Hyper}}(X) = 3.20 \times 0.6122 \approx 1.9592
-					\end{align*}
-					\vspace{-0.25cm}
-					Variance drops by $38.78\%$ under sampling without replacement.
-				\end{exampleblock}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.6.5: Fiscal Audit}
-\tiny
-				**Statement:** In $N=100$ invoices ($K=15$ irregular), $n=10$ are audited. Calculate $P(X \ge 3)$.
-				\vspace{-0.2cm}
-				\begin{exampleblock}{Complementary Calculation}
-					Lower tail probabilities ($k=0,1,2$):
-					\begin{align*}
-						P(X=0) &= \comb{15}{0}\comb{85}{10}/\comb{100}{10} \approx 0.1868 \\
-						P(X=1) &= \comb{15}{1}\comb{85}{9}/\comb{100}{10} \approx 0.3640 \\
-						P(X=2) &= \comb{15}{2}\comb{85}{8}/\comb{100}{10} \approx 0.2863
-					\end{align*}
-					\vspace{-0.25cm}
-					Sum: $P(X \le 2) \approx 0.8372 \implies P(X \ge 3) \approx 0.1628$.
-				\end{exampleblock}
-			\end{block}
-		\end{column}
-	\end{columns}
-\end{frame}
+% SLIDE 11B: Classroom Exercise --- Tier 1: Fundamental (Solution)
+\begin{frame}{Classroom Exercise --- Tier 1: Fundamental (2/2)}
+	\scriptsize
+	We compute the point probabilities using the combinatorial PMF formula: \pause
 
-% SLIDE 14: Operational Tier Exercises II
-\begin{frame}{Operational Tier Exercises II --- Problem 3.6.6}
-	\vspace{-0.15cm}
-	\begin{block}{Problem 3.6.6: Binomial Approximation and Absolute Error}
-		\footnotesize
-		**Statement:** In $N=2000$ files containing $K=100$ errors ($p=0.05$), $n=20$ are audited. Verify the condition $n/N < 0.05$ and calculate absolute error $|P(X=2) - P(Y=2)|$.
+	\vspace{0.04cm}
+	\begin{block}{Evaluation of Combinatorial Probabilities}
+		\begin{itemize}\itemsep=0.04cm
+			\item \textbf{Zero defectives ($X=0$):}
+			$P(X=0) = \dfrac{\comb{6}{0}\comb{24}{5}}{\comb{30}{5}} = \dfrac{1 \times 42,504}{142,506} \approx 0.29826$ \pause
+			\item \textbf{One defective ($X=1$):}
+			$P(X=1) = \dfrac{\comb{6}{1}\comb{24}{4}}{\comb{30}{5}} = \dfrac{6 \times 10,626}{142,506} \approx 0.44739$
+		\end{itemize}
 	\end{block}
-	\vspace{-0.2cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Exact Hypergeometric Probability}
-				\scriptsize
-				Verification: $\frac{n}{N} = \frac{20}{2000} = 0.01 = 1\% < 5\%$.
-				Exact probability without replacement:
-				\begin{align*}
-					P(X=2) = \dfrac{\comb{100}{2}\comb{1900}{18}}{\comb{2000}{20}} \approx 0.189725
-				\end{align*}
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Binomial Model and Error Bounds}
-				\scriptsize
-				Approximating via $Y \sim \text{Bin}(n=20, p=0.05)$:
-				\begin{align*}
-					P(Y=2) = \comb{20}{2}(0.05)^2(0.95)^{18} \approx 0.188677
-				\end{align*}
-				\vspace{-0.25cm}
-				Absolute error: $|0.189725 - 0.188677| = 0.001048$. Exceeds $99.8\%$ accuracy!
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+
+	\vspace{0.04cm}
+	\pause
+	\begin{alertblock}{Engineering Conclusion}
+		Summing both success probabilities of the quality control:
+		$$P(\text{Accept}) = 0.29826 + 0.44739 = \mathbf{0.74565} \; (74.57\%)$$
+	\end{alertblock}
 \end{frame}
 
-% SLIDE 15: Analytical Tier Exercises I
-\begin{frame}{Analytical Tier Exercises --- Problems 3.6.7 and 3.6.8}
-	\vspace{-0.3cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.6.7: Factorial Moments}
-				\scriptsize
-				**Statement:** Derive $\mathbb{E}[X]$ and $\mathbb{E}[X(X-1)]$.
-				\vspace{-0.15cm}
-				\begin{exampleblock}{Combinatorial Absorption}
-					\fontsize{7pt}{8.2pt}\selectfont
-					Using $k\comb{K}{k} = K\comb{K-1}{k-1}$ and $\comb{N}{n} = \frac{N}{n}\comb{N-1}{n-1}$:
-					$\mathbb{E}[X] = \sum k \frac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}} = n\frac{K}{N}$.
-					
-					Similarly: $\mathbb{E}[X(X-1)] = n(n-1)\frac{K(K-1)}{N(N-1)}$.
-				\end{exampleblock}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.6.8: Exact Variance}
-				\scriptsize
-				**Statement:** Derive the sample variance.
-				\vspace{-0.15cm}
-				\begin{exampleblock}{Sample Covariance}
-					\fontsize{7pt}{8.2pt}\selectfont
-					For $i \neq j$: $\text{Cov}(I_i, I_j) = -\frac{K(N-K)}{N^2(N-1)}$.
-					
-					Summing variances and covariances:
-					$\text{Var}(X) = n\frac{K}{N}(1-\frac{K}{N})(\frac{N-n}{N-1})$.
-				\end{exampleblock}
-			\end{block}
-		\end{column}
-	\end{columns}
+% SLIDE 12A: Classroom Exercise --- Tier 2: Operational (Statement)
+\begin{frame}{Classroom Exercise --- Tier 2: Operational (1/2)}
+	\footnotesize
+	\begin{block}{Problem 3.6.4 --- Variance Reduction via FPCF (Statement)}
+		A shipping company has a fleet of $N = 50$ delivery trucks, of which $K = 10$ have brake system issues ($p = 0.20$). The inspector randomly selects $n = 20$ trucks for detailed inspection without replacement. Quantitatively compare the variance of trucks with issues under the hypergeometric model versus the binomial model.
+	\end{block}
+
+	\vspace{0.2cm}
+	\pause
+	\begin{alertblock}{Variance Under the Binomial Assumption (With Replacement)}
+		If sampling were done with replacement (or if the population were infinite), the variance would follow independent Bernoulli trials:
+		$$\text{Var}_{\text{Bin}}(X) = n p (1-p) = 20(0.20)(0.80) = \mathbf{3.20}$$
+	\end{alertblock}
 \end{frame}
 
-% SLIDE 16: Challenging Tier Exercises
-\begin{frame}{Challenging Tier Exercises --- Problems 3.6.9 and 3.6.10}
+% SLIDE 12B: Classroom Exercise --- Tier 2: Operational (Solution)
+\begin{frame}{Classroom Exercise --- Tier 2: Operational (2/2)}
+	\footnotesize
+	We now incorporate the exact nature of sampling from a finite population without replacement: \pause
+
+	\vspace{0.15cm}
+	\begin{block}{Correction Factor and Exact Variance}
+		\begin{itemize}\itemsep=0.15cm
+			\item \textbf{Finite Population Correction Factor (FPCF):}
+			$$\text{FPCF} = \dfrac{N-n}{N-1} = \dfrac{50-20}{50-1} = \dfrac{30}{49} \approx \mathbf{0.61224}$$ \pause
+			\item \textbf{Exact Hypergeometric Variance:}
+			$$\text{Var}_{\text{Hyp}}(X) = \text{Var}_{\text{Bin}}(X) \times \text{FPCF} = 3.20 \times 0.61224 = \mathbf{1.95918}$$
+		\end{itemize}
+	\end{block}
+
+	\vspace{0.15cm}
+	\pause
+	\begin{alertblock}{Uncertainty Reduction Analysis}
+		Sampling without replacement reduces estimation uncertainty by exactly $\mathbf{38.78\%}$ compared to the conventional binomial model, by eliminating double-counting of trucks.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13A: Classroom Exercise --- Tier 3: Analytical (Statement)
+\begin{frame}{Classroom Exercise --- Tier 3: Analytical (1/2)}
+	\footnotesize
+	\begin{block}{Problem 3.6.7 --- Proof of the Factorial Moment (Statement)}
+		Starting from the fundamental combinatorial identity $k \comb{K}{k} = K \comb{K-1}{k-1}$, algebraically prove that the first factorial moment of a hypergeometric variable is exactly $\mathbb{E}[X] = n \dfrac{K}{N}$.
+	\end{block}
+
+	\vspace{0.1cm}
+	\pause
+	\begin{alertblock}{Step 1: Expanding the Expectation Definition}
+		\scriptsize
+		We start from the weighted sum of probabilities over the support $k > 0$:
+		$$\mathbb{E}[X] = \sum_{k=1}^{\min(n,K)} k \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}}$$ \pause
+		We apply absorption in the numerator $k\comb{K}{k} = K\comb{K-1}{k-1}$ and in the denominator $n\comb{N}{n} = N\comb{N-1}{n-1} \implies \comb{N}{n} = \frac{N}{n}\comb{N-1}{n-1}$.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13B: Classroom Exercise --- Tier 3: Analytical (Solution)
+\begin{frame}{Classroom Exercise --- Tier 3: Analytical (2/2)}
+	\scriptsize
+	Substituting both combinatorial identities into the expectation expression, we obtain: \pause
+
 	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.6.9: Asymptotic Limit}
-				\scriptsize
-				**Statement:** Prove that if $N \to \infty$ with $\frac{K_N}{N} \to p$, then $P(X_N=k) \to \comb{n}{k}p^k(1-p)^{n-k}$.
-				\vspace{-0.1cm}
-				\begin{exampleblock}{Falling Factorials}
-					Expressing via falling factorials $A^{(m)}$:
-					\begin{align*}
-						P(X_N=k) = \comb{n}{k} \dfrac{K_N^{(k)} (N-K_N)^{(n-k)}}{N^{(n)}}
-					\end{align*}
-					\vspace{-0.25cm}
-					Dividing each term by $N$:
-					$\frac{K_N^{(k)}}{N^k} \to p^k$, $\frac{(N-K_N)^{(n-k)}}{N^{n-k}} \to (1-p)^{n-k}$, yielding exact binomial convergence.
-				\end{exampleblock}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.6.10: Fisher's Exact Test}
-				\scriptsize
-				**Statement:** In $2 \times 2$ trial with $N=25$ ($K=12$ active, $13$ placebo) and $n=8$ clots, we observe $X=1$ active. Compute $p$-value.
-				\vspace{-0.1cm}
-				\begin{exampleblock}{Exact Biomedical Decision}
-					Under $H_0$, $X \sim \text{Hyper}(25, 12, 8)$.
-					Lower-tail $p$-value ($P(X \le 1)$):
-					\begin{align*}
-						P(X=0) &= \comb{12}{0}\comb{13}{8}/\comb{25}{8} \approx 0.001190 \\
-						P(X=1) &= \comb{12}{1}\comb{13}{7}/\comb{25}{8} \approx 0.019039
-					\end{align*}
-					\vspace{-0.25cm}
-					Sum: $p \approx 0.0202 < 0.05 \implies$ Reject $H_0$.
-				\end{exampleblock}
-			\end{block}
-		\end{column}
-	\end{columns}
+	\begin{block}{Step 2: Extraction and Vandermonde Sum}
+		\scriptsize
+		$\mathbb{E}[X] = \dfrac{n K}{N} \sum_{k=1}^{\min(n,K)} \dfrac{\comb{K-1}{k-1}\comb{N-K}{n-k}}{\comb{N-1}{n-1}}$ \pause \\
+		\vspace{0.02cm}
+		With index $j = k-1$, the sum spans all samples of size $n-1$: \\
+		\vspace{0.02cm}
+		$\mathbb{E}[X] = \dfrac{n K}{N} \sum_{j=0}^{\min(n-1,K-1)} \dfrac{\comb{K-1}{j}\comb{(N-1)-(K-1)}{(n-1)-j}}{\comb{N-1}{n-1}}$
+	\end{block}
+
+	\vspace{-0.15cm}
+	\pause
+	\begin{alertblock}{Conclusion via Unit Normalization}
+		\scriptsize
+		The sum is the total probability of $\text{Hyper}(N-1, K-1, n-1)$ and equals $1 \implies \mathbb{E}[X] = n \dfrac{K}{N} \cdot 1 = np \quad \blacksquare$
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14A: Classroom Exercise --- Tier 4: Challenging (Statement)
+\begin{frame}{Classroom Exercise --- Tier 4: Challenging (1/2)}
+	\footnotesize
+	\begin{block}{Problem 3.6.10 --- Fisher's Exact Test in Biomedical Trials}
+		A cardiology clinical trial evaluates a new antithrombotic therapy with $N = 25$ severe patients. $K = 12$ patients are randomly assigned to the active drug and the remaining $13$ to placebo. At the end of the trial, exactly $n = 8$ patients developed deep thrombosis. If the drug were ineffective ($H_0$), the 8 cases of thrombosis would be distributed at random.
+	\end{block}
+
+	\vspace{0.2cm}
+	\pause
+	\begin{alertblock}{Setting Up the Hypothesis and Exact Inference}
+		Let $X$ be the number of patients in the active group who developed thrombosis. Under the null hypothesis $H_0$, the variable is strictly hypergeometric:
+		$$X \sim \text{Hyper}(N=25, \; K=12, \; n=8)$$ \pause
+		In our clinical trial, we observe only $X = 1$ thrombosis case in the active group (and the other 7 in the placebo group). Let us evaluate the exact statistical significance.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14B: Classroom Exercise --- Tier 4: Challenging (Solution)
+\begin{frame}{Classroom Exercise --- Tier 4: Challenging (2/2)}
+	\scriptsize
+	To determine significance at level $\alpha = 0.05$, we compute the exact one-tailed $p$-value ($P(X \le 1)$ under $H_0$): \pause
+
+	\vspace{0.04cm}
+	\begin{block}{Computing the $p$-value via the Hypergeometric Law}
+		\scriptsize
+		$p\text{-value} = P(X = 0) + P(X = 1) = \dfrac{\comb{12}{0}\comb{13}{8}}{\comb{25}{8}} + \dfrac{\comb{12}{1}\comb{13}{7}}{\comb{25}{8}}$ \pause
+		\begin{itemize}\itemsep=0.01cm
+			\item $P(X=0) = \frac{1 \times 1,287}{1,081,575} \approx 0.00119$ \quad | \quad $P(X=1) = \frac{12 \times 1,716}{1,081,575} \approx 0.01904$
+		\end{itemize}
+	\end{block}
+
+	\vspace{0.04cm}
+	\pause
+	\begin{alertblock}{Clinical Decision ($p\text{-value} < \alpha$)}
+		\scriptsize
+		Since $p\text{-value} = 0.00119 + 0.01904 = \mathbf{0.02023}$ ($2.02\%$) is less than $\alpha = 0.05$, we reject $H_0$. We conclude that the reduction in thrombosis under the active therapy is clinically significant.
+	\end{alertblock}
 \end{frame}
 
 % SLIDE 17: Python Lab I --- PMF and Support

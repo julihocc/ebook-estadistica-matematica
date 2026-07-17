@@ -19,21 +19,22 @@
 
 % SLIDE 02: Roadmap
 \begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
-	\begin{block}{Curricular Structure of Unit 2}
+	\begin{block}{Curricular Structure of Chapter 03}
 		\small
 		\begin{enumerate}
 			\itemsep=0.04cm
-			\item \textcolor{gray}{Section 03.01: Discrete Probability Functions (PMF and Support)}
+			\item \textcolor{gray}{Section 03.01: Discrete Probability Mass Functions (PMF and Support)}
 			\item \textcolor{gray}{Section 03.02: Cumulative Distribution Functions (Discrete CDF)}
-			\item \textbf{\textcolor{TecRojo}{Section 03.03: Expectation, Variance, and Moments}} $\leftarrow$ \emph{Current focus}
-			\item \textcolor{gray}{Section 03.04: Special Distributions I (Binomial, Geometric, and Hypergeometric)}
-			\item \textcolor{gray}{Section 03.05: Special Distributions II (Poisson, Negative Binomial, and Multinomial)}
+			\item \textbf{\textcolor{TecRojo}{Section 03.03: Mathematical Expectation, Variance, and Moments}} $\leftarrow$ \emph{Current focus}
+			\item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions}
+			\item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions}
+			\item \textcolor{gray}{Section 03.06: Hypergeometric Distribution}
 		\end{enumerate}
 	\end{block}
 	\vspace{-0.15cm}
-	\begin{alertblock}{Didactic Objective}
+	\begin{alertblock}{Curricular Objective of the Section}
 		\footnotesize
-		Master the formal calculation, operational properties, and theoretical foundations of Mathematical Expectation $\mathbb{E}[X]$, Variance $\text{Var}(X)$, and higher-order moments, applying LOTUS and the probabilistic center of gravity theorem across engineering and statistical inference problems.
+		Master the algebraic foundations and operational properties of expected value and variance, applying the LOTUS Theorem and the probabilistic center of gravity theorem to decision-making and engineering problems.
 	\end{alertblock}
 \end{frame}
 
@@ -253,236 +254,159 @@
 	\end{columns}
 \end{frame}
 
-% SLIDE 11: Fundamental Tier --- Problems 3.3.1 & 3.3.2
-\begin{frame}{Fundamental Tier --- Problems 3.3.1 and 3.3.2}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.3.1: Database Error Audit}
-				\scriptsize
-				Support $\mathcal{S}_X = \set{0, 1, 2, 3, 4}$, PMF $[0.35, 0.30, 0.20, 0.10, 0.05]$.
-				\begin{itemize}
-					\itemsep=0.03cm
-					\item **Mean:** $\mu = 0(0.35)+1(0.30)+2(0.20)+3(0.10)+4(0.05) = 1.20$.
-					\item **2nd Moment:** $\mathbb{E}[X^2] = 0+0.30+0.80+0.90+0.80 = 2.80$.
-					\item **Variance (König-Huygens):** $\text{Var}(X) = 2.80 - 1.44 = 1.36$.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Problem 3.3.2: Sum of Two Dice ($S = X_1 + X_2$)}
-				\scriptsize
-				\begin{itemize}
-					\itemsep=0.03cm
-					\item **Support Mean vs. Expectation:** $\bar{S} = \frac{77}{11} = 7$. Coincides with $\mathbb{E}[S] = 7$ purely due to **symmetry**, not uniform probabilities.
-					\item **Linear Calculation:** By independence, $\mathbb{E}[S] = 3.5 + 3.5 = 7$.
-					\item **Additive Variance:** Since $\text{Cov}(X_1, X_2) = 0$:
-					\begin{align*}
-						\text{Var}(S) = \frac{35}{12} + \frac{35}{12} = \frac{35}{6} \approx 5.8333.
-					\end{align*}
-				\end{itemize}
-			\end{exampleblock}
-		\end{column}
-	\end{columns}
-\end{frame}
-
-% SLIDE 12: Fundamental Tier --- Problem 3.3.3
-\begin{frame}{Fundamental Tier --- Problem 3.3.3 (LOTUS Verification)}
-	\begin{block}{Problem 3.3.3: Non-Bijective Quadratic Transformation}
-		\small
-		Let $X$ be uniform on $\mathcal{S}_X = \set{-2, -1, 0, 1, 2}$ ($f_X(x) = 1/5$). Evaluate $g(X) = 2X^2 - 3X + 5$.
+% SLIDE 11A: Classroom Exercise --- Tier 1: Fundamental (Statement)
+\begin{frame}{Classroom Exercise --- Tier 1: Fundamental (1/2)}
+	\begin{block}{Problem 3.3.1 --- Error Transactions during Peak Hour in a Bank Database}
+		\footnotesize
+		Let $X$ be a discrete random variable modeling the number of error transactions during peak hour at a bank server, with support $\mathcal{S}_X = \{0, 1, 2, 3, 4\}$ and explicit mass function:
+		\begin{table}[h]
+			\centering
+			\begin{tabular}{c|ccccc}
+				\toprule
+				$x$ & $0$ & $1$ & $2$ & $3$ & $4$ \\
+				\midrule
+				$f_X(x)$ & $0.35$ & $0.30$ & $0.20$ & $0.10$ & $0.05$ \\
+				\bottomrule
+			\end{tabular}
+		\end{table}
+		\begin{enumerate}\itemsep=0.1cm
+			\item Formally compute the mathematical expectation $\mu = \mathbb{E}[X]$ using the fundamental analytical definition.
+			\item Compute the second raw moment $\mathbb{E}[X^2]$ and determine the operational variance $\text{Var}(X)$ via the König-Huygens identity.
+		\end{enumerate}
 	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Direct Computation via LOTUS}
-				\scriptsize
-				Evaluate images over original support:
-				\begin{itemize}
-					\itemsep=0.02cm
-					\item $g(-2) = 2(4)+6+5 = 19$, $g(-1) = 10$
-					\item $g(0) = 5$, $g(1) = 4$, $g(2) = 7$
-				\end{itemize}
-				Weighting each by $1/5$:
-				\begin{align*}
-					\mathbb{E}[g(X)] = \frac{19+10+5+4+7}{5} = \frac{45}{5} = 9.
-				\end{align*}
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Verification via Induced PMF $Y$}
-				\scriptsize
-				Induced support $\mathcal{S}_Y = \set{4, 5, 7, 10, 19}$. Since each image originates from a unique preimage $x$, $f_Y(y) = 1/5$:
-				\begin{align*}
-					\mathbb{E}[Y] = \sum y f_Y(y) = \frac{45}{5} = 9.
-				\end{align*}
-				Confirms exact operational invariance.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
 \end{frame}
 
-% SLIDE 13: Operational Tier --- Problems 3.3.4 & 3.3.5
-\begin{frame}{Operational Tier --- Problems 3.3.4 and 3.3.5}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.3.4: Mining Project Risk}
-				\scriptsize
-				Scenarios: $+120$ ($0.25$), $+40$ ($0.55$), $-50$ ($0.20$).
-				\begin{itemize}
-					\itemsep=0.02cm
-					\item **Mean:** $\mathbb{E}[R] = +42.0$ M USD.
-					\item **2nd Moment:** $\mathbb{E}[R^2] = 4980$.
-					\item **Volatility:** $\sigma_R \approx 56.71$ M USD.
-					\item **Corporate Decision:** $U = -28.89 < 0$. **Rejected** due to high financial risk.
-				\end{itemize}
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Problem 3.3.5: Server Cluster Cost}
-				\scriptsize
-				Failures $K$ with $\mathbb{E}[K] = 3.2$ and $\text{Var}(K) = 1.8$. Quadratic cost $C(K) = 15 + 12K + 4K^2$.
-				\begin{itemize}
-					\itemsep=0.02cm
-					\item **Solving for 2nd Moment:**
-					\begin{align*}
-						\mathbb{E}[K^2] = 1.8 + (3.2)^2 = 12.04.
-					\end{align*}
-					\item **Applying Linearity:**
-					\begin{align*}
-						\mathbb{E}[C(K)] &= 15 + 12(3.2) + 4(12.04) \\
-						&= 101.56 \text{ thousand USD}.
-					\end{align*}
-				\end{itemize}
-			\end{exampleblock}
-		\end{column}
-	\end{columns}
-\end{frame}
-
-% SLIDE 14: Operational Tier --- Problem 3.3.6
-\begin{frame}{Operational Tier --- Problem 3.3.6 ($Z$-Score Proof)}
-	\begin{block}{Structural Invariance Proof for Standardization}
-		\small
-		Let $Z = aX + b$ where $a = \frac{1}{\sigma_X}$ and $b = -\frac{\mu_X}{\sigma_X}$. Prove that $\mathbb{E}[Z]=0$ and $\text{Var}(Z)=1$.
+% SLIDE 11B: Classroom Exercise --- Tier 1: Fundamental (Solution)
+\begin{frame}{Classroom Exercise --- Tier 1: Fundamental (2/2)}
+	\fontsize{6.8pt}{8.2pt}\selectfont
+	\begin{block}{1. Mathematical Expectation ($\mu = \mathbb{E}[X]$)}
+		\fontsize{6.8pt}{8.2pt}\selectfont
+		We weight each value of the variable by its population probability:
+		$$\mu = \sum_{x=0}^4 x \cdot f_X(x) = 0(0.35) + 1(0.30) + 2(0.20) + 3(0.10) + 4(0.05)$$
+		$$\mu = 0 + 0.30 + 0.40 + 0.30 + 0.20 = \mathbf{1.20\text{ transactions}}$$
 	\end{block}
+
 	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{1. Mean Proof ($\mathbb{E}[Z]=0$)}
-				\footnotesize
-				Applying expectation linearity:
-				\begin{align*}
-					\mathbb{E}[Z] &= a\mathbb{E}[X] + b = \left(\frac{1}{\sigma_X}\right)\mu_X - \frac{\mu_X}{\sigma_X} \\
-					&= \frac{\mu_X}{\sigma_X} - \frac{\mu_X}{\sigma_X} = 0.
-				\end{align*}
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{2. Variance Proof ($\text{Var}(Z)=1$)}
-				\footnotesize
-				Using shift invariance ($+b$) and quadratic scaling ($a^2$):
-				\begin{align*}
-					\text{Var}(Z) &= \text{Var}(aX+b) = a^2\text{Var}(X) \\
-					&= \left(\frac{1}{\sigma_X}\right)^2 \sigma_X^2 = \frac{\sigma_X^2}{\sigma_X^2} = 1.
-				\end{align*}
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+	\pause
+	\begin{alertblock}{2. Second Raw Moment ($\mathbb{E}[X^2]$) and Operational Variance ($\text{Var}(X)$)}
+		\fontsize{6.8pt}{8.2pt}\selectfont
+		We compute the weighted average of the squares of the support:
+		$$\mathbb{E}[X^2] = 0^2(0.35) + 1^2(0.30) + 2^2(0.20) + 3^2(0.10) + 4^2(0.05) = \mathbf{2.80}$$
+		We apply the König-Huygens algebraic shortcut:
+		$$\text{Var}(X) = \mathbb{E}[X^2] - \mu^2 = 2.80 - (1.20)^2 = 2.80 - 1.44 = \mathbf{1.36\text{ transactions}^2}$$
+	\end{alertblock}
 \end{frame}
 
-% SLIDE 15: Analytical Tier --- Problems 3.3.7 & 3.3.8
-\begin{frame}{Analytical Tier --- Problems 3.3.7 and 3.3.8}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Problem 3.3.7: Quadratic Error}
-				\scriptsize
-				Let $M(a) = \mathbb{E}[(X-a)^2]$. Adding and subtracting $\mu$:
-				\begin{align*}
-					X-a = (X-\mu) + (\mu-a).
-				\end{align*}
-				Squaring and taking expectation eliminates the cross term since $\mathbb{E}[X-\mu]=0$:
-				\begin{align*}
-					M(a) = \text{Var}(X) + (\mu-a)^2 \ge \text{Var}(X).
-				\end{align*}
-				Achieves absolute minimum iff $a = \mu$.
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Problem 3.3.8: Linearity vs. Additivity}
-				\scriptsize
-				\begin{itemize}
-					\itemsep=0.03cm
-					\item **Universal Linearity:** Proven by separating double summations via Fubini-Tonelli and marginalization $\sum_y f_{X,Y}(x,y) = f_X(x)$. Holds without independence.
-					\item **Variance Additivity:**
-					\begin{align*}
-						\text{Var}(cX \pm dY) &= c^2\text{Var}(X) + d^2\text{Var}(Y) \\
-						&\quad \pm 2cd\,\text{Cov}(X,Y).
-					\end{align*}
-					Requires $\text{Cov}(X,Y)=0$ for pure sum.
-				\end{itemize}
-			\end{exampleblock}
-		\end{column}
-	\end{columns}
-\end{frame}
-
-% SLIDE 16: Challenging Tier --- Problem 3.3.9
-\begin{frame}{Challenging Tier --- Problem 3.3.9 (St. Petersburg Paradox)}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Divergence of Infinite Expectation}
-				\scriptsize
-				Game: toss fair coin until 1st heads at trial $k \sim \text{Geom}(0.5)$. Payout $X = 2^k$.
-				\begin{align*}
-					\mathbb{E}[X] &= \sum_{k=1}^\infty (2^k) \cdot P(K=k) = \sum_{k=1}^\infty (2^k)(2^{-k}) \\
-					&= \sum_{k=1}^\infty 1 = 1 + 1 + 1 + \dots = \infty.
-				\end{align*}
-				Rational agents refuse high entry fees, proving **diminishing marginal utility**.
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Regularization via Bankroll Limit ($N=25$)}
-				\scriptsize
-				If the casino sets a maximum bankroll of $N$ tosses ($M = 2^N$ if $K > N$ with probability $2^{-N}$):
-				\begin{align*}
-					\mathbb{E}[X_N] &= \left[\sum_{k=1}^N (2^k)(2^{-k})\right] + (2^N)(2^{-N}) \\
-					&= \left[\sum_{k=1}^N 1\right] + 1 = N + 1.
-				\end{align*}
-				For $N=25$ ($\approx 33.5$M coins bankroll), the exact fair entry fee is **26 coins**.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
-\end{frame}
-
-% SLIDE 17: Challenging Tier --- Problem 3.3.10
-\begin{frame}{Challenging Tier --- Problem 3.3.10 (Popoviciu's Bound)}
-	\begin{block}{Supremum Variance Bound on Bounded Support $[a, b]$}
-		\small
-		If $P(a \le X \le b) = 1$, then $(X-a)(b-X) \ge 0$. Taking expectations and expanding:
-		\begin{align*}
-			\mathbb{E}[(a+b)X - X^2 - ab] \ge 0 \implies \mathbb{E}[X^2] \le (a+b)\mu - ab.
-		\end{align*}
+% SLIDE 12A: Classroom Exercise --- Tier 2: Operational (Statement)
+\begin{frame}{Classroom Exercise --- Tier 2: Operational (1/2)}
+	\begin{block}{Problem 3.3.4 --- Mining Megaproject Bid and Risk-Adjusted Return}
+		\footnotesize
+		An engineering corporation evaluates a megaproject whose net profitability in millions of dollars ($R$) is conditioned by global scenarios:
+		\begin{table}[h]
+			\centering
+			\begin{tabular}{l|ccc}
+				\toprule
+				\textbf{Economic Scenario} & \textbf{Probability ($p_k$)} & \textbf{Net Profitability ($r_k$)} \\
+				\midrule
+				Accelerated expansion & $0.25$ & $+120\text{ M USD}$ \\
+				Moderate stability & $0.55$ & $+40\text{ M USD}$ \\
+				Severe recession & $0.20$ & $-50\text{ M USD}$ \\
+				\bottomrule
+			\end{tabular}
+		\end{table}
+		\begin{enumerate}\itemsep=0.1cm
+			\item Determine the expected net present value $\mathbb{E}[R]$ and the standard deviation of the return $\sigma_R$.
+			\item If the board requires a financial safety metric $U = \mathbb{E}[R] - 1.25\sigma_R \ge 0$, should the project be accepted or rejected?
+		\end{enumerate}
 	\end{block}
+\end{frame}
+
+% SLIDE 12B: Classroom Exercise --- Tier 2: Operational (Solution)
+\begin{frame}{Classroom Exercise --- Tier 2: Operational (2/2)}
+	\fontsize{6.8pt}{8.2pt}\selectfont
+	\begin{block}{1. Expected Value $\mathbb{E}[R]$ and Standard Deviation $\sigma_R$}
+		\fontsize{6.8pt}{8.2pt}\selectfont
+		$$\mathbb{E}[R] = 120(0.25) + 40(0.55) + (-50)(0.20) = 30.0 + 22.0 - 10.0 = \mathbf{+42.0\text{ M USD}}$$
+		To obtain the risk $\sigma_R$, we first compute the second raw moment:
+		$$\mathbb{E}[R^2] = (120)^2(0.25) + (40)^2(0.55) + (-50)^2(0.20) = 3600 + 880 + 500 = 4980$$
+		$$\text{Var}(R) = \mathbb{E}[R^2] - (\mathbb{E}[R])^2 = 4980 - (42.0)^2 = 3216 \implies \sigma_R = \sqrt{3216} \approx \mathbf{56.71\text{ M USD}}$$
+	\end{block}
+
 	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Completing the Square in Variance}
-				\scriptsize
-				Substituting $\mathbb{E}[X^2]$ into the variance formula:
-				\begin{align*}
-					\text{Var}(X) &\le -\mu^2 + (a+b)\mu - ab \\
-					&= \frac{(b-a)^2}{4} - \left(\mu - \frac{a+b}{2}\right)^2 \le \frac{(b-a)^2}{4}.
-				\end{align*}
-			\end{exampleblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Extremal Bernoulli Distribution}
-				\scriptsize
-				The absolute upper bound $\text{Var}(X) = \frac{(b-a)^2}{4}$ is attained **only by the symmetric bimodal distribution** concentrated on the endpoints:
-				\begin{align*}
-					P(X=a) = \frac{1}{2} \quad \text{and} \quad P(X=b) = \frac{1}{2}.
-				\end{align*}
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+	\pause
+	\begin{alertblock}{2. Corporate Decision and Safety Threshold Evaluation $U$}
+		\fontsize{6.8pt}{8.2pt}\selectfont
+		We evaluate the risk-adjusted return indicator:
+		$$U = \mathbb{E}[R] - 1.25\sigma_R = 42.0 - 1.25(56.71) = 42.0 - 70.89 = \mathbf{-28.89\text{ M USD}}$$
+		Since the result is negative ($U < 0$), capital volatility exceeds the expected gain. The board \textbf{must formally reject} the bid due to excessive financial risk.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 13A: Classroom Exercise --- Tier 3: Analytical (Statement)
+\begin{frame}{Classroom Exercise --- Tier 3: Analytical (1/2)}
+	\begin{block}{Problem 3.3.6 --- $Z$-Score Standardization and Invariant Moments}
+		\footnotesize
+		In an international civil engineering evaluation with score $X$, mean $\mu_X$, and standard deviation $\sigma_X > 0$, the standardized random variable ($Z$-score) is defined as:
+		$$Z = \dfrac{X - \mu_X}{\sigma_X}.$$
+		Formally prove, with full algebraic detail, that for any discrete random variable $X$, the standardized variable $Z$ rigorously satisfies the two universal identities:
+		\begin{enumerate}\itemsep=0.15cm
+			\item Zero mathematical expectation: $\mathbb{E}[Z] = 0$.
+			\item Unit operational variance: $\text{Var}(Z) = 1$.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+% SLIDE 13B: Classroom Exercise --- Tier 3: Analytical (Solution)
+\begin{frame}{Classroom Exercise --- Tier 3: Analytical (2/2)}
+	\fontsize{7.5pt}{9pt}\selectfont
+	We can rewrite the transformation as a linear function $Z = cX + d$, where $c = \frac{1}{\sigma_X}$ and $d = -\frac{\mu_X}{\sigma_X}$. \pause
+
+	\vspace{-0.05cm}
+	\begin{block}{1. Proof of Zero Expectation ($\mathbb{E}[Z] = 0$)}
+		\fontsize{7.5pt}{9pt}\selectfont
+		Applying universal linearity ($\mathbb{E}[cX + d] = c\mathbb{E}[X] + d$) and recalling that $\mathbb{E}[X] = \mu_X$:
+		$$\mathbb{E}[Z] = \mathbb{E}\left[ \dfrac{1}{\sigma_X} X - \dfrac{\mu_X}{\sigma_X} \right] = \dfrac{1}{\sigma_X}\mathbb{E}[X] - \dfrac{\mu_X}{\sigma_X} = \dfrac{\mu_X}{\sigma_X} - \dfrac{\mu_X}{\sigma_X} = \mathbf{0}. \quad \checkmark$$
+	\end{block}
+
+	\vspace{-0.1cm}
+	\pause
+	\begin{alertblock}{2. Proof of Unit Variance ($\text{Var}(Z) = 1$)}
+		\fontsize{7.5pt}{9pt}\selectfont
+		Applying the quadratic homogeneity property under scaling ($\text{Var}(cX + d) = c^2 \text{Var}(X)$) and recalling that the population variance of $X$ is $\text{Var}(X) = \sigma_X^2$:
+		$$\text{Var}(Z) = \text{Var}\left( \dfrac{1}{\sigma_X} X - \dfrac{\mu_X}{\sigma_X} \right) = \left( \dfrac{1}{\sigma_X} \right)^2 \text{Var}(X) = \dfrac{\text{Var}(X)}{\sigma_X^2} = \dfrac{\sigma_X^2}{\sigma_X^2} = \mathbf{1}. \quad \blacksquare$$
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 14A: Classroom Exercise --- Tier 4: Challenging (Statement)
+\begin{frame}{Classroom Exercise --- Tier 4: Challenging (1/2)}
+	\begin{block}{Problem 3.3.9 --- St. Petersburg Paradox and Truncated Regularization}
+		\footnotesize
+		In the St. Petersburg Paradox, a fair coin is tossed repeatedly until the first heads appears on the $k$-th toss ($k \ge 1$), paying the player a reward of $X = 2^k$ coins.
+		\begin{enumerate}\itemsep=0.12cm
+			\item Prove that the theoretical expected value of the reward diverges to infinity ($\mathbb{E}[X] = \infty$).
+			\item If, by capital regulation, the casino imposes a maximum bankroll reserve of $N$ tosses (if heads does not appear within the first $N$ attempts, the game ends paying $M = 2^N$), obtain a closed-form expression for the truncated expected value $\mathbb{E}[X_N]$ and evaluate it at $N = 25$ tosses.
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+% SLIDE 14B: Classroom Exercise --- Tier 4: Challenging (Solution)
+\begin{frame}{Classroom Exercise --- Tier 4: Challenging (2/2)}
+	\fontsize{7.5pt}{9pt}\selectfont
+	\begin{block}{1. Theoretical Divergence of the Expectation $\mathbb{E}[X]$}
+		\fontsize{7.5pt}{9pt}\selectfont
+		The probability of obtaining the first heads on the $k$-th toss is $P(X=2^k) = \left(\frac{1}{2}\right)^k$:
+		$$\mathbb{E}[X] = \sum_{k=1}^\infty 2^k P(X = 2^k) = \sum_{k=1}^\infty 2^k \left(\dfrac{1}{2}\right)^k = \sum_{k=1}^\infty 1 = 1 + 1 + 1 + \dots = \mathbf{\infty}$$
+	\end{block}
+
+	\vspace{-0.2cm}
+	\pause
+	\begin{alertblock}{2. Truncated Regularization via Bankroll Limit ($N=25$)}
+		\fontsize{7.5pt}{9pt}\selectfont
+		The truncated variable $X_N$ takes values $2^k$ for $k \in \{1, \dots, N\}$ with probability $(1/2)^k$, and the bounded value $2^N$ with residual probability $P(K > N) = (1/2)^N$:
+		$$\mathbb{E}[X_N] = \sum_{k=1}^N 2^k \left(\dfrac{1}{2}\right)^k + 2^N \left(\dfrac{1}{2}\right)^N = \sum_{k=1}^N 1 + 1 = N + 1$$
+		For a casino with a limit of $N = 25$ tosses ($\approx 33.5$ million coins in reserve), the fair entry price is extremely finite and modest:
+		$$\mathbb{E}[X_{25}] = 25 + 1 = \mathbf{26\text{ exact coins}}.$$
+	\end{alertblock}
 \end{frame}
 
 % SLIDE 18: Python Lab --- Raw and Central Moments

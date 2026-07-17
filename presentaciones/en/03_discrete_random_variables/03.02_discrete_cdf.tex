@@ -19,21 +19,22 @@
 
 % SLIDE 02: Roadmap
 \begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
-	\begin{block}{Curricular Structure of Unit 2}
+	\begin{block}{Curricular Structure of Chapter 03}
 		\small
 		\begin{enumerate}
 			\itemsep=0.04cm
-			\item \textcolor{gray}{Section 03.01: Discrete Probability Functions (PMF and Support)}
+			\item \textcolor{gray}{Section 03.01: Discrete Probability Mass Functions (PMF and Support)}
 			\item \textbf{\textcolor{TecRojo}{Section 03.02: Cumulative Distribution Functions (Discrete CDF)}} $\leftarrow$ \emph{Current focus}
 			\item \textcolor{gray}{Section 03.03: Mathematical Expectation, Variance, and Moments}
-			\item \textcolor{gray}{Section 03.04: Special Distributions I (Binomial, Geometric, and Hypergeometric)}
-			\item \textcolor{gray}{Section 03.05: Special Distributions II (Poisson, Negative Binomial, and Multinomial)}
+			\item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions}
+			\item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions}
+			\item \textcolor{gray}{Section 03.06: Hypergeometric Distribution}
 		\end{enumerate}
 	\end{block}
 	\vspace{-0.15cm}
-	\begin{alertblock}{Didactic Objective}
+	\begin{alertblock}{Didactic Objective of Section 03.02}
 		\footnotesize
-		Master the analytical, geometric, and computational foundations of the Cumulative Distribution Function (CDF) $F(x)$ for discrete variables, characterizing step plateaus, jump discontinuities, and inversion operators for interval probabilities and quantile queries.
+		Master the mathematical analysis of the Cumulative Distribution Function $F_X(x) = P(X \le x)$ for discrete variables, geometrically characterizing its flat plateaus, computing jumps of mass via finite differences ($\Delta F$), and solving probabilities of arbitrary intervals.
 	\end{alertblock}
 \end{frame}
 
@@ -65,34 +66,6 @@
 			\end{block}
 		\end{column}
 	\end{columns}
-\end{frame}
-
-% SLIDE 04: Threshold Queries vs. Point Queries
-\begin{frame}{Threshold Queries vs. Point Queries}
-	\begin{table}
-		\centering
-		\scriptsize
-		\begin{tabular}{p{3.1cm}|p{4.5cm}|p{4.7cm}}
-			\hline
-			\textbf{Property} & \textbf{Probability Mass Function (PMF) $f(x)$} & \textbf{Cumulative Distribution (CDF) $F(x)$} \\
-			\hline \hline
-			\textbf{Formal definition} & $f(x) = P(X = x)$ & $F(x) = P(X \le x) = \sum_{u \le x} f(u)$ \\
-			\hline
-			\textbf{Canonical question} & Exactly how many? & At most how many? \\
-			\hline
-			\textbf{Domain \& image} & $\mathbb{R} \to [0, 1]$, null outside $\mathcal{S}_X$ & $\mathbb{R} \to [0, 1]$, defined $\forall x \in \mathbb{R}$ \\
-			\hline
-			\textbf{Geometric shape} & Bar or stick diagram (stem plot) & Step function (flat plateaus and vertical jumps) \\
-			\hline
-			\textbf{Global condition} & $\sum_{x \in \mathcal{S}_X} f(x) = 1$ & $\lim_{x \to -\infty} F(x) = 0$, $\lim_{x \to \infty} F(x) = 1$ \\
-			\hline
-		\end{tabular}
-	\end{table}
-	\vspace{-0.2cm}
-	\begin{alertblock}{Conceptual Synthesis}
-		\footnotesize
-		The CDF encapsulates all probabilistic information of the system: knowing $F(x)$ for all $x \in \mathbb{R}$ is strictly equivalent to knowing the complete probability distribution of $X$.
-	\end{alertblock}
 \end{frame}
 
 % SLIDE 05: Formal Definition of the CDF
@@ -250,35 +223,6 @@
 	\end{block}
 \end{frame}
 
-% SLIDE 10: Discrete Quantiles & Generalized Inversion
-\begin{frame}{Discrete Quantiles and Generalized Inversion}
-	\begin{block}{Definition of Quantile of Order $\alpha$}
-		\small
-		Given a probability threshold $\alpha \in (0, 1)$, the \textbf{discrete quantile} $q_\alpha$ is formally defined as the infimum over all real numbers where the accumulated probability reaches or exceeds $\alpha$:
-		\begin{align*}
-			q_\alpha = \inf \set{x \in \mathbb{R} : F(x) \ge \alpha}
-		\end{align*}
-	\end{block}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{The Median ($q_{0.50}$)}
-				\footnotesize
-				It is the support value $x_{\text{med}}$ dividing the distribution into two balanced halves:
-				\begin{align*}
-					P(X \le x_{\text{med}}) \ge 0.50 \text{ and } P(X \ge x_{\text{med}}) \ge 0.50
-				\end{align*}
-			\end{alertblock}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Generalized Inverse}
-				\footnotesize
-				Since step functions are not bijective (exhibiting flat plateaus), the infimum operator acts as a unique pseudo-inverse $F^{-1}(\alpha)$ mapping probability levels to support values.
-			\end{exampleblock}
-		\end{column}
-	\end{columns}
-\end{frame}
-
 % SLIDE 11: Python Lab --- Part 1: CDF Construction
 \begin{frame}[fragile]{Computational Lab --- Part 1: Step CDF Construction}
 	\begin{block}{Programmatic Probability Accumulation (\texttt{compute\_step\_cdf})}
@@ -319,63 +263,163 @@
 	\lstinputlisting[language=Python, firstline=54, lastline=73, basicstyle=\fontsize{5.4pt}{6.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.02_discrete_cdf.py}
 \end{frame}
 
-% SLIDE 15: Problems --- Fundamental Level
-\begin{frame}{Master Book Problems --- Fundamental Level}
-	\begin{block}{Direct Conceptualization Exercises (3-3-2-2 Taxonomy)}
+% SLIDE 15A: Classroom Exercise --- Tier 1: Fundamental (Statement)
+\begin{frame}{Classroom Exercise --- Tier 1: Fundamental (1/2)}
+	\begin{block}{Problem 3.2.1 --- Fair Die and Evaluation Points in $\mathbb{R}$}
 		\small
-		\begin{itemize}
-			\itemsep=0.08cm
-			\item \textbf{Problem 3.2.1 (Fair die and uniform steps):} Explicit construction of $F(x)$ across seven disjoint intervals for a balanced die, and exact numerical evaluation at ordinary points ($2.8$), boundary jumps ($4$), and asymptotic tails ($-1, 10$).
-			\item \textbf{Problem 3.2.2 (Reconstruction from step table):} Evaluation of interval probabilities in half-open $P(0 < Y \le 5) = F(5) - F(0) = 0.70$ and closed sets $P(2 \le Y \le 8) = 0.85$, deriving the PMF table via finite differences across jumps.
-			\item \textbf{Problem 3.2.3 (Proof of monotonicity and cadlág):} Rigorous analytical justification of non-decreasing growth based on measurable subset inclusion $\set{X \le a} \subseteq \set{X \le b}$ and upper convergence of right-hand limits.
-		\end{itemize}
+		Consider a fair six-sided die whose outcome is the discrete random variable $X \in \{1, 2, 3, 4, 5, 6\}$ with uniform probabilities $P(X=k) = \frac{1}{6}$.
+		\begin{enumerate}\itemsep=0.15cm
+			\item Construct the exhaustive piecewise analytical expression of the cumulative distribution function $F_X(x) = P(X \le x)$ for all $x \in \mathbb{R}$.
+			\item Compute and interpret the exact numerical value of the function at the following real points of the domain: $x = 2.8$, $x = -1.0$, $x = 4.0$, and $x = 10.0$.
+		\end{enumerate}
 	\end{block}
 \end{frame}
 
-% SLIDE 16: Problems --- Operational Level
-\begin{frame}{Master Book Problems --- Operational Level}
-	\begin{block}{Engineering and Cybersecurity Applications}
-		\small
-		\begin{itemize}
-			\itemsep=0.08cm
-			\item \textbf{Problem 3.2.4 (Quality control in silicon wafers):} Piecewise modeling of defective solder joints per wafer ($X \in \set{0,1,2,3}$) and direct calculation of industrial rejection rates: $P(X \ge 2) = 1 - F_X(1) = 0.30$.
-			\item \textbf{Problem 3.2.5 (Penetration testing and geometric attempts):} Closed-form derivation of the CDF for trials until first success $F_N(n) = 1 - (1-p)^n$ and determination of the minimum audit trial quota ($n^* = 14$ for $p=0.20$ at $95\%$ confidence).
-			\item \textbf{Problem 3.2.6 (Data center server provisioning):} Determination of daily demand median ($q_{0.50} = 30$ servers) and higher-order safety quantiles ($q_{0.85} = 40$ servers for an $85\%$ SLA) via the infimum operator.
+% SLIDE 15B: Classroom Exercise --- Tier 1: Fundamental (Solution)
+\begin{frame}{Classroom Exercise --- Tier 1: Fundamental (2/2)}
+	\fontsize{6.8pt}{8.2pt}\selectfont
+	\begin{block}{1. Construction of the Piecewise Analytical Expression ($F_X(x)$)}
+		\fontsize{6.8pt}{8.2pt}\selectfont
+		Progressively accumulating jumps of magnitude $\frac{1}{6}$ at each integer of the support:
+		$$F_X(x) = \begin{cases}
+			0 & \text{if } x < 1 \\
+			1/6 \approx 0.1667 & \text{if } 1 \le x < 2 \\
+			2/6 \approx 0.3333 & \text{if } 2 \le x < 3 \\
+			3/6 = 0.5000 & \text{if } 3 \le x < 4 \\
+			4/6 \approx 0.6667 & \text{if } 4 \le x < 5 \\
+			5/6 \approx 0.8333 & \text{if } 5 \le x < 6 \\
+			1 & \text{if } x \ge 6
+		\end{cases}$$
+	\end{block}
+	\vspace{-0.15cm}
+	\pause
+	\begin{alertblock}{2. Point Evaluation at Real Arguments $\mathbb{R}$}
+		\fontsize{6.8pt}{8.2pt}\selectfont
+		\begin{itemize}\itemsep=0.06cm
+			\item $F_X(2.8):$ Since $2 \le 2.8 < 3$, it falls in the second plateau $\implies \mathbf{F_X(2.8) = \frac{2}{6} = \frac{1}{3} \approx 0.3333}$.
+			\item $F_X(-1.0):$ Since $-1.0 < 1$ (lower boundary of the support), it lies to the left $\implies \mathbf{F_X(-1.0) = 0}$.
+			\item $F_X(4.0):$ Since the interval includes the left endpoint ($4 \le 4.0 < 5$) $\implies \mathbf{F_X(4.0) = \frac{4}{6} = \frac{2}{3} \approx 0.6667}$.
+			\item $F_X(10.0):$ Since $10.0 \ge 6$ exceeds the entire support $\implies \mathbf{F_X(10.0) = 1.0000}$.
 		\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 16A: Classroom Exercise --- Tier 2: Operational (Statement)
+\begin{frame}{Classroom Exercise --- Tier 2: Operational (1/2)}
+	\begin{block}{Problem 3.2.4 --- Solder Defects in Circuit Wafers}
+		\footnotesize
+		On an automated integrated-circuit production line, the number of defective solder joints per wafer, $X$, has the following probability mass function:
+		$$p_X(x) = \begin{cases}
+			0.40 & \text{if } x = 0 \\
+			0.30 & \text{if } x = 1 \\
+			0.20 & \text{if } x = 2 \\
+			0.10 & \text{if } x = 3 \\
+			0 & \text{otherwise}
+		\end{cases}$$
+		\begin{enumerate}\itemsep=0.04cm
+			\item Write the cumulative distribution function $F_X(x)$ explicitly, piece by piece, for all $x \in \mathbb{R}$.
+			\item The quality control department's protocol establishes that a wafer is \textbf{formally rejected if it presents $2$ or more defects}. Compute the rejection probability operating \emph{exclusively} with values of the cumulative function $F_X(x)$.
+		\end{enumerate}
 	\end{block}
 \end{frame}
 
-% SLIDE 17: Problems --- Analytical Level
-\begin{frame}{Master Book Problems --- Analytical Level}
-	\begin{block}{Theoretical Proofs and Variable Transformations}
-		\small
-		\begin{itemize}
-			\itemsep=0.1cm
-			\item \textbf{Problem 3.2.7 (Differences over integers):} Formal proof showing that for integer-valued variables ($\mathcal{S}_X \subseteq \mathbb{Z}$), closed interval evaluations reduce to lagged differences:
-			\begin{align*}
-				P(a \le X \le b) = F_X(b) - F_X(a - 1) \quad \text{and} \quad f_X(k) = \Delta F_X(k).
-			\end{align*}
-			\item \textbf{Problem 3.2.8 (Monotone transformations):} Proof of step-invariance when transforming variables $Y = g(X)$ for increasing $g$ ($F_Y(y) = F_X(g^{-1}(y))$) and formal derivation for decreasing functions $Z = h(X)$:
-			\begin{align*}
-				F_Z(z) = 1 - \lim_{u \to (h^{-1}(z))^-} F_X(u).
-			\end{align*}
-		\end{itemize}
+% SLIDE 16B: Classroom Exercise --- Tier 2: Operational (Solution)
+\begin{frame}{Classroom Exercise --- Tier 2: Operational (2/2)}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{1. Piecewise Expression of $F_X(x)$}
+				\fontsize{6.5pt}{7.8pt}\selectfont
+				Summing point probabilities ($0.40 + 0.30 = 0.70$, etc.):
+				$$F_X(x) = \begin{cases}
+					0.00 & \text{if } x < 0 \\
+					0.40 & \text{if } 0 \le x < 1 \\
+					0.70 & \text{if } 1 \le x < 2 \\
+					0.90 & \text{if } 2 \le x < 3 \\
+					1.00 & \text{if } x \ge 3
+				\end{cases}$$
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{2. Rejection Probability ($P(X \ge 2)$)}
+				\fontsize{6.5pt}{7.8pt}\selectfont
+				Upper tail $X \ge 2$. By the complement axiom:
+				$$P(\text{Rejection}) = P(X \ge 2) = 1 - P(X < 2)$$
+				Since $X \in \mathbb{Z}$, the event $\{X < 2\}$ is equivalent to $\{X \le 1\}$:
+				$$P(X \ge 2) = 1 - P(X \le 1) = 1 - F_X(1)$$
+				Substituting the corresponding plateau of $F_X(x)$:
+				$$P(\text{Rejection}) = 1 - 0.70 = \mathbf{0.30 \implies 30.0\%}$$
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 17A: Classroom Exercise --- Tier 3: Analytical (Statement)
+\begin{frame}{Classroom Exercise --- Tier 3: Analytical (1/2)}
+	\begin{block}{Problem 3.2.7 --- Probability Theorem over Integer Intervals}
+		\footnotesize
+		Let $X$ be a discrete random variable whose support is a subset of the integers ($\mathcal{S}_X \subset \mathbb{Z}$) and whose cumulative distribution function is $F_X(x)$.
+		\begin{enumerate}\itemsep=0.15cm
+			\item Formally prove that for any two integers $a, b \in \mathbb{Z}$ with $a \le b$, the probability of the closed interval is expressed in terms of the CDF by:
+			$$P(a \le X \le b) = F_X(b) - F_X(a - 1)$$
+			\item From the previous result, rigorously prove that the magnitude of the jump at any integer $k \in \mathbb{Z}$ equals the point mass:
+			$$p_X(k) = F_X(k) - F_X(k-1)$$
+		\end{enumerate}
 	\end{block}
 \end{frame}
 
-% SLIDE 18: Problems --- Challenging Level
-\begin{frame}{Master Book Problems --- Challenging Level}
-	\begin{block}{Distribution Theory and Extreme Bivariate Bounds}
-		\small
-		\begin{itemize}
-			\itemsep=0.1cm
-			\item \textbf{Problem 3.2.9 (Generalized distributions and Heaviside steps):} Representation of pure discrete CDFs as linear combinations of step functions $F(x) = \sum p_k H(x - x_k)$ and topological proof in Sobolev-Schwartz space showing its distributional derivative yields Dirac impulses: $f(x) = \sum p_k \delta(x - x_k)$.
-			\item \textbf{Problem 3.2.10 (Fréchet-Hoeffding joint bounds in routers):} Derivation of rectangle probability mass via second differences and proof of universal bounds confining any joint CDF between its marginals:
-			\begin{align*}
-				\max\left( 0, F_X(x) + F_Y(y) - 1 \right) \le F_{X,Y}(x, y) \le \min\left( F_X(x), F_Y(y) \right).
-			\end{align*}
-		\end{itemize}
+% SLIDE 17B: Classroom Exercise --- Tier 3: Analytical (Solution)
+\begin{frame}{Classroom Exercise --- Tier 3: Analytical (2/2)}
+	\fontsize{6.5pt}{7.8pt}\selectfont
+	\begin{block}{1. Proof for the Closed Interval over $\mathbb{Z}$}
+		\fontsize{6.5pt}{7.8pt}\selectfont
+		By the axiomatic definition of the CDF, the accumulated event $\{X \le b\}$ can be partitioned into the union of two disjoint events: $\{X \le a-1\} \cup \{a \le X \le b\}$. By additivity:
+		$$P(X \le b) = P(X \le a-1) + P(a \le X \le b) \implies P(a \le X \le b) = P(X \le b) - P(X \le a-1)$$
+		Substituting the formal functional notation of the cumulative distribution ($F_X(x) = P(X \le x)$):
+		$$P(a \le X \le b) = F_X(b) - F_X(a-1) \quad \blacksquare$$
 	\end{block}
+	\vspace{-0.25cm}
+	\pause
+	\begin{alertblock}{2. Proof of Point-Jump Inversion over $\mathbb{Z}$}
+		\fontsize{6.5pt}{7.8pt}\selectfont
+		Let $a = b = k$ be an arbitrary integer. Substituting both endpoints by $k$ in the previous closed-interval formula:
+		$$P(k \le X \le k) = F_X(k) - F_X(k-1)$$
+		The left-hand side represents the singleton event where the variable takes the exact value $k$, that is, $P(X=k) = p_X(k)$:
+		$$p_X(k) = F_X(k) - F_X(k-1) = \Delta F_X(k) \quad \blacksquare$$
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 18A: Classroom Exercise --- Tier 4: Challenging (Statement)
+\begin{frame}{Classroom Exercise --- Tier 4: Challenging (1/2)}
+	\begin{block}{Problem 3.2.9 --- Spectral Representation via Heaviside Steps}
+		\footnotesize
+		In measure theory and probabilistic functional analysis, every pure discrete random variable can be represented as an infinite superposition of unit jumps.
+		\begin{enumerate}\itemsep=0.12cm
+			\item Prove that the cumulative distribution function $F_X(x)$ can be expressed as a convergent linear combination of Heaviside unit steps $H(x - x_k)$:
+			$$F_X(x) = \sum_{k} p_X(x_k) H(x - x_k), \quad \text{where } H(t) = \begin{cases} 1 & \text{if } t \ge 0 \\ 0 & \text{if } t < 0 \end{cases}$$
+			\item Explain why the ordinary derivative satisfies $F_X'(x) = 0$ almost everywhere (a.e.) with respect to Lebesgue measure, and how the theory of generalized distributions recovers the analytical density $f_X(x)$ via Dirac Delta impulses ($\delta(x-x_k)$).
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+% SLIDE 18B: Classroom Exercise --- Tier 4: Challenging (Solution)
+\begin{frame}{Classroom Exercise --- Tier 4: Challenging (2/2)}
+	\fontsize{6.5pt}{7.8pt}\selectfont
+	\begin{block}{1. Proof of the Heaviside Series}
+		\fontsize{6.5pt}{7.8pt}\selectfont
+		We evaluate the series at an arbitrary point $x \in \mathbb{R}$. The step function $H(x-x_k)$ equals $1$ if and only if $x - x_k \ge 0 \iff x_k \le x$, and equals $0$ otherwise. Therefore, the infinite sum filters exactly the support masses to the left of $x$:
+		$$\sum_{k} p_X(x_k) H(x - x_k) = \sum_{k: x_k \le x} p_X(x_k)(1) + \sum_{k: x_k > x} p_X(x_k)(0) = \sum_{x_k \le x} p_X(x_k) = F_X(x) \quad \blacksquare$$
+	\end{block}
+	\vspace{-0.15cm}
+	\pause
+	\begin{alertblock}{2. Generalized Derivative and the Dirac Delta}
+		\fontsize{6.5pt}{7.8pt}\selectfont
+		\begin{itemize}\itemsep=0.06cm
+			\item At every point $x \notin \mathcal{S}_X$, $F_X(x)$ is locally constant $\implies F_X'(x) = 0$ almost everywhere (a.e.). The ordinary derivative loses all probability-mass information.
+			\item In the space of tempered distributions ($\mathcal{D}'$), the derivative of the Heaviside step is the Dirac Delta: $\frac{d}{dx}H(x-x_k) = \delta(x-x_k)$. Differentiating term by term yields the impulse density:
+			$$f_X(x) = \frac{d}{dx}F_X(x) = \sum_{k} p_X(x_k) \delta(x - x_k)$$
+			whose integral over any interval $[a,b]$ exactly recovers the sum of discrete masses.
+		\end{itemize}
+	\end{alertblock}
 \end{frame}
 
 % SLIDE 19: Conclusions and Synthesis
