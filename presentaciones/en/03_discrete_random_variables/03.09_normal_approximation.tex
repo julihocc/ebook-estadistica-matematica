@@ -20,20 +20,43 @@
 % SLIDE 02: Roadmap
 \begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
 	\vspace{-0.15cm}
-	\begin{block}{Curricular Structure of Unit 2}
+	\begin{block}{Curricular Structure of Chapter 03}
 		\footnotesize
-		\begin{enumerate}\itemsep=0.03cm
-			\item \textcolor{gray}{Section 03.01 to 03.03: Foundations, PMF, CDF, Expectation, and Variance}
-			\item \textcolor{gray}{Section 03.04 to 03.06: Binomial, Geometric, Negative Binomial, Hypergeometric}
+		\begin{enumerate}\itemsep=0.01cm
+			\item \textcolor{gray}{Section 03.01: Discrete Probability Mass Functions (PMF and Support)}
+			\item \textcolor{gray}{Section 03.02: Cumulative Distribution Functions (Discrete CDF)}
+			\item \textcolor{gray}{Section 03.03: Mathematical Expectation, Variance, and Moments}
+			\item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions}
+			\item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions}
+			\item \textcolor{gray}{Section 03.06: Hypergeometric Distribution}
 			\item \textcolor{gray}{Section 03.07: Poisson Distribution}
 			\item \textcolor{gray}{Section 03.08: Multinomial Distribution}
 			\item \textbf{\textcolor{TecRojo}{Section 03.09: Normal Distribution}} $\leftarrow$ \emph{Current focus}
 		\end{enumerate}
 	\end{block}
-	\vspace{-0.2cm}
+	\vspace{-0.25cm}
 	\begin{alertblock}{Learning Objective}
 		\scriptsize
 		Introduce the Normal distribution as the fundamental continuous model, master Z-score standardization and the 68-95-99.7 rule, exploit the De Moivre-Laplace theorem to approximate the Binomial by Normal with continuity correction, and apply the Central Limit Theorem to sums of discrete variables.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 02B: Motivation
+\begin{frame}{From Discrete to Continuous: The Limit Theorem as a Bridge}
+	\vspace{-0.15cm}
+	\begin{block}{Why the Normal Distribution?}
+		\footnotesize
+		So far we have studied distributions for \emph{discrete} random variables taking integer values (Binomial, Poisson, Multinomial). But many phenomena in engineering and science vary continuously: measurement errors, price fluctuations, electrical noise, times between events. The Normal distribution, with its characteristic bell shape, is the universal model for these phenomena and the asymptotic limit of nearly all discrete distributions.
+	\end{block}
+	\vspace{-0.1cm}
+	\pause
+	\begin{alertblock}{Key Ideas}
+		\footnotesize
+		\begin{itemize}\itemsep=0.06cm
+			\item \textbf{Universal character:} Appears in the CLT as the limit of sums of i.i.d. variables with finite mean and variance.
+			\item \textbf{Continuous model:} Density function $f(x)$ instead of probability mass $P(X=k)$; support over all of $\mathbb{R}$.
+			\item \textbf{Discrete-continuous bridge:} Allows approximating the Binomial and Poisson when $n$ or $\lambda$ are large.
+		\end{itemize}
 	\end{alertblock}
 \end{frame}
 
@@ -56,6 +79,26 @@
 			\end{alertblock}
 		\end{column}
 	\end{columns}
+\end{frame}
+
+% SLIDE 03B: Empirical Rule 68-95-99.7
+\begin{frame}{The 68-95-99.7 Empirical Rule and Symmetry Properties}
+	\vspace{-0.15cm}
+	\begin{block}{Empirical Rule}
+		\footnotesize
+		The Normal distribution has a fundamental mnemonic rule for quickly interpreting probabilities:
+		\begin{itemize}\itemsep=0.06cm
+			\item $P(\mu - \sigma \le X \le \mu + \sigma) = P(|Z| \le 1) = 2\Phi(1) - 1 \approx 0.6827$ (68\%)
+			\item $P(\mu - 2\sigma \le X \le \mu + 2\sigma) = P(|Z| \le 2) = 2\Phi(2) - 1 \approx 0.9545$ (95\%)
+			\item $P(\mu - 3\sigma \le X \le \mu + 3\sigma) = P(|Z| \le 3) = 2\Phi(3) - 1 \approx 0.9973$ (99.7\%)
+		\end{itemize}
+	\end{block}
+	\vspace{-0.1cm}
+	\pause
+	\begin{alertblock}{Application in Quality Control}
+		\footnotesize
+		$\bar{x}$ control charts use $\mu \pm 3\sigma$ limits that capture $99.73\%$ of variation under normal operation. Points outside these limits signal ``special causes'' of variability requiring investigation.
+	\end{alertblock}
 \end{frame}
 
 % SLIDE 04: De Moivre-Laplace and Yates Correction

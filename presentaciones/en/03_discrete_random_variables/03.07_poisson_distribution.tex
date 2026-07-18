@@ -20,15 +20,16 @@
 % SLIDE 02: Roadmap
 \begin{frame}{Roadmap --- Chapter 03: Discrete Random Variables}
 	\vspace{-0.15cm}
-	\begin{block}{Curricular Structure of Unit 2}
+	\begin{block}{Curricular Structure of Chapter 03}
 		\footnotesize
 		\begin{enumerate}\itemsep=0.03cm
-			\item \textcolor{gray}{Section 03.01 to 03.03: Foundations, PMF, CDF, Expectation, and Variance}
-			\item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions (Sampling with replacement)}
-			\item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions (Waiting times)}
-			\item \textcolor{gray}{Section 03.06: Hypergeometric Distribution (Sampling without replacement)}
+			\item \textcolor{gray}{Section 03.01: Discrete Probability Mass Functions (PMF and Support)}
+			\item \textcolor{gray}{Section 03.02: Cumulative Distribution Functions (Discrete CDF)}
+			\item \textcolor{gray}{Section 03.03: Mathematical Expectation, Variance, and Moments}
+			\item \textcolor{gray}{Section 03.04: Bernoulli and Binomial Distributions}
+			\item \textcolor{gray}{Section 03.05: Geometric and Negative Binomial Distributions}
+			\item \textcolor{gray}{Section 03.06: Hypergeometric Distribution}
 			\item \textbf{\textcolor{TecRojo}{Section 03.07: Poisson Distribution}} $\leftarrow$ \emph{Current focus}
-			\item \textcolor{gray}{Section 03.08: Multinomial Distribution}
 		\end{enumerate}
 	\end{block}
 	\vspace{-0.2cm}
@@ -88,6 +89,36 @@
 			\end{alertblock}
 		\end{column}
 	\end{columns}
+\end{frame}
+
+% SLIDE 04B: Support and Probability Generating Function
+\begin{frame}{Countable Support and the Probability Generating Function}
+	\vspace{-0.15cm}
+	\begin{block}{Countable Infinite Support and Unit Sum}
+		\scriptsize
+		The sum of Poisson probabilities over the entire support is not trivial: it requires the Taylor series identity of the exponential function.
+		$$\mathcal{S}_X = \set{k \in \mathbb{Z}_{\ge 0}}, \quad \sum_{k=0}^{\infty} P(X = k) = e^{-\lambda} \sum_{k=0}^{\infty} \dfrac{\lambda^{k}}{k!} = e^{-\lambda} \cdot e^{\lambda} = 1$$
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Probability Generating Function (PGF)}
+		\scriptsize
+		$G_{X}(t) = \E[t^{X}] = \sum_{k=0}^{\infty} t^{k} P(X=k) = e^{\lambda(t-1)}$ encodes all distributional information and will be key to proving additivity.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 04C: Moment Generating Function
+\begin{frame}{MGF and Characterization of the Poisson Distribution}
+	\vspace{-0.15cm}
+	\begin{block}{Poisson MGF}
+		\scriptsize
+		The Moment Generating Function $M_{X}(t) = \E[e^{tX}]$ for a Poisson variable takes a particularly simple closed form:
+		$$M_{X}(t) = \sum_{k=0}^{\infty} \dfrac{e^{tk} e^{-\lambda} \lambda^{k}}{k!} = e^{-\lambda} \sum_{k=0}^{\infty} \dfrac{(\lambda e^{t})^{k}}{k!} = e^{\lambda(e^{t} - 1)}$$
+	\end{block}
+	\vspace{-0.15cm}
+	\begin{alertblock}{Deriving Moments from the MGF}
+		\scriptsize
+		Raw moments are obtained by differentiation: $\E[X^{r}] = M_{X}^{(r)}(0)$. For example, $\E[X] = M_{X}'(0) = \lambda e^{0} = \lambda$ and $\E[X^{2}] = \lambda^{2} + \lambda$, confirming equidispersion.
+	\end{alertblock}
 \end{frame}
 
 % SLIDE 05: Law of Rare Events
