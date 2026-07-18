@@ -1,6 +1,4 @@
-\section{Elements of Experimental Design and Analysis of Variance (ANOVA)}
-
-\subsection{Fundamental Concepts of Experimental Design}
+\section{Fundamentals of Experimental Design (DOE)}
 
 In applied statistics and scientific research, observational studies often fail to establish causal relationships due to the presence of confounding variables and uncontrolled environmental noise. \textbf{Design of Experiments (DOE)} provides a rigorous mathematical and structural methodology to plan, execute, and analyze empirical tests where intentional changes are made to input variables (factors) of a system or process to observe, measure, and identify the corresponding changes in output variables (responses).
 
@@ -13,14 +11,14 @@ The primary objectives of experimental design include:
 
 To guarantee the validity of any statistical inference derived from an experiment, the experimental protocol must strictly satisfy the \textbf{Three Fundamental Principles of Experimental Design}, originally formalized by Sir Ronald A. Fisher:
 
-\subsubsection{1. Replication}
+\subsection{1. Replication}
 \textbf{Replication} refers to the independent repetition of the basic experiment under identical operational conditions across distinct experimental units ($n \geq 2$). Replication serves two vital mathematical functions:
 \begin{itemize}
 	\item It permits the calculation of an \textbf{unbiased estimate of experimental error variance ($\sigma^2$)}, which represents the baseline biological, physical, or measurement variation between experimental units treated alike. Without replication ($n=1$), the error sum of squares ($\text{SCE}$) has zero degrees of freedom ($\nu_E = 0$), rendering exact parametric significance testing via the $F$-distribution impossible.
 	\item It increases the precision of treatment mean estimators ($\bar{Y}_{i.}$) by reducing the standard error of the sample mean ($\sigma_{\bar{Y}} = \frac{\sigma}{\sqrt{n}}$), directly enhancing the statistical power of the test ($1 - \beta$).
 \end{itemize}
 
-\subsubsection{2. Randomization}
+\subsection{2. Randomization}
 \textbf{Randomization} is the random assignment of treatments to experimental units, ensuring that every unit has an equal and independent probability of receiving any given treatment. Mathematically, randomization fulfills several crucial requirements:
 \begin{itemize}
 	\item It validates the foundational structural assumption that the random error terms ($\varepsilon_{ij}$) are independent and identically distributed ($\text{i.i.d.}$) random variables with zero mean and constant variance.
@@ -28,12 +26,12 @@ To guarantee the validity of any statistical inference derived from an experimen
 	\item It guarantees the validity of parametric tests ($t$-test, $F$-test) by ensuring that the observed differences in sample means are attributable purely to treatment effects or pure chance, rather than pre-existing systemic differences among experimental units.
 \end{itemize}
 
-\subsubsection{3. Blocking (Local Control)}
+\subsection{3. Blocking (Local Control)}
 \textbf{Blocking} is the systematic grouping of experimental units into relatively homogeneous sets (called \textbf{blocks}) before assigning treatments. The fundamental philosophy of blocking is to isolate known, predictable sources of nuisance variability across experimental units so that they do not inflate the experimental error.
 
 By including the block effect ($\beta_j$) explicitly in the additive linear model, the variability among blocks ($\text{SCB}$) is orthogonally extracted and removed from the total residual error sum of squares ($\text{SCE}$). This reduction in residual error ($\text{CME}$) significantly tightens confidence intervals around treatment means and dramatically increases the sensitivity and statistical power of the $F$-test to detect subtle treatment effects. As a general rule of experimental design: *"Block what you can systematically identify and control; randomize what you cannot."*
 
-\subsection{One-Way Analysis of Variance (One-Way ANOVA)}
+\section{One-Way Analysis of Variance (One-Way ANOVA)}
 
 The \textbf{One-Way Analysis of Variance (Completely Randomized Design, CRD)} is an inferential methodology designed to simultaneously compare the population means of $k \geq 2$ independent groups or levels of a single categorical independent variable (called a \textbf{factor}).
 
@@ -43,7 +41,7 @@ While the two-sample Student's $t$-test is adequate for comparing $k=2$ populati
 \end{align}
 ANOVA circumvents this inflation by executing a single global (\textbf{omnibus}) test that partitions the total observed variance into orthogonal components, maintaining the exact experimental Type I error rate at $\alpha$.
 
-\subsubsection{Structural Additive Linear Model}
+\subsection{Structural Additive Linear Model}
 
 Let $Y_{ij}$ represent the continuous response observation from the $j$-th experimental unit assigned to the $i$-th treatment level ($i = 1, 2, \dots, k$; $j = 1, 2, \dots, n_i$). The total number of observations across the experiment is $N = \sum_{i=1}^k n_i$. When all group sample sizes are equal ($n_1 = n_2 = \dots = n_k = n$), the design is termed \textbf{balanced}, and $N = kn$.
 
@@ -61,7 +59,7 @@ where:
 	\end{align}
 \end{itemize}
 
-\subsubsection{Statistical Assumptions of ANOVA}
+\subsection{Statistical Assumptions of ANOVA}
 
 For the parametric $F$-statistic to exactly follow the theoretical Snedecor $F$-distribution, the observational data must strictly satisfy three distributional assumptions:
 \begin{enumerate}
@@ -70,7 +68,7 @@ For the parametric $F$-statistic to exactly follow the theoretical Snedecor $F$-
 	\item \textbf{Independence of Errors:} The random error terms $\varepsilon_{ij}$ are mutually independent ($\text{Cov}(\varepsilon_{ij}, \varepsilon_{i'j'}) = 0$ for any $(i,j) \neq (i',j')$). This assumption is guaranteed methodologically through proper \textbf{randomization} during experimental execution. Violation of independence (e.g., temporal autocorrelation or spatial clustering) causes severe underestimation of residual error variance ($\text{CME}$), producing spurious false-positive rejections.
 \end{enumerate}
 
-\subsubsection{Partitioning of the Total Sum of Squares}
+\subsection{Partitioning of the Total Sum of Squares}
 
 The fundamental algebraic identity of ANOVA decomposes the total deviation of any observation from the grand mean into two distinct, additive components: the deviation of the group mean from the grand mean (between-group effect), and the deviation of the observation from its respective group mean (within-group error):
 \begin{align}
@@ -98,7 +96,7 @@ Notice that the degrees of freedom partition exactly in the exact same additive 
 	\nu_T = \nu_{\text{TR}} + \nu_E \implies (N - 1) = (k - 1) + (N - k).
 \end{align}
 
-\subsubsection{Expected Mean Squares and the Hypothesis Test}
+\subsection{Expected Mean Squares and the Hypothesis Test}
 
 A \textbf{Mean Square ($\text{CM}$)} is defined as a sum of squares divided by its associated degrees of freedom. Unlike sums of squares, mean squares are non-additive ($\text{CMT} \neq \text{CMTR} + \text{CME}$). We calculate:
 \begin{align}
@@ -142,11 +140,11 @@ All computational results are systematically compiled in the classic \textbf{ANO
 	\label{tab:anova_unifactorial}
 \end{table}
 
-\subsection{Multiple Comparisons and Post-Hoc Tests}
+\section{Multiple Comparisons and Post-Hoc Tests}
 
 When an omnibus ANOVA yields a statistically significant $F_{\text{calc}}$ ($p < \alpha$), we conclude that at least one treatment mean differs from the others ($\mu_i \neq \mu_j$). However, the omnibus test provides no specific information regarding \emph{which} pairs or combinations of groups are responsible for the rejection. To pinpoint the exact location of significant differences without inflating the overall family-wise error rate ($\text{FWER}$), specialized \textbf{Post-Hoc Multiple Comparison Procedures} must be applied.
 
-\subsubsection{Tukey's Honestly Significant Difference (HSD)}
+\subsection{Tukey's Honestly Significant Difference (HSD)}
 \textbf{Tukey's HSD test} is the most widely recommended and statistically optimal method for conducting all possible $\binom{k}{2} = \frac{k(k-1)}{2}$ pairwise comparisons across balanced treatment groups ($n_1 = n_2 = \dots = n_k = n$). It rigorously controls the exact family-wise error rate at $\alpha$ across the entire set of pairwise contrasts.
 
 Tukey's procedure is derived from the \textbf{Studentized Range Distribution ($q$)}, which describes the sampling distribution of the difference between the sample maximum and sample minimum ($\bar{Y}_{\text{max}} - \bar{Y}_{\text{min}}$) divided by the pooled standard error.
@@ -165,14 +163,14 @@ where $q_{\alpha, \, k, \, \nu_E}$ is the upper critical quantile from the Stude
 	|\bar{Y}_{i.} - \bar{Y}_{j.}| > \text{HSD} \implies \text{Reject } H_0: \mu_i = \mu_j.
 \end{align}
 
-\subsubsection{Fisher's Least Significant Difference (LSD)}
+\subsection{Fisher's Least Significant Difference (LSD)}
 \textbf{Fisher's LSD test} is essentially a direct extension of the standard two-sample Student's $t$-test across all pairs of means, utilizing the pooled error mean square ($\text{CME}$) from the ANOVA across $\nu_E = N - k$ degrees of freedom. The critical difference threshold between any two sample means is defined as:
 \begin{align}
 	\text{LSD} = t_{\alpha/2, \, \nu_E} \sqrt{\text{CME} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)}.
 \end{align}
 \textbf{Critical Limitation:} Fisher's LSD does not incorporate a family-wise correction factor across multiple tests. Consequently, it suffers from severe Type I error inflation when $k > 3$. To mitigate false positives, Fisher proposed \textbf{Protected LSD}, which mandates that LSD comparisons may only be computed if the omnibus $F$-test is statistically significant at $\alpha$. While Protected LSD successfully controls $\text{FWER}$ at $\alpha$ when $k=3$, it fails completely when $k \geq 4$. Therefore, Fisher's LSD is primarily utilized for exploratory research or when statistical sensitivity (high power) is prioritized over Type I error protection.
 
-\subsubsection{Bonferroni Correction}
+\subsection{Bonferroni Correction}
 The \textbf{Bonferroni correction} is a universal, simple, and conservative post-hoc method based on Boole's inequality for intersection event probabilities. If the researcher plans to perform $m = \binom{k}{2}$ pairwise comparisons and wishes to maintain the overall family-wise confidence level at or above $(1-\alpha)100\%$, the individual significance level for each specific pairwise test is adjusted by dividing the nominal level by the total number of comparisons:
 \begin{align}
 	\alpha^* = \frac{\alpha}{m} = \frac{\alpha}{\binom{k}{2}}.
@@ -183,13 +181,13 @@ The critical threshold for declaring two treatment means significantly different
 \end{align}
 While Bonferroni absolutely prevents false-positive rejections ($\text{FWER} \leq \alpha$), it becomes excessively conservative when the number of treatments $k$ is large ($k \geq 6 \implies m \geq 15$), drastically increasing Type II errors ($\beta$) and sacrificing statistical power.
 
-\subsection{Randomized Complete Block Design (RCBD)}
+\section{Randomized Complete Block Design (RCBD)}
 
 When experimental units possess inherent, known heterogeneity (such as different batches of raw material, distinct age cohorts, or different physical testing machines), applying a Completely Randomized Design (CRD) forces all inter-unit variability directly into the residual error term ($\text{SCE}$). This inflates $\text{CME}$ and destroys the sensitivity of the $F$-test.
 
 The \textbf{Randomized Complete Block Design (RCBD)} overcomes this challenge by grouping experimental units into $b$ homogeneous blocks of size $k$ (where $k$ is the total number of treatments). Within each block, treatments are assigned completely at random, ensuring that every treatment appears exactly once per block ($N = kb$).
 
-\subsubsection{Additive Structural Model for RCBD}
+\subsection{Additive Structural Model for RCBD}
 The observation $Y_{ij}$ for the $i$-th treatment ($i=1,\dots,k$) within the $j$-th block ($j=1,\dots,b$) is modeled by:
 \begin{align}
 	Y_{ij} = \mu + \tau_i + \beta_j + \varepsilon_{ij},
@@ -202,7 +200,7 @@ where:
 	\item $\varepsilon_{ij} \sim N(0, \sigma^2)$ are independent random residual errors, assuming no interaction between treatments and blocks (additivity of effects).
 \end{itemize}
 
-\subsubsection{Partitioning of Variance in RCBD}
+\subsection{Partitioning of Variance in RCBD}
 In an RCBD, the Total Sum of Squares ($\text{SCT}$, with $\nu_T = kb - 1$) is orthogonally partitioned into three mutually independent components:
 \begin{align}
 	\text{SCT} = \text{SCTR} + \text{SCB} + \text{SCE},
@@ -235,3 +233,24 @@ we construct two independent $F$-statistics: one to evaluate treatment differenc
 	\caption{ANOVA Table for a Randomized Complete Block Design (RCBD).}
 	\label{tab:anova_dbca}
 \end{table}
+
+\section{Verification of ANOVA Assumptions and Data Science Applications}
+
+The theoretical validity and inferential robustness of any conclusion drawn from an ANOVA rest fundamentally on the experimental data and residuals ($\hat{\varepsilon}_{ij} = Y_{ij} - \hat{Y}_{ij}$) satisfying the underlying assumptions of the parametric model. Every data scientist must rigorously audit and verify these three pillars before presenting experimental results in a production or research setting:
+
+\begin{enumerate}
+	\item \textbf{Homoscedasticity (equality of between-group variances):} The experimental error variance across all $k$ treatments must be statistically equivalent ($\sigma_1^2 = \sigma_2^2 = \ldots = \sigma_k^2 = \sigma^2$). One-way ANOVA is reasonably robust to moderate departures from homoscedasticity \emph{only if sample sizes are exactly equal} ($n_1 = n_2 = \ldots = n_k$). If sample sizes are unequal, however, the $F$-statistic can become highly imprecise.
+
+	Two reference tests are used to formally contrast the homoscedasticity hypothesis:
+	\begin{itemize}
+		\item \textbf{Bartlett's Test:} Highly sensitive to the assumption of population normality. It tests $H_0: \sigma_1^2 = \ldots = \sigma_k^2$ using a statistic based on a weighted ratio of sample variances that follows a chi-squared distribution with $k-1$ degrees of freedom.
+		\item \textbf{Levene's and Brown-Forsythe's Test:} The modern gold standard in computational analytics (implemented in \texttt{scipy.stats.levene}) due to its outstanding robustness to non-normal or skewed distributions. It consists of running a univariate ANOVA directly on the absolute deviations of the observations from the mean (Levene: $Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$) or from the treatment median (Brown-Forsythe: $Z_{ij} = |Y_{ij} - \tilde{Y}_{i.}|$).
+	\end{itemize}
+	If the homoscedasticity hypothesis is rejected at level $\alpha$, we must abandon the standard parametric ANOVA and use \textbf{Welch's one-way ANOVA} or variance-stabilizing transformations from the Box-Cox family (such as $\log Y$ or $\sqrt{Y}$).
+
+	\item \textbf{Normality of the residual errors ($\varepsilon_{ij} \sim N(0,\sigma^2)$):} The distribution of the residuals within each treatment, or of the model's overall residual vector, should approximate a normal distribution. This assumption is audited qualitatively via a \textbf{Q-Q Plot} of the residuals, and quantitatively via the \textbf{Shapiro-Wilk Test} or the \textbf{Kolmogorov-Smirnov Test} on the standardized residuals.
+
+	If severe violations of normality are detected (especially extreme skewness or extreme outliers with small samples), the data scientist should use the non-parametric alternative to ANOVA: the \textbf{Kruskal-Wallis Test} (based on ranks and medians rather than means and variances).
+
+	\item \textbf{Independence of the observations:} The residuals of any pair of experimental units must be statistically independent ($Cov(\varepsilon_{ij}, \varepsilon_{lm}) = 0$). This is the most critical assumption of all: \textbf{a violation of independence directly contaminates the estimation of the Mean Square Error ($\text{CME}$)}, completely invalidating the $F$-test. Independence cannot easily be fixed after the fact with algebraic transformations; it is guaranteed a priori through strict \textbf{randomization in the sampling design} and the correct identification of temporal or spatial dependencies (which would require time-series models or longitudinal mixed-effects models).
+\end{enumerate}
