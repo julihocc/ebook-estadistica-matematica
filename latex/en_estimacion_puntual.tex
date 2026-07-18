@@ -2,7 +2,7 @@
 
 In the previous section we defined an \emph{estimator} as a function of the random sample $X_1, X_2, \ldots, X_n$ used to infer the value of an unknown population parameter $\theta \in \Theta$. While basic theory allows us to evaluate whether a proposed estimator possesses desirable properties (such as unbiasedness or low variance), in practice we need systematic mathematical procedures to \emph{construct} or derive such estimators from a statistical model.
 
-In this section we will study the two most fundamental point estimation methods in modern statistical theory: the \emph{Maximum Likelihood Estimation} (MLE) method and the \emph{Method of Moments} (MoM). We will also analyze their roles in model design and training in data science and machine learning.
+In this section we will study the two most fundamental point estimation methods in modern statistical theory: the \emph{Method of Moments} (MoM) and the \emph{Maximum Likelihood Estimation} (MLE) method. We will also analyze their roles in model design and training in data science and machine learning.
 
 \subsection{Quality Criteria for a Point Estimator}
 
@@ -94,13 +94,102 @@ Both are unbiased: $E(\bar{X})=\mu$ and $E(T_1)=\mu$, so $\text{MSE}=\text{Var}$
 The relative efficiency is $\text{Eff}(\bar{X}, T_1) = \sigma^2/(\sigma^2/n) = n$: the sample mean is $n$ times more efficient than using a single observation, and it is consistent ($\text{Var}(\bar{X})\to 0$), while $T_1$ is not (its variance does not depend on $n$).
 \end{solucion}
 
+\subsection{Method of Moments (MoM)}
+
+The \emph{Method of Moments}, proposed by Pafnuty Chebyshev and Karl Pearson in the late 19th century, is one of the most intuitive procedures in statistical inference. It is based on equating the numerical characteristics of the sample (the sample moments) with the theoretical or expected moments of the population.
+
+\begin{definicion}[Population and Sample Moments]
+	Let $X$ be a random variable with density function $f(x \mid \theta)$. The $k$-th \emph{population moment about the origin}, denoted by $\mu_k(\theta)$, is defined as:
+	\begin{align}
+		\mu_k(\theta) = E(X^k) = \int_{-\infty}^{\infty} x^k f(x \mid \theta) \, dx \quad \text{(continuous case)}.
+	\end{align}
+
+	Given a random sample $X_1, X_2, \ldots, X_n$, the $k$-th \emph{sample moment}, denoted by $m_k$, is the average of the $k$-th powers of the data:
+	\begin{align}
+		m_k = \frac{1}{n} \sum_{i=1}^n X_i^k.
+	\end{align}
+	In particular, the first sample moment is the arithmetic mean, $m_1 = \bar{X}$, and the second sample moment is $m_2 = \frac{1}{n}\sum X_i^2$.
+\end{definicion}
+
+\begin{teorema}[Method of Moments Procedure]
+	Suppose the population distribution depends on a vector of $r$ unknown parameters, $\theta = (\theta_1, \theta_2, \ldots, \theta_r)$. The estimation procedure by the method of moments consists of equating the first $r$ population moments to the respective $r$ sample moments:
+	\begin{align}
+		\mu_1(\theta_1, \ldots, \theta_r) &= m_1 = \bar{X} \nonumber \\
+		\mu_2(\theta_1, \ldots, \theta_r) &= m_2 = \frac{1}{n}\sum_{i=1}^n X_i^2 \nonumber \\
+		&\vdots \nonumber \\
+		\mu_r(\theta_1, \ldots, \theta_r) &= m_r = \frac{1}{n}\sum_{i=1}^n X_i^r.
+		\label{eq:mom_sistema}
+	\end{align}
+
+	The simultaneous solution of this algebraic system of $r$ equations in $r$ unknowns produces the vector of method of moments estimators, denoted by $\hat{\theta}_{MoM} = (\hat{\theta}_{1, MoM}, \ldots, \hat{\theta}_{r, MoM})$.
+\end{teorema}
+
+\begin{ejemplo}
+	\textbf{Method of Moments for the Gamma Distribution.}
+	A random variable $X \sim \text{Gamma}(\alpha, \beta)$ has density $f(x) = \frac{1}{\beta^\alpha \Gamma(\alpha)} x^{\alpha-1} e^{-x/\beta}$ for $x > 0$. As known from the continuous random variables unit, the theoretical mean and variance of the gamma distribution are:
+	\begin{align}
+		E(X) &= \mu_1 = \alpha\beta, \\
+		\text{Var}(X) &= \alpha\beta^2.
+	\end{align}
+
+	Since $\text{Var}(X) = E(X^2) - [E(X)]^2 = \mu_2 - \mu_1^2$, we can express the first two population moments as:
+	\begin{align}
+		\mu_1 &= \alpha\beta, \\
+		\mu_2 &= \text{Var}(X) + \mu_1^2 = \alpha\beta^2 + \alpha^2\beta^2 = \alpha\beta^2(1 + \alpha).
+	\end{align}
+
+	Equating with the sample moments $m_1 = \bar{X}$, we can equivalently work by equating the sample variance $S^2$ with the population variance:
+	\begin{align}
+		\alpha\beta &= \bar{X}, \\
+		\alpha\beta^2 &= S^2 \quad \text{(where } S^2 = m_2 - m_1^2 \text{)}.
+	\end{align}
+
+	Dividing the second equation by the first, we obtain the estimator for the scale parameter $\beta$:
+	\begin{align}
+		\frac{\alpha\beta^2}{\alpha\beta} = \frac{S^2}{\bar{X}} \implies \hat{\beta}_{MoM} = \frac{S^2}{\bar{X}}.
+	\end{align}
+
+	Substituting $\hat{\beta}_{MoM}$ into the first equation yields the estimator for the shape parameter $\alpha$:
+	\begin{align}
+		\alpha \left( \frac{S^2}{\bar{X}} \right) = \bar{X} \implies \hat{\alpha}_{MoM} = \frac{\bar{X}^2}{S^2}.
+	\end{align}
+
+	This is a practically useful result because the maximum likelihood system of equations for the Gamma distribution does not have a closed-form analytical solution and requires iterative numerical methods (such as Newton-Raphson), whereas the method of moments provides immediate closed-form formulas.
+\end{ejemplo}
+
+\begin{ejemplo}
+	\textbf{A delicate case: when the first moment does not identify the parameter.}
+	Let $X \sim U(-\theta, \theta)$ with unknown $\theta > 0$. By the symmetry of the distribution, the first population moment is identically zero for any value of $\theta$:
+	\begin{align}
+		\mu_1 = E(X) = 0, \quad \text{for all } \theta > 0.
+	\end{align}
+	Equating $\mu_1 = m_1 = \bar{X}$ does not allow us to solve for $\theta$: the first moment simply carries no information about the parameter. We must resort to the first \emph{non-trivial} moment, in this case the second moment about the origin. Since $\text{Var}(X) = \theta^2/3$ and $\mu_1 = 0$:
+	\begin{align}
+		\mu_2 = \text{Var}(X) + \mu_1^2 = \frac{\theta^2}{3}.
+	\end{align}
+	Equating with the second sample moment $m_2 = \frac{1}{n}\sum X_i^2$:
+	\begin{align}
+		\frac{\theta^2}{3} = m_2 \implies \hat{\theta}_{MoM} = \sqrt{3 m_2} = \sqrt{\frac{3}{n}\sum_{i=1}^n X_i^2}.
+	\end{align}
+\end{ejemplo}
+
+\begin{observacion}[Properties and limitations of the Method of Moments]
+	MoM has clear advantages and disadvantages relative to MLE:
+	\begin{itemize}
+		\item \textbf{Consistency:} by the Law of Large Numbers, $m_k \xrightarrow{P} \mu_k(\theta)$ for each $k$; under regularity conditions (continuity of the function relating moments to parameters), this implies $\hat{\theta}_{MoM} \xrightarrow{P} \theta$.
+		\item \textbf{Computational simplicity:} it often yields closed-form formulas (as in the Gamma example above) even when MLE requires iterative numerical optimization.
+		\item \textbf{Lower efficiency:} in general, $\hat{\theta}_{MoM}$ does not attain the Cramer-Rao Bound and has higher asymptotic variance than $\hat{\theta}_{MLE}$; for this reason, MoM is frequently used only as a starting value for iterative MLE algorithms (see data science applications below).
+		\item \textbf{Estimates outside the parameter space:} unlike MLE (which by construction always yields an admissible value), MoM can occasionally produce estimates outside $\Theta$ (for example, a negative estimated variance in models with nonlinear restrictions between moments and parameters).
+	\end{itemize}
+\end{observacion}
+
 \subsection{Maximum Likelihood Estimation (MLE)}
 
 The principle of maximum likelihood, formally developed by Ronald A. Fisher in the early 20th century, holds that, given a set of sample observations, we should choose as our estimate that value of the parameter $\theta$ which makes the observed sample as probable as possible.
 
 \begin{definicion}[Likelihood Function]
-	Let $X_1, X_2, \ldots, X_n$ be a random sample of size $n$ from a population with probability density function (or probability mass function if discrete) $f(x \mid \theta)$, where $\theta$ is an unknown parameter in the parameter space $\Theta$. 
-	
+	Let $X_1, X_2, \ldots, X_n$ be a random sample of size $n$ from a population with probability density function (or probability mass function if discrete) $f(x \mid \theta)$, where $\theta$ is an unknown parameter in the parameter space $\Theta$.
+
 	Since the observations are independent and identically distributed (\emph{iid}), the joint density of the sample can be expressed as the product of the marginal densities. Evaluated at the observed values $x_1, x_2, \ldots, x_n$, this function viewed as a function of the parameter $\theta$ is called the \emph{likelihood function} and is denoted by $L(\theta \mid x_1, \ldots, x_n)$ or simply $L(\theta)$:
 	\begin{align}
 		L(\theta) = f(x_1, x_2, \ldots, x_n \mid \theta) = \prod_{i=1}^n f(x_i \mid \theta).
@@ -189,29 +278,29 @@ The quantity set to zero in the first-order condition has its own name and impor
 	\begin{align}
 		f(x_i \mid p) = p^{x_i}(1-p)^{1-x_i}, \quad x_i \in \{0, 1\}.
 	\end{align}
-	
+
 	The likelihood function for the sample is:
 	\begin{align}
 		L(p) = \prod_{i=1}^n p^{x_i}(1-p)^{1-x_i} = p^{\sum x_i}(1-p)^{n - \sum x_i}.
 	\end{align}
-	
+
 	Taking the natural logarithm, we obtain the log-likelihood:
 	\begin{align}
 		\ell(p) = \left(\sum_{i=1}^n x_i\right) \ln p + \left(n - \sum_{i=1}^n x_i\right) \ln(1-p).
 	\end{align}
-	
+
 	Differentiating with respect to the parameter $p$ and setting equal to zero:
 	\begin{align}
 		\frac{d}{dp} \ell(p) = \frac{\sum x_i}{p} - \frac{n - \sum x_i}{1-p} = 0.
 	\end{align}
-	
+
 	Multiplying both sides by $p(1-p)$ and simplifying:
 	\begin{align}
 		(1-p)\sum_{i=1}^n x_i - p\left(n - \sum_{i=1}^n x_i\right) &= 0 \\
 		\sum_{i=1}^n x_i - p\sum_{i=1}^n x_i - np + p\sum_{i=1}^n x_i &= 0 \\
 		\sum_{i=1}^n x_i - np &= 0 \implies \hat{p}_{MLE} = \frac{1}{n} \sum_{i=1}^n X_i = \bar{X}.
 	\end{align}
-	
+
 	Therefore, the maximum likelihood estimator for the probability of success $p$ in a Bernoulli (and Binomial) distribution is the sample proportion of successes, $\bar{X}$.
 \end{ejemplo}
 
@@ -221,23 +310,23 @@ The quantity set to zero in the first-order condition has its own name and impor
 	\begin{align}
 		f(x_i \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x_i - \mu)^2}{2\sigma^2} \right).
 	\end{align}
-	
+
 	The log-likelihood function, with parameter vector $\theta = (\mu, \sigma^2)$, is given by:
 	\begin{align}
 		\ell(\mu, \sigma^2) &= \sum_{i=1}^n \left[ -\frac{1}{2}\ln(2\pi) - \frac{1}{2}\ln(\sigma^2) - \frac{(x_i - \mu)^2}{2\sigma^2} \right] \\
 		&= -\frac{n}{2}\ln(2\pi) - \frac{n}{2}\ln(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n (x_i - \mu)^2.
 	\end{align}
-	
+
 	To find the partial estimates, we differentiate with respect to $\mu$ and $\sigma^2$:
 	\begin{align}
 		\frac{\partial}{\partial \mu} \ell(\mu, \sigma^2) = \frac{1}{\sigma^2}\sum_{i=1}^n (x_i - \mu) = 0 \implies \sum_{i=1}^n x_i - n\mu = 0 \implies \hat{\mu}_{MLE} = \bar{X}.
 	\end{align}
-	
+
 	Now differentiating with respect to the variance $\sigma^2$ (treating $\sigma^2$ as the variable of differentiation):
 	\begin{align}
 		\frac{\partial}{\partial (\sigma^2)} \ell(\mu, \sigma^2) = -\frac{n}{2\sigma^2} + \frac{1}{2(\sigma^2)^2} \sum_{i=1}^n (x_i - \mu)^2 = 0.
 	\end{align}
-	
+
 	Substituting $\hat{\mu}_{MLE} = \bar{X}$ and multiplying by $2(\sigma^2)^2$:
 	\begin{align}
 		-n\sigma^2 + \sum_{i=1}^n (x_i - \bar{X})^2 = 0 \implies \hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2.
@@ -245,7 +334,7 @@ The quantity set to zero in the first-order condition has its own name and impor
 \end{ejemplo}
 
 \begin{observacion}
-	Notice that the maximum likelihood estimator for the normal variance, $\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum (X_i - \bar{X})^2$, divides by $n$ rather than $n-1$. As demonstrated in the previous section, this implies that $\hat{\sigma}^2_{MLE}$ is a slightly downward-biased estimator ($E(\hat{\sigma}^2_{MLE}) = \frac{n-1}{n}\sigma^2$). However, as $n \to \infty$, the bias vanishes rapidly and the estimator is fully consistent.
+	Notice that the maximum likelihood estimator for the normal variance, $\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum (X_i - \bar{X})^2$, divides by $n$ rather than $n-1$. As demonstrated in the sampling distributions chapter, this implies that $\hat{\sigma}^2_{MLE}$ is a slightly downward-biased estimator ($E(\hat{\sigma}^2_{MLE}) = \frac{n-1}{n}\sigma^2$). However, as $n \to \infty$, the bias vanishes rapidly and the estimator is fully consistent.
 \end{observacion}
 
 \begin{propiedad}[Properties of Maximum Likelihood Estimators]
@@ -258,103 +347,14 @@ The quantity set to zero in the first-order condition has its own name and impor
 	\end{enumerate}
 \end{propiedad}
 
-\subsection{Method of Moments (MoM)}
-
-The \emph{Method of Moments}, proposed by Pafnuty Chebyshev and Karl Pearson in the late 19th century, is one of the most intuitive procedures in statistical inference. It is based on equating the numerical characteristics of the sample (the sample moments) with the theoretical or expected moments of the population.
-
-\begin{definicion}[Population and Sample Moments]
-	Let $X$ be a random variable with density function $f(x \mid \theta)$. The $k$-th \emph{population moment about the origin}, denoted by $\mu_k(\theta)$, is defined as:
-	\begin{align}
-		\mu_k(\theta) = E(X^k) = \int_{-\infty}^{\infty} x^k f(x \mid \theta) \, dx \quad \text{(continuous case)}.
-	\end{align}
-	
-	Given a random sample $X_1, X_2, \ldots, X_n$, the $k$-th \emph{sample moment}, denoted by $m_k$, is the average of the $k$-th powers of the data:
-	\begin{align}
-		m_k = \frac{1}{n} \sum_{i=1}^n X_i^k.
-	\end{align}
-	In particular, the first sample moment is the arithmetic mean, $m_1 = \bar{X}$, and the second sample moment is $m_2 = \frac{1}{n}\sum X_i^2$.
-\end{definicion}
-
-\begin{teorema}[Method of Moments Procedure]
-	Suppose the population distribution depends on a vector of $r$ unknown parameters, $\theta = (\theta_1, \theta_2, \ldots, \theta_r)$. The estimation procedure by the method of moments consists of equating the first $r$ population moments to the respective $r$ sample moments:
-	\begin{align}
-		\mu_1(\theta_1, \ldots, \theta_r) &= m_1 = \bar{X} \nonumber \\
-		\mu_2(\theta_1, \ldots, \theta_r) &= m_2 = \frac{1}{n}\sum_{i=1}^n X_i^2 \nonumber \\
-		&\vdots \nonumber \\
-		\mu_r(\theta_1, \ldots, \theta_r) &= m_r = \frac{1}{n}\sum_{i=1}^n X_i^r.
-		\label{eq:mom_sistema}
-	\end{align}
-	
-	The simultaneous solution of this algebraic system of $r$ equations in $r$ unknowns produces the vector of method of moments estimators, denoted by $\hat{\theta}_{MoM} = (\hat{\theta}_{1, MoM}, \ldots, \hat{\theta}_{r, MoM})$.
-\end{teorema}
-
-\begin{ejemplo}
-	\textbf{Method of Moments for the Gamma Distribution.}
-	A random variable $X \sim \text{Gamma}(\alpha, \beta)$ has density $f(x) = \frac{1}{\beta^\alpha \Gamma(\alpha)} x^{\alpha-1} e^{-x/\beta}$ for $x > 0$. As known from the continuous random variables unit, the theoretical mean and variance of the gamma distribution are:
-	\begin{align}
-		E(X) &= \mu_1 = \alpha\beta, \\
-		\text{Var}(X) &= \alpha\beta^2.
-	\end{align}
-	
-	Since $\text{Var}(X) = E(X^2) - [E(X)]^2 = \mu_2 - \mu_1^2$, we can express the first two population moments as:
-	\begin{align}
-		\mu_1 &= \alpha\beta, \\
-		\mu_2 &= \text{Var}(X) + \mu_1^2 = \alpha\beta^2 + \alpha^2\beta^2 = \alpha\beta^2(1 + \alpha).
-	\end{align}
-	
-	Equating with the sample moments $m_1 = \bar{X}$, we can equivalently work by equating the sample variance $S^2$ with the population variance:
-	\begin{align}
-		\alpha\beta &= \bar{X}, \\
-		\alpha\beta^2 &= S^2 \quad \text{(where } S^2 = m_2 - m_1^2 \text{)}.
-	\end{align}
-	
-	Dividing the second equation by the first, we obtain the estimator for the scale parameter $\beta$:
-	\begin{align}
-		\frac{\alpha\beta^2}{\alpha\beta} = \frac{S^2}{\bar{X}} \implies \hat{\beta}_{MoM} = \frac{S^2}{\bar{X}}.
-	\end{align}
-	
-	Substituting $\hat{\beta}_{MoM}$ into the first equation yields the estimator for the shape parameter $\alpha$:
-	\begin{align}
-		\alpha \left( \frac{S^2}{\bar{X}} \right) = \bar{X} \implies \hat{\alpha}_{MoM} = \frac{\bar{X}^2}{S^2}.
-	\end{align}
-	
-	This is a practically useful result because the maximum likelihood system of equations for the Gamma distribution does not have a closed-form analytical solution and requires iterative numerical methods (such as Newton-Raphson), whereas the method of moments provides immediate closed-form formulas.
-\end{ejemplo}
-
-\begin{ejemplo}
-	\textbf{A delicate case: when the first moment does not identify the parameter.}
-	Let $X \sim U(-\theta, \theta)$ with unknown $\theta > 0$. By the symmetry of the distribution, the first population moment is identically zero for any value of $\theta$:
-	\begin{align}
-		\mu_1 = E(X) = 0, \quad \text{for all } \theta > 0.
-	\end{align}
-	Equating $\mu_1 = m_1 = \bar{X}$ does not allow us to solve for $\theta$: the first moment simply carries no information about the parameter. We must resort to the first \emph{non-trivial} moment, in this case the second moment about the origin. Since $\text{Var}(X) = \theta^2/3$ and $\mu_1 = 0$:
-	\begin{align}
-		\mu_2 = \text{Var}(X) + \mu_1^2 = \frac{\theta^2}{3}.
-	\end{align}
-	Equating with the second sample moment $m_2 = \frac{1}{n}\sum X_i^2$:
-	\begin{align}
-		\frac{\theta^2}{3} = m_2 \implies \hat{\theta}_{MoM} = \sqrt{3 m_2} = \sqrt{\frac{3}{n}\sum_{i=1}^n X_i^2}.
-	\end{align}
-\end{ejemplo}
-
-\begin{observacion}[Properties and limitations of the Method of Moments]
-	MoM has clear advantages and disadvantages relative to MLE:
-	\begin{itemize}
-		\item \textbf{Consistency:} by the Law of Large Numbers, $m_k \xrightarrow{P} \mu_k(\theta)$ for each $k$; under regularity conditions (continuity of the function relating moments to parameters), this implies $\hat{\theta}_{MoM} \xrightarrow{P} \theta$.
-		\item \textbf{Computational simplicity:} it often yields closed-form formulas (as in the Gamma example above) even when MLE requires iterative numerical optimization.
-		\item \textbf{Lower efficiency:} in general, $\hat{\theta}_{MoM}$ does not attain the Cramer-Rao Bound and has higher asymptotic variance than $\hat{\theta}_{MLE}$; for this reason, MoM is frequently used only as a starting value for iterative MLE algorithms (see data science applications below).
-		\item \textbf{Estimates outside the parameter space:} unlike MLE (which by construction always yields an admissible value), MoM can occasionally produce estimates outside $\Theta$ (for example, a negative estimated variance in models with nonlinear restrictions between moments and parameters).
-	\end{itemize}
-\end{observacion}
-
 \subsection{Point Estimation Methods in Data Science}
 
 In modern data science and machine learning, point estimation methods form the mathematical core of model training algorithms:
 
 \begin{enumerate}
 	\item \textbf{Computational Training via MLE:} Many supervised learning algorithms, such as logistic regression, Poisson regression for count data, and deep neural networks, are trained by directly maximizing a likelihood function. For example, in binary or multi-class classification, minimizing the \emph{cross-entropy loss} function is mathematically identical to computing the maximum likelihood estimator for a multinomial distribution.
-	
+
 	\item \textbf{Weight Initialization with Method of Moments:} When fitting complex statistical models or mixture distributions (e.g., Gaussian Mixture Models - GMM) using intensive numerical optimization methods like the Expectation-Maximization (EM) algorithm, estimates from the Method of Moments are frequently used as the initial starting values ($\theta^{(0)}$) to accelerate convergence and avoid poor local minima.
-	
+
 	\item \textbf{Generalized Method of Moments (GMM) Estimation:} In econometrics and causal data science, when the number of moment conditions exceeds the number of parameters to estimate, the Generalized Method of Moments is employed to optimally combine all available empirical information without requiring strict distributional specifications.
 \end{enumerate}

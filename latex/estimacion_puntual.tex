@@ -2,7 +2,7 @@
 
 En la sección anterior definimos un \emph{estimador} como una función de la muestra aleatoria $X_1, X_2, \ldots, X_n$ que se utiliza para inferir el valor de un parámetro poblacional desconocido $\theta \in \Theta$. Mientras que la teoría básica nos permite evaluar si un estimador propuesto posee propiedades deseables (como la insesgadez o una baja varianza), en la práctica necesitamos procedimientos matemáticos sistemáticos para \emph{construir} u obtener dichos estimadores a partir de un modelo estadístico.
 
-En esta sección estudiaremos los dos métodos de estimación puntual más fundamentales de la teoría estadística moderna: el \emph{Método de Máxima Verosimilitud} (MLE) y el \emph{Método de Momentos} (MoM). Asimismo, analizaremos su papel en el diseño y entrenamiento de modelos en ciencia de datos y aprendizaje automático.
+En esta sección estudiaremos los dos métodos de estimación puntual más fundamentales de la teoría estadística moderna: el \emph{Método de Momentos} (MoM) y el \emph{Método de Máxima Verosimilitud} (MLE). Asimismo, analizaremos su papel en el diseño y entrenamiento de modelos en ciencia de datos y aprendizaje automático.
 
 \subsection{Criterios de Calidad de un Estimador Puntual}
 
@@ -94,13 +94,102 @@ Ambos son insesgados: $E(\bar{X})=\mu$ y $E(T_1)=\mu$, así que $\text{ECM}=\tex
 La eficiencia relativa es $\text{Ef}(\bar{X}, T_1) = \sigma^2/(\sigma^2/n) = n$: la media muestral es $n$ veces más eficiente que usar una sola observación, y es consistente ($\text{Var}(\bar{X})\to 0$), mientras que $T_1$ no lo es (su varianza no depende de $n$).
 \end{solucion}
 
+\subsection{Método de Momentos (MoM)}
+
+El \emph{Método de Momentos}, propuesto por Pafnuty Chebyshev y Karl Pearson a fines del siglo XIX, es uno de los procedimientos más intuitivos de la inferencia estadística. Se basa en igualar las características numéricas de la muestra (los momentos muestrales) con los momentos teóricos o esperados de la población.
+
+\begin{definicion}[Momentos poblacionales y muestrales]
+	Sea $X$ una variable aleatoria con función de densidad $f(x \mid \theta)$. El $k$-ésimo \emph{momento poblacional respecto al origen}, denotado por $\mu_k(\theta)$, se define como:
+	\begin{align}
+		\mu_k(\theta) = E(X^k) = \int_{-\infty}^{\infty} x^k f(x \mid \theta) \, dx \quad \text{(caso continuo)}.
+	\end{align}
+
+	Dada una muestra aleatoria $X_1, X_2, \ldots, X_n$, el $k$-ésimo \emph{momento muestral}, denotado por $m_k$, es el promedio de las potencias $k$-ésimas de los datos:
+	\begin{align}
+		m_k = \frac{1}{n} \sum_{i=1}^n X_i^k.
+	\end{align}
+	En particular, el primer momento muestral es la media aritmética, $m_1 = \bar{X}$, y el segundo momento muestral es $m_2 = \frac{1}{n}\sum X_i^2$.
+\end{definicion}
+
+\begin{teorema}[Procedimiento del Método de Momentos]
+	Supongamos que la distribución poblacional depende de un vector de $r$ parámetros desconocidos, $\theta = (\theta_1, \theta_2, \ldots, \theta_r)$. El procedimiento de estimación por el método de momentos consiste en igualar los primeros $r$ momentos poblacionales a los respectivos $r$ momentos muestrales:
+	\begin{align}
+		\mu_1(\theta_1, \ldots, \theta_r) &= m_1 = \bar{X} \nonumber \\
+		\mu_2(\theta_1, \ldots, \theta_r) &= m_2 = \frac{1}{n}\sum_{i=1}^n X_i^2 \nonumber \\
+		&\vdots \nonumber \\
+		\mu_r(\theta_1, \ldots, \theta_r) &= m_r = \frac{1}{n}\sum_{i=1}^n X_i^r.
+		\label{eq:mom_sistema}
+	\end{align}
+
+	La solución simultánea de este sistema algebraico de $r$ ecuaciones con $r$ incógnitas produce el vector de estimadores por el método de momentos, denotado por $\hat{\theta}_{MoM} = (\hat{\theta}_{1, MoM}, \ldots, \hat{\theta}_{r, MoM})$.
+\end{teorema}
+
+\begin{ejemplo}
+	\textbf{Método de Momentos para la distribución Gamma.}
+	Una variable aleatoria $X \sim \text{Gamma}(\alpha, \beta)$ tiene por densidad $f(x) = \frac{1}{\beta^\alpha \Gamma(\alpha)} x^{\alpha-1} e^{-x/\beta}$ para $x > 0$. Como sabemos por la unidad de variables continuas, la media y la varianza teóricas de la distribución gamma son:
+	\begin{align}
+		E(X) &= \mu_1 = \alpha\beta, \\
+		\text{Var}(X) &= \alpha\beta^2.
+	\end{align}
+
+	Dado que $\text{Var}(X) = E(X^2) - [E(X)]^2 = \mu_2 - \mu_1^2$, podemos expresar los dos primeros momentos poblacionales como:
+	\begin{align}
+		\mu_1 &= \alpha\beta, \\
+		\mu_2 &= \text{Var}(X) + \mu_1^2 = \alpha\beta^2 + \alpha^2\beta^2 = \alpha\beta^2(1 + \alpha).
+	\end{align}
+
+	Igualando con los momentos muestrales $m_1 = \bar{X}$ y podemos trabajar equivalentemente igualando la varianza muestral $S^2$ con la varianza poblacional:
+	\begin{align}
+		\alpha\beta &= \bar{X}, \\
+		\alpha\beta^2 &= S^2 \quad \text{(donde } S^2 = m_2 - m_1^2 \text{)}.
+	\end{align}
+
+	Dividiendo la segunda ecuación entre la primera obtenemos el estimador para el parámetro de escala $\beta$:
+	\begin{align}
+		\frac{\alpha\beta^2}{\alpha\beta} = \frac{S^2}{\bar{X}} \implies \hat{\beta}_{MoM} = \frac{S^2}{\bar{X}}.
+	\end{align}
+
+	Sustituyendo $\hat{\beta}_{MoM}$ en la primera ecuación obtenemos el estimador del parámetro de forma $\alpha$:
+	\begin{align}
+		\alpha \left( \frac{S^2}{\bar{X}} \right) = \bar{X} \implies \hat{\alpha}_{MoM} = \frac{\bar{X}^2}{S^2}.
+	\end{align}
+
+	Este es un resultado de gran utilidad práctica, ya que el sistema de ecuaciones de máxima verosimilitud para la distribución Gamma no posee solución analítica cerrada y requiere métodos numéricos iterativos (como Newton-Raphson), mientras que el método de momentos ofrece fórmulas inmediatas.
+\end{ejemplo}
+
+\begin{ejemplo}
+	\textbf{Un caso delicado: cuando el primer momento no identifica al parámetro.}
+	Sea $X \sim U(-\theta, \theta)$ con $\theta > 0$ desconocido. Por la simetría de la distribución, el primer momento poblacional es idénticamente nulo para cualquier valor de $\theta$:
+	\begin{align}
+		\mu_1 = E(X) = 0, \quad \text{para todo } \theta > 0.
+	\end{align}
+	Igualar $\mu_1 = m_1 = \bar{X}$ no permite despejar $\theta$: el primer momento simplemente no contiene información sobre el parámetro. Debemos recurrir al primer momento \emph{no trivial}, en este caso el segundo momento respecto al origen. Como $\text{Var}(X) = \theta^2/3$ y $\mu_1 = 0$:
+	\begin{align}
+		\mu_2 = \text{Var}(X) + \mu_1^2 = \frac{\theta^2}{3}.
+	\end{align}
+	Igualando con el segundo momento muestral $m_2 = \frac{1}{n}\sum X_i^2$:
+	\begin{align}
+		\frac{\theta^2}{3} = m_2 \implies \hat{\theta}_{MoM} = \sqrt{3 m_2} = \sqrt{\frac{3}{n}\sum_{i=1}^n X_i^2}.
+	\end{align}
+\end{ejemplo}
+
+\begin{observacion}[Propiedades y limitaciones del Método de Momentos]
+	El MoM tiene ventajas y desventajas claras frente al MLE:
+	\begin{itemize}
+		\item \textbf{Consistencia:} por la Ley de los Grandes Números, $m_k \xrightarrow{P} \mu_k(\theta)$ para cada $k$; bajo condiciones de regularidad (continuidad de la función que relaciona momentos con parámetros), esto implica que $\hat{\theta}_{MoM} \xrightarrow{P} \theta$.
+		\item \textbf{Simplicidad computacional:} a menudo produce fórmulas cerradas (como en el ejemplo Gamma anterior) incluso cuando el MLE requiere optimización numérica iterativa.
+		\item \textbf{Menor eficiencia:} en general, $\hat{\theta}_{MoM}$ no alcanza la Cota de Cramér-Rao y tiene mayor varianza asintótica que $\hat{\theta}_{MLE}$; por ello, el MoM se usa frecuentemente solo como valor inicial para algoritmos iterativos de MLE (ver aplicaciones en ciencia de datos, más abajo).
+		\item \textbf{Estimaciones fuera del espacio paramétrico:} a diferencia del MLE (que por construcción siempre produce un valor admisible), el MoM puede en ocasiones arrojar estimaciones fuera de $\Theta$ (por ejemplo, una varianza estimada negativa en modelos con restricciones no lineales entre momentos y parámetros).
+	\end{itemize}
+\end{observacion}
+
 \subsection{Método de Máxima Verosimilitud (MLE)}
 
 El principio de máxima verosimilitud, desarrollado formalmente por Ronald A. Fisher a principios del siglo XX, sostiene que, dado un conjunto de observaciones muestrales, debemos elegir como estimador aquel valor del parámetro $\theta$ que haga que la muestra observada sea lo más probable posible.
 
 \begin{definicion}[Función de verosimilitud]
-	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria de tamaño $n$ de una población con función de densidad de probabilidad (o función de masa de probabilidad si es discreta) $f(x \mid \theta)$, donde $\theta$ es un parámetro desconocido del espacio paramétrico $\Theta$. 
-	
+	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria de tamaño $n$ de una población con función de densidad de probabilidad (o función de masa de probabilidad si es discreta) $f(x \mid \theta)$, donde $\theta$ es un parámetro desconocido del espacio paramétrico $\Theta$.
+
 	Dado que las observaciones son independientes e idénticamente distribuidas (\emph{iid}), la densidad conjunta de la muestra se puede expresar como el producto de las marginales. Evaluada en los valores observados $x_1, x_2, \ldots, x_n$, esta función vista como función del parámetro $\theta$ se denomina \emph{función de verosimilitud} y se denota por $L(\theta \mid x_1, \ldots, x_n)$ o simplemente $L(\theta)$:
 	\begin{align}
 		L(\theta) = f(x_1, x_2, \ldots, x_n \mid \theta) = \prod_{i=1}^n f(x_i \mid \theta).
@@ -189,29 +278,29 @@ La cantidad que se iguala a cero en la condición de primer orden tiene nombre e
 	\begin{align}
 		f(x_i \mid p) = p^{x_i}(1-p)^{1-x_i}, \quad x_i \in \{0, 1\}.
 	\end{align}
-	
+
 	La función de verosimilitud de la muestra es:
 	\begin{align}
 		L(p) = \prod_{i=1}^n p^{x_i}(1-p)^{1-x_i} = p^{\sum x_i}(1-p)^{n - \sum x_i}.
 	\end{align}
-	
+
 	Tomando logaritmo natural, obtenemos la log-verosimilitud:
 	\begin{align}
 		\ell(p) = \left(\sum_{i=1}^n x_i\right) \ln p + \left(n - \sum_{i=1}^n x_i\right) \ln(1-p).
 	\end{align}
-	
+
 	Derivando respecto al parámetro $p$ e igualando a cero:
 	\begin{align}
 		\frac{d}{dp} \ell(p) = \frac{\sum x_i}{p} - \frac{n - \sum x_i}{1-p} = 0.
 	\end{align}
-	
+
 	Multiplicando ambos lados por $p(1-p)$ y simplificando:
 	\begin{align}
 		(1-p)\sum_{i=1}^n x_i - p\left(n - \sum_{i=1}^n x_i\right) &= 0 \\
 		\sum_{i=1}^n x_i - p\sum_{i=1}^n x_i - np + p\sum_{i=1}^n x_i &= 0 \\
 		\sum_{i=1}^n x_i - np &= 0 \implies \hat{p}_{MLE} = \frac{1}{n} \sum_{i=1}^n X_i = \bar{X}.
 	\end{align}
-	
+
 	Por lo tanto, el estimador de máxima verosimilitud para la probabilidad de éxito $p$ en una distribución Bernoulli (y en una Binomial) es la proporción muestral de éxitos, $\bar{X}$.
 \end{ejemplo}
 
@@ -221,23 +310,23 @@ La cantidad que se iguala a cero en la condición de primer orden tiene nombre e
 	\begin{align}
 		f(x_i \mid \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x_i - \mu)^2}{2\sigma^2} \right).
 	\end{align}
-	
+
 	La función de log-verosimilitud, con vector de parámetros $\theta = (\mu, \sigma^2)$, resulta en:
 	\begin{align}
 		\ell(\mu, \sigma^2) &= \sum_{i=1}^n \left[ -\frac{1}{2}\ln(2\pi) - \frac{1}{2}\ln(\sigma^2) - \frac{(x_i - \mu)^2}{2\sigma^2} \right] \\
 		&= -\frac{n}{2}\ln(2\pi) - \frac{n}{2}\ln(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n (x_i - \mu)^2.
 	\end{align}
-	
+
 	Para encontrar las estimaciones parciales, derivamos con respecto a $\mu$ y $\sigma^2$:
 	\begin{align}
 		\frac{\partial}{\partial \mu} \ell(\mu, \sigma^2) = \frac{1}{\sigma^2}\sum_{i=1}^n (x_i - \mu) = 0 \implies \sum_{i=1}^n x_i - n\mu = 0 \implies \hat{\mu}_{MLE} = \bar{X}.
 	\end{align}
-	
+
 	Derivando ahora respecto a la varianza $\sigma^2$ (tratando $\sigma^2$ como la variable de derivación):
 	\begin{align}
 		\frac{\partial}{\partial (\sigma^2)} \ell(\mu, \sigma^2) = -\frac{n}{2\sigma^2} + \frac{1}{2(\sigma^2)^2} \sum_{i=1}^n (x_i - \mu)^2 = 0.
 	\end{align}
-	
+
 	Sustituyendo $\hat{\mu}_{MLE} = \bar{X}$ y multiplicando por $2(\sigma^2)^2$:
 	\begin{align}
 		-n\sigma^2 + \sum_{i=1}^n (x_i - \bar{X})^2 = 0 \implies \hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2.
@@ -245,7 +334,7 @@ La cantidad que se iguala a cero en la condición de primer orden tiene nombre e
 \end{ejemplo}
 
 \begin{observacion}
-	Notemos que el estimador de máxima verosimilitud para la varianza normal, $\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum (X_i - \bar{X})^2$, divide por $n$ y no por $n-1$. Como se demostró en la sección anterior, esto implica que $\hat{\sigma}^2_{MLE}$ es un estimador ligeramente sesgado hacia la baja ($E(\hat{\sigma}^2_{MLE}) = \frac{n-1}{n}\sigma^2$). Sin embargo, a medida que $n \to \infty$, el sesgo desaparece rápidamente y el estimador es plenamente consistente.
+	Notemos que el estimador de máxima verosimilitud para la varianza normal, $\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum (X_i - \bar{X})^2$, divide por $n$ y no por $n-1$. Como se demostró en el capítulo de distribuciones muestrales, esto implica que $\hat{\sigma}^2_{MLE}$ es un estimador ligeramente sesgado hacia la baja ($E(\hat{\sigma}^2_{MLE}) = \frac{n-1}{n}\sigma^2$). Sin embargo, a medida que $n \to \infty$, el sesgo desaparece rápidamente y el estimador es plenamente consistente.
 \end{observacion}
 
 \begin{propiedad}[Propiedades de los estimadores de máxima verosimilitud]
@@ -258,103 +347,14 @@ La cantidad que se iguala a cero en la condición de primer orden tiene nombre e
 	\end{enumerate}
 \end{propiedad}
 
-\subsection{Método de Momentos (MoM)}
-
-El \emph{Método de Momentos}, propuesto por Pafnuty Chebyshev y Karl Pearson a fines del siglo XIX, es uno de los procedimientos más intuitivos de la inferencia estadística. Se basa en igualar las características numéricas de la muestra (los momentos muestrales) con los momentos teóricos o esperados de la población.
-
-\begin{definicion}[Momentos poblacionales y muestrales]
-	Sea $X$ una variable aleatoria con función de densidad $f(x \mid \theta)$. El $k$-ésimo \emph{momento poblacional respecto al origen}, denotado por $\mu_k(\theta)$, se define como:
-	\begin{align}
-		\mu_k(\theta) = E(X^k) = \int_{-\infty}^{\infty} x^k f(x \mid \theta) \, dx \quad \text{(caso continuo)}.
-	\end{align}
-	
-	Dada una muestra aleatoria $X_1, X_2, \ldots, X_n$, el $k$-ésimo \emph{momento muestral}, denotado por $m_k$, es el promedio de las potencias $k$-ésimas de los datos:
-	\begin{align}
-		m_k = \frac{1}{n} \sum_{i=1}^n X_i^k.
-	\end{align}
-	En particular, el primer momento muestral es la media aritmética, $m_1 = \bar{X}$, y el segundo momento muestral es $m_2 = \frac{1}{n}\sum X_i^2$.
-\end{definicion}
-
-\begin{teorema}[Procedimiento del Método de Momentos]
-	Supongamos que la distribución poblacional depende de un vector de $r$ parámetros desconocidos, $\theta = (\theta_1, \theta_2, \ldots, \theta_r)$. El procedimiento de estimación por el método de momentos consiste en igualar los primeros $r$ momentos poblacionales a los respectivos $r$ momentos muestrales:
-	\begin{align}
-		\mu_1(\theta_1, \ldots, \theta_r) &= m_1 = \bar{X} \nonumber \\
-		\mu_2(\theta_1, \ldots, \theta_r) &= m_2 = \frac{1}{n}\sum_{i=1}^n X_i^2 \nonumber \\
-		&\vdots \nonumber \\
-		\mu_r(\theta_1, \ldots, \theta_r) &= m_r = \frac{1}{n}\sum_{i=1}^n X_i^r.
-		\label{eq:mom_sistema}
-	\end{align}
-	
-	La solución simultánea de este sistema algebraico de $r$ ecuaciones con $r$ incógnitas produce el vector de estimadores por el método de momentos, denotado por $\hat{\theta}_{MoM} = (\hat{\theta}_{1, MoM}, \ldots, \hat{\theta}_{r, MoM})$.
-\end{teorema}
-
-\begin{ejemplo}
-	\textbf{Método de Momentos para la distribución Gamma.}
-	Una variable aleatoria $X \sim \text{Gamma}(\alpha, \beta)$ tiene por densidad $f(x) = \frac{1}{\beta^\alpha \Gamma(\alpha)} x^{\alpha-1} e^{-x/\beta}$ para $x > 0$. Como sabemos por la unidad de variables continuas, la media y la varianza teóricas de la distribución gamma son:
-	\begin{align}
-		E(X) &= \mu_1 = \alpha\beta, \\
-		\text{Var}(X) &= \alpha\beta^2.
-	\end{align}
-	
-	Dado que $\text{Var}(X) = E(X^2) - [E(X)]^2 = \mu_2 - \mu_1^2$, podemos expresar los dos primeros momentos poblacionales como:
-	\begin{align}
-		\mu_1 &= \alpha\beta, \\
-		\mu_2 &= \text{Var}(X) + \mu_1^2 = \alpha\beta^2 + \alpha^2\beta^2 = \alpha\beta^2(1 + \alpha).
-	\end{align}
-	
-	Igualando con los momentos muestrales $m_1 = \bar{X}$ y podemos trabajar equivalentemente igualando la varianza muestral $S^2$ con la varianza poblacional:
-	\begin{align}
-		\alpha\beta &= \bar{X}, \\
-		\alpha\beta^2 &= S^2 \quad \text{(donde } S^2 = m_2 - m_1^2 \text{)}.
-	\end{align}
-	
-	Dividiendo la segunda ecuación entre la primera obtenemos el estimador para el parámetro de escala $\beta$:
-	\begin{align}
-		\frac{\alpha\beta^2}{\alpha\beta} = \frac{S^2}{\bar{X}} \implies \hat{\beta}_{MoM} = \frac{S^2}{\bar{X}}.
-	\end{align}
-	
-	Sustituyendo $\hat{\beta}_{MoM}$ en la primera ecuación obtenemos el estimador del parámetro de forma $\alpha$:
-	\begin{align}
-		\alpha \left( \frac{S^2}{\bar{X}} \right) = \bar{X} \implies \hat{\alpha}_{MoM} = \frac{\bar{X}^2}{S^2}.
-	\end{align}
-	
-	Este es un resultado de gran utilidad práctica, ya que el sistema de ecuaciones de máxima verosimilitud para la distribución Gamma no posee solución analítica cerrada y requiere métodos numéricos iterativos (como Newton-Raphson), mientras que el método de momentos ofrece fórmulas inmediatas.
-\end{ejemplo}
-
-\begin{ejemplo}
-	\textbf{Un caso delicado: cuando el primer momento no identifica al parámetro.}
-	Sea $X \sim U(-\theta, \theta)$ con $\theta > 0$ desconocido. Por la simetría de la distribución, el primer momento poblacional es idénticamente nulo para cualquier valor de $\theta$:
-	\begin{align}
-		\mu_1 = E(X) = 0, \quad \text{para todo } \theta > 0.
-	\end{align}
-	Igualar $\mu_1 = m_1 = \bar{X}$ no permite despejar $\theta$: el primer momento simplemente no contiene información sobre el parámetro. Debemos recurrir al primer momento \emph{no trivial}, en este caso el segundo momento respecto al origen. Como $\text{Var}(X) = \theta^2/3$ y $\mu_1 = 0$:
-	\begin{align}
-		\mu_2 = \text{Var}(X) + \mu_1^2 = \frac{\theta^2}{3}.
-	\end{align}
-	Igualando con el segundo momento muestral $m_2 = \frac{1}{n}\sum X_i^2$:
-	\begin{align}
-		\frac{\theta^2}{3} = m_2 \implies \hat{\theta}_{MoM} = \sqrt{3 m_2} = \sqrt{\frac{3}{n}\sum_{i=1}^n X_i^2}.
-	\end{align}
-\end{ejemplo}
-
-\begin{observacion}[Propiedades y limitaciones del Método de Momentos]
-	El MoM tiene ventajas y desventajas claras frente al MLE:
-	\begin{itemize}
-		\item \textbf{Consistencia:} por la Ley de los Grandes Números, $m_k \xrightarrow{P} \mu_k(\theta)$ para cada $k$; bajo condiciones de regularidad (continuidad de la función que relaciona momentos con parámetros), esto implica que $\hat{\theta}_{MoM} \xrightarrow{P} \theta$.
-		\item \textbf{Simplicidad computacional:} a menudo produce fórmulas cerradas (como en el ejemplo Gamma anterior) incluso cuando el MLE requiere optimización numérica iterativa.
-		\item \textbf{Menor eficiencia:} en general, $\hat{\theta}_{MoM}$ no alcanza la Cota de Cramér-Rao y tiene mayor varianza asintótica que $\hat{\theta}_{MLE}$; por ello, el MoM se usa frecuentemente solo como valor inicial para algoritmos iterativos de MLE (ver aplicaciones en ciencia de datos, más abajo).
-		\item \textbf{Estimaciones fuera del espacio paramétrico:} a diferencia del MLE (que por construcción siempre produce un valor admisible), el MoM puede en ocasiones arrojar estimaciones fuera de $\Theta$ (por ejemplo, una varianza estimada negativa en modelos con restricciones no lineales entre momentos y parámetros).
-	\end{itemize}
-\end{observacion}
-
 \subsection{Los métodos de estimación puntual en Ciencia de Datos}
 
 En la ciencia de datos moderna y el aprendizaje automático (\emph{machine learning}), los métodos de estimación puntual constituyen el núcleo matemático de los algoritmos de entrenamiento de modelos:
 
 \begin{enumerate}
 	\item \textbf{Entrenamiento computacional mediante MLE:} Muchos algoritmos de aprendizaje supervisado, como la regresión logística, la regresión de Poisson para conteos, y las redes neuronales profundas, se entrenan maximizando directamente una función de verosimilitud. Por ejemplo, en clasificación binaria o multiclase, minimizar la función de pérdida de \emph{entropía cruzada} (\emph{cross-entropy loss}) es matemáticamente idéntico a calcular el estimador de máxima verosimilitud sobre una distribución multinomial.
-	
+
 	\item \textbf{Inicialización de pesos con Método de Momentos:} Cuando un modelo estadístico complejo o una mezcla de distribuciones (\emph{Gaussian Mixture Models} - GMM) debe ajustarse por métodos numéricos intensivos como el algoritmo Esperanza-Maximización (EM), las estimaciones por el Método de Momentos se utilizan con frecuencia como los valores iniciales ($\theta^{(0)}$) para acelerar la convergencia y evitar mínimos locales pobres.
-	
+
 	\item \textbf{Estimación por Método Generalizado de Momentos (GMM):} En econometría y ciencia de datos causales, cuando el número de condiciones de momento supera el número de parámetros a estimar, se emplea el Método Generalizado de Momentos para combinar óptimamente toda la información empírica disponible sin requerir especificaciones distribucionales estrictas.
 \end{enumerate}
