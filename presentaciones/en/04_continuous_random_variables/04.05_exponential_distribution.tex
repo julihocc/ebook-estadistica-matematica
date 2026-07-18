@@ -39,7 +39,22 @@
 	\end{alertblock}
 \end{frame}
 
-% SLIDE 03: Definition and Memoryless
+% SLIDE 03: Motivation
+\begin{frame}{Time Between Events: The Exponential as a Natural Model}
+	\footnotesize
+	\begin{motivacion}[Why the exponential distribution?]
+		In Chapter 03 we modeled the \emph{number} of events in an interval (Poisson). Now we model the \emph{time between events}: if events follow a Poisson($\lambda$) process, the times between consecutive events are i.i.d. $\text{Exp}(\lambda)$. The Exponential is the most widely applied continuous distribution in reliability engineering, queueing theory, and stochastic process physics.
+	\end{motivacion}
+	\vspace{0.15cm}
+	\pause
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Time between events:} Models waiting times until the first occurrence of a Poisson event. \pause
+		\item \textbf{Memoryless:} $P(X > s + t \mid X > s) = P(X > t)$ is the defining property. \pause
+		\item \textbf{Basis of Erlang and Gamma:} Sum of $n$ i.i.d. exponentials is Erlang$(n, \lambda)$, foundation of series systems.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 03B: Definition and Memoryless
 \begin{frame}{Definition, Moments, and Memoryless Property}
 	\vspace{-0.15cm}
 	\begin{columns}[T]
@@ -53,6 +68,28 @@
 			\begin{alertblock}{Memoryless Property}
 				\footnotesize
 				$P(X > s + t \mid X > s) = P(X > t)$ for all $s, t > 0$. Uniquely characterizes the exponential among continuous distributions on $[0, \infty)$. The system ``does not age''.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 03C: Proof of the Memoryless Property
+\begin{frame}{Memoryless Property: Proof and Uniqueness}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.52\textwidth}
+			\begin{block}{Proof}
+				\footnotesize
+				\begin{align*}
+					P(X > s{+}t \mid X > s) &= \frac{P(X > s+t)}{P(X > s)} = \frac{e^{-\lambda(s+t)}}{e^{-\lambda s}} \\
+					&= e^{-\lambda t} = P(X > t).
+				\end{align*}
+			\end{block}
+		\end{column}
+		\begin{column}{0.44\textwidth}
+			\begin{alertblock}{Uniqueness}
+				\footnotesize
+				If $g(s+t) = g(s)g(t)$ for measurable $g$, then $g(t) = e^{-ct}$. The Uniform, by contrast, does \emph{not} have this property.
 			\end{alertblock}
 		\end{column}
 	\end{columns}

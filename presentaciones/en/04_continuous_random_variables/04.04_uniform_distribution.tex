@@ -39,7 +39,22 @@
 	\end{alertblock}
 \end{frame}
 
-% SLIDE 03: Definition and Moments
+% SLIDE 03: Motivation
+\begin{frame}{The Simplest Distribution: Continuous Equiprobability}
+	\footnotesize
+	\begin{motivacion}[Why study the uniform?]
+		The Continuous Uniform distribution $U(a, b)$ models the most fundamental case: a variable taking any value in $[a, b]$ with the same \emph{density}. It is the basis of Monte Carlo simulation (all i.i.d. samples from any distribution are generated from uniforms), of random inspection analysis, and of the non-parametric Kolmogorov-Smirnov test.
+	\end{motivacion}
+	\vspace{0.15cm}
+	\pause
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Equiprobability:} $f(x) = 1/(b-a)$ is constant on $[a, b]$. \pause
+		\item \textbf{Maximum entropy:} $U(a, b)$ maximizes uncertainty among distributions with support $[a, b]$. \pause
+		\item \textbf{Universal generator:} The inverse transform method $X = F^{-1}(U)$ with $U \sim U(0, 1)$ produces samples of any continuous distribution.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 03B: Definition and Moments
 \begin{frame}{Definition and Moments of U(a, b)}
 	\vspace{-0.15cm}
 	\begin{columns}[T]
@@ -52,7 +67,31 @@
 		\begin{column}{0.48\textwidth}
 			\begin{alertblock}{Moments}
 				\footnotesize
-				$\E[X] = (a+b)/2$ (center of the interval). $\Var(X) = (b-a)^{2}/12$. No memory property: $P(X \ge a+b \mid X \ge a) = (b-a-b)^{+}/(b-a) \ne P(X \ge b)$ unless $a=0$.
+				$\E[X] = (a+b)/2$ (center of the interval). $\Var(X) = (b-a)^{2}/12$, $\sigma = (b-a)/\sqrt{12}$. Quantiles: $q_{p} = a + p(b-a)$, linearly interpolated.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 03C: No Memoryless Property
+\begin{frame}{The Uniform Does NOT Have the Memoryless Property}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Contrast with the Exponential}
+				\footnotesize
+				For $X \sim U(0, 15)$ and $a = 10$:
+				$$P(X \ge a{+}b \mid X \ge a) \ne P(X \ge b)$$
+				The conditional probability \emph{decreases} as $X$ approaches the upper bound $b$; e.g., if $X \ge 10$ is known, $X \mid X\ge10 \sim U(10,15)$.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Practical Implications}
+				\footnotesize
+				\begin{itemize}\itemsep=0.03cm
+					\item \textbf{Random inspection:} knowing $X \ge 10$ on $U(0,15)$ updates the distribution to $U(10,15)$.
+					\item \textbf{Diagnostic test:} lack of the no-memory property distinguishes Uniform data from Exponential data.
+				\end{itemize}
 			\end{alertblock}
 		\end{column}
 	\end{columns}

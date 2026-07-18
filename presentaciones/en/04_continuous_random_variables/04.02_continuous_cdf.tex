@@ -39,7 +39,22 @@
 	\end{alertblock}
 \end{frame}
 
-% SLIDE 03: Formal Definition
+% SLIDE 03: Motivation
+\begin{frame}{From PDF to CDF: Integration as the Inverse Operation}
+	\footnotesize
+	\begin{motivacion}[Why the CDF in addition to the PDF?]
+		The PDF encodes local probability density, but practical questions usually concern cumulative thresholds: ``what is the probability that the waiting time exceeds 5 minutes?'' or ``what is the 95th percentile of electricity consumption?'' The CDF answers these questions directly via integration, and its inverse $F^{-1}$ defines the \emph{quantiles} of the distribution.
+	\end{motivacion}
+	\vspace{0.15cm}
+	\pause
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Cumulative probabilities:} $F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\,dt$. \pause
+		\item \textbf{Quantiles:} $q_{p} = F^{-1}(p)$ is the value below which probability $p$ occurs. \pause
+		\item \textbf{Monte Carlo generation:} $X = F^{-1}(U)$ with $U \sim U(0, 1)$ produces exact samples of $X$.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 03B: Formal Definition
 \begin{frame}{Formal Definition: CDF and Inverse Transform}
 	\vspace{-0.15cm}
 	\begin{columns}[T]
@@ -54,6 +69,31 @@
 				\footnotesize
 				If $U \sim U(0, 1)$ and $F$ is continuous and strictly increasing, then $X = F^{-1}(U)$ has CDF $F$. This enables exact sampling from any continuous distribution given only its CDF.
 			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 03C: CDF Properties and Interval Probabilities
+\begin{frame}{Axiomatic Properties and Interval Probabilities}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Axiomatic Properties of the CDF}
+				\footnotesize
+				\begin{itemize}\itemsep=0.03cm
+					\item \textbf{Bounded:} $0 \le F(x) \le 1$ for all $x$.
+					\item \textbf{Limits:} $\lim_{x \to -\infty} F(x) = 0$, $\lim_{x \to +\infty} F(x) = 1$.
+					\item \textbf{Non-decreasing:} $a < b \implies F(a) \le F(b)$.
+					\item \textbf{Right-continuous:} $\lim_{h \to 0^{+}} F(x+h) = F(x)$.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Right-Tail and Left-Tail Probabilities}
+				\footnotesize
+				Since $P(X=a)=P(X=b)=0$, the symbols $<$ and $\le$ are interchangeable in interval probabilities.
+				$$P(X > a) = 1 - F(a), \qquad P(X \le b) = F(b)$$
+			\end{block}
 		\end{column}
 	\end{columns}
 \end{frame}

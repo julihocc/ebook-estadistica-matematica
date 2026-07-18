@@ -39,7 +39,22 @@
 	\end{alertblock}
 \end{frame}
 
-% SLIDE 03: Formal Definition and CDF
+% SLIDE 03: Motivation
+\begin{frame}{From Discrete to Continuous: The Density Function}
+	\footnotesize
+	\begin{motivacion}[Why continuous random variables?]
+		In Chapter 03 we worked with variables taking discrete values: number of successes, defects, calls. But many phenomena vary continuously: waiting time, measurement error, voltage in a circuit, weight of a product. For these variables, probability mass ``spreads'' over a continuum, and the \emph{probability density} $f(x)$ encodes how that mass concentrates.
+	\end{motivacion}
+	\vspace{0.15cm}
+	\pause
+	\begin{itemize}\itemsep=0.1cm
+		\item \textbf{Continuity:} $X$ takes values on an interval (or union of intervals), not a discrete set. \pause
+		\item \textbf{Probability as area:} $P(a \le X \le b) = \int_{a}^{b} f(x)\,dx$, not a sum of point masses. \pause
+		\item \textbf{Technical condition:} $\int_{-\infty}^{\infty} f(x)\,dx = 1$ guarantees the total mass equals one.
+	\end{itemize}
+\end{frame}
+
+% SLIDE 03B: Formal Definition and CDF
 \begin{frame}{Formal Definition: PDF and Continuous CDF}
 	\vspace{-0.15cm}
 	\begin{columns}[T]
@@ -74,6 +89,30 @@
 				\footnotesize
 				$\E[g(X)] = \int g(x) f(x)\,dx$ under regularity conditions. Special cases: $g(x) = x$ gives $\E[X]$; $g(x) = (x - \mu)^{2}$ gives $\Var(X) = \E[X^{2}] - (\E[X])^{2}$.
 			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% SLIDE 04B: Zero-Probability Points and Continuous Expectation
+\begin{frame}{Fundamental Property and Continuous Expectation}
+	\vspace{-0.15cm}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Fundamental Property: $P(X = x) = 0$}
+				\footnotesize
+				\begin{itemize}\itemsep=0.05cm
+					\item For a continuous variable, any single point has zero probability.
+					\item Probabilities are computed over \emph{intervals}, not points.
+					\item Hence $P(a \le X \le b) = P(a < X \le b) = P(a \le X < b) = P(a < X < b)$.
+				\end{itemize}
+			\end{alertblock}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Continuous Expectation}
+				\footnotesize
+				$$\E[X] = \int_{-\infty}^{\infty} x \cdot f(x)\,dx$$
+				provided the integral exists ($\int |x| f(x)\,dx < \infty$). Computationally, $\Var(X) = \E[X^{2}] - (\E[X])^{2}$ and $\sigma = \sqrt{\Var(X)}$.
+			\end{block}
 		\end{column}
 	\end{columns}
 \end{frame}
