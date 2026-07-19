@@ -6,6 +6,17 @@ por fechas e hitos editoriales.
 
 ## 2026-07-18
 
+### Decidido (pendiente de ejecución)
+- **Reorganización de cuadernos de problemas y contenido de práctica en los mazos — decisión de alcance, no ejecutada aún.** Durante la Fase G (mapeo estricto 1 mazo = 1 `\section`), el usuario pidió replantear dos convenciones establecidas desde las Fases A/B y codificadas como estándar oficial en `presentaciones/ESPECIFICACIONES_Y_REQUERIMIENTOS.md` (Regla de Oro 1/Bloque IV y Regla de Oro 4):
+  1. **Cuadernos de problemas por sección, no por capítulo:** cada `\section` real debe tener su propio archivo `(p).tex` individual (ya implícito en la redacción original de la Regla de Oro 4, pero nunca implementado así — hoy un archivo cubre varias secciones de un capítulo).
+  2. **Cantidad de problemas flexible, no fija:** se abandona la taxonomía rígida de 10 problemas (3-3-2-2). Nueva guía: 3-6 problemas por sección, priorizando variedad sobre alcanzar un conteo, ordenados de menor a mayor dificultad.
+  3. **Dificultad como comentario interno, no como encabezado visible:** los banners `\subsection*{Nivel Fundamental}` etc. se convierten en comentarios LaTeX (`% Nivel Fundamental`) que no aparecen en el PDF compilado.
+  4. **Mazos: reemplazar "Ejercicio en Clase" (citar problema del cuaderno) por ejemplos resueltos ya existentes en la teoría** (`\ejemplo`/`\solucion` reutilizados, sin crear contenido nuevo), con el mismo nivel de detalle (par de diapositivas Enunciado→Resolución paso a paso).
+  5. **Alcance retroactivo:** aplica a los capítulos ya reestructurados esta sesión (Cap. 3-5, vía Fases C/E/G1-G3) y hacia adelante (Cap. 6-9, Fase F).
+  - Se actualizó `presentaciones/ESPECIFICACIONES_Y_REQUERIMIENTOS.md` (Regla de Oro 1/Bloque IV, Regla de Oro 4) para reflejar las nuevas reglas como estándar oficial vigente.
+  - **Efecto colateral esperado, no verificado aún:** al ubicar cada archivo de problemas justo después de su sección real en el `\input`, el bug de numeración pospuesto en Fase D podría resolverse automáticamente (el contador `[section]` heredaría el número correcto sin necesitar `\subsection*` con asterisco) — pendiente de confirmar contra el `.aux` al ejecutar.
+  - **Estado: solo documentado, sin ejecutar.** El usuario pidió ir despacio y confirmar el plan por escrito antes de tocar ningún archivo de problemas o mazo existente. La ejecución se retomará un paso a la vez, empezando por un piloto en una sola sección pequeña.
+
 ### Corregido
 - **Divergencia estructural ES/EN del libro maestro — Fase C (Nivel 1) completa:** el usuario reportó que, pese a las Fases A/B, el desalineamiento entre las notas ES y EN seguía presente y que las tablas de contenido tampoco coincidían con los slides. Una nueva auditoría confirmó que las Fases A/B nunca compararon la estructura real de `\section`/`\subsection` (solo paridad de problemas y frames de teoría en slides), y encontró divergencias genuinas de tabla de contenidos:
   - `en_variables_aleatorias_discretas.tex` (Cap. 3) tenía solo 2 `\section`s (PMF+CDF fusionadas) donde ES tiene 3 (PMF, CDF, Esperanza/Varianza); se dividió para igualar la estructura ES.

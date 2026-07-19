@@ -27,11 +27,12 @@ Toda presentación curricular del libro debe estructurarse obligatoriamente de f
      - **Slides 09A–09C (Código Fuente 1/4 a 3/4):** Importación de bloques exactos y completos de funciones matemáticas desde el script en inglés mediante `\lstinputlisting[firstline=X, lastline=Y]`. **Queda estrictamente prohibido truncar encabezados de funciones o sentencias `return`**.
      - **Slide 09D (Verificación en Consola 4/4):** Exhibición de los resultados numéricos reales de la terminal en dos columnas equitativas (`\begin{columns}[T]`), verificando el emparejamiento exacto con la teoría analítica sin ningún tipo de desbordamiento.
 
-4. **Bloque IV: Ejercicios Didácticos en Clase (Diapositivas 10A–13B)**
-   - Aplicación de la **taxonomía de 4 niveles (*3-3-2-2*)**. Se selecciona 1 problema representativo de cada nivel del cuaderno del libro (`(p).tex`).
-   - **División Didáctica Obligatoria (Enunciado $\to$ Resolución):** Cada ejercicio se desarrolla en **exactamente dos diapositivas consecutivas**:
-     - **Diapositiva A (`1/2` - Enunciado):** Planteamiento del problema con contexto de ingeniería o datos reales, y formulación clara de los incisos a resolver.
-     - **Diapositiva B (`2/2` - Resolución):** Desarrollo algebraico paso a paso en dos columnas algebraicas equilibradas o bloques seriados con `\pause`, rematando con un **cuadro de interpretación pedagógica** (`exampleblock` o `alertblock`) que responda al "por qué" práctico del resultado.
+4. **Bloque IV: Ejemplos Resueltos de Refuerzo (Diapositivas 10A–13B)**
+   - **[Actualizado 2026-07-18]** Se reemplazó el patrón anterior de "Ejercicio en Clase" (citar problemas del cuaderno `(p).tex`) por la **reutilización de ejemplos resueltos (`\ejemplo`/`\solucion`) que ya existen en la sección de teoría correspondiente del libro maestro**. No se crea contenido de ejemplo nuevo: se seleccionan los ejemplos ya presentes, en orden de dificultad creciente, priorizando variedad de ángulos sobre alcanzar un conteo fijo (típicamente 2-4 ejemplos por mazo, según cuántos existan realmente en esa sección).
+   - **División Didáctica Obligatoria (Enunciado $\to$ Resolución):** Cada ejemplo se desarrolla con el mismo nivel de detalle que el patrón anterior, en **exactamente dos diapositivas consecutivas**:
+     - **Diapositiva A (`1/2` - Enunciado):** Planteamiento del ejemplo con su contexto, y formulación clara de los incisos a resolver.
+     - **Diapositiva B (`2/2` - Resolución):** Desarrollo algebraico completo paso a paso (igual de detallado que la solución ya presente en el libro), en dos columnas algebraicas equilibradas o bloques seriados con `\pause`, rematando con un **cuadro de interpretación pedagógica** (`exampleblock` o `alertblock`) que responda al "por qué" práctico del resultado.
+   - **Motivo del cambio:** con la reorganización de los cuadernos de problemas en archivos por sección (ver Regla de Oro 4 actualizada), el cuaderno de problemas queda como material de práctica autónoma del lector, separado del contenido demostrado en clase — los mazos ahora refuerzan la teoría con ejemplos ya demostrados en vez de plantear ejercicios sin resolver en pantalla.
 
 5. **Bloque V: Síntesis y Transición Curricular (Diapositivas 14–15)**
    - **Slide 14 (Síntesis y Conclusiones):** Resumen ejecutivo de los pilares conceptuales aprendidos en la sesión.
@@ -57,14 +58,14 @@ Toda presentación curricular del libro debe estructurarse obligatoriamente de f
 
 ---
 
-### Regla de Oro 4: Taxonomía Pedagógica 3-3-2-2 y Coherencia Curricular
-- Cada sección de teoría de las presentaciones debe auditarse en paralelo con su respectivo archivo de problemas en el texto maestro (`latex/<seccion>(p).tex`).
-- El cuaderno de problemas del libro está estrictamente estandarizado en **10 problemas divididos en 4 niveles de complejidad (*Taxonomía 3-3-2-2*)**:
-  1. `Nivel Fundamental` (3 problemas directos y conceptuales).
-  2. `Nivel Operativo` (3 problemas de cálculo y manipulación algebraica/numérica).
-  3. `Nivel Analítico` (2 problemas de demostración, deducción teórica o modelación).
-  4. `Nivel Desafiante` (2 problemas integradores o paradojas complejas de ingeniería).
-- Los 4 ejercicios en clase de las diapositivas (`Slides 10A a 13B`) deben corresponder rigurosamente a ejemplos seleccionados de cada uno de estos cuatro niveles del archivo `(p).tex`, garantizando que el estudiante transite desde la comprensión elemental hasta el dominio experto en una misma sesión.
+### Regla de Oro 4: Cuadernos de Problemas por Sección y Coherencia Curricular
+
+**[Actualizado 2026-07-18]** Reemplaza la taxonomía fija anterior (10 problemas, 3-3-2-2, niveles visibles). Ver `CHANGELOG.md` para el registro de la decisión.
+
+- Cada `\section` real de teoría del libro maestro debe tener su **propio archivo de problemas individual** (`latex/<seccion>(p).tex`), ubicado inmediatamente después de esa sección en el `\input` del libro — no un archivo compartido por capítulo cubriendo varias secciones.
+- La cantidad de problemas por sección **no es un número fijo**: se selecciona un subconjunto razonable y bien motivado (guía orientativa: **3 a 6 problemas**), priorizando variedad de ángulos/aplicaciones sobre alcanzar una cifra específica. No se rellena con problemas redundantes solo para llegar a un conteo.
+- Los problemas se ordenan de **menor a mayor dificultad** dentro del archivo. La dificultad (Fundamental/Operativo/Analítico/Desafiante, u otra escala que aplique) se documenta como **comentario interno de LaTeX** (`% Nivel Fundamental`, etc.) — **no como encabezado visible** (`\subsection*{Nivel...}`) en el PDF compilado del libro.
+- El cuaderno de problemas queda como material de **práctica autónoma para el lector**, independiente del contenido que se presenta en clase (ver Regla de Oro 1, Bloque IV — los mazos ahora citan ejemplos resueltos de la teoría, no problemas de este cuaderno).
 
 ---
 
