@@ -1,7 +1,57 @@
 \section{Pruebas relacionadas con una media (varianza desconocida)}
+\label{sec:prueba-t-media}
 
-% TODO(contenido-nuevo): redactar 6.4 Pruebas relacionadas con una media (varianza
-%   desconocida) — prueba t para una media con sigma desconocida, reutilizando la
-%   distribución t ya presentada en la sección 4.5 — ver
-%   docs/plan-renumeracion-temario-MA1001B.md, Cap. 7, "Contenido nuevo requerido",
-%   punto 3.
+Las pruebas $Z$ vistas hasta ahora asumen que la desviación estándar poblacional $\sigma$ es conocida. En la práctica, $\sigma$ casi nunca se conoce de antemano: debe estimarse a partir de la misma muestra mediante la desviación estándar muestral $S$. Al reemplazar $\sigma$ por $S$, el estadístico de prueba deja de seguir una distribución normal estándar y pasa a seguir una distribución $t$ de Student, ya estudiada en la sección \ref{sec:distribucion-t}.
+
+\begin{teorema}[Prueba $t$ para una media poblacional, $\sigma$ desconocida]
+	Sea $X_1, \ldots, X_n$ una muestra aleatoria de una población normal (o de tamaño $n$ suficientemente grande) con media $\mu$ desconocida y varianza $\sigma^2$ desconocida. Para contrastar $H_0: \mu = \mu_0$, el estadístico de prueba es
+	\begin{align}
+		\label{eq:6.4.1}
+		T = \frac{\bar{X} - \mu_0}{S/\sqrt{n}},
+	\end{align}
+	el cual, bajo $H_0$, sigue una distribución $t_{n-1}$ (idéntica construcción a la de \eqref{eq:3.2.14}, con $\mu_0$ en lugar de $\mu$). Rechazamos $H_0$ al nivel de significación $\alpha$ según la hipótesis alternativa:
+	\begin{itemize}
+		\item $H_a: \mu \neq \mu_0$ (dos colas): rechazar si $|T| > t_{n-1,\,\alpha/2}$.
+		\item $H_a: \mu > \mu_0$ (cola derecha): rechazar si $T > t_{n-1,\,\alpha}$.
+		\item $H_a: \mu < \mu_0$ (cola izquierda): rechazar si $T < -t_{n-1,\,\alpha}$.
+	\end{itemize}
+\end{teorema}
+
+\begin{observacion}
+	Al igual que ocurre con el intervalo de confianza correspondiente (sección \ref{sec:distribucion-t}), usar los cuantiles de $t_{n-1}$ en lugar de los de $N(0,1)$ produce una región de rechazo más conservadora (valores críticos más alejados de cero), reflejando la incertidumbre adicional de estimar $\sigma$ a partir de la muestra. Esta diferencia es más marcada para muestras pequeñas y se vuelve despreciable cuando $n \to \infty$, ya que $t_{n-1} \xrightarrow{d} N(0,1)$.
+\end{observacion}
+
+\begin{ejemplo}
+	\label{exmp:6.4.1}
+	Un fabricante de baterías afirma que la duración media de su producto es de $500$ horas. Un laboratorio independiente prueba una muestra de $n=16$ baterías y obtiene una duración media $\bar{x} = 485$ horas, con desviación estándar muestral $s = 32$ horas. ¿Hay evidencia, al nivel de significación $\alpha = 0.05$, de que la duración media real es menor a la afirmada?
+\end{ejemplo}
+
+\begin{solucion}
+	\textbf{Paso 1: Formular hipótesis}
+	\begin{align}
+		H_0: \mu &= 500 \text{ horas} \\
+		H_a: \mu &< 500 \text{ horas}
+	\end{align}
+
+	\textbf{Paso 2: Elegir nivel de significación}
+	\begin{align}
+		\alpha = 0.05
+	\end{align}
+
+	\textbf{Paso 3: Calcular estadístico de prueba}
+
+	Como $\sigma$ es desconocida y $n=16 < 30$, usamos la prueba $t$ con $\nu = n-1 = 15$ grados de libertad:
+	\begin{align}
+		T = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} = \frac{485 - 500}{32/\sqrt{16}} = \frac{-15}{8} = -1.875
+	\end{align}
+
+	\textbf{Paso 4: Determinar la región crítica}
+
+	Para una prueba de cola izquierda con $\alpha = 0.05$ y $\nu = 15$ grados de libertad, el valor crítico es $t_{15,\,0.05} \approx 1.753$, de modo que rechazamos $H_0$ si $T < -1.753$.
+
+	\textbf{Paso 5: Tomar decisión}
+
+	Como $T = -1.875 < -1.753$, rechazamos $H_0$.
+
+	\textbf{Conclusión:} Hay evidencia estadística suficiente al nivel de significación del $5\%$ para afirmar que la duración media real de las baterías es menor a las $500$ horas anunciadas.
+\end{solucion}

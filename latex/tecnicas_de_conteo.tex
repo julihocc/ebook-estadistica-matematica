@@ -1,6 +1,107 @@
 \section{Técnicas de conteo}
 
-% TODO(contenido-nuevo): redactar 1.2 Técnicas de conteo (principio de multiplicación,
-%   permutaciones, combinaciones, coeficiente binomial, un ejemplo resuelto de
-%   probabilidad clásica) — ver docs/plan-renumeracion-temario-MA1001B.md, Cap. 2,
-%   "Contenido nuevo requerido", punto 1.
+En el enfoque clásico de la probabilidad, si un evento puede ocurrir de $h$ maneras distintas de un total de $n$ resultados igualmente probables, su probabilidad es $h/n$. Cuando $n$ es demasiado grande para enumerar los resultados uno a uno, necesitamos herramientas sistemáticas para \emph{contarlos} sin listarlos explícitamente. A esto se dedican las técnicas de conteo.
+
+\subsection{Principio fundamental de conteo}
+
+\begin{teorema}[Principio de multiplicación]
+	Si una operación puede realizarse de $n_1$ maneras distintas, y para cada una de ellas una segunda operación puede realizarse de $n_2$ maneras distintas, entonces las dos operaciones juntas pueden realizarse de $n_1 \cdot n_2$ maneras. En general, si se tienen $k$ operaciones sucesivas con $n_1, n_2, \ldots, n_k$ maneras posibles respectivamente, el número total de resultados posibles es
+	\begin{align}
+		\label{eq:conteo.1}
+		n_1 \cdot n_2 \cdots n_k.
+	\end{align}
+\end{teorema}
+
+\begin{ejemplo}
+	\label{exmp:conteo.1}
+	Un restaurante ofrece $4$ entradas, $6$ platos fuertes y $3$ postres. Si un comensal elige exactamente una opción de cada categoría, ¿cuántos menús distintos puede formar?
+\end{ejemplo}
+
+\begin{solucion}
+	Por el principio de multiplicación, el número de menús posibles es
+	\begin{align}
+		4 \times 6 \times 3 = 72.
+	\end{align}
+\end{solucion}
+
+\subsection{Permutaciones}
+
+Una \emph{permutación} es un arreglo \textbf{ordenado} de objetos, donde el orden en que aparecen sí importa.
+
+\begin{definicion}[Permutación de $n$ objetos tomados de $r$ en $r$]
+	El número de formas de ordenar $r$ objetos distintos, elegidos de un total de $n$ objetos distintos ($r \leq n$), sin repetición, es
+	\begin{align}
+		\label{eq:conteo.2}
+		P(n,r) = \frac{n!}{(n-r)!} = n(n-1)(n-2)\cdots(n-r+1).
+	\end{align}
+	Cuando $r=n$, se obtiene el número de permutaciones de los $n$ objetos completos: $P(n,n) = n!$.
+\end{definicion}
+
+\begin{observacion}[Permutaciones con repetición]
+	Si se dispone de $n$ objetos distintos y se permiten repeticiones al elegir $r$ de ellos en orden (por ejemplo, al formar una contraseña donde un mismo carácter puede reaparecer), el número de arreglos ordenados posibles es simplemente $n^r$, por el principio de multiplicación aplicado $r$ veces.
+\end{observacion}
+
+\begin{ejemplo}
+	\label{exmp:conteo.2}
+	En una carrera con $8$ corredores, ¿de cuántas formas distintas se pueden otorgar las medallas de oro, plata y bronce (suponiendo que no hay empates)?
+\end{ejemplo}
+
+\begin{solucion}
+	Se trata de una permutación de $8$ corredores tomados de $3$ en $3$, ya que el orden (oro, plata, bronce) importa:
+	\begin{align}
+		P(8,3) = \frac{8!}{(8-3)!} = 8 \times 7 \times 6 = 336.
+	\end{align}
+\end{solucion}
+
+\subsection{Combinaciones y coeficiente binomial}
+
+A diferencia de las permutaciones, una \emph{combinación} es una selección de objetos donde el orden \textbf{no} importa.
+
+\begin{definicion}[Combinación de $n$ objetos tomados de $r$ en $r$]
+	El número de formas de elegir un subconjunto de $r$ objetos, de un total de $n$ objetos distintos ($r \leq n$), sin importar el orden, se denota $\comb{n}{r}$ y se lee ``$n$ elige $r$''. Como cada subconjunto de tamaño $r$ da lugar a $r!$ permutaciones distintas, se cumple
+	\begin{align}
+		\label{eq:conteo.3}
+		\comb{n}{r} = \frac{P(n,r)}{r!} = \frac{n!}{r!(n-r)!}.
+	\end{align}
+	El número $\comb{n}{r}$ se conoce como \emph{coeficiente binomial}.
+\end{definicion}
+
+{Propiedades del coeficiente binomial}
+\begin{itemize}
+	\item \textbf{Simetría}: $\comb{n}{r} = \comb{n}{n-r}$, ya que elegir los $r$ objetos que se incluyen equivale a elegir los $n-r$ que se excluyen.
+	\item \textbf{Casos extremos}: $\comb{n}{0} = \comb{n}{n} = 1$ (solo hay una forma de elegir ningún objeto, o de elegirlos todos).
+	\item \textbf{Teorema del binomio}: $\comb{n}{r}$ es precisamente el coeficiente de $x^r y^{n-r}$ en la expansión de $(x+y)^n$, de donde toma su nombre.
+\end{itemize}
+
+\begin{ejemplo}
+	\label{exmp:conteo.3}
+	Un comité de $4$ personas debe formarse a partir de un grupo de $10$ candidatos. ¿De cuántas maneras se puede formar el comité si todos los puestos son equivalentes (no hay presidente, secretario, etc.)?
+\end{ejemplo}
+
+\begin{solucion}
+	Como el orden no importa (dos comités con las mismas $4$ personas son el mismo comité), se trata de una combinación:
+	\begin{align}
+		\comb{10}{4} = \frac{10!}{4! \, 6!} = \frac{10 \times 9 \times 8 \times 7}{4 \times 3 \times 2 \times 1} = 210.
+	\end{align}
+\end{solucion}
+
+\begin{ejemplo}[Aplicación a probabilidad clásica]
+	\label{exmp:conteo.4}
+	De una baraja estándar de $52$ cartas se extrae al azar una mano de $5$ cartas. ¿Cuál es la probabilidad de que las $5$ cartas sean del mismo palo (una \emph{flor}, sin importar el orden en que se reciben)?
+\end{ejemplo}
+
+\begin{solucion}
+	El espacio muestral consiste en todas las manos posibles de $5$ cartas de las $52$ disponibles, sin importar el orden en que se reparten, es decir $\comb{52}{5}$ resultados igualmente probables:
+	\begin{align}
+		\comb{52}{5} = \frac{52!}{5!\,47!} = 2{,}598{,}960.
+	\end{align}
+	Para contar los casos favorables, hay $4$ palos posibles, y de cada palo (que tiene $13$ cartas) debemos elegir $5$: $\comb{13}{5} = 1{,}287$ manos por palo. Por el principio de multiplicación, el número total de manos con las $5$ cartas del mismo palo es
+	\begin{align}
+		4 \times \comb{13}{5} = 4 \times 1{,}287 = 5{,}148.
+	\end{align}
+	Por el enfoque clásico de la probabilidad,
+	\begin{align}
+		P(\text{flor}) = \frac{5{,}148}{2{,}598{,}960} \approx 0.00198,
+	\end{align}
+	es decir, aproximadamente $1$ en $505$ manos.
+\end{solucion}
