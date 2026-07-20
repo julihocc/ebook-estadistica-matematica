@@ -1,0 +1,114 @@
+% NOTA DE NUMERACIÓN: pruebas_de_hipotesis.tex agrupa sus 3 secciones reales (7.1, 7.2, 7.3)
+% en un único archivo sin separación física de \input, por lo que este cuaderno de problemas
+% no puede insertarse físicamente entre 7.2 y 7.3 sin dividir esa teoría (fuera de alcance).
+% En consecuencia, estos problemas compilan como continuación numérica de la sección 7.3
+% ("Uso de los valores P"), no de la 7.2 ("Relación entre IC y pruebas de hipótesis"), aunque
+% temáticamente pertenecen a esta última. Ver docs/diagnostico-cuadernos-problemas-2026-07-20.md.
+
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:43cddbb}
+	Enuncie, en símbolos y sin usar ningún dato numérico, la equivalencia exacta entre rechazar $H_0: \theta = \theta_0$ (prueba de dos colas, nivel $\alpha$) y la posición de $\theta_0$ respecto a un intervalo de confianza del $(1-\alpha)100\%$ construido con la misma muestra.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:ae1a813}
+	Un ingeniero construye un intervalo de confianza del $95\%$ para la resistencia media de un lote de cables: $\text{IC} = (48.2, 52.6)$ MPa. Usando exclusivamente la equivalencia IC$\leftrightarrow$prueba (sin calcular ningún estadístico de prueba), determine:
+	\begin{enumerate}
+		\item ¿Se rechazaría $H_0: \mu = 50$ contra $H_a: \mu \neq 50$ al nivel $\alpha = 0.05$?
+		\item ¿Se rechazaría $H_0: \mu = 53$ contra $H_a: \mu \neq 53$ al mismo nivel?
+	\end{enumerate}
+	Justifique cada respuesta únicamente por la posición del valor hipotético respecto al intervalo.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:1b375b0}
+	Una muestra de $n = 25$ mediciones de pH de un proceso químico tiene $\bar{x} = 7.08$ y $s = 0.15$ (varianza poblacional desconocida).
+	\begin{enumerate}
+		\item Construya el intervalo de confianza del $99\%$ para $\mu$ usando la distribución $t$ ($t_{24,\,0.005} \approx 2.797$).
+		\item Use ese intervalo, sin calcular ningún estadístico $T$ adicional, para decidir si se rechaza $H_0: \mu = 7.00$ contra $H_a: \mu \neq 7.00$ al nivel $\alpha = 0.01$.
+	\end{enumerate}
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:6517bf1}
+	Con los mismos datos del problema anterior ($\bar{x} = 7.08$, $s = 0.15$, $n = 25$), un analista realiza una prueba de \textbf{una cola} $H_0: \mu = 7.00$ contra $H_a: \mu > 7.00$ al nivel $\alpha = 0.01$, obtiene $T = 2.667$ y \textbf{rechaza} $H_0$ (ya que $T > t_{24,\,0.01} \approx 2.492$). Sin embargo, en el problema anterior el intervalo de confianza de \textbf{dos colas} del $99\%$ \textbf{no} llevó a rechazar la prueba de dos colas correspondiente. Explique, usando la teoría de esta sección, por qué ambos resultados son consistentes y no contradictorios, identificando específicamente qué valor crítico compara cada procedimiento y por qué son distintos.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:4f1ea6b}
+	Un estudiante concluye que, como $\mu_0 = 50$ cae \textbf{dentro} del intervalo de confianza del $95\%$ del segundo problema de este cuaderno, entonces "se ha demostrado que la media poblacional real es exactamente 50". Evalúe esta afirmación: ¿es correcta la conclusión estadística? Relacione su respuesta con la observación de la teoría sobre la diferencia entre "no rechazar $H_0$" y "aceptar $H_0$".
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:1e58b99}
+	Diseñe un breve ejemplo original (contexto, datos resumidos de una muestra ficticia, e intervalo de confianza calculado a partir de ellos) que ilustre cómo un \textbf{único} intervalo de confianza permite responder simultáneamente tres pruebas de hipótesis distintas, $H_0: \mu = \theta_1$, $H_0: \mu = \theta_2$ y $H_0: \mu = \theta_3$, para tres valores hipotéticos diferentes, sin calcular tres estadísticos de prueba por separado. Presente los tres valores elegidos y la decisión (rechazar/no rechazar) para cada uno, justificada únicamente por su posición respecto al intervalo.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}
+	\begin{align}
+		\text{Rechazar } H_0 \text{ al nivel } \alpha \quad \Longleftrightarrow \quad \theta_0 \notin \text{IC}_{(1-\alpha)100\%}.
+	\end{align}
+	Es decir, se rechaza $H_0$ si y solo si el valor hipotético $\theta_0$ cae fuera del intervalo de confianza construido con el mismo nivel de confianza $(1-\alpha)100\%$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}
+	\begin{enumerate}
+		\item $\mu_0 = 50$ está dentro del intervalo $(48.2, 52.6)$, por lo tanto \textbf{no se rechaza} $H_0: \mu = 50$.
+		\item $\mu_0 = 53$ está fuera del intervalo $(48.2, 52.6)$ (es mayor que el límite superior $52.6$), por lo tanto \textbf{se rechaza} $H_0: \mu = 53$.
+	\end{enumerate}
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}
+	\begin{enumerate}
+		\item Con $\text{SE} = s/\sqrt{n} = 0.15/\sqrt{25} = 0.03$:
+		\begin{align}
+			\text{IC}_{99\%} = \bar{x} \pm t_{24,\,0.005} \cdot \text{SE} = 7.08 \pm 2.797(0.03) = 7.08 \pm 0.0839 = (6.9961,\ 7.1639).
+		\end{align}
+		\item Como $\mu_0 = 7.00$ está dentro de $(6.9961,\ 7.1639)$, \textbf{no se rechaza} $H_0: \mu = 7.00$ al nivel $\alpha = 0.01$.
+	\end{enumerate}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}
+	No hay contradicción: cada procedimiento compara el estadístico contra un valor crítico distinto, porque distribuyen el error tipo I de forma diferente.
+	\begin{itemize}
+		\item La prueba de \textbf{una cola} concentra todo el $\alpha = 0.01$ en una sola cola, por lo que su valor crítico $t_{24,\,0.01} \approx 2.492$ es \textbf{menor} (más fácil de superar).
+		\item La prueba de \textbf{dos colas} (equivalente al intervalo de confianza) reparte el $\alpha$ entre las dos colas ($\alpha/2 = 0.005$ en cada una), por lo que su valor crítico $t_{24,\,0.005} \approx 2.797$ es \textbf{mayor} (más difícil de superar).
+	\end{itemize}
+	El estadístico observado $T = 2.667$ cae \textbf{entre} ambos valores críticos ($2.492 < 2.667 < 2.797$): es lo suficientemente grande para rechazar al nivel de una cola, pero no al nivel de dos colas. Esto es exactamente lo esperado — la equivalencia IC$\leftrightarrow$prueba del teorema de esta sección se enunció explícitamente para pruebas de \textbf{dos colas}; una prueba de una cola no tiene por qué coincidir con la decisión del intervalo de confianza de dos colas, ya que responden preguntas distintas ($\mu \neq \mu_0$ contra $\mu > \mu_0$).
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}
+	La afirmación es \textbf{incorrecta}. "No rechazar $H_0$" únicamente significa que los datos observados son \emph{compatibles} con $\mu_0 = 50$ (no hay evidencia suficiente para descartarlo), pero no constituye una demostración de que $\mu = 50$ sea el valor exacto de la media poblacional. De hecho, cualquier otro valor dentro del intervalo $(48.2, 52.6)$ —por ejemplo $\mu_0 = 49$ o $\mu_0 = 51.5$— tampoco se rechazaría con los mismos datos, por lo que sería lógicamente imposible que todos esos valores fueran simultáneamente "la media real demostrada". La estadística inferencial nunca demuestra que un parámetro tome un valor exacto; solo cuantifica qué tan compatibles son los datos con distintos valores hipotéticos.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}
+	\textbf{Ejemplo:} el gerente de control de calidad de una planta embotelladora toma una muestra de $n = 36$ botellas y mide su contenido neto, obteniendo $\bar{x} = 500.4$ ml con $\sigma = 3.0$ ml (conocida, por especificación del equipo de llenado). El intervalo de confianza del $95\%$ para la media de llenado es:
+	\begin{align}
+		\text{IC}_{95\%} = 500.4 \pm 1.96 \left(\frac{3.0}{\sqrt{36}}\right) = 500.4 \pm 0.98 = (499.42,\ 501.38) \text{ ml}.
+	\end{align}
+	Con este único intervalo se responden tres pruebas de hipótesis distintas al nivel $\alpha = 0.05$, sin calcular ningún estadístico $Z$ adicional:
+	\begin{itemize}
+		\item $H_0: \mu = 500$ (el objetivo nominal de llenado): $500 \in (499.42, 501.38)$ $\Rightarrow$ \textbf{no se rechaza}.
+		\item $H_0: \mu = 499$ (posible sub-llenado): $499 \notin (499.42, 501.38)$ $\Rightarrow$ \textbf{se rechaza}.
+		\item $H_0: \mu = 502$ (posible sobre-llenado): $502 \notin (499.42, 501.38)$ $\Rightarrow$ \textbf{se rechaza}.
+	\end{itemize}
+	Las tres decisiones se obtuvieron únicamente comparando cada valor hipotético contra los mismos dos límites del intervalo.
+\end{solproblema}

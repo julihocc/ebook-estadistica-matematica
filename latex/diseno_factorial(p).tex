@@ -1,0 +1,107 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:11b9df2}
+	Escriba el modelo estadístico paramétrico para un diseño factorial completo de dos factores (con interacción), identificando cada término, y liste los grados de libertad de las 4 fuentes de variación de la partición de la suma de cuadrados (Factor $A$, Factor $B$, Interacción $AB$, Error), para un diseño con $a$ niveles de $A$, $b$ niveles de $B$, y $n$ réplicas por celda.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:196fe5a}
+	En un diseño factorial con $a=3$, $b=4$, $n=5$ réplicas por celda, se tienen $\text{SC}_A = 120$, $\text{SC}_B = 200$, $\text{SC}_{AB} = 45$, $\text{SCE} = 180$. Sin evaluar significancia todavía, calcule directamente $\text{CM}_A$, $\text{CM}_B$, $\text{CM}_{AB}$ y $\text{CME}$ usando los grados de libertad correspondientes.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:414074b}
+	Un ingeniero de procesos estudia el efecto de la temperatura de horneado (Factor $A$, $a=2$ niveles) y el tipo de catalizador (Factor $B$, $b=3$ niveles) sobre el rendimiento (\%) de una reacción química, con $n=4$ réplicas por combinación. Se obtuvieron: $\text{SC}_A = 84.5$, $\text{SC}_B = 162.3$, $\text{SC}_{AB} = 25.0$, $\text{SCE} = 96.0$.
+	\begin{enumerate}
+		\item Complete la tabla ANOVA (grados de libertad, cuadrados medios, estadísticos $F$).
+		\item Usando los valores críticos $F_{1,18,\,0.05} \approx 4.41$ (para $A$) y $F_{2,18,\,0.05} \approx 3.55$ (para $B$ y la interacción), decida cuáles efectos son estadísticamente significativos al nivel $\alpha = 0.05$.
+	\end{enumerate}
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:64cf64c}
+	Retomando los datos del ejemplo resuelto en la teoría (tiempos de entrenamiento de un modelo de aprendizaje automático bajo 2 algoritmos $\times$ 2 tamaños de lote: $A_1B_1=42$, $A_1B_2=40$, $A_2B_1=38$, $A_2B_2=20$), suponga que un análisis de varianza confirma que la interacción $AB$ es estadísticamente significativa. Analice: ¿tiene sentido reportar "el efecto promedio del tamaño de lote ($B$)" como una sola cifra aplicable a ambos algoritmos? Calcule el efecto simple de $B$ (diferencia $B_1 - B_2$) por separado para cada nivel de $A$, y use esos dos valores para argumentar su respuesta.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:5ffa1be}
+	Un analista observa las siguientes medias de celda de un experimento $2 \times 2$ (Factor $A$: método de enseñanza; Factor $B$: nivel de motivación del estudiante) sobre la calificación final: $A_1B_1 = 70$, $A_1B_2 = 90$, $A_2B_1 = 88$, $A_2B_2 = 68$. El analista calcula las medias marginales $\bar{A}_1 = (70+90)/2 = 80$ y $\bar{A}_2 = (88+68)/2 = 78$, y concluye que "el método $A_1$ es ligeramente mejor que $A_2$ en promedio, así que se recomienda $A_1$ para todos los estudiantes". Evalúe esta conclusión: ¿es apropiada dada la estructura completa de los datos? Calcule los efectos simples de $A$ dentro de cada nivel de $B$ y explique qué le falta a la conclusión del analista.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:fc779e7}
+	Diseñe un escenario original de un experimento factorial $2 \times 2$ (defina ambos factores y sus 2 niveles cada uno, en un contexto distinto a los ya vistos en la teoría o en este cuaderno) y proponga medias de celda hipotéticas que muestren evidencia clara de interacción — es decir, que el efecto de un factor cambie sustancialmente en magnitud o signo según el nivel del otro factor. Presente su tabla de medias y explique cualitativamente, sin calcular la tabla ANOVA completa, por qué sus datos sugieren interacción.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}
+	\begin{align}
+		Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \epsilon_{ijk}, \quad i=1,\ldots,a,\ j=1,\ldots,b,\ k=1,\ldots,n,
+	\end{align}
+	donde $\mu$ es la media global, $\alpha_i$ el efecto principal de $A$, $\beta_j$ el efecto principal de $B$, $(\alpha\beta)_{ij}$ el efecto de interacción, y $\epsilon_{ijk}$ el error aleatorio. Grados de libertad: $\nu_A = a-1$, $\nu_B = b-1$, $\nu_{AB} = (a-1)(b-1)$, $\nu_E = ab(n-1)$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}
+	Con $\nu_A = 2$, $\nu_B = 3$, $\nu_{AB} = 6$, $\nu_E = 3 \times 4 \times 4 = 48$:
+	\begin{align}
+		\text{CM}_A = \frac{120}{2} = 60, \quad \text{CM}_B = \frac{200}{3} \approx 66.67, \quad \text{CM}_{AB} = \frac{45}{6} = 7.5, \quad \text{CME} = \frac{180}{48} = 3.75.
+	\end{align}
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}
+	Con $\nu_A = 1$, $\nu_B = 2$, $\nu_{AB} = 2$, $\nu_E = 2 \times 3 \times 3 = 18$:
+	\begin{align}
+		\text{CM}_A = \frac{84.5}{1} = 84.5, \quad \text{CM}_B = \frac{162.3}{2} = 81.15, \quad \text{CM}_{AB} = \frac{25.0}{2} = 12.5, \quad \text{CME} = \frac{96.0}{18} \approx 5.333.
+	\end{align}
+	\begin{align}
+		F_A = \frac{84.5}{5.333} \approx 15.84, \qquad F_B = \frac{81.15}{5.333} \approx 15.22, \qquad F_{AB} = \frac{12.5}{5.333} \approx 2.34.
+	\end{align}
+	Comparando: $F_A \approx 15.84 > 4.41$ (significativo); $F_B \approx 15.22 > 3.55$ (significativo); $F_{AB} \approx 2.34 < 3.55$ (\textbf{no} significativo). Como la interacción no es significativa, es válido interpretar los efectos principales de temperatura y catalizador por separado: ambos afectan significativamente el rendimiento.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}
+	No tiene sentido reportar un único "efecto promedio de $B$". El efecto simple de $B$ (diferencia $B_1 - B_2$) es:
+	\begin{itemize}
+		\item Para $A_1$: $42 - 40 = 2$ minutos (diferencia pequeña).
+		\item Para $A_2$: $38 - 20 = 18$ minutos (diferencia grande).
+	\end{itemize}
+	Un "efecto promedio" de $B$ (por ejemplo, $(2+18)/2 = 10$) no describe correctamente \emph{ninguno} de los dos casos reales: subestima drásticamente el efecto del tamaño de lote bajo $A_2$ y lo sobrestima bajo $A_1$. Esto es precisamente lo que significa que la interacción sea significativa: el efecto de $B$ \textbf{depende del nivel} de $A$, por lo que reportar los dos efectos simples por separado (uno por cada nivel de $A$) es la única forma de comunicar honestamente el resultado.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}
+	La conclusión del analista es \textbf{inapropiada}: es un caso de interacción tipo "cruce" (\emph{crossover interaction}) que las medias marginales ocultan por completo. Los efectos simples de $A$ dentro de cada nivel de $B$ son:
+	\begin{itemize}
+		\item Dentro de $B_1$ (baja motivación): $A_1B_1 = 70$ vs.\ $A_2B_1 = 88$ — el método $A_2$ es \textbf{mejor} por 18 puntos.
+		\item Dentro de $B_2$ (alta motivación): $A_1B_2 = 90$ vs.\ $A_2B_2 = 68$ — el método $A_1$ es \textbf{mejor} por 22 puntos.
+	\end{itemize}
+	La pequeña diferencia marginal ($80$ vs.\ $78$) es un promedio de dos efectos que apuntan en direcciones \textbf{opuestas} y de magnitud considerable, y prácticamente se cancelan entre sí. Recomendar $A_1$ "para todos los estudiantes" sería un error grave para los estudiantes de baja motivación ($B_1$), donde en realidad $A_2$ es claramente superior. La recomendación correcta depende del nivel de motivación del estudiante, no puede ser una única regla general.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}
+	\textbf{Ejemplo:} un agrónomo estudia el efecto del tipo de fertilizante (Factor $A$: orgánico vs.\ sintético) y el método de riego (Factor $B$: goteo vs.\ aspersión) sobre el rendimiento de un cultivo (kg/m²). Medias de celda hipotéticas:
+	\begin{center}
+		\begin{tabular}{lcc}
+			\hline
+			 & Riego por goteo ($B_1$) & Riego por aspersión ($B_2$) \\ \hline
+			Orgánico ($A_1$) & $8.2$ & $8.0$ \\
+			Sintético ($A_2$) & $6.5$ & $9.8$ \\ \hline
+		\end{tabular}
+	\end{center}
+	El efecto simple del riego es $8.0 - 8.2 = -0.2$ kg/m² bajo fertilizante orgánico (prácticamente nulo), pero $9.8 - 6.5 = 3.3$ kg/m² bajo fertilizante sintético (grande y positivo). El método de riego apenas importa cuando se usa fertilizante orgánico, pero es determinante cuando se usa fertilizante sintético — un cambio sustancial en la magnitud del efecto de $B$ según el nivel de $A$, exactamente el patrón que sugiere una interacción $AB$ relevante.
+\end{solproblema}

@@ -1,0 +1,127 @@
+% NOTA DE NUMERACIÓN: diseno_experimentos_anova.tex agrupa sus secciones 8.1-8.6 (incluida
+% "Diseños factoriales", 8.6) en un único archivo sin separación física de \input entre 8.5 y
+% 8.6, por lo que este cuaderno de problemas no puede insertarse físicamente justo después de
+% 8.5 sin dividir esa teoría (fuera de alcance). En consecuencia, estos problemas compilan
+% como continuación numérica de la sección 8.6 ("Introducción a diseños factoriales"), no de
+% la 8.5 ("...cuadrados latinos y grecolatinos"), aunque temáticamente pertenecen a esta
+% última. Ver docs/diagnostico-cuadernos-problemas-2026-07-20.md.
+
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:e90018f}
+	Defina, sin usar ningún ejemplo numérico, qué es un cuadrado latino de orden $n$ (la propiedad que deben cumplir los tratamientos respecto a las filas y las columnas), y escriba el modelo estadístico paramétrico aditivo correspondiente, identificando cada término.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:8e9e6f8}
+	Considere el siguiente arreglo de $4 \times 4$ con tratamientos $A$, $B$, $C$, $D$:
+	\begin{center}
+		\begin{tabular}{c|cccc}
+			 & Columna 1 & Columna 2 & Columna 3 & Columna 4 \\ \hline
+			Fila 1 & $A$ & $B$ & $C$ & $D$ \\
+			Fila 2 & $B$ & $A$ & $D$ & $C$ \\
+			Fila 3 & $C$ & $D$ & $A$ & $B$ \\
+			Fila 4 & $D$ & $C$ & $B$ & $A$ \\
+		\end{tabular}
+	\end{center}
+	Verifique, revisando cada fila y cada columna, si este arreglo es un cuadrado latino válido de orden 4. Justifique su respuesta explícitamente.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:f64d8dc}
+	En un experimento de cuadrado latino de orden $n = 5$ que evalúa el efecto de 5 formulaciones de fertilizante (tratamiento) sobre el rendimiento de un cultivo, controlando por tipo de suelo (fila) y método de riego (columna), se obtuvieron las siguientes sumas de cuadrados: $\text{SC}_{\text{filas}} = 42.0$, $\text{SC}_{\text{columnas}} = 18.5$, $\text{SCTR} = 96.4$, $\text{SCE} = 25.1$.
+	\begin{enumerate}
+		\item Calcule $\text{SCT}$ sumando las 4 componentes.
+		\item Calcule $\text{CMTR}$ y $\text{CME}$.
+		\item Calcule el estadístico $F_{\text{TR}}$ y, usando el valor crítico $F_{4,12,\,0.05} \approx 3.26$, decida si se rechaza $H_{0,\text{TR}}$ (igualdad de tratamientos) al nivel $\alpha = 0.05$.
+	\end{enumerate}
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:68ab492}
+	Para un cuadrado latino de orden $n = 6$, los grados de libertad del error son $\nu_E = (n-1)(n-2) = 20$. Si en cambio se hubiera podido usar (ignorando por un momento el problema de existencia) un cuadrado grecolatino del mismo orden $n=6$, sus grados de libertad de error serían $\nu_E = (n-1)(n-3) = 15$.
+	\begin{enumerate}
+		\item Verifique ambas particiones de grados de libertad, confirmando que cada una suma $n^2 - 1 = 35$ en total.
+		\item Analice: ¿el cuadrado grecolatino tiene más o menos grados de libertad de error que el cuadrado latino equivalente? Considerando que menos grados de libertad de error implica un valor crítico $F$ más exigente para el mismo $\alpha$, pero que un factor de bloqueo adicional real también tiende a reducir la magnitud de $\text{SCE}$ misma, discuta por qué el efecto neto sobre la potencia de la prueba $F_{\text{TR}}$ no es evidente de forma automática y depende de cuánta variabilidad real explique el bloqueo adicional.
+	\end{enumerate}
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:19cbc65}
+	Un experimentador propone diseñar un cuadrado grecolatino de orden $n = 6$ para controlar simultáneamente 3 fuentes de variabilidad extrañas (turno, máquina, operario) además del tratamiento principal, argumentando que "como funciona para $n=5$ y $n=7$, debe funcionar también para $n=6$ por continuidad". Evalúe esta propuesta: ¿es válida? Justifique con el resultado teórico correspondiente y sugiera una alternativa práctica viable si el experimentador insiste en trabajar con exactamente 6 niveles para sus factores de bloqueo.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:c1de238}
+	Construya explícitamente un cuadrado latino válido de orden $n = 5$ usando 5 tratamientos ($P, Q, R, S, T$), de modo que cada tratamiento aparezca exactamente una vez en cada fila y cada columna. Presente el arreglo completo en una tabla y verifique la propiedad para al menos una fila y una columna.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}
+	Un cuadrado latino de orden $n$ es un arreglo de $n \times n$ celdas en el que se distribuyen $n$ tratamientos de manera que cada tratamiento aparece exactamente una vez en cada fila y exactamente una vez en cada columna. El modelo estadístico paramétrico es
+	\begin{align}
+		Y_{ijk} = \mu + \rho_i + \gamma_j + \tau_k + \epsilon_{ijk},
+	\end{align}
+	donde $\mu$ es la media global, $\rho_i$ el efecto de la fila $i$, $\gamma_j$ el efecto de la columna $j$, $\tau_k$ el efecto del tratamiento $k$, y $\epsilon_{ijk}$ el error aleatorio.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}
+	Sí es un cuadrado latino válido. Cada fila contiene $\{A,B,C,D\}$ exactamente una vez ($A,B,C,D$ en la Fila 1; $B,A,D,C$ en la Fila 2; etc.), y verificando por columnas: Columna 1 $=\{A,B,C,D\}$, Columna 2 $=\{B,A,D,C\}$, Columna 3 $=\{C,D,A,B\}$, Columna 4 $=\{D,C,B,A\}$ — las 4 columnas también contienen cada tratamiento exactamente una vez. Se cumple la propiedad definitoria en ambas direcciones.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}
+	\begin{enumerate}
+		\item $\text{SCT} = 42.0 + 18.5 + 96.4 + 25.1 = 182.0$.
+		\item Con $n-1 = 4$ y $(n-1)(n-2) = 12$:
+		\begin{align}
+			\text{CMTR} = \frac{96.4}{4} = 24.1, \qquad \text{CME} = \frac{25.1}{12} \approx 2.092.
+		\end{align}
+		\item
+		\begin{align}
+			F_{\text{TR}} = \frac{\text{CMTR}}{\text{CME}} = \frac{24.1}{2.092} \approx 11.52.
+		\end{align}
+		Como $F_{\text{TR}} \approx 11.52 > F_{4,12,\,0.05} \approx 3.26$, \textbf{se rechaza} $H_{0,\text{TR}}$: hay evidencia de que al menos una formulación de fertilizante difiere de las demás en su efecto sobre el rendimiento.
+	\end{enumerate}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}
+	\begin{enumerate}
+		\item Cuadrado latino: $\nu_{\text{filas}} + \nu_{\text{columnas}} + \nu_{\text{TR}} + \nu_E = 5+5+5+20 = 35 = 6^2-1$. Cuadrado grecolatino (hipotético): $5+5+5+5+15 = 35 = 6^2-1$. Ambas particiones son consistentes.
+		\item El cuadrado grecolatino tiene \textbf{menos} grados de libertad de error ($15 < 20$), porque destina 5 grados de libertad adicionales a estimar el efecto del cuarto factor de bloqueo (el factor griego). Por sí solo, esto exige un valor crítico $F$ más alto para el mismo $\alpha$ (una prueba más estricta), lo cual tendería a \emph{reducir} la potencia. Sin embargo, si ese cuarto factor de bloqueo captura variabilidad real que de otro modo quedaría en el error, la propia $\text{SCE}$ se reduce, lo cual tendería a \emph{aumentar} la potencia (un $\text{CME}$ menor produce un $F_{\text{TR}}$ mayor). El efecto neto depende de cuál de las dos fuerzas domina: si el factor griego explica poca variabilidad real, el costo en grados de libertad supera el beneficio y conviene quedarse con el cuadrado latino; si explica mucha, el grecolatino es preferible. No hay una respuesta única sin conocer la magnitud real de esa fuente de ruido.
+	\end{enumerate}
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}
+	La propuesta \textbf{no es válida}. La existencia de cuadrados grecolatinos ortogonales no es una propiedad continua en $n$: es un resultado combinatorio exacto, y se sabe (conjeturado por Euler en 1782 y probado en 1900) que \textbf{no existe} ningún cuadrado grecolatino ortogonal de orden $n=6$, aunque sí existan para $n=5$, $n=7$ y, en general, para todo $n \geq 3$ excepto $n=6$. El argumento de "continuidad" es una falacia aplicada a un problema de naturaleza discreta/combinatoria. Como alternativa práctica, el experimentador podría: (a) usar un cuadrado latino ordinario de orden 6 (controlando solo 2 de las 3 fuentes de ruido, dejando la tercera sin controlar o confundida con el error), o (b) ajustar el diseño a $n=5$ o $n=7$ niveles para los factores de bloqueo si el contexto experimental lo permite, recuperando así la posibilidad de un cuadrado grecolatino válido.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}
+	Un cuadrado latino cíclico de orden 5, donde cada fila es un corrimiento de la anterior:
+	\begin{center}
+		\begin{tabular}{c|ccccc}
+			 & Col. 1 & Col. 2 & Col. 3 & Col. 4 & Col. 5 \\ \hline
+			Fila 1 & $P$ & $Q$ & $R$ & $S$ & $T$ \\
+			Fila 2 & $Q$ & $R$ & $S$ & $T$ & $P$ \\
+			Fila 3 & $R$ & $S$ & $T$ & $P$ & $Q$ \\
+			Fila 4 & $S$ & $T$ & $P$ & $Q$ & $R$ \\
+			Fila 5 & $T$ & $P$ & $Q$ & $R$ & $S$ \\
+		\end{tabular}
+	\end{center}
+	Verificación: la Fila 1 contiene $\{P,Q,R,S,T\}$ exactamente una vez; la Columna 1 contiene $\{P,Q,R,S,T\}$ (leyendo hacia abajo: $P,Q,R,S,T$) exactamente una vez. Por construcción cíclica, cada fila y cada columna es una permutación completa de los 5 tratamientos, cumpliendo la propiedad definitoria de un cuadrado latino.
+\end{solproblema}

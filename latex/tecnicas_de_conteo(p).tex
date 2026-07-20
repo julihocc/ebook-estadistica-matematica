@@ -1,0 +1,122 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:6369f2a}
+	Sin realizar ningún cálculo numérico:
+	\begin{enumerate}
+		\item Escriba la fórmula general del número de permutaciones de $n$ objetos tomados de $r$ en $r$, $P(n,r)$.
+		\item Escriba la fórmula general del coeficiente binomial $\comb{n}{r}$.
+		\item Enuncie en palabras el principio fundamental de conteo (principio de la multiplicación).
+	\end{enumerate}
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:4f6f981}
+	Un menú de un restaurante ofrece 5 entradas, 4 platos fuertes y 2 postres. Aplicando únicamente el principio de multiplicación (sin permutaciones ni combinaciones), determine cuántos menús distintos (una opción de cada categoría) puede formar un comensal. Explique con sus propias palabras por qué basta con multiplicar las 3 cantidades.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:490657c}
+	En una carrera de 10 atletas se otorgan medallas de oro, plata y bronce a los 3 primeros lugares (sin empates).
+	\begin{enumerate}
+		\item ¿De cuántas formas distintas se pueden repartir las 3 medallas?
+		\item Si en cambio solo se selecciona, sin distinguir roles, un comité de 3 atletas para una ceremonia, ¿cuántos comités distintos son posibles?
+		\item Compare ambos resultados y explique la relación conceptual entre ellos.
+	\end{enumerate}
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:d8ce0cf}
+	Un comité de 5 personas debe formarse a partir de un grupo de 6 hombres (entre ellos, el Dr. Pérez) y 5 mujeres. El comité debe tener exactamente 3 hombres y 2 mujeres, y el Dr. Pérez debe formar parte obligatoriamente de él. Determine el número total de comités posibles, descomponiendo el conteo en las decisiones independientes que deben tomarse.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:3007304}
+	Un estudiante afirma que el número de formas de asignar los cargos de presidente, secretario y vocal (roles distintos) entre 8 candidatos es $\comb{8}{3} = 56$, argumentando que "de todas formas se eligen 3 personas". Evalúe si el razonamiento del estudiante es correcto. Si no lo es, identifique con precisión el error conceptual y proporcione el cálculo correcto.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:b53268b}
+	Retome el Ejemplo de la probabilidad de una "flor" en póker visto en la teoría de esta sección. Diseñe y resuelva un problema original análogo que calcule la probabilidad de obtener, en una mano de 5 cartas de una baraja estándar de 52, exactamente \textbf{dos pares} (dos rangos distintos con 2 cartas cada uno, y una quinta carta de un tercer rango, de modo que no se trate de un póker ni un full house). Plantee explícitamente el espacio muestral, cuente los casos favorables usando el principio de multiplicación y coeficientes binomiales, y calcule la probabilidad final.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}
+	\begin{enumerate}
+		\item $P(n,r) = \dfrac{n!}{(n-r)!}$.
+		\item $\comb{n}{r} = \dfrac{n!}{r!(n-r)!}$.
+		\item Si una operación puede realizarse de $n_1$ maneras distintas, y para cada una de ellas una segunda operación puede realizarse de $n_2$ maneras distintas, entonces ambas operaciones juntas pueden realizarse de $n_1 \cdot n_2$ maneras; el principio se extiende a cualquier número finito de operaciones sucesivas.
+	\end{enumerate}
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}
+	Cada menú se forma eligiendo exactamente una opción de cada una de las 3 categorías, y las elecciones son independientes entre sí. Por el principio de multiplicación:
+	\begin{align}
+		5 \times 4 \times 2 = 40 \text{ menús distintos.}
+	\end{align}
+	Basta multiplicar porque cada combinación de (entrada, plato fuerte, postre) es un menú diferente, y no hay ninguna restricción que descarte combinaciones.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}
+	\begin{enumerate}
+		\item El orden importa (oro, plata y bronce son roles distintos), por lo que es una permutación:
+		\begin{align}
+			P(10,3) = \frac{10!}{(10-3)!} = 10 \times 9 \times 8 = 720.
+		\end{align}
+		\item El orden no importa (no hay roles), por lo que es una combinación:
+		\begin{align}
+			\comb{10}{3} = \frac{10!}{3!\,7!} = 120.
+		\end{align}
+		\item $P(10,3) = 3! \times \comb{10}{3}$, ya que $720 = 6 \times 120$: cada uno de los 120 comités no ordenados da lugar a $3! = 6$ asignaciones distintas de medallas (una por cada forma de ordenar a sus 3 integrantes en los 3 podios).
+	\end{enumerate}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}
+	El Dr. Pérez ya ocupa uno de los 3 lugares reservados a hombres, así que quedan por elegir 2 hombres más de entre los 5 hombres restantes, y las 2 mujeres se eligen de entre las 5 mujeres disponibles — dos decisiones independientes:
+	\begin{align}
+		\underbrace{\comb{5}{2}}_{\text{hombres restantes}} \times \underbrace{\comb{5}{2}}_{\text{mujeres}} = 10 \times 10 = 100 \text{ comités posibles.}
+	\end{align}
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}
+	El razonamiento del estudiante es \textbf{incorrecto}. Como los 3 cargos (presidente, secretario, vocal) son roles distintos, el orden de asignación importa: no es lo mismo que Ana sea presidenta y Luis secretario que al revés. El coeficiente binomial $\comb{8}{3}$ cuenta subconjuntos no ordenados de 3 personas, ignorando a quién le toca cada rol — subcuenta el resultado real por un factor de $3! = 6$. El cálculo correcto es una permutación:
+	\begin{align}
+		P(8,3) = 8 \times 7 \times 6 = 336 \neq \comb{8}{3} = 56.
+	\end{align}
+\end{solproblema}
+
+% Crear
+\begin{solproblema}
+	\textbf{Espacio muestral:} todas las manos posibles de 5 cartas de las 52 disponibles, sin importar el orden en que se reparten: $\comb{52}{5} = 2{,}598{,}960$ resultados igualmente probables.
+
+	\textbf{Casos favorables (dos pares):}
+	\begin{enumerate}
+		\item Elegir los 2 rangos distintos que formarán los pares, de los 13 rangos disponibles: $\comb{13}{2} = 78$.
+		\item Para cada uno de esos 2 rangos, elegir 2 de los 4 palos disponibles: $\comb{4}{2} = 6$ por rango, es decir $6^2 = 36$ para ambos pares juntos.
+		\item Elegir el rango de la quinta carta, distinto de los 2 rangos ya usados: $\comb{11}{1} = 11$.
+		\item Elegir el palo de esa quinta carta: $\comb{4}{1} = 4$.
+	\end{enumerate}
+	Por el principio de multiplicación, el número de manos con exactamente dos pares es:
+	\begin{align}
+		\comb{13}{2} \times \comb{4}{2}^2 \times \comb{11}{1} \times \comb{4}{1} = 78 \times 36 \times 11 \times 4 = 123{,}552.
+	\end{align}
+	Por el enfoque clásico de la probabilidad:
+	\begin{align}
+		P(\text{dos pares}) = \frac{123{,}552}{2{,}598{,}960} \approx 0.0475,
+	\end{align}
+	es decir, aproximadamente un $4.75\%$ de las manos, o cerca de 1 en 21.
+\end{solproblema}

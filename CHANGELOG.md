@@ -4,6 +4,30 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-20 (continuación 2 — diagnóstico de cuadernos de problemas, corrección de colisión y cierre de 5 huecos de cobertura)
+
+### Añadido
+- **Diagnóstico completo de los 19 archivos `latex/*(p).tex` de los capítulos 2-8** (`docs/diagnostico-cuadernos-problemas-2026-07-20.md`), solicitado antes de decidir cómo continuar tras la renumeración de teoría. Extraído directamente del `.aux` compilado: **255 de 315 etiquetas `\label{prob:X.Y.Z}` con nombre numérico (81 %) compilan con un número de sección distinto al que su nombre sugiere**; **5 secciones sin ningún problema** (2.2 Técnicas de conteo, 7.2 Relación IC↔pruebas, 7.4 Prueba $t$ con varianza desconocida, y dentro de 8.5 los subtemas de cuadrados latinos/grecolatinos, más 8.6 Diseños factoriales); y una **colisión activa de etiquetas** (ver abajo). El documento incluye tabla maestra por archivo, mapa de cobertura por sección, aclaración sobre los rótulos "Sección XX.YY" (pertenecen a la numeración de los mazos de `presentaciones/`, no al temario), contraste convención vieja/nueva, y 4 rutas de ejecución posibles.
+- **5 cuadernos de problemas nuevos**, uno por cada sección sin cobertura, cerrando exactamente los huecos identificados en el diagnóstico:
+  1. `tecnicas_de_conteo(p).tex` (2.2) — aterriza limpio en 2.2.1-2.2.6.
+  2. `relacion_ic_pruebas_hipotesis(p).tex` (temáticamente 7.2) — aterriza como continuación de 7.3, no de 7.2, porque `pruebas_de_hipotesis.tex` agrupa sus 3 secciones (7.1-7.3) en un único archivo sin separación física de `\input`; documentado con un comentario al inicio del archivo. Dividir esa teoría queda fuera de alcance de esta tarea.
+  3. `prueba_media_varianza_desconocida(p).tex` (7.4) — aterriza limpio en 7.4.1-7.4.6. Se añadió `\label{sec:relacion-ic-pruebas}` a la sección 7.2 en `pruebas_de_hipotesis.tex` (no existía) para permitir referencias `\ref{}` futuras.
+  4. `cuadrados_latinos_grecolatinos(p).tex` (temáticamente 8.5) — aterriza como continuación de 8.6, no de 8.5, por la misma razón estructural que el caso 7.2: `diseno_experimentos_anova.tex` agrupa 8.1-8.6 en un único archivo. Documentado igual con comentario al inicio.
+  5. `diseno_factorial(p).tex` (8.6) — aterriza en la misma sección 8.6 (continuación numérica del archivo anterior, 8.6.7-8.6.12); en este caso el aterrizaje es temáticamente correcto, ya que sí trata de diseños factoriales.
+- **Refinamiento de la convención de cuadernos de problemas decidida el 2026-07-18** (Regla de Oro 4 de `presentaciones/ESPECIFICACIONES_Y_REQUERIMIENTOS.md`, actualizada), aplicado a los 5 archivos nuevos y documentado hacia adelante:
+  - **Categorización por los 6 niveles de la Taxonomía de Bloom** (Recordar → Comprender → Aplicar → Analizar → Evaluar → Crear) en vez de por dificultad (Fundamental/Operativo/Analítico/Desafiante). Cada uno de los 5 archivos nuevos tiene exactamente 6 problemas, uno por nivel, con el nivel documentado como comentario LaTeX invisible (`% Recordar`, etc.).
+  - **Etiquetas `\label` con tag hasheado corto** (`prob:<7 hex>`, derivado de `sha1sum` sobre una semilla determinista `"<archivo>-p-<índice>"`, verificado contra el `.aux` para evitar colisiones) en vez de nombres numéricos o semánticos. Motivo explícito del usuario: mantener nombres significativos "ha sido un dolor de cabeza" y los nombres numéricos son la causa directa del desfase de Fase D.
+  - Los 19 archivos `(p).tex` existentes **no se migran** a esta convención en esta tarea — queda pendiente en la reorganización completa, diferida.
+
+### Corregido
+- **Colisión activa de etiquetas `prob:3.9.1`-`prob:3.9.5`**, duplicadas entre `distribuciones_especiales(p).tex` y `chi_cuadrada(p).tex` (y su espejo `en_chi_cuadrada(p).tex`). Como `chi_cuadrada` se procesa después en el `\input`, sus valores ganaban la resolución de `\ref`, causando que las Soluciones de `distribuciones_especiales(p).tex` (que citan `\ref{prob:3.9.1}`...`\ref{prob:3.9.5}` internamente) imprimieran el número de un problema de `chi_cuadrada` completamente distinto (bondad de ajuste/independencia) en vez del propio. Corregido renombrando las 5 etiquetas de `chi_cuadrada(p).tex`/`en_chi_cuadrada(p).tex` a tags hasheados (`prob:3f1ec07`, `prob:d4859df`, `prob:da2eb15`, `prob:d6f0154`, `prob:f622374`), sin tocar `distribuciones_especiales(p).tex`, que ahora vuelve a resolver sus propias citas correctamente (verificado contra el `.aux`: `prob:3.9.1`→`3.7.51`, ..., `prob:3.9.5`→`3.7.55`, cada una única).
+
+### Verificación
+- Libro maestro ES recompilado dos veces después de cada uno de los 6 cambios (colisión + 5 archivos nuevos): **0 errores, 0 referencias indefinidas** en cada paso.
+- `grep "multiply defined"` solo reporta la colisión preexistente y no relacionada `exmp:5.1.1` (fuera de alcance) — 0 colisiones nuevas.
+- Los 30 tags hasheados nuevos (5 de la corrección + 25 de los 5 archivos, 6 c/u) verificados individualmente contra el `.aux` antes de usarse: 0 colisiones.
+- No se tocó ningún `(p).tex` existente más allá de los 2 renombrados (`chi_cuadrada(p).tex`, `en_chi_cuadrada(p).tex`). No se tocó `presentaciones/*.tex`. No se hizo `git commit`.
+
 ## 2026-07-20 (continuación — redacción del contenido nuevo diferido)
 
 ### Añadido

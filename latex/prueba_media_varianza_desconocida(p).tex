@@ -1,0 +1,110 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:b3d462b}
+	Escriba la fórmula del estadístico de prueba $T$ para contrastar $H_0: \mu = \mu_0$ cuando la desviación estándar poblacional $\sigma$ es desconocida, indique bajo qué distribución se distribuye $T$ suponiendo $H_0$ verdadera, y enuncie la regla de rechazo para la prueba de dos colas al nivel $\alpha$.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:313cd70}
+	Para contrastar $H_0: \mu = 120$ contra $H_a: \mu \neq 120$ con una muestra de $n = 20$ ($\nu = 19$ grados de libertad) al nivel $\alpha = 0.05$, se obtuvo $T = 2.35$ y el valor crítico es $t_{19,\,0.025} \approx 2.093$. Sin realizar ningún cálculo adicional, determine si se rechaza $H_0$ y explique en una frase el criterio utilizado.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:50f5282}
+	Un fabricante de focos LED afirma que la vida útil promedio de su producto es de $10{,}000$ horas. Una muestra de $n = 20$ focos arroja una vida útil media $\bar{x} = 9{,}720$ horas, con desviación estándar muestral $s = 650$ horas. ¿Hay evidencia, al nivel de significación $\alpha = 0.01$, de que la vida útil real es distinta a la anunciada?
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:8d10618}
+	Una muestra de $n = 50$ mediciones de la resistencia a la tensión de un material tiene $\bar{x} = 210$ MPa y $s = 18$ MPa ($\sigma$ desconocida). Para contrastar $H_0: \mu = 205$ contra $H_a: \mu \neq 205$ al nivel $\alpha = 0.05$:
+	\begin{enumerate}
+		\item Calcule el estadístico $T$ y decida usando el cuantil correcto $t_{49,\,0.025} \approx 2.010$.
+		\item Calcule qué decisión se hubiera tomado si, incorrectamente, se hubiera usado el cuantil de la normal estándar $Z_{0.025} = 1.96$ en lugar de $t_{49,\,0.025}$.
+		\item Compare ambos resultados y explique por qué, aun con $n = 50$ (un tamaño de muestra "grande"), la diferencia entre usar $t$ o $Z$ todavía puede cambiar la decisión final, conectando con la propiedad $t_{n-1} \xrightarrow{d} N(0,1)$ cuando $n \to \infty$.
+	\end{enumerate}
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:1faa4e6}
+	Un analista de datos con una muestra de $n = 8$ observaciones ($\sigma$ desconocida) decide, por simplicidad, usar el cuantil de la normal estándar $Z_{0.025} = 1.96$ en lugar del cuantil correcto $t_{7,\,0.025} \approx 2.365$ para construir su región de rechazo en una prueba de dos colas al nivel nominal $\alpha = 0.05$. Evalúe las consecuencias de esta decisión: ¿el analista tiende a rechazar $H_0$ con mayor o menor frecuencia de la que debería? ¿Qué efecto tiene esto sobre la tasa \emph{real} de error Tipo I, comparada con el $\alpha = 0.05$ nominal? Justifique con base en la relación entre ambos cuantiles.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:cb4980c}
+	Diseñe un ejemplo original (contexto, tamaño de muestra pequeño $n < 15$, media muestral, desviación estándar muestral y valor hipotético $\mu_0$) en el que la prueba $t$ para una media, al nivel $\alpha = 0.05$, sea \textbf{sensible} al uso correcto de la distribución $t$ en lugar de la normal estándar $Z$ — es decir, que el estadístico $T$ calculado quede exactamente entre el cuantil $Z_{\alpha/2}$ y el cuantil $t_{n-1,\,\alpha/2}$, de modo que ambos criterios den decisiones \textbf{diferentes}. Calcule explícitamente $T$ y muestre ambas decisiones.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}
+	\begin{align}
+		T = \frac{\bar{X} - \mu_0}{S/\sqrt{n}},
+	\end{align}
+	el cual, bajo $H_0$, sigue una distribución $t_{n-1}$ (t de Student con $n-1$ grados de libertad). Para la prueba de dos colas $H_a: \mu \neq \mu_0$, se rechaza $H_0$ al nivel $\alpha$ si $|T| > t_{n-1,\,\alpha/2}$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}
+	Como $|T| = 2.35 > t_{19,\,0.025} \approx 2.093$, \textbf{se rechaza} $H_0$. El criterio utilizado es comparar el valor absoluto del estadístico observado contra el cuantil crítico de la distribución $t$ con los grados de libertad correspondientes.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}
+	\textbf{Paso 1 (hipótesis):} $H_0: \mu = 10{,}000$ horas; $H_a: \mu \neq 10{,}000$ horas.
+
+	\textbf{Paso 2 (nivel de significación):} $\alpha = 0.01$.
+
+	\textbf{Paso 3 (estadístico de prueba):} con $\nu = n - 1 = 19$ grados de libertad,
+	\begin{align}
+		T = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} = \frac{9{,}720 - 10{,}000}{650/\sqrt{20}} = \frac{-280}{145.34} \approx -1.926.
+	\end{align}
+
+	\textbf{Paso 4 (región crítica):} para una prueba de dos colas con $\alpha = 0.01$ y $\nu = 19$, el valor crítico es $t_{19,\,0.005} \approx 2.861$, de modo que se rechaza $H_0$ si $|T| > 2.861$.
+
+	\textbf{Paso 5 (decisión):} como $|T| = 1.926 < 2.861$, \textbf{no se rechaza} $H_0$.
+
+	\textbf{Conclusión:} no hay evidencia estadística suficiente al nivel del $1\%$ para afirmar que la vida útil media real de los focos difiere de las $10{,}000$ horas anunciadas.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}
+	\begin{enumerate}
+		\item Con $\text{SE} = 18/\sqrt{50} \approx 2.546$:
+		\begin{align}
+			T = \frac{210 - 205}{2.546} \approx 1.964.
+		\end{align}
+		Como $|T| = 1.964 < t_{49,\,0.025} \approx 2.010$, \textbf{no se rechaza} $H_0$ usando el cuantil correcto.
+		\item Usando incorrectamente $Z_{0.025} = 1.96$: como $|T| = 1.964 > 1.96$, se \textbf{rechazaría} $H_0$ — una decisión distinta a la correcta.
+		\item Aunque $t_{49,\,0.025} \approx 2.010$ ya está cerca de $Z_{0.025} = 1.96$ (la convergencia $t_{n-1} \xrightarrow{d} N(0,1)$ ya es sustancial en $n = 50$), la diferencia entre ambos cuantiles ($0.05$) todavía es mayor que el margen por el cual $T$ los separa. Esto ilustra que "grande" no es sinónimo de "infinito": mientras $\sigma$ sea desconocida y se estime con $S$, usar el cuantil $t$ correcto sigue siendo necesario para no distorsionar la tasa de error Tipo I, incluso con tamaños de muestra que en la práctica se consideran suficientes para otras aproximaciones (como el Teorema del Límite Central).
+	\end{enumerate}
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}
+	Como $t_{7,\,0.025} \approx 2.365 > Z_{0.025} = 1.96$, usar $Z_{0.025}$ en lugar del cuantil correcto produce una región de rechazo \textbf{más amplia} (el umbral para rechazar es más bajo). En consecuencia, el analista rechaza $H_0$ \textbf{con mayor frecuencia} de la que debería bajo el nivel nominal $\alpha = 0.05$. Esto significa que la tasa \emph{real} de error Tipo I es \textbf{mayor} que $0.05$ (el analista comete más falsos positivos de los que su nivel de significación declarado sugiere), ya que está usando un criterio menos exigente que el correcto para el tamaño de muestra que tiene.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}
+	\textbf{Ejemplo:} un laboratorio de control de calidad mide el tiempo de reacción (en milisegundos) de un nuevo sensor en $n = 10$ pruebas independientes, obteniendo $\bar{x} = 104$ ms y $s = 6$ ms, contra la especificación del fabricante $\mu_0 = 100$ ms. Se contrasta $H_0: \mu = 100$ contra $H_a: \mu \neq 100$ al nivel $\alpha = 0.05$.
+
+	Con $\text{SE} = 6/\sqrt{10} \approx 1.897$:
+	\begin{align}
+		T = \frac{104 - 100}{1.897} \approx 2.108.
+	\end{align}
+	\begin{itemize}
+		\item Usando el cuantil correcto $t_{9,\,0.025} \approx 2.262$: como $2.108 < 2.262$, \textbf{no se rechaza} $H_0$.
+		\item Usando incorrectamente $Z_{0.025} = 1.96$: como $2.108 > 1.96$, se \textbf{rechazaría} $H_0$.
+	\end{itemize}
+	El estadístico $T \approx 2.108$ queda exactamente entre ambos cuantiles ($1.96 < 2.108 < 2.262$), por lo que la decisión final depende críticamente de usar la distribución $t$ (correcta para $\sigma$ desconocida con $n = 10$) en lugar de aproximar con $Z$.
+\end{solproblema}
