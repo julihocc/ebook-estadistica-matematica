@@ -1,0 +1,57 @@
+\section{Pruebas de homogeneidad}
+
+En la sección \ref{sec:independencia} exploramos la aplicación de la distribución chi-cuadrada en tablas de contingencia para evaluar la \emph{independencia} entre dos factores. Existe otra prueba de capital importancia para la comparación multidimensional: la \emph{prueba de homogeneidad}. Aunque la fórmula matemática de cálculo ($\sum \frac{(O-E)^2}{E}$) es exactamente la misma en ambos casos, existe una diferencia conceptual profunda en el diseño experimental y el muestreo.
+
+\begin{definicion}[Prueba de homogeneidad]
+	Se extraen \textbf{$c$ muestras aleatorias independientes} de tamaños preestablecidos ($n_1, n_2, \ldots, n_c$, fijando los totales de columna por el diseño experimental) procedentes de $c$ subgrupos o poblaciones distintas. Para cada subgrupo, se mide la distribución de \textbf{una única variable categórica} con $r$ niveles. La hipótesis contrastada es que las $c$ poblaciones poseen idéntica distribución categórica:
+	\begin{align}
+		H_0: p_{i1} = p_{i2} = \ldots = p_{ic} \quad \text{para cada categoría } i = 1, 2, \ldots, r,
+	\end{align}
+	donde $p_{ij}$ es la probabilidad de que una observación del subgrupo $j$ caiga en la categoría $i$. A diferencia de la prueba de independencia (sección \ref{sec:independencia}), aquí los totales de columna $n_1, \ldots, n_c$ están fijados de antemano por el diseño muestral, no observados a posteriori sobre una sola muestra.
+\end{definicion}
+
+\begin{teorema}[Estadístico chi-cuadrada para homogeneidad]
+	Dada una tabla de datos de $r$ filas (categorías) y $c$ columnas (poblaciones o subgrupos independientes), si $O_{ij}$ es la frecuencia observada en la celda $(i,j)$, la frecuencia esperada bajo la hipótesis nula de homogeneidad es:
+	\begin{align}
+		E_{ij} = \frac{R_i \cdot C_j}{N},
+	\end{align}
+	donde $R_i = \sum_{j=1}^c O_{ij}$ es el total de la fila $i$, $C_j = n_j = \sum_{i=1}^r O_{ij}$ es el tamaño de la muestra de la población $j$, y $N = \sum C_j$ es el total general.
+
+	El estadístico de prueba:
+	\begin{align}
+		\chi^2 = \sum_{i=1}^r \sum_{j=1}^c \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+	\end{align}
+	se distribuye asintóticamente (cuando todos los $E_{ij} \geq 5$) como una chi-cuadrada con $\nu = (r-1)(c-1)$ grados de libertad.
+\end{teorema}
+
+\section{Pruebas de varias proporciones}
+
+La comparación de varias proporciones binomiales es un caso especial de gran relevancia técnica de la prueba de homogeneidad, donde la variable dependiente es dicotómica ($r=2$: Éxito vs Fracaso) y evaluamos $c = k$ poblaciones independientes.
+
+\begin{definicion}[Contraste de $k$ proporciones]
+	Sean $p_1, p_2, \ldots, p_k$ las proporciones verdaderas de éxito en $k$ poblaciones independientes. La hipótesis nula es:
+	\begin{align}
+		H_0: p_1 = p_2 = \ldots = p_k = p,
+	\end{align}
+	frente a la hipótesis alternativa $H_a$: al menos una de las proporciones difiere de las demás.
+
+	El estadístico $\chi^2$ de homogeneidad aplicado a la tabla $2 \times k$ tiene $\nu = (2-1)(k-1) = k-1$ grados de libertad. Puede demostrarse algebraicamente que el estadístico se expresa de forma compacta como:
+	\begin{align}
+		\chi^2 = \sum_{j=1}^k \frac{(X_j - n_j \bar{p})^2}{n_j \bar{p}(1-\bar{p})},
+		\label{eq:chi2_k_prop}
+	\end{align}
+	donde $X_j$ es el número de éxitos en la muestra $j$ (de tamaño $n_j$), y $\bar{p} = \frac{\sum X_j}{\sum n_j}$ es la proporción global de éxitos en las $k$ muestras.
+\end{definicion}
+
+Cuando el estadístico $\chi^2$ es significativo y rechazamos $H_0$, sabemos con certeza estadística que las $k$ proporciones no son todas iguales, pero la prueba global no nos dice \emph{cuáles} específicas difieren entre sí. Para identificar los pares significativos sin cometer el error de inflar la probabilidad de error Tipo I global al realizar $\binom{k}{2}$ pruebas individuales de diferencia de proporciones, utilizamos el procedimiento de comparación múltiple de Marascuilo.
+
+\begin{teorema}[Procedimiento de comparación post-hoc de Marascuilo]
+	Si la prueba global $\chi^2$ de $k$ proporciones rechaza $H_0$ al nivel de significancia $\alpha$, las diferencias absolutas observadas entre cada par de proporciones muestrales ($|\hat{p}_i - \hat{p}_j|$ para todo $1 \leq i < j \leq k$) se comparan contra un rango crítico par a par $r_{ij}$ dado por:
+	\begin{align}
+		r_{ij} = \sqrt{\chi^2_{\alpha, \, k-1}} \sqrt{\frac{\hat{p}_i(1-\hat{p}_i)}{n_i} + \frac{\hat{p}_j(1-\hat{p}_j)}{n_j}},
+		\label{eq:marascuilo}
+	\end{align}
+	donde $\chi^2_{\alpha, k-1}$ es el valor crítico superior del estadístico global con $k-1$ grados de libertad.
+
+	Declaramos que las proporciones poblacionales $p_i$ y $p_j$ difieren significativamente al nivel familiar de error $\alpha$ si y solo si $|\hat{p}_i - \hat{p}_j| > r_{ij}$.
+\end{teorema}

@@ -1,4 +1,4 @@
-\section{Fundamentos del Diseño de Experimentos (DoE)}
+\section{Estrategias de experimentación}
 
 En las unidades anteriores exploramos los métodos inferenciales para estimar parámetros y contrastar hipótesis relativas a una o dos poblaciones. Sin embargo, en la investigación científica contemporánea, la ingeniería de sistemas, la biotecnología y la ciencia de datos, rara vez nos limitamos a comparar únicamente dos escenarios. Frecuentemente necesitamos evaluar múltiples algoritmos de aprendizaje automático de manera simultánea, comparar varias arquitecturas de servidores web, optimizar campañas de marketing digital con diversas configuraciones multivariadas (pruebas A/B/n) o evaluar el rendimiento de distintos tratamientos bajo condiciones experimentales controladas.
 
@@ -33,7 +33,7 @@ La validez y eficiencia del Diseño de Experimentos descansa sobre \textbf{tres 
 	\end{enumerate}
 \end{teorema}
 
-\section{Análisis de Varianza de un factor (One-Way ANOVA)}
+\section{Experimentos con un factor: análisis de varianza}
 
 El \textbf{Análisis de Varianza de un factor} (o ANOVA completamente aleatorizado) se utiliza cuando deseamos comparar las medias poblacionales de $k$ tratamientos (o niveles de un único factor) habiendo asignado al azar $N$ unidades experimentales de forma que cada tratamiento $i$ cuenta con $n_i$ réplicas ($N = \sum_{i=1}^k n_i$).
 
@@ -82,7 +82,7 @@ La brillante conceptualización de Fisher para resolver el problema comparativo 
 	\end{itemize}
 \end{teorema}
 
-\subsection{Cuadrados medios, valores esperados y estadístico $F$}
+\section{Análisis de efectos de modelo fijo}
 
 Al dividir cada suma de cuadrados entre sus respectivos grados de libertad se obtienen los \textbf{Cuadrados Medios ($\text{CM}$)}, que representan varianzas muestrales insesgadas bajo diferentes condiciones poblacionales:
 \begin{align}
@@ -130,11 +130,11 @@ Todos los cálculos y componentes computacionales del procedimiento se sintetiza
 	\label{tab:anova_un_factor}
 \end{table}
 
-\section{Comparaciones múltiples y pruebas post-hoc}
+\section*{Comparaciones múltiples y pruebas post-hoc}
 
 Cuando la prueba global $F$ del ANOVA es estadísticamente significativa y rechazamos $H_0$, sabemos con certeza inferencial que \textbf{al menos un tratamiento difiere en media de los demás}, pero la tabla ANOVA por sí sola no especifica \emph{cuáles} pares de tratamientos son los responsables de dicha significancia. Para identificar los pares exactos de diferencias sin incurrir en la explosión de falsos positivos ($\alpha$ global), debemos aplicar procedimientos post-hoc de comparación múltiple.
 
-\subsection{Diferencia Mínima Significativa de Fisher (LSD)}
+\subsection*{Diferencia Mínima Significativa de Fisher (LSD)}
 
 El procedimiento \textbf{LSD de Fisher (\emph{Least Significant Difference})} es la extensión natural de la prueba $t$ de Student para comparar dos medias grupales post-ANOVA. En lugar de utilizar la varianza combinada particular de los dos grupos bajo comparación ($S_p^2$), el procedimiento aprovecha toda la información del experimento utilizando la estimación global de la varianza del error obtenida del ANOVA ($\text{CME}$ con $N-k$ grados de libertad).
 
@@ -150,7 +150,7 @@ El procedimiento \textbf{LSD de Fisher (\emph{Least Significant Difference})} es
 	El método LSD es potente (baja probabilidad de error Tipo II), pero \textbf{no controla la tasa de error experimental por familia (FWER)} ante un número elevado de tratamientos ($k > 3$). Por ello, los científicos de datos y experimentadores rigurosos prefieren el método HSD de Tukey.
 \end{observacion}
 
-\subsection{Diferencia Honestamente Significativa de Tukey (HSD)}
+\subsection*{Diferencia Honestamente Significativa de Tukey (HSD)}
 
 El procedimiento \textbf{HSD de Tukey (\emph{Honestly Significant Difference})} fue diseñado específicamente para comparar simultáneamente todos los pares posibles de tratamientos garantizando que la probabilidad global de cometer al menos un falso positivo en todo el conjunto de comparaciones sea estrictamente menor o igual a $\alpha$ ($\text{FWER} \leq \alpha$).
 
@@ -172,7 +172,7 @@ El método utiliza la distribución del \textbf{rango estandarizado ($q$)}, que 
 	\end{align}
 \end{teorema}
 
-\subsection{Corrección de Bonferroni}
+\subsection*{Corrección de Bonferroni}
 
 La \textbf{corrección de Bonferroni} es un método post-hoc universal, simple y conservador basado en la desigualdad de Boole para probabilidades de eventos intersecados. Si el investigador planea realizar $m = \binom{k}{2}$ comparaciones por pares y desea mantener el nivel de confianza familiar global en al menos $(1-\alpha)100\%$, el nivel de significancia individual para cada prueba particular par a par se ajusta dividiendo el nivel nominal entre el número total de comparaciones:
 \begin{align}
@@ -180,7 +180,28 @@ La \textbf{corrección de Bonferroni} es un método post-hoc universal, simple y
 \end{align}
 Dos medias se declaran significativamente diferentes si $|t_{ij}| > t_{\alpha^*/2, N-k}$, o bien si su diferencia supera el margen crítico $t_{\alpha/(2m), N-k} \sqrt{\text{CME}(\frac{1}{n_i}+\frac{1}{n_j})}$.
 
-\section{Diseño en Bloques Completos al Azar (DBCA)}
+\section{Adecuación del modelo: análisis de residuos}
+
+La validez teórica y la robustez inferencial de cualquier conclusión extraída de un ANOVA descansan fundamentalmente en que los datos experimentales y los residuos ($\hat{\epsilon}_{ij} = Y_{ij} - \hat{Y}_{ij}$) cumplan con los supuestos subyacentes del modelo paramétrico. Todo científico de datos debe auditar y verificar rigurosamente estos tres pilares antes de presentar resultados experimentales en un entorno productivo o de investigación:
+
+\begin{enumerate}
+	\item \textbf{Homocedasticidad (Igualdad de varianzas intergrupos):} La varianza del error experimental en todos los $k$ tratamientos debe ser estadísticamente equivalente ($\sigma_1^2 = \sigma_2^2 = \ldots = \sigma_k^2 = \sigma^2$). El ANOVA de un factor es razonablemente robusto a desviaciones moderadas de homoscedasticidad \emph{únicamente si los tamaños muestrales son exactamente iguales ($n_1 = n_2 = \ldots = n_k$)}. Sin embargo, si los tamaños son desiguales, el estadístico $F$ puede volverse altamente impreciso.
+
+	Para contrastar formalmente la hipótesis de homoscedasticidad se emplean dos pruebas de referencia:
+	\begin{itemize}
+		\item \textbf{Prueba de Bartlett:} Es altamente sensible a la asunción de normalidad de la población. Contraste $H_0: \sigma_1^2 = \ldots = \sigma_k^2$ utilizando un estadístico basado en el cociente ponderado de las varianzas muestrales que sigue una distribución chi-cuadrada con $k-1$ grados de libertad.
+		\item \textbf{Prueba de Levene y Brown-Forsythe:} Es el estándar de oro moderno en analítica computacional (integrado en \texttt{scipy.stats.levene}) debido a su extraordinaria robustez ante distribuciones no normales o sesgadas. Consiste en realizar un ANOVA univariado aplicándolo directamente a las desviaciones absolutas de las observaciones respecto a la media (Levene: $Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$) o respecto a la mediana del tratamiento (Brown-Forsythe: $Z_{ij} = |Y_{ij} - \tilde{Y}_{i.}|$).
+	\end{itemize}
+	Si la hipótesis de homoscedasticidad es rechazada al nivel $\alpha$, debemos abandonar el ANOVA paramétrico estándar y utilizar el \textbf{ANOVA de Welch sobre una vía} o transformaciones estabilizadoras de varianza de la familia Box-Cox (como $\log Y$ o $\sqrt{Y}$).
+
+	\item \textbf{Normalidad de los errores residuales ($\epsilon_{ij} \sim N(0,\sigma^2)$):} La distribución de los residuos dentro de cada tratamiento o del vector general de residuos del modelo debe aproximarse a una distribución normal. Este supuesto se audita cualitativamente mediante un gráfico de probabilidad normal \textbf{Q-Q Plot} de los residuos, y cuantitativamente mediante la \textbf{Prueba de Shapiro-Wilk} o la \textbf{Prueba de Kolmogorov-Smirnov} sobre los residuos estandarizados.
+
+	Si se detectan violaciones severas a la normalidad (especialmente asimetría extrema u observaciones atípicas extremas con muestras pequeñas), el científico de datos debe utilizar la alternativa no paramétrica del ANOVA: la \textbf{Prueba de Kruskal-Wallis} (basada en rangos y medianas en lugar de medias y varianzas).
+
+	\item \textbf{Independencia de las observaciones:} Los residuos de cualquier par de unidades experimentales deben ser estadísticamente independientes ($Cov(\epsilon_{ij}, \epsilon_{lm}) = 0$). Este es el supuesto más crítico de todos: \textbf{la violación a la independencia infesta directamente la estimación del Cuadrado Medio del Error ($\text{CME}$)}, invalidando por completo la prueba $F$. La independencia no se puede arreglar fácilmente a posteriori con transformaciones algebraicas; se garantiza a priori mediante la estricta \textbf{aleatorización en el diseño de muestreo} y la correcta identificación de dependencias temporales u espaciales (que requerirían modelos de series de tiempo o modelos de efectos mixtos longitudinales).
+\end{enumerate}
+
+\section{Bloques completamente aleatorizados, cuadrados latinos y grecolatinos}
 
 En innumerables escenarios prácticos, las unidades experimentales disponibles no son un conjunto estrictamente homogéneo. Por ejemplo, al evaluar motores de bases de datos en servidores físicos de diversas generaciones, o al probar fármacos en pacientes de distintos rangos de edad, una gran porción de la variabilidad observada en la variable respuesta no se debe al factor bajo estudio (el tratamiento), sino a las diferencias intrínsecas de las unidades experimentales.
 
@@ -236,23 +257,22 @@ El DBCA permite evaluar dos hipótesis nulas independientes: la prueba primordia
 	\label{tab:anova_dbca}
 \end{table}
 
-\section{Verificación de supuestos en ANOVA y aplicaciones en Ciencia de Datos}
+\subsection{Cuadrados latinos}
 
-La validez teórica y la robustez inferencial de cualquier conclusión extraída de un ANOVA descansan fundamentalmente en que los datos experimentales y los residuos ($\hat{\epsilon}_{ij} = Y_{ij} - \hat{Y}_{ij}$) cumplan con los supuestos subyacentes del modelo paramétrico. Todo científico de datos debe auditar y verificar rigurosamente estos tres pilares antes de presentar resultados experimentales en un entorno productivo o de investigación:
+% TODO(contenido-nuevo): redactar la subsección de cuadrados latinos dentro de 7.5
+%   (diseño con dos factores de bloqueo cruzados, un solo factor de tratamiento) —
+%   ver docs/plan-renumeracion-temario-MA1001B.md, Cap. 8, "Contenido nuevo requerido",
+%   punto 4.
 
-\begin{enumerate}
-	\item \textbf{Homocedasticidad (Igualdad de varianzas intergrupos):} La varianza del error experimental en todos los $k$ tratamientos debe ser estadísticamente equivalente ($\sigma_1^2 = \sigma_2^2 = \ldots = \sigma_k^2 = \sigma^2$). El ANOVA de un factor es razonablemente robusto a desviaciones moderadas de homoscedasticidad \emph{únicamente si los tamaños muestrales son exactamente iguales ($n_1 = n_2 = \ldots = n_k$)}. Sin embargo, si los tamaños son desiguales, el estadístico $F$ puede volverse altamente impreciso.
-	
-	Para contrastar formalmente la hipótesis de homoscedasticidad se emplean dos pruebas de referencia:
-	\begin{itemize}
-		\item \textbf{Prueba de Bartlett:} Es altamente sensible a la asunción de normalidad de la población. Contraste $H_0: \sigma_1^2 = \ldots = \sigma_k^2$ utilizando un estadístico basado en el cociente ponderado de las varianzas muestrales que sigue una distribución chi-cuadrada con $k-1$ grados de libertad.
-		\item \textbf{Prueba de Levene y Brown-Forsythe:} Es el estándar de oro moderno en analítica computacional (integrado en \texttt{scipy.stats.levene}) debido a su extraordinaria robustez ante distribuciones no normales o sesgadas. Consiste en realizar un ANOVA univariado aplicándolo directamente a las desviaciones absolutas de las observaciones respecto a la media (Levene: $Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$) o respecto a la mediana del tratamiento (Brown-Forsythe: $Z_{ij} = |Y_{ij} - \tilde{Y}_{i.}|$).
-	\end{itemize}
-	Si la hipótesis de homoscedasticidad es rechazada al nivel $\alpha$, debemos abandonar el ANOVA paramétrico estándar y utilizar el \textbf{ANOVA de Welch sobre una vía} o transformaciones estabilizadoras de varianza de la familia Box-Cox (como $\log Y$ o $\sqrt{Y}$).
-	
-	\item \textbf{Normalidad de los errores residuales ($\epsilon_{ij} \sim N(0,\sigma^2)$):} La distribución de los residuos dentro de cada tratamiento o del vector general de residuos del modelo debe aproximarse a una distribución normal. Este supuesto se audita cualitativamente mediante un gráfico de probabilidad normal \textbf{Q-Q Plot} de los residuos, y cuantitativamente mediante la \textbf{Prueba de Shapiro-Wilk} o la \textbf{Prueba de Kolmogorov-Smirnov} sobre los residuos estandarizados.
-	
-	Si se detectan violaciones severas a la normalidad (especialmente asimetría extrema u observaciones atípicas extremas con muestras pequeñas), el científico de datos debe utilizar la alternativa no paramétrica del ANOVA: la \textbf{Prueba de Kruskal-Wallis} (basada en rangos y medianas en lugar de medias y varianzas).
-	
-	\item \textbf{Independencia de las observaciones:} Los residuos de cualquier par de unidades experimentales deben ser estadísticamente independientes ($Cov(\epsilon_{ij}, \epsilon_{lm}) = 0$). Este es el supuesto más crítico de todos: \textbf{la violación a la independencia infesta directamente la estimación del Cuadrado Medio del Error ($\text{CME}$)}, invalidando por completo la prueba $F$. La independencia no se puede arreglar fácilmente a posteriori con transformaciones algebraicas; se garantiza a priori mediante la estricta \textbf{aleatorización en el diseño de muestreo} y la correcta identificación de dependencias temporales u espaciales (que requerirían modelos de series de tiempo o modelos de efectos mixtos longitudinales).
-\end{enumerate}
+\subsection{Cuadrados grecolatinos}
+
+% TODO(contenido-nuevo): redactar la subsección de cuadrados grecolatinos dentro de 7.5
+%   (diseño con tres factores de bloqueo cruzados) — ver
+%   docs/plan-renumeracion-temario-MA1001B.md, Cap. 8, "Contenido nuevo requerido",
+%   punto 4.
+
+\section{Introducción a diseños factoriales}
+
+% TODO(contenido-nuevo): redactar 7.6 Introducción a diseños factoriales — ver
+%   docs/plan-renumeracion-temario-MA1001B.md, Cap. 8, "Contenido nuevo requerido",
+%   punto 5.

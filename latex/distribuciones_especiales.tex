@@ -1,4 +1,4 @@
-\section{Distribución Binomial y Bernoulli}
+\section{Experimento Bernoulli y distribución binomial}
 
 
 \subsection{La Distribución Bernoulli y Binomial}
@@ -82,7 +82,36 @@ empleando \eqref{eq:2.10.1} con $N=6, x=2, p=q=\frac{1}{2}.$
 \end{figure}
 
 
-\section{Distribuciones Geométrica y Binomial Negativa}
+\section{Distribución multinomial}
+\subsection{La Distribución multinomial}
+
+ Si los eventos $E_{1},...,E_{k}$ pueden ocurrir con probabilidades $p_{1},...,p_{k}$ respectivamente, entonces la probabilidad de que ocurran $X_{1},...,x_{k}$ veces respectivamente esta dado por la \emph{distribución multinomial}
+ \begin{align}
+  \label{eq:2.10.8}
+  f\left( x_{1},...,x_{k} \right)=
+  \dfrac{x_{1}+...+x_{k}}{x_{1}!...x_{k}!}p_{1}^{x_{1}}\cdots p_{k}^{x_{k}}.
+ \end{align}
+
+
+
+ \begin{ejemplo}
+  \label{exmp:2.10.6}
+Si un dado se lanza 12 veces, encontrar la probabilidad de obtener cada uno de los números $1,2,3,4,5,6$ exactamente dos veces.
+ \end{ejemplo}
+
+\begin{solucion}
+	Usando la distribución multinomial con $N=12$, $k=6$, $x_i = 2$ para todo $i$, y $p_i = \frac{1}{6}$ para todo $i$:
+
+	\begin{align}
+		P(X_1=2, X_2=2, ..., X_6=2) &= \frac{12!}{2! \cdot 2! \cdot 2! \cdot 2! \cdot 2! \cdot 2!} \left(\frac{1}{6}\right)^2 \cdots \left(\frac{1}{6}\right)^2 \\
+		&= \frac{12!}{(2!)^6} \left(\frac{1}{6}\right)^{12} \\
+		&= \frac{479001600}{64} \cdot \frac{1}{2176782336} \\
+		&\approx 0.00344
+	\end{align}
+\end{solucion}
+
+
+\section{Distribución geométrica y binomial negativa}
 \subsection{La Distribución Geométrica}
 
 La distribución geométrica modela el número de ensayos Bernoulli independientes necesarios para obtener el primer éxito. Si cada ensayo tiene probabilidad de éxito $p$ y de fracaso $q=1-p$, entonces la variable aleatoria $X$ que cuenta el número de ensayos hasta obtener el primer éxito (incluyendo el éxito) tiene función de probabilidad
@@ -180,7 +209,7 @@ Observe que cuando $r=1$, la binomial negativa se reduce a la distribución geom
 
 
 
-\section{Distribución Hipergeométrica}
+\section{Distribución hipergeométrica}
 \subsection{Muestreo sin reemplazo y fórmulas poblacionales}
 
 La distribución hipergeométrica modela el número de éxitos en $n$ extracciones \emph{sin reemplazo} de una población finita de tamaño $N$ que contiene $K$ éxitos y $N-K$ fracasos. Su función de probabilidad es
@@ -243,7 +272,7 @@ El factor $\dfrac{N-n}{N-1}$ se conoce como \emph{factor de corrección por pobl
 
 
 
-\section{Distribución de Poisson}
+\section{Distribución Poisson}
 \subsection{La Distribución de Poisson}
 {Distribución de Poisson} Diremos que una variable aleatoria \emph{discreta} $X$ tiene distribución de Poisson si su función de probabilidad está dada por:
  \begin{align}
@@ -332,37 +361,8 @@ En este caso, $\mu_{X}=\s^{2}=\lam.$
 
 
 
-\section{Distribución multinomial}
-\subsection{La Distribución multinomial}
-
- Si los eventos $E_{1},...,E_{k}$ pueden ocurrir con probabilidades $p_{1},...,p_{k}$ respectivamente, entonces la probabilidad de que ocurran $X_{1},...,x_{k}$ veces respectivamente esta dado por la \emph{distribución multinomial}
- \begin{align}
-  \label{eq:2.10.8}
-  f\left( x_{1},...,x_{k} \right)=
-  \dfrac{x_{1}+...+x_{k}}{x_{1}!...x_{k}!}p_{1}^{x_{1}}\cdots p_{k}^{x_{k}}.
- \end{align}
-
-
-
- \begin{ejemplo}
-  \label{exmp:2.10.6}
-Si un dado se lanza 12 veces, encontrar la probabilidad de obtener cada uno de los números $1,2,3,4,5,6$ exactamente dos veces.
- \end{ejemplo}
-
-\begin{solucion}
-	Usando la distribución multinomial con $N=12$, $k=6$, $x_i = 2$ para todo $i$, y $p_i = \frac{1}{6}$ para todo $i$:
-
-	\begin{align}
-		P(X_1=2, X_2=2, ..., X_6=2) &= \frac{12!}{2! \cdot 2! \cdot 2! \cdot 2! \cdot 2! \cdot 2!} \left(\frac{1}{6}\right)^2 \cdots \left(\frac{1}{6}\right)^2 \\
-		&= \frac{12!}{(2!)^6} \left(\frac{1}{6}\right)^{12} \\
-		&= \frac{479001600}{64} \cdot \frac{1}{2176782336} \\
-		&\approx 0.00344
-	\end{align}
-\end{solucion}
-
-
-\section{Distribución Normal y aproximación continua}
-\subsection{Distribución Normal}
+\subsection{Aproximación normal a distribuciones discretas}
+\subsubsection{Distribución Normal}
 
  Una de las distribuciones de probabilidad continua más importantes es la \emph{distribución normal}, también llamada \emph{distribución gaussiana,} que se define mediante la función de densidad
  \begin{align}
@@ -462,7 +462,7 @@ En este caso, diremos que $Z$ está \emph{normalmente distribuida.}
 
 
 
-\subsection{Relación entre las distribuciones binomial y normal}
+\subsubsection{Relación entre las distribuciones binomial y normal}
 
  Si $N\sim \infty, p,q>>0,$ y $X$ es un distribución binomial con parámetros $N,p$ entonces
  \begin{align}
@@ -484,7 +484,7 @@ En este caso, diremos que $Z$ está \emph{normalmente distribuida.}
 \end{center}
 
 
-\subsection{Problemas Resueltos}
+\subsubsection{Problemas Resueltos}
 {Percentil}
  Diremos que $x=P_{q}$ es el percentil $q, \; 0\leq q \leq 100$ de la distribución $F(x)$ si $F(P_{q})=q\%.$  En el caso de que $q$ sea un valor realizable de $F(x),$ podemos \emph{``despejar''}
  \begin{align}
@@ -588,7 +588,7 @@ sufran una reacción adversa.
 
 
 
-\section{Distribuciones discretas en ciencia de datos}
+\section{Variables aleatorias discretas y su relación con ciencia de datos}
 \subsection{Distribuciones discretas y su relación con ciencia de datos}
 
 Las distribuciones discretas estudiadas en este capítulo no son solo objetos teóricos: son herramientas fundamentales en el análisis y modelado de datos. A continuación se resumen sus aplicaciones más comunes en ciencia de datos.

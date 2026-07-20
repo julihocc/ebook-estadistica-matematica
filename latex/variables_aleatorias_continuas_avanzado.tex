@@ -1,5 +1,5 @@
 
-\section{Distribución Uniforme Continua}
+\section{Distribución uniforme}
 
 La distribución uniforme continua modela el caso en el que una variable aleatoria toma
 valores en un intervalo $[a,b]$ con la misma \emph{densidad} de probabilidad en todo punto.
@@ -75,54 +75,7 @@ El tiempo de espera esperado es
 
 
 
-\section{Distribución Exponencial}
-
-La distribución exponencial modela el tiempo de espera hasta la ocurrencia de un evento
-cuando los eventos ocurren de manera continua e independiente a una tasa constante (por
-ejemplo, el tiempo entre llamadas a un centro de atención, o el tiempo de vida de un
-componente electrónico antes de una primera falla).
-
-\begin{definicion}[Distribución exponencial]
-Una variable aleatoria continua $X$ tiene \emph{distribución exponencial} con parámetro
-de tasa $\lambda > 0$ si su función de densidad es
-\begin{align}
- \label{eq:2.8.8}
- f(x) =
- \begin{cases}
-  \lambda\,e^{-\lambda x}, & x \geq 0, \\
-  0, & \text{en otro caso.}
- \end{cases}
-\end{align}
-Escribimos $X \sim \text{Exp}(\lambda)$.
-\end{definicion}
-
-{Propiedades de la distribución exponencial} Si $X \sim \text{Exp}(\lambda)$, entonces
-\begin{align}
- \mu_X &= \frac{1}{\lambda}, \\
- \s_X^2 &= \frac{1}{\lambda^2}.
-\end{align}
-
-\begin{observacion}[Propiedad de pérdida de memoria]
-La distribución exponencial satisface la \emph{propiedad de pérdida de memoria}:
-para $s, t \geq 0$,
-\begin{align}
- P(X > s + t \mid X > s) = P(X > t).
-\end{align}
-Es la única distribución continua (además de la geométrica en el caso discreto)
-con esta propiedad.
-\end{observacion}
-
-\begin{observacion}
-Más adelante en este capítulo, al estudiar las distribuciones de tipo gamma, veremos que
-la exponencial es exactamente el caso particular $\alpha=1$ de la distribución
-$\text{Gamma}(\alpha,\beta)$, con $\lambda = 1/\beta$ — una relación que permite
-generalizar varias de sus propiedades (por ejemplo, la suma de $n$ exponenciales
-independientes con la misma tasa sigue una distribución Gamma/Erlang).
-\end{observacion}
-
-
-
-\section{Distribución Normal}
+\section{Distribución normal}
 
 La distribución normal es la distribución continua más importante en estadística
 y aparece en el \emph{Teorema del Límite Central}.
@@ -202,14 +155,13 @@ Usando tablas o software, el valor exacto es $\Phi(1) - \Phi(-1) = 0.8413 - 0.15
 
 
 
-\section{Distribuciones Gamma, Beta y Weibull}
-\subsection{Distribuciones de tipo gamma}
+\section{Distribuciones de tipo gamma}
 
 La familia gamma es una generalización de varias distribuciones importantes
 (exponencial, chi-cuadrada, Erlang) y aparece frecuentemente al modelar
 \emph{tiempos de espera}.
 
-\subsubsection{Función gamma}
+\subsection{Función gamma}
 
 \begin{definicion}[Función gamma]
 La \emph{función gamma} $\Gamma: (0,\infty) \to \mathbb{R}$ se define como
@@ -228,7 +180,7 @@ La \emph{función gamma} $\Gamma: (0,\infty) \to \mathbb{R}$ se define como
  \item $\Gamma(1/2) = \sqrt{\pi}$.
 \end{itemize}
 
-\subsubsection{Distribución gamma}
+\subsection{Distribución gamma}
 
 \begin{definicion}[Distribución gamma]
 Una variable aleatoria continua $X$ tiene \emph{distribución gamma} con parámetros
@@ -251,15 +203,50 @@ Escribimos $X \sim \text{Gamma}(\alpha, \beta)$.
  \s_X^2 &= \alpha\beta^2.
 \end{align}
 
-\subsubsection{Caso particular: distribución exponencial (revisitada)}
+\subsection{Distribución exponencial}
 
-Como se definió anteriormente en este capítulo, la distribución exponencial con
-parámetro $\lambda$ (ver \eqref{eq:2.8.8}) corresponde exactamente al caso particular
-$\text{Gamma}(1, \beta)$ de la familia gamma, con $\lambda = 1/\beta$. Esta identificación
-explica, entre otras cosas, por qué la suma de $n$ variables exponenciales independientes
-con la misma tasa sigue una distribución Gamma, como se muestra a continuación.
+La distribución exponencial modela el tiempo de espera hasta la ocurrencia de un evento
+cuando los eventos ocurren de manera continua e independiente a una tasa constante (por
+ejemplo, el tiempo entre llamadas a un centro de atención, o el tiempo de vida de un
+componente electrónico antes de una primera falla).
 
-\subsubsection{Caso particular: distribución chi-cuadrada}
+\begin{definicion}[Distribución exponencial]
+Una variable aleatoria continua $X$ tiene \emph{distribución exponencial} con parámetro
+de tasa $\lambda > 0$ si su función de densidad es
+\begin{align}
+ \label{eq:2.8.8}
+ f(x) =
+ \begin{cases}
+  \lambda\,e^{-\lambda x}, & x \geq 0, \\
+  0, & \text{en otro caso.}
+ \end{cases}
+\end{align}
+Escribimos $X \sim \text{Exp}(\lambda)$.
+\end{definicion}
+
+{Propiedades de la distribución exponencial} Si $X \sim \text{Exp}(\lambda)$, entonces
+\begin{align}
+ \mu_X &= \frac{1}{\lambda}, \\
+ \s_X^2 &= \frac{1}{\lambda^2}.
+\end{align}
+
+\begin{observacion}[Propiedad de pérdida de memoria]
+La distribución exponencial satisface la \emph{propiedad de pérdida de memoria}:
+para $s, t \geq 0$,
+\begin{align}
+ P(X > s + t \mid X > s) = P(X > t).
+\end{align}
+Es la única distribución continua (además de la geométrica en el caso discreto)
+con esta propiedad.
+\end{observacion}
+
+La distribución exponencial con parámetro $\lambda$ corresponde exactamente al caso
+particular $\text{Gamma}(1, \beta)$ de la familia gamma, con $\lambda = 1/\beta$. Esta
+identificación explica, entre otras cosas, por qué la suma de $n$ variables exponenciales
+independientes con la misma tasa sigue una distribución Gamma, como se muestra a
+continuación.
+
+\subsection{Caso particular: distribución chi-cuadrada}
 
 La distribución chi-cuadrada con $\nu$ grados de libertad, denotada $\chi^2_\nu$, es
 un caso particular de la distribución gamma con parámetros
@@ -277,7 +264,7 @@ Esta distribución ya se estudia en detalle en la sección \ref{sec:3.9} del cap
 de inferencia; la conexión con la familia gamma permite generalizar varios de sus
 resultados.
 
-\subsubsection{Suma de variables gamma independientes}
+\subsection{Suma de variables gamma independientes}
 
 \begin{teorema}[Propiedad de suma de gamma]
 Si $X_1, X_2, \dots, X_n$ son variables aleatorias independientes con
@@ -479,7 +466,7 @@ falla conforme envejece.
 
 
 
-\section{Función Generadora de Momentos (FGM)}
+\section{Función generadora de momentos}
 \label{sec:mgf}\label{sec:3.4}
 
 La función generadora de momentos (FGM) es una herramienta que codifica toda la
