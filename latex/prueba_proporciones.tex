@@ -1,0 +1,28 @@
+\section{Pruebas relacionadas con proporciones}
+
+En el modelado estadístico y aprendizaje automático, evaluar variables categóricas o binarias (éxito/fracaso) requiere contrastar proporciones poblacionales.
+
+\begin{teorema}[Prueba $Z$ para una proporción poblacional]
+	Sea $X$ el número de éxitos en una muestra aleatoria de tamaño $n$ de una distribución binomial con probabilidad real $p$. Para contrastar la hipótesis nula $H_0: p = p_0$ cuando el tamaño muestral cumple las condiciones de aproximación normal ($n p_0 \geq 5$ y $n(1-p_0) \geq 5$), el estadístico de prueba estandarizado es:
+	\begin{align}
+		Z = \frac{\hat{p} - p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}},
+	\end{align}
+	donde $\hat{p} = X/n$ es la proporción observada. Notemos una diferencia teórica crucial respecto al intervalo de confianza: en el denominador del estadístico $Z$ se utiliza la desviación estándar esperada \emph{bajo la hipótesis nula} ($p_0(1-p_0)$), no la varianza muestral empírica ($\hat{p}(1-\hat{p})$).
+\end{teorema}
+
+\begin{teorema}[Prueba $Z$ para la diferencia de dos proporciones]
+	Para comparar las tasas de éxito de dos poblaciones independientes ($p_1$ y $p_2$), contrastamos la hipótesis nula de igualdad $H_0: p_1 - p_2 = 0$ ($p_1 = p_2 = p$).
+
+	Dado que bajo la hipótesis nula ambas muestras proceden teóricamente de una misma población que comparte la proporción común $p$, el estimador puntual más eficiente de dicha proporción es el promedio ponderado de éxitos de ambas muestras, conocido como \emph{proporción combinada o agrupada} ($\bar{p}$):
+	\begin{align}
+		\bar{p} = \frac{X_1 + X_2}{n_1 + n_2} = \frac{n_1 \hat{p}_1 + n_2 \hat{p}_2}{n_1 + n_2}.
+		\label{eq:prop_combinada}
+	\end{align}
+
+	El estadístico de prueba bajo $H_0$ es:
+	\begin{align}
+		Z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\bar{p}(1-\bar{p})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}},
+	\end{align}
+	el cual se distribuye asintóticamente como una normal estándar $N(0,1)$ cuando $n_1 \bar{p}, n_1(1-\bar{p}), n_2 \bar{p}, n_2(1-\bar{p}) \geq 5$.
+\end{teorema}
+

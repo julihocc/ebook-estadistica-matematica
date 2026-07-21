@@ -1,0 +1,21 @@
+\section{Adecuación del modelo: análisis de residuos}
+
+La validez teórica y la robustez inferencial de cualquier conclusión extraída de un ANOVA descansan fundamentalmente en que los datos experimentales y los residuos ($\hat{\epsilon}_{ij} = Y_{ij} - \hat{Y}_{ij}$) cumplan con los supuestos subyacentes del modelo paramétrico. Todo científico de datos debe auditar y verificar rigurosamente estos tres pilares antes de presentar resultados experimentales en un entorno productivo o de investigación:
+
+\begin{enumerate}
+	\item \textbf{Homocedasticidad (Igualdad de varianzas intergrupos):} La varianza del error experimental en todos los $k$ tratamientos debe ser estadísticamente equivalente ($\sigma_1^2 = \sigma_2^2 = \ldots = \sigma_k^2 = \sigma^2$). El ANOVA de un factor es razonablemente robusto a desviaciones moderadas de homoscedasticidad \emph{únicamente si los tamaños muestrales son exactamente iguales ($n_1 = n_2 = \ldots = n_k$)}. Sin embargo, si los tamaños son desiguales, el estadístico $F$ puede volverse altamente impreciso.
+
+	Para contrastar formalmente la hipótesis de homoscedasticidad se emplean dos pruebas de referencia:
+	\begin{itemize}
+		\item \textbf{Prueba de Bartlett:} Es altamente sensible a la asunción de normalidad de la población. Contraste $H_0: \sigma_1^2 = \ldots = \sigma_k^2$ utilizando un estadístico basado en el cociente ponderado de las varianzas muestrales que sigue una distribución chi-cuadrada con $k-1$ grados de libertad.
+		\item \textbf{Prueba de Levene y Brown-Forsythe:} Es el estándar de oro moderno en analítica computacional (integrado en \texttt{scipy.stats.levene}) debido a su extraordinaria robustez ante distribuciones no normales o sesgadas. Consiste en realizar un ANOVA univariado aplicándolo directamente a las desviaciones absolutas de las observaciones respecto a la media (Levene: $Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$) o respecto a la mediana del tratamiento (Brown-Forsythe: $Z_{ij} = |Y_{ij} - \tilde{Y}_{i.}|$).
+	\end{itemize}
+	Si la hipótesis de homoscedasticidad es rechazada al nivel $\alpha$, debemos abandonar el ANOVA paramétrico estándar y utilizar el \textbf{ANOVA de Welch sobre una vía} o transformaciones estabilizadoras de varianza de la familia Box-Cox (como $\log Y$ o $\sqrt{Y}$).
+
+	\item \textbf{Normalidad de los errores residuales ($\epsilon_{ij} \sim N(0,\sigma^2)$):} La distribución de los residuos dentro de cada tratamiento o del vector general de residuos del modelo debe aproximarse a una distribución normal. Este supuesto se audita cualitativamente mediante un gráfico de probabilidad normal \textbf{Q-Q Plot} de los residuos, y cuantitativamente mediante la \textbf{Prueba de Shapiro-Wilk} o la \textbf{Prueba de Kolmogorov-Smirnov} sobre los residuos estandarizados.
+
+	Si se detectan violaciones severas a la normalidad (especialmente asimetría extrema u observaciones atípicas extremas con muestras pequeñas), el científico de datos debe utilizar la alternativa no paramétrica del ANOVA: la \textbf{Prueba de Kruskal-Wallis} (basada en rangos y medianas en lugar de medias y varianzas).
+
+	\item \textbf{Independencia de las observaciones:} Los residuos de cualquier par de unidades experimentales deben ser estadísticamente independientes ($Cov(\epsilon_{ij}, \epsilon_{lm}) = 0$). Este es el supuesto más crítico de todos: \textbf{la violación a la independencia infesta directamente la estimación del Cuadrado Medio del Error ($\text{CME}$)}, invalidando por completo la prueba $F$. La independencia no se puede arreglar fácilmente a posteriori con transformaciones algebraicas; se garantiza a priori mediante la estricta \textbf{aleatorización en el diseño de muestreo} y la correcta identificación de dependencias temporales u espaciales (que requerirían modelos de series de tiempo o modelos de efectos mixtos longitudinales).
+\end{enumerate}
+

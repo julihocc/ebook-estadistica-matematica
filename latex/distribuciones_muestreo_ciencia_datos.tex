@@ -1,0 +1,139 @@
+\section{Distribuciones de muestreo y su relación con ciencia de datos}
+
+Las distribuciones de muestreo estudiadas en esta secci\'on son la base de las
+t\'ecnicas m\'as usadas en ciencia de datos. A continuaci\'on se resumen las
+aplicaciones principales.
+
+\subsubsection{Tabla resumen}
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Distribuci\'on} & \textbf{Estad\'istico} & \textbf{Aplicaci\'on} \\
+\hline
+$Z$ (normal est\'andar) & $\dfrac{\bar{X}-\mu}{\sigma/\sqrt{n}}$
+& IC para $\mu$ con $\sigma$ conocida; prueba Z \\
+\hline
+$t$ de Student & $\dfrac{\bar{X}-\mu}{S/\sqrt{n}}$
+& IC para $\mu$ con $\sigma$ desconocida; prueba t \\
+\hline
+$\chi^2$ & $\dfrac{(n-1)S^2}{\sigma^2}$
+& IC para $\sigma^2$; prueba de bondad de ajuste \\
+\hline
+$F$ de Snedecor & $\dfrac{S_1^2}{S_2^2}$ o ANOVA
+& Comparaci\'on de varianzas; ANOVA; F-test en regresi\'on \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Aplicaci\'on 1: A/B testing}
+
+En A/B testing se comparan dos versiones de un producto midiendo alguna m\'etrica
+de inter\'es (e.g., tasa de conversi\'on, tiempo en p\'agina).
+
+\begin{ejemplo}
+ \label{exmp:3.2.7}
+Un sitio web tiene dos versiones: A (versi\'on actual) y B (nueva versi\'on). En
+una prueba con $n_A = 1000$ usuarios de A, $x_A = 120$ convierten. En $n_B = 1000$
+usuarios de B, $x_B = 145$ convierten. ¿Hay evidencia de que B es mejor?
+\end{ejemplo}
+
+\begin{solucion}
+Estimamos las proporciones: $\hat{p}_A = 0.120$, $\hat{p}_B = 0.145$. Bajo la
+hip\'otesis nula $H_0: p_A = p_B$, la proporci\'on agrupada es
+\begin{align}
+ \hat{p} = \frac{x_A + x_B}{n_A + n_B} = \frac{265}{2000} = 0.1325.
+\end{align}
+El error est\'andar agrupado es
+\begin{align}
+ \text{EE} = \sqrt{\hat{p}(1-\hat{p})\left(\frac{1}{n_A} + \frac{1}{n_B}\right)}
+ = \sqrt{0.1325 \times 0.8675 \times 0.002} \approx 0.01516.
+\end{align}
+El estad\'istico $Z$ es
+\begin{align}
+ Z = \frac{\hat{p}_B - \hat{p}_A}{\text{EE}} = \frac{0.145 - 0.120}{0.01516} \approx 1.65.
+\end{align}
+Bajo $H_0$, $Z \sim N(0,1)$ aproximadamente. El $p$-valor bilateral es
+$2(1 - \Phi(1.65)) \approx 0.099$. Al nivel $5\%$, no rechazamos $H_0$ (aunque al $10\%$
+s\'i). El resultado es marginal.
+\end{solucion}
+
+\lstinputlisting[language=Python]{../code/distribuciones-muestreo/abTesting.py}
+
+\subsubsection{Aplicaci\'on 2: Bootstrap}
+
+El \emph{bootstrap} es una t\'ecnica no param\'etrica para estimar la distribuci\'on
+muestral de un estad\'istico mediante remuestreo con reemplazo.
+
+\begin{teorema}[Principio bootstrap]
+Sea $X_1, \ldots, X_n$ una muestra iid de una distribuci\'on $F$ desconocida, y
+$\theta = T(F)$ un par\'ametro de inter\'es. Si $\hat{\theta} = T(\hat{F}_n)$ es
+el estimador plug-in (donde $\hat{F}_n$ es la distribuci\'on emp\'irica), entonces
+la distribuci\'on muestral de $\hat{\theta}$ puede aproximarse por la distribuci\'on
+de $\hat{\theta}^* = T(\hat{F}_n^*)$, donde $\hat{F}_n^*$ se obtiene al
+remuestrear con reemplazo de la muestra original.
+\end{teorema}
+
+\begin{ejemplo}
+ \label{exmp:3.2.8}
+Considere una muestra de tama\~no $n = 50$ de una poblaci\'on con distribuci\'on
+desconocida. Use bootstrap para estimar el sesgo y la varianza de la mediana
+muestral.
+\end{ejemplo}
+
+\begin{solucion}
+\begin{enumerate}
+ \item Calcular la mediana observada $\hat{\theta} = \text{med}(X_1, \ldots, X_{50})$.
+ \item Para $b = 1, \ldots, B$ (e.g., $B = 10000$):
+   \begin{enumerate}
+    \item Generar una muestra bootstrap $X_1^*, \ldots, X_{50}^*$ muestreando con
+    reemplazo de la muestra original.
+    \item Calcular la mediana bootstrap $\hat{\theta}_b^* = \text{med}(X_1^*, \ldots, X_{50}^*)$.
+   \end{enumerate}
+ \item Estimar:
+   \begin{align}
+    \widehat{\text{Sesgo}}_{\text{boot}} &= \frac{1}{B}\sum_{b=1}^B \hat{\theta}_b^* - \hat{\theta}, \\
+    \widehat{\text{Var}}_{\text{boot}}(\hat{\theta}) &= \frac{1}{B-1}\sum_{b=1}^B (\hat{\theta}_b^* - \bar{\hat{\theta}}^*)^2.
+   \end{align}
+ \item El intervalo de confianza bootstrap al $95\%$ es
+ $[\hat{\theta}_{\alpha/2}^*, \hat{\theta}_{1-\alpha/2}^*]$ donde los cuantiles
+ se toman sobre $\{\hat{\theta}_b^*\}$.
+\end{enumerate}
+\end{solucion}
+
+\lstinputlisting[language=Python]{../code/distribuciones-muestreo/bootstrap.py}
+
+\subsubsection{Aplicaci\'on 3: Inferencia en Machine Learning}
+
+En machine learning, las distribuciones de muestreo subyacen a:
+
+\begin{itemize}
+ \item \textbf{Validaci\'on cruzada}: la varianza del estimador de error de
+ generalizaci\'on se puede estimar mediante bootstrap o mediante la distribuci\'on
+ $t$ (con n\'umero de folds como grados de libertad).
+ \item \textbf{Pruebas de hip\'otesis para comparar modelos}: se usan pruebas
+ $t$ pareadas para comparar dos modelos en los mismos datos, o pruebas $F$ para
+ comparar modelos anidados (e.g., regresi\'on lineal).
+ \item \textbf{Intervalos de confianza para m\'etricas}: precisi\'on y recall
+ tienen distribuciones aproximadamente normales para muestras grandes; su IC
+ se construye con $Z$ o $t$.
+ \item \emph{Feature selection}: el test $F$ se usa para evaluar la significancia
+ global de un modelo de regresi\'on, y los tests $\chi^2$ para evaluar
+ independencia entre variables.
+\end{itemize}
+
+\begin{observacion}
+En deep learning, las distribuciones de muestreo son menos prominentes porque los
+modelos se entrenan con grandes vol\'umenes de datos y se eval\'uan con conjuntos
+de prueba, no con pruebas de hip\'otesis cl\'asicas. Sin embargo, siguen siendo
+fundamentales para:
+\begin{itemize}
+ \item Comparar arquitecturas mediante pruebas de hip\'otesis sobre m\'etricas de
+ rendimiento agregadas.
+ \item Estimar la incertidumbre de las predicciones (intervalos de confianza,
+ predicci\'on conformal).
+ \item Cuantificar la significancia estad\'istica de mejoras en benchmarks.
+\end{itemize}
+\end{observacion}
+
+

@@ -1,0 +1,56 @@
+En las secciones previas introducimos de manera intuitiva el concepto de intervalo de confianza y evaluamos estimaciones por intervalo básicas para la media poblacional. Sin embargo, en el análisis estadístico real y en los proyectos de ciencia de datos, rara vez nos limitamos a estudiar una sola población o a contar con parámetros poblacionales conocidos. Con frecuencia debemos comparar dos tratamientos (como en las pruebas A/B de páginas web), evaluar el comportamiento de proporciones o tasas de conversión, analizar la variabilidad o dispersión de los datos y, de manera crítica ante cualquier estudio, calcular con precisión el tamaño de muestra requerido para alcanzar una potencia o precisión determinada.
+
+En esta sección desarrollamos de forma formal, completa y rigurosa la teoría de estimación por intervalo para diferencias de medias, errores estándares, proporciones, varianzas y diseño del tamaño muestral.
+
+\section{Estimación de la media y diferencia entre dos medias}
+
+Cuando se estudian dos poblaciones, el interés principal recae en estimar la diferencia de sus medias, $\mu_1 - \mu_2$, a partir de muestras independientes o pareadas extraídas de cada población. El estimador puntual natural y de mínima varianza para esta diferencia es la diferencia de las medias muestrales: $\bar{X}_1 - \bar{X}_2$.
+
+La construcción del intervalo de confianza para $\mu_1 - \mu_2$ depende críticamente del tipo de diseño de muestreo y del conocimiento o suposición sobre las varianzas poblacionales ($\sigma_1^2, \sigma_2^2$).
+
+\begin{teorema}[Caso 1: Muestras independientes con varianzas conocidas]
+	Sean $X_{11}, X_{12}, \ldots, X_{1n_1}$ y $X_{21}, X_{22}, \ldots, X_{2n_2}$ dos muestras aleatorias independientes de tamaños $n_1$ y $n_2$ procedentes de poblaciones con medias $\mu_1, \mu_2$ y varianzas conocidas $\sigma_1^2, \sigma_2^2$. Si las poblaciones son normales o los tamaños muestrales son grandes ($n_1, n_2 \geq 30$ por el Teorema del Límite Central), un intervalo de confianza del $(1-\alpha)100\%$ para la diferencia de medias es:
+	\begin{align}
+		(\bar{X}_1 - \bar{X}_2) - Z_{\alpha/2} \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \leq \mu_1 - \mu_2 \leq (\bar{X}_1 - \bar{X}_2) + Z_{\alpha/2} \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}},
+	\end{align}
+	donde $Z_{\alpha/2}$ es el valor crítico de la distribución normal estándar que deja una probabilidad superior de $\alpha/2$.
+\end{teorema}
+
+\begin{teorema}[Caso 2: Muestras independientes con varianzas desconocidas pero iguales]
+	Si las varianzas poblacionales son desconocidas pero se puede asumir homoscedasticidad ($\sigma_1^2 = \sigma_2^2 = \sigma^2$), combinamos (\emph{pool}) la información de ambas muestras para obtener una estimación ponderada de la varianza común, denotada por la varianza combinada $S_p^2$:
+	\begin{align}
+		S_p^2 = \frac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 - 2},
+		\label{eq:varianza_combinada}
+	\end{align}
+	donde $S_1^2$ y $S_2^2$ son las varianzas muestrales insesgadas respectivas.
+
+	El estadístico estandarizado sigue una distribución $t$ de Student con $\nu = n_1 + n_2 - 2$ grados de libertad. El intervalo de confianza del $(1-\alpha)100\%$ para $\mu_1 - \mu_2$ es:
+	\begin{align}
+		(\bar{X}_1 - \bar{X}_2) \pm t_{\alpha/2, \, n_1+n_2-2} \, S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}.
+	\end{align}
+\end{teorema}
+
+\begin{teorema}[Caso 3: Muestras independientes con varianzas desconocidas y diferentes (Welch)]
+	Cuando las varianzas poblacionales son desconocidas y no es razonable suponer que sean iguales ($\sigma_1^2 \neq \sigma_2^2$), no podemos utilizar la varianza combinada. En este caso (conocido como el problema de Behrens-Fisher), utilizamos las varianzas muestrales individuales y aproximamos la distribución del estadístico mediante la distribución $t$ de Student con los grados de libertad efectivos de Welch-Satterthwaite:
+	\begin{align}
+		\nu = \frac{\left( \frac{S_1^2}{n_1} + \frac{S_2^2}{n_2} \right)^2}{\frac{\left(S_1^2 / n_1\right)^2}{n_1 - 1} + \frac{\left(S_2^2 / n_2\right)^2}{n_2 - 1}}.
+		\label{eq:df_welch}
+	\end{align}
+	Si $\nu$ no es un entero, se suele redondear hacia abajo al entero inmediato para mantener una actitud conservadora en la cobertura del intervalo. El intervalo del $(1-\alpha)100\%$ resulta en:
+	\begin{align}
+		(\bar{X}_1 - \bar{X}_2) \pm t_{\alpha/2, \, \nu} \sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}}.
+	\end{align}
+\end{teorema}
+
+\begin{definicion}[Caso 4: Muestreo pareado o dependiente]
+	Cuando las dos muestras están correlacionadas par a par (por ejemplo, mediciones del mismo paciente o del mismo sistema antes y después de un tratamiento), no podemos tratarlas como independientes. En su lugar, reducimos el problema de dos variables a un problema de una sola variable calculando las diferencias individuales:
+	\begin{align}
+		D_i = X_{1i} - X_{2i}, \quad \text{para } i = 1, 2, \ldots, n.
+	\end{align}
+
+	Calculamos la media de las diferencias $\bar{D} = \frac{1}{n}\sum D_i$ y la desviación estándar de las diferencias $S_D = \sqrt{\frac{1}{n-1}\sum (D_i - \bar{D})^2}$. El intervalo de confianza del $(1-\alpha)100\%$ para la diferencia media poblacional $\mu_D = \mu_1 - \mu_2$ es:
+	\begin{align}
+		\bar{D} - t_{\alpha/2, \, n-1} \frac{S_D}{\sqrt{n}} \leq \mu_D \leq \bar{D} + t_{\alpha/2, \, n-1} \frac{S_D}{\sqrt{n}}.
+	\end{align}
+\end{definicion}
+

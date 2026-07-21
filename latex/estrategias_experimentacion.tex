@@ -1,0 +1,35 @@
+\section{Estrategias de experimentación}
+
+En las unidades anteriores exploramos los métodos inferenciales para estimar parámetros y contrastar hipótesis relativas a una o dos poblaciones. Sin embargo, en la investigación científica contemporánea, la ingeniería de sistemas, la biotecnología y la ciencia de datos, rara vez nos limitamos a comparar únicamente dos escenarios. Frecuentemente necesitamos evaluar múltiples algoritmos de aprendizaje automático de manera simultánea, comparar varias arquitecturas de servidores web, optimizar campañas de marketing digital con diversas configuraciones multivariadas (pruebas A/B/n) o evaluar el rendimiento de distintos tratamientos bajo condiciones experimentales controladas.
+
+Intentar resolver un problema de comparación entre $k$ grupos realizando pruebas de hipótesis $t$ de Student dos a dos ($\binom{k}{2}$ combinaciones) es un error metodológico crítico, ya que produce una \textbf{inflación severa de la tasa de error Tipo I global} (probabilidad de cometer al menos un falso positivo en la familia de comparaciones). Por ejemplo, si comparamos $k = 5$ algoritmos ($10$ pares posibles) utilizando un nivel de significancia $\alpha = 0.05$ para cada prueba independiente, la probabilidad de encontrar al menos una diferencia "significativa" por puro azar cuando en realidad todos los algoritmos son idénticos asciende a:
+\begin{align}
+	\alpha_{\text{global}} = 1 - (1 - \alpha)^m = 1 - (1 - 0.05)^{10} = 1 - (0.95)^{10} \approx 0.4013 \quad (40.13\%).
+\end{align}
+Para evitar este sesgo sistemático y extraer conclusiones válidas sobre múltiples grupos en un solo paso analítico, recurrimos a la teoría de \textbf{Diseño de Experimentos (DoE)} y a su herramienta metodológica primordial: el \textbf{Análisis de Varianza (ANOVA)}, desarrollado originalmente por Sir Ronald A. Fisher.
+
+\subsection{Principios fundamentales y terminología del diseño experimental}
+
+Un diseño experimental riguroso es la planificación sistemática de un estudio de manera que los datos recolectados puedan ser analizados mediante métodos estadísticos objetivos, permitiendo deducir relaciones de causa y efecto con la máxima precisión y el mínimo costo de muestreo.
+
+\begin{definicion}[Terminología formal en el Diseño de Experimentos]
+	\begin{itemize}
+		\item \textbf{Unidad experimental:} Es la entidad física o informacional básica sobre la cual se aplica un tratamiento o se realiza una medición (por ejemplo, un servidor en la nube, un paciente, un lote de producción o una consulta de base de datos).
+		\item \textbf{Factor (Variable independiente):} Es una variable controlada explícitamente por el investigador para evaluar su efecto sobre el proceso (por ejemplo, el tipo de algoritmo, el nivel de optimización del compilador o la dosis de un fármaco).
+		\item \textbf{Nivel del factor:} Cada uno de los valores, categorías o modalidades específicas que puede adoptar un factor en el experimento.
+		\item \textbf{Tratamiento:} Es una combinación específica de niveles de uno o varios factores aplicada a las unidades experimentales. En un experimento de un solo factor, los tratamientos son sinónimos de los niveles del factor.
+		\item \textbf{Variable respuesta (Variable dependiente):} Es la característica o métrica numérica observada y registrada tras la aplicación del tratamiento (por ejemplo, tiempo de latencia en milisegundos, exactitud o \emph{accuracy} de un clasificador, o rendimiento en transacciones por segundo).
+		\item \textbf{Error experimental (Ruido):} Representa la variabilidad aleatoria intrínseca y no controlada entre observaciones correspondientes a unidades experimentales tratadas de manera idéntica.
+	\end{itemize}
+\end{definicion}
+
+La validez y eficiencia del Diseño de Experimentos descansa sobre \textbf{tres principios cardinales enunciados por Fisher}:
+
+\begin{teorema}[Los Tres Principios de Fisher en el DoE]
+	\begin{enumerate}
+		\item \textbf{Replicación (\emph{Replication}):} Es la repetición de un mismo tratamiento sobre múltiples unidades experimentales independientes. Cumple dos funciones vitales: (a) proporciona una estimación interna y objetiva de la varianza del error experimental ($\sigma^2$), sin la cual es imposible evaluar la significancia estadística de los tratamientos; y (b) reduce el error estándar de la media del tratamiento ($\sigma / \sqrt{n}$), aumentando la precisión de la estimación.
+		\item \textbf{Aleatorización (\emph{Randomization}):} Es la asignación estrictamente probabilística (al azar) de las unidades experimentales a los tratamientos y del orden temporal/espacial de las pruebas. Garantiza la independencia de los errores ($\epsilon_{ij}$), elimina sesgos sistemáticos del operador u orden de ejecución, y valida las distribuciones de probabilidad utilizadas por las pruebas inferenciales ($F$ y $t$).
+		\item \textbf{Control Local o Bloqueo (\emph{Blocking}):} Es una técnica de agrupación que consiste en dividir el conjunto de unidades experimentales en subgrupos o "bloques" lo más homogéneos posible entre sí, aislando en una dimensión separada la varianza producida por fuentes de ruido conocidas (como diferentes lotes de hardware, turnos de trabajo o configuraciones del sistema operacionales). El bloqueo incrementa de forma contundente la potencia de la prueba al reducir la varianza residual del error experimental.
+	\end{enumerate}
+\end{teorema}
+

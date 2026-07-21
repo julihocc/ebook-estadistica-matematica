@@ -1,0 +1,66 @@
+\section{Introducción a diseños factoriales}
+
+Todos los diseños estudiados hasta ahora en este capítulo estudian el efecto de un \textbf{único} factor de tratamiento (posiblemente controlando fuentes de ruido adicionales mediante bloqueo). Sin embargo, muchas preguntas experimentales reales involucran \textbf{dos o más factores de tratamiento simultáneos} cuyo efecto conjunto —no solo individual— interesa evaluar: por ejemplo, el efecto combinado de la temperatura y la presión sobre el rendimiento de una reacción química, o el efecto conjunto del algoritmo y el tamaño del lote de entrenamiento sobre la exactitud de un modelo de aprendizaje automático.
+
+\begin{definicion}[Diseño factorial completo]
+	Un \emph{diseño factorial completo} con dos factores $A$ (con $a$ niveles) y $B$ (con $b$ niveles) consiste en observar \textbf{todas} las $a \times b$ combinaciones posibles de niveles de ambos factores, con $n \geq 1$ réplicas independientes por combinación (para un total de $N = abn$ observaciones). La generalización a más de dos factores sigue el mismo principio: se cruzan todos los niveles de todos los factores.
+\end{definicion}
+
+\begin{observacion}
+	Frente a la alternativa de variar un factor a la vez manteniendo los demás fijos (\emph{one-factor-at-a-time}), el diseño factorial completo es estrictamente más eficiente: con el mismo número de corridas experimentales, permite estimar no solo los efectos principales de cada factor, sino también sus \textbf{interacciones}, algo que el enfoque secuencial no puede detectar.
+\end{observacion}
+
+\subsection{Efectos principales e interacción}
+
+\begin{definicion}[Efecto principal e interacción]
+	El \emph{efecto principal} de un factor es el cambio promedio en la variable respuesta al pasar de un nivel del factor a otro, promediando sobre todos los niveles del(los) otro(s) factor(es). Existe \emph{interacción} entre dos factores $A$ y $B$ cuando el efecto de $A$ sobre la variable respuesta \textbf{depende del nivel} de $B$ en el que se evalúe (y viceversa); es decir, las curvas de respuesta de $A$ para distintos niveles de $B$ no son paralelas.
+\end{definicion}
+
+El modelo estadístico paramétrico para un diseño factorial completo de dos factores es
+\begin{align}
+	Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \epsilon_{ijk}, \quad i=1,\ldots,a,\ j=1,\ldots,b,\ k=1,\ldots,n,
+	\label{eq:modelo_factorial}
+\end{align}
+donde $\alpha_i$ y $\beta_j$ son los efectos principales de $A$ y $B$ respectivamente, y $(\alpha\beta)_{ij}$ es el \textbf{efecto de interacción} del par de niveles $(i,j)$, sujeto a las restricciones usuales $\sum_i \alpha_i = \sum_j \beta_j = \sum_i (\alpha\beta)_{ij} = \sum_j (\alpha\beta)_{ij} = 0$.
+
+\begin{teorema}[Partición de la suma de cuadrados en un diseño factorial de dos factores]
+	La Suma de Cuadrados Total se descompone en cuatro fuentes ortogonales de variación:
+	\begin{align}
+		\text{SCT} = \text{SC}_A + \text{SC}_B + \text{SC}_{AB} + \text{SCE},
+	\end{align}
+	con grados de libertad $\nu_A = a-1$, $\nu_B = b-1$, $\nu_{AB} = (a-1)(b-1)$ para la interacción, y $\nu_E = ab(n-1)$ para el error residual, sobre un total de $\nu_T = abn - 1$.
+\end{teorema}
+
+\begin{center}
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Fuente de Variación} & \textbf{SC} & \textbf{g.l. ($\nu$)} & \textbf{Cuadrado Medio (CM)} & \textbf{Estadístico $F$} \\ \hline
+		Factor $A$ & $\text{SC}_A$ & $a-1$ & $\text{CM}_A = \frac{\text{SC}_A}{a-1}$ & $F_A = \frac{\text{CM}_A}{\text{CME}}$ \\ [1ex]
+		Factor $B$ & $\text{SC}_B$ & $b-1$ & $\text{CM}_B = \frac{\text{SC}_B}{b-1}$ & $F_B = \frac{\text{CM}_B}{\text{CME}}$ \\ [1ex]
+		Interacción $AB$ & $\text{SC}_{AB}$ & $(a-1)(b-1)$ & $\text{CM}_{AB} = \frac{\text{SC}_{AB}}{(a-1)(b-1)}$ & $F_{AB} = \frac{\text{CM}_{AB}}{\text{CME}}$ \\ [1ex]
+		Error residual & $\text{SCE}$ & $ab(n-1)$ & $\text{CME} = \frac{\text{SCE}}{ab(n-1)}$ & \\ [1ex] \hline
+		\textbf{Total} & $\text{SCT}$ & $abn-1$ & & \\ \hline
+	\end{tabular}
+\end{center}
+
+\begin{observacion}[Orden de interpretación]
+	Por convención, un análisis factorial siempre se interpreta \textbf{de adentro hacia afuera}: se examina primero el estadístico $F_{AB}$ de la interacción. Si resulta significativo, los efectos principales $\alpha_i$ y $\beta_j$ ya no tienen una interpretación aislada simple (el efecto de $A$ cambia según el nivel de $B$), y el análisis debe reportarse en términos de las combinaciones específicas de niveles. Solo cuando la interacción \textbf{no} es significativa tiene sentido interpretar directamente los efectos principales por separado.
+\end{observacion}
+
+\begin{ejemplo}
+	\label{exmp:8.6.1}
+	Un ingeniero de datos evalúa el tiempo de entrenamiento (en minutos) de un modelo de aprendizaje automático bajo dos algoritmos de optimización ($A_1$, $A_2$) y dos tamaños de lote ($B_1 = 32$, $B_2 = 256$), con $n=3$ réplicas por combinación. Las medias muestrales observadas por celda son:
+	\begin{center}
+		\begin{tabular}{lcc}
+			\hline
+			 & $B_1$ (lote 32) & $B_2$ (lote 256) \\ \hline
+			$A_1$ & $42$ & $40$ \\
+			$A_2$ & $38$ & $20$ \\ \hline
+		\end{tabular}
+	\end{center}
+	¿Sugieren estos promedios la presencia de interacción entre el algoritmo y el tamaño de lote?
+\end{ejemplo}
+
+\begin{solucion}
+	El efecto de cambiar de $B_1$ a $B_2$ es muy distinto según el algoritmo: bajo $A_1$, el tiempo apenas cambia ($42 \to 40$, una reducción de $2$ minutos), mientras que bajo $A_2$ el tiempo se reduce drásticamente ($38 \to 20$, una reducción de $18$ minutos). Como el efecto del factor $B$ (tamaño de lote) depende marcadamente del nivel del factor $A$ (algoritmo), los datos sugieren una \textbf{interacción sustancial} entre ambos factores. Esto significa que no es correcto afirmar de forma general ``el lote grande reduce el tiempo de entrenamiento''; la afirmación correcta y útil es que el lote grande reduce el tiempo \emph{solo bajo el algoritmo $A_2$}. Confirmar formalmente esta sospecha requeriría calcular $F_{AB}$ y compararlo contra el cuantil crítico $F_{\alpha,\,(a-1)(b-1),\,ab(n-1)}$.
+\end{solucion}

@@ -1,0 +1,35 @@
+\section{Estimación de una proporción y diferencia entre dos proporciones}
+
+El estudio de proporciones poblacionales es vital en el análisis de variables categóricas binomiales o de Bernoulli, siendo la base de las métricas de clasificación, tasas de clics en comercio electrónico y porcentajes de preferencia.
+
+\begin{teorema}[Intervalo de confianza para una proporción (Aproximación normal de Wald)]
+	Sea $X$ el número de éxitos en una muestra aleatoria de tamaño $n$ de una población Bernoulli con verdadera proporción $p$. El estimador puntual es la proporción muestral $\hat{p} = X/n$. Por el Teorema del Límite Central, si las condiciones de muestra grande se cumplen ($n\hat{p} \geq 5$ y $n(1-\hat{p}) \geq 5$, o de manera más conservadora $\geq 10$), la distribución muestral de $\hat{p}$ es aproximadamente normal.
+
+	El intervalo de confianza del $(1-\alpha)100\%$ está dado por:
+	\begin{align}
+		\hat{p} - Z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} \leq p \leq \hat{p} + Z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}.
+	\end{align}
+\end{teorema}
+
+\begin{observacion}
+	Para muestras pequeñas o moderadas, el intervalo de Wald puede presentar coberturas reales notablemente inferiores al nivel $(1-\alpha)$ nominal debido a la asimetría discreta de la distribución binomial. En tales escenarios, los científicos de datos prefieren el \emph{Intervalo de Wilson (o Score)} o la aproximación de Agresti-Coull (añadir 2 éxitos y 2 fracasos ficticios a la muestra, usando $\tilde{n} = n + 4$ y $\tilde{p} = (X+2)/(n+4)$).
+\end{observacion}
+
+\begin{teorema}[Intervalo de Wilson (Score) para una proporción]
+	A diferencia del intervalo de Wald, que centra el intervalo en $\hat{p}$ y aproxima el error estándar por $\sqrt{\hat p(1-\hat p)/n}$, el intervalo de Wilson se obtiene invirtiendo directamente la prueba de score $Z = (\hat{p}-p)/\sqrt{p(1-p)/n}$ sin sustituir $p$ por $\hat{p}$ en el denominador. Esto produce un intervalo centrado en un punto distinto de $\hat p$ y con amplitud asimétrica:
+	\begin{align}
+		\frac{1}{1+\frac{Z_{\alpha/2}^2}{n}}\left[\hat{p} + \frac{Z_{\alpha/2}^2}{2n} \;\pm\; Z_{\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n} + \frac{Z_{\alpha/2}^2}{4n^2}}\right].
+	\end{align}
+\end{teorema}
+
+\begin{observacion}[Por qué el intervalo de Wilson es preferible]
+	El intervalo de Wilson mantiene una cobertura real mucho más cercana al nivel nominal $(1-\alpha)$ incluso para $n$ pequeña o $\hat p$ cercana a $0$ o $1$ (donde Wald puede colapsar a un intervalo con límites fuera de $[0,1]$ o de amplitud casi nula). Software estadístico moderno (\texttt{statsmodels}, \texttt{R}) lo usa como opción por defecto o recomendada frente al de Wald.
+\end{observacion}
+
+\begin{teorema}[Intervalo de confianza para la diferencia de dos proporciones]
+	Para comparar las tasas de éxito $p_1$ y $p_2$ de dos poblaciones independientes, extraemos muestras de tamaños $n_1$ y $n_2$ y calculamos las proporciones muestrales $\hat{p}_1 = X_1/n_1$ y $\hat{p}_2 = X_2/n_2$. Si ambas muestras son suficientemente grandes ($n_i\hat{p}_i \geq 5$ y $n_i(1-\hat{p}_i) \geq 5$ para $i=1,2$), el intervalo de confianza de nivel $(1-\alpha)100\%$ para $p_1 - p_2$ es:
+	\begin{align}
+		(\hat{p}_1 - \hat{p}_2) \pm Z_{\alpha/2} \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}.
+	\end{align}
+\end{teorema}
+

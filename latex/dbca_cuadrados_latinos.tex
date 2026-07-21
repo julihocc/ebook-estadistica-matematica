@@ -1,0 +1,132 @@
+\section{Bloques completamente aleatorizados, cuadrados latinos y grecolatinos}
+
+En innumerables escenarios prácticos, las unidades experimentales disponibles no son un conjunto estrictamente homogéneo. Por ejemplo, al evaluar motores de bases de datos en servidores físicos de diversas generaciones, o al probar fármacos en pacientes de distintos rangos de edad, una gran porción de la variabilidad observada en la variable respuesta no se debe al factor bajo estudio (el tratamiento), sino a las diferencias intrínsecas de las unidades experimentales.
+
+Si realizáramos un ANOVA de un factor ignorando esa heterogeneidad conocida, dicha variación se absorbería directamente dentro de la Suma de Cuadrados del Error ($\text{SCE}$), inflando artificialmente el Cuadrado Medio del Error ($\text{CME}$) y reduciendo drásticamente la capacidad estadística del estadístico $F$ para detectar los efectos reales de los tratamientos.
+
+El \textbf{Diseño en Bloques Completos al Azar (DBCA)} resuelve este problema agrupando las unidades experimentales en $b$ \textbf{bloques homogéneos} y aplicando los $k$ tratamientos aleatoriamente dentro de cada bloque, de modo que cada tratamiento aparece exactamente una vez por bloque ($N = k \times b$).
+
+\subsection{Modelo aditivo y partición bidimensional de la varianza}
+
+El modelo estadístico paramétrico para un diseño en bloques completos al azar se escribe como:
+\begin{align}
+	Y_{ij} = \mu + \tau_i + \beta_j + \epsilon_{ij}, \quad \text{para } i = 1, \ldots, k \text{ y } j = 1, \ldots, b,
+	\label{eq:modelo_dbca}
+\end{align}
+donde:
+\begin{itemize}
+	\item $\mu$ es el promedio global de la población.
+	\item $\tau_i$ es el efecto principal del \textbf{tratamiento $i$}, sujeto a la restricción $\sum_{i=1}^k \tau_i = 0$.
+	\item $\beta_j$ es el efecto principal del \textbf{bloque $j$}, sujeto a la restricción $\sum_{j=1}^b \beta_j = 0$.
+	\item $\epsilon_{ij} \sim N(0, \sigma^2)$ son los errores experimentales aleatorios i.i.d., asumiendo además la \textbf{ausencia de interacción} (aditividad pura) entre tratamientos y bloques.
+\end{itemize}
+
+\begin{teorema}[Teorema de partición de la suma de cuadrados en DBCA]
+	En un Diseño en Bloques Completos al Azar con $k$ tratamientos y $b$ bloques, la Suma de Cuadrados Total se descompone en tres fuentes ortogonales de variación:
+	\begin{align}
+		\text{SCT} = \text{SCTR} + \text{SCB} + \text{SCE},
+	\end{align}
+	donde:
+	\begin{itemize}
+		\item $\text{SCTR} = b \sum_{i=1}^k (\bar{Y}_{i.} - \bar{Y}_{..})^2$ es la Suma de Cuadrados de los Tratamientos ($\nu_{\text{TR}} = k - 1$).
+		\item $\text{SCB} = k \sum_{j=1}^b (\bar{Y}_{.j} - \bar{Y}_{..})^2$ es la \textbf{Suma de Cuadrados de los Bloques} ($\nu_{\text{B}} = b - 1$), donde $\bar{Y}_{.j} = \frac{1}{k}\sum_{i=1}^k Y_{ij}$ es el promedio observado de todo el bloque $j$.
+		\item $\text{SCE} = \sum_{i=1}^k \sum_{j=1}^b (Y_{ij} - \bar{Y}_{i.} - \bar{Y}_{.j} + \bar{Y}_{..})^2$ es la Suma de Cuadrados del Error aleatorio residual, calculada en la práctica por diferencia algebraica directa:
+		\begin{align}
+			\text{SCE} = \text{SCT} - \text{SCTR} - \text{SCB},
+		\end{align}
+		con sus respectivos grados de libertad $\nu_E = (k - 1)(b - 1)$.
+	\end{itemize}
+\end{teorema}
+
+El DBCA permite evaluar dos hipótesis nulas independientes: la prueba primordial sobre la igualdad de tratamientos ($H_{0,\text{TR}}: \tau_i = 0$) y la prueba secundaria para verificar si el factor de bloqueo redujo efectivamente el ruido del experimento ($H_{0,\text{B}}: \beta_j = 0$). Los estadísticos y su síntesis computacional se presentan en la Tabla \ref{tab:anova_dbca}.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Fuente de Variación} & \textbf{SC} & \textbf{g.l. ($\nu$)} & \textbf{Cuadrado Medio (CM)} & \textbf{Estadístico $F$} \\ \hline
+		Tratamientos & $\text{SCTR} = b \sum (\bar{Y}_{i.} - \bar{Y}_{..})^2$ & $k - 1$ & $\text{CMTR} = \frac{\text{SCTR}}{k - 1}$ & $F_{\text{TR}} = \frac{\text{CMTR}}{\text{CME}}$ \\ [1.5ex]
+		Bloques & $\text{SCB} = k \sum (\bar{Y}_{.j} - \bar{Y}_{..})^2$ & $b - 1$ & $\text{CMB} = \frac{\text{SCB}}{b - 1}$ & $F_{\text{B}} = \frac{\text{CMB}}{\text{CME}}$ \\ [1.5ex]
+		Error residual & $\text{SCE} = \text{SCT} - \text{SCTR} - \text{SCB}$ & $(k-1)(b-1)$ & $\text{CME} = \frac{\text{SCE}}{(k-1)(b-1)}$ & \\ [1.5ex] \hline
+		\textbf{Total} & $\text{SCT} = \sum \sum (Y_{ij} - \bar{Y}_{..})^2$ & $kb - 1$ & & \\ \hline
+	\end{tabular}
+	\caption{Tabla de Análisis de Varianza para un Diseño en Bloques Completos al Azar (DBCA).}
+	\label{tab:anova_dbca}
+\end{table}
+
+\subsection{Cuadrados latinos}
+
+El DBCA controla la variabilidad proveniente de \textbf{una sola} fuente de bloqueo conocida. Cuando existen \textbf{dos} fuentes de variabilidad extrañas conocidas y cruzadas entre sí (por ejemplo, el turno de trabajo y la máquina utilizada en una línea de producción), el \textbf{diseño de cuadrado latino} permite controlar ambas simultáneamente sin que el número de corridas experimentales crezca multiplicativamente.
+
+\begin{definicion}[Cuadrado latino]
+	Un \emph{cuadrado latino} de orden $n$ es un arreglo de $n \times n$ celdas en el que se distribuyen $n$ tratamientos (denotados tradicionalmente con letras latinas $A, B, C, \ldots$) de manera que cada tratamiento aparece \textbf{exactamente una vez en cada fila y exactamente una vez en cada columna}. Las filas y columnas representan los dos factores de bloqueo; el número de corridas experimentales es $n^2$ en lugar de las $n^3$ que requeriría un diseño factorial completo con tres factores de $n$ niveles cada uno.
+\end{definicion}
+
+\begin{center}
+	\begin{tabular}{c|cccc}
+		 & Columna 1 & Columna 2 & Columna 3 & Columna 4 \\ \hline
+		Fila 1 & $A$ & $B$ & $C$ & $D$ \\
+		Fila 2 & $B$ & $C$ & $D$ & $A$ \\
+		Fila 3 & $C$ & $D$ & $A$ & $B$ \\
+		Fila 4 & $D$ & $A$ & $B$ & $C$ \\
+	\end{tabular}
+\end{center}
+
+El modelo estadístico paramétrico para un cuadrado latino de orden $n$ es
+\begin{align}
+	Y_{ijk} = \mu + \rho_i + \gamma_j + \tau_k + \epsilon_{ijk},
+	\label{eq:modelo_cuadrado_latino}
+\end{align}
+donde $\rho_i$ es el efecto de la fila $i$, $\gamma_j$ el efecto de la columna $j$, y $\tau_k$ el efecto del tratamiento $k$ (con $i,j,k = 1,\ldots,n$, sujetos a las restricciones usuales $\sum \rho_i = \sum \gamma_j = \sum \tau_k = 0$); nótese que, a diferencia del DBCA, solo se observa \emph{una} de las $n^2$ combinaciones fila-columna-tratamiento posibles por cada par $(i,j)$, ya que el propio arreglo del cuadrado latino determina qué tratamiento $k$ corresponde a cada celda.
+
+\begin{teorema}[Partición de la suma de cuadrados en un cuadrado latino]
+	La Suma de Cuadrados Total se descompone en cuatro fuentes ortogonales de variación:
+	\begin{align}
+		\text{SCT} = \text{SC}_{\text{filas}} + \text{SC}_{\text{columnas}} + \text{SCTR} + \text{SCE},
+	\end{align}
+	con $n^2 - 1$ grados de libertad totales, repartidos como $\nu_{\text{filas}} = \nu_{\text{columnas}} = \nu_{\text{TR}} = n-1$ y $\nu_E = (n-1)(n-2)$ para el error residual.
+\end{teorema}
+
+\begin{center}
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Fuente de Variación} & \textbf{SC} & \textbf{g.l. ($\nu$)} & \textbf{Cuadrado Medio (CM)} & \textbf{Estadístico $F$} \\ \hline
+		Filas & $\text{SC}_{\text{filas}}$ & $n-1$ & $\text{SC}_{\text{filas}}/(n-1)$ & --- \\ [1ex]
+		Columnas & $\text{SC}_{\text{columnas}}$ & $n-1$ & $\text{SC}_{\text{columnas}}/(n-1)$ & --- \\ [1ex]
+		Tratamientos & $\text{SCTR}$ & $n-1$ & $\text{CMTR} = \frac{\text{SCTR}}{n-1}$ & $F_{\text{TR}} = \frac{\text{CMTR}}{\text{CME}}$ \\ [1ex]
+		Error residual & $\text{SCE}$ & $(n-1)(n-2)$ & $\text{CME} = \frac{\text{SCE}}{(n-1)(n-2)}$ & \\ [1ex] \hline
+		\textbf{Total} & $\text{SCT}$ & $n^2 - 1$ & & \\ \hline
+	\end{tabular}
+\end{center}
+
+\begin{observacion}
+	Al igual que en el DBCA, la hipótesis de interés primordial es $H_{0,\text{TR}}: \tau_k = 0$ para todo $k$ (igualdad de tratamientos), contrastada mediante $F_{\text{TR}}$. Las filas y columnas son bloques de control, no variables de interés experimental directo, por lo que usualmente no se reportan sus estadísticos $F$.
+\end{observacion}
+
+\subsection{Cuadrados grecolatinos}
+
+Cuando existe una \textbf{tercera} fuente de variabilidad extraña conocida (además de las dos ya controladas por filas y columnas), el \textbf{cuadrado grecolatino} extiende la idea del cuadrado latino superponiendo un segundo arreglo de letras (tradicionalmente griegas: $\alpha, \beta, \gamma, \ldots$) sobre el mismo cuadrado $n \times n$.
+
+\begin{definicion}[Cuadrado grecolatino]
+	Un \emph{cuadrado grecolatino} de orden $n$ consiste en dos cuadrados latinos \textbf{ortogonales} superpuestos: uno con letras latinas ($A, B, C, \ldots$, el factor de tratamiento principal) y otro con letras griegas ($\alpha, \beta, \gamma, \ldots$, un cuarto factor controlado), de modo que cada combinación (letra latina, letra griega) aparece exactamente una vez en todo el arreglo. Se dice que los dos cuadrados son \emph{ortogonales} porque cada par (letra latina, letra griega) coincide en exactamente una celda.
+\end{definicion}
+
+\begin{observacion}[Condición de existencia]
+	No existen cuadrados grecolatinos ortogonales de orden $n=6$ (resultado célebre conjeturado por Euler en 1782 y probado en 1900); para todo otro $n \geq 3$ sí existen. En la práctica, los cuadrados grecolatinos se usan casi exclusivamente para $n \geq 3$, $n \neq 6$.
+\end{observacion}
+
+El modelo estadístico paramétrico añade un cuarto término al modelo del cuadrado latino:
+\begin{align}
+	Y_{ijkl} = \mu + \rho_i + \gamma_j + \tau_k + \delta_l + \epsilon_{ijkl},
+	\label{eq:modelo_cuadrado_grecolatino}
+\end{align}
+donde $\delta_l$ es el efecto del factor griego $l$ (con $i,j,k,l = 1,\ldots,n$). La Suma de Cuadrados Total se descompone ahora en cinco fuentes ortogonales:
+\begin{align}
+	\text{SCT} = \text{SC}_{\text{filas}} + \text{SC}_{\text{columnas}} + \text{SCTR} + \text{SC}_{\text{griego}} + \text{SCE},
+\end{align}
+con $\nu_{\text{filas}} = \nu_{\text{columnas}} = \nu_{\text{TR}} = \nu_{\text{griego}} = n-1$ y $\nu_E = (n-1)(n-3)$ grados de libertad para el error residual, sobre un total de $n^2 - 1$.
+
+\begin{observacion}
+	Cada fuente de bloqueo adicional (fila, columna, factor griego) que efectivamente explica variabilidad real reduce el Cuadrado Medio del Error y, por lo tanto, aumenta la potencia de la prueba $F$ sobre los tratamientos —el mismo principio de bloqueo del DBCA, aplicado ahora a tres fuentes de ruido simultáneas en lugar de una sola.
+\end{observacion}
+

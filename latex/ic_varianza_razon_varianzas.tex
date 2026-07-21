@@ -1,0 +1,34 @@
+\section{Estimación de la varianza y razón de dos varianzas}
+
+En muchas aplicaciones estadísticas, la variabilidad de un proceso es tan trascendental como su promedio. Por ejemplo, en el control de calidad, en finanzas cuantitativas (donde la varianza mide el riesgo o volatilidad del activo) o al verificar los supuestos del ANOVA y la regresión lineal.
+
+\begin{teorema}[Intervalo de confianza para una varianza poblacional $\sigma^2$]
+	Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria de tamaño $n$ de una población distribuida normalmente con media $\mu$ y varianza $\sigma^2$. El estadístico muestral:
+	\begin{align}
+		\chi^2 = \frac{(n-1)S^2}{\sigma^2}
+	\end{align}
+	sigue una distribución chi-cuadrada ($\chi^2$) con $n-1$ grados de libertad.
+
+	Por lo tanto, un intervalo de confianza del $(1-\alpha)100\%$ para la varianza poblacional $\sigma^2$ (y sacando raíz cuadrada para la desviación estándar $\sigma$) se obtiene despejando los cuantiles de la distribución $\chi^2$:
+	\begin{align}
+		\frac{(n-1)S^2}{\chi^2_{\alpha/2, \, n-1}} \leq \sigma^2 \leq \frac{(n-1)S^2}{\chi^2_{1-\alpha/2, \, n-1}},
+	\end{align}
+	donde $\chi^2_{\alpha/2, n-1}$ y $\chi^2_{1-\alpha/2, n-1}$ son los cuantiles superior e inferior de la distribución chi-cuadrada que dejan un área en las colas derechas de $\alpha/2$ y $1-\alpha/2$, respectivamente.
+\end{teorema}
+
+\begin{teorema}[Intervalo de confianza para la razón de dos varianzas $\sigma_1^2 / \sigma_2^2$]
+	Sean dos muestras aleatorias independientes de tamaños $n_1$ y $n_2$ provenientes de poblaciones normales independientes con varianzas $\sigma_1^2$ y $\sigma_2^2$. El cociente de las varianzas muestrales estandarizadas:
+	\begin{align}
+		F = \frac{S_1^2 / \sigma_1^2}{S_2^2 / \sigma_2^2} = \left(\frac{S_1^2}{S_2^2}\right)\left(\frac{\sigma_2^2}{\sigma_1^2}\right)
+	\end{align}
+	sigue una distribución $F$ de Snedecor con $\nu_1 = n_1 - 1$ grados de libertad en el numerador y $\nu_2 = n_2 - 1$ grados de libertad en el denominador.
+
+	El intervalo de confianza del $(1-\alpha)100\%$ para el cociente de varianzas poblacionales $\frac{\sigma_1^2}{\sigma_2^2}$ es:
+	\begin{align}
+		\frac{S_1^2}{S_2^2} \frac{1}{F_{\alpha/2, \, n_1-1, \, n_2-1}} \leq \frac{\sigma_1^2}{\sigma_2^2} \leq \frac{S_1^2}{S_2^2} \frac{1}{F_{1-\alpha/2, \, n_1-1, \, n_2-1}},
+	\end{align}
+	donde $F_{\alpha/2, \nu_1, \nu_2}$ es el cuantil superior de la distribución $F$.
+
+	Recordando la propiedad de reciprocidad de la distribución $F$, se cumple que $F_{1-\alpha/2, \nu_1, \nu_2} = \frac{1}{F_{\alpha/2, \nu_2, \nu_1}}$, lo que permite simplificar cálculos cuando las tablas estadísticas solo reportan las colas superiores.
+\end{teorema}
+

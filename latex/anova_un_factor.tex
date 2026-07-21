@@ -1,0 +1,49 @@
+\section{Experimentos con un factor: análisis de varianza}
+
+El \textbf{Análisis de Varianza de un factor} (o ANOVA completamente aleatorizado) se utiliza cuando deseamos comparar las medias poblacionales de $k$ tratamientos (o niveles de un único factor) habiendo asignado al azar $N$ unidades experimentales de forma que cada tratamiento $i$ cuenta con $n_i$ réplicas ($N = \sum_{i=1}^k n_i$).
+
+\subsection{Modelo estadístico lineal paramétrico}
+
+Toda observación experimental $Y_{ij}$ (la $j$-ésima réplica bajo el $i$-ésimo tratamiento) se puede expresar formalmente mediante el siguiente modelo paramétrico aditivo:
+\begin{align}
+	Y_{ij} = \mu + \tau_i + \epsilon_{ij}, \quad \text{para } i = 1, 2, \ldots, k \text{ y } j = 1, 2, \ldots, n_i,
+	\label{eq:modelo_anova1}
+\end{align}
+donde:
+\begin{itemize}
+	\item $\mu$ es la media general o global de toda la población de observaciones.
+	\item $\tau_i = \mu_i - \mu$ es el \textbf{efecto específico del tratamiento $i$}, que mide cuánto se desvía la media real del tratamiento $i$ ($\mu_i$) respecto al promedio general $\mu$. Por construcción matemática, la suma ponderada de los efectos de los tratamientos es nula: $\sum_{i=1}^k n_i \tau_i = 0$.
+	\item $\epsilon_{ij}$ es el término del error experimental aleatorio asociado a la observación $(i,j)$, el cual se asume distribuido de forma normal, independiente e idénticamente distribuida con media cero y varianza constante $\sigma^2$:
+	\begin{align}
+		\epsilon_{ij} \sim N(0, \sigma^2) \quad \text{i.i.d.}
+	\end{align}
+\end{itemize}
+
+Bajo esta formulación, el objetivo fundamental del ANOVA de un factor es contrastar la hipótesis nula de que ningún tratamiento tiene un efecto diferencial sobre la variable respuesta:
+\begin{align}
+	H_0&: \tau_1 = \tau_2 = \ldots = \tau_k = 0 \quad \Longleftrightarrow \quad \mu_1 = \mu_2 = \ldots = \mu_k, \\
+	H_a&: \tau_i \neq 0 \text{ para al menos un tratamiento } i \quad (\text{al menos una media poblacional difiere}).
+\end{align}
+
+\subsection{Descomposición fundamental de la suma de cuadrados}
+
+La brillante conceptualización de Fisher para resolver el problema comparativo consiste en \textbf{particionar la varianza total} del conjunto de datos en dos componentes aditivos perfectamente diferenciados: la variabilidad atribuible a las diferencias \emph{entre} los tratamientos y la variabilidad debida al error experimental aleatorio \emph{dentro} de cada tratamiento.
+
+\begin{teorema}[Teorema de partición de la suma de cuadrados en ANOVA de un factor]
+	Sea $\bar{Y}_{i.} = \frac{1}{n_i}\sum_{j=1}^{n_i} Y_{ij}$ la media muestral del tratamiento $i$, y sea $\bar{Y}_{..} = \frac{1}{N}\sum_{i=1}^k \sum_{j=1}^{n_i} Y_{ij}$ la media general de todas las $N$ observaciones. La \textbf{Suma de Cuadrados Total ($\text{SCT}$)} del experimento satisface la siguiente igualdad exacta:
+	\begin{align}
+		\sum_{i=1}^k \sum_{j=1}^{n_i} (Y_{ij} - \bar{Y}_{..})^2 = \sum_{i=1}^k n_i (\bar{Y}_{i.} - \bar{Y}_{..})^2 + \sum_{i=1}^k \sum_{j=1}^{n_i} (Y_{ij} - \bar{Y}_{i.})^2,
+		\label{eq:particion_suma_cuadrados}
+	\end{align}
+	que expresamos abreviadamente como:
+	\begin{align}
+		\text{SCT} = \text{SCTR} + \text{SCE},
+	\end{align}
+	donde:
+	\begin{itemize}
+		\item $\text{SCT} = \sum_{i=1}^k \sum_{j=1}^{n_i} (Y_{ij} - \bar{Y}_{..})^2$ es la Suma de Cuadrados Total (mide la dispersión global de todos los datos respecto al gran promedio, con $\nu_T = N - 1$ grados de libertad).
+		\item $\text{SCTR} = \sum_{i=1}^k n_i (\bar{Y}_{i.} - \bar{Y}_{..})^2$ es la \textbf{Suma de Cuadrados del Tratamiento} (mide la dispersión entre las medias de los grupos y la media general ponderada por sus tamaños muestrales, con $\nu_{\text{TR}} = k - 1$ grados de libertad).
+		\item $\text{SCE} = \sum_{i=1}^k \sum_{j=1}^{n_i} (Y_{ij} - \bar{Y}_{i.})^2 = \sum_{i=1}^k (n_i - 1) S_i^2$ es la \textbf{Suma de Cuadrados del Error o residual} (mide la dispersión interna de las observaciones respecto a la media de su propio tratamiento, con $\nu_E = N - k$ grados de libertad).
+	\end{itemize}
+\end{teorema}
+

@@ -1,0 +1,211 @@
+\section{Distribuciones muestrales de medias}
+
+La distribuci\'on muestral de la media es fundamental para la inferencia estad\'istica.
+Su tratamiento detallado se realiza en la secci\'on \ref{sec:3.4}; aqu\'i resumimos
+los resultados principales.
+
+Si $X_1, X_2, \ldots, X_n$ son variables aleatorias independientes e id\'enticamente
+distribuidas (iid) con media $\mu$ y varianza $\sigma^2$, y $\bar{X} = \frac{1}{n}\sum X_i$,
+entonces
+\begin{align}
+ \label{eq:3.2.7}
+ E(\bar{X}) &= \mu, \\
+ \label{eq:3.2.8}
+ \text{Var}(\bar{X}) &= \frac{\sigma^2}{n}, \\
+ \label{eq:3.2.9}
+ \text{DE}(\bar{X}) &= \frac{\sigma}{\sqrt{n}}.
+\end{align}
+
+Adem\'as, por el Teorema del L\'imite Central, cuando $n$ es suficientemente grande,
+\begin{align}
+ \label{eq:3.2.10}
+ \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1).
+\end{align}
+
+\begin{observacion}
+La distribuci\'on exacta de $\bar{X}$ es \emph{normal} si la poblaci\'on original es
+normal, y aproximadamente normal para $n$ grande en otros casos. Esta diferencia es
+crucial: en el primer caso hablamos de $Z$ exacto; en el segundo, de $Z$ aproximado.
+\end{observacion}
+
+
+
+\subsection{Estad\'isticos y Varianza Muestral Insesgada}
+
+\begin{definicion}[Estad\'istico]
+Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria simple (variables iid) de una
+poblaci\'on. Un \emph{estad\'istico} es cualquier funci\'on $T = g(X_1, \ldots, X_n)$
+de la muestra que no depende de par\'ametros poblacionales desconocidos. Todo
+estad\'istico es, a su vez, una variable aleatoria con su propia distribuci\'on de
+probabilidad, llamada \emph{distribuci\'on muestral} de $T$.
+\end{definicion}
+
+La media muestral $\bar{X}$ es el estad\'istico m\'as usado; el segundo m\'as
+importante es la \emph{varianza muestral}.
+
+\begin{definicion}[Varianza muestral]
+ \label{eq:5.1.1}
+Dada una muestra aleatoria simple $X_1, \ldots, X_n$ con media muestral $\bar{X}$, la
+\emph{varianza muestral} se define como
+\begin{align}
+ S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2.
+\end{align}
+\end{definicion}
+
+\begin{observacion}[¿Por qu\'e dividir entre $n-1$ y no entre $n$?]
+El divisor $n-1$ (conocido como \emph{correcci\'on de Bessel}) no es arbitrario: es
+precisamente el que hace que $S^2$ sea un \emph{estimador insesgado} de la varianza
+poblacional $\sigma^2$, como se demuestra a continuaci\'on.
+\end{observacion}
+
+\begin{teorema}[Insesgadez de la varianza muestral]
+ \label{eq:5.1.2}
+Si $X_1, \ldots, X_n$ son iid con media $\mu$ y varianza $\sigma^2 < \infty$, entonces
+\begin{align}
+ E(S^2) = \sigma^2.
+\end{align}
+\end{teorema}
+
+\begin{proof}
+Escribimos la suma de cuadrados centrada en $\bar{X}$ en t\'erminos de la media
+poblacional $\mu$, sumando y restando $\mu$:
+\begin{align}
+ \sum_{i=1}^n (X_i - \bar{X})^2
+ &= \sum_{i=1}^n \left[(X_i - \mu) - (\bar{X} - \mu)\right]^2 \\
+ &= \sum_{i=1}^n (X_i - \mu)^2 - 2(\bar{X}-\mu)\sum_{i=1}^n(X_i-\mu) + n(\bar{X}-\mu)^2 \\
+ &= \sum_{i=1}^n (X_i - \mu)^2 - n(\bar{X}-\mu)^2,
+\end{align}
+donde usamos que $\sum_{i=1}^n (X_i - \mu) = n(\bar{X}-\mu)$. Tomando esperanza y
+usando $E[(X_i-\mu)^2] = \sigma^2$ para cada $i$, y
+$E[(\bar{X}-\mu)^2] = \text{Var}(\bar{X}) = \sigma^2/n$:
+\begin{align}
+ E\left[\sum_{i=1}^n (X_i - \bar{X})^2\right] = n\sigma^2 - n\cdot\frac{\sigma^2}{n}
+ = (n-1)\sigma^2.
+\end{align}
+Dividiendo entre $n-1$:
+\begin{align}
+ E(S^2) = E\left[\frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2\right]
+ = \frac{(n-1)\sigma^2}{n-1} = \sigma^2. \qedhere
+\end{align}
+\end{proof}
+
+\begin{observacion}[El estimador ``natural'' es sesgado]
+El estimador que divide entre $n$ en lugar de $n-1$, $\hat{\sigma}^2 =
+\frac{1}{n}\sum(X_i-\bar{X})^2 = \frac{n-1}{n}S^2$, \emph{subestima}
+sistem\'aticamente la varianza poblacional:
+\begin{align}
+ E(\hat{\sigma}^2) = \frac{n-1}{n}\sigma^2 < \sigma^2.
+\end{align}
+Intuitivamente, $\bar{X}$ est\'a, por construcci\'on, m\'as cerca de cada $X_i$ que la
+media poblacional desconocida $\mu$, por lo que la suma de cuadrados alrededor de
+$\bar{X}$ subestima la dispersi\'on real; dividir entre $n-1$ en lugar de $n$
+(``perdiendo un grado de libertad'' por haber estimado $\mu$ con $\bar{X}$) corrige
+exactamente ese sesgo.
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:5.1.1}
+Una muestra aleatoria simple de tama\~no $n=5$ produce las observaciones
+$\{12, 15, 11, 18, 14\}$. Calcule la media muestral $\bar{X}$ y la varianza muestral
+insesgada $S^2$.
+\end{ejemplo}
+
+\begin{solucion}
+La media muestral es
+\begin{align}
+ \bar{X} = \frac{12+15+11+18+14}{5} = \frac{70}{5} = 14.
+\end{align}
+Las desviaciones al cuadrado son $(12-14)^2=4$, $(15-14)^2=1$, $(11-14)^2=9$,
+$(18-14)^2=16$, $(14-14)^2=0$, con suma $30$. Por lo tanto,
+\begin{align}
+ S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i-\bar{X})^2 = \frac{30}{4} = 7.5.
+\end{align}
+\end{solucion}
+
+
+
+\subsection{Teorema del Límite Central: Convergencia Asintótica}
+
+\begin{definicion}[Convergencia en distribuci\'on]
+Una sucesi\'on de variables aleatorias $Y_n$ \emph{converge en distribuci\'on} a $Y$
+(escrito $Y_n \xrightarrow{d} Y$) si $F_{Y_n}(y) \to F_Y(y)$ en todo punto de
+continuidad de $F_Y$.
+\end{definicion}
+
+\begin{teorema}[Teorema del L\'imite Central (Lindeberg--L\'evy)]
+ \label{eq:5.2.1}
+Sean $X_1, X_2, \ldots$ variables aleatorias iid con media $\mu$ y varianza
+$\sigma^2 < \infty$. Entonces
+\begin{align}
+ Z_n = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1)
+ \quad \text{cuando } n \to \infty.
+\end{align}
+\end{teorema}
+
+\begin{proof}[Bosquejo de la demostraci\'on v\'ia FGM]
+Suponga que $M_{X_1}(t)$ existe en un entorno de $t=0$. La FGM de $Z_n$ es
+\begin{align}
+ M_{Z_n}(t) = e^{-\mu t \sqrt{n}/\sigma}\left[M_{X_1}\!\left(\frac{t}{\sigma\sqrt{n}}\right)\right]^n.
+\end{align}
+Expandiendo $\log M_{X_1}(s)$ en serie de Taylor alrededor de $s=0$:
+\begin{align}
+ \log M_{X_1}(s) = \mu s + \frac{\sigma^2 s^2}{2} + O(s^3).
+\end{align}
+Sustituyendo $s = t/(\sigma\sqrt{n})$ y multiplicando por $n$:
+\begin{align}
+ \log M_{Z_n}(t) = n\left[\frac{\mu t}{\sigma\sqrt{n}} + \frac{t^2}{2n} + O(n^{-3/2})\right]
+ - \frac{\mu t\sqrt{n}}{\sigma} = \frac{t^2}{2} + O(n^{-1/2}) \;\longrightarrow\; \frac{t^2}{2}.
+\end{align}
+Por lo tanto $M_{Z_n}(t) \to e^{t^2/2}$, la FGM de $N(0,1)$; por el teorema de
+unicidad y continuidad de L\'evy, $Z_n \xrightarrow{d} N(0,1)$.
+\end{proof}
+
+\begin{observacion}[Independencia de la distribuci\'on original]
+El resultado no depende de la forma de la distribuci\'on de $X_i$ (discreta,
+continua, sim\'etrica, asim\'etrica) --- solo requiere media y varianza finitas.
+Esta universalidad es la raz\'on por la que el TLC es la piedra angular de la
+inferencia estad\'istica cl\'asica.
+\end{observacion}
+
+\subsubsection{Tasa de convergencia: el teorema de Berry--Esseen}
+
+El TLC garantiza convergencia cuando $n \to \infty$, pero no indica qu\'e tan
+r\'apido. El siguiente resultado cuantifica el error de la aproximaci\'on normal
+para $n$ finito.
+
+\begin{teorema}[Berry--Esseen]
+ \label{eq:5.2.2}
+Sean $X_1,\ldots,X_n$ iid con $E|X_i-\mu|^3 = \rho < \infty$. Existe una constante
+universal $C$ (se sabe que $C < 0.5$) tal que
+\begin{align}
+ \sup_z \left|F_{Z_n}(z) - \Phi(z)\right| \le \frac{C\rho}{\sigma^3\sqrt{n}}.
+\end{align}
+\end{teorema}
+
+\begin{observacion}[La regla pr\'actica $n \ge 30$]
+El teorema de Berry--Esseen confirma que el error de la aproximaci\'on normal
+decae como $O(1/\sqrt{n})$: cuadruplicar $n$ reduce el error m\'aximo a la mitad.
+La popular regla ``$n \ge 30$'' es una heur\'istica razonable para poblaciones
+moderadamente sim\'etricas con momentos finitos, pero distribuciones muy
+asim\'etricas o con colas pesadas (es decir, con $\rho$ grande) requieren $n$
+mayores para alcanzar el mismo nivel de precisi\'on.
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:5.2.1}
+El tiempo de servicio en un \emph{call center} sigue una distribuci\'on
+exponencial con media $\mu = 1/\lambda = 4$ minutos y desviaci\'on est\'andar
+$\sigma = 4$. Se toma una muestra de $n=64$ llamadas. ¿Cu\'al es la probabilidad
+aproximada de que el tiempo promedio de servicio exceda $4.5$ minutos?
+\end{ejemplo}
+
+\begin{solucion}
+Por el TLC, $\bar{X}_{64} \approx N(4, \sigma^2/n) = N(4, 16/64) = N(4, 0.25)$, con
+desviaci\'on est\'andar $\text{DE}(\bar{X}) = 0.5$.
+\begin{align}
+ P(\bar{X} > 4.5) \approx P\!\left(Z > \frac{4.5-4}{0.5}\right) = P(Z>1) = 1-\Phi(1)
+ \approx 0.1587.
+\end{align}
+\end{solucion}
+
+

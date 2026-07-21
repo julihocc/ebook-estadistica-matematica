@@ -1,0 +1,53 @@
+\section{Distribuciones de probabilidad de funciones de variable aleatoria}
+
+Esta subsecci\'on generaliza los resultados anteriores al caso en que $Y$ es una
+funci\'on (no necesariamente mon\'otona) de $X$ o de varias variables.
+
+\subsection{Caso de una variable}
+
+Cuando $g$ no es mon\'otona, hay que considerar todas las preim\'agenes de cada
+valor $y$. La f\'ormula general es
+\begin{align}
+ \label{eq:3.2.5}
+ f_Y(y) = \sum_{x \in g^{-1}(y)} f_X(x) \cdot \left|\frac{dx}{dy}\right|
+ = \sum_{x: g(x) = y} \frac{f_X(x)}{|g'(x)|}.
+\end{align}
+
+\begin{observacion}
+La condici\'on $|g'(x)| \neq 0$ en cada $x \in g^{-1}(y)$ garantiza que la
+transformaci\'on es localmente invertible en cada preimagen.
+\end{observacion}
+
+\subsection{Caso de varias variables}
+
+Si $(X_1, \ldots, X_n)$ tiene densidad conjunta $f_{X_1, \ldots, X_n}$ y
+$Y = g(X_1, \ldots, X_n)$, la densidad de $Y$ se obtiene integrando la densidad
+conjunta sobre el conjunto de nivel $g(x_1, \ldots, x_n) = y$:
+\begin{align}
+ \label{eq:3.2.6}
+ f_Y(y) = \int \cdots \int_{g(x_1, \ldots, x_n) = y} f_{X_1, \ldots, X_n}(x_1, \ldots, x_n)
+ 	\cdot \frac{dS}{|\nabla g|},
+\end{align}
+donde $dS$ es el elemento de \'area sobre la superficie de nivel y $\nabla g$ es
+el gradiente de $g$.
+
+\begin{ejemplo}
+ \label{exmp:3.2.5}
+Si $X_1, X_2 \sim \text{Exp}(1)$ son independientes, encuentre la distribuci\'on de
+$Y = X_1 + X_2$.
+\end{ejemplo}
+
+\begin{solucion}
+La funci\'on de densidad conjunta es $f(x_1, x_2) = e^{-(x_1+x_2)}$ para
+$x_1, x_2 > 0$. La suma $Y = X_1 + X_2$ se obtiene integrando sobre la l\'inea
+$x_1 + x_2 = y$:
+\begin{align}
+ f_Y(y) &= \int_0^y e^{-(x_1 + (y-x_1))}\,dx_1 = \int_0^y e^{-y}\,dx_1 = y\,e^{-y}, \quad y > 0.
+\end{align}
+
+Esta es la densidad Erlang con par\'ametro de forma $2$, o equivalentemente
+$\text{Gamma}(2, 1)$. Generalizando, la suma de $n$ exponenciales iid es
+$\text{Gamma}(n, 1)$ (ver secci\'on 2.11).
+\end{solucion}
+
+

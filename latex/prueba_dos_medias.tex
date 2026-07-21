@@ -1,0 +1,62 @@
+En las secciones precedentes de este capítulo sentamos las bases filosóficas y procedimentales de la docimasia estadística: formulamos la hipótesis nula ($H_0$) y alternativa ($H_a$), analizamos los errores de Tipo I ($\alpha$) y Tipo II ($\beta$), y estudiamos las pruebas clásicas $Z$ y $t$ para una sola media. Asimismo, introdujimos la prueba $\chi^2$ para verificar la bondad de ajuste de una distribución y para contrastar la independencia entre dos variables categóricas en una misma población.
+
+En la práctica empírica de la ciencia de datos, la analítica experimental y el diseño industrial, el investigador se enfrenta continuamente a preguntas comparativas y multidimensionales: ¿Es el algoritmo $A$ significativamente más rápido que el algoritmo $B$? ¿Difiere la tasa de clics o conversión en tres segmentos demográficos distintos? ¿La introducción de un nuevo sensor aumenta la estabilidad (reduce la varianza) del sistema?
+
+En esta sección desarrollamos de manera completa y rigurosa la teoría y metodología para contrastar hipótesis relativas a dos medias, una y dos proporciones, y una y dos varianzas.
+
+\section{Pruebas sobre dos medias}
+
+Al comparar las medias poblacionales de dos grupos ($\mu_1$ y $\mu_2$), contrastamos una hipótesis nula de la forma:
+\begin{align}
+	H_0: \mu_1 - \mu_2 = \Delta_0,
+\end{align}
+donde $\Delta_0$ es la diferencia hipotética (en la gran mayoría de las investigaciones comparativas se postula que no existe diferencia inicial, es decir, $\Delta_0 = 0 \implies \mu_1 = \mu_2$).
+
+La hipótesis alternativa ($H_a$) puede adoptar tres formas, determinando la estructura de la región de rechazo:
+\begin{itemize}
+	\item \textbf{Prueba de dos colas:} $H_a: \mu_1 - \mu_2 \neq \Delta_0$.
+	\item \textbf{Prueba de cola izquierda:} $H_a: \mu_1 - \mu_2 < \Delta_0$.
+	\item \textbf{Prueba de cola derecha:} $H_a: \mu_1 - \mu_2 > \Delta_0$.
+\end{itemize}
+
+El estadístico de prueba a emplear depende de si las varianzas poblacionales son conocidas o desconocidas y de si las muestras son independientes o pareadas.
+
+\begin{teorema}[Caso 1: Muestras independientes con varianzas poblacionales conocidas]
+	Sean dos muestras aleatorias independientes de tamaños $n_1$ y $n_2$ provenientes de poblaciones normales con medias $\mu_1, \mu_2$ y varianzas conocidas $\sigma_1^2, \sigma_2^2$. (Si $n_1, n_2 \geq 30$, la normalidad poblacional no es estrictamente necesaria por el Teorema del Límite Central). Bajo la hipótesis nula $H_0: \mu_1 - \mu_2 = \Delta_0$, el estadístico estandarizado:
+	\begin{align}
+		Z = \frac{(\bar{X}_1 - \bar{X}_2) - \Delta_0}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}
+	\end{align}
+	sigue exactamente una distribución normal estándar $N(0,1)$. Rechazamos $H_0$ al nivel de significancia $\alpha$ si $|Z| > Z_{\alpha/2}$ (dos colas), $Z < -Z_\alpha$ (cola izquierda) o $Z > Z_\alpha$ (cola derecha).
+\end{teorema}
+
+\begin{teorema}[Caso 2: Muestras independientes con varianzas desconocidas pero iguales (Homoscedasticidad)]
+	Cuando $\sigma_1^2, \sigma_2^2$ son desconocidas pero se puede asumir razonablemente que son iguales ($\sigma_1^2 = \sigma_2^2 = \sigma^2$), estimamos la varianza común mediante la varianza muestral combinada $S_p^2$:
+	\begin{align}
+		S_p^2 = \frac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 - 2}.
+	\end{align}
+	El estadístico de prueba bajo $H_0: \mu_1 - \mu_2 = \Delta_0$ es:
+	\begin{align}
+		t = \frac{(\bar{X}_1 - \bar{X}_2) - \Delta_0}{S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}},
+	\end{align}
+	el cual sigue una distribución $t$ de Student con $\nu = n_1 + n_2 - 2$ grados de libertad.
+\end{teorema}
+
+\begin{teorema}[Caso 3: Muestras independientes con varianzas desconocidas y diferentes (Welch)]
+	Si las varianzas poblacionales son desconocidas y notablemente distintas ($\sigma_1^2 \neq \sigma_2^2$), no podemos combinar las varianzas muestrales. El estadístico de prueba es:
+	\begin{align}
+		t = \frac{(\bar{X}_1 - \bar{X}_2) - \Delta_0}{\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}}},
+	\end{align}
+	cuya distribución muestral se aproxima de manera excelente mediante la distribución $t$ de Student con los grados de libertad de Welch-Satterthwaite:
+	\begin{align}
+		\nu = \frac{\left( \frac{S_1^2}{n_1} + \frac{S_2^2}{n_2} \right)^2}{\frac{\left(S_1^2/n_1\right)^2}{n_1 - 1} + \frac{\left(S_2^2/n_2\right)^2}{n_2 - 1}}.
+	\end{align}
+\end{teorema}
+
+\begin{definicion}[Caso 4: Muestras pareadas o dependientes]
+	Cuando las mediciones de los dos grupos se realizan sobre los mismos sujetos o unidades experimentales apareadas ($X_{1i}, X_{2i}$), se define la variable diferencia $D_i = X_{1i} - X_{2i}$. El contraste sobre $\mu_1 - \mu_2$ se transforma en una prueba $t$ de una sola muestra sobre la media de las diferencias $\mu_D$. Bajo $H_0: \mu_D = \Delta_0$:
+	\begin{align}
+		t = \frac{\bar{D} - \Delta_0}{S_D / \sqrt{n}},
+	\end{align}
+	donde $\bar{D} = \frac{1}{n}\sum D_i$ y $S_D = \sqrt{\frac{1}{n-1}\sum (D_i - \bar{D})^2}$. El estadístico sigue una distribución $t$ de Student con $\nu = n - 1$ grados de libertad.
+\end{definicion}
+

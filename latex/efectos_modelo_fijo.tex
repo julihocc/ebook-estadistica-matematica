@@ -1,0 +1,98 @@
+\section{Análisis de efectos de modelo fijo}
+
+Al dividir cada suma de cuadrados entre sus respectivos grados de libertad se obtienen los \textbf{Cuadrados Medios ($\text{CM}$)}, que representan varianzas muestrales insesgadas bajo diferentes condiciones poblacionales:
+\begin{align}
+	\text{CMTR} &= \frac{\text{SCTR}}{k - 1}, \\
+	\text{CME} &= \frac{\text{SCE}}{N - k}.
+\end{align}
+
+Para comprender la lógica del estadístico de prueba del ANOVA, debemos analizar la \textbf{esperanza matemática de los cuadrados medios}:
+\begin{align}
+	E(\text{CME}) &= \sigma^2, \\
+	E(\text{CMTR}) &= \sigma^2 + \frac{\sum_{i=1}^k n_i \tau_i^2}{k - 1}.
+	\label{eq:esperanza_cmtr}
+\end{align}
+La ecuación (\ref{eq:esperanza_cmtr}) es reveladora:
+\begin{itemize}
+	\item Si la hipótesis nula $H_0$ es \textbf{verdadera} ($\tau_i = 0$ para todo $i$), entonces el segundo término se anula y tenemos que $E(\text{CMTR}) = \sigma^2$. En consecuencia, tanto $\text{CMTR}$ como $\text{CME}$ son estimadores independientes de la misma varianza poblacional $\sigma^2$, y su cociente rondará teóricamente el valor $1.0$.
+	\item Si la hipótesis nula es \textbf{falsa} (existen tratamientos con $\tau_i \neq 0$), el término $\frac{\sum n_i \tau_i^2}{k-1}$ será estrictamente positivo ($\sum n_i \tau_i^2 > 0$). Por tanto, $E(\text{CMTR}) > \sigma^2$, provocando que el cociente $\text{CMTR} / \text{CME}$ sea significativamente mayor a $1.0$.
+\end{itemize}
+
+\begin{teorema}[Estadístico de prueba $F$ en ANOVA]
+	Bajo los supuestos del modelo paramétrico y suponiendo verdadera la hipótesis nula $H_0: \tau_i = 0$, el estadístico de prueba:
+	\begin{align}
+		F = \frac{\text{CMTR}}{\text{CME}} = \frac{\text{SCTR} / (k - 1)}{\text{SCE} / (N - k)}
+	\end{align}
+	sigue una distribución $F$ de Fisher-Snedecor con $\nu_1 = k - 1$ grados de libertad en el numerador y $\nu_2 = N - k$ grados de libertad en el denominador.
+
+	Rechazamos la hipótesis nula $H_0$ al nivel de significancia $\alpha$ si y solo si el valor observado del estadístico excede el cuantil crítico superior de la distribución:
+	\begin{align}
+		F > F_{\alpha, \, k-1, \, N-k}.
+	\end{align}
+\end{teorema}
+
+Todos los cálculos y componentes computacionales del procedimiento se sintetizan de forma clara y estandarizada en la \textbf{Tabla de ANOVA de un factor} (Tabla \ref{tab:anova_un_factor}).
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Fuente de Variación} & \textbf{Suma de Cuadrados (SC)} & \textbf{g.l. ($\nu$)} & \textbf{Cuadrado Medio (CM)} & \textbf{Estadístico $F$} \\ \hline
+		Tratamientos (Entre) & $\text{SCTR} = \sum n_i (\bar{Y}_{i.} - \bar{Y}_{..})^2$ & $k - 1$ & $\text{CMTR} = \frac{\text{SCTR}}{k - 1}$ & $F = \frac{\text{CMTR}}{\text{CME}}$ \\ [1.5ex]
+		Error (Dentro) & $\text{SCE} = \sum (n_i - 1) S_i^2$ & $N - k$ & $\text{CME} = \frac{\text{SCE}}{N - k}$ & \\ [1.5ex] \hline
+		\textbf{Total} & $\text{SCT} = \sum \sum (Y_{ij} - \bar{Y}_{..})^2$ & $N - 1$ & & \\ \hline
+	\end{tabular}
+	\caption{Tabla general del Análisis de Varianza de un factor (ANOVA completamente aleatorizado).}
+	\label{tab:anova_un_factor}
+\end{table}
+
+\section*{Comparaciones múltiples y pruebas post-hoc}
+
+Cuando la prueba global $F$ del ANOVA es estadísticamente significativa y rechazamos $H_0$, sabemos con certeza inferencial que \textbf{al menos un tratamiento difiere en media de los demás}, pero la tabla ANOVA por sí sola no especifica \emph{cuáles} pares de tratamientos son los responsables de dicha significancia. Para identificar los pares exactos de diferencias sin incurrir en la explosión de falsos positivos ($\alpha$ global), debemos aplicar procedimientos post-hoc de comparación múltiple.
+
+\subsection*{Diferencia Mínima Significativa de Fisher (LSD)}
+
+El procedimiento \textbf{LSD de Fisher (\emph{Least Significant Difference})} es la extensión natural de la prueba $t$ de Student para comparar dos medias grupales post-ANOVA. En lugar de utilizar la varianza combinada particular de los dos grupos bajo comparación ($S_p^2$), el procedimiento aprovecha toda la información del experimento utilizando la estimación global de la varianza del error obtenida del ANOVA ($\text{CME}$ con $N-k$ grados de libertad).
+
+\begin{teorema}[Criterio LSD de Fisher]
+	Dos medias muestrales de tratamientos ($\bar{Y}_{i.}$ y $\bar{Y}_{j.}$) con tamaños muestrales $n_i$ y $n_j$ se declaran significativamente diferentes al nivel $\alpha$ si la diferencia absoluta entre ellas excede la Diferencia Mínima Significativa:
+	\begin{align}
+		|\bar{Y}_{i.} - \bar{Y}_{j.}| > \text{LSD} = t_{\alpha/2, \, N-k} \sqrt{\text{CME} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)},
+	\end{align}
+	donde $t_{\alpha/2, N-k}$ es el cuantil superior de la distribución $t$ de Student con los grados de libertad del error del ANOVA ($N-k$).
+\end{teorema}
+
+\begin{observacion}
+	El método LSD es potente (baja probabilidad de error Tipo II), pero \textbf{no controla la tasa de error experimental por familia (FWER)} ante un número elevado de tratamientos ($k > 3$). Por ello, los científicos de datos y experimentadores rigurosos prefieren el método HSD de Tukey.
+\end{observacion}
+
+\subsection*{Diferencia Honestamente Significativa de Tukey (HSD)}
+
+El procedimiento \textbf{HSD de Tukey (\emph{Honestly Significant Difference})} fue diseñado específicamente para comparar simultáneamente todos los pares posibles de tratamientos garantizando que la probabilidad global de cometer al menos un falso positivo en todo el conjunto de comparaciones sea estrictamente menor o igual a $\alpha$ ($\text{FWER} \leq \alpha$).
+
+El método utiliza la distribución del \textbf{rango estandarizado ($q$)}, que modela la distribución muestral de la diferencia entre el valor máximo y mínimo de un conjunto de $k$ medias muestrales independientes e idénticamente distribuidas.
+
+\begin{teorema}[Criterio HSD de Tukey para tamaños de muestra iguales]
+	Si cada uno de los $k$ tratamientos cuenta con exactamente el mismo número de réplicas ($n_1 = n_2 = \ldots = n_k = n$), dos tratamientos $i$ y $j$ difieren significativamente al nivel de significancia global $\alpha$ si:
+	\begin{align}
+		|\bar{Y}_{i.} - \bar{Y}_{j.}| > \text{HSD} = q_{\alpha, \, k, \, N-k} \sqrt{\frac{\text{CME}}{n}},
+		\label{eq:tukey_hsd}
+	\end{align}
+	donde $q_{\alpha, k, N-k}$ es el valor crítico en las tablas del rango estandarizado para $k$ tratamientos y $N-k$ grados de libertad en el error.
+\end{teorema}
+
+\begin{teorema}[Extensión de Tukey-Kramer para muestras de tamaño desigual]
+	Cuando los tamaños muestrales no son balanceados ($n_i \neq n_j$), la generalización rigurosa de Kramer adapta el criterio reemplazando el tamaño muestral constante por la media armónica de los tamaños del par en comparación:
+	\begin{align}
+		|\bar{Y}_{i.} - \bar{Y}_{j.}| > \text{HSD}_{ij} = \frac{q_{\alpha, \, k, \, N-k}}{\sqrt{2}} \sqrt{\text{CME} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)}.
+	\end{align}
+\end{teorema}
+
+\subsection*{Corrección de Bonferroni}
+
+La \textbf{corrección de Bonferroni} es un método post-hoc universal, simple y conservador basado en la desigualdad de Boole para probabilidades de eventos intersecados. Si el investigador planea realizar $m = \binom{k}{2}$ comparaciones por pares y desea mantener el nivel de confianza familiar global en al menos $(1-\alpha)100\%$, el nivel de significancia individual para cada prueba particular par a par se ajusta dividiendo el nivel nominal entre el número total de comparaciones:
+\begin{align}
+	\alpha^* = \frac{\alpha}{m} = \frac{\alpha}{\binom{k}{2}}.
+\end{align}
+Dos medias se declaran significativamente diferentes si $|t_{ij}| > t_{\alpha^*/2, N-k}$, o bien si su diferencia supera el margen crítico $t_{\alpha/(2m), N-k} \sqrt{\text{CME}(\frac{1}{n_i}+\frac{1}{n_j})}$.
+

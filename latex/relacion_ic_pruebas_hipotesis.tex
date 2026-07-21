@@ -1,0 +1,29 @@
+\section{Relación entre intervalos de confianza y pruebas de hipótesis}
+\label{sec:relacion-ic-pruebas}
+
+La regla de decisión basada en el valor p es:
+
+\begin{itemize}
+	\item Si $p\text{-valor} \leq \alpha$: \textbf{Rechazar} $H_0$
+	\item Si $p\text{-valor} > \alpha$: \textbf{No rechazar} $H_0$
+\end{itemize}
+
+\begin{observacion}
+	``No rechazar $H_0$'' no es lo mismo que ``aceptar $H_0$''. Simplemente significa que no hay suficiente evidencia para rechazarla.
+\end{observacion}
+
+Existe además una equivalencia exacta entre una prueba de hipótesis de dos colas y un intervalo de confianza: ambos procedimientos usan el mismo valor crítico ($z_{\alpha/2}$ o $t_{\alpha/2}$, según el caso) para separar los valores del parámetro que son ``compatibles'' con los datos observados de los que no lo son.
+
+\begin{teorema}[Equivalencia entre intervalos de confianza y pruebas de dos colas]
+	Sea un intervalo de confianza del $(1-\alpha)100\%$ para un parámetro $\theta$, construido a partir de una muestra. Para la prueba de hipótesis de dos colas $H_0: \theta = \theta_0$ contra $H_a: \theta \neq \theta_0$ al nivel de significación $\alpha$, se cumple:
+	\begin{align}
+		\label{eq:6.2.1}
+		\text{Rechazar } H_0 \text{ al nivel } \alpha \quad \Longleftrightarrow \quad \theta_0 \notin \text{IC}_{(1-\alpha)100\%}.
+	\end{align}
+	Es decir, rechazamos la hipótesis nula si y solo si el valor hipotético $\theta_0$ cae \emph{fuera} del intervalo de confianza.
+\end{teorema}
+
+\begin{observacion}
+	Esta equivalencia es una consecuencia directa de que ambos procedimientos comparan la misma distancia estandarizada $(\hat{\theta}-\theta_0)/SE(\hat{\theta})$ contra el mismo valor crítico. Por ejemplo, para una media con $\sigma$ conocida, el intervalo $\bar{X} \pm Z_{\alpha/2}\,\sigma/\sqrt{n}$ excluye a $\mu_0$ exactamente cuando $|\bar{X}-\mu_0|/(\sigma/\sqrt{n}) > Z_{\alpha/2}$, que es precisamente la región de rechazo de la prueba $Z$ de dos colas al nivel $\alpha$. En la práctica, esto permite usar un único intervalo de confianza para responder simultáneamente ``¿en qué rango está el parámetro?'' y ``¿es $\theta_0$ un valor plausible?'', sin tener que ejecutar ambos procedimientos por separado.
+\end{observacion}
+

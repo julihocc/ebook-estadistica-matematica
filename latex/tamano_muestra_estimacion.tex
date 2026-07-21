@@ -1,0 +1,42 @@
+\section{Estimación del tamaño de una muestra}
+
+Uno de los interrogantes de mayor impacto económico y computacional en la ciencia de datos experimental es: \emph{¿cuántos datos necesitamos?} Tomar una muestra demasiado pequeña puede hacer que el estudio carezca de poder para detectar efectos reales, mientras que una muestra excesivamente grande desperdicia recursos financieros, tiempo e infraestructura computacional.
+
+Para determinar el tamaño muestral $n$ adecuado antes de recolectar los datos, debemos especificar tres elementos:
+\begin{enumerate}
+	\item El \textbf{nivel de confianza nominal $(1-\alpha)$}, que determina el valor crítico ($Z_{\alpha/2}$ o $t_{\alpha/2}$).
+	\item El \textbf{margen de error máximo tolerable ($E$)}, que representa la mitad de la longitud deseada del intervalo de confianza.
+	\item Una \textbf{estimación previa de la dispersión o variabilidad poblacional} ($\sigma$ para medias, o una proporción esperada $p^*$ para proporciones).
+\end{enumerate}
+
+\begin{teorema}[Tamaño de muestra para estimar una media poblacional $\mu$]
+	Al estimar la media de una población normal o bajo el Teorema del Límite Central, el margen de error del intervalo de confianza es $E = Z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$. Despejando $n$, obtenemos el tamaño de muestra requerido:
+	\begin{align}
+		n = \left( \frac{Z_{\alpha/2} \cdot \sigma}{E} \right)^2.
+		\label{eq:n_media}
+	\end{align}
+	Si la varianza poblacional $\sigma^2$ se desconoce, se puede obtener una estimación preliminar mediante: (a) un estudio piloto previo con una muestra pequeña ($n_0 \approx 30$) para usar la desviación estándar muestral $s$; o (b) la regla empírica del rango ($\sigma \approx \frac{\text{Rango estimado}}{4}$ si la población es aproximadamente normal). Siempre que el resultado no sea un número entero, el valor calculado se redondea \emph{hacia el entero superior siguiente} para garantizar que el margen de error final sea menor o igual a $E$.
+\end{teorema}
+
+\begin{teorema}[Tamaño de muestra para estimar una proporción poblacional $p$]
+	El margen de error para una proporción poblacional utilizando la aproximación normal es $E = Z_{\alpha/2} \sqrt{\frac{p(1-p)}{n}}$. Despejando $n$, obtenemos:
+	\begin{align}
+		n = \left( \frac{Z_{\alpha/2}}{E} \right)^2 p^* (1 - p^*),
+		\label{eq:n_proporcion}
+	\end{align}
+	donde $p^*$ es una estimación a priori de la proporción real.
+
+	\textbf{Caso conservador (sin información previa):} Si no se dispone de ningún dato preliminar sobre el valor probable de $p$, debemos protegernos ante el peor de los casos en cuanto a variabilidad. La función cuadrática $g(p) = p(1-p)$ alcanza su valor máximo absoluto en $p = 0.5$, donde $g(0.5) = 0.5 \times 0.5 = 0.25$. Sustituyendo este máximo en la ecuación anterior, obtenemos la fórmula más segura y conservadora:
+	\begin{align}
+		n_{\text{max}} = \frac{Z_{\alpha/2}^2}{4 E^2}.
+		\label{eq:n_conservador}
+	\end{align}
+\end{teorema}
+
+\begin{observacion}
+	Cuando la población total de estudio es de tamaño finito y relativamente pequeño (denotado por $N$), y la muestra calculada por las fórmulas anteriores representa más del $5\%$ de la población ($n / N > 0.05$), debemos aplicar el \emph{Factor de Corrección por Población Finita} (FCPF). El tamaño muestral ajustado $n_a$ es:
+	\begin{align}
+		n_a = \frac{n}{1 + \frac{n-1}{N}}.
+	\end{align}
+	Este ajuste reduce la cantidad de observaciones requeridas sin sacrificar la precisión estipulada.
+\end{observacion}

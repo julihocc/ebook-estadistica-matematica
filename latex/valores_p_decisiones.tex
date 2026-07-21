@@ -1,0 +1,97 @@
+\section{Uso de los valores P para la toma de decisiones}
+
+\subsection{Nivel de significación}
+
+El \emph{nivel de significación} $\alpha$ es la probabilidad máxima aceptable de cometer un error tipo I. Valores comunes son:
+\begin{itemize}
+	\item $\alpha = 0.10$ (10\%) - Nivel de significación bajo
+	\item $\alpha = 0.05$ (5\%) - Nivel de significación estándar
+	\item $\alpha = 0.01$ (1\%) - Nivel de significación alto
+\end{itemize}
+
+\begin{observacion}
+	La elección de $\alpha$ depende del contexto y de las consecuencias de cometer un error tipo I. En aplicaciones médicas o de seguridad, se suelen usar niveles de significación más estrictos ($\alpha = 0.01$ o menor).
+\end{observacion}
+
+\subsection{Valor p}
+
+El \emph{valor p} (p-valor) es la probabilidad de obtener un resultado al menos tan extremo como el observado, asumiendo que la hipótesis nula es verdadera.
+
+\begin{definicion}[Valor p]
+	El valor p es:
+	\begin{align}
+		p\text{-valor} = P(\text{Estadístico} \geq \text{valor observado} | H_0 \text{ es verdadera})
+	\end{align}
+	para pruebas de cola derecha, o el área correspondiente según el tipo de prueba.
+\end{definicion}
+
+\subsection{Ejemplo completo}
+
+Una empresa afirma que el tiempo promedio de entrega de sus productos es de 3 días. Un cliente sospecha que el tiempo es mayor y toma una muestra de $n = 36$ entregas, obteniendo $\bar{x} = 3.5$ días con $s = 1.2$ días.
+
+\textbf{Paso 1: Formular hipótesis}
+\begin{align}
+	H_0: \mu &= 3 \text{ días} \\
+	H_a: \mu &> 3 \text{ días}
+\end{align}
+
+\textbf{Paso 2: Elegir nivel de significación}
+\begin{align}
+	\alpha = 0.05
+\end{align}
+
+\textbf{Paso 3: Calcular estadístico de prueba}
+
+Como $n = 36 \geq 30$, usamos la prueba Z:
+\begin{align}
+	Z = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} = \frac{3.5 - 3}{1.2/\sqrt{36}} = \frac{0.5}{0.2} = 2.5
+\end{align}
+
+\textbf{Paso 4: Calcular valor p}
+\begin{align}
+	p\text{-valor} = P(Z > 2.5) = 1 - \Phi(2.5) \approx 0.0062
+\end{align}
+
+\textbf{Paso 5: Tomar decisión}
+
+Como $p\text{-valor} = 0.0062 < 0.05 = \alpha$, rechazamos $H_0$.
+
+\textbf{Conclusión:} Hay evidencia estadística suficiente al nivel de significación del 5\% para afirmar que el tiempo promedio de entrega es mayor a 3 días.
+
+\subsection{Interpretación de resultados}
+
+Es crucial interpretar correctamente los resultados:
+
+\begin{itemize}
+	\item \textbf{Rechazar $H_0$:} Hay evidencia estadística suficiente para apoyar la hipótesis alternativa.
+
+	\item \textbf{No rechazar $H_0$:} No hay evidencia estadística suficiente para apoyar la hipótesis alternativa. Esto no significa que $H_0$ sea verdadera, solo que no pudimos demostrar lo contrario.
+\end{itemize}
+
+\subsection{Consideraciones importantes}
+
+\begin{enumerate}
+	\item \textbf{Tamaño de muestra:} Muestras más grandes proporcionan mayor potencia para detectar diferencias reales.
+
+	\item \textbf{Significancia estadística vs. práctica:} Un resultado puede ser estadísticamente significativo pero no prácticamente relevante.
+
+	\item \textbf{Supuestos:} Las pruebas de hipótesis asumen que se cumplen ciertos supuestos (normalidad, independencia, etc.).
+
+	\item \textbf{Errores múltiples:} Realizar muchas pruebas aumenta la probabilidad de cometer al menos un error tipo I.
+\end{enumerate}
+
+\subsection{Resumen del procedimiento}
+
+El procedimiento general para una prueba de hipótesis es:
+
+\begin{enumerate}
+	\item Formular $H_0$ y $H_a$
+	\item Elegir el nivel de significación $\alpha$
+	\item Seleccionar el estadístico de prueba apropiado
+	\item Calcular el valor del estadístico con los datos muestrales
+	\item Determinar el valor p o la región crítica
+	\item Tomar decisión: rechazar o no rechazar $H_0$
+	\item Interpretar el resultado en el contexto del problema
+\end{enumerate}
+
+En las siguientes secciones estudiaremos pruebas específicas para medias (pruebas Z y t), proporciones, y otras situaciones comunes.

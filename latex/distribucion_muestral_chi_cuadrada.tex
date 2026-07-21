@@ -1,0 +1,91 @@
+\section{Distribución $\chi^2$}
+
+La distribuci\'on $\chi^2$ aparece al sumar cuadrados de normales est\'andar. Su
+tratamiento detallado se realiza en la secci\'on \ref{sec:3.9}; aqu\'i presentamos
+los resultados esenciales.
+
+\begin{definicion}[Distribuci\'on $\chi^2$]
+Sean $Z_1, Z_2, \ldots, Z_\nu$ variables aleatorias independientes con $Z_i \sim N(0,1)$.
+La variable aleatoria
+\begin{align}
+ \label{eq:3.2.11}
+ \chi^2_\nu = \sum_{i=1}^\nu Z_i^2
+\end{align}
+sigue una distribuci\'on \emph{chi-cuadrada} con $\nu$ grados de libertad.
+\end{definicion}
+
+{Propiedades}
+\begin{itemize}
+ \item Media: $E(\chi^2_\nu) = \nu$.
+ \item Varianza: $\text{Var}(\chi^2_\nu) = 2\nu$.
+ \item Como caso particular de la familia gamma (secci\'on 2.11),
+ $\chi^2_\nu = \text{Gamma}\!\left(\frac{\nu}{2}, 2\right)$.
+ \item Reproductividad: si $\chi^2_{\nu_1}$ y $\chi^2_{\nu_2}$ son independientes,
+ $\chi^2_{\nu_1} + \chi^2_{\nu_2} \sim \chi^2_{\nu_1 + \nu_2}$.
+\end{itemize}
+
+\begin{observacion}
+La distribuci\'on $\chi^2$ surge naturalmente al estimar la varianza de una poblaci\'on
+normal. Si $X_1, \ldots, X_n$ son normales iid y $S^2$ es la varianza muestral,
+entonces
+\begin{align}
+ \frac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}.
+\end{align}
+Este resultado es la base de los intervalos de confianza para $\sigma^2$ y de la
+prueba chi-cuadrada de bondad de ajuste.
+\end{observacion}
+
+\begin{definicion}[Densidad de la chi-cuadrada]
+ \label{eq:5.3.1}
+Como caso particular de la distribuci\'on gamma con $\alpha=\nu/2$ y $\beta=2$, la
+funci\'on de densidad de $\chi^2_\nu$ es
+\begin{align}
+ f(x) = \frac{1}{2^{\nu/2}\Gamma(\nu/2)}\,x^{\nu/2-1}e^{-x/2}, \qquad x > 0.
+\end{align}
+\end{definicion}
+
+\begin{teorema}[Teorema de Fisher]
+ \label{eq:5.3.2}
+Sean $X_1, \ldots, X_n$ variables aleatorias iid con $X_i \sim N(\mu, \sigma^2)$, con
+media muestral $\bar{X}$ y varianza muestral $S^2$. Entonces:
+\begin{enumerate}
+ \item $\bar{X}$ y $S^2$ son \emph{independientes};
+ \item $\dfrac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}$.
+\end{enumerate}
+\end{teorema}
+
+\begin{observacion}[Idea de la demostraci\'on]
+La independencia de $\bar{X}$ y $S^2$ es un resultado sorprendente: aunque $S^2$ se
+calcula a partir de las desviaciones $(X_i-\bar{X})$, que dependen de $\bar{X}$, el
+vector de desviaciones resulta ser estad\'isticamente independiente de $\bar{X}$
+cuando la poblaci\'on es normal. La demostraci\'on formal usa una transformaci\'on
+ortogonal del vector $(X_1,\ldots,X_n)$ que separa la direcci\'on de $\bar{X}$
+(un solo grado de libertad) de las $n-1$ direcciones ortogonales restantes, cada una
+capturando informaci\'on independiente de $\bar X$; la suma de cuadrados en esas
+$n-1$ direcciones es exactamente $(n-1)S^2$, lo que explica tanto la independencia
+como los $n-1$ grados de libertad (este es un caso particular del \emph{teorema de
+Cochran}).
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:5.3.1}
+El contenido de las latas de refresco de una embotelladora sigue
+$N(\mu, \sigma^2=4)$ (en mililitros, con $\sigma=2$). Se toma una muestra de $n=10$
+latas y se calcula $S^2 = 7.2$. ¿Cu\'al es el valor del estad\'istico
+$(n-1)S^2/\sigma^2$, y qu\'e tan extremo es este valor comparado con la distribuci\'on
+$\chi^2_9$ (cuyo valor esperado es $9$)?
+\end{ejemplo}
+
+\begin{solucion}
+El estad\'istico es
+\begin{align}
+ \frac{(n-1)S^2}{\sigma^2} = \frac{9 \cdot 7.2}{4} = \frac{64.8}{4} = 16.2.
+\end{align}
+Como $16.2 > 9 = E(\chi^2_9)$, la varianza muestral observada es mayor de lo
+esperado bajo $\sigma^2=4$. Usando tablas de $\chi^2_9$, el valor cr\'itico al
+$95\%$ es $\chi^2_{9,0.95} \approx 16.92$; como $16.2 < 16.92$, el valor no es lo
+suficientemente extremo para rechazar $\sigma^2=4$ a nivel $\alpha=0.05$ (aunque
+est\'a cerca del umbral).
+\end{solucion}
+
+
