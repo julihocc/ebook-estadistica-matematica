@@ -1,0 +1,82 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:9b48fd0}
+	Enuncie, sin usar ningún dato numérico, la definición del cociente (índice) de dispersión $D = s^2/\bar{x}$ para datos de conteo, y qué valor de referencia de $D$ corresponde a la equidispersión de Poisson.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:65ac238}
+	Un dataset de $n=500$ clientes tiene $\bar{x}=3.2$ transacciones mensuales y $s^2=12.5$. Sin realizar ninguna prueba de hipótesis formal, explique por qué un cociente de dispersión $D=s^2/\bar{x}\approx3.91$ indica que el modelo Poisson es estructuralmente inadecuado, y qué gana el modelo al pasar a una Binomial Negativa.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:486b84f}
+	Un equipo de analítica web monitorea $n=100$ anuncios; los clics observados en una hora tienen media muestral $\bar{x}=4.2$ y varianza muestral $s^2=8.7$.
+	\begin{enumerate}
+		\item Calcule el MLE de Poisson $\hat{\lambda}$ bajo el supuesto de equidispersión.
+		\item Calcule el cociente de dispersión $D=s^2/\bar{x}$ e interprete si los datos exhiben sobredispersión, sub-dispersión o equidispersión.
+	\end{enumerate}
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:8fd9d7f}
+	Considere la Binomial Negativa parametrizada con $p=r/(r+\lambda)$, de modo que $\lambda=r(1-p)/p$ se mantiene fijo. Demuestre analíticamente que, en el límite $r\to\infty$, la PMF de la Binomial Negativa converge a la PMF de Poisson($\lambda$), y discuta la implicación práctica para la selección entre ambos modelos cuando el MLE $\hat{r}$ resulta muy grande.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:395bc31}
+	Una plataforma de streaming ajusta un modelo de Poisson y un modelo de Binomial Negativa (por máxima verosimilitud) a $200$ observaciones con $\bar{x}=8.5$ y $s^2=9.8$, obteniendo $\hat{r}\approx55.6$ para la Binomial Negativa. Evalúe, con base en el principio de parsimonia y el cociente de dispersión $s^2/\bar{x}\approx1.15$, cuál modelo es preferible, considerando que la Binomial Negativa siempre puede ajustar la log-verosimilitud tan bien o mejor que la Poisson por tener un parámetro adicional.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:a28b8e6}
+	Diseñe un ejemplo original de ciencia de datos (contexto, tamaño de muestra $n$, media muestral $\bar{x}$ y varianza muestral $s^2$ hipotéticas) en el que deba decidirse entre un modelo de Poisson y uno de Binomial Negativa para datos de conteo. Calcule el cociente de dispersión para sus datos y justifique cuál modelo recomendaría.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}
+	El cociente de dispersión es $D = s^2/\bar{x}$, la razón entre la varianza muestral y la media muestral de un conteo. Bajo equidispersión de Poisson, teóricamente $\text{Var}(X)=\mathbb{E}[X]=\lambda$, por lo que el valor de referencia es $D\approx1$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}
+	El modelo Poisson impone rígidamente $\text{Var}(X)=\mathbb{E}[X]$, es decir, $D=1$ por construcción. Un valor observado $D\approx3.91$ significa que la varianza real es casi $4$ veces mayor que la media: existe variabilidad adicional que la Poisson, al tener un solo parámetro que controla simultáneamente media y varianza, no puede representar. La Binomial Negativa introduce un segundo parámetro ($r$) que desacopla la varianza de la media ($\text{Var}(X)=\mu+\mu^2/r$), permitiendo capturar explícitamente esa sobredispersión sin forzar los datos a un modelo demasiado rígido.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}
+	\begin{enumerate}
+		\item $\hat{\lambda} = \bar{x} = 4.2$.
+		\item $D = s^2/\bar{x} = 8.7/4.2 \approx 2.07 \gg 1$: los datos exhiben sobredispersión significativa (la varianza empírica duplica la media), por lo que la Poisson pura es estructuralmente inadecuada.
+	\end{enumerate}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}
+	Con $\comb{k+r-1}{k} = \dfrac{r(r+1)\cdots(r+k-1)}{k!} \approx \dfrac{r^k}{k!}$ para $r$ grande, y sustituyendo $p=r/(r+\lambda)\approx1-\lambda/r$, $1-p\approx\lambda/r$:
+	\begin{align*}
+		P(X=k) \approx \dfrac{r^k}{k!}\left(1-\dfrac{\lambda}{r}\right)^r\left(\dfrac{\lambda}{r}\right)^k \xrightarrow[r\to\infty]{} \dfrac{\lambda^k}{k!}e^{-\lambda},
+	\end{align*}
+	usando $\lim_{r\to\infty}(1-\lambda/r)^r=e^{-\lambda}$. Esto es la PMF de Poisson($\lambda$). Implicación práctica: si el MLE $\hat{r}$ resulta muy grande, los datos son esencialmente consistentes con equidispersión, y el modelo Binomial Negativa no aporta mejora sustancial sobre la Poisson más simple — conviene preferir esta última por parsimonia.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}
+	Aunque la Binomial Negativa, al tener un parámetro adicional, siempre puede igualar o mejorar la log-verosimilitud de la Poisson, esa mejora debe ser lo suficientemente grande para justificar la complejidad extra. Aquí $\hat{r}\approx55.6$ es muy grande, lo cual —por el resultado analítico anterior— indica que la Binomial Negativa está prácticamente colapsando a una Poisson; y el cociente de dispersión observado, $D\approx1.15$, está muy cerca de $1$, señalando sobredispersión leve. En este caso el modelo \textbf{Poisson es preferible}: la ganancia en ajuste de la Binomial Negativa es marginal y no compensa el costo de un parámetro adicional (criterios como AIC/BIC penalizarían esa complejidad).
+\end{solproblema}
+
+% Crear
+\begin{solproblema}
+	\textbf{Ejemplo:} una aplicación de delivery registra el número de pedidos cancelados por repartidor en una semana, para $n=300$ repartidores, con $\bar{x}=2.1$ y $s^2=6.8$. El cociente de dispersión es $D=s^2/\bar{x}=6.8/2.1\approx3.24\gg1$, indicando sobredispersión fuerte (posiblemente por heterogeneidad entre repartidores: algunos con tasas de cancelación mucho más altas que otros). Se recomendaría un modelo Binomial Negativa en vez de Poisson, ya que este último subestimaría sistemáticamente la probabilidad de repartidores con conteos de cancelación extremos.
+\end{solproblema}

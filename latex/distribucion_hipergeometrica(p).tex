@@ -1,0 +1,91 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:748a77d}
+	Sea una población finita de tamaño $N$ dividida en $K$ éxitos y $N-K$ fracasos, de la cual se extrae una muestra aleatoria de tamaño $n$ \emph{sin reemplazo}. Enuncie, sin derivar, la función de masa de probabilidad $f_X(k)=P(X=k)$ de $X \sim \text{Hiper}(N,K,n)$.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:5e6e8bf}
+	La varianza de $X \sim \text{Hiper}(N,K,n)$ es $\text{Var}(X) = n\dfrac{K}{N}\left(1-\dfrac{K}{N}\right)\left(\dfrac{N-n}{N-1}\right)$. Explique qué representa el término $\dfrac{N-n}{N-1}$ (Factor de Corrección por Población Finita), y por qué su valor tiende a $1$ cuando $n=1$ pero a $0$ cuando $n=N$.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:1651c98}
+	Una planta ensambladora recibe un lote de $N=30$ tabletas electrónicas, de las cuales $K=6$ son defectuosas. El control de calidad inspecciona una muestra de $n=5$ tabletas sin reemplazo y rechaza el lote si encuentra al menos $2$ defectuosas.
+	\begin{enumerate}
+		\item Calcule $P(X=0)$, la probabilidad de no encontrar ninguna tableta defectuosa en la muestra.
+		\item Calcule la probabilidad de que el lote sea aceptado, $P(X\le1)$.
+	\end{enumerate}
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:64e9a8d}
+	A partir de la descomposición $X=\sum_{i=1}^n I_i$ en variables indicadoras ($I_i\sim\text{Bern}(K/N)$) de un muestreo sin reemplazo:
+	\begin{enumerate}
+		\item Demuestre que para $i\neq j$, $P(I_i=1,I_j=1) = \dfrac{K}{N}\cdot\dfrac{K-1}{N-1}$.
+		\item Deduzca que $\text{Cov}(I_i,I_j) = -\dfrac{K(N-K)}{N^2(N-1)} < 0$, y explique por qué el signo negativo tiene sentido en un muestreo sin reemplazo.
+		\item Use la fórmula general de varianza de una suma de variables correlacionadas para obtener $\text{Var}(X)$.
+	\end{enumerate}
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:7cf587b}
+	Una base de datos municipal contiene $N=2000$ expedientes, de los cuales $K=100$ presentan errores; se extrae una muestra de $n=20$ sin reemplazo. Evalúe si es apropiado aproximar $X\sim\text{Hiper}(2000,100,20)$ por $Y\sim\text{Bin}(20, 0.05)$: verifique la regla empírica $n/N<0.05$, calcule $P(X=2)$ y $P(Y=2)$, y determine si el error absoluto entre ambas es lo suficientemente pequeño para justificar el uso de la aproximación binomial en la práctica.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:969b25a}
+	Diseñe un ejemplo original (tamaño de población $N$, número de elementos "éxito" $K$, y tamaño de muestra $n$) que se modele naturalmente con una distribución Hipergeométrica, distinto de los ejemplos de control de calidad o auditoría ya vistos en esta sección. Plantee la pregunta de probabilidad de interés y calcule $\mathbb{E}[X]$ y $\text{Var}(X)$ para los parámetros que eligió.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}
+	El número de formas de elegir $k$ éxitos de los $K$ disponibles es $\comb{K}{k}$, y $(n-k)$ fracasos de los $N-K$ disponibles es $\comb{N-K}{n-k}$; el total de muestras equiprobables de tamaño $n$ es $\comb{N}{n}$. Por lo tanto $f_X(k) = \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}}$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}
+	El FPCF mide cuánto se reduce la variabilidad muestral respecto al muestreo con reemplazo, debido a que cada extracción sin reemplazo disminuye el conjunto disponible y correlaciona negativamente las extracciones siguientes. Cuando $n=1$ solo hay una extracción, sin ninguna extracción previa que afecte la siguiente, por lo que $\text{FPCF}=\frac{N-1}{N-1}=1$ (coincide con Bernoulli, sin corrección). Cuando $n=N$ se muestrea toda la población (un censo), por lo que no existe incertidumbre muestral y $\text{FPCF}=\frac{0}{N-1}=0$, forzando $\text{Var}(X)=0$.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}
+	Con $N=30$, $K=6$, $N-K=24$, $n=5$:
+	\begin{enumerate}
+		\item $P(X=0) = \dfrac{\comb{6}{0}\comb{24}{5}}{\comb{30}{5}} = \dfrac{42504}{142506} \approx 0.2983$.
+		\item $P(X=1) = \dfrac{\comb{6}{1}\comb{24}{4}}{\comb{30}{5}} = \dfrac{63756}{142506} \approx 0.4474$. Entonces $P(X\le1) = P(X=0)+P(X=1) \approx 0.2983+0.4474 = 0.7457$: el lote se acepta con probabilidad $74.57\%$.
+	\end{enumerate}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}
+	\begin{enumerate}
+		\item Por regla de multiplicación incondicional, $P(I_i=1,I_j=1) = P(I_i=1)P(I_j=1\mid I_i=1) = \dfrac{K}{N}\cdot\dfrac{K-1}{N-1}$ (una vez que un éxito ya fue extraído, quedan $K-1$ éxitos entre $N-1$ elementos restantes).
+		\item $\text{Cov}(I_i,I_j) = \mathbb{E}[I_iI_j]-\mathbb{E}[I_i]\mathbb{E}[I_j] = \dfrac{K(K-1)}{N(N-1)}-\dfrac{K^2}{N^2} = -\dfrac{K(N-K)}{N^2(N-1)}$. El signo es negativo porque, sin reemplazo, extraer un éxito en la posición $i$ reduce la cantidad de éxitos disponibles para la posición $j$: las extracciones "compiten" por los mismos $K$ elementos.
+		\item Con $\text{Var}(I_i)=\frac{K}{N}(1-\frac{K}{N})$ y $n(n-1)$ pares ordenados $i\neq j$:
+		\begin{align*}
+			\text{Var}(X) = n\dfrac{K}{N}\left(1-\dfrac{K}{N}\right) - n(n-1)\dfrac{K(N-K)}{N^2(N-1)} = n\dfrac{K}{N}\left(1-\dfrac{K}{N}\right)\left(\dfrac{N-n}{N-1}\right).
+		\end{align*}
+	\end{enumerate}
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}
+	El cociente muestral es $n/N = 20/2000 = 0.01 = 1\% < 5\%$, cumpliendo ampliamente la regla empírica. Calculando: $P(X=2) = \dfrac{\comb{100}{2}\comb{1900}{18}}{\comb{2000}{20}} \approx 0.189725$ y, con $p=K/N=0.05$, $P(Y=2) = \comb{20}{2}(0.05)^2(0.95)^{18} \approx 0.188677$. El error absoluto es $|0.189725-0.188677| \approx 0.00105$ ($\approx 0.1\%$), suficientemente pequeño para la mayoría de aplicaciones prácticas: la aproximación binomial es apropiada aquí precisamente porque la fracción de muestreo $n/N$ es pequeña, lo que hace que muestrear sin reemplazo altere muy poco las probabilidades marginales de cada extracción.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}
+	\textbf{Ejemplo:} una biblioteca tiene $N=200$ libros en una estantería, de los cuales $K=25$ están mal catalogados. Un bibliotecario revisa una muestra aleatoria de $n=15$ libros sin reemplazo. Pregunta de interés: ¿cuál es la probabilidad de encontrar exactamente $3$ libros mal catalogados en la muestra, $P(X=3)$? Los momentos son $\mathbb{E}[X] = n\frac{K}{N} = 15\left(\frac{25}{200}\right) = 1.875$ y $\text{Var}(X) = 15\left(\frac{25}{200}\right)\left(\frac{175}{200}\right)\left(\frac{200-15}{200-1}\right) = 1.640625\left(\frac{185}{199}\right) \approx 1.5254$.
+\end{solproblema}

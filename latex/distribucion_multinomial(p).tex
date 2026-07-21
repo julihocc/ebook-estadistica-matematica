@@ -1,0 +1,74 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:2499194}
+	Se lanza un dado cúbico justo $n=6$ veces de manera independiente, y $\bm{X}=(X_1,\dots,X_6)$ cuenta cuántas veces sale cada cara. Enuncie, sin calcular ninguna probabilidad concreta, la función de masa de probabilidad conjunta de $\bm{X} \sim \text{Mult}(n,p_1,\dots,p_6)$.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:97df06e}
+	Para $\bm{X}=(X_1,\dots,X_k)\sim\text{Mult}(n,p_1,\dots,p_k)$, se sabe que $\text{Cov}(X_i,X_j) = -np_ip_j < 0$ para $i\neq j$. Sin repetir la derivación algebraica, explique en palabras por qué el signo debe ser necesariamente negativo, usando el hecho de que $\sum_i X_i = n$ es una restricción fija.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:33bf5d2}
+	Una encuesta política se aplica a $n=100$ votantes, cada uno elige entre tres candidatos con probabilidades $p_1=0.45$, $p_2=0.35$, $p_3=0.20$. Calcule la probabilidad de que el candidato 1 reciba exactamente $50$ votos, el candidato 2 reciba $30$ y el candidato 3 reciba $20$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:277341a}
+	Sea $\bm{X}=(X_1,\dots,X_k)\sim\text{Mult}(n,p_1,\dots,p_k)$. Usando la representación $X_i=\sum_{r=1}^n I_r^{(i)}$ (indicadoras de que el ensayo $r$ cae en la categoría $i$), demuestre que $\text{Cov}(X_i,X_j) = -np_ip_j$ para $i\neq j$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:81748ff}
+	Un estudiante argumenta: ``como la marginal de cada componente de un vector multinomial es Binomial ($X_i \sim \text{Bin}(n,p_i)$), entonces $X_1$ y $X_2$ deben ser independientes, porque cada una por separado se comporta como si fuera una binomial simple''. Evalúe esta afirmación usando el resultado $\text{Cov}(X_i,X_j)=-np_ip_j$: ¿es válida la conclusión de independencia? Justifique.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:858a3a8}
+	Diseñe un ejemplo original (contexto, número de categorías $k$, probabilidades $p_1,\dots,p_k$ y tamaño de muestra $n$) que se modele naturalmente con una distribución Multinomial, distinto de los ejemplos de encuestas o manufactura ya vistos en esta sección. Plantee la pregunta de probabilidad de interés y calcule $\mathbb{E}[X_1]$ y $\text{Var}(X_1)$ para la primera categoría.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}
+	$P(X_1=x_1,\dots,X_6=x_6) = \dfrac{n!}{x_1!\cdots x_6!}p_1^{x_1}\cdots p_6^{x_6}$, sujeta a $\sum_{i=1}^6 x_i = n$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}
+	Como el total $\sum_i X_i = n$ está fijo, las componentes no pueden variar libremente: si el conteo de la categoría $i$ resulta por encima de su valor esperado $np_i$ (un "exceso"), forzosamente algún otro conteo $X_j$ debe compensar quedando por debajo de su esperado $np_j$, para que la suma siga siendo exactamente $n$. Esta dependencia estructural, impuesta por la restricción de suma fija, es lo que produce una covarianza negativa entre cualquier par de componentes.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}
+	Con $\bm{X}\sim\text{Mult}(100; 0.45,0.35,0.20)$:
+	\begin{align*}
+		P(X_1=50,X_2=30,X_3=20) = \comb{100}{50,30,20}(0.45)^{50}(0.35)^{30}(0.20)^{20} \approx 4.32\times10^{-18}.
+	\end{align*}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}
+	Con $\text{Cov}(X_i,X_j) = \sum_{r=1}^n\sum_{s=1}^n \text{Cov}(I_r^{(i)}, I_s^{(j)})$: para $r\neq s$ los ensayos son independientes y la covarianza es $0$; para $r=s$, la exclusión mutua implica $I_r^{(i)}I_r^{(j)}=0$, de modo que $\text{Cov}(I_r^{(i)},I_r^{(j)}) = \mathbb{E}[I_r^{(i)}I_r^{(j)}]-\mathbb{E}[I_r^{(i)}]\mathbb{E}[I_r^{(j)}] = 0-p_ip_j = -p_ip_j$. Sumando los $n$ términos diagonales: $\text{Cov}(X_i,X_j) = n(-p_ip_j) = -np_ip_j$.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}
+	La afirmación es \textbf{incorrecta}. Que cada marginal $X_i$ sea individualmente Binomial no dice nada sobre la relación conjunta entre $X_1$ y $X_2$: la independencia requiere que la distribución conjunta factorice como el producto de las marginales, y aquí eso falla. El resultado $\text{Cov}(X_1,X_2)=-np_1p_2 \neq 0$ (siempre estrictamente negativo mientras $p_1,p_2>0$) demuestra directamente que $X_1$ y $X_2$ \textbf{no} son independientes: distribuciones marginales binomiales son consistentes con múltiples estructuras de dependencia conjunta, y en el caso multinomial esa dependencia es negativa debido a la restricción $\sum_i X_i=n$.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}
+	\textbf{Ejemplo:} un call center clasifica cada llamada recibida en una de $k=4$ categorías (consulta, queja, venta, soporte técnico) con probabilidades $p_1=0.4$, $p_2=0.15$, $p_3=0.25$, $p_4=0.2$. En $n=50$ llamadas recibidas en una hora, sea $\bm{X}=(X_1,X_2,X_3,X_4)$ el vector de conteos. Pregunta de interés: ¿cuál es la probabilidad de recibir exactamente $20$ consultas, $8$ quejas, $12$ ventas y $10$ solicitudes de soporte? Para la primera categoría: $\mathbb{E}[X_1] = np_1 = 50(0.4) = 20$ y $\text{Var}(X_1) = np_1(1-p_1) = 50(0.4)(0.6) = 12$.
+\end{solproblema}
