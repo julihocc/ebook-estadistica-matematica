@@ -1,264 +1,83 @@
-% ==============================================================================
-% SECCIÓN 07.01: FUNDAMENTOS DE PRUEBAS DE HIPÓTESIS ($H_0$ VS $H_1$, ERRORES Y POTENCIA)
-% ==============================================================================
+\section*{Problemas}
 
-\subsection*{Enunciados de los problemas --- Sección 07.01}
+\subsection*{Enunciados de los problemas}
 
-\subsubsection*{Nivel Fundamental}
-
+% Recordar
 \begin{problema}
-	\label{prob:7.1.1}
-	Un fabricante de baterías afirma que la vida media de su producto es de $\mu_0 = 500$ horas. Un laboratorio independiente sospecha que la vida media real es \emph{menor}. Formule las hipótesis nula ($H_0$) y alternativa ($H_a$), e identifique si la prueba es de cola izquierda, derecha o de dos colas.
+	\label{prob:ddb67d0}
+	Un fabricante de baterías afirma que la vida media de su producto es de $\mu_0=500$ horas. Un laboratorio independiente sospecha que la vida media real es \emph{menor}. Formule las hipótesis nula ($H_0$) y alternativa ($H_a$), e identifique si la prueba es de cola izquierda, derecha o de dos colas.
 \end{problema}
 
+% Comprender
 \begin{problema}
-	\label{prob:7.1.2}
+	\label{prob:78013c6}
 	Un examen de detección de una enfermedad rara se diseña con $H_0:$ ``el paciente está sano'' contra $H_a:$ ``el paciente está enfermo''. Describa en palabras qué representa el Error Tipo I y el Error Tipo II en este contexto médico específico, y razone cuál de los dos errores tiene consecuencias prácticas más graves.
 \end{problema}
 
+% Aplicar
 \begin{problema}
-	\label{prob:7.1.3}
-	En una prueba de hipótesis de cola derecha se obtiene un valor $p = 0.023$ con un nivel de significación $\alpha = 0.05$. Aplique la regla de decisión basada en el valor $p$ e indique la conclusión formal (rechazar o no rechazar $H_0$).
+	\label{prob:74dc84f}
+	Una cadena de restaurantes afirma que el tiempo promedio de espera es de $\mu_0=12$ minutos. Una muestra de $n=49$ clientes reporta $\bar x=12.9$ minutos con desviación estándar poblacional conocida $\sigma=2.8$ minutos. Formule las hipótesis para una prueba de dos colas, calcule el estadístico $Z$, obtenga el valor $p$ correspondiente, y decida al nivel $\alpha=0.05$.
 \end{problema}
 
-\subsubsection*{Nivel Operativo}
-
+% Analizar
 \begin{problema}
-	\label{prob:7.1.4}
-	Una cadena de restaurantes afirma que el tiempo promedio de espera es de $\mu_0 = 12$ minutos. Una muestra de $n = 49$ clientes reporta $\bar{x} = 12.9$ minutos con desviación estándar poblacional conocida $\sigma = 2.8$ minutos. Formule las hipótesis para una prueba de dos colas, calcule el estadístico $Z$, obtenga el valor $p$ correspondiente, y decida al nivel $\alpha = 0.05$.
+	\label{prob:fad6841}
+	Para la prueba $H_0:\mu=\mu_0$ contra $H_a:\mu>\mu_0$ con $\sigma$ conocida y tamaño de muestra $n$ fijo, deduzca la expresión general de la función de potencia $\text{Pot}(\mu_a)=1-\beta(\mu_a)$ como función del verdadero valor $\mu_a$, expresándola en términos de $\Phi(\cdot)$. Analice el comportamiento de $\text{Pot}(\mu_a)$ en los límites $\mu_a\to\mu_0$ y $\mu_a\to\infty$.
 \end{problema}
 
+% Evaluar
 \begin{problema}
-	\label{prob:7.1.5}
-	Para la prueba $H_0: \mu = 100$ contra $H_a: \mu > 100$ con $\sigma = 15$ conocida y $n = 25$, la región de rechazo al nivel $\alpha = 0.05$ es $\bar{X} > 104.93$. Suponga que el valor real de la media poblacional es $\mu_a = 108$. Calcule la probabilidad del Error Tipo II ($\beta$) y la potencia de la prueba ($1-\beta$).
+	\label{prob:66368eb}
+	Un científico de datos ejecuta $m=20$ pruebas de hipótesis estadísticamente independientes sobre distintas hipótesis nulas verdaderas, cada una al nivel individual $\alpha=0.05$, sin aplicar ninguna corrección. Evalúe esta práctica calculando la Tasa de Error Familiar (FWER) resultante, y proponga y justifique el nivel de significación individual corregido $\alpha^*$ (corrección de Bonferroni) necesario para mantener el FWER global en $0.05$.
 \end{problema}
 
+% Crear
 \begin{problema}
-	\label{prob:7.1.6}
-	Continuando el contexto del Problema \ref{prob:7.1.5} ($\sigma=15$, $\mu_0=100$, $\mu_a=108$, $\alpha=0.05$ de una cola), determine el tamaño de muestra mínimo $n$ necesario para que la prueba alcance una potencia de $1-\beta = 0.90$ (use $Z_{0.10} = 1.282$).
+	\label{prob:d04b6da}
+	Diseñe un ejemplo original (contexto, $H_0$, $H_a$, y un tipo de error más costoso) de una prueba de hipótesis, distinto de los ejemplos de baterías, restaurantes o exámenes médicos ya vistos en esta sección. Formule ambas hipótesis, identifique la dirección de la prueba, y explique cuál error (Tipo I o Tipo II) sería más grave en su contexto y por qué.
 \end{problema}
 
-\subsubsection*{Nivel Analítico}
+\subsection*{Soluciones detalladas}
 
-\begin{problema}
-	\label{prob:7.1.7}
-	Para la prueba $H_0: \mu=\mu_0$ contra $H_a: \mu>\mu_0$ con $\sigma$ conocida y tamaño de muestra $n$ fijo, deduzca la expresión general de la función de potencia $\text{Pot}(\mu_a) = 1-\beta(\mu_a)$ como función del verdadero valor $\mu_a$, expresándola en términos de la función de distribución normal estándar $\Phi(\cdot)$. Analice y justifique el comportamiento de $\text{Pot}(\mu_a)$ en los límites $\mu_a \to \mu_0$ y $\mu_a \to \infty$.
-\end{problema}
+% Recordar
+\begin{solproblema}[prob:ddb67d0]
+	El valor afirmado por el fabricante se toma como hipótesis nula:
+	\begin{align*}
+		H_0: \mu=500\text{ horas}, \qquad H_a: \mu<500\text{ horas}.
+	\end{align*}
+	Como $H_a$ apunta hacia valores menores, es una \textbf{prueba de cola izquierda}.
+\end{solproblema}
 
-\begin{problema}
-	\label{prob:7.1.8}
-	Un científico de datos ejecuta $m = 20$ pruebas de hipótesis estadísticamente independientes sobre distintas hipótesis nulas verdaderas, cada una al nivel individual $\alpha = 0.05$. Deduzca la fórmula general de la Tasa de Error Familiar (\emph{Family-Wise Error Rate}, FWER) —la probabilidad de cometer al menos un Error Tipo I en el conjunto completo de pruebas— y calcule su valor numérico. Proponga y justifique el nivel de significación individual corregido $\alpha^*$ (corrección de Bonferroni) necesario para mantener el FWER global en $0.05$.
-\end{problema}
+% Comprender
+\begin{solproblema}[prob:78013c6]
+	\textbf{Error Tipo I} (rechazar $H_0$ siendo verdadera): el examen declara \emph{enfermo} a un paciente que en realidad está \emph{sano} (falso positivo). \textbf{Error Tipo II} (no rechazar $H_0$ siendo falsa): el examen declara \emph{sano} a un paciente que en realidad está \emph{enfermo} (falso negativo). En el contexto de una enfermedad, el Error Tipo II suele ser el más grave: un paciente enfermo no recibe tratamiento oportuno, con consecuencias potencialmente irreversibles, mientras que un falso positivo usualmente solo implica pruebas de confirmación adicionales.
+\end{solproblema}
 
-\subsubsection*{Nivel Desafiante}
+% Aplicar
+\begin{solproblema}[prob:74dc84f]
+	$H_0:\mu=12$, $H_a:\mu\neq12$. El estadístico es $Z = \dfrac{12.9-12}{2.8/\sqrt{49}} = \dfrac{0.9}{0.4} = 2.25$. El valor $p$ (dos colas) es $p=2(1-\Phi(2.25))=2(0.01222)=0.02444$. Como $p=0.02444<\alpha=0.05$, \textbf{se rechaza} $H_0$: hay evidencia de que el tiempo promedio de espera difiere de 12 minutos.
+\end{solproblema}
 
-\begin{problema}
-	\label{prob:7.1.9}
-	\textbf{Lema de Neyman-Pearson y optimalidad del test $Z$:} Sea $X_1,\ldots,X_n$ una muestra iid $N(\mu,\sigma^2)$ con $\sigma^2$ conocida, y considere el contraste \emph{simple contra simple} $H_0: \mu=\mu_0$ contra $H_a: \mu=\mu_1$ con $\mu_1>\mu_0$ fijo. Usando el Lema de Neyman-Pearson (el test más potente al nivel $\alpha$ rechaza $H_0$ cuando el cociente de verosimilitudes $\Lambda(\mathbf{x})=L(\mu_1)/L(\mu_0)$ excede una constante crítica $k$), demuestre que la región de rechazo óptima se reduce exactamente a $\bar{X} > c$ para alguna constante $c$, es decir, que el test $Z$ usual es \emph{uniformemente más potente} entre todos los tests de nivel $\alpha$ para este contraste.
-\end{problema}
+% Analizar
+\begin{solproblema}[prob:fad6841]
+	La región de rechazo es $\bar X>c$, con $c=\mu_0+Z_\alpha\sigma/\sqrt n$ bajo $H_0$. La función de potencia es:
+	\begin{align*}
+		\text{Pot}(\mu_a) = P(\bar X>c\mid\mu=\mu_a) = 1-\Phi\left(\frac{c-\mu_a}{\sigma/\sqrt n}\right) = 1-\Phi\left(Z_\alpha+\frac{\mu_0-\mu_a}{\sigma/\sqrt n}\right).
+	\end{align*}
+	Cuando $\mu_a\to\mu_0$: el argumento tiende a $Z_\alpha$, así $\text{Pot}(\mu_0)\to1-\Phi(Z_\alpha)=\alpha$ (sin efecto real, la única forma de "rechazar" es cometer un Error Tipo I). Cuando $\mu_a\to\infty$: el argumento tiende a $-\infty$, así $\text{Pot}(\mu_a)\to1$ (ante efectos arbitrariamente grandes, la prueba detecta la desviación con certeza asintótica).
+\end{solproblema}
 
-\begin{problema}
-	\label{prob:7.1.10}
-	\textbf{Derivación rigurosa de la fórmula de tamaño de muestra:} Partiendo estrictamente de las definiciones $\alpha = P(\bar{X} > c \mid \mu=\mu_0)$ y $\beta = P(\bar{X} \le c \mid \mu=\mu_a)$ para una prueba $Z$ de cola derecha con $\sigma$ conocida, deduzca algebraicamente —sin asumirla— la fórmula del tamaño de muestra
-	\begin{align}
-		n = \left( \frac{(Z_\alpha + Z_\beta)\sigma}{\mu_a - \mu_0} \right)^2
-	\end{align}
-	expresando primero el punto crítico $c$ de dos maneras distintas (una a partir de cada ecuación) e igualando ambas expresiones.
-\end{problema}
+% Evaluar
+\begin{solproblema}[prob:66368eb]
+	Bajo independencia entre las $m$ pruebas, la probabilidad de que ninguna cometa un Error Tipo I es $(1-\alpha)^m$, así:
+	\begin{align*}
+		\text{FWER} = 1-(1-0.05)^{20} = 1-(0.95)^{20} \approx1-0.3585 = 0.6415.
+	\end{align*}
+	Aunque cada prueba controla el riesgo individual en apenas $5\%$, la probabilidad de \emph{al menos un} falso positivo en el conjunto es un alarmante $64.15\%$: la práctica sin corrección es \textbf{inadecuada}. La corrección de Bonferroni exige $\alpha^* = \alpha/m = 0.05/20 = 0.0025$ como umbral individual, lo cual acota el FWER combinado en el nivel global deseado ($\text{FWER}\le m\alpha^*=20(0.0025)=0.05$).
+\end{solproblema}
 
-\subsection*{Sugerencias de los problemas --- Sección 07.01}
-
-\begin{sugerencia}
-	\label{sug:7.1.1}
-	Para el Problema \ref{prob:7.1.1}, el valor conocido/afirmado siempre se coloca en $H_0$ como igualdad; la sospecha del laboratorio (``menor'') determina la dirección de $H_a$.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:7.1.2}
-	Para el Problema \ref{prob:7.1.2}, el Error Tipo I ocurre al rechazar $H_0$ siendo verdadera (declarar enfermo a un sano); el Error Tipo II al no rechazar $H_0$ siendo falsa (declarar sano a un enfermo).
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:7.1.3}
-	Para el Problema \ref{prob:7.1.3}, compare directamente $p=0.023$ contra $\alpha=0.05$.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:7.1.4}
-	Para el Problema \ref{prob:7.1.4}, calcule $Z=(\bar x-\mu_0)/(\sigma/\sqrt n)$ y luego el valor $p = 2(1-\Phi(|Z|))$ por ser prueba de dos colas.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:7.1.5}
-	Para el Problema \ref{prob:7.1.5}, $\beta = P(\bar X \le 104.93 \mid \mu=108) = \Phi\left(\dfrac{104.93-108}{15/\sqrt{25}}\right)$.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:7.1.6}
-	Para el Problema \ref{prob:7.1.6}, sustituya $Z_\alpha=1.645$, $Z_\beta=1.282$, $\sigma=15$, $\mu_a-\mu_0=8$ directamente en la fórmula de tamaño de muestra.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:7.1.7}
-	Para el Problema \ref{prob:7.1.7}, escriba la región de rechazo en términos de $\bar X$, luego calcule $P(\bar X > c \mid \mu=\mu_a)$ estandarizando con la verdadera media $\mu_a$; el resultado es $\text{Pot}(\mu_a)=1-\Phi\left(\frac{c-\mu_a}{\sigma/\sqrt n}\right)$.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:7.1.8}
-	Para el Problema \ref{prob:7.1.8}, use independencia: $P(\text{ningún rechazo falso}) = (1-\alpha)^m$, así FWER $=1-(1-\alpha)^m$; para Bonferroni, resuelva $\alpha^* = \alpha/m$.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:7.1.9}
-	Para el Problema \ref{prob:7.1.9}, escriba $\Lambda(\mathbf x)$ explícitamente usando la verosimilitud normal conjunta y simplifique el logaritmo; observe que $\ln\Lambda(\mathbf x) > \ln k$ es equivalente a una desigualdad lineal en $\bar X$ (o en $\sum x_i$).
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:7.1.10}
-	Para el Problema \ref{prob:7.1.10}, despeje $c$ de $\alpha=P(\bar X>c\mid\mu_0)$ como $c=\mu_0+Z_\alpha\sigma/\sqrt n$, despeje $c$ de $\beta = P(\bar X\le c\mid\mu_a)$ como $c=\mu_a - Z_\beta\sigma/\sqrt n$, e iguale ambas expresiones despejando $n$.
-\end{sugerencia}
-
-\subsection*{Soluciones de los problemas --- Sección 07.01}
-
-\begin{solucion}
-	\label{sol:7.1.1}
-	Para el Problema \ref{prob:7.1.1}: El valor afirmado por el fabricante se toma como hipótesis nula:
-	\begin{align}
-		H_0&: \mu = 500 \text{ horas} \\
-		H_a&: \mu < 500 \text{ horas}
-	\end{align}
-	Como la desigualdad de $H_a$ apunta hacia valores menores, se trata de una \textbf{prueba de cola izquierda}. \qedhere
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:7.1.2}
-	Para el Problema \ref{prob:7.1.2}:
-	\begin{itemize}
-		\item \textbf{Error Tipo I} (rechazar $H_0$ siendo verdadera): el examen declara \emph{enfermo} a un paciente que en realidad está \emph{sano} (falso positivo).
-		\item \textbf{Error Tipo II} (no rechazar $H_0$ siendo falsa): el examen declara \emph{sano} a un paciente que en realidad está \emph{enfermo} (falso negativo).
-	\end{itemize}
-	En el contexto de una enfermedad, el Error Tipo II (falso negativo) suele ser el más grave: un paciente enfermo no recibe tratamiento oportuno, con consecuencias potencialmente irreversibles para su salud, mientras que un falso positivo (Error Tipo I) usualmente solo implica pruebas de confirmación adicionales. \qedhere
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:7.1.3}
-	Para el Problema \ref{prob:7.1.3}: Como $p = 0.023 \le \alpha = 0.05$, la regla de decisión indica \textbf{rechazar $H_0$}. Existe evidencia estadística suficiente al nivel de significación del $5\%$ para apoyar $H_a$. \qedhere
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:7.1.4}
-	Para el Problema \ref{prob:7.1.4}:
-	\textbf{Paso 1 (hipótesis):}
-	\begin{align}
-		H_0&: \mu = 12 \\
-		H_a&: \mu \neq 12
-	\end{align}
-	\textbf{Paso 2 (estadístico $Z$):}
-	\begin{align}
-		Z = \frac{\bar x - \mu_0}{\sigma/\sqrt n} = \frac{12.9-12}{2.8/\sqrt{49}} = \frac{0.9}{0.4} = 2.25.
-	\end{align}
-	\textbf{Paso 3 (valor $p$, dos colas):}
-	\begin{align}
-		p\text{-valor} = 2\left(1-\Phi(2.25)\right) = 2(1-0.98778) = 2(0.01222) = 0.02444.
-	\end{align}
-	\textbf{Paso 4 (decisión):} Como $p=0.02444 < \alpha=0.05$, \textbf{se rechaza $H_0$}: existe evidencia estadística de que el tiempo promedio de espera difiere de 12 minutos. \qedhere
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:7.1.5}
-	Para el Problema \ref{prob:7.1.5}: El error estándar es $\sigma/\sqrt n = 15/\sqrt{25}=3$. Calculamos $\beta$ como la probabilidad de no caer en la región de rechazo cuando la media real es $\mu_a=108$:
-	\begin{align}
-		\beta = P(\bar X \le 104.93 \mid \mu=108) = \Phi\left(\frac{104.93-108}{3}\right) = \Phi(-1.023) \approx 0.153.
-	\end{align}
-	La potencia de la prueba es entonces:
-	\begin{align}
-		1-\beta \approx 1-0.153 = 0.847.
-	\end{align}
-	Es decir, si la media real fuera $108$, la prueba detectaría correctamente esta desviación (rechazando $H_0$) en aproximadamente el $84.7\%$ de las repeticiones del experimento. \qedhere
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:7.1.6}
-	Para el Problema \ref{prob:7.1.6}: Aplicamos directamente la fórmula de tamaño de muestra con $Z_\alpha=Z_{0.05}=1.645$, $Z_\beta=Z_{0.10}=1.282$, $\sigma=15$ y $\mu_a-\mu_0=108-100=8$:
-	\begin{align}
-		n = \left(\frac{(1.645+1.282)(15)}{8}\right)^2 = \left(\frac{2.927 \times 15}{8}\right)^2 = \left(\frac{43.905}{8}\right)^2 = (5.488)^2 \approx 30.12.
-	\end{align}
-	Redondeando hacia arriba (siempre se redondea al entero superior para garantizar al menos la potencia deseada), se requiere una muestra de \textbf{$n=31$} observaciones. \qedhere
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:7.1.7}
-	Para el Problema \ref{prob:7.1.7}: La región de rechazo de la prueba de cola derecha es $\bar X > c$, donde $c=\mu_0+Z_\alpha\sigma/\sqrt n$ (fijado bajo $H_0$). La función de potencia es la probabilidad de rechazar $H_0$ cuando la verdadera media es $\mu_a$:
-	\begin{align}
-		\text{Pot}(\mu_a) = P(\bar X > c \mid \mu=\mu_a) = 1-\Phi\left(\frac{c-\mu_a}{\sigma/\sqrt n}\right) = 1-\Phi\left(Z_\alpha + \frac{\mu_0-\mu_a}{\sigma/\sqrt n}\right).
-	\end{align}
-	\textbf{Límite $\mu_a \to \mu_0$:} el argumento de $\Phi$ tiende a $Z_\alpha$, por lo que $\text{Pot}(\mu_0) \to 1-\Phi(Z_\alpha) = \alpha$. Esto confirma que, cuando no existe efecto real, la potencia se reduce exactamente al nivel de significación (la única forma de ``rechazar'' es cometer un Error Tipo I).
-	\textbf{Límite $\mu_a \to \infty$:} el argumento de $\Phi$ tiende a $-\infty$, por lo que $\Phi(\cdot)\to 0$ y $\text{Pot}(\mu_a) \to 1$. Esto confirma que, ante efectos arbitrariamente grandes, la prueba detecta la desviación con certeza asintótica, y que $\text{Pot}(\mu_a)$ es una función estrictamente creciente de $\mu_a$. \qedhere
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:7.1.8}
-	Para el Problema \ref{prob:7.1.8}: Bajo independencia entre las $m$ pruebas, la probabilidad de que \emph{ninguna} de ellas cometa un Error Tipo I (todas las $H_0$ verdaderas se retienen correctamente) es $(1-\alpha)^m$. Por lo tanto:
-	\begin{align}
-		\text{FWER} = 1-(1-\alpha)^m = 1-(1-0.05)^{20} = 1-(0.95)^{20} \approx 1-0.3585 = 0.6415.
-	\end{align}
-	Es decir, aunque cada prueba individual controla el riesgo en apenas un $5\%$, la probabilidad de cometer \emph{al menos un} falso positivo en el conjunto de las 20 pruebas es de un alarmante $64.15\%$.
-	La \textbf{corrección de Bonferroni} exige dividir el nivel de significación global entre el número de pruebas:
-	\begin{align}
-		\alpha^* = \frac{\alpha}{m} = \frac{0.05}{20} = 0.0025.
-	\end{align}
-	Usando $\alpha^*=0.0025$ como umbral individual para cada una de las 20 pruebas, el FWER combinado queda acotado (por la desigualdad de Bonferroni, $\text{FWER} \le m\alpha^* = 20(0.0025)=0.05$) en el nivel global deseado del $5\%$. \qedhere
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:7.1.9}
-	Para el Problema \ref{prob:7.1.9}: La función de verosimilitud conjunta bajo $\mu=\mu_i$ es
-	\begin{align}
-		L(\mu_i) = \left(\frac{1}{\sqrt{2\pi}\sigma}\right)^n \exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^n (x_j-\mu_i)^2\right).
-	\end{align}
-	El cociente de verosimilitudes es:
-	\begin{align}
-		\Lambda(\mathbf x) = \frac{L(\mu_1)}{L(\mu_0)} = \exp\left(-\frac{1}{2\sigma^2}\left[\sum_j(x_j-\mu_1)^2 - \sum_j(x_j-\mu_0)^2\right]\right).
-	\end{align}
-	Expandiendo los cuadrados, los términos $x_j^2$ se cancelan entre ambas sumas, quedando:
-	\begin{align}
-		\sum_j(x_j-\mu_1)^2 - \sum_j(x_j-\mu_0)^2 = -2(\mu_1-\mu_0)\sum_j x_j + n(\mu_1^2-\mu_0^2).
-	\end{align}
-	Por lo tanto:
-	\begin{align}
-		\Lambda(\mathbf x) = \exp\left(\frac{(\mu_1-\mu_0)}{\sigma^2}\sum_j x_j - \frac{n(\mu_1^2-\mu_0^2)}{2\sigma^2}\right) = \exp\left(\frac{n(\mu_1-\mu_0)}{\sigma^2}\bar X - \frac{n(\mu_1^2-\mu_0^2)}{2\sigma^2}\right).
-	\end{align}
-	El Lema de Neyman-Pearson establece que el test más potente rechaza $H_0$ cuando $\Lambda(\mathbf x) > k$ para cierta constante $k$. Tomando logaritmo natural (función estrictamente creciente, preserva la desigualdad):
-	\begin{align}
-		\ln\Lambda(\mathbf x) > \ln k \iff \frac{n(\mu_1-\mu_0)}{\sigma^2}\bar X - \frac{n(\mu_1^2-\mu_0^2)}{2\sigma^2} > \ln k.
-	\end{align}
-	Como $\mu_1 > \mu_0$ por hipótesis, el coeficiente $n(\mu_1-\mu_0)/\sigma^2$ de $\bar X$ es estrictamente positivo, por lo que podemos despejar $\bar X$ sin invertir la desigualdad:
-	\begin{align}
-		\bar X > \underbrace{\frac{\sigma^2 \ln k}{n(\mu_1-\mu_0)} + \frac{\mu_1+\mu_0}{2}}_{=:c}.
-	\end{align}
-	La región de rechazo óptima según Neyman-Pearson es exactamente $\bar X > c$ para alguna constante $c$ —la misma forma estructural que la región de rechazo del test $Z$ usual de cola derecha—. Como esta forma no depende del valor específico de $\mu_1$ (solo de que $\mu_1>\mu_0$), el mismo test es simultáneamente el más potente contra \emph{cualquier} alternativa $\mu_1>\mu_0$, es decir, es \textbf{Uniformemente Más Potente (UMP)} para el contraste compuesto $H_a:\mu>\mu_0$. \qedhere
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:7.1.10}
-	Para el Problema \ref{prob:7.1.10}: Partimos de las dos ecuaciones definitorias del error Tipo I y Tipo II.
-	\textbf{De la ecuación de $\alpha$:} bajo $H_0$, $\bar X \sim N(\mu_0, \sigma^2/n)$, así que estandarizando:
-	\begin{align}
-		\alpha = P(\bar X > c \mid \mu_0) = P\left(Z > \frac{c-\mu_0}{\sigma/\sqrt n}\right) \implies \frac{c-\mu_0}{\sigma/\sqrt n} = Z_\alpha \implies c = \mu_0 + Z_\alpha\frac{\sigma}{\sqrt n}.
-		\label{eq:c1}
-	\end{align}
-	\textbf{De la ecuación de $\beta$:} bajo $H_a$, $\bar X \sim N(\mu_a, \sigma^2/n)$, así que:
-	\begin{align}
-		\beta = P(\bar X \le c \mid \mu_a) = P\left(Z \le \frac{c-\mu_a}{\sigma/\sqrt n}\right) \implies \frac{c-\mu_a}{\sigma/\sqrt n} = -Z_\beta \implies c = \mu_a - Z_\beta\frac{\sigma}{\sqrt n}.
-		\label{eq:c2}
-	\end{align}
-	\textbf{Igualando \eqref{eq:c1} y \eqref{eq:c2}} (ambas expresan el mismo punto crítico $c$):
-	\begin{align}
-		\mu_0 + Z_\alpha\frac{\sigma}{\sqrt n} = \mu_a - Z_\beta\frac{\sigma}{\sqrt n} \implies (Z_\alpha+Z_\beta)\frac{\sigma}{\sqrt n} = \mu_a-\mu_0.
-	\end{align}
-	Despejando $\sqrt n$ y elevando al cuadrado:
-	\begin{align}
-		\sqrt n = \frac{(Z_\alpha+Z_\beta)\sigma}{\mu_a-\mu_0} \implies n = \left(\frac{(Z_\alpha+Z_\beta)\sigma}{\mu_a-\mu_0}\right)^2,
-	\end{align}
-	quedando deducida rigurosamente la fórmula de tamaño de muestra a partir de las definiciones puras de $\alpha$ y $\beta$, sin haberla asumido de antemano. \qedhere
-\end{solucion}
+% Crear
+\begin{solproblema}[prob:d04b6da]
+	\textbf{Ejemplo:} un sistema de detección de fraude en tarjetas de crédito se diseña con $H_0:$ ``la transacción es legítima'' contra $H_a:$ ``la transacción es fraudulenta'' (prueba de una cola, orientada a detectar el evento raro). El Error Tipo I (bloquear una transacción legítima) genera una molestia al cliente y posible pérdida de confianza en el servicio; el Error Tipo II (no detectar una transacción fraudulenta) genera una pérdida financiera directa para el banco o el cliente. En este contexto, el Error Tipo II suele considerarse más grave financieramente, aunque un exceso de Errores Tipo I (demasiados bloqueos falsos) también daña la experiencia del cliente — el diseño del sistema debe balancear ambos costos explícitamente, no minimizar solo uno de ellos.
+\end{solproblema}
