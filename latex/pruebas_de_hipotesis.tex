@@ -22,7 +22,7 @@ Denotamos las hipótesis como:
 
 \begin{ejemplo}
 	Un fabricante de cereales afirma que el peso promedio de sus cajas es de 500 gramos. Un inspector de calidad sospecha que el peso es menor.
-	
+
 	\begin{align}
 		H_0: \mu &= 500 \text{ g} \\
 		H_a: \mu &< 500 \text{ g}
@@ -39,13 +39,13 @@ Dependiendo de la hipótesis alternativa, las pruebas pueden ser:
 		H_0: \mu &= \mu_0 \\
 		H_a: \mu &< \mu_0
 	\end{align}
-	
+
 	\item \textbf{Prueba de cola derecha:}
 	\begin{align}
 		H_0: \mu &= \mu_0 \\
 		H_a: \mu &> \mu_0
 	\end{align}
-	
+
 	\item \textbf{Prueba de dos colas:}
 	\begin{align}
 		H_0: \mu &= \mu_0 \\
@@ -101,129 +101,3 @@ La \emph{potencia} de una prueba no es un valor fijo: depende del tamaño real d
 	Esto formaliza la intuición de que existe un \emph{trade-off} triangular entre el error Tipo I, el error Tipo II y el costo (tamaño de muestra) de un experimento.
 \end{observacion}
 
-\section{Relación entre intervalos de confianza y pruebas de hipótesis}
-\label{sec:relacion-ic-pruebas}
-
-La regla de decisión basada en el valor p es:
-
-\begin{itemize}
-	\item Si $p\text{-valor} \leq \alpha$: \textbf{Rechazar} $H_0$
-	\item Si $p\text{-valor} > \alpha$: \textbf{No rechazar} $H_0$
-\end{itemize}
-
-\begin{observacion}
-	``No rechazar $H_0$'' no es lo mismo que ``aceptar $H_0$''. Simplemente significa que no hay suficiente evidencia para rechazarla.
-\end{observacion}
-
-Existe además una equivalencia exacta entre una prueba de hipótesis de dos colas y un intervalo de confianza: ambos procedimientos usan el mismo valor crítico ($z_{\alpha/2}$ o $t_{\alpha/2}$, según el caso) para separar los valores del parámetro que son ``compatibles'' con los datos observados de los que no lo son.
-
-\begin{teorema}[Equivalencia entre intervalos de confianza y pruebas de dos colas]
-	Sea un intervalo de confianza del $(1-\alpha)100\%$ para un parámetro $\theta$, construido a partir de una muestra. Para la prueba de hipótesis de dos colas $H_0: \theta = \theta_0$ contra $H_a: \theta \neq \theta_0$ al nivel de significación $\alpha$, se cumple:
-	\begin{align}
-		\label{eq:6.2.1}
-		\text{Rechazar } H_0 \text{ al nivel } \alpha \quad \Longleftrightarrow \quad \theta_0 \notin \text{IC}_{(1-\alpha)100\%}.
-	\end{align}
-	Es decir, rechazamos la hipótesis nula si y solo si el valor hipotético $\theta_0$ cae \emph{fuera} del intervalo de confianza.
-\end{teorema}
-
-\begin{observacion}
-	Esta equivalencia es una consecuencia directa de que ambos procedimientos comparan la misma distancia estandarizada $(\hat{\theta}-\theta_0)/SE(\hat{\theta})$ contra el mismo valor crítico. Por ejemplo, para una media con $\sigma$ conocida, el intervalo $\bar{X} \pm Z_{\alpha/2}\,\sigma/\sqrt{n}$ excluye a $\mu_0$ exactamente cuando $|\bar{X}-\mu_0|/(\sigma/\sqrt{n}) > Z_{\alpha/2}$, que es precisamente la región de rechazo de la prueba $Z$ de dos colas al nivel $\alpha$. En la práctica, esto permite usar un único intervalo de confianza para responder simultáneamente ``¿en qué rango está el parámetro?'' y ``¿es $\theta_0$ un valor plausible?'', sin tener que ejecutar ambos procedimientos por separado.
-\end{observacion}
-
-\section{Uso de los valores P para la toma de decisiones}
-
-\subsection{Nivel de significación}
-
-El \emph{nivel de significación} $\alpha$ es la probabilidad máxima aceptable de cometer un error tipo I. Valores comunes son:
-\begin{itemize}
-	\item $\alpha = 0.10$ (10\%) - Nivel de significación bajo
-	\item $\alpha = 0.05$ (5\%) - Nivel de significación estándar
-	\item $\alpha = 0.01$ (1\%) - Nivel de significación alto
-\end{itemize}
-
-\begin{observacion}
-	La elección de $\alpha$ depende del contexto y de las consecuencias de cometer un error tipo I. En aplicaciones médicas o de seguridad, se suelen usar niveles de significación más estrictos ($\alpha = 0.01$ o menor).
-\end{observacion}
-
-\subsection{Valor p}
-
-El \emph{valor p} (p-valor) es la probabilidad de obtener un resultado al menos tan extremo como el observado, asumiendo que la hipótesis nula es verdadera.
-
-\begin{definicion}[Valor p]
-	El valor p es:
-	\begin{align}
-		p\text{-valor} = P(\text{Estadístico} \geq \text{valor observado} | H_0 \text{ es verdadera})
-	\end{align}
-	para pruebas de cola derecha, o el área correspondiente según el tipo de prueba.
-\end{definicion}
-
-\subsection{Ejemplo completo}
-
-Una empresa afirma que el tiempo promedio de entrega de sus productos es de 3 días. Un cliente sospecha que el tiempo es mayor y toma una muestra de $n = 36$ entregas, obteniendo $\bar{x} = 3.5$ días con $s = 1.2$ días.
-
-\textbf{Paso 1: Formular hipótesis}
-\begin{align}
-	H_0: \mu &= 3 \text{ días} \\
-	H_a: \mu &> 3 \text{ días}
-\end{align}
-
-\textbf{Paso 2: Elegir nivel de significación}
-\begin{align}
-	\alpha = 0.05
-\end{align}
-
-\textbf{Paso 3: Calcular estadístico de prueba}
-
-Como $n = 36 \geq 30$, usamos la prueba Z:
-\begin{align}
-	Z = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} = \frac{3.5 - 3}{1.2/\sqrt{36}} = \frac{0.5}{0.2} = 2.5
-\end{align}
-
-\textbf{Paso 4: Calcular valor p}
-\begin{align}
-	p\text{-valor} = P(Z > 2.5) = 1 - \Phi(2.5) \approx 0.0062
-\end{align}
-
-\textbf{Paso 5: Tomar decisión}
-
-Como $p\text{-valor} = 0.0062 < 0.05 = \alpha$, rechazamos $H_0$.
-
-\textbf{Conclusión:} Hay evidencia estadística suficiente al nivel de significación del 5\% para afirmar que el tiempo promedio de entrega es mayor a 3 días.
-
-\subsection{Interpretación de resultados}
-
-Es crucial interpretar correctamente los resultados:
-
-\begin{itemize}
-	\item \textbf{Rechazar $H_0$:} Hay evidencia estadística suficiente para apoyar la hipótesis alternativa.
-	
-	\item \textbf{No rechazar $H_0$:} No hay evidencia estadística suficiente para apoyar la hipótesis alternativa. Esto no significa que $H_0$ sea verdadera, solo que no pudimos demostrar lo contrario.
-\end{itemize}
-
-\subsection{Consideraciones importantes}
-
-\begin{enumerate}
-	\item \textbf{Tamaño de muestra:} Muestras más grandes proporcionan mayor potencia para detectar diferencias reales.
-	
-	\item \textbf{Significancia estadística vs. práctica:} Un resultado puede ser estadísticamente significativo pero no prácticamente relevante.
-	
-	\item \textbf{Supuestos:} Las pruebas de hipótesis asumen que se cumplen ciertos supuestos (normalidad, independencia, etc.).
-	
-	\item \textbf{Errores múltiples:} Realizar muchas pruebas aumenta la probabilidad de cometer al menos un error tipo I.
-\end{enumerate}
-
-\subsection{Resumen del procedimiento}
-
-El procedimiento general para una prueba de hipótesis es:
-
-\begin{enumerate}
-	\item Formular $H_0$ y $H_a$
-	\item Elegir el nivel de significación $\alpha$
-	\item Seleccionar el estadístico de prueba apropiado
-	\item Calcular el valor del estadístico con los datos muestrales
-	\item Determinar el valor p o la región crítica
-	\item Tomar decisión: rechazar o no rechazar $H_0$
-	\item Interpretar el resultado en el contexto del problema
-\end{enumerate}
-
-En las siguientes secciones estudiaremos pruebas específicas para medias (pruebas Z y t), proporciones, y otras situaciones comunes.
