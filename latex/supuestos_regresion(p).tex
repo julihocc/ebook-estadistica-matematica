@@ -111,7 +111,7 @@
 
 \subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:supreg_durbin_watson_basico]
 	\textbf{Paso 1: Numerador --- suma de cuadrados de diferencias sucesivas.}
 	Calculamos las 9 diferencias $e_i - e_{i-1}$ y las elevamos al cuadrado:
 	\begin{align}
@@ -132,7 +132,7 @@
 	\textbf{Conclusión:} Como $DW \approx 0.576 \ll 2$, existe evidencia fuerte de \textbf{autocorrelación positiva} en los residuos: observaciones consecutivas tienden a tener el mismo signo, violando el supuesto de independencia. Esto es consistente con la naturaleza suavemente oscilante de la secuencia de residuos observada.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:supreg_shapiro_qq]
 	\textbf{Parte 1: Decisión formal.}
 	Como el valor-$p = 0.003 < \alpha = 0.05$, \textbf{se rechaza $H_0$}: existe evidencia estadística contundente de que los residuos no siguen una distribución normal. Esto es coherente con el patrón en forma de S observado en la gráfica Q-Q, que indica colas más pesadas que la normal teórica.
 
@@ -140,7 +140,7 @@
 	Con $n=45$ (una muestra moderada, no extremadamente grande), el Teorema del Límite Central ofrece solo una protección parcial. Los intervalos de confianza y las pruebas $t$/$F$ sobre los coeficientes pueden tener una cobertura y un nivel de significancia real distintos de los nominales, especialmente si las colas pesadas reflejan la presencia de valores atípicos extremos que además podrían ser observaciones influyentes. Se recomienda transformar $Y$ (por ejemplo, $\log(Y)$ si la variable es positiva y sesgada) o recurrir a métodos robustos/bootstrap para la inferencia.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:supreg_embudo_transformacion]
 	\textbf{Parte 1: Identificación del patrón.}
 	La amplitud de los residuos crece sistemáticamente conforme aumenta el valor ajustado ($\pm2 \to \pm8 \to \pm20$), generando la clásica \textbf{forma de embudo (\emph{funnel shape})} en la gráfica de residuos vs. ajustados. Esto viola el supuesto de \textbf{homocedasticidad}: la varianza del error no es constante, sino que crece con el nivel de la variable respuesta.
 
@@ -150,7 +150,7 @@
 
 \subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:supreg_breusch_pagan]
 	\textbf{Parte 1: Estadístico de Breusch-Pagan.}
 	\begin{align}
 		LM = n \cdot R_{\text{aux}}^2 = 60 \times 0.15 = 9.0.
@@ -160,7 +160,7 @@
 	Como $LM = 9.0 > \chi^2_{0.05,3} = 7.815$, \textbf{se rechaza $H_0$}: existe evidencia estadística significativa de \textbf{heterocedasticidad} en los errores del modelo al nivel del 5\%. Los estimadores de mínimos cuadrados permanecen insesgados, pero dejan de ser eficientes, y los errores estándar reportados por el software podrían ser incorrectos; se recomienda usar errores estándar robustos (Huber-White) o transformar la variable respuesta.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:supreg_vif_credito]
 	\textbf{Parte 1: Cálculo de los VIF.}
 	\begin{align}
 		\text{VIF}_1 = \frac{1}{1-0.85} \approx 6.667, \qquad \text{VIF}_2 = \frac{1}{1-0.55} \approx 2.222, \qquad \text{VIF}_3 = \frac{1}{1-0.30} \approx 1.429.
@@ -173,7 +173,7 @@
 	Dado que el predictor 1 es el único que supera el umbral y no se desea necesariamente eliminarlo del modelo (podría tener relevancia teórica), la \textbf{regresión Ridge} es la opción más adecuada: penaliza la norma $L_2$ de todos los coeficientes de forma continua, estabilizando $(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}$ sin descartar variables. Si el objetivo fuera además obtener un modelo más parsimonioso, Lasso induciría selección automática de variables.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:supreg_transformacion_conteo]
 	\textbf{Parte 1: Transformación adecuada.}
 	Para datos de conteo con $\text{Var}(Y) \propto E(Y)$ (comportamiento tipo Poisson), la tabla de transformaciones comunes recomienda $\log(Y)$ o, alternativamente, $\sqrt{Y}$.
 
@@ -195,7 +195,7 @@
 
 \subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:supreg_cooks_distance_multiple]
 	\textbf{Parte 1: Cálculo de las Distancias de Cook.}
 	Con $p+1=5$:
 	\begin{align}
@@ -215,7 +215,7 @@
 	La Observación B es influyente principalmente por su \textbf{alto apalancamiento} ($h_{ii}=0.45$, cercano al centro de masa geométrico extremo del diseño), a pesar de tener un residuo moderado: su posición inusual en el espacio de los predictores le otorga gran capacidad de "halar" la recta ajustada hacia sí misma. La Observación C, en cambio, es influyente por tener un \textbf{residuo grande} ($r_i=3.5$, un posible atípico), a pesar de un apalancamiento bajo: aunque su posición en $X$ es típica, su valor de $Y$ se aparta enormemente del patrón general. La Observación A no es influyente porque no presenta ninguno de los dos mecanismos en grado severo.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:supreg_vif_matriz_correlacion]
 	\textbf{Demostración de $\text{VIF}_j = (\mathbf{R}^{-1})_{jj}$:}
 
 	Sea $\mathbf{Z}$ la matriz de predictores estandarizados (media cero, varianza unitaria), de modo que $\mathbf{R}=\mathbf{Z}^T\mathbf{Z}/(n-1)$ es la matriz de correlación muestral. Al regredir el predictor estandarizado $Z_j$ contra los $p-1$ predictores restantes, el coeficiente de determinación de ese modelo auxiliar es $R_j^2 = 1 - \dfrac{1}{(\mathbf{R}^{-1})_{jj}}$ (un resultado estándar de la teoría de regresión múltiple aplicado recursivamente al conjunto de predictores). Despejando:
@@ -228,7 +228,7 @@
 
 \subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:supreg_dw_autocorrelacion_deduccion]
 	\textbf{Deducción de $DW\approx2(1-\hat\rho)$:}
 
 	Expandimos el numerador del estadístico de Durbin-Watson:
@@ -252,7 +252,7 @@
 	\end{itemize}
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:supreg_cooks_distance_deduccion]
 	\textbf{Deducción de la fórmula computacional de la Distancia de Cook:}
 
 	Por el Teorema de Allen-PRESS (Sección de validación de modelos), el cambio en el vector de coeficientes al eliminar la $i$-ésima observación se expresa exactamente como:

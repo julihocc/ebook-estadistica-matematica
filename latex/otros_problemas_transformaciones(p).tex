@@ -67,11 +67,11 @@
 
 \subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:identificar_patron_no_lineal]
 	El patrón descrito (forma de U invertida asimétrica, no monótona) es característico de una relación \textbf{cuadrática} o de orden superior, no de una relación lineal simple. Un modelo lineal $\texttt{mpg}=c_0+c_1\,\texttt{hp}$ solo puede capturar una tendencia monótona (siempre creciente o siempre decreciente); no puede representar un cambio de dirección en la curva. Forzar un ajuste lineal sobre datos con esta curvatura produce residuos sistemáticamente sesgados (positivos en los extremos, negativos en el centro, o viceversa), violando el supuesto de linealidad y subestimando severamente la calidad real del ajuste. La especificación adecuada es agregar un término cuadrático: $\texttt{mpg}=c_0+c_1\,\texttt{hp}+c_2\,\texttt{hp}^2$.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:prediccion_modelo_cuadratico_basico]
 	Sustituyendo directamente:
 	\begin{align}
 		\hat{\texttt{mpg}}(60) &= 64.20-0.7634(60)+0.003657(60)^2 = 64.20-45.80+13.17 \approx 31.57.\\
@@ -81,20 +81,20 @@
 	El vértice de la parábola (mínimo) ocurre en $\texttt{hp}^*=-c_1/(2c_2)=0.7634/(2\times0.003657)\approx104.4$, es decir, el \texttt{mpg} mínimo se predice alrededor de $\texttt{hp}\approx104$.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:comparacion_r2_lineal_cuadratico]
 	La diferencia de $R^2=0.080$ a $R^2=0.994$ es dramática y revela que la relación entre \texttt{hp} y \texttt{mpg} \textbf{no es lineal en absoluto}: el modelo lineal apenas explica el $8\%$ de la variabilidad, prácticamente indistinguible de ruido, mientras que el modelo cuadrático explica el $99.4\%$. Esto confirma que la verdadera forma funcional subyacente es cuadrática (o al menos que un término de curvatura es indispensable), y que cualquier conclusión basada únicamente en el modelo lineal (por ejemplo, sobre la significancia o el signo del efecto de \texttt{hp}) sería completamente engañosa.
 \end{solproblema}
 
 \subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:ajuste_manual_cuadratico]
 	Construimos $\mathbf{X}=\begin{pmatrix}1&50&2500\\1&75&5625\\1&100&10000\\1&125&15625\\1&150&22500\end{pmatrix}$ y $\mathbf{Y}=(35,28,24,26,32)^T$. Resolviendo $\hat{\mathbf{c}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ (por álgebra matricial directa o eliminación gaussiana):
 	\begin{align}
 		\hat c_0\approx64.20, \qquad \hat c_1\approx-0.7634, \qquad \hat c_2\approx0.003657.
 	\end{align}
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:prediccion_curva_completa]
 	Sustituyendo cada valor de \texttt{hp} en el modelo ajustado:
 	\begin{align}
 		\hat{\texttt{mpg}} \approx \{35.17,\ 27.51,\ 24.43,\ 25.91,\ 31.97\} \quad \text{para } \texttt{hp}=\{50,75,100,125,150\}.
@@ -105,7 +105,7 @@
 	\end{align}
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:transformacion_log_heterocedasticidad]
 	La tabla de transformaciones comunes recomienda $\sqrt{Y}$ para datos de conteo con $\text{Var}(Y)\propto E(Y)$ (comportamiento tipo Poisson). Sea $g(Y)=\sqrt{Y}$. Por el método delta, expandiendo alrededor de $\mu=E(Y)$: $g(Y)\approx g(\mu)+g'(\mu)(Y-\mu)$, con $g'(\mu)=1/(2\sqrt\mu)$. Entonces:
 	\begin{align}
 		\text{Var}(g(Y)) \approx [g'(\mu)]^2\text{Var}(Y) = \frac{1}{4\mu}\cdot(c\mu) = \frac{c}{4},
@@ -115,11 +115,11 @@
 
 \subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:polinomial_como_lineal]
 	Definiendo $Z=X^2$ como una variable auxiliar calculada explícitamente (no como una transformación implícita), el modelo $Y=c_0+c_1X+c_2X^2+\varepsilon$ se reescribe exactamente como $Y=c_0+c_1X+c_2Z+\varepsilon$, que es \emph{lineal en los parámetros} $c_0,c_1,c_2$ --- la única condición que requiere la teoría de mínimos cuadrados de la Sección 09.07, independientemente de si las variables predictoras ($X$ y $Z=X^2$) tienen o no una relación no lineal entre sí. La matriz de diseño simplemente incluye una columna adicional con los valores de $X^2$ ya calculados: $\mathbf{X}_{\text{diseño}}=[\mathbf{1},\ X,\ X^2]$. Como la Ecuación Normal $(\mathbf{X}_{\text{diseño}}^T\mathbf{X}_{\text{diseño}})^{-1}\mathbf{X}_{\text{diseño}}^T\mathbf{Y}$ solo exige que la relación entre $Y$ y los parámetros $\mathbf{c}$ sea lineal (no que la relación entre $Y$ y $X$ lo sea), se aplica exactamente igual sin ninguna modificación.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:prueba_f_parcial_termino_cuadratico]
 	\begin{align}
 		F_{\text{parcial}} = \frac{(0.994-0.080)/(2-1)}{(1-0.994)/(5-2-1)} = \frac{0.914/1}{0.006/2} = \frac{0.914}{0.003} \approx304.7.
 	\end{align}
@@ -128,7 +128,7 @@
 
 \subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:multicolinealidad_polinomial_deduccion]
 	Si $X$ toma valores concentrados en un rango angosto alrededor de un valor central grande (por ejemplo $X_0=100$), podemos escribir $X=X_0+\delta$ con $|\delta|$ pequeño relativo a $X_0$. Entonces:
 	\begin{align}
 		X^2 = X_0^2+2X_0\delta+\delta^2 \approx X_0^2+2X_0\delta \quad (\text{ya que } \delta^2 \text{ es despreciable frente a } 2X_0\delta \text{ cuando } |\delta|\ll X_0),
@@ -138,7 +138,7 @@
 	Sin embargo, esto \textbf{no invalida las predicciones} $\hat Y$ del modelo, que dependen de la combinación conjunta $\hat c_1X+\hat c_2X^2$ y permanecen numéricamente estables y precisas. Lo que sí se ve comprometido es la interpretación marginal aislada de $\hat c_1$ o $\hat c_2$ individualmente (sus errores estándar individuales se inflan, y separar "el efecto de $X$" del "efecto de $X^2$" pierde sentido práctico), exactamente el mismo fenómeno interpretativo discutido para predictores correlacionados en general.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:transformacion_log_deduccion_general]
 	Por el método delta, para una transformación general $g(Y)$ expandida alrededor de $\mu=E(Y)$:
 	\begin{align}
 		\text{Var}(g(Y)) \approx [g'(\mu)]^2\,\text{Var}(Y) = [g'(\mu)]^2\cdot k\mu^{2\lambda}.

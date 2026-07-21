@@ -46,17 +46,17 @@
 \subsection*{Soluciones detalladas}
 
 % Recordar
-\begin{solproblema}
+\begin{solproblema}[prob:287fdc5]
 	Para que el primer éxito ocurra exactamente en el ensayo $k \ge 1$, los primeros $k-1$ deben ser fracasos y el ensayo $k$ un éxito: $f_X(k) = q^{k-1}p = (1-p)^{k-1}p$, para $k \in \mathcal{S}_X = \set{1,2,3,\dots}$.
 \end{solproblema}
 
 % Comprender
-\begin{solproblema}
+\begin{solproblema}[prob:0ebda90]
 	La distribución geométrica tiene la propiedad de pérdida de memoria: $P(X > m+n \mid X>m) = P(X>n)$ para cualesquiera enteros $m,n\ge1$, ya que $P(X>k)=q^k$ depende únicamente de cuántos intentos adicionales se requieren, no del historial de fallos ya ocurridos. Con $m=5$ y $n=3$, se sigue directamente que $P(X>8\mid X>5) = q^{8-5} = q^3 = P(X>3)$: haber fallado ya $5$ veces no altera la probabilidad de necesitar $3$ o más intentos adicionales, porque el proceso "no recuerda" cuántos fracasos ya ocurrieron.
 \end{solproblema}
 
 % Aplicar
-\begin{solproblema}
+\begin{solproblema}[prob:6ccfa13]
 	Para que la tercera irregularidad ocurra exactamente en la inspección $20$, deben detectarse exactamente $r-1=2$ irregularidades en las primeras $19$ inspecciones (con probabilidad $\comb{19}{2}p^2q^{17}$) y la inspección $20$ debe ser irregular (probabilidad $p$):
 	\begin{align*}
 		P(X=20) = \comb{19}{2}p^3q^{17} = \comb{19}{2}(0.10)^3(0.90)^{17} \approx 0.0285.
@@ -65,7 +65,7 @@
 \end{solproblema}
 
 % Analizar
-\begin{solproblema}
+\begin{solproblema}[prob:a4a72f3]
 	\begin{enumerate}
 		\item Sea $Y_1$ el número de ensayos hasta el primer éxito ($Y_1\sim\text{Geom}(p)$), y para $i\ge2$ sea $Y_i$ el número de ensayos adicionales entre el éxito $(i-1)$ y el éxito $i$. Por independencia de los ensayos Bernoulli y la propiedad de pérdida de memoria, cada $Y_i$ es independiente de los anteriores y sigue la misma distribución $\text{Geom}(p)$. El tiempo total hasta el $r$-ésimo éxito es la suma de estas $r$ esperas: $X = \sum_{i=1}^r Y_i$.
 		\item Por definición, $M_{Y_1}(t) = \sum_{k=1}^\infty e^{tk}q^{k-1}p = pe^t\sum_{j=0}^\infty (qe^t)^j = \dfrac{pe^t}{1-qe^t}$, válida para $t < -\ln(q)$ (convergencia de la serie geométrica).
@@ -74,11 +74,11 @@
 \end{solproblema}
 
 % Evaluar
-\begin{solproblema}
+\begin{solproblema}[prob:ca5c4c8]
 	El índice de dispersión es $s^2/\bar{x} = 13.44/3.2 = 4.2 \gg 1$: la varianza observada es más de $4$ veces la media, lo cual viola el supuesto de equidispersión de Poisson ($\sigma^2=\mu$). Modelar este tráfico como Poisson pura subestimaría sistemáticamente las colas de la distribución. Un modelo Binomial Negativo (vía $Y=X-r\sim\text{BN}(r,p)$, con $\mu_Y=r(1-p)/p$ y $\sigma_Y^2=r(1-p)/p^2$) es más apropiado porque tiene un parámetro adicional que absorbe explícitamente la sobredispersión: igualando momentos, $\sigma_Y^2/\mu_Y = 1/p$, de donde $\hat p = 3.2/13.44 \approx 0.2381$ y, sustituyendo en $\mu_Y$, $\hat r \approx 1$ — sugiriendo, de hecho, que el modelo Geométrico simple ya captura adecuadamente esta sobredispersión.
 \end{solproblema}
 
 % Crear
-\begin{solproblema}
+\begin{solproblema}[prob:4c2c37d]
 	\textbf{Ejemplo:} un equipo de ventas telefónicas cierra una llamada exitosamente con probabilidad $p=0.15$ por intento, de forma independiente. Sea $X$ el número de llamadas necesarias para lograr $r=4$ cierres exitosos, $X\sim\text{BN}(4, 0.15)$. Pregunta de interés: ¿cuántas llamadas se esperan hacer en promedio antes de lograr las $4$ ventas, y cuál es la variabilidad de ese conteo? $\mathbb{E}[X] = r/p = 4/0.15 \approx 26.67$ llamadas, y $\text{Var}(X) = r(1-p)/p^2 = 4(0.85)/(0.15)^2 \approx 151.11$, con desviación estándar $\sigma_X \approx 12.29$ llamadas.
 \end{solproblema}

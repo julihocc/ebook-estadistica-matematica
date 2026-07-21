@@ -45,17 +45,17 @@
 \subsection*{Soluciones detalladas}
 
 % Recordar
-\begin{solproblema}
+\begin{solproblema}[prob:06f83cc]
 	$P(X=k) = \dfrac{e^{-\lambda}\lambda^k}{k!}$, para $k \in \mathcal{S}_X = \set{0,1,2,\dots}$.
 \end{solproblema}
 
 % Comprender
-\begin{solproblema}
+\begin{solproblema}[prob:c35cfa7]
 	En un proceso de Poisson, el número de eventos en un intervalo de tiempo escala linealmente con su duración: si la tasa es $0.5$ fallas/hora, en $4$ horas la tasa esperada es $4\times0.5=2$, de modo que el conteo sigue $\text{Pois}(2)$, y $P(X\ge1)=1-e^{-2}\approx0.8647$. Al discretizar el mismo turno en $4$ ensayos Bernoulli horarios independientes, la probabilidad de al menos una falla en una hora aislada es $p=1-e^{-0.5}\approx0.3935$ (el complemento de $P(\text{Pois}(0.5)=0)$), y la probabilidad de al menos una falla en las $4$ horas es $1-(1-p)^4 = 1-(e^{-0.5})^4 = 1-e^{-2}$, idéntica a la anterior. Ambos modelos coinciden porque son dos formas equivalentes de contar el mismo proceso de llegadas raras: uno en tiempo continuo (Poisson) y otro discretizado en subintervalos (Bernoulli/Binomial), y ambos comparten la misma probabilidad exacta de "cero eventos" en cada subintervalo.
 \end{solproblema}
 
 % Aplicar
-\begin{solproblema}
+\begin{solproblema}[prob:8fd3390]
 	Con $\lambda=5$:
 	\begin{enumerate}
 		\item $P(X\le3) = e^{-5}\left(1+5+\dfrac{25}{2}+\dfrac{125}{6}\right) \approx 0.2650$.
@@ -64,7 +64,7 @@
 \end{solproblema}
 
 % Analizar
-\begin{solproblema}
+\begin{solproblema}[prob:8dad711]
 	Por definición de probabilidad condicional e independencia:
 	\begin{align*}
 		P(X=k\mid X+Y=n) = \dfrac{P(X=k)P(Y=n-k)}{P(X+Y=n)} = \dfrac{\dfrac{e^{-\lambda_1}\lambda_1^k}{k!}\cdot\dfrac{e^{-\lambda_2}\lambda_2^{n-k}}{(n-k)!}}{\dfrac{e^{-(\lambda_1+\lambda_2)}(\lambda_1+\lambda_2)^n}{n!}} = \comb{n}{k}\left(\dfrac{\lambda_1}{\lambda_1+\lambda_2}\right)^k\left(\dfrac{\lambda_2}{\lambda_1+\lambda_2}\right)^{n-k},
@@ -73,11 +73,11 @@
 \end{solproblema}
 
 % Evaluar
-\begin{solproblema}
+\begin{solproblema}[prob:5e9408a]
 	Exacto: $P(S_{100}\le220) = \sum_{k=0}^{220}\dfrac{e^{-200}200^k}{k!} \approx 0.9862$ (valor de referencia bajo $\text{Pois}(200)$). Aproximación Normal con corrección de continuidad: $P(S_{100}\le220) \approx \Phi\!\left(\dfrac{220.5-200}{\sqrt{200}}\right) = \Phi(1.4496) \approx 0.9265$. El error absoluto entre ambos métodos es considerable ($\approx0.06$), mayor de lo que se esperaría para $\lambda=200$; esto indica que, aunque $n=100$ es grande, la aproximación Normal en la cola (donde la probabilidad exacta ya es alta) puede ser menos precisa que en el centro de la distribución, y conviene usar la Poisson exacta (o software estadístico) en vez de la aproximación Normal cuando se requiere precisión en las colas.
 \end{solproblema}
 
 % Crear
-\begin{solproblema}
+\begin{solproblema}[prob:9dc367e]
 	\textbf{Ejemplo:} una biblioteca registra en promedio $\lambda=4$ solicitudes de préstamo interbibliotecario por día, modeladas como un proceso de Poisson. Pregunta de interés: ¿cuál es la probabilidad de que en un día dado se reciban más de $6$ solicitudes, $P(X>6)$? Los momentos son $\mathbb{E}[X]=\text{Var}(X)=\lambda=4$. La probabilidad se calcularía como $P(X>6) = 1-\sum_{k=0}^{6}\dfrac{e^{-4}4^k}{k!}$.
 \end{solproblema}

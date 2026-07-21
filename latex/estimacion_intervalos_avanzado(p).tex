@@ -116,7 +116,7 @@
 
 \subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:n_media]
 	\textbf{Parte 1: Tamaño de muestra requerido ($n$).}
 	Para un nivel del $95\%$ de confianza, el valor normal tipificado es $Z_{0.025} = 1.96$. La dispersión conocida es $\sigma = 18$ min y el margen de error tolerable es $E = 2$ min.
 	
@@ -137,7 +137,7 @@
 	Por consiguiente, al limitar la recolección a $150$ sesiones, la precisión del estudio disminuye arrojando un margen de error incrementado de $2.88$ minutos al $95\%$ de confianza.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:ic_varianza]
 	\textbf{Paso 1: Grados de libertad y cuantiles chi-cuadrada.}
 	Los grados de libertad del estadístico varianza muestral son $\nu = n - 1 = 21 - 1 = 20$.
 	Para un nivel del $90\%$ de confianza ($\alpha = 0.10$), las colas superior e inferior excluyen un área de $\alpha/2 = 0.05$ y $1-\alpha/2 = 0.95$. Consultando las tablas de la distribución $\chi^2$ con $\nu = 20$:
@@ -165,7 +165,7 @@
 	\textbf{Interpretación:} Con un $90\%$ de confianza, la verdadera volatilidad diaria del índice bursátil se encuentra acotada entre $1.16\%$ y $1.97\%$.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:dif_medias_z_avanzado]
 	La diferencia entre los promedios muestrales de latencia es:
 	\begin{align}
 		\hat{D} = \bar{X}_1 - \bar{X}_2 = 120.0 - 112.0 = 8.0 \text{ ms.}
@@ -187,7 +187,7 @@
 
 \subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:dif_medias_indep_iguales]
 	\textbf{Paso 1: Cálculo de la varianza muestral combinada ($S_p^2$).}
 	Al asumir normalidad y homoscedasticidad ($\sigma_1^2 = \sigma_2^2$), obtenemos la varianza agrupada ponderada:
 	\begin{align}
@@ -214,7 +214,7 @@
 	\textbf{Interpretación:} Al estar todo el intervalo contenido en la región negativa ($[-10.11, -0.49]$) y no tocar el cero, se confirma al 95\% de confianza que la Arquitectura A tiene una latencia media significativamente inferior (es más veloz) que la Arquitectura B.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:dif_proporciones_ab]
 	\textbf{Parte 1: Proporciones y error estándar.}
 	Las proporciones empíricas de compra (conversión) son:
 	\begin{align}
@@ -241,7 +241,7 @@
 	El intervalo para $p_1 - p_2$ abarca desde $-7.85\%$ hasta $-0.15\%$. Dado que el límite superior es estrictamente inferior a cero, existe certeza estadística al 95\% de confianza de que la tasa de conversión de la Versión B ($p_2$) supera en forma real a la de la Versión A ($p_1$). Por lo tanto, los datos justifican la adopción inmediata de la Versión B.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:n_proporcion]
 	\textbf{Parte 1: Escenario conservador ($\hat{p}^* = 0.5$).}
 	Para el 99\% de confianza, el cuantil normal es $Z_{0.005} = 2.576$. El margen de error admitido es $E = 0.03$. Al carecer de encuestas previas, maximizamos la varianza con $p^*(1-p^*) = 0.5(0.5) = 0.25$:
 	\begin{align}
@@ -265,7 +265,7 @@
 
 \subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:dif_medias_welch]
 	\textbf{Paso 1: Grados de libertad de Welch-Satterthwaite ($\nu$).}
 	Calculamos las varianzas muestrales divididas entre sus respectivos tamaños de grupo:
 	\begin{align}
@@ -297,7 +297,7 @@
 	Al cruzar por el cero de negativo a positivo ($[-3.96, 34.36]$), no podemos declarar que el Algoritmo 2 sea significativamente más veloz que el Algoritmo 1 al 99\% de confianza.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:ic_razon_varianzas]
 	\textbf{Paso 1: Grados de libertad y puntos críticos de Fisher ($F$).}
 	Los grados de libertad del numerador y denominador son $\nu_1 = n_1 - 1 = 15$ y $\nu_2 = n_2 - 1 = 12$.
 	Para una confianza del $98\%$ ($\alpha = 0.02 \implies \alpha/2 = 0.01$), el cuantil superior en la tabla $F$ es:
@@ -323,7 +323,7 @@
 
 \subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:ic-desaf-fisher]
 	\begin{enumerate}
 		\item \textbf{Limitaciones teóricas de la aproximación simétrica en $r$:}
 		El coeficiente de correlación $r$ está estrictamente delimitado en su dominio al espacio compacto $[-1, 1]$. Cuando la verdadera correlación poblacional es fuerte (por ejemplo, $\rho = 0.85$), la distribución en el muestreo de $r$ se comprime violentamente contra la cota superior $+1$, generando una fuerte asimetría negativa con cola izquierda extendida. Si en este escenario utilizáramos la fórmula ingenua $r \pm Z_{\alpha/2}\text{SE}(r)$, el límite superior del intervalo superaría con frecuencia el valor $+1$ (absurdo axiomático en correlaciones), y la tasa de cobertura real caería drásticamente por debajo del nominal $95\%$ debido a que la varianza exacta del estimador $r$ depende pesadamente del propio parámetro $\rho$: $\Var(r) \approx \dfrac{(1-\rho^2)^2}{n}$.
@@ -373,7 +373,7 @@
 	\end{enumerate}
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:ic-desaf-delta-method]
 	\begin{enumerate}
 		\item \textbf{Deducción algebraico-diferencial del Método Delta para cocientes:}
 		Sea la función objetivo no lineal de dos variables $g(u, v) = \dfrac{v}{u}$, evaluada sobre el vector aleatorio de medias muestrales $(\bar{X}, \bar{Y})$ cuyo verdadero parámetro de esperanza es $\boldsymbol{\mu} = (\mu_X, \mu_Y)$.

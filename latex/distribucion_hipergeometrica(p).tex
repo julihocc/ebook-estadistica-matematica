@@ -50,17 +50,17 @@
 \subsection*{Soluciones detalladas}
 
 % Recordar
-\begin{solproblema}
+\begin{solproblema}[prob:748a77d]
 	El número de formas de elegir $k$ éxitos de los $K$ disponibles es $\comb{K}{k}$, y $(n-k)$ fracasos de los $N-K$ disponibles es $\comb{N-K}{n-k}$; el total de muestras equiprobables de tamaño $n$ es $\comb{N}{n}$. Por lo tanto $f_X(k) = \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}}$.
 \end{solproblema}
 
 % Comprender
-\begin{solproblema}
+\begin{solproblema}[prob:5e6e8bf]
 	El FPCF mide cuánto se reduce la variabilidad muestral respecto al muestreo con reemplazo, debido a que cada extracción sin reemplazo disminuye el conjunto disponible y correlaciona negativamente las extracciones siguientes. Cuando $n=1$ solo hay una extracción, sin ninguna extracción previa que afecte la siguiente, por lo que $\text{FPCF}=\frac{N-1}{N-1}=1$ (coincide con Bernoulli, sin corrección). Cuando $n=N$ se muestrea toda la población (un censo), por lo que no existe incertidumbre muestral y $\text{FPCF}=\frac{0}{N-1}=0$, forzando $\text{Var}(X)=0$.
 \end{solproblema}
 
 % Aplicar
-\begin{solproblema}
+\begin{solproblema}[prob:1651c98]
 	Con $N=30$, $K=6$, $N-K=24$, $n=5$:
 	\begin{enumerate}
 		\item $P(X=0) = \dfrac{\comb{6}{0}\comb{24}{5}}{\comb{30}{5}} = \dfrac{42504}{142506} \approx 0.2983$.
@@ -69,7 +69,7 @@
 \end{solproblema}
 
 % Analizar
-\begin{solproblema}
+\begin{solproblema}[prob:64e9a8d]
 	\begin{enumerate}
 		\item Por regla de multiplicación incondicional, $P(I_i=1,I_j=1) = P(I_i=1)P(I_j=1\mid I_i=1) = \dfrac{K}{N}\cdot\dfrac{K-1}{N-1}$ (una vez que un éxito ya fue extraído, quedan $K-1$ éxitos entre $N-1$ elementos restantes).
 		\item $\text{Cov}(I_i,I_j) = \mathbb{E}[I_iI_j]-\mathbb{E}[I_i]\mathbb{E}[I_j] = \dfrac{K(K-1)}{N(N-1)}-\dfrac{K^2}{N^2} = -\dfrac{K(N-K)}{N^2(N-1)}$. El signo es negativo porque, sin reemplazo, extraer un éxito en la posición $i$ reduce la cantidad de éxitos disponibles para la posición $j$: las extracciones "compiten" por los mismos $K$ elementos.
@@ -81,11 +81,11 @@
 \end{solproblema}
 
 % Evaluar
-\begin{solproblema}
+\begin{solproblema}[prob:7cf587b]
 	El cociente muestral es $n/N = 20/2000 = 0.01 = 1\% < 5\%$, cumpliendo ampliamente la regla empírica. Calculando: $P(X=2) = \dfrac{\comb{100}{2}\comb{1900}{18}}{\comb{2000}{20}} \approx 0.189725$ y, con $p=K/N=0.05$, $P(Y=2) = \comb{20}{2}(0.05)^2(0.95)^{18} \approx 0.188677$. El error absoluto es $|0.189725-0.188677| \approx 0.00105$ ($\approx 0.1\%$), suficientemente pequeño para la mayoría de aplicaciones prácticas: la aproximación binomial es apropiada aquí precisamente porque la fracción de muestreo $n/N$ es pequeña, lo que hace que muestrear sin reemplazo altere muy poco las probabilidades marginales de cada extracción.
 \end{solproblema}
 
 % Crear
-\begin{solproblema}
+\begin{solproblema}[prob:969b25a]
 	\textbf{Ejemplo:} una biblioteca tiene $N=200$ libros en una estantería, de los cuales $K=25$ están mal catalogados. Un bibliotecario revisa una muestra aleatoria de $n=15$ libros sin reemplazo. Pregunta de interés: ¿cuál es la probabilidad de encontrar exactamente $3$ libros mal catalogados en la muestra, $P(X=3)$? Los momentos son $\mathbb{E}[X] = n\frac{K}{N} = 15\left(\frac{25}{200}\right) = 1.875$ y $\text{Var}(X) = 15\left(\frac{25}{200}\right)\left(\frac{175}{200}\right)\left(\frac{200-15}{200-1}\right) = 1.640625\left(\frac{185}{199}\right) \approx 1.5254$.
 \end{solproblema}

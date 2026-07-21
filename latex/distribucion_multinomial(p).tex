@@ -41,17 +41,17 @@
 \subsection*{Soluciones detalladas}
 
 % Recordar
-\begin{solproblema}
+\begin{solproblema}[prob:2499194]
 	$P(X_1=x_1,\dots,X_6=x_6) = \dfrac{n!}{x_1!\cdots x_6!}p_1^{x_1}\cdots p_6^{x_6}$, sujeta a $\sum_{i=1}^6 x_i = n$.
 \end{solproblema}
 
 % Comprender
-\begin{solproblema}
+\begin{solproblema}[prob:97df06e]
 	Como el total $\sum_i X_i = n$ está fijo, las componentes no pueden variar libremente: si el conteo de la categoría $i$ resulta por encima de su valor esperado $np_i$ (un "exceso"), forzosamente algún otro conteo $X_j$ debe compensar quedando por debajo de su esperado $np_j$, para que la suma siga siendo exactamente $n$. Esta dependencia estructural, impuesta por la restricción de suma fija, es lo que produce una covarianza negativa entre cualquier par de componentes.
 \end{solproblema}
 
 % Aplicar
-\begin{solproblema}
+\begin{solproblema}[prob:33bf5d2]
 	Con $\bm{X}\sim\text{Mult}(100; 0.45,0.35,0.20)$:
 	\begin{align*}
 		P(X_1=50,X_2=30,X_3=20) = \comb{100}{50,30,20}(0.45)^{50}(0.35)^{30}(0.20)^{20} \approx 4.32\times10^{-18}.
@@ -59,16 +59,16 @@
 \end{solproblema}
 
 % Analizar
-\begin{solproblema}
+\begin{solproblema}[prob:277341a]
 	Con $\text{Cov}(X_i,X_j) = \sum_{r=1}^n\sum_{s=1}^n \text{Cov}(I_r^{(i)}, I_s^{(j)})$: para $r\neq s$ los ensayos son independientes y la covarianza es $0$; para $r=s$, la exclusión mutua implica $I_r^{(i)}I_r^{(j)}=0$, de modo que $\text{Cov}(I_r^{(i)},I_r^{(j)}) = \mathbb{E}[I_r^{(i)}I_r^{(j)}]-\mathbb{E}[I_r^{(i)}]\mathbb{E}[I_r^{(j)}] = 0-p_ip_j = -p_ip_j$. Sumando los $n$ términos diagonales: $\text{Cov}(X_i,X_j) = n(-p_ip_j) = -np_ip_j$.
 \end{solproblema}
 
 % Evaluar
-\begin{solproblema}
+\begin{solproblema}[prob:81748ff]
 	La afirmación es \textbf{incorrecta}. Que cada marginal $X_i$ sea individualmente Binomial no dice nada sobre la relación conjunta entre $X_1$ y $X_2$: la independencia requiere que la distribución conjunta factorice como el producto de las marginales, y aquí eso falla. El resultado $\text{Cov}(X_1,X_2)=-np_1p_2 \neq 0$ (siempre estrictamente negativo mientras $p_1,p_2>0$) demuestra directamente que $X_1$ y $X_2$ \textbf{no} son independientes: distribuciones marginales binomiales son consistentes con múltiples estructuras de dependencia conjunta, y en el caso multinomial esa dependencia es negativa debido a la restricción $\sum_i X_i=n$.
 \end{solproblema}
 
 % Crear
-\begin{solproblema}
+\begin{solproblema}[prob:858a3a8]
 	\textbf{Ejemplo:} un call center clasifica cada llamada recibida en una de $k=4$ categorías (consulta, queja, venta, soporte técnico) con probabilidades $p_1=0.4$, $p_2=0.15$, $p_3=0.25$, $p_4=0.2$. En $n=50$ llamadas recibidas en una hora, sea $\bm{X}=(X_1,X_2,X_3,X_4)$ el vector de conteos. Pregunta de interés: ¿cuál es la probabilidad de recibir exactamente $20$ consultas, $8$ quejas, $12$ ventas y $10$ solicitudes de soporte? Para la primera categoría: $\mathbb{E}[X_1] = np_1 = 50(0.4) = 20$ y $\text{Var}(X_1) = np_1(1-p_1) = 50(0.4)(0.6) = 12$.
 \end{solproblema}

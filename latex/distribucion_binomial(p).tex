@@ -45,17 +45,17 @@
 \subsection*{Soluciones detalladas}
 
 % Recordar
-\begin{solproblema}
+\begin{solproblema}[prob:71ce5a0]
 	La función de masa de probabilidad de un ensayo Bernoulli($p$) es $f_X(x) = p^x(1-p)^{1-x}$ para $x \in \set{0,1}$. Para $X \sim \text{Bin}(n,p)$, suma de $n$ ensayos Bernoulli independientes, $\mathbb{E}[X] = np$ y $\text{Var}(X) = np(1-p)$.
 \end{solproblema}
 
 % Comprender
-\begin{solproblema}
+\begin{solproblema}[prob:1149be6]
 	Cada secuencia particular de $n$ ensayos con exactamente $k$ éxitos y $n-k$ fracasos tiene, por independencia, probabilidad $p^k q^{n-k}$ (el orden de los ensayos no afecta el producto). El número de formas distintas de elegir en cuáles de las $n$ posiciones ocurren los $k$ éxitos es el número de subconjuntos de tamaño $k$ de un conjunto de $n$ elementos, es decir $\comb{n}{k}$. Como estas secuencias son eventos mutuamente excluyentes que juntas forman el evento $\set{Y=k}$, sumar sus probabilidades individuales iguales da $P(Y=k) = \comb{n}{k}p^k q^{n-k}$.
 \end{solproblema}
 
 % Aplicar
-\begin{solproblema}
+\begin{solproblema}[prob:c3d2032]
 	\begin{enumerate}
 		\item Con $P(X=0)\approx0.14224$, $P(X=1)\approx0.30121$, $P(X=2)\approx0.29236$:
 		\begin{align*}
@@ -69,7 +69,7 @@
 \end{solproblema}
 
 % Analizar
-\begin{solproblema}
+\begin{solproblema}[prob:bae56b2]
 	Por independencia, la probabilidad de que $Z=X+Y=m$ se obtiene por convolución discreta:
 	\begin{align*}
 		P(Z=m) = \sum_{j=0}^m P(X=j)P(Y=m-j) = \sum_{j=0}^m \comb{n_1}{j}p^j q^{n_1-j} \comb{n_2}{m-j}p^{m-j}q^{n_2-(m-j)} = p^m q^{(n_1+n_2)-m}\sum_{j=0}^m \comb{n_1}{j}\comb{n_2}{m-j}.
@@ -78,11 +78,11 @@
 \end{solproblema}
 
 % Evaluar
-\begin{solproblema}
+\begin{solproblema}[prob:19f50da]
 	Con $np = 500(0.04) = 20 \ge 5$ y $n(1-p) = 500(0.96) = 480 \ge 5$, la regla operativa usual sí se satisface, por lo que la aproximación Normal es razonable en principio. Sin embargo, omitir la corrección de continuidad de Yates introduce un sesgo sistemático evitable: al aproximar una variable discreta por una continua, $P(X \le 25)$ debe calcularse como $\Phi\!\left(\dfrac{25.5-20}{\sqrt{19.2}}\right)$ y no como $\Phi\!\left(\dfrac{25-20}{\sqrt{19.2}}\right)$; ignorar el término $0.5$ subestima la probabilidad acumulada real en aproximadamente el área de la curva Normal entre $25$ y $25.5$. La decisión del ingeniero es parcialmente válida (las condiciones de aplicabilidad se cumplen) pero técnicamente incompleta por omitir la corrección de continuidad.
 \end{solproblema}
 
 % Crear
-\begin{solproblema}
+\begin{solproblema}[prob:3c14103]
 	\textbf{Ejemplo:} un estudio agrícola siembra $n=15$ semillas de una variedad con probabilidad de germinación $p=0.7$ cada una, de forma independiente. Sea $X$ el número de semillas que germinan, $X \sim \text{Bin}(15, 0.7)$. Pregunta de interés: ¿cuál es la probabilidad de que germinen al menos $12$ semillas, $P(X \ge 12)$? Los momentos son $\mathbb{E}[X] = np = 15(0.7) = 10.5$ y $\text{Var}(X) = np(1-p) = 15(0.7)(0.3) = 3.15$. La probabilidad $P(X\ge12)$ se calcularía sumando $P(X=12)+P(X=13)+P(X=14)+P(X=15)$, cada término evaluado con $\comb{15}{k}(0.7)^k(0.3)^{15-k}$.
 \end{solproblema}

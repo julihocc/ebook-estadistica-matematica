@@ -181,7 +181,7 @@
 
 \subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:anova_un_factor_ml]
 	\textbf{Paso 1: Planteamiento formal de hipótesis.}
 	\begin{align}
 		H_0&: \mu_1 = \mu_2 = \mu_3 = \mu_4 \quad (\text{Los cuatro algoritmos tienen idéntico rendimiento medio}). \\
@@ -250,7 +250,7 @@
 	Dado que nuestro estadístico calculado $F = 6.843 \gg 3.239$ ($p-\text{valor} \approx 0.0035$), \textbf{rechazamos categóricamente la hipótesis nula $H_0$}. Demostramos con más del $99.6\%$ de confianza que existe una diferencia altamente significativa en la precisión media ($F_1$-score) de al menos uno de los cuatro algoritmos de aprendizaje automático sobre los conjuntos de datos evaluados.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:posthoc_tukey_ml]
 	\textbf{Paso 1: Obtención del cuantil del rango estandarizado ($q$).}
 	De la tabla ANOVA del Problema \ref{prob:anova_un_factor_ml}, tenemos que el Cuadrado Medio del Error es $\text{CME} = 10.315$ con $\nu_E = 16$ grados de libertad, y contamos con $k = 4$ tratamientos. Todos con igual número de réplicas $n = 5$.
 	
@@ -286,7 +286,7 @@
 	\textbf{Conclusión técnica del análisis post-hoc:} El procedimiento de Tukey HSD revela y aisla con precisión la causa de significancia del ANOVA: \textbf{tanto XGBoost ($88.6\%$) como las Redes Neuronales Profundas ($86.4\%$) superan de manera estadísticamente probada a SVM ($79.8\%$)} en el $F_1$-score. Entre XGBoost, Redes Neuronales y Bosques Aleatorios no existen diferencias estadísticamente discernibles para el tamaño de muestra del estudio.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:anova_fund_particion]
 	\begin{enumerate}
 		\item \textbf{Cálculo de la Suma de Cuadrados de Tratamientos ($\text{SCTR}$):}
 		Por el teorema de aditividad cuadrática ($\text{SCT} = \text{SCTR} + \text{SCE}$), despejamos de forma elemental:
@@ -321,7 +321,7 @@
 
 \subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:dbca_servidores]
 	\textbf{Parte 1: Partición de Sumas de Cuadrados y Tabla ANOVA DBCA.}
 	La media general o gran media es $\bar{Y}_{..} = 16.6667$ s ($N = k \times b = 3 \times 4 = 12$ observaciones).
 	
@@ -403,7 +403,7 @@
 	El bloqueo \textbf{rescató por completo el experimento de un falso negativo masivo (error Tipo II)} al purgar el ruido del hardware.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:bonferroni_lsd]
 	\textbf{Parte 1: Cálculo del LSD de Fisher.}
 	Para $k = 5$ tratamientos, el número total de comparaciones por pares es $m = \binom{5}{2} = \frac{5 \times 4}{2} = 10$.
 	El cuantil de la distribución $t$ de Student para una prueba individual de dos colas con $\alpha = 0.05$ ($\alpha/2 = 0.025$) y $\nu_E = 25$ grados de libertad es:
@@ -438,7 +438,7 @@
 	\end{itemize}
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:anova_oper_desbalanceado_r2]
 	\begin{enumerate}
 		\item \textbf{Cálculo de la gran media general ponderada ($\bar{Y}_{..}$):}
 		En diseños con tamaños de muestra heterogéneos ($n_j \neq n$), el promedio general no es simple, sino el promedio ponderado por el número de réplicas grupales ($N = \sum n_j = 6 + 8 + 5 = 19$):
@@ -490,7 +490,7 @@
 
 \subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:verificacion_supuestos_anova]
 	La afirmación del analista es \textbf{peligrosamente incompleta en el escenario analizado}. Es un hecho matemático que el ANOVA goza de robustez estructural frente a desviaciones leves a moderadas de homoscedasticidad cuando las muestras están balanceadas ($n_1 = n_2 = n_3$). Sin embargo, dicha robustez \textbf{no soporta disparidades extremas} en las varianzas grupales.
 	
 	En nuestro caso, la varianza del Tratamiento 3 ($S_3^2 = 8.9$) es más de \textbf{siete veces superior} a la varianza del Tratamiento 1 ($S_1^2 = 1.2$, cociente $8.9 / 1.2 = 7.41$). Esta heterogeneidad severa indica que el Tratamiento 3 opera con una inestabilidad sistémica muy superior o contiene valores atípicos severos.
@@ -503,7 +503,7 @@
 	\end{enumerate}
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:potencia_tamano_anova]
 	\textbf{Paso 1: Estimación del tamaño del efecto bajo la configuración más adversa.}
 	Para un número fijo de tratamientos $k = 4$ con una diferencia máxima especificada $\Delta = 5$ ms y una dispersión de error $\sigma = 4$ ms, la configuración poblacional más difícil de detectar (la que minimiza la suma de cuadrados de los tratamientos $\sum \tau_i^2$) ocurre cuando dos tratamientos están en los extremos distanciados por $\Delta$ y los otros $k-2$ tratamientos se ubican exactamente en el punto medio de ambos.
 	
@@ -534,7 +534,7 @@
 
 \subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:anova_desaf_cochran]
 	\begin{enumerate}
 		\item \textbf{Demostración algebraica de la partición cuadrática e identidad del doble producto:}
 		Sea la identidad de descomposición observacional exacta:
@@ -599,7 +599,7 @@
 	\end{enumerate}
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:anova_desaf_esperanzas_dbca]
 	\begin{enumerate}
 		\item \textbf{Deducción sistemática del valor esperado de los Cuadrados Medios ($E[\text{CM}]$):}
 		Sea el modelo en bloques completos al azar $Y_{ij} = \mu + \tau_i + \beta_j + \varepsilon_{ij}$.
@@ -679,7 +679,7 @@
 
 \subsection{Soluciones --- Complemento de Verificación de Supuestos (Sección 08.02)}
 
-\begin{solproblema}
+\begin{solproblema}[prob:bartlett_pipelines_ci]
 	\textbf{Paso 1: Varianza combinada (\emph{pooled}).}
 	Con $n_i - 1 = 7$ para los cuatro grupos y $N - k = 32 - 4 = 28$:
 	\begin{align}
@@ -700,7 +700,7 @@
 	Como $B \approx 0.121 \ll \chi^2_{0.05,3} = 7.815$, \textbf{no se rechaza $H_0$}: las cuatro varianzas grupales son estadísticamente compatibles con la homoscedasticidad. A diferencia del Problema \ref{prob:verificacion_supuestos_anova} (razón de varianzas $7.4:1$), aquí la dispersión entre varianzas muestrales es mínima y el ANOVA estándar procede con plena validez.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:levene_pipelines_cicd]
 	\textbf{Paso 1: Cálculo de las desviaciones absolutas respecto a la media grupal.}
 	\begin{align}
 		\bar{Y}_{A.} = 41, \quad \bar{Y}_{B.} = 53, \quad \bar{Y}_{C.} = 41.
@@ -727,7 +727,7 @@
 	Como $W \approx 2.988 < F_{0.05,2,12} = 3.885$, \textbf{no se rechaza $H_0$}: a pesar de que el Pipeline B exhibe visualmente mayor dispersión (rango de $12$ segundos frente a $6$ y $4$), la muestra de $n=5$ por grupo es insuficiente para declarar heteroscedasticidad estadísticamente significativa al nivel $\alpha=0.05$. Esto ilustra por qué la impresión visual de la dispersión no sustituye a la prueba formal.
 \end{solproblema}
 
-\begin{solproblema}
+\begin{solproblema}[prob:levene_como_anova_demo]
 	\textbf{Demostración de la equivalencia $W \equiv \text{CMTR}_Z/\text{CME}_Z$:}
 
 	Por construcción, la Prueba de Levene centrada en la media se define transformando cada observación original $Y_{ij}$ en su desviación absoluta respecto a la media de su propio tratamiento: $Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$. Una vez realizada esta transformación, el procedimiento de Levene no introduce ningún estadístico nuevo: aplica textualmente la maquinaria del ANOVA de un factor de la Sección 08.01 a los valores transformados $Z_{ij}$ en lugar de a los valores originales $Y_{ij}$.
