@@ -1,0 +1,86 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:6f58870}
+	Enuncie, sin realizar ningún cálculo, la función de densidad de $X \sim N(\mu,\sigma^2)$ y la transformación de estandarización $Z=(X-\mu)/\sigma$ que la relaciona con la Normal estándar.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:74e7285}
+	Explique, sin calcular ninguna probabilidad numérica, por qué basta con tener tabulada (o programada) la CDF de una única distribución —la Normal estándar $N(0,1)$— para poder calcular cualquier probabilidad de cualquier variable $X \sim N(\mu,\sigma^2)$, sin importar los valores de $\mu$ y $\sigma$.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:48f2103}
+	La altura de una población adulta sigue $X \sim N(170, 100)$ (en cm, $\sigma=10$ cm).
+	\begin{enumerate}
+		\item Calcule la probabilidad de que una persona elegida al azar mida más de $185$ cm.
+		\item Calcule la probabilidad de que una persona mida entre $160$ cm y $180$ cm.
+	\end{enumerate}
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:dd1e027}
+	Demuestre que si $X \sim N(\mu,\sigma^2)$, su función generadora de momentos es $M_X(t) = e^{\mu t + \sigma^2t^2/2}$, completando el cuadrado en el exponente de $M_X(t) = \int e^{tx}f(x)\,dx$ y usando que la integral gaussiana normalizada vale 1. A partir de $M_X(t)$, derive $\mathbb{E}[X]=\mu$ y $\mathbb{E}[X^2]=\mu^2+\sigma^2$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:96d8f57}
+	Un analista afirma: ``el Teorema Central del Límite garantiza que $\bar{X}$ es aproximadamente Normal para cualquier muestra con $n\ge30$, sin importar de qué población provengan los datos''. Evalúe esta afirmación: ¿qué condición sobre la población original omite, y en qué situación concreta (por ejemplo, una población con varianza infinita) fallaría la aproximación aunque $n\ge30$?
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:1c4fda2}
+	Diseñe un ejemplo original (contexto y parámetros $\mu,\sigma$) que se modele naturalmente con una distribución Normal, distinto de los ejemplos de manufactura o estaturas ya vistos en esta sección. Plantee la pregunta de probabilidad de interés y calcule la probabilidad correspondiente usando la estandarización.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:6f58870]
+	La densidad es $f(x) = \dfrac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/(2\sigma^2)}$, y la estandarización $Z=(X-\mu)/\sigma$ transforma $X\sim N(\mu,\sigma^2)$ en $Z\sim N(0,1)$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:74e7285]
+	Cualquier probabilidad sobre $X\sim N(\mu,\sigma^2)$ se puede reescribir en términos de $Z=(X-\mu)/\sigma$: por ejemplo, $P(X\le x) = P(Z \le (x-\mu)/\sigma) = \Phi((x-\mu)/\sigma)$, donde $\Phi$ es la CDF de la Normal estándar. Como la transformación $Z=(X-\mu)/\sigma$ es una función lineal biunívoca que convierte \emph{cualquier} Normal en la Normal estándar, el problema de calcular probabilidades para infinitas combinaciones posibles de $(\mu,\sigma)$ se reduce siempre al mismo cálculo sobre una única distribución de referencia — no hace falta una tabla distinta para cada $(\mu,\sigma)$.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:48f2103]
+	Con $X\sim N(170,100)$ ($\sigma=10$):
+	\begin{enumerate}
+		\item $P(X>185) = P(Z>1.5) = 1-\Phi(1.5) \approx 0.0668$.
+		\item $P(160\le X\le180) = P(-1\le Z\le1) \approx 0.6827$.
+	\end{enumerate}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:dd1e027]
+	\begin{align*}
+		M_X(t) = \int_{-\infty}^{\infty} e^{tx}\cdot\dfrac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/(2\sigma^2)}\,dx.
+	\end{align*}
+	Completando el cuadrado en el exponente: $tx - \dfrac{(x-\mu)^2}{2\sigma^2} = -\dfrac{(x-(\mu+\sigma^2t))^2}{2\sigma^2} + \mu t + \dfrac{\sigma^2t^2}{2}$. Factorizando el término constante:
+	\begin{align*}
+		M_X(t) = e^{\mu t+\sigma^2t^2/2}\int_{-\infty}^{\infty}\dfrac{1}{\sigma\sqrt{2\pi}}e^{-(x-(\mu+\sigma^2t))^2/(2\sigma^2)}\,dx = e^{\mu t+\sigma^2t^2/2},
+	\end{align*}
+	ya que la integral restante es la densidad Normal con media $\mu+\sigma^2t$ y varianza $\sigma^2$, que integra a $1$. Derivando: $\mathbb{E}[X]=M_X'(0)=\mu$ y $\mathbb{E}[X^2]=M_X''(0)=\mu^2+\sigma^2$.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:96d8f57]
+	La afirmación es \textbf{incompleta}: el TLC requiere que la población original tenga \textbf{varianza finita} ($\sigma^2<\infty$); si la población tiene varianza infinita (por ejemplo, una distribución de colas muy pesadas como la Cauchy, o una Pareto con exponente de forma $\le 2$), la media muestral $\bar{X}$ \textbf{no} converge a una Normal sin importar qué tan grande sea $n$, incluso con $n\ge30$. La regla práctica "$n\ge30$" es solo una heurística sobre \emph{qué tan rápido} converge la aproximación para poblaciones razonablemente bien comportadas (con momentos finitos); no es una condición suficiente universal, y falla precisamente en los casos donde la varianza poblacional no existe.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:1c4fda2]
+	\textbf{Ejemplo:} el tiempo de reacción de un atleta en la salida de una carrera de velocidad sigue $X\sim N(0.150, 0.0004)$ segundos ($\mu=0.150$ s, $\sigma=0.02$ s). Pregunta de interés: la regla de salida en falso descalifica a un atleta si reacciona antes de $0.100$ s; ¿cuál es la probabilidad de una salida en falso, $P(X<0.100)$? Estandarizando: $Z = (0.100-0.150)/0.02 = -2.5$, así $P(X<0.100) = \Phi(-2.5) \approx 0.0062$.
+\end{solproblema}

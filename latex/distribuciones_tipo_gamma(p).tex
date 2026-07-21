@@ -1,0 +1,86 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:f00c4b6}
+	Enuncie, sin realizar ningún cálculo, la función de densidad $f(x)$ de $X \sim \text{Exp}(\lambda)$ y su soporte, y escriba de memoria las fórmulas de $\mathbb{E}[X]$ y $\text{Var}(X)$.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:de365e8}
+	Explique, sin hacer ningún cálculo numérico, por qué $\text{Gamma}(1,\beta)$ es exactamente lo mismo que $\text{Exp}(\lambda=1/\beta)$, y por qué $\text{Gamma}(\nu/2, 2)$ es, por definición, la distribución $\chi^2_\nu$. ¿Qué papel juega el parámetro de forma $\alpha$ de la familia Gamma en distinguir estos casos particulares?
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:491786c}
+	En una encuesta de satisfacción, la proporción $X$ de clientes satisfechos con un nuevo producto se modela como $X \sim \text{Beta}(6,4)$.
+	\begin{enumerate}
+		\item Calcule la proporción esperada de clientes satisfechos, $\mathbb{E}(X)$.
+		\item Calcule la varianza $\text{Var}(X)$.
+	\end{enumerate}
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:6b498ea}
+	Sea $X \sim \text{Gamma}(\alpha,\beta)$ con función generadora de momentos $M_X(t) = (1-\beta t)^{-\alpha}$.
+	\begin{enumerate}
+		\item Sustituyendo $\alpha=\nu/2$ y $\beta=2$, muestre que $M_X(t) = (1-2t)^{-\nu/2}$, la MGF de $\chi^2_\nu$.
+		\item Sabiendo que $Z^2 \sim \text{Gamma}(1/2,2)$ para $Z\sim N(0,1)$, use la propiedad de suma de variables gamma independientes de igual escala para justificar que $S=Z_1^2+Z_2^2+Z_3^2 \sim \chi^2_3$ cuando $Z_i \sim N(0,1)$ i.i.d.
+	\end{enumerate}
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:0f44096}
+	Dos lotes de componentes tienen tiempos de vida Weibull con la misma escala $\eta=10$: Lote A $\sim \text{Weibull}(\beta=1,\eta=10)$ y Lote B $\sim \text{Weibull}(\beta=2,\eta=10)$. Evalúe cuál lote es más confiable, comparando las funciones de riesgo $h_A(t)$ y $h_B(t)$ en $t=5$ y $t=15$, y explique la diferencia física entre ambos en términos de envejecimiento del componente.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:31a003b}
+	Diseñe un ejemplo original (contexto y parámetros) que se modele naturalmente con alguna distribución de la familia gamma (Exponencial, Gamma, o Weibull), distinto de los ejemplos de confiabilidad o servidores ya vistos en esta sección. Plantee la pregunta de probabilidad de interés y calcule $\mathbb{E}[X]$ para los parámetros que eligió.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:f00c4b6]
+	$f(x) = \lambda e^{-\lambda x}$ para $x\ge0$. Los momentos son $\mathbb{E}[X] = 1/\lambda$ y $\text{Var}(X) = 1/\lambda^2$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:de365e8]
+	El parámetro de forma $\alpha$ de la familia Gamma controla cuántos "eventos elementales" se están acumulando: con $\alpha=1$, la densidad $\text{Gamma}(1,\beta) = \dfrac{1}{\beta}e^{-x/\beta}$ coincide exactamente con la de $\text{Exp}(\lambda=1/\beta)$ — la espera de un único evento. Con $\alpha=\nu/2$ y escala fija $\beta=2$, la familia Gamma reproduce exactamente la $\chi^2_\nu$ por definición (la $\chi^2_\nu$ se define como la suma de $\nu$ cuadrados de normales estándar independientes, y esa suma resulta ser $\text{Gamma}(\nu/2,2)$). Es decir, tanto la exponencial como la chi-cuadrada no son distribuciones distintas de la Gamma sino casos particulares de la misma familia, obtenidos fijando valores específicos del parámetro de forma.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:491786c]
+	Con $X\sim\text{Beta}(6,4)$:
+	\begin{enumerate}
+		\item $\mathbb{E}(X) = \dfrac{6}{6+4} = 0.6$.
+		\item $\text{Var}(X) = \dfrac{6\cdot4}{10^2\cdot11} = \dfrac{24}{1100} \approx 0.0218$.
+	\end{enumerate}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:6b498ea]
+	\begin{enumerate}
+		\item Sustituyendo directamente $\alpha=\nu/2$, $\beta=2$ en $M_X(t)=(1-\beta t)^{-\alpha}$ se obtiene $M_X(t) = (1-2t)^{-\nu/2}$, que es la MGF de $\chi^2_\nu$.
+		\item Cada $Z_i^2 \sim \text{Gamma}(1/2,2)$. Como todas comparten la misma escala $\beta=2$, la propiedad de suma de gammas independientes da $\sum_{i=1}^3 Z_i^2 \sim \text{Gamma}(3\cdot\tfrac{1}{2},2) = \text{Gamma}(3/2,2) = \chi^2_3$.
+	\end{enumerate}
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:0f44096]
+	$h_A(t) = 1/10 = 0.1$ para todo $t$ (tasa constante, $\beta=1$). $h_B(t) = (2/10)(t/10) = t/50$: en $t=5$, $h_B=0.1$ (empatan); en $t=15$, $h_B=0.3 > h_A=0.1$. A corto plazo ($t=5$) ambos lotes tienen riesgo comparable, pero a largo plazo ($t=15$) el Lote A es más confiable. Físicamente, el Lote A ($\beta=1$) no envejece: falla de forma puramente aleatoria (sin memoria, equivalente a exponencial). El Lote B ($\beta=2$) sí envejece: su riesgo de falla crece linealmente con el tiempo, típico de desgaste mecánico acumulado. La evaluación depende del horizonte de uso: para operación de corto plazo son equivalentes, pero para vida útil larga el Lote A es preferible.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:31a003b]
+	\textbf{Ejemplo:} el tiempo entre llegadas de correos electrónicos a una bandeja de entrada corporativa sigue $X \sim \text{Exp}(\lambda=4)$ correos por hora. Pregunta de interés: ¿cuál es la probabilidad de que transcurran más de $20$ minutos ($1/3$ de hora) sin recibir un correo, $P(X > 1/3)$? El momento es $\mathbb{E}[X] = 1/\lambda = 0.25$ horas $= 15$ minutos.
+\end{solproblema}

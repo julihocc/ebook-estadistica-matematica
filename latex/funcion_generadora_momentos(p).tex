@@ -1,0 +1,92 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:5a5f63a}
+	Enuncie, sin realizar ningún cálculo, la definición de la función generadora de momentos $M_X(t)$ de una variable aleatoria $X$, tanto para el caso discreto como para el caso continuo.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:f26d9b0}
+	Explique, sin calcular ninguna FGM concreta, por qué el Teorema de Unicidad permite demostrar que dos variables aleatorias tienen la misma distribución simplemente mostrando que sus funciones generadoras de momentos coinciden en un entorno de $t=0$ — sin necesidad de comparar directamente sus funciones de densidad o de masa de probabilidad.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:2c4cd93}
+	Sea $X \sim \text{Poisson}(\lambda)$.
+	\begin{enumerate}
+		\item Calcule $M_X(t) = E[e^{tX}]$ a partir de la definición, sumando la serie $\sum_{k=0}^{\infty} e^{tk}\dfrac{e^{-\lambda}\lambda^k}{k!}$ y reconociendo la serie exponencial resultante.
+		\item Derive $M_X(t)$ para obtener $E[X]=\lambda$.
+	\end{enumerate}
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:cf5e60c}
+	Sea $X$ una variable aleatoria con FGM $M_X(t)$, y considere la transformación lineal $Y = aX+b$ para constantes $a\neq0$, $b$.
+	\begin{enumerate}
+		\item Demuestre que $M_Y(t) = e^{bt} M_X(at)$.
+		\item Aplique este resultado a la estandarización $Z=(X-\mu)/\sigma$ (es decir, $a=1/\sigma$, $b=-\mu/\sigma$) para expresar $M_Z(t)$ en términos de $M_X(t/\sigma)$.
+	\end{enumerate}
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:5098ae4}
+	Un estudiante afirma: ``si dos variables aleatorias tienen la misma media y la misma varianza, entonces deben tener la misma distribución''. Evalúe esta afirmación usando el concepto de función generadora de momentos: ¿qué relación existe entre "tener los mismos dos primeros momentos" y "tener la misma FGM"? Explique por qué la igualdad de unos pocos momentos no basta, mientras que la igualdad de la FGM completa sí lo hace.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:a48cc99}
+	Elija una distribución discreta o continua que no aparezca en la tabla resumen de FGMs de esta sección (Bernoulli, Binomial, Poisson, Geométrica, Exponencial, Normal, Gamma, Chi-cuadrada), y derive su función generadora de momentos desde la definición. Use el resultado para obtener $E[X]$.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:5a5f63a]
+	$M_X(t) = E[e^{tX}]$. Si $X$ es discreta con función de probabilidad $f$, $M_X(t) = \sum_x e^{tx}f(x)$. Si $X$ es continua con densidad $f$, $M_X(t) = \int_{-\infty}^{\infty} e^{tx}f(x)\,dx$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:f26d9b0]
+	El Teorema de Unicidad establece que la FGM, cuando existe en un entorno de $t=0$, determina de forma única la distribución de probabilidad completa de una variable aleatoria — no solo algunos de sus momentos, sino toda la información distribucional (soporte, forma, todos los momentos simultáneamente). Por eso, si se logra manipular algebraicamente $M_{X}(t)$ hasta reconocer que coincide exactamente con la FGM de otra distribución conocida $Y$, se concluye automáticamente que $X$ y $Y$ tienen la misma distribución, sin necesidad de integrar o sumar directamente para comparar densidades o masas de probabilidad. Esta es precisamente la técnica usada repetidamente en secciones anteriores del libro para demostrar, por ejemplo, que la suma de Poissons independientes es Poisson o que la suma de gammas de igual escala es gamma.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:2c4cd93]
+	\begin{enumerate}
+		\item
+		\begin{align*}
+			M_X(t) = \sum_{k=0}^{\infty} e^{tk}\dfrac{e^{-\lambda}\lambda^k}{k!} = e^{-\lambda}\sum_{k=0}^{\infty}\dfrac{(\lambda e^t)^k}{k!} = e^{-\lambda}e^{\lambda e^t} = e^{\lambda(e^t-1)}.
+		\end{align*}
+		\item Derivando: $M_X'(t) = \lambda e^t \cdot e^{\lambda(e^t-1)}$, así $M_X'(0) = \lambda e^0 \cdot e^{\lambda(1-1)} = \lambda$, es decir $E[X]=\lambda$.
+	\end{enumerate}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:cf5e60c]
+	\begin{enumerate}
+		\item Por definición, $M_Y(t) = E[e^{tY}] = E[e^{t(aX+b)}] = E[e^{tb}e^{taX}] = e^{tb}E[e^{(ta)X}] = e^{bt}M_X(at)$.
+		\item Con $a=1/\sigma$ y $b=-\mu/\sigma$: $M_Z(t) = e^{-\mu t/\sigma}\,M_X(t/\sigma)$. Esta es exactamente la identidad usada para derivar la FGM de la Normal estándar a partir de la FGM de una Normal general, y es la misma técnica que sustenta la demostración del Teorema Central del Límite vía FGM de la variable estandarizada $Z_n$.
+	\end{enumerate}
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:5098ae4]
+	La afirmación es \textbf{incorrecta}. Tener la misma media y varianza equivale únicamente a que coincidan el primer y segundo momento ($E[X]=E[Y]$, $E[X^2]=E[Y^2]$), es decir, solo dos valores de la FGM completa (concretamente, $M_X'(0)=M_Y'(0)$ y $M_X''(0)=M_Y''(0)$). Esto no implica que $M_X(t)=M_Y(t)$ como funciones — dos distribuciones distintas pueden compartir exactamente su media y varianza pero diferir en momentos de orden superior (asimetría, curtosis, etc.), y por lo tanto en su FGM completa y en su distribución. El Teorema de Unicidad exige la igualdad de la función \emph{completa} $M_X(t)$ en un entorno de $t=0$ (equivalente a la igualdad de \textbf{todos} los momentos simultáneamente), no solo de un par de ellos.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:a48cc99]
+	\textbf{Ejemplo:} sea $X \sim \text{Uniforme}(0,1)$ (no incluida en la tabla). Por definición:
+	\begin{align*}
+		M_X(t) = \int_0^1 e^{tx}\,dx = \left[\dfrac{e^{tx}}{t}\right]_0^1 = \dfrac{e^t-1}{t}, \quad t\neq0 \quad (M_X(0)=1).
+	\end{align*}
+	Derivando (o usando la expansión en serie de Taylor de $e^t$ para evitar la forma $0/0$ en $t=0$): $M_X(t) = \dfrac{1}{t}\left(t+\dfrac{t^2}{2}+\dfrac{t^3}{6}+\cdots\right) = 1+\dfrac{t}{2}+\dfrac{t^2}{6}+\cdots$, de donde $E[X] = $ coeficiente de $t$ en la expansión $= 1/2$, consistente con la fórmula conocida $E[X]=(a+b)/2$ para $U(0,1)$.
+\end{solproblema}
