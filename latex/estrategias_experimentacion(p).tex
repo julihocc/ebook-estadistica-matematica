@@ -1,0 +1,71 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:8d16ad2}
+	Enuncie, sin realizar ningún cálculo, los Tres Principios de Fisher en el Diseño de Experimentos (Replicación, Aleatorización, Control Local o Bloqueo), y defina brevemente qué es un "tratamiento" en este contexto.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:0b5e19a}
+	Explique, sin calcular ningún valor numérico nuevo, por qué realizar pruebas $t$ individuales para cada par posible entre $k$ tratamientos, sin ningún ajuste, hace que la probabilidad global de cometer \textbf{al menos un} Error Tipo I en el experimento completo sea mucho mayor que el nivel $\alpha$ nominal usado en cada prueba individual.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:433c810}
+	Un equipo de ciencia de datos planea comparar $k=6$ modelos de machine learning mediante pruebas $t$ individuales por pares, cada una al nivel $\alpha=0.05$, sin ningún ajuste. Calcule el número de comparaciones por pares $m=\binom{6}{2}$ y la probabilidad global de al menos un Error Tipo I, $\alpha_{\text{global}}=1-(1-\alpha)^m$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:9bff013}
+	Un equipo planea un ANOVA de un factor con $k=4$ lenguajes de backend, varianza residual $\sigma^2=16\,\text{ms}^2$, y desea potencia $1-\beta=0.80$ al nivel $\alpha=0.05$ para detectar una diferencia máxima de $\Delta=5$ ms entre el más rápido y el más lento. Calcule la varianza poblacional mínima de los tratamientos $\sigma_\tau^2=\Delta^2/(2k)$, el tamaño de efecto de Cohen $f=\sigma_\tau/\sigma$, e interprete su magnitud según la escala de Cohen ($f=0.10$ pequeño, $0.25$ mediano, $0.40$ grande).
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:257933a}
+	Un investigador compara tres fertilizantes asignándolos, por conveniencia logística, siempre en el mismo orden a las parcelas más cercanas a la entrada del invernadero (Fertilizante A a las primeras parcelas, B a las siguientes, C a las últimas), sin usar ningún mecanismo aleatorio de asignación. Evalúe este diseño: ¿cuál de los Tres Principios de Fisher se viola, y qué consecuencia tiene esta violación sobre la validez de las conclusiones del experimento (piense en factores de confusión asociados a la posición, como luz solar o humedad)?
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:fb4917f}
+	Diseñe un ejemplo original de un experimento (distinto de los ejemplos de fertilizantes, algoritmos o lenguajes ya vistos), e identifique explícitamente cada elemento de la terminología del diseño experimental: la unidad experimental, el factor, los niveles del factor, los tratamientos, la variable respuesta, y una posible fuente de error experimental.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:8d16ad2]
+	\textbf{Replicación:} repetir cada tratamiento varias veces para estimar $\sigma^2$ y reducir el error estándar. \textbf{Aleatorización:} asignar tratamientos a las unidades experimentales al azar, para que los errores $\epsilon_{ij}$ sean independientes y las pruebas $F$/$t$ sean válidas. \textbf{Control Local o Bloqueo:} agrupar unidades experimentales similares en bloques para aislar fuentes de variabilidad conocidas. Un \textbf{tratamiento} es cada nivel (o combinación de niveles) del factor bajo estudio que se aplica a una unidad experimental.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:0b5e19a]
+	Cada prueba $t$ individual tiene, por diseño, una probabilidad $\alpha$ de rechazar incorrectamente $H_0$ cuando es verdadera. Al realizar muchas pruebas independientes, la probabilidad de que \emph{ninguna} de ellas cometa ese error por azar es $(1-\alpha)^m$ (producto de las probabilidades de "no error" de cada una, bajo independencia), que se hace cada vez más pequeña conforme crece $m$. Por lo tanto, la probabilidad complementaria de que \emph{al menos una} de las $m$ pruebas cometa un falso positivo, $1-(1-\alpha)^m$, crece rápidamente con el número de comparaciones, muy por encima del $\alpha$ nominal de cada prueba individual.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:433c810]
+	$m=\binom{6}{2}=15$. $\alpha_{\text{global}} = 1-(1-0.05)^{15} = 1-(0.95)^{15} \approx1-0.4633 = 0.5367$ (53.67\%). A pesar de que cada prueba individual usa $\alpha=0.05$, la probabilidad de al menos un falso positivo en el conjunto de comparaciones supera el $53\%$.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:9bff013]
+	$\sigma_\tau^2 = 5^2/(2\times4) = 25/8 = 3.125\,\text{ms}^2$. $f = \sqrt{3.125/16} = \sqrt{0.1953}\approx0.4419$. Según la escala de Cohen, $f\approx0.44$ representa un tamaño de efecto \textbf{grande} (por encima del umbral $0.40$), es decir, la diferencia máxima buscada ($5$ ms) es considerable en relación con la variabilidad residual del sistema ($\sigma=4$ ms), lo que en principio facilita su detección con un tamaño de muestra moderado.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:257933a]
+	El diseño viola el principio de \textbf{Aleatorización}. Al asignar los fertilizantes siempre en el mismo orden posicional (A cerca de la entrada, B en medio, C al fondo), cualquier gradiente ambiental sistemático asociado a la posición dentro del invernadero (luz solar, humedad, temperatura, corrientes de aire) queda perfectamente \textbf{confundido} con el efecto del fertilizante: es imposible distinguir estadísticamente si las diferencias observadas se deben al fertilizante o a la posición. Sin aleatorización, los errores $\epsilon_{ij}$ ya no son independientes de los tratamientos, y cualquier "efecto" detectado podría ser enteramente espurio, invalidando las conclusiones causales del experimento — incluso si el análisis estadístico posterior (ANOVA) se ejecuta correctamente.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:fb4917f]
+	\textbf{Ejemplo:} un estudio evalúa el efecto de la temperatura de horneado sobre la textura de galletas. \textbf{Unidad experimental:} cada tanda individual de masa horneada. \textbf{Factor:} temperatura del horno. \textbf{Niveles del factor:} $160°$C, $180°$C, $200°$C. \textbf{Tratamientos:} cada una de las 3 temperaturas aplicadas a una tanda. \textbf{Variable respuesta:} puntaje de textura (escala sensorial 1–10) evaluado por un panel de catadores. \textbf{Posible fuente de error experimental:} variaciones no controladas en la humedad ambiental del día de horneado, que afectan la textura independientemente de la temperatura programada.
+\end{solproblema}

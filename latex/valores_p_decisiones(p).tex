@@ -1,0 +1,83 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:f1273a2}
+	Enuncie, sin realizar ningún cálculo, la definición del valor $p$ para una prueba de cola derecha, y la regla de decisión que compara el valor $p$ contra el nivel de significación $\alpha$.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:ed08255}
+	Explique la diferencia entre ``no rechazar $H_0$'' y ``aceptar $H_0$'' como conclusiones de una prueba de hipótesis: ¿por qué no rechazar $H_0$ no equivale a demostrar que $H_0$ es verdadera?
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:28d9ae6}
+	Un proveedor de internet afirma que la velocidad promedio de descarga de su plan residencial es de $50$ Mbps. Un regulador sospecha que la velocidad real es \textbf{menor} y toma una muestra de $n=49$ conexiones, obteniendo $\bar x=47.8$ Mbps con $s=7$ Mbps. Formule las hipótesis, calcule el estadístico $Z$, el valor $p$, y decida al nivel $\alpha=0.05$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:ff47cad}
+	Sea una prueba con estadístico continuo $T$ cuya función de distribución bajo $H_0$ es $F_0(t)$, estrictamente monótona y continua, con función de supervivencia $S_0(t)=1-F_0(t)$. El valor $p$ aleatorio para una prueba de cola superior se define como $P=S_0(T)$. Demuestre, usando el Teorema de la Transformada de Probabilidad Integral, que cuando $H_0$ es verdadera, $P\sim U(0,1)$, es decir, $P_{H_0}(P\le x)=x$ para todo $x\in(0,1)$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:af3b6da}
+	Un investigador reporta un valor $p=0.03$ y concluye: ``existe solo un $3\%$ de probabilidad de que la hipótesis nula sea verdadera''. Evalúe esta interpretación: ¿es correcta? Explique qué es lo que el valor $p$ realmente representa (una probabilidad condicionada a qué evento) y por qué no es lo mismo que $P(H_0\mid\text{datos})$.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:de31e8f}
+	Diseñe un ejemplo original (contexto, $H_0$, $H_a$, y datos muestrales) donde deba calcularse un valor $p$ y tomarse una decisión al nivel $\alpha=0.05$, distinto de los ejemplos de tiempos de entrega o velocidad de internet ya vistos en esta sección y en la teoría. Calcule el estadístico de prueba, el valor $p$, y establezca la conclusión.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:f1273a2]
+	$p\text{-valor} = P(\text{Estadístico}\ge\text{valor observado}\mid H_0\text{ verdadera})$ para cola derecha. Regla de decisión: si $p\text{-valor}<\alpha$, se rechaza $H_0$; si $p\text{-valor}\ge\alpha$, no se rechaza.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:ed08255]
+	``No rechazar $H_0$'' significa únicamente que los datos observados son \emph{compatibles} con $H_0$ (no hay evidencia suficiente para descartarla), pero no constituye una prueba positiva de que $H_0$ sea cierta. Podría ser que $H_0$ sea falsa pero que la muestra, por tamaño insuficiente o por azar, no haya tenido el poder estadístico necesario para detectar la desviación real (Error Tipo II). ``Aceptar $H_0$'' implicaría afirmar con certeza que el parámetro toma exactamente el valor postulado, algo que la estadística inferencial nunca puede demostrar de forma concluyente a partir de una muestra finita.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:28d9ae6]
+	$H_0:\mu=50$, $H_a:\mu<50$. $Z = \dfrac{47.8-50}{7/\sqrt{49}} = \dfrac{-2.2}{1} = -2.2$. $p\text{-valor} = P(Z\le-2.2) = \Phi(-2.2)\approx0.0139$. Como $0.0139<0.05$, \textbf{se rechaza} $H_0$: hay evidencia de que la velocidad real es menor a la anunciada.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:ff47cad]
+	Para $x\in(0,1)$:
+	\begin{align*}
+		F_P(x) = P_{H_0}(P\le x) = P_{H_0}(S_0(T)\le x) = P_{H_0}(1-F_0(T)\le x) = P_{H_0}(F_0(T)\ge1-x).
+	\end{align*}
+	Como $F_0$ es continua y monótona creciente, tiene inversa $F_0^{-1}$; aplicándola sin alterar la desigualdad:
+	\begin{align*}
+		F_P(x) = P_{H_0}\left(T\ge F_0^{-1}(1-x)\right) = 1-F_0\left(F_0^{-1}(1-x)\right) = 1-(1-x) = x.
+	\end{align*}
+	Por lo tanto $P_{H_0}(P\le x)=x$ para todo $x\in(0,1)$, que es exactamente la función de distribución acumulada de $U(0,1)$.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:af3b6da]
+	La interpretación es \textbf{incorrecta}. El valor $p$ es $P(\text{estadístico tan o más extremo que el observado}\mid H_0\text{ verdadera})$ — una probabilidad calculada \textbf{asumiendo que $H_0$ es cierta}, sobre el espacio de posibles resultados muestrales. No es, ni puede interpretarse como, $P(H_0\mid\text{datos})$, la probabilidad posterior de que $H_0$ sea verdadera dado lo observado — estas son dos probabilidades condicionales distintas ($P(A\mid B) \neq P(B\mid A)$ en general), y calcular la segunda requeriría un marco bayesiano con una distribución previa sobre $H_0$, información que el valor $p$ frecuentista nunca incorpora. Un valor $p=0.03$ dice que, \emph{si} $H_0$ fuera cierta, resultados tan extremos como el observado ocurrirían solo el $3\%$ de las veces — no dice nada directamente sobre la probabilidad de que $H_0$ sea cierta.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:de31e8f]
+	\textbf{Ejemplo:} un fabricante de cereal afirma que el peso promedio de sus cajas es $\mu_0=500$ g. Un inspector de protección al consumidor sospecha que el peso real es menor y pesa $n=40$ cajas, obteniendo $\bar x=496$ g con $s=12$ g. $H_0:\mu=500$, $H_a:\mu<500$.
+	\begin{align*}
+		Z = \frac{496-500}{12/\sqrt{40}} = \frac{-4}{1.897} \approx-2.109.
+	\end{align*}
+	$p\text{-valor} = \Phi(-2.109) \approx0.0175$. Como $0.0175<0.05$, se rechaza $H_0$: hay evidencia de que el peso promedio real es menor al declarado.
+\end{solproblema}

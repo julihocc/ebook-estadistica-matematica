@@ -1,0 +1,81 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:9667d45}
+	Enuncie, sin realizar ningún cálculo, la fórmula del estadístico $Z$ para probar $H_0:p=p_0$ sobre una proporción poblacional, y señale explícitamente qué valor (poblacional bajo $H_0$, o muestral observado) se usa en el error estándar del denominador.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:fa8ecc5}
+	Explique por qué, en la prueba $Z$ para una proporción, el error estándar del denominador se calcula con $p_0(1-p_0)/n$ (el valor hipotético bajo $H_0$) y no con $\hat p(1-\hat p)/n$ (el valor muestral observado, como sí se hace en el intervalo de confianza para $p$).
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:7649a34}
+	Una compañía de ciberseguridad compara la efectividad de un filtro antispam clásico frente a un nuevo modelo de IA. El filtro clásico detectó correctamente $X_1=340$ de $n_1=400$ correos maliciosos; el modelo de IA detectó $X_2=465$ de $n_2=500$. ¿Existe evidencia al nivel $\alpha=0.02$ de que el Modelo de IA tiene una tasa de detección significativamente superior?
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:451f58f}
+	Partiendo de la fórmula del error estándar de una proporción bajo $H_0$, $\text{SE}=\sqrt{p_0(1-p_0)/n}$, y siguiendo el mismo razonamiento usado para derivar el tamaño de muestra de una prueba sobre la media ($n=\left(\frac{(Z_\alpha+Z_\beta)\sigma}{\mu_a-\mu_0}\right)^2$), deduzca la fórmula análoga del tamaño de muestra $n$ necesario para que una prueba de una cola sobre una proporción, con $H_0:p=p_0$ contra $H_a:p>p_0$, alcance una potencia $1-\beta$ para detectar una proporción alternativa real $p_a>p_0$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:f016371}
+	Un analista, al construir el estadístico de prueba para $H_0:p=0.30$ con una muestra que arrojó $\hat p=0.38$, calcula el error estándar como $\sqrt{\hat p(1-\hat p)/n} = \sqrt{0.38(0.62)/n}$ en vez de $\sqrt{p_0(1-p_0)/n}=\sqrt{0.30(0.70)/n}$. Evalúe este error: ¿en qué dirección se sesga el estadístico $Z$ resultante (más grande o más pequeño en magnitud), y qué consecuencia práctica tiene sobre la decisión de la prueba?
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:134cb53}
+	Diseñe un ejemplo original (contexto, $p_0$ hipotético, y datos muestrales) donde se aplique la prueba $Z$ para una \textbf{única} proporción poblacional, distinto de los ejemplos de detección de spam ya vistos en esta sección. Verifique la condición de muestra grande y calcule el estadístico $Z$.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:9667d45]
+	$Z = \dfrac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}$. El error estándar usa el valor \textbf{hipotético bajo $H_0$} ($p_0$), no el valor muestral observado $\hat p$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:fa8ecc5]
+	La prueba de hipótesis evalúa qué tan compatibles son los datos observados con un valor \emph{específico y fijo} $p_0$ postulado por $H_0$; por definición, bajo $H_0$ la variabilidad real del muestreo está gobernada por ese valor $p_0$, no por el valor observado $\hat p$ (que es solo una estimación ruidosa, y usarla introduciría un círculo lógico: se estaría midiendo la evidencia contra $H_0$ usando información que depende de rechazar o no $H_0$). En cambio, el intervalo de confianza no parte de ningún valor hipotético a priori — su objetivo es estimar $p$ desconocido usando la única información disponible, que es la muestra, por lo que usa $\hat p$ como la mejor aproximación disponible del error estándar real.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:7649a34]
+	$\hat p_1=340/400=0.85$, $\hat p_2=465/500=0.93$. $\bar p = 805/900\approx0.8944$. $\text{SE}_0 = \sqrt{0.8944(0.1056)(1/400+1/500)}\approx0.02061$. $Z = (0.85-0.93)/0.02061\approx-3.881$. Con $-Z_{0.02}=-2.054$ (cola izquierda): como $-3.881<-2.054$, \textbf{se rechaza} $H_0$: el Modelo de IA tiene una tasa de detección significativamente superior.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:451f58f]
+	Análogamente al caso de la media, el punto crítico bajo $H_0$ es $\hat p_c = p_0+Z_\alpha\sqrt{p_0(1-p_0)/n}$, y bajo $H_a$ (centrado en $p_a$), el punto crítico también se expresa como $\hat p_c = p_a-Z_\beta\sqrt{p_a(1-p_a)/n}$. Igualando ambas expresiones de $\hat p_c$ y aproximando $\sqrt{p_0(1-p_0)}\approx\sqrt{p_a(1-p_a)}$ para simplificar (aproximación estándar cuando $p_0$ y $p_a$ no son extremadamente distantes):
+	\begin{align*}
+		p_0+Z_\alpha\sqrt{\frac{\bar{pq}}{n}} = p_a-Z_\beta\sqrt{\frac{\bar{pq}}{n}} \implies (Z_\alpha+Z_\beta)\sqrt{\frac{\bar{pq}}{n}} = p_a-p_0,
+	\end{align*}
+	donde $\bar{pq}$ denota el producto $p(1-p)$ evaluado en un valor representativo. Despejando $n$:
+	\begin{align*}
+		n = \left(\frac{(Z_\alpha+Z_\beta)}{p_a-p_0}\right)^2 \bar{p}(1-\bar p).
+	\end{align*}
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:f016371]
+	El error es \textbf{conceptualmente incorrecto}, aunque el efecto numérico depende de los valores específicos: aquí $\hat p(1-\hat p)=0.38(0.62)=0.2356$ es mayor que $p_0(1-p_0)=0.30(0.70)=0.21$, por lo que el error estándar calculado incorrectamente es \textbf{más grande}, lo cual hace que el estadístico $Z=(\hat p-p_0)/\text{SE}$ resulte \textbf{más pequeño en magnitud} de lo que debería ser. La consecuencia práctica es que la prueba se vuelve artificialmente más conservadora: podría \textbf{no rechazar} $H_0$ en un caso donde el cálculo correcto (con $p_0(1-p_0)$) sí lo habría rechazado, llevando a una conclusión potencialmente errónea de "no hay evidencia suficiente" cuando en realidad sí la hay.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:134cb53]
+	\textbf{Ejemplo:} una fábrica de componentes electrónicos afirma que su tasa de defectos es $p_0=0.04$. Un control de calidad independiente toma una muestra de $n=500$ unidades y encuentra $28$ defectuosas, $\hat p=28/500=0.056$. Verificación: $np_0=20\ge5$ y $n(1-p_0)=480\ge5$, se cumple la condición.
+	\begin{align*}
+		Z = \frac{0.056-0.04}{\sqrt{0.04(0.96)/500}} = \frac{0.016}{\sqrt{0.0000768}} = \frac{0.016}{0.00876} \approx1.826.
+	\end{align*}
+\end{solproblema}

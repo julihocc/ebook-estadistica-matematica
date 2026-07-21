@@ -1,0 +1,75 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:83dd109}
+	Enuncie, sin realizar ningún cálculo, el estadístico $F$ del ANOVA de un factor y su distribución de referencia bajo $H_0$, y liste las columnas de una tabla ANOVA estándar (Fuente, SC, g.l., CM, $F$).
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:e959af7}
+	Después de que un ANOVA global resulta significativo (se rechaza $H_0:\tau_1=\cdots=\tau_k=0$), explique por qué \textbf{no} es válido simplemente observar cuáles medias muestrales "se ven diferentes" a simple vista para concluir qué pares de tratamientos difieren, y por qué se necesita en su lugar un procedimiento formal de comparación múltiple (como Tukey, LSD o Bonferroni).
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:acbf3f9}
+	Un científico de datos compara el $F_1$-score de cuatro algoritmos de clasificación con $n=5$ réplicas cada uno ($N=20$): Random Forest ($\bar Y_1=84.2\%$, $S_1=3.1\%$), SVM ($\bar Y_2=79.8\%$, $S_2=3.4\%$), XGBoost ($\bar Y_3=88.6\%$, $S_3=2.8\%$), DNN ($\bar Y_4=86.4\%$, $S_4=3.5\%$). Construya la tabla completa de ANOVA al nivel $\alpha=0.05$ (use $F_{0.05,3,16}=3.239$). ¿Existe evidencia de que al menos un algoritmo difiere?
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:63c8eaa}
+	Con los datos y resultados del problema anterior ($\text{CME}=10.315$, $\nu_E=16$, $k=4$, $n=5$ balanceado), aplique el procedimiento HSD de Tukey con $\alpha=0.05$ (use $q_{0.05,4,16}=4.046$) para determinar cuáles de las seis parejas de algoritmos difieren significativamente entre sí.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:271e3ee}
+	Una firma de ingeniería en la nube compara $k=5$ protocolos de enrutamiento ($\text{CME}=18.0$ ms$^2$, $\nu_E=25$, $n=6$ réplicas por protocolo). Calcule la Diferencia Mínima Significativa (LSD de Fisher, $\alpha=0.05$) y el margen crítico de Bonferroni (controlando el mismo $\alpha=0.05$ familiar sobre las $\binom{5}{2}=10$ comparaciones). Evalúe cuantitativamente cuál método es más sensible y cuál es más conservador, y qué implicación práctica tiene esa diferencia.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:2ed3d37}
+	Diseñe un ejemplo original ($k\ge3$ tratamientos con medias y desviaciones muestrales hipotéticas) donde, tras un ANOVA significativo, se aplique el procedimiento HSD de Tukey para identificar qué pares de tratamientos difieren, distinto de los ejemplos de algoritmos de clasificación ya vistos en esta sección. Calcule el HSD para sus datos.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:83dd109]
+	$F = \text{CMTR}/\text{CME} \sim F_{k-1,N-k}$ bajo $H_0$; se rechaza si $F>F_{\alpha,k-1,N-k}$. Columnas de la tabla ANOVA: Fuente de Variación, SC, g.l. ($\nu$), CM, Estadístico $F$ (filas: Tratamientos, Error, Total).
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:e959af7]
+	Realizar múltiples comparaciones informales (o pruebas $t$ individuales sin ajuste) infla la Tasa de Error Familiar: cuantas más comparaciones se hagan, mayor la probabilidad de declarar por azar al menos una diferencia como "significativa" cuando en realidad no existe (Error Tipo I acumulado), incluso si el ANOVA global fue correctamente significativo. Los procedimientos formales como Tukey, LSD o Bonferroni ajustan matemáticamente el umbral de significancia para controlar esa probabilidad de error conjunta en el nivel $\alpha$ deseado, en vez de dejar que se acumule sin control comparación por comparación.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:acbf3f9]
+	$\bar Y_{..}=84.75$. $\text{SCTR}=5[(-0.55)^2+(-4.95)^2+(3.85)^2+(1.65)^2]=211.75$. $\text{SCE}=4[3.1^2+3.4^2+2.8^2+3.5^2]=165.04$. Con $\nu_{\text{TR}}=3$, $\nu_E=16$: $\text{CMTR}\approx70.583$, $\text{CME}=10.315$, $F\approx6.843$. Con $F_{0.05,3,16}=3.239$: como $6.843>3.239$, \textbf{se rechaza} $H_0$: al menos un algoritmo difiere significativamente en $F_1$-score.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:63c8eaa]
+	$\text{HSD} = q_{0.05,4,16}\sqrt{\text{CME}/n} = 4.046\sqrt{10.315/5} \approx4.046(1.436)\approx5.811\%$. Comparando las 6 diferencias absolutas de medias contra $5.811\%$: XGBoost($88.6$) vs SVM($79.8$): $8.80>5.811$ \textbf{significativo}; DNN($86.4$) vs SVM($79.8$): $6.60>5.811$ \textbf{significativo}; los demás 4 pares (XGB vs RF, XGB vs DNN, DNN vs RF, RF vs SVM) tienen diferencias $\le4.40<5.811$, no significativos. Conclusión: tanto XGBoost como DNN superan a SVM; entre sí y con Random Forest no hay diferencias discernibles.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:271e3ee]
+	$\text{LSD} = t_{0.025,25}\sqrt{\text{CME}(2/n)} = 2.060\sqrt{18.0(2/6)} = 2.060\sqrt6 \approx5.046$ ms. Para Bonferroni con $m=10$ comparaciones: $\alpha^*=0.05/10=0.005$, $t_{0.0025,25}=3.078$, $\text{CD}_{\text{Bonf}}=3.078\sqrt6\approx7.540$ ms. El umbral de Bonferroni es casi un $50\%$ más amplio que el de LSD. El \textbf{LSD de Fisher} es más sensible (detecta diferencias más pequeñas, menor Error Tipo II) pero, al no ajustar por las 10 comparaciones, su FWER real supera ampliamente el $5\%$ nominal. \textbf{Bonferroni} controla estrictamente el FWER pero sacrifica potencia: diferencias reales entre $5.0$ y $7.5$ ms pasarían inadvertidas. La elección depende de si el proyecto prioriza evitar falsos positivos (Bonferroni) o detectar efectos sutiles (LSD, aceptando más riesgo de falsos positivos).
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:2ed3d37]
+	\textbf{Ejemplo:} un estudio compara el tiempo de carga (segundos) de $k=3$ frameworks web, con $n=6$ réplicas cada uno: Framework A ($\bar Y_1=2.1$), Framework B ($\bar Y_2=3.4$), Framework C ($\bar Y_3=2.3$), con $\text{CME}=0.25$ y $\nu_E=15$. Con $q_{0.05,3,15}\approx3.67$:
+	\begin{align*}
+		\text{HSD} = 3.67\sqrt{0.25/6} \approx3.67(0.204)\approx0.749\text{ s}.
+	\end{align*}
+	Comparando: $|\bar Y_B-\bar Y_A|=1.3>0.749$ (significativo); $|\bar Y_B-\bar Y_C|=1.1>0.749$ (significativo); $|\bar Y_A-\bar Y_C|=0.2\le0.749$ (no significativo). El Framework B es significativamente más lento que A y C.
+\end{solproblema}

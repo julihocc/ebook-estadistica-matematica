@@ -1,0 +1,78 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:aa64893}
+	Enuncie, sin realizar ningún cálculo, los tres supuestos del modelo ANOVA que deben verificarse mediante análisis de residuos (homocedasticidad, normalidad, independencia), y mencione una prueba formal asociada a cada uno.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:e34d9fb}
+	Al auditar un ANOVA de un factor con $k=3$ grupos de tamaños iguales ($n_1=n_2=n_3=6$), las varianzas muestrales son $S_1^2=1.2$, $S_2^2=1.5$ y $S_3^2=8.9$. Un analista propone proceder con el ANOVA estándar aduciendo que ``el ANOVA es robusto a violaciones en las varianzas si los tamaños grupales son iguales''. Explique si esta afirmación es correcta en este caso específico, y qué procedimiento de verificación cuantitativa debe realizarse antes de confiar en esa robustez.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:57b555d}
+	Un analista audita la homoscedasticidad de $k=4$ configuraciones de un pipeline de cómputo distribuido, cada una con $n_i=8$ corridas. Las varianzas muestrales son $S_1^2=4.0$, $S_2^2=4.5$, $S_3^2=5.2$, $S_4^2=4.8$ (s$^2$). Calcule el estadístico de la Prueba de Bartlett y compárelo contra $\chi^2_{0.05,3}=7.815$. ¿Existe evidencia para rechazar la homoscedasticidad?
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:e2546e4}
+	Demuestre formalmente que la Prueba de Levene centrada en la media, aplicada a $Z_{ij}=|Y_{ij}-\bar Y_{i.}|$, es matemáticamente idéntica a aplicar el ANOVA de un factor ordinario a la variable transformada $Z_{ij}$. Es decir, muestre que el estadístico de Levene $W=\frac{N-k}{k-1}\cdot\frac{\sum_i n_i(\bar Z_{i.}-\bar Z_{..})^2}{\sum_i\sum_j(Z_{ij}-\bar Z_{i.})^2}$ satisface $W\equiv\text{CMTR}_Z/\text{CME}_Z$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:8dd2466}
+	Un ingeniero mide el tiempo de compilación (segundos) de $k=3$ \emph{pipelines} de CI, $n=5$ corridas cada uno: Pipeline A: $40,42,38,44,41$; Pipeline B: $50,55,48,52,60$; Pipeline C: $41,40,42,39,43$. El Pipeline B muestra un rango de $12$ segundos frente a $6$ y $4$ de los otros dos, sugiriendo visualmente mayor dispersión. Aplique la Prueba de Levene centrada en la media ($\alpha=0.05$, $F_{0.05,2,12}=3.885$) y evalúe si la impresión visual de mayor dispersión en Pipeline B está estadísticamente confirmada.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:095357b}
+	Diseñe un ejemplo original (contexto, $k$ grupos con varianzas muestrales hipotéticas) donde deba verificarse el supuesto de homocedasticidad antes de un ANOVA, distinto de los ejemplos de pipelines de cómputo ya vistos en esta sección. Calcule la varianza combinada (\emph{pooled}) $S_p^2$ para sus datos como primer paso de la Prueba de Bartlett.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:aa64893]
+	(1) Homocedasticidad ($\sigma_1^2=\cdots=\sigma_k^2$): prueba de Bartlett o Levene/Brown-Forsythe. (2) Normalidad de los residuos: gráfico Q-Q, prueba de Shapiro-Wilk o Kolmogorov-Smirnov. (3) Independencia de los errores ($\text{Cov}(\epsilon_{ij},\epsilon_{lm})=0$): se garantiza en el diseño mediante aleatorización, no se prueba post-hoc con la misma facilidad.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:e34d9fb]
+	La afirmación es \textbf{peligrosamente incompleta}. Es cierto que el ANOVA tiene robustez estructural frente a desviaciones \textbf{leves a moderadas} de homoscedasticidad cuando las muestras están balanceadas, pero esa robustez \textbf{no} se extiende a disparidades extremas. Aquí, $S_3^2/S_1^2 = 8.9/1.2 \approx7.4$, una razón de más de 7 a 1, muy por fuera del rango donde la robustez del ANOVA balanceado es confiable. Antes de proceder, debe aplicarse una prueba formal (Levene o Bartlett) al nivel $\alpha=0.05$; si se rechaza la homoscedasticidad, debe usarse el ANOVA de Welch (que pondera inversamente por las varianzas individuales) o una transformación estabilizadora de varianza (logarítmica, si los datos son positivos y asimétricos).
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:57b555d]
+	$S_p^2 = \dfrac{7(4.0+4.5+5.2+4.8)}{28} = \dfrac{7(18.5)}{28} = 4.625$. El estadístico de Bartlett resulta $B\approx0.121$ (numerador $28\ln(4.625)-7\sum\ln(S_i^2)\approx0.125$, factor de corrección $\approx1.0595$). Como $B\approx0.121\ll\chi^2_{0.05,3}=7.815$, \textbf{no se rechaza} $H_0$: las cuatro varianzas son compatibles con homoscedasticidad.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:e2546e4]
+	Por construcción, $Z_{ij}=|Y_{ij}-\bar Y_{i.}|$ es simplemente una nueva variable derivada de los datos originales. Una vez definida, el procedimiento de Levene no introduce ningún estadístico nuevo: aplica textualmente el ANOVA de un factor a $Z_{ij}$ en vez de a $Y_{ij}$. Con $\bar Z_{i.}$ la media grupal de las desviaciones absolutas y $\bar Z_{..}$ su gran media, el mismo Teorema de partición da $\text{SCT}_Z=\text{SCTR}_Z+\text{SCE}_Z$ con $\text{SCTR}_Z=\sum_i n_i(\bar Z_{i.}-\bar Z_{..})^2$ y $\text{SCE}_Z=\sum_i\sum_j(Z_{ij}-\bar Z_{i.})^2$. Dividiendo entre $k-1$ y $N-k$ respectivamente y tomando el cociente:
+	\begin{align*}
+		F_Z = \frac{\text{CMTR}_Z}{\text{CME}_Z} = \frac{N-k}{k-1}\cdot\frac{\sum_i n_i(\bar Z_{i.}-\bar Z_{..})^2}{\sum_i\sum_j(Z_{ij}-\bar Z_{i.})^2} \equiv W,
+	\end{align*}
+	que es exactamente la fórmula de Levene. No son dos procedimientos distintos, sino uno solo aplicado a una variable reexpresada.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:8dd2466]
+	Medias grupales: $\bar Y_A=41$, $\bar Y_B=53$, $\bar Y_C=41$. Desviaciones absolutas: $Z_A=\{1,1,3,3,0\}$ ($\bar Z_A=1.6$); $Z_B=\{3,2,5,1,7\}$ ($\bar Z_B=3.6$); $Z_C=\{0,1,1,2,2\}$ ($\bar Z_C=1.2$). $\bar Z_{..}\approx2.133$. $\text{SCTR}_Z\approx16.533$, $\text{SCE}_Z=33.2$, $W=\text{CMTR}_Z/\text{CME}_Z = 8.267/2.767\approx2.988$. Como $2.988<F_{0.05,2,12}=3.885$, \textbf{no se rechaza} $H_0$: la impresión visual de mayor dispersión en Pipeline B \textbf{no está estadísticamente confirmada} — con $n=5$ por grupo, la muestra es insuficiente para declarar heteroscedasticidad significativa, ilustrando que la inspección visual de la dispersión no sustituye a la prueba formal.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:095357b]
+	\textbf{Ejemplo:} un laboratorio de control de calidad compara la precisión de $k=3$ básculas industriales, cada una con $n_i=10$ mediciones repetidas del mismo peso patrón: Báscula 1 ($S_1^2=0.08$), Báscula 2 ($S_2^2=0.11$), Báscula 3 ($S_3^2=0.09$) (en g$^2$). Con $n_i-1=9$ para cada grupo y $N-k=27$:
+	\begin{align*}
+		S_p^2 = \frac{9(0.08+0.11+0.09)}{27} = \frac{9(0.28)}{27} \approx0.0933.
+	\end{align*}
+\end{solproblema}

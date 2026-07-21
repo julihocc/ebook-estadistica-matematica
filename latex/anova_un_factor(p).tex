@@ -1,0 +1,86 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:04f6e1c}
+	Enuncie, sin realizar ningún cálculo, el modelo lineal paramétrico $Y_{ij}=\mu+\tau_i+\epsilon_{ij}$ del ANOVA de un factor (identificando cada término), y la identidad de partición $\text{SCT}=\text{SCTR}+\text{SCE}$.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:e3fdc51}
+	Explique, sin usar ninguna fórmula, qué tipo de variabilidad mide $\text{SCTR}$ (Suma de Cuadrados del Tratamiento) y qué tipo mide $\text{SCE}$ (Suma de Cuadrados del Error), y por qué comparar estas dos fuentes de variabilidad permite decidir si los tratamientos tienen efectos reales distintos.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:2b1379c}
+	En una auditoría de control de calidad sobre la resistencia a la tracción (MPa) de un polímero en cuatro formulaciones ($k=4$, $N=30$ balanceado), se registra $\text{SCT}=520.0$ y $\text{SCE}=180.0$.
+	\begin{enumerate}
+		\item Calcule $\text{SCTR}$ por aditividad.
+		\item Determine $\nu_{\text{TR}}$, $\nu_E$ y $\nu_T$.
+		\item Calcule $\text{CMTR}$, $\text{CME}$ y el estadístico $F$.
+		\item Decida al nivel $\alpha=0.01$ si las formulaciones difieren (use $F_{0.01,3,26}=4.637$).
+	\end{enumerate}
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:614e799}
+	Partiendo de la identidad $Y_{ij}-\bar Y_{..} = (\bar Y_{i.}-\bar Y_{..})+(Y_{ij}-\bar Y_{i.})$, demuestre algebraicamente que al elevar al cuadrado y sumar sobre todos los $i,j$, el doble producto cruzado se anula exactamente ($\sum_i\sum_j(\bar Y_{i.}-\bar Y_{..})(Y_{ij}-\bar Y_{i.})\equiv0$), probando $\text{SCT}=\text{SCTR}+\text{SCE}$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:792b2ff}
+	Un estudiante afirma: ``la identidad $\text{SCT}=\text{SCTR}+\text{SCE}$ solo es válida si los errores $\epsilon_{ij}$ son normales; si los datos no son normales, la partición de sumas de cuadrados deja de cumplirse''. Evalúe esta afirmación: ¿la identidad algebraica $\text{SCT}=\text{SCTR}+\text{SCE}$ depende de algún supuesto distribucional? ¿Qué es lo que sí requiere normalidad en el análisis de ANOVA?
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:4e06b95}
+	Diseñe un ejemplo original (contexto, $k$ tratamientos, tamaños de muestra) donde se aplique el modelo de ANOVA de un factor, distinto de los ejemplos de polímeros o algoritmos ya vistos en esta sección. Plantee $H_0$ y $H_a$ en notación de efectos ($\tau_i$).
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:04f6e1c]
+	$Y_{ij}=\mu+\tau_i+\epsilon_{ij}$: $\mu$ es la media general, $\tau_i=\mu_i-\mu$ es el efecto del tratamiento $i$ (con $\sum n_i\tau_i=0$), y $\epsilon_{ij}\sim N(0,\sigma^2)$ i.i.d. es el error aleatorio. La identidad de partición es $\text{SCT}=\text{SCTR}+\text{SCE}$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:e3fdc51]
+	$\text{SCTR}$ mide la variabilidad \textbf{entre} tratamientos: qué tan dispersas están las medias de cada grupo respecto a la media general (variabilidad explicada por pertenecer a un tratamiento u otro). $\text{SCE}$ mide la variabilidad \textbf{dentro} de cada tratamiento: qué tan dispersas están las observaciones individuales respecto a la media de su propio grupo (variabilidad puramente aleatoria, no explicada por el tratamiento). Si $\text{SCTR}$ es grande en relación a $\text{SCE}$, las diferencias entre grupos superan claramente al ruido aleatorio esperado dentro de cada grupo, sugiriendo que los tratamientos sí tienen efectos reales distintos — esta comparación relativa es exactamente lo que formaliza el estadístico $F=\text{CMTR}/\text{CME}$.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:2b1379c]
+	\begin{enumerate}
+		\item $\text{SCTR}=\text{SCT}-\text{SCE}=520.0-180.0=340.0$.
+		\item $\nu_{\text{TR}}=k-1=3$, $\nu_E=N-k=26$, $\nu_T=N-1=29$.
+		\item $\text{CMTR}=340.0/3\approx113.333$, $\text{CME}=180.0/26\approx6.923$, $F=113.333/6.923\approx16.370$.
+		\item Con $F_{0.01,3,26}=4.637$: como $16.370\gg4.637$, \textbf{se rechaza} $H_0$: la formulación química altera significativamente la resistencia.
+	\end{enumerate}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:614e799]
+	Elevando al cuadrado: $(Y_{ij}-\bar Y_{..})^2 = (\bar Y_{i.}-\bar Y_{..})^2+(Y_{ij}-\bar Y_{i.})^2+2(\bar Y_{i.}-\bar Y_{..})(Y_{ij}-\bar Y_{i.})$. Sumando sobre $i,j$, el término cruzado es:
+	\begin{align*}
+		\sum_{i=1}^k(\bar Y_{i.}-\bar Y_{..})\sum_{j=1}^{n_i}(Y_{ij}-\bar Y_{i.}).
+	\end{align*}
+	La suma interior $\sum_j(Y_{ij}-\bar Y_{i.}) = n_i\bar Y_{i.}-n_i\bar Y_{i.}=0$ para cada $i$ fijo (propiedad de la media aritmética: las desviaciones respecto a la propia media siempre suman cero). Por lo tanto, todo el término cruzado se anula, quedando $\text{SCT}=\text{SCTR}+\text{SCE}$.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:792b2ff]
+	La afirmación es \textbf{incorrecta}. La identidad $\text{SCT}=\text{SCTR}+\text{SCE}$ es una identidad puramente \textbf{algebraica} (consecuencia directa de que las desviaciones respecto a la media grupal siempre suman cero), válida para \textbf{cualquier} conjunto de datos numéricos, sin importar su distribución — no depende de ningún supuesto de normalidad. Lo que sí requiere normalidad (y homoscedasticidad e independencia) es la afirmación \textbf{distribucional} de que $\text{SCTR}/\sigma^2\sim\chi^2_{k-1}$, $\text{SCE}/\sigma^2\sim\chi^2_{N-k}$ (independientes entre sí), y por tanto que $F=\text{CMTR}/\text{CME}$ siga exactamente una distribución $F_{k-1,N-k}$. Sin normalidad, la partición numérica sigue siendo válida, pero el estadístico $F$ ya no tiene esa distribución de referencia exacta para calcular p-valores.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:4e06b95]
+	\textbf{Ejemplo:} un agrónomo compara el rendimiento de cosecha (toneladas/hectárea) de $k=3$ variedades de trigo, con $n_1=8$, $n_2=10$, $n_3=7$ parcelas experimentales asignadas aleatoriamente a cada variedad. $H_0: \tau_1=\tau_2=\tau_3=0$ (las tres variedades tienen el mismo rendimiento medio); $H_a:$ al menos un $\tau_i\neq0$ (al menos una variedad difiere en rendimiento medio).
+\end{solproblema}

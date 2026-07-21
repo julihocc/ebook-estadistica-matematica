@@ -1,0 +1,79 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:246a30e}
+	Enuncie, sin realizar ningún cálculo, la fórmula del estadístico $\chi^2$ para probar $H_0:\sigma^2=\sigma_0^2$ (una población), y la fórmula del estadístico $F$ para probar $H_0:\sigma_1^2=\sigma_2^2$ (dos poblaciones), incluyendo sus grados de libertad respectivos.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:0a7aead}
+	Al ejecutar una prueba $F$ de dos colas para comparar dos varianzas, se acostumbra colocar la varianza muestral \textbf{mayor} en el numerador ($F=S_{\text{mayor}}^2/S_{\text{menor}}^2 \ge 1$), en vez de simplemente calcular $S_1^2/S_2^2$ según el orden original de las muestras. Explique la ventaja práctica de esta convención en relación con el uso de tablas estadísticas que solo reportan cuantiles superiores de la distribución $F$.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:682c2b2}
+	Antes de una prueba $t$ agrupada, se debe comprobar homoscedasticidad entre dos sensores analógicos. Dos muestras independientes dan $S_1^2=14.8$ ($n_1=16$) y $S_2^2=5.2$ ($n_2=11$). Realice una prueba $F$ de dos colas al nivel $\alpha=0.10$ para contrastar $H_0:\sigma_1^2=\sigma_2^2$ (use $F_{0.05,15,10}=2.85$). ¿Es legítimo asumir homoscedasticidad?
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:120019a}
+	Para dos muestras normales independientes con medias y varianzas desconocidas, se desea contrastar $H_0:\sigma_1^2=\sigma_2^2$ mediante la Prueba de Razón de Verosimilitudes (LRT). Deduzca la identidad $-2\ln\Lambda = n_1\ln(\hat\sigma_0^2/\hat\sigma_1^2)+n_2\ln(\hat\sigma_0^2/\hat\sigma_2^2)$, donde $\hat\sigma_0^2=(n_1\hat\sigma_1^2+n_2\hat\sigma_2^2)/(n_1+n_2)$ es el estimador de máxima verosimilitud combinado bajo $H_0$, y explique por qué $-2\ln\Lambda$ converge asintóticamente a $\chi^2_1$ según el Teorema de Wilks.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:9db6e94}
+	Un analista con dos muestras \textbf{pequeñas} ($n_1=8$, $n_2=10$) debe elegir entre la prueba $F$ de Snedecor (exacta) y la Prueba de Razón de Verosimilitudes vía Teorema de Wilks (asintótica) para contrastar igualdad de varianzas. Evalúe cuál es la elección estadísticamente más apropiada en este escenario de muestra pequeña, explicando la diferencia fundamental entre una prueba \emph{exacta} y una \emph{asintótica}.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:a0ad324}
+	Diseñe un ejemplo original (contexto, tamaño de muestra $n$, varianza muestral $S^2$ y varianza objetivo $\sigma_0^2$) donde se aplique la prueba $\chi^2$ para una \textbf{única} varianza poblacional, distinto de los ejemplos de sensores ya vistos en esta sección. Calcule el estadístico $\chi^2$ y establezca la decisión usando un valor crítico razonable.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:246a30e]
+	Para una población: $\chi^2 = \dfrac{(n-1)S^2}{\sigma_0^2}$, con $\nu=n-1$. Para dos poblaciones: $F = \dfrac{S_1^2}{S_2^2}$, con $\nu_1=n_1-1$ (numerador) y $\nu_2=n_2-1$ (denominador).
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:0a7aead]
+	Al colocar siempre la varianza mayor en el numerador, se garantiza que $F\ge1$, de modo que solo es necesario comparar el estadístico contra el cuantil \textbf{superior} de la tabla $F$ (por ejemplo $F_{\alpha/2,\nu_1,\nu_2}$), sin tener que buscar también el cuantil inferior $F_{1-\alpha/2,\nu_1,\nu_2}$ directamente en tablas que típicamente solo publican colas superiores. El cuantil inferior, si se necesitara con el orden original de las muestras, se obtiene de todas formas por la propiedad de reciprocidad $F_{1-\alpha/2,\nu_1,\nu_2}=1/F_{\alpha/2,\nu_2,\nu_1}$, pero la convención de "mayor sobre menor" evita tener que aplicarla explícitamente.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:682c2b2]
+	$F=14.8/5.2\approx2.846$, con $\nu_1=15$, $\nu_2=10$. Con $F_{0.05,15,10}=2.85$: como $2.846<2.85$ (en el límite), \textbf{no se rechaza formalmente} $H_0$ al 10\%, aunque al estar en la zona fronteriza de rechazo, se desaconseja asumir homoscedasticidad pura y se recomienda usar la prueba $t$ de Welch en pasos posteriores.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:120019a]
+	Bajo el espacio sin restricciones $\Theta$, los EMV son $\hat\sigma_1^2=\frac{1}{n_1}\sum(X_i-\bar X)^2$, $\hat\sigma_2^2=\frac{1}{n_2}\sum(Y_j-\bar Y)^2$, con log-verosimilitud máxima $\ln L(\hat\Theta) = -\frac{n_1+n_2}{2}\ln(2\pi)-\frac{n_1}{2}\ln\hat\sigma_1^2-\frac{n_2}{2}\ln\hat\sigma_2^2-\frac{n_1+n_2}{2}$. Bajo $\Theta_0$ (varianza común $\sigma_0^2$), el EMV combinado es $\hat\sigma_0^2=(n_1\hat\sigma_1^2+n_2\hat\sigma_2^2)/(n_1+n_2)$, con log-verosimilitud análoga sustituyendo $\hat\sigma_1^2,\hat\sigma_2^2$ por $\hat\sigma_0^2$. Restando $\ln L(\hat\Theta_0)-\ln L(\hat\Theta)$ y multiplicando por $-2$:
+	\begin{align*}
+		-2\ln\Lambda = n_1\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_1^2}\right)+n_2\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_2^2}\right).
+	\end{align*}
+	Por el Teorema de Wilks, bajo condiciones de regularidad, $-2\ln\Lambda$ converge a $\chi^2_\nu$ con $\nu=\dim(\Theta)-\dim(\Theta_0)$; aquí $\Theta=(\mu_1,\mu_2,\sigma_1^2,\sigma_2^2)$ tiene dimensión 4 y $\Theta_0=(\mu_1,\mu_2,\sigma_0^2)$ tiene dimensión 3, así $\nu=4-3=1$.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:9db6e94]
+	Para muestras pequeñas, la prueba $F$ de Snedecor es la elección \textbf{más apropiada}. La prueba $F$ es \textbf{exacta}: su distribución de referencia $F_{\nu_1,\nu_2}$ es válida para cualquier tamaño de muestra bajo el supuesto de normalidad, sin aproximación. La Prueba de Razón de Verosimilitudes vía Wilks, en cambio, es \textbf{asintótica}: su convergencia a $\chi^2_1$ solo se garantiza cuando $n_1,n_2\to\infty$; con $n_1=8$ y $n_2=10$ (muestras pequeñas), esa aproximación puede ser pobre, produciendo un control inadecuado del nivel de significancia real. La prueba $F$, al ser exacta y (bajo normalidad) uniformemente más potente entre las pruebas insesgadas, es la opción preferida en diseños de tamaño pequeño o mediano.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:a0ad324]
+	\textbf{Ejemplo:} un fabricante de baterías requiere que la varianza de la capacidad nominal sea $\sigma_0^2=25\,\text{mAh}^2$. Una muestra de $n=18$ baterías produce $S^2=41.3\,\text{mAh}^2$. El estadístico es:
+	\begin{align*}
+		\chi^2 = \frac{(n-1)S^2}{\sigma_0^2} = \frac{17(41.3)}{25} = \frac{702.1}{25} \approx28.08.
+	\end{align*}
+	Con $\chi^2_{0.025,17}\approx30.191$ y $\chi^2_{0.975,17}\approx7.564$ (prueba de dos colas, $\alpha=0.05$): como $7.564<28.08<30.191$, no se rechaza $H_0:\sigma^2=25$.
+\end{solproblema}

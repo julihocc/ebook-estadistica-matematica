@@ -1,0 +1,75 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:16e7075}
+	Enuncie, sin realizar ningún cálculo, la forma general de $H_0$ para una prueba sobre la diferencia de dos medias ($H_0:\mu_1-\mu_2=\Delta_0$), y liste los cuatro casos que determinan qué estadístico usar (varianzas conocidas, iguales desconocidas, distintas desconocidas, muestras pareadas).
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:b9ad2de}
+	Un analista tiene dos conjuntos de datos para comparar medias y no sabe qué caso (de los cuatro vistos) aplicar. Explique, a manera de árbol de decisión en palabras, qué preguntas debe hacerse en orden (¿las muestras están relacionadas?, ¿se conocen las varianzas poblacionales?, ¿son razonablemente iguales las varianzas muestrales?) para determinar el caso correcto.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:b0c0618}
+	En un estudio sobre rendimiento físico, se midió el consumo máximo de oxígeno ($\text{VO}_2$ máx) en $n=12$ atletas antes y después de un programa de entrenamiento en altitud de 8 semanas. Las diferencias individuales arrojaron $\bar D=3.8$ ml/kg/min y $S_D=2.1$ ml/kg/min. ¿Aportan los datos evidencia suficiente al nivel $\alpha=0.01$ para afirmar que el programa \textbf{aumenta} el consumo máximo de oxígeno?
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:f2e4336}
+	Un científico de datos compara los tiempos de ejecución de dos algoritmos, con varianzas explícitamente heterogéneas: Algoritmo 1 ($n_1=15$, $\bar X_1=85.2$ s, $S_1=12.4$ s) y Algoritmo 2 ($n_2=18$, $\bar X_2=74.5$ s, $S_2=5.2$ s). Calcule los grados de libertad de Welch-Satterthwaite y ejecute la prueba $t$ de Welch bilateral al $\alpha=0.05$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:bf23a02}
+	Un investigador mide el desempeño de $n=20$ empleados antes y después de una capacitación (mismos empleados, dos mediciones), pero decide analizar los datos como si fueran \textbf{dos muestras independientes} de tamaño 20 cada una, aplicando la prueba $t$ de varianzas iguales (Caso 2) en vez de la prueba pareada (Caso 4). Evalúe esta decisión: ¿qué información relevante se pierde al ignorar el apareamiento, y cómo afecta esto a la potencia de la prueba?
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:7fe0aa3}
+	Diseñe un ejemplo original (contexto, dos muestras independientes con varianzas poblacionales \textbf{conocidas}) donde se aplique la prueba $Z$ para diferencia de medias (Caso 1), distinto de los ejemplos ya vistos en esta sección. Calcule el estadístico $Z$ para datos que usted proponga.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:16e7075]
+	$H_0:\mu_1-\mu_2=\Delta_0$ (típicamente $\Delta_0=0$). Los cuatro casos son: (1) varianzas conocidas — estadístico $Z$; (2) varianzas desconocidas iguales — estadístico $t$ con varianza combinada $S_p^2$; (3) varianzas desconocidas distintas — estadístico $t$ de Welch; (4) muestras pareadas — estadístico $t$ sobre las diferencias $D_i$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:b9ad2de]
+	Primero: ¿las dos muestras están relacionadas (mismo sujeto medido dos veces, o pares naturalmente emparejados)? Si sí, se usa el Caso 4 (pareadas) sin importar las varianzas. Si las muestras son independientes, la siguiente pregunta es: ¿se conocen las varianzas poblacionales $\sigma_1^2,\sigma_2^2$? Si sí, se usa el Caso 1 ($Z$). Si no se conocen, la última pregunta es: ¿es razonable asumir que las varianzas poblacionales son iguales (por ejemplo, verificado con una prueba $F$ previa)? Si sí, Caso 2 (t pooled); si no, Caso 3 (Welch).
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:b0c0618]
+	$H_0:\mu_D\le0$, $H_a:\mu_D>0$ (cola derecha). Con $\nu=11$: $t = \dfrac{3.8}{2.1/\sqrt{12}} = \dfrac{3.8}{0.6062}\approx6.268$. Con $t_{0.01,11}=2.718$: como $6.268\gg2.718$, \textbf{se rechaza} $H_0$: hay evidencia abrumadora de que el programa aumenta el $\text{VO}_2$ máx.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:f2e4336]
+	$S_1^2/n_1\approx10.251$, $S_2^2/n_2\approx1.502$. $\nu = \dfrac{(10.251+1.502)^2}{10.251^2/14+1.502^2/17}\approx18.08\implies\nu=18$. $\text{SE}_W=\sqrt{11.753}\approx3.428$ s. $t=(85.2-74.5)/3.428\approx3.121$. Con $t_{0.025,18}=2.101$: como $3.121>2.101$, \textbf{se rechaza} $H_0$: el Algoritmo 2 es significativamente más rápido.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:bf23a02]
+	La decisión es \textbf{incorrecta}. Al tratar mediciones pareadas como si fueran independientes, se ignora la \textbf{correlación natural entre las dos mediciones del mismo sujeto} (un empleado con desempeño alto tiende a tener desempeño alto tanto antes como después, por diferencias individuales inherentes). El diseño pareado, al trabajar con las diferencias $D_i$ directamente, elimina esa variabilidad entre sujetos del cálculo del error estándar, dejando solo la variabilidad del \emph{efecto del tratamiento}. Tratar los datos como independientes ignora esta reducción de varianza, produciendo un error estándar artificialmente inflado y, por tanto, una prueba con \textbf{menor potencia estadística} — el investigador podría no detectar un efecto real que la prueba pareada sí habría detectado.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:7fe0aa3]
+	\textbf{Ejemplo:} dos líneas de ensamblaje automatizadas producen piezas cuyo peso (en gramos) se sabe, por especificación del fabricante del equipo, que tiene desviación estándar poblacional $\sigma_1=\sigma_2=0.5$ g. Una muestra de $n_1=40$ piezas de la Línea 1 da $\bar X_1=250.3$ g, y $n_2=45$ piezas de la Línea 2 dan $\bar X_2=250.1$ g. Con $\Delta_0=0$:
+	\begin{align*}
+		Z = \frac{(250.3-250.1)-0}{\sqrt{0.5^2/40+0.5^2/45}} = \frac{0.2}{\sqrt{0.00625+0.00556}} = \frac{0.2}{0.1086} \approx1.842.
+	\end{align*}
+	Con $Z_{0.025}=1.96$ (dos colas), como $|1.842|<1.96$, no se rechaza $H_0$ al 5\%.
+\end{solproblema}
