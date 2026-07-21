@@ -27,13 +27,13 @@
 % Analizar
 \begin{problema}
 	\label{prob:64cf64c}
-	Retomando los datos del ejemplo resuelto en la teoría (tiempos de entrenamiento de un modelo de aprendizaje automático bajo 2 algoritmos $\times$ 2 tamaños de lote: $A_1B_1=42$, $A_1B_2=40$, $A_2B_1=38$, $A_2B_2=20$), suponga que un análisis de varianza confirma que la interacción $AB$ es estadísticamente significativa. Analice: ¿tiene sentido reportar "el efecto promedio del tamaño de lote ($B$)" como una sola cifra aplicable a ambos algoritmos? Calcule el efecto simple de $B$ (diferencia $B_1 - B_2$) por separado para cada nivel de $A$, y use esos dos valores para argumentar su respuesta.
+	Retomando los datos del ejemplo resuelto en la teoría (tiempos de entrenamiento de un modelo de aprendizaje automático bajo 2 algoritmos $\times$ 2 tamaños de lote: $A_1B_1=42$, $A_1B_2=40$, $A_2B_1=38$, $A_2B_2=20$), suponga que un análisis de varianza confirma que la interacción $AB$ es estadísticamente significativa. Analice: ¿tiene sentido reportar ``el efecto promedio del tamaño de lote ($B$)'' como una sola cifra aplicable a ambos algoritmos? Calcule el efecto simple de $B$ (diferencia $B_1 - B_2$) por separado para cada nivel de $A$, y use esos dos valores para argumentar su respuesta.
 \end{problema}
 
 % Evaluar
 \begin{problema}
 	\label{prob:5ffa1be}
-	Un analista observa las siguientes medias de celda de un experimento $2 \times 2$ (Factor $A$: método de enseñanza; Factor $B$: nivel de motivación del estudiante) sobre la calificación final: $A_1B_1 = 70$, $A_1B_2 = 90$, $A_2B_1 = 88$, $A_2B_2 = 68$. El analista calcula las medias marginales $\bar{A}_1 = (70+90)/2 = 80$ y $\bar{A}_2 = (88+68)/2 = 78$, y concluye que "el método $A_1$ es ligeramente mejor que $A_2$ en promedio, así que se recomienda $A_1$ para todos los estudiantes". Evalúe esta conclusión: ¿es apropiada dada la estructura completa de los datos? Calcule los efectos simples de $A$ dentro de cada nivel de $B$ y explique qué le falta a la conclusión del analista.
+	Un analista observa las siguientes medias de celda de un experimento $2 \times 2$ (Factor $A$: método de enseñanza; Factor $B$: nivel de motivación del estudiante) sobre la calificación final: $A_1B_1 = 70$, $A_1B_2 = 90$, $A_2B_1 = 88$, $A_2B_2 = 68$. El analista calcula las medias marginales $\bar{A}_1 = (70+90)/2 = 80$ y $\bar{A}_2 = (88+68)/2 = 78$, y concluye que ``el método $A_1$ es ligeramente mejor que $A_2$ en promedio, así que se recomienda $A_1$ para todos los estudiantes''. Evalúe esta conclusión: ¿es apropiada dada la estructura completa de los datos? Calcule los efectos simples de $A$ dentro de cada nivel de $B$ y explique qué le falta a la conclusión del analista.
 \end{problema}
 
 % Crear
@@ -74,22 +74,22 @@
 
 % Analizar
 \begin{solproblema}
-	No tiene sentido reportar un único "efecto promedio de $B$". El efecto simple de $B$ (diferencia $B_1 - B_2$) es:
+	No tiene sentido reportar un único ``efecto promedio de $B$''. El efecto simple de $B$ (diferencia $B_1 - B_2$) es:
 	\begin{itemize}
 		\item Para $A_1$: $42 - 40 = 2$ minutos (diferencia pequeña).
 		\item Para $A_2$: $38 - 20 = 18$ minutos (diferencia grande).
 	\end{itemize}
-	Un "efecto promedio" de $B$ (por ejemplo, $(2+18)/2 = 10$) no describe correctamente \emph{ninguno} de los dos casos reales: subestima drásticamente el efecto del tamaño de lote bajo $A_2$ y lo sobrestima bajo $A_1$. Esto es precisamente lo que significa que la interacción sea significativa: el efecto de $B$ \textbf{depende del nivel} de $A$, por lo que reportar los dos efectos simples por separado (uno por cada nivel de $A$) es la única forma de comunicar honestamente el resultado.
+	Un ``efecto promedio'' de $B$ (por ejemplo, $(2+18)/2 = 10$) no describe correctamente \emph{ninguno} de los dos casos reales: subestima drásticamente el efecto del tamaño de lote bajo $A_2$ y lo sobrestima bajo $A_1$. Esto es precisamente lo que significa que la interacción sea significativa: el efecto de $B$ \textbf{depende del nivel} de $A$, por lo que reportar los dos efectos simples por separado (uno por cada nivel de $A$) es la única forma de comunicar honestamente el resultado.
 \end{solproblema}
 
 % Evaluar
 \begin{solproblema}
-	La conclusión del analista es \textbf{inapropiada}: es un caso de interacción tipo "cruce" (\emph{crossover interaction}) que las medias marginales ocultan por completo. Los efectos simples de $A$ dentro de cada nivel de $B$ son:
+	La conclusión del analista es \textbf{inapropiada}: es un caso de interacción tipo ``cruce'' (\emph{crossover interaction}) que las medias marginales ocultan por completo. Los efectos simples de $A$ dentro de cada nivel de $B$ son:
 	\begin{itemize}
 		\item Dentro de $B_1$ (baja motivación): $A_1B_1 = 70$ vs.\ $A_2B_1 = 88$ — el método $A_2$ es \textbf{mejor} por 18 puntos.
 		\item Dentro de $B_2$ (alta motivación): $A_1B_2 = 90$ vs.\ $A_2B_2 = 68$ — el método $A_1$ es \textbf{mejor} por 22 puntos.
 	\end{itemize}
-	La pequeña diferencia marginal ($80$ vs.\ $78$) es un promedio de dos efectos que apuntan en direcciones \textbf{opuestas} y de magnitud considerable, y prácticamente se cancelan entre sí. Recomendar $A_1$ "para todos los estudiantes" sería un error grave para los estudiantes de baja motivación ($B_1$), donde en realidad $A_2$ es claramente superior. La recomendación correcta depende del nivel de motivación del estudiante, no puede ser una única regla general.
+	La pequeña diferencia marginal ($80$ vs.\ $78$) es un promedio de dos efectos que apuntan en direcciones \textbf{opuestas} y de magnitud considerable, y prácticamente se cancelan entre sí. Recomendar $A_1$ ``para todos los estudiantes'' sería un error grave para los estudiantes de baja motivación ($B_1$), donde en realidad $A_2$ es claramente superior. La recomendación correcta depende del nivel de motivación del estudiante, no puede ser una única regla general.
 \end{solproblema}
 
 % Crear
