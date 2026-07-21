@@ -1,0 +1,75 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:395183d}
+	Enuncie, sin realizar ningún cálculo, la definición general del error estándar de un estimador $\hat\theta$, y escriba de memoria el error estándar teórico de $\bar X$ (media de una población) y de $\hat p$ (proporción poblacional).
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:8a98763}
+	Explique por qué el error estándar de $\bar X$ tiene la forma $\sigma/\sqrt n$ (una sola varianza dividida entre $n$), mientras que el de una proporción $\hat p$ tiene la forma $\sqrt{p(1-p)/n}$: ¿qué relación existe entre ambas fórmulas si se piensa en $\hat p$ como la media muestral de variables Bernoulli?
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:0d972a2}
+	Una encuesta de opinión pública toma una muestra de $n=400$ votantes, de los cuales $180$ apoyan una propuesta. Calcule la estimación del error estándar $\widehat{\text{SE}}(\hat p)$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:a48a78a}
+	Partiendo de que $\bar X_1$ y $\bar X_2$ son independientes con $\Var(\bar X_i)=\sigma_i^2/n_i$, derive la fórmula del error estándar teórico de la diferencia $\bar X_1-\bar X_2$ que aparece en la tabla de esta sección, $\text{SE}(\bar X_1-\bar X_2)=\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:acdadd3}
+	Un analista, al no conocer la desviación estándar poblacional $\sigma$, decide usar $\widehat{\text{SE}}(\bar X) = \sigma_{\text{estimado a ojo}}/\sqrt n$, sustituyendo $\sigma$ por un valor que ``le parece razonable'' en vez de calcular la desviación estándar muestral $s$ a partir de los datos observados. Evalúe esta práctica: ¿qué garantías estadísticas se pierden al no usar el estimador muestral $s$, y por qué $s$ es la elección correcta cuando $\sigma$ es desconocida?
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:aaefa50}
+	Diseñe un ejemplo original (contexto, parámetro de interés, y datos muestrales) donde deba calcularse el error estándar de un estimador, distinto de los ejemplos de encuestas ya vistos en esta sección. Identifique qué fila de la tabla de errores estándar aplica y calcule $\widehat{\text{SE}}$ para sus datos.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:395183d]
+	El error estándar de $\hat\theta$ es $\text{SE}(\hat\theta) = \sqrt{\Var(\hat\theta)}$, la desviación estándar de su distribución muestral. Para $\bar X$: $\text{SE}(\bar X)=\sigma/\sqrt n$. Para $\hat p$: $\text{SE}(\hat p)=\sqrt{p(1-p)/n}$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:8a98763]
+	Si se piensa en $\hat p = \bar X$ como la media muestral de $n$ variables Bernoulli $X_i$ (cada una con $\Var(X_i)=p(1-p)$), entonces ambas fórmulas son en realidad el mismo resultado general $\text{SE}(\bar X)=\sigma/\sqrt n$: basta con sustituir la varianza poblacional genérica $\sigma^2$ por la varianza específica de una Bernoulli, $\sigma^2=p(1-p)$, para obtener $\text{SE}(\hat p) = \sqrt{p(1-p)}/\sqrt n = \sqrt{p(1-p)/n}$. No son fórmulas independientes: la de la proporción es un caso particular de la de la media, aplicada a datos binarios.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:0d972a2]
+	$\hat p = 180/400 = 0.45$. $\widehat{\text{SE}}(\hat p) = \sqrt{0.45(0.55)/400} = \sqrt{0.2475/400} = \sqrt{0.00061875} \approx 0.02487$.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:a48a78a]
+	Por independencia de $\bar X_1$ y $\bar X_2$, la varianza de la diferencia es la suma de las varianzas individuales (sin término de covarianza):
+	\begin{align*}
+		\Var(\bar X_1-\bar X_2) = \Var(\bar X_1) + \Var(\bar X_2) = \frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}.
+	\end{align*}
+	Tomando raíz cuadrada: $\text{SE}(\bar X_1-\bar X_2) = \sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}$.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:acdadd3]
+	La práctica es \textbf{incorrecta}. Sustituir $\sigma$ por un valor subjetivo elimina la propiedad de que $S$ es un estimador insesgado y consistente de $\sigma$ (basado en los datos reales observados): un valor "a ojo" no tiene ninguna garantía estadística de acercarse al verdadero $\sigma$, y puede introducir un sesgo sistemático (subestimando o sobreestimando la incertidumbre real) que invalida la cobertura nominal de cualquier intervalo de confianza construido con ese error estándar. El estimador muestral $s = \sqrt{\frac{1}{n-1}\sum(X_i-\bar X)^2}$ es la elección correcta porque se deriva directamente de los datos observados, es insesgado para $\sigma^2$, y converge a $\sigma$ conforme crece $n$ — propiedades que ningún valor estimado subjetivamente puede garantizar.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:aaefa50]
+	\textbf{Ejemplo:} un estudio de calidad del aire mide la concentración de PM2.5 (µg/m³) en $n=36$ estaciones de monitoreo urbano, obteniendo $s=8.4$. La fila aplicable es "Media una pob. ($\mu$)": $\widehat{\text{SE}}(\bar X) = s/\sqrt n = 8.4/\sqrt{36} = 8.4/6 = 1.4$ µg/m³.
+\end{solproblema}

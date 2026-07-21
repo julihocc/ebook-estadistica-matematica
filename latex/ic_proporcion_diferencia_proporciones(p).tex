@@ -1,0 +1,86 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:d02cdce}
+	Enuncie, sin realizar ningún cálculo, la fórmula del intervalo de confianza de Wald para una proporción poblacional $p$, y la condición de muestra grande ($n\hat p\ge5$ y $n(1-\hat p)\ge5$) que debe verificarse antes de usarlo.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:8394415}
+	Explique por qué el intervalo de Wald puede tener una cobertura real notablemente inferior al nivel nominal cuando $n$ es pequeña o $\hat p$ está cerca de $0$ o $1$, y por qué el intervalo de Wilson (Score) no sufre este problema de la misma manera.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:f92b151}
+	En una prueba A/B para un sitio web de comercio electrónico, de $n_1=800$ usuarios expuestos a la Versión A, $X_1=144$ completaron la compra; de $n_2=850$ usuarios expuestos a la Versión B, $X_2=187$ completaron la compra. Construya un intervalo de confianza del 95\% para la diferencia $p_1-p_2$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:2bf037d}
+	El intervalo de Wilson se obtiene invirtiendo la prueba de score $Z=(\hat p-p)/\sqrt{p(1-p)/n}$ (sin sustituir $p$ por $\hat p$ en el denominador) y resolviendo la desigualdad $|Z|\le Z_{\alpha/2}$ para $p$. Plantee la ecuación cuadrática en $p$ que resulta de elevar al cuadrado $Z^2\le Z_{\alpha/2}^2$, y muestre que sus dos raíces corresponden a los límites del intervalo de Wilson dado en la teoría de esta sección.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:816285e}
+	Con los datos del problema de aplicación de esta sección ($\hat p_1=0.18$, $\hat p_2=0.22$, $\text{IC}_{95\%}(p_1-p_2)=[-0.0785,\,-0.0015]$), evalúe si los datos justifican la decisión de adoptar definitivamente la Versión B del sitio web, explicando su razonamiento en términos de si el intervalo contiene o no al cero.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:e10df82}
+	Diseñe un ejemplo original (contexto y datos de una sola proporción, no una diferencia) donde deba construirse un intervalo de confianza de Wald para $p$, distinto de los ejemplos de conversión web ya vistos en esta sección. Verifique la condición de muestra grande y construya el intervalo del 95\%.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:d02cdce]
+	$\hat p \pm Z_{\alpha/2}\sqrt{\hat p(1-\hat p)/n}$. Debe verificarse $n\hat p\ge5$ y $n(1-\hat p)\ge5$ (o, más conservadoramente, $\ge10$) para que la aproximación normal sea razonable.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:8394415]
+	El intervalo de Wald aproxima el error estándar sustituyendo $p$ por $\hat p$ ($\sqrt{\hat p(1-\hat p)/n}$), lo cual es una aproximación pobre cuando $n$ es pequeña o $\hat p$ está cerca de los extremos $0$ o $1$, ya que en esos casos la distribución muestral real de $\hat p$ es marcadamente asimétrica (discreta y truncada), mientras que Wald siempre produce un intervalo simétrico alrededor de $\hat p$ — pudiendo incluso extenderse fuera de $[0,1]$. El intervalo de Wilson, en cambio, invierte la prueba de score sin sustituir $p$ por $\hat p$ en el denominador, lo que produce un intervalo naturalmente asimétrico que se ajusta a la verdadera forma de la distribución muestral y permanece siempre dentro de $[0,1]$, manteniendo una cobertura real mucho más cercana al nivel nominal en estos casos difíciles.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:f92b151]
+	$\hat p_1=144/800=0.18$, $\hat p_2=187/850\approx0.22$. $\text{SE} = \sqrt{0.18(0.82)/800+0.22(0.78)/850} \approx\sqrt{0.0003864}\approx0.01966$. Con $Z_{0.025}=1.96$: margen $\approx0.0385$.
+	\begin{align*}
+		\text{IC}_{95\%}(p_1-p_2) = -0.04\pm0.0385 = [-0.0785,\ -0.0015].
+	\end{align*}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:2bf037d]
+	Elevando al cuadrado $|Z|\le Z_{\alpha/2}$: $(\hat p-p)^2 \le Z_{\alpha/2}^2\,p(1-p)/n$. Expandiendo y reagrupando como polinomio en $p$:
+	\begin{align*}
+		\hat p^2 - 2\hat p\,p + p^2 &\le \frac{Z_{\alpha/2}^2}{n}(p-p^2) \\
+		\left(1+\frac{Z_{\alpha/2}^2}{n}\right)p^2 - \left(2\hat p+\frac{Z_{\alpha/2}^2}{n}\right)p + \hat p^2 &\le 0.
+	\end{align*}
+	Esta es una desigualdad cuadrática en $p$ con coeficientes $a=1+Z_{\alpha/2}^2/n$, $b=-(2\hat p+Z_{\alpha/2}^2/n)$, $c=\hat p^2$. Sus dos raíces, obtenidas por la fórmula general $p=(-b\pm\sqrt{b^2-4ac})/(2a)$, son exactamente los límites del intervalo de Wilson:
+	\begin{align*}
+		p_{L,U} = \frac{1}{1+\frac{Z_{\alpha/2}^2}{n}}\left[\hat p+\frac{Z_{\alpha/2}^2}{2n} \mp Z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}+\frac{Z_{\alpha/2}^2}{4n^2}}\right],
+	\end{align*}
+	coincidiendo con la fórmula dada en la teoría de esta sección.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:816285e]
+	Los datos \textbf{sí justifican} la decisión. El intervalo $[-0.0785,\,-0.0015]$ para $p_1-p_2$ está compuesto enteramente por valores negativos y \textbf{no contiene al cero}. Esto significa que, con 95\% de confianza, $p_1$ (Versión A) es estrictamente menor que $p_2$ (Versión B) — es decir, la tasa de conversión de la Versión B supera de forma estadísticamente significativa a la de la Versión A. Si el intervalo hubiera incluido al cero (por ejemplo, $[-0.08,\,0.01]$), no se podría afirmar con esta confianza que una versión es mejor que la otra, y la decisión de adoptar B no estaría respaldada estadísticamente.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:e10df82]
+	\textbf{Ejemplo:} un control de calidad de manufactura inspecciona $n=250$ unidades de un producto y encuentra $18$ defectuosas. $\hat p = 18/250 = 0.072$. Verificación: $n\hat p = 18\ge5$ y $n(1-\hat p)=232\ge5$, se cumple la condición. Con $\text{SE}=\sqrt{0.072(0.928)/250}\approx0.01636$ y $Z_{0.025}=1.96$: margen $\approx0.03207$.
+	\begin{align*}
+		\text{IC}_{95\%}(p) = 0.072\pm0.032 = [0.040,\ 0.104].
+	\end{align*}
+\end{solproblema}

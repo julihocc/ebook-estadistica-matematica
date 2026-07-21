@@ -1,0 +1,78 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:05ea7a1}
+	Enuncie, sin realizar ningún cálculo, la fórmula del intervalo de confianza para $\sigma^2$ (basado en $\chi^2$) y para el cociente $\sigma_1^2/\sigma_2^2$ (basado en $F$), incluyendo los grados de libertad relevantes en cada caso.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:c70c188}
+	A diferencia del intervalo de confianza para $\mu$, que es simétrico alrededor de $\bar X$ ($\bar X\pm E$), el intervalo de confianza para $\sigma^2$ \textbf{no} es simétrico alrededor de $S^2$. Explique por qué, usando el hecho de que la distribución $\chi^2_{n-1}$ es asimétrica (no simétrica como la Normal).
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:fa97dc8}
+	Un equipo de analítica financiera monitorea la volatilidad diaria de un índice bursátil. Durante $n=21$ días hábiles, los rendimientos logarítmicos muestran $S=1.45\%$. Asumiendo normalidad, construya un intervalo de confianza del 90\% para $\sigma^2$ y para $\sigma$, usando $\chi^2_{0.05,20}=31.410$ y $\chi^2_{0.95,20}=10.851$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:33162ae}
+	Para verificar si dos sensores IoT de temperatura tienen la misma variabilidad, se toman dos muestras: Proveedor 1 ($n_1=16$, $S_1^2=0.36\,^\circ\text{C}^2$) y Proveedor 2 ($n_2=13$, $S_2^2=0.12\,^\circ\text{C}^2$). Use la propiedad de reciprocidad de $F$ ($F_{1-\alpha/2,\nu_1,\nu_2}=1/F_{\alpha/2,\nu_2,\nu_1}$) para construir un intervalo de confianza del 98\% para $\sigma_1^2/\sigma_2^2$, usando $F_{0.01,15,12}=3.96$ y $F_{0.01,12,15}=3.67$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:6bad87b}
+	Un analista de control de calidad aplica la fórmula del intervalo de confianza para $\sigma^2$ (basada en $\chi^2$) a un conjunto de datos que, según pruebas de normalidad, se desvía marcadamente de una distribución Normal (fuerte asimetría). Evalúe si el intervalo resultante sigue siendo confiable, explicando por qué el intervalo para $\sigma^2$ es especialmente sensible al supuesto de normalidad, en comparación con el intervalo para $\mu$ (que se beneficia del Teorema del Límite Central incluso con poblaciones no normales).
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:866061e}
+	Diseñe un ejemplo original (contexto, tamaño de muestra y varianza muestral) donde se aplique el intervalo de confianza para una varianza poblacional $\sigma^2$, distinto del ejemplo bursátil ya visto en esta sección. Construya el intervalo del 90\% usando cuantiles $\chi^2$ razonables.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:05ea7a1]
+	Para $\sigma^2$: $\dfrac{(n-1)S^2}{\chi^2_{\alpha/2,n-1}} \le \sigma^2 \le \dfrac{(n-1)S^2}{\chi^2_{1-\alpha/2,n-1}}$. Para $\sigma_1^2/\sigma_2^2$: $\dfrac{S_1^2}{S_2^2}\dfrac{1}{F_{\alpha/2,n_1-1,n_2-1}} \le \dfrac{\sigma_1^2}{\sigma_2^2} \le \dfrac{S_1^2}{S_2^2}\dfrac{1}{F_{1-\alpha/2,n_1-1,n_2-1}}$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:c70c188]
+	El intervalo para $\mu$ es simétrico porque se basa en la distribución $Z$ o $t$, ambas simétricas alrededor de $0$, por lo que el margen de error es el mismo hacia ambos lados de $\bar X$. En cambio, el intervalo para $\sigma^2$ se construye invirtiendo los cuantiles de $\chi^2_{n-1}$, una distribución \textbf{asimétrica} (con cola derecha más larga, soporte en $[0,\infty)$): sus cuantiles $\chi^2_{\alpha/2,n-1}$ y $\chi^2_{1-\alpha/2,n-1}$ no están equidistantes de la mediana, por lo que al despejar $\sigma^2$ dividiendo $(n-1)S^2$ entre esos dos cuantiles distintos, el resultado es un intervalo cuyos extremos no quedan a la misma distancia de $S^2$.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:fa97dc8]
+	$(n-1)S^2 = 20(1.45)^2 = 42.05$. $\text{IC}_{90\%}(\sigma^2) = [42.05/31.410,\ 42.05/10.851] = [1.339, 3.875]\text{ \%}^2$. Tomando raíz: $\text{IC}_{90\%}(\sigma) = [1.157, 1.969]\text{ \%}$.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:33162ae]
+	Con $\nu_1=15$, $\nu_2=12$: $F_{0.01,15,12}=3.96$, y por reciprocidad $F_{0.99,15,12}=1/F_{0.01,12,15}=1/3.67\approx0.2725$. El cociente muestral es $S_1^2/S_2^2 = 0.36/0.12=3.00$.
+	\begin{align*}
+		\text{IC}_{98\%}\left(\frac{\sigma_1^2}{\sigma_2^2}\right) = \left[\frac{3.00}{3.96},\ \frac{3.00}{0.2725}\right] = [0.758,\ 11.01].
+	\end{align*}
+	Como el intervalo contiene a $1$, no hay evidencia al 98\% de que las varianzas de los dos proveedores difieran.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:6bad87b]
+	El intervalo \textbf{no es confiable} en este caso. A diferencia del intervalo para $\mu$, cuya validez se sostiene incluso con poblaciones no normales gracias al Teorema del Límite Central (que garantiza que $\bar X$ se vuelve aproximadamente Normal para $n$ grande, sin importar la forma de la población), el resultado $(n-1)S^2/\sigma^2\sim\chi^2_{n-1}$ es una propiedad \textbf{exacta que depende estructuralmente} de que cada observación provenga de una población Normal — no existe un análogo del TLC que corrija este supuesto para la varianza. Con datos fuertemente asimétricos, la distribución muestral real de $S^2$ se desvía de la $\chi^2_{n-1}$ teórica, y el intervalo resultante puede tener una cobertura real considerablemente distinta del nivel nominal, incluso con $n$ moderadamente grande.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:866061e]
+	\textbf{Ejemplo:} un fabricante de tornillos requiere consistencia en el diámetro; una muestra de $n=25$ tornillos produce $S=0.08$ mm. Con $\chi^2_{0.05,24}\approx36.415$ y $\chi^2_{0.95,24}\approx13.848$: $(n-1)S^2 = 24(0.08)^2 = 0.1536$.
+	\begin{align*}
+		\text{IC}_{90\%}(\sigma^2) = [0.1536/36.415,\ 0.1536/13.848] = [0.00422,\ 0.01109]\,\text{mm}^2.
+	\end{align*}
+\end{solproblema}

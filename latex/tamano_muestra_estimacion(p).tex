@@ -1,0 +1,81 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:01c5fc7}
+	Enuncie, sin realizar ningún cálculo, la fórmula del tamaño de muestra $n$ requerido para estimar una media poblacional $\mu$ con margen de error $E$ y confianza $(1-\alpha)$, y los tres elementos que deben especificarse de antemano para calcularlo.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:f82cc83}
+	Al planear una encuesta sin ninguna información previa sobre la proporción poblacional $p$, se usa $p^*=0.5$ en la fórmula $n=(Z_{\alpha/2}/E)^2\,p^*(1-p^*)$. Explique por qué $p^*=0.5$ es la elección ``más conservadora'' (la que produce el tamaño de muestra más grande), usando el hecho de que $g(p)=p(1-p)$ se maximiza en $p=0.5$.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:f57d73c}
+	Un equipo de investigación desea estimar el tiempo promedio de sesión en una plataforma educativa virtual, con $\sigma=18$ minutos conocidos de estudios previos.
+	\begin{enumerate}
+		\item ¿Qué tamaño de muestra se requiere para un margen de error máximo de $E=2$ minutos al 95\% de confianza?
+		\item Si el presupuesto solo permite $n=150$ sesiones, ¿cuál sería el margen de error real alcanzado?
+	\end{enumerate}
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:2e73754}
+	Cuando la muestra calculada $n$ representa más del $5\%$ de una población finita de tamaño $N$, se aplica el Factor de Corrección por Población Finita (FCPF): $n_a = n/(1+\frac{n-1}{N})$. Demuestre algebraicamente que $n_a < n$ siempre que $N$ sea finito y $n>1$, y que $n_a \to n$ cuando $N\to\infty$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:d79f0c1}
+	Una firma analítica planea una encuesta nacional sobre el uso de IA generativa. Sin información previa, el tamaño conservador requerido ($E=0.03$, 99\% confianza) es $n=1{,}844$. Un estudio piloto sugiere $\hat p^*=0.20$, reduciendo el tamaño a $n=1{,}180$ (un ahorro del $36\%$). Evalúe si vale la pena invertir en el estudio piloto antes de la encuesta principal, considerando el trade-off entre el costo del piloto y el ahorro potencial en la encuesta principal.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:a691b8d}
+	Diseñe un ejemplo original (contexto, $\sigma$ o $p^*$ estimados, margen de error deseado y nivel de confianza) donde deba calcularse un tamaño de muestra, distinto de los ejemplos de esta sección. Calcule $n$ y redondee correctamente.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:01c5fc7]
+	$n = \left(\dfrac{Z_{\alpha/2}\sigma}{E}\right)^2$. Deben especificarse: el nivel de confianza $(1-\alpha)$, el margen de error máximo tolerable $E$, y una estimación previa de la variabilidad poblacional ($\sigma$ o $p^*$).
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:f82cc83]
+	La función $g(p)=p(1-p)$ es una parábola invertida con máximo en $p=0.5$, donde $g(0.5)=0.25$ (el valor más grande que puede tomar $g$ en $[0,1]$). Como el tamaño de muestra $n$ es directamente proporcional a $p^*(1-p^*)$, usar $p^*=0.5$ maximiza el valor de $n$ calculado, garantizando que, sin importar cuál sea el verdadero valor de $p$, la muestra planeada sea lo suficientemente grande para alcanzar el margen de error $E$ deseado — es la elección "a prueba de lo peor" cuando no se tiene ninguna estimación previa de $p$.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:f57d73c]
+	\begin{enumerate}
+		\item $n = \left(\dfrac{1.96\times18}{2}\right)^2 = (17.64)^2 \approx311.17 \implies n=312$ sesiones.
+		\item $E = 1.96\times\dfrac{18}{\sqrt{150}} \approx1.96\times1.4697\approx2.88$ minutos.
+	\end{enumerate}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:2e73754]
+	Como $N$ es finito y $n>1$, se tiene $\dfrac{n-1}{N}>0$, así que $1+\dfrac{n-1}{N}>1$. Dividir $n$ entre un número estrictamente mayor que $1$ produce necesariamente un resultado menor que $n$: $n_a = \dfrac{n}{1+\frac{n-1}{N}} < n$. Cuando $N\to\infty$, el término $\dfrac{n-1}{N}\to0$, así que el denominador tiende a $1$ y $n_a\to n/1=n$: para poblaciones muy grandes, el ajuste por población finita se vuelve despreciable, consistente con que la fórmula original ya asume implícitamente una población efectivamente infinita.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:d79f0c1]
+	La decisión depende de comparar el costo del piloto contra el ahorro esperado. El piloto reduce la encuesta principal en $664$ observaciones ($1844-1180$). Si el costo marginal de encuestar a un hogar en la encuesta principal es considerablemente mayor que el costo de un piloto pequeño (por ejemplo, si el piloto solo requiere $n_0\approx30$-$50$ hogares para obtener una estimación preliminar razonable de $\hat p^*$), el ahorro de $664$ encuestas completas en la fase principal probablemente supera ampliamente el costo del piloto, haciendo la inversión rentable. Sin embargo, si el piloto en sí es costoso de administrar (por ejemplo, requiere la misma logística compleja que la encuesta principal), o si existe incertidumbre sobre qué tan representativo es el piloto del valor real de $p$ (piloto sesgado podría llevar a un $n$ final insuficiente), la decisión no es automática: debe evaluarse el costo real del piloto frente al ahorro esperado, no solo el porcentaje de reducción nominal.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:a691b8d]
+	\textbf{Ejemplo:} un estudio de mercado desea estimar el gasto promedio mensual en streaming de video, con desviación estándar estimada $\sigma=\$45$ (de un estudio similar previo), margen de error deseado $E=\$5$, y confianza del 95\%.
+	\begin{align*}
+		n = \left(\frac{1.96\times45}{5}\right)^2 = (17.64)^2 \approx311.17 \implies n=312\text{ personas}.
+	\end{align*}
+\end{solproblema}

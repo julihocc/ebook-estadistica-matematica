@@ -1,0 +1,91 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:3988afe}
+	Enuncie, sin realizar ningún cálculo, la estructura general de un intervalo de confianza para $\mu_1-\mu_2$ (estimador puntual $\pm$ valor crítico $\times$ error estándar), y nombre los cuatro casos que determinan qué valor crítico y qué error estándar usar (varianzas conocidas, varianzas iguales desconocidas, varianzas distintas desconocidas, muestras pareadas).
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:7eaa452}
+	En una auditoría de rendimiento en centros de datos, se comparan dos clústeres de servidores con muestras grandes ($n_1=50$, $n_2=60$). Explique por qué, en este caso, es válido usar el cuantil normal $Z_{\alpha/2}$ en vez de un cuantil $t$ para construir el intervalo de confianza para $\mu_1-\mu_2$, aunque las varianzas poblacionales sean desconocidas.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:f1e6f4b}
+	Un ingeniero de ciencia de datos evalúa el tiempo de latencia (en milisegundos) de dos arquitecturas de bases de datos en la nube bajo cargas de trabajo similares:
+	\begin{itemize}
+		\item \textbf{Arquitectura A:} $n_1=15$, $\bar{X}_1=48.5$ ms, $S_1=6.2$ ms.
+		\item \textbf{Arquitectura B:} $n_2=12$, $\bar{X}_2=53.8$ ms, $S_2=5.8$ ms.
+	\end{itemize}
+	Asumiendo poblaciones normales con varianzas iguales, construya un intervalo de confianza del 95\% para $\mu_1-\mu_2$ usando la varianza combinada $S_p^2$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:51e0d64}
+	En un estudio sobre el rendimiento de dos algoritmos de optimización, no se asumen varianzas iguales ($\sigma_1^2\neq\sigma_2^2$): Algoritmo 1 ($n_1=10$, $\bar X_1=120.4$ s, $S_1=18.5$ s) y Algoritmo 2 ($n_2=14$, $\bar X_2=105.2$ s, $S_2=7.3$ s). Calcule los grados de libertad de Welch-Satterthwaite $\nu$ y construya el intervalo de confianza del 99\% para $\mu_1-\mu_2$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:4b6b800}
+	Un analista, al comparar dos grupos con $S_1^2=100$ y $S_2^2=4$ (una razón de 25:1), decide usar de todas formas el método de varianza combinada (\emph{pooled}, Caso 2) ``para simplificar el análisis'', en vez del método de Welch (Caso 3). Evalúe esta decisión: ¿qué supuesto crítico del método pooled se viola aquí, y qué consecuencia tiene sobre la validez del intervalo de confianza resultante?
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:ae13605}
+	Diseñe un ejemplo original de muestras \textbf{pareadas} (mismo sujeto u objeto medido dos veces, por ejemplo antes/después de una intervención), distinto de los ejemplos de esta sección. Calcule $\bar D$ y $S_D$ para datos que usted proponga, y construya el intervalo de confianza del 95\% para $\mu_D$.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:3988afe]
+	La estructura general es $(\bar X_1-\bar X_2) \pm (\text{valor crítico})\times\text{SE}(\bar X_1-\bar X_2)$. Los cuatro casos son: (1) varianzas conocidas — usa $Z_{\alpha/2}$; (2) varianzas desconocidas pero iguales — usa $t_{\alpha/2,n_1+n_2-2}$ con varianza combinada $S_p^2$; (3) varianzas desconocidas y distintas — usa $t_{\alpha/2,\nu}$ con $\nu$ de Welch-Satterthwaite; (4) muestras pareadas — reduce el problema a un intervalo de una sola muestra sobre las diferencias $D_i$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:7eaa452]
+	Con $n_1=50$ y $n_2=60$, ambos tamaños muestrales superan ampliamente el umbral usual de $n\ge30$, por lo que el Teorema del Límite Central garantiza que $\bar X_1$ y $\bar X_2$ (y por tanto su diferencia) son aproximadamente Normales sin importar la forma exacta de las poblaciones subyacentes. Además, para $n$ grande, sustituir las varianzas poblacionales desconocidas por las varianzas muestrales $S_1^2, S_2^2$ introduce un error despreciable, y los cuantiles $t$ con muchos grados de libertad ya son prácticamente indistinguibles de los cuantiles $Z$. Por ambas razones, usar $Z_{\alpha/2}$ es una aproximación válida y estándar en este régimen de muestra grande.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:f1e6f4b]
+	$S_p^2 = \dfrac{14(6.2)^2+11(5.8)^2}{25} = \dfrac{538.16+370.04}{25} = 36.328$, así $S_p\approx6.027$ ms. Con $\nu=25$ y $t_{0.025,25}=2.060$: margen $=2.060(6.027)\sqrt{1/15+1/12}\approx12.416(0.3873)\approx4.809$ ms. Con $\bar X_1-\bar X_2=-5.3$ ms:
+	\begin{align*}
+		\text{IC}_{95\%} = -5.3\pm4.809 = [-10.11,\ -0.49]\text{ ms.}
+	\end{align*}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:51e0d64]
+	$S_1^2/n_1 = 34.225$, $S_2^2/n_2\approx3.806$. Los grados de libertad de Welch son:
+	\begin{align*}
+		\nu = \frac{(34.225+3.806)^2}{34.225^2/9+3.806^2/13} = \frac{1446.39}{130.15+1.11} \approx11.02 \implies \nu=11.
+	\end{align*}
+	Con $t_{0.005,11}=3.106$ y $\text{SE}=\sqrt{38.031}\approx6.167$ s: margen $=3.106(6.167)\approx19.155$ s. Con $\bar X_1-\bar X_2=15.2$ s:
+	\begin{align*}
+		\text{IC}_{99\%} = 15.2\pm19.155 = [-3.96,\ 34.36]\text{ s},
+	\end{align*}
+	que incluye al cero, así que no hay evidencia suficiente de diferencia al 99\%.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:4b6b800]
+	La decisión es \textbf{incorrecta}. El método pooled asume explícitamente $\sigma_1^2=\sigma_2^2$ (homoscedasticidad); una razón muestral de varianzas de $25{:}1$ es evidencia fuerte de que ese supuesto no se sostiene. Al forzar una varianza combinada $S_p^2$ que promedia dos varianzas muy distintas, el método pooled distorsiona el error estándar real de la diferencia (subestimándolo si el grupo de mayor varianza tiene menor peso muestral, o sobreestimándolo en el caso contrario), produciendo un intervalo de confianza cuya cobertura real se aleja del $95\%$ nominal. En este escenario se debe usar el método de Welch (Caso 3), diseñado precisamente para varianzas desiguales, sin sacrificar validez por simplicidad.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:ae13605]
+	\textbf{Ejemplo:} un estudio de productividad mide el número de líneas de código revisadas por hora por $n=10$ desarrolladores, antes y después de adoptar una nueva herramienta de revisión asistida por IA. Las diferencias (después $-$ antes) tienen $\bar D = 12.4$ líneas/hora y $S_D=8.1$. Con $t_{9,0.025}\approx2.262$ y $\text{SE}=8.1/\sqrt{10}\approx2.562$: margen $\approx2.262(2.562)\approx5.796$.
+	\begin{align*}
+		\text{IC}_{95\%} = 12.4\pm5.796 = [6.60,\ 18.20]\text{ líneas/hora},
+	\end{align*}
+	que excluye el cero, sugiriendo una mejora real de productividad tras adoptar la herramienta.
+\end{solproblema}
