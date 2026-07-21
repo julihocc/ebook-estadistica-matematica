@@ -1,0 +1,74 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:0d114e5}
+	Enuncie, sin realizar ningún cálculo, la definición de $\chi^2_\nu$ como suma de cuadrados de normales estándar independientes, y las fórmulas de $E(\chi^2_\nu)$ y $\Var(\chi^2_\nu)$.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:66b286b}
+	Sean $Z_1,\ldots,Z_5$ variables aleatorias independientes con $Z_i\sim N(0,1)$. Explique, sin usar la propiedad de reproductividad como un hecho dado, por qué $Y=Z_1^2+\cdots+Z_5^2$ debe tener necesariamente 5 grados de libertad, y no otro número.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:94c69e2}
+	Una máquina embotelladora debe tener varianza $\sigma_0^2=10$. Una muestra de $n=16$ botellas produce $S^2=18.2$. Calcule el estadístico $(n-1)S^2/\sigma_0^2$ y decida si se rechaza $H_0:\sigma^2=10$ a nivel $\alpha=0.05$, usando el valor crítico $\chi^2_{15,0.95}\approx24.996$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:b08d077}
+	Partiendo de $\chi^2_\nu = \text{Gamma}(\nu/2,2)$ y de las fórmulas generales $\mu_X=\alpha\beta$, $\sigma_X^2=\alpha\beta^2$ para $X\sim\text{Gamma}(\alpha,\beta)$, derive algebraicamente que $E(\chi^2_\nu)=\nu$ y $\Var(\chi^2_\nu)=2\nu$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:db05590}
+	Un ingeniero de calidad usa el estadístico $(n-1)S^2/\sigma^2 \sim \chi^2_{n-1}$ para probar $H_0:\sigma^2=\sigma_0^2$ sobre datos que, según un histograma preliminar, muestran una asimetría notable, sin verificar formalmente el supuesto de normalidad de la población. Evalúe la validez de esta prueba en este contexto: a diferencia de las pruebas basadas en $\bar X$ (que se benefician del TLC para poblaciones no normales con $n$ grande), ¿por qué la prueba $\chi^2$ para la varianza es particularmente sensible a violaciones de normalidad, incluso con $n$ moderadamente grande?
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:501e850}
+	Diseñe un ejemplo original (contexto, tamaño de muestra $n$ y varianza objetivo $\sigma_0^2$) donde se aplique el estadístico $(n-1)S^2/\sigma_0^2$ para probar una hipótesis sobre la varianza poblacional, distinto del ejemplo de la embotelladora ya visto en esta sección. Plantee la prueba y calcule el estadístico para datos que usted proponga.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:0d114e5]
+	Si $Z_1,\ldots,Z_\nu$ son i.i.d. $N(0,1)$, entonces $\chi^2_\nu \equiv \sum_{i=1}^\nu Z_i^2$. Sus momentos son $E(\chi^2_\nu)=\nu$ y $\Var(\chi^2_\nu)=2\nu$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:66b286b]
+	Los grados de libertad de una chi-cuadrada cuentan, por definición, el número de términos normales estándar independientes elevados al cuadrado que se están sumando. Como $Y$ es la suma de exactamente $5$ variables $Z_i^2$ independientes (ni más ni menos), y cada $Z_i$ aporta "un grado de libertad" a la suma, $Y$ debe tener exactamente $5$ grados de libertad por construcción — el número de grados de libertad no es una propiedad misteriosa sino literalmente el conteo de sumandos independientes en la definición.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:94c69e2]
+	El estadístico es $(n-1)S^2/\sigma_0^2 = 15\cdot18.2/10 = 27.3$. Como $27.3 > 24.996 = \chi^2_{15,0.95}$, se \textbf{rechaza} $H_0:\sigma^2=10$ a nivel $\alpha=0.05$: hay evidencia de que la varianza real es mayor que $10$.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:b08d077]
+	Sustituyendo $\alpha=\nu/2$, $\beta=2$:
+	\begin{align*}
+		E(\chi^2_\nu) = \alpha\beta = \frac{\nu}{2}\cdot2 = \nu, \qquad \Var(\chi^2_\nu) = \alpha\beta^2 = \frac{\nu}{2}\cdot4 = 2\nu.
+	\end{align*}
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:db05590]
+	La prueba es \textbf{problemática}. A diferencia de $\bar X$, cuya distribución muestral se aproxima a la Normal para $n$ grande sin importar la forma de la población (gracias al TLC), el resultado $(n-1)S^2/\sigma^2 \sim \chi^2_{n-1}$ depende \textbf{estructuralmente} de que la población original sea Normal — no es una aproximación asintótica que mejore con $n$, sino una propiedad exacta derivada de que cada $(X_i-\bar X)$ es una combinación lineal de normales. Si la población tiene asimetría notable, la distribución muestral real de $S^2$ puede desviarse considerablemente de la $\chi^2_{n-1}$ teórica, incluso para $n$ moderadamente grande, porque no existe un "TLC para la varianza" que corrija automáticamente ese sesgo distribucional de la misma manera que ocurre con la media. Por eso, antes de aplicar esta prueba, es importante verificar la normalidad de los datos (o usar alternativas robustas) en vez de asumir que un $n$ grande basta.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:501e850]
+	\textbf{Ejemplo:} un fabricante de resistencias eléctricas requiere que la varianza de la resistencia nominal sea $\sigma_0^2=0.04\,\Omega^2$. Una muestra de $n=21$ resistencias produce $S^2=0.065$. El estadístico es $(n-1)S^2/\sigma_0^2 = 20\cdot0.065/0.04 = 32.5$. Comparando contra $\chi^2_{20,0.95}\approx31.410$: como $32.5 > 31.410$, se rechazaría $H_0:\sigma^2=0.04$ al nivel $\alpha=0.05$, sugiriendo que la variabilidad del proceso de fabricación excede la especificación.
+\end{solproblema}

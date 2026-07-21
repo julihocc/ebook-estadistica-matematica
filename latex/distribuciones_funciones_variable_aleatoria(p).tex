@@ -1,0 +1,83 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:0b1575d}
+	Enuncie, sin realizar ningún cálculo, la fórmula general de $f_Y(y)$ para $Y=g(X)$ cuando $g$ no es necesariamente monótona (suma sobre preimágenes), y describa en una frase la idea de la fórmula análoga para $Y=g(X_1,\ldots,X_n)$ con varias variables.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:a8b056e}
+	Para $X_1,X_2$ independientes con densidad conjunta $f(x_1,x_2)=f_{X_1}(x_1)f_{X_2}(x_2)$, explique por qué la fórmula general de integración sobre el conjunto de nivel $g(x_1,x_2)=y$ se reduce, en el caso particular $Y=X_1+X_2$, a la integral de convolución $f_Y(y)=\int f_{X_1}(x_1)f_{X_2}(y-x_1)\,dx_1$.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:4cdd21e}
+	Sean $X_1,X_2 \sim U(0,1)$ independientes. Use la integral de convolución para encontrar la densidad de $Y=X_1+X_2$ en el intervalo $y\in(0,1)$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:43a7344}
+	Sea $X\sim N(0,1)$ y $Y=|X|$ (transformación no monótona). Use la fórmula general de suma sobre preimágenes para derivar la densidad de $Y$ (la distribución \emph{semi-normal} o \emph{half-normal}) para $y>0$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:df21aa1}
+	Un estudiante afirma: ``la fórmula de convolución $f_Y(y)=\int f_{X_1}(x_1)f_{X_2}(y-x_1)\,dx_1$ para $Y=X_1+X_2$ es válida siempre, sin importar si $X_1$ y $X_2$ son independientes o no''. Evalúe esta afirmación, señalando en qué paso de la derivación de la fórmula general (integración sobre el conjunto de nivel usando la densidad conjunta $f_{X_1,X_2}$) se usa específicamente la independencia.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:db5d952}
+	Diseñe un ejemplo original con dos variables aleatorias independientes $X_1, X_2$ (distintas a las ya vistas en esta sección) y calcule, usando la integral de convolución, la densidad de $Y=X_1+X_2$.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:0b1575d]
+	Para el caso de una variable, $f_Y(y) = \sum_{x:\,g(x)=y} \dfrac{f_X(x)}{|g'(x)|}$, sumando la contribución de cada preimagen de $y$. Para varias variables, la densidad de $Y=g(X_1,\ldots,X_n)$ se obtiene integrando la densidad conjunta sobre la superficie de nivel $g(x_1,\ldots,x_n)=y$, dividiendo entre el gradiente de $g$ — la idea es la misma (repartir la "masa de probabilidad" según cuánto "estira" la transformación cada región), solo que ahora sobre una superficie en vez de puntos aislados.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:a8b056e]
+	El conjunto de nivel $\{(x_1,x_2): x_1+x_2=y\}$ es la recta $x_2=y-x_1$. Integrar la densidad conjunta sobre esa recta (parametrizada por $x_1$) equivale a recorrer todos los pares $(x_1,x_2)$ que suman $y$, evaluando $f(x_1,y-x_1)$ para cada $x_1$ e integrando en $x_1$. Como $f(x_1,x_2)=f_{X_1}(x_1)f_{X_2}(x_2)$ por independencia, sustituyendo $x_2=y-x_1$ se obtiene exactamente $f_Y(y)=\int f_{X_1}(x_1)f_{X_2}(y-x_1)\,dx_1$: la integral general sobre la superficie de nivel colapsa a la convolución precisamente porque la superficie de nivel de una suma es una recta simple, parametrizable por una sola variable.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:4cdd21e]
+	Con $f_{X_1}(x_1)=1$ en $(0,1)$ y $f_{X_2}(y-x_1)=1$ cuando $0<y-x_1<1$, es decir $y-1<x_1<y$:
+	\begin{align*}
+		f_Y(y) = \int_{\max(0,y-1)}^{\min(1,y)} 1\,dx_1.
+	\end{align*}
+	Para $y\in(0,1)$: los límites son $0$ a $y$, así $f_Y(y) = y$. (Para $y\in(1,2)$, por simetría, $f_Y(y)=2-y$; en conjunto, $Y$ tiene densidad triangular en $(0,2)$.)
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:43a7344]
+	Para $y>0$, la ecuación $|x|=y$ tiene dos soluciones: $x_1=y$ y $x_2=-y$, ambas con $|g'(x)|=1$. Sumando sus contribuciones:
+	\begin{align*}
+		f_Y(y) = f_X(y)\cdot\frac{1}{|1|} + f_X(-y)\cdot\frac{1}{|-1|} = \frac{1}{\sqrt{2\pi}}e^{-y^2/2} + \frac{1}{\sqrt{2\pi}}e^{-y^2/2} = \sqrt{\frac{2}{\pi}}\,e^{-y^2/2}, \quad y>0,
+	\end{align*}
+	usando que $f_X(y)=f_X(-y)$ por la simetría de la Normal estándar. Esta es la densidad de la distribución semi-normal (half-normal).
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:df21aa1]
+	La afirmación es \textbf{incorrecta}. La fórmula general válida siempre (con o sin independencia) es $f_Y(y) = \int f_{X_1,X_2}(x_1,y-x_1)\,dx_1$, usando la densidad \textbf{conjunta} directamente. La forma "de convolución" $f_Y(y)=\int f_{X_1}(x_1)f_{X_2}(y-x_1)\,dx_1$ solo es válida cuando la densidad conjunta \textbf{factoriza} como el producto de las marginales, es decir, exactamente cuando $X_1$ y $X_2$ son independientes. Si no lo son, hay que integrar la densidad conjunta real $f_{X_1,X_2}(x_1,y-x_1)$ sobre la recta de nivel, la cual en general no se puede separar en un producto de densidades individuales.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:db5d952]
+	\textbf{Ejemplo:} sean $X_1\sim\text{Exp}(2)$ y $X_2\sim\text{Exp}(3)$ independientes, y $Y=X_1+X_2$. Para $y>0$:
+	\begin{align*}
+		f_Y(y) = \int_0^y 2e^{-2x_1}\cdot 3e^{-3(y-x_1)}\,dx_1 = 6e^{-3y}\int_0^y e^{x_1}\,dx_1 = 6e^{-3y}(e^y-1) = 6e^{-2y}-6e^{-3y}, \quad y>0,
+	\end{align*}
+	la densidad de una \emph{distribución hipoexponencial} con tasas $2$ y $3$ (suma de dos exponenciales con tasas distintas, que ya no es Gamma porque las tasas difieren).
+\end{solproblema}

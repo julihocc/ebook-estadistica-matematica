@@ -1,0 +1,79 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:9f56f56}
+	Enuncie, sin realizar ningún cálculo, qué estadístico de prueba ($Z$, $t$, $\chi^2$ o $F$) se usa típicamente para cada una de las siguientes tareas: (a) IC para $\mu$ con $\sigma$ desconocida; (b) IC para $\sigma^2$; (c) comparación de dos varianzas; (d) IC para $\mu$ con $\sigma$ conocida.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:56afb0b}
+	Explique, sin realizar ningún cálculo numérico, por qué el principio bootstrap permite aproximar la distribución muestral de un estimador $\hat\theta$ sin conocer la distribución poblacional real $F$, y qué papel juega la distribución empírica $\hat F_n$ en ese razonamiento.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:f78153c}
+	Una aplicación móvil tiene dos versiones de su pantalla de registro: A (actual) y B (nueva). En una prueba con $n_A=1500$ usuarios de A, $x_A=210$ completan el registro. En $n_B=1500$ usuarios de B, $x_B=255$ completan el registro. Calcule el estadístico $Z$ para probar $H_0: p_A=p_B$ y determine si hay evidencia de que B es mejor al nivel $\alpha=0.05$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:4d90cdd}
+	En validación cruzada para comparar dos modelos de machine learning sobre los mismos $k$ pliegues (\emph{folds}), se recomienda usar una prueba $t$ \textbf{pareada} sobre las diferencias de error $d_i = \text{Error}_{1,i}-\text{Error}_{2,i}$ en vez de una prueba $t$ de dos muestras independientes sobre los errores brutos de cada modelo. Analice matemáticamente por qué emparejar por pliegue (en vez de tratar los errores como dos muestras independientes) reduce la varianza del estadístico de prueba, en términos de la covarianza entre $\text{Error}_{1,i}$ y $\text{Error}_{2,i}$ dentro del mismo pliegue.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:cf54ef8}
+	Un científico de datos entrena el mismo modelo con $30$ semillas aleatorias distintas sobre el \textbf{mismo} conjunto de entrenamiento y prueba, obtiene $30$ valores de exactitud, y aplica bootstrap sobre esos $30$ valores para construir un intervalo de confianza del $95\%$ para "la exactitud verdadera del modelo", concluyendo que el intervalo cuantifica la incertidumbre sobre qué tan bien generalizará el modelo a datos nuevos. Evalúe esta conclusión: ¿qué fuente de variabilidad captura realmente ese intervalo bootstrap (variabilidad del entrenamiento estocástico) y cuál NO captura (variabilidad de muestreo de los datos), y por qué esa distinción importa para la interpretación del intervalo?
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:7d50e57}
+	Diseñe un ejemplo original de ciencia de datos (contexto, estadístico de prueba a usar, y datos hipotéticos) que aplique alguna de las distribuciones muestrales de esta unidad ($Z$, $t$, $\chi^2$ o $F$) a un problema de comparación de modelos, selección de características, o A/B testing, distinto de los ejemplos ya vistos en esta sección. Plantee la pregunta y calcule el estadístico correspondiente.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:9f56f56]
+	(a) $t$ de Student. (b) $\chi^2$. (c) $F$ de Fisher-Snedecor. (d) $Z$ (Normal estándar).
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:56afb0b]
+	El principio bootstrap sustituye la distribución poblacional real (pero desconocida) $F$ por la distribución empírica $\hat F_n$, que es la mejor aproximación disponible de $F$ construida únicamente a partir de la muestra observada (le asigna probabilidad $1/n$ a cada dato observado). Como no se puede remuestrear directamente de $F$ (es desconocida), se remuestrea con reemplazo de $\hat F_n$ —equivalente a remuestrear de los propios datos observados— para generar réplicas $\hat\theta^*$ del estimador. La idea clave es que, si $n$ es razonablemente grande, $\hat F_n$ se parece lo suficiente a $F$ como para que la variabilidad de $\hat\theta^*$ alrededor de $\hat\theta$ (calculable, porque se puede remuestrear cuantas veces se quiera) sea una buena aproximación de la variabilidad real de $\hat\theta$ alrededor de $\theta$ (no calculable directamente, porque solo se tiene una muestra).
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:f78153c]
+	Las proporciones estimadas son $\hat p_A = 210/1500 = 0.14$ y $\hat p_B = 255/1500 = 0.17$. La proporción agrupada bajo $H_0$ es $\hat p = (210+255)/3000 = 465/3000 = 0.155$. El error estándar agrupado es:
+	\begin{align*}
+		\text{EE} = \sqrt{\hat p(1-\hat p)\left(\frac{1}{1500}+\frac{1}{1500}\right)} = \sqrt{0.155\times0.845\times0.001\overline{3}} \approx 0.01320.
+	\end{align*}
+	El estadístico es $Z = (0.17-0.14)/0.01320 \approx 2.27$. El $p$-valor bilateral es $2(1-\Phi(2.27)) \approx 0.0232 < 0.05$, por lo que se rechaza $H_0$: hay evidencia estadísticamente significativa de que la versión B tiene una tasa de registro mayor.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:4d90cdd]
+	Para dos muestras independientes de tamaño $k$, $\Var(\bar{\text{Error}}_1 - \bar{\text{Error}}_2) = \Var(\bar{\text{Error}}_1) + \Var(\bar{\text{Error}}_2)$ (sin término de covarianza, porque se asumen independientes). En cambio, con la prueba pareada, la cantidad de interés es $\bar d = \bar{\text{Error}}_1 - \bar{\text{Error}}_2$ calculada \textbf{pliegue por pliegue}, y su varianza es:
+	\begin{align*}
+		\Var(\bar d) = \frac{1}{k}\Var(d_i) = \frac{1}{k}\left[\Var(\text{Error}_{1,i}) + \Var(\text{Error}_{2,i}) - 2\,\text{Cov}(\text{Error}_{1,i},\text{Error}_{2,i})\right].
+	\end{align*}
+	Como ambos modelos se evalúan sobre el \textbf{mismo} pliegue $i$, comparten la misma dificultad intrínseca de esos datos (pliegues "fáciles" producen error bajo para ambos modelos, pliegues "difíciles" producen error alto para ambos), por lo que $\text{Cov}(\text{Error}_{1,i},\text{Error}_{2,i}) > 0$. Ese término positivo se \textbf{resta} en la fórmula de $\Var(\bar d)$, reduciendo la varianza del estadístico de prueba pareado por debajo de la varianza que se obtendría tratando los errores como independientes — de ahí que emparejar por pliegue produzca una prueba más potente (más capaz de detectar diferencias reales entre modelos).
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:cf54ef8]
+	La conclusión es \textbf{incorrecta}. El intervalo bootstrap construido sobre los 30 valores captura únicamente la variabilidad debida a la \textbf{aleatoriedad del proceso de entrenamiento} (inicialización de pesos, orden de los minibatches, etc.) manteniendo fijos tanto los datos de entrenamiento como los de prueba. \textbf{No} captura la variabilidad que realmente importa para "qué tan bien generalizará a datos nuevos": la variabilidad debida al \textbf{muestreo de los propios datos} (qué tan representativa es esta muestra particular de entrenamiento/prueba de la población real). Un modelo podría tener muy poca variabilidad entre semillas (intervalo bootstrap angosto) y aun así generalizar mal si el conjunto de datos fijo no es representativo, o viceversa. Para capturar la incertidumbre de generalización real, se necesitaría variar también los datos (por ejemplo, mediante validación cruzada con distintos particionamientos de los datos, no solo distintas semillas sobre la misma partición fija).
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:7d50e57]
+	\textbf{Ejemplo:} un equipo de ciencia de datos compara la varianza del error de predicción de dos modelos de regresión (Modelo 1: red neuronal, $n_1=25$ predicciones de validación, $S_1^2=12.4$; Modelo 2: bosque aleatorio, $n_2=25$, $S_2^2=6.8$) para decidir si el Modelo 1 es más inconsistente en sus predicciones. Usando la prueba $F$: $F = S_1^2/S_2^2 = 12.4/6.8 \approx 1.82$, con grados de libertad $(24,24)$. Comparando contra $F_{24,24,0.025}\approx2.27$: como $1.82 < 2.27$, no se rechaza $H_0:\sigma_1^2=\sigma_2^2$ al nivel $\alpha=0.05$; no hay evidencia suficiente de que la variabilidad del error difiera significativamente entre ambos modelos.
+\end{solproblema}

@@ -1,0 +1,83 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:d3727e9}
+	Enuncie, sin realizar ningún cálculo, la fórmula general de cambio de variable para $Y=g(X)$ con $g$ estrictamente monótona y diferenciable, y el caso particular de la transformación afín $Y=aX+b$ (fórmulas de $\mu_Y$ y $\sigma_Y^2$).
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:fbf2d01}
+	En la fórmula $f_Y(y) = f_X(g^{-1}(y))\cdot\left|\dfrac{d}{dy}g^{-1}(y)\right|$, explique por qué es indispensable el valor absoluto del término $\dfrac{d}{dy}g^{-1}(y)$: ¿qué pasaría con la densidad de $Y$ si $g$ fuera una transformación estrictamente decreciente y se omitiera el valor absoluto?
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:d795060}
+	Sea $X \sim N(5,4)$ y $Y=3X-2$. Use el teorema de transformación afín para identificar la distribución exacta de $Y$ (parámetros incluidos).
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:182603c}
+	Sea $X \sim \text{Exp}(\lambda)$ con densidad $f_X(x)=\lambda e^{-\lambda x}$ para $x>0$, y sea $Y=\sqrt{X}$. Use el teorema de cambio de variable (caso monótono) para derivar la densidad $f_Y(y)$, e identifique a qué familia de distribuciones pertenece.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:5ce800e}
+	Un estudiante, al calcular la densidad de $Y=X^2$ para $X\sim U(-1,1)$, aplica directamente la fórmula del caso monótono $f_Y(y) = f_X(g^{-1}(y))\cdot|d/dy\,g^{-1}(y)|$ usando una única raíz $g^{-1}(y)=\sqrt{y}$, y obtiene $f_Y(y) = \frac{1}{2}\cdot\frac{1}{2\sqrt{y}}$ para $y\in(0,1)$. Evalúe si este procedimiento es correcto, señalando específicamente qué supuesto del teorema del caso monótono se viola, y corrija el resultado.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:12a4921}
+	Diseñe un ejemplo original (una variable $X$ con distribución conocida y una transformación monótona $g$) distinto de los ejemplos de esta sección (Pareto, log-normal, arcoseno), y derive la densidad de $Y=g(X)$ usando el teorema de cambio de variable.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:d3727e9]
+	Para $g$ estrictamente monótona y diferenciable, $f_Y(y) = f_X(g^{-1}(y))\cdot\left|\dfrac{d}{dy}g^{-1}(y)\right|$. Para el caso afín $Y=aX+b$ con $a\neq0$: $\mu_Y = a\mu_X+b$ y $\sigma_Y^2 = a^2\sigma_X^2$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:fbf2d01]
+	El valor absoluto es indispensable porque una densidad de probabilidad nunca puede ser negativa. Si $g$ es decreciente, entonces $g^{-1}$ también es decreciente, por lo que $\dfrac{d}{dy}g^{-1}(y) < 0$; sin el valor absoluto, la fórmula produciría un valor negativo para $f_Y(y)$, lo cual es absurdo para una densidad. El valor absoluto corrige esto asegurando que siempre se use la magnitud del factor de "estiramiento/compresión" que introduce la transformación, independientemente de si $g$ crece o decrece.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:d795060]
+	Con $a=3$, $b=-2$: $\mu_Y = 3(5)-2 = 13$ y $\sigma_Y^2 = 3^2(4) = 36$. Por la propiedad de reproductividad de la Normal bajo transformaciones lineales, $Y \sim N(13, 36)$.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:182603c]
+	La transformación $g(x)=\sqrt{x}$ es estrictamente creciente en $(0,\infty)$, con inversa $g^{-1}(y)=y^2$ y $\dfrac{d}{dy}g^{-1}(y) = 2y$. Por el teorema de cambio de variable, para $y>0$:
+	\begin{align*}
+		f_Y(y) = f_X(y^2)\cdot|2y| = \lambda e^{-\lambda y^2}\cdot 2y = 2\lambda y\,e^{-\lambda y^2}.
+	\end{align*}
+	Esta es la densidad de una distribución \textbf{Weibull} con parámetro de forma $\beta=2$ y escala $\eta=1/\sqrt{\lambda}$ (también conocida, en este caso particular, como distribución de Rayleigh generalizada).
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:5ce800e]
+	El procedimiento es \textbf{incorrecto}. El teorema del caso monótono exige que $g$ sea \emph{estrictamente monótona} (uno a uno) en todo el soporte de $X$; pero $g(x)=x^2$ en $X\sim U(-1,1)$ \textbf{no} es monótona en $(-1,1)$ (decrece en $(-1,0)$ y crece en $(0,1)$), por lo que cada valor $y\in(0,1)$ tiene \textbf{dos} preimágenes, $x=\sqrt{y}$ y $x=-\sqrt{y}$, no una sola. El estudiante debió usar la fórmula general para funciones no monótonas, sumando la contribución de ambas raíces:
+	\begin{align*}
+		f_Y(y) = f_X(\sqrt{y})\cdot\left|\frac{d}{dy}\sqrt{y}\right| + f_X(-\sqrt{y})\cdot\left|\frac{d}{dy}(-\sqrt{y})\right| = \frac{1}{2}\cdot\frac{1}{2\sqrt{y}} + \frac{1}{2}\cdot\frac{1}{2\sqrt{y}} = \frac{1}{2\sqrt{y}}, \quad y\in(0,1),
+	\end{align*}
+	el doble del resultado (incompleto) obtenido por el estudiante.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:12a4921]
+	\textbf{Ejemplo:} sea $X \sim U(0,1)$ y $Y = -\ln(X)$ (transformación decreciente, con $g^{-1}(y)=e^{-y}$). Como $\dfrac{d}{dy}e^{-y} = -e^{-y}$, la densidad es:
+	\begin{align*}
+		f_Y(y) = f_X(e^{-y})\cdot|-e^{-y}| = 1\cdot e^{-y} = e^{-y}, \quad y>0.
+	\end{align*}
+	Por lo tanto $Y \sim \text{Exp}(1)$ — esta es precisamente la transformación inversa usada en el método de la transformada inversa para generar variables exponenciales a partir de uniformes.
+\end{solproblema}

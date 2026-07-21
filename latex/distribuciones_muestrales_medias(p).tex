@@ -1,0 +1,83 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:22013b6}
+	Enuncie, sin realizar ningún cálculo, las fórmulas de $E(\bar{X})$ y $\Var(\bar{X})$ para una muestra aleatoria simple $X_1,\ldots,X_n$ de una población con media $\mu$ y varianza $\sigma^2$.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:f4e7b8b}
+	Clasifique cada una de las siguientes cantidades como \emph{estadístico} o \emph{parámetro}, justificando su respuesta: (a) la media poblacional $\mu$; (b) la media muestral $\bar{x}$ de una encuesta; (c) la proporción muestral $\hat{p}$ de una elección; (d) la varianza poblacional $\sigma^2$.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:6815de7}
+	Una aseguradora recibe $n=100$ reclamaciones independientes, cada una con media $\mu=\$800$ y desviación estándar $\sigma=\$300$. Use el TLC para aproximar la probabilidad de que el monto total reclamado $T=\sum_{i=1}^{100} X_i$ exceda $\$85{,}000$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:716e9bb}
+	Demuestre que $E(S^2) = \sigma^2$ para $X_1,\ldots,X_n$ iid con media $\mu$ y varianza $\sigma^2$, donde $S^2=\frac{1}{n-1}\sum(X_i-\bar X)^2$. Justifique explícitamente por qué $\sum_{i=1}^n(X_i-\mu) = n(\bar X-\mu)$ y cómo se usa esta identidad en la demostración.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:0555e27}
+	Una población tiene una distribución fuertemente asimétrica (coeficiente de asimetría grande). ¿Es $n=30$ necesariamente suficiente para una buena aproximación normal de $\bar X$? Evalúe esta afirmación usando el teorema de Berry-Esseen.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:2e2f544}
+	Diseñe un ejemplo original (contexto, $n$, $\mu$ y $\sigma$) donde se aplique el Teorema del Límite Central para aproximar la probabilidad de que una media o suma muestral caiga en un rango de interés, distinto de los ejemplos de exámenes o reclamaciones ya vistos en esta sección. Plantee la pregunta de probabilidad y calcúlela.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:22013b6]
+	$E(\bar{X}) = \mu$ y $\Var(\bar{X}) = \sigma^2/n$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:f4e7b8b]
+	(a) $\mu$ es un \textbf{parámetro} (describe a toda la población, es fijo y generalmente desconocido). (b) $\bar{x}$ es un \textbf{estadístico} (se calcula a partir de la muestra observada). (c) $\hat{p}$ es un \textbf{estadístico} (proporción calculada de datos muestrales). (d) $\sigma^2$ es un \textbf{parámetro} (describe la dispersión de toda la población).
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:6815de7]
+	$E(T) = n\mu = 100\cdot800 = 80{,}000$. $\Var(T) = n\sigma^2 = 100\cdot300^2 = 9{,}000{,}000$, así $\text{DE}(T)=3000$.
+	\begin{align*}
+		P(T > 85{,}000) \approx P\left(Z > \frac{85{,}000-80{,}000}{3000}\right) = P(Z > 1.667) \approx 1-0.9522 = 0.0478.
+	\end{align*}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:716e9bb]
+	Como $\bar X = \frac{1}{n}\sum X_i$, se sigue que $\sum_{i=1}^n(X_i-\mu) = \sum X_i - n\mu = n\bar X - n\mu = n(\bar X-\mu)$. Usando esta identidad:
+	\begin{align*}
+		\sum_{i=1}^n(X_i-\bar X)^2 &= \sum_{i=1}^n\left[(X_i-\mu)-(\bar X-\mu)\right]^2 \\
+		&= \sum_{i=1}^n(X_i-\mu)^2 - 2(\bar X-\mu)\underbrace{\sum_{i=1}^n(X_i-\mu)}_{=n(\bar X-\mu)} + n(\bar X-\mu)^2 \\
+		&= \sum_{i=1}^n(X_i-\mu)^2 - n(\bar X-\mu)^2.
+	\end{align*}
+	Tomando esperanza, $E[(X_i-\mu)^2]=\sigma^2$ y $E[(\bar X-\mu)^2]=\Var(\bar X)=\sigma^2/n$, así que $E\left[\sum(X_i-\bar X)^2\right] = n\sigma^2 - n\cdot\sigma^2/n = (n-1)\sigma^2$. Dividiendo entre $n-1$: $E(S^2)=\sigma^2$.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:0555e27]
+	No necesariamente. La cota de Berry-Esseen, $C\rho/(\sigma^3\sqrt n)$, depende del tercer momento absoluto $\rho=E|X-\mu|^3$. Una distribución fuertemente asimétrica tiene $\rho$ grande en relación a $\sigma^3$, por lo que el error de la aproximación normal en $n=30$ puede ser considerablemente mayor que para una población simétrica con momentos similares; en esos casos se requiere un $n$ mayor para alcanzar la misma precisión. La regla "$n\ge30$" es solo una heurística general, no una garantía universal.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:2e2f544]
+	\textbf{Ejemplo:} el tiempo de descarga de un archivo en una red tiene media $\mu=4$ segundos y desviación estándar $\sigma=1.2$ segundos, con distribución poblacional desconocida. Para una muestra de $n=64$ descargas, ¿cuál es la probabilidad de que el tiempo promedio de descarga exceda $4.3$ segundos? Con $\text{DE}(\bar X) = 1.2/\sqrt{64} = 0.15$:
+	\begin{align*}
+		P(\bar X > 4.3) \approx P\left(Z > \frac{4.3-4}{0.15}\right) = P(Z>2) \approx 1-0.9772 = 0.0228.
+	\end{align*}
+\end{solproblema}

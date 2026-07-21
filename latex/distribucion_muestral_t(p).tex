@@ -1,0 +1,78 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:3de3320}
+	Enuncie, sin realizar ningún cálculo, la definición de $T=Z/\sqrt{\chi^2_\nu/\nu}$ (con $Z\sim N(0,1)$ independiente de $\chi^2_\nu$), y la fórmula de $\Var(T)$ para $T\sim t_\nu$.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:03aebae}
+	Explique, sin calcular ningún cuantil numérico, por qué los cuantiles de $t_\nu$ se acercan cada vez más a los cuantiles de $Z\sim N(0,1)$ conforme $\nu$ crece, usando el hecho de que $\chi^2_\nu/\nu \to 1$ en probabilidad cuando $\nu\to\infty$.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:e378132}
+	Los datos $\{23, 25, 21, 27, 24\}$ ($n=5$) provienen de una población normal. Calcule $\bar X$ y $S$, y construya un intervalo de confianza del $95\%$ para $\mu$ usando $t_{4,0.025}\approx2.776$.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:7943b46}
+	Sabiendo que $E(1/\chi^2_\nu) = 1/(\nu-2)$ para $\nu>2$, que $Z$ y $\chi^2_\nu$ son independientes, y que $E(Z^2)=1$, derive $\Var(T)=\nu/(\nu-2)$ para $T=Z/\sqrt{\chi^2_\nu/\nu}$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:bbda1fa}
+	Un analista con una muestra de $n=20$ observaciones normales y $\sigma$ desconocida decide usar el cuantil $z_{0.025}=1.96$ en vez de $t_{19,0.025}\approx2.093$ para construir un intervalo de confianza del 95\% para $\mu$, argumentando que ``$n=20$ ya es lo suficientemente grande''. Evalúe esta decisión: calcule el error relativo entre ambos cuantiles y explique qué consecuencia tiene usar $z$ en lugar de $t$ sobre el nivel de confianza real del intervalo resultante.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:c34507c}
+	Diseñe un ejemplo original (contexto y datos de una muestra pequeña, $n<15$) donde se deba construir un intervalo de confianza para una media poblacional con $\sigma$ desconocida, distinto de los ejemplos ya vistos en esta sección. Calcule $\bar X$, $S$, y el intervalo de confianza del 95\%.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:3de3320]
+	$T = Z/\sqrt{\chi^2_\nu/\nu}$, con $Z\sim N(0,1)$ independiente de $\chi^2_\nu$. Para $T\sim t_\nu$, $\Var(T) = \nu/(\nu-2)$ (para $\nu>2$).
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:03aebae]
+	Como $T = Z/\sqrt{\chi^2_\nu/\nu}$, y $\chi^2_\nu/\nu \to 1$ en probabilidad cuando $\nu\to\infty$ (por la ley de los grandes números aplicada a $\chi^2_\nu = \sum_{i=1}^\nu Z_i^2$, un promedio de $\nu$ términos i.i.d. con media $1$), el denominador de $T$ se acerca cada vez más a $\sqrt{1}=1$ a medida que $\nu$ crece. En consecuencia, $T$ se comporta cada vez más como el numerador $Z$ solo, es decir, como una $N(0,1)$ pura — por eso sus cuantiles convergen a los de $Z$.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:e378132]
+	$\bar X = (23+25+21+27+24)/5 = 120/5 = 24$. Desviaciones al cuadrado: $1,1,9,9,0$, suma $20$, $S^2=20/4=5$, $S=\sqrt5\approx2.236$. $\text{SE}=S/\sqrt5=\sqrt5/\sqrt5=1$. Margen $=2.776\cdot1=2.776$.
+	\begin{align*}
+		\text{IC}_{95\%} = 24 \pm 2.776 = [21.22,\ 26.78].
+	\end{align*}
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:7943b46]
+	Como $E(T)=0$ para $\nu>1$, $\Var(T)=E(T^2)$. Escribiendo $T^2 = Z^2/(\chi^2_\nu/\nu) = \nu Z^2/\chi^2_\nu$, y usando la independencia de $Z$ y $\chi^2_\nu$:
+	\begin{align*}
+		E(T^2) = \nu\,E(Z^2)\,E\!\left(\frac{1}{\chi^2_\nu}\right) = \nu\cdot1\cdot\frac{1}{\nu-2} = \frac{\nu}{\nu-2}.
+	\end{align*}
+	Por lo tanto $\Var(T) = \nu/(\nu-2)$.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:bbda1fa]
+	La decisión es \textbf{cuestionable}. El error relativo es $(2.093-1.96)/1.96 \approx 6.8\%$: el cuantil $t$ es notablemente mayor que el $z$. Usar $z_{0.025}=1.96$ en lugar de $t_{19,0.025}\approx2.093$ produce un margen de error \textbf{más estrecho} de lo que corresponde, lo que hace que el intervalo resultante tenga una probabilidad de cobertura real \textbf{menor al 95\%} nominal (el intervalo es "demasiado optimista"). Aunque $n=20$ no es una muestra extremadamente pequeña, un error del $6.8\%$ en el cuantil no es despreciable; la regla correcta es usar siempre $t_{n-1}$ cuando $\sigma$ es desconocida (sin importar qué tan grande sea $n$, ya que $t_\nu \to z$ de todas formas cuando $\nu$ es grande, por lo que no hay ninguna desventaja práctica en usar $t$ consistentemente).
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:c34507c]
+	\textbf{Ejemplo:} un laboratorio mide el tiempo de coagulación (en minutos) de $n=6$ muestras de sangre tratadas con un nuevo anticoagulante: $\{8.2, 7.9, 8.5, 8.1, 7.8, 8.3\}$. $\bar X = 48.8/6 \approx 8.133$. Las desviaciones al cuadrado suman aproximadamente $0.3033$, así $S^2 = 0.3033/5 \approx 0.0607$, $S\approx0.246$. Con $t_{5,0.025}\approx2.571$ y $\text{SE}=S/\sqrt6\approx0.1004$: margen $\approx2.571\times0.1004\approx0.258$. $\text{IC}_{95\%} \approx 8.133\pm0.258 = [7.875,\ 8.391]$ minutos.
+\end{solproblema}
