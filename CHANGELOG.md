@@ -4,6 +4,27 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-20 (continuación 3 — división de los 8 archivos de teoría que agrupaban varias secciones)
+
+### Corregido
+- **Causa raíz del desfase de numeración y de los encabezados "Problemas" duplicados**: se detectó que 8 archivos de teoría en los capítulos 3-8 agrupaban entre 2 y 7 `\section` reales cada uno en un único archivo, sin ningún `\input` que las separara físicamente (36 secciones en total): `distribuciones_especiales.tex`, `variables_aleatorias_continuas_avanzado.tex`, `distribuciones_muestreo_avanzado.tex`, `estimacion_intervalos_avanzado.tex`, `pruebas_de_hipotesis.tex`, `chi_cuadrada.tex`, `pruebas_hipotesis_avanzadas.tex` y `diseno_experimentos_anova.tex`. Esto era la causa estructural de que los cuadernos de problemas nuevos creados hoy mismo (`relacion_ic_pruebas_hipotesis(p).tex`, `cuadrados_latinos_grecolatinos(p).tex`) no pudieran aterrizar en su sección correcta, y de que dos de ellos (`cuadrados_latinos_grecolatinos(p)` y `diseno_factorial(p)`) quedaran apilados uno justo después del otro, produciendo dos encabezados "Problemas" seguidos en el PDF bajo la sección 8.6.
+- **Los 8 archivos se dividieron en un archivo por sección real** (34 archivos nuevos con nombre descriptivo por tema, 2 archivos conservados — `pruebas_de_hipotesis.tex` y `chi_cuadrada.tex` — recortados a su primera sección únicamente), preservando el contenido exactamente (mismos `\label`, mismas fórmulas; verificado con conteo de `\label{` idéntico antes/después en cada uno de los 8 grupos). La división por sí sola no altera ningún número de sección ni página (confirmado comparando el `.toc` completo contra una línea base tomada antes de empezar: 0 diferencias tras cada división aislada).
+- **Los 3 cuadernos de problemas nuevos de hoy se reubicaron** para quedar inmediatamente después de su propio archivo de sección:
+  - `relacion_ic_pruebas_hipotesis(p).tex`: de continuación de 7.3 → **7.2.1-7.2.6** (limpio, sección dedicada).
+  - `cuadrados_latinos_grecolatinos(p).tex`: de continuación de 8.6 → **8.5.1-8.5.6** (limpio, sección dedicada).
+  - `diseno_factorial(p).tex`: permanece en 8.6, pero ahora **en solitario** (8.6.1-8.6.6) sin el cuaderno de cuadrados latinos apilado encima — resuelto el síntoma de los dos encabezados "Problemas" duplicados.
+  - Se eliminaron los comentarios de limitación de numeración añadidos hoy en los 2 primeros archivos, ya que la limitación que documentaban dejó de existir.
+  - Los 8 cuadernos de problemas **preexistentes** de estos grupos (`distribuciones_especiales(p)`, `variables_aleatorias_continuas_avanzado(p)`, `distribuciones_muestreo_avanzado(p)`, `estimacion_intervalos_avanzado(p)`, `pruebas_de_hipotesis(p)`, `chi_cuadrada(p)`, `pruebas_hipotesis_avanzadas(p)`, `diseno_experimentos_anova(p)`) **no se movieron ni se migraron**: mantienen su posición relativa (después del último archivo nuevo de su grupo) y, por tanto, su número de sección compilado exactamente igual que antes de esta división. Migrar su contenido a la convención de 1-archivo-por-sección queda para la tarea grande ya diferida.
+- **Defecto de comillas rectas corregido**: se encontró que los 5 cuadernos de problemas escritos hoy usaban comillas rectas (`"..."`) en vez de comillas tipográficas LaTeX (`` `` ... '' ``), lo cual bajo el paquete `babel` en español se interpreta como un atajo de shorthand y produce texto corrupto en el PDF compilado (ej. `"continuidad"` renderizaba como `çontinuidad.es`). Corregido en los 5 archivos (32 pares de comillas reemplazados), verificado visualmente en las páginas afectadas tras recompilar.
+
+### Verificación
+- Libro maestro ES recompilado dos veces después de cada una de las 8 divisiones: **0 errores, 0 referencias indefinidas** en cada paso.
+- `grep "multiply defined"` solo reporta la colisión preexistente `exmp:5.1.1` (fuera de alcance) — 0 colisiones nuevas introducidas por la división.
+- Conteo de `\label{` idéntico entre cada archivo original y la suma de sus archivos divididos, confirmando cero pérdida de contenido en los 8 grupos.
+- `.toc` comparado contra línea base antes/después de cada división: idéntico salvo en los 3 puntos de reubicación intencional (7.2, 8.5, 8.6), donde el cambio de página es el esperado por el contenido reinsertado.
+- Verificación visual (renderizado a imagen con `pdftoppm`) de las páginas 533-540 (frontera 8.5/8.6): confirmado un solo encabezado "Problemas" por sección, numeración `Problema 8.5.x`/`8.6.x` correcta, y comillas tipográficas correctamente renderizadas.
+- No se tocó ningún cuaderno de problemas preexistente (aparte de eliminar los 2 comentarios de limitación ya obsoletos). No se hizo `git commit`.
+
 ## 2026-07-20 (continuación 2 — diagnóstico de cuadernos de problemas, corrección de colisión y cierre de 5 huecos de cobertura)
 
 ### Añadido
