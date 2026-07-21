@@ -1,0 +1,86 @@
+\section*{Problemas}
+
+\subsection*{Enunciados de los problemas}
+
+% Recordar
+\begin{problema}
+	\label{prob:d20c80f}
+	Enuncie, sin realizar ningún cálculo, la fórmula de la frecuencia esperada $E_{ij}$ bajo la hipótesis nula de independencia en una tabla de contingencia $r\times c$, y la fórmula de los grados de libertad correspondientes.
+\end{problema}
+
+% Comprender
+\begin{problema}
+	\label{prob:b002759}
+	Explique, sin usar ningún dato numérico, por qué la fórmula $E_{ij}=\dfrac{R_i C_j}{N}$ es la frecuencia esperada correcta bajo independencia, partiendo del hecho de que, si dos eventos $F_i$ (fila) y $C_j$ (columna) son independientes, $P(F_i\cap C_j)=P(F_i)\,P(C_j)$.
+\end{problema}
+
+% Aplicar
+\begin{problema}
+	\label{prob:147e151}
+	Una auditoría de seguridad vial busca comprobar si existe independencia entre el tipo de vehículo y el día de la semana en accidentes urbanos ($n=300$):
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|}\hline
+			Tipo de vehículo & Lunes & Miércoles & Viernes & Total \\\hline
+			Automóvil & 30 & 25 & 45 & 100 \\\hline
+			Camioneta & 20 & 30 & 30 & 80 \\\hline
+			Motocicleta & 25 & 20 & 35 & 80 \\\hline
+			Camión & 15 & 15 & 10 & 40 \\\hline
+			Total & 90 & 90 & 120 & 300 \\\hline
+		\end{tabular}
+	\end{center}
+	Calcule las frecuencias esperadas, el estadístico $\chi^2$, los grados de libertad, y decida al $\alpha=0.05$ (use $\chi^2_{0.05,6}=12.59$) si existe relación significativa entre el día y el tipo de vehículo.
+\end{problema}
+
+% Analizar
+\begin{problema}
+	\label{prob:3c6b064}
+	Para una tabla de contingencia $2\times2$ con celdas $a,b,c,d$, totales de fila $R_1,R_2$ y de columna $C_1,C_2$, demuestre algebraicamente que el estadístico general de Pearson bajo independencia se colapsa a la fórmula cerrada $\chi^2=\dfrac{N(ad-bc)^2}{(a+b)(c+d)(a+c)(b+d)}$, y explique el significado del factor $(ad-bc)$ como determinante de la matriz de contingencia, relacionándolo con la Razón de Momios $\text{OR}=ad/bc$.
+\end{problema}
+
+% Evaluar
+\begin{problema}
+	\label{prob:878a46f}
+	Un analista de marketing, tras rechazar $H_0$ en una prueba de independencia entre "canal de publicidad visto" y "decisión de compra" ($\chi^2$ significativo), concluye: ``queda demostrado que el canal de publicidad \textbf{causa} la decisión de compra''. Evalúe esta conclusión: ¿qué es exactamente lo que una prueba de independencia $\chi^2$ significativa demuestra, y qué NO demuestra? Proponga una explicación alternativa (una variable de confusión) que podría producir el mismo resultado de \emph{no independencia} sin que exista relación causal directa.
+\end{problema}
+
+% Crear
+\begin{problema}
+	\label{prob:a5524c8}
+	Diseñe un ejemplo original (contexto y tabla de contingencia $r\times c$ con $r\ge2$, $c\ge2$) donde se aplique una prueba de independencia $\chi^2$, distinto del ejemplo de accidentes viales ya visto en esta sección. Calcule al menos una celda de frecuencia esperada y establezca los grados de libertad de su tabla.
+\end{problema}
+
+\subsection*{Soluciones detalladas}
+
+% Recordar
+\begin{solproblema}[prob:d20c80f]
+	$E_{ij} = \dfrac{R_i C_j}{N}$, donde $R_i$ es el total de la fila $i$, $C_j$ el total de la columna $j$, y $N$ el total general. Los grados de libertad son $\nu=(r-1)(c-1)$.
+\end{solproblema}
+
+% Comprender
+\begin{solproblema}[prob:b002759]
+	Bajo independencia, $P(F_i)\approx R_i/N$ y $P(C_j)\approx C_j/N$ son las probabilidades marginales estimadas de fila y columna. Si $F_i$ y $C_j$ fueran independientes, $P(F_i\cap C_j)=P(F_i)P(C_j) = (R_i/N)(C_j/N)$. Multiplicando esta probabilidad conjunta por el total de observaciones $N$ para convertirla en un conteo esperado: $E_{ij} = N\cdot P(F_i\cap C_j) = N\cdot\dfrac{R_i}{N}\cdot\dfrac{C_j}{N} = \dfrac{R_iC_j}{N}$. La fórmula es simplemente la traducción directa, a conteos, de la definición probabilística de independencia.
+\end{solproblema}
+
+% Aplicar
+\begin{solproblema}[prob:147e151]
+	Las frecuencias esperadas son: Automóvil $(30,30,40)$; Camioneta $(24,24,32)$; Motocicleta $(24,24,32)$; Camión $(12,12,16)$.
+	\begin{align*}
+		\chi^2 = \frac{(30-30)^2}{30}+\frac{(25-30)^2}{30}+\cdots+\frac{(10-16)^2}{16} \approx 8.49.
+	\end{align*}
+	Con $\nu=(4-1)(3-1)=6$ y $\chi^2_{0.05,6}=12.59$: como $8.49<12.59$, \textbf{no se rechaza} $H_0$: no hay relación estadísticamente significativa entre el día y el tipo de vehículo.
+\end{solproblema}
+
+% Analizar
+\begin{solproblema}[prob:3c6b064]
+	Con $E_{11}=(a+b)(a+c)/N$, se muestra que $O_{11}-E_{11} = \dfrac{ad-bc}{N}$, y por la estructura de "tablero de ajedrez" de los signos, las cuatro desviaciones $(O_{ij}-E_{ij})$ tienen la misma magnitud $|ad-bc|/N$. Sustituyendo en $\chi^2=\sum(O_{ij}-E_{ij})^2/E_{ij}$ y simplificando algebraicamente (factorizando $N$ y agrupando por filas/columnas) se obtiene $\chi^2 = \dfrac{N(ad-bc)^2}{(a+b)(c+d)(a+c)(b+d)}$. El factor $(ad-bc)$ es el determinante de la matriz $\begin{pmatrix}a&b\\c&d\end{pmatrix}$: si $ad=bc$ (determinante cero), las filas son proporcionales, lo cual equivale a independencia total ($\chi^2=0$) y a $\text{OR}=ad/bc=1$. Cuanto más se aleja $\text{OR}$ de $1$, mayor es $|ad-bc|$ y más grande (cuadráticamente) el estadístico $\chi^2$.
+\end{solproblema}
+
+% Evaluar
+\begin{solproblema}[prob:878a46f]
+	La conclusión es \textbf{incorrecta}. Una prueba de independencia $\chi^2$ significativa demuestra únicamente que existe una \textbf{asociación estadística} entre las dos variables categóricas (que no son independientes en la muestra) — \textbf{no} demuestra ninguna relación de causalidad ni la dirección de esa relación. Una explicación alternativa plausible es una \textbf{variable de confusión}: por ejemplo, el nivel de ingreso del consumidor podría influir simultáneamente en qué canales de publicidad ve (los consumidores de mayor ingreso usan más ciertas plataformas) y en su probabilidad de compra (mayor poder adquisitivo), generando una asociación estadística entre canal y compra sin que el canal cause directamente la decisión — el verdadero motor causal sería el ingreso, no el canal en sí.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:a5524c8]
+	\textbf{Ejemplo:} una universidad investiga si existe relación entre la modalidad de estudio (Presencial, Híbrido, En línea) y la tasa de aprobación de un curso (Aprobado, Reprobado) en una muestra de $n=400$ estudiantes: Presencial (Aprobado=120, Reprobado=30, total=150); Híbrido (Aprobado=90, Reprobado=30, total=120); En línea (Aprobado=80, Reprobado=50, total=130); totales de columna: Aprobado=290, Reprobado=110. Para la celda Presencial-Aprobado: $E_{11} = (150)(290)/400 = 108.75$. Los grados de libertad son $\nu=(3-1)(2-1)=2$.
+\end{solproblema}
