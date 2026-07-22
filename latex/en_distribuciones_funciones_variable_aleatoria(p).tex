@@ -1,0 +1,83 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:0b1575d}
+	State, without performing any calculation, the general formula for $f_Y(y)$ for $Y=g(X)$ when $g$ is not necessarily monotone (sum over preimages), and describe in one sentence the analogous idea for $Y=g(X_1,\ldots,X_n)$ with several variables.
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:a8b056e}
+	For independent $X_1,X_2$ with joint density $f(x_1,x_2)=f_{X_1}(x_1)f_{X_2}(x_2)$, explain why the general formula for integration over the level set $g(x_1,x_2)=y$ reduces, in the particular case $Y=X_1+X_2$, to the convolution integral $f_Y(y)=\int f_{X_1}(x_1)f_{X_2}(y-x_1)\,dx_1$.
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:4cdd21e}
+	Let $X_1,X_2 \sim U(0,1)$ be independent. Use the convolution integral to find the density of $Y=X_1+X_2$ on the interval $y\in(0,1)$.
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:43a7344}
+	Let $X\sim N(0,1)$ and $Y=|X|$ (a nonmonotone transformation). Use the general formula that sums over preimages to derive the density of $Y$ (the \emph{half-normal} distribution) for $y>0$.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:df21aa1}
+	A student claims: ``the convolution formula $f_Y(y)=\int f_{X_1}(x_1)f_{X_2}(y-x_1)\,dx_1$ for $Y=X_1+X_2$ is always valid, regardless of whether $X_1$ and $X_2$ are independent''. Evaluate this claim, identifying exactly where independence is used in the derivation from the general formula (integration over the level set using the joint density $f_{X_1,X_2}$).
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:db5d952}
+	Design an original example with two independent random variables $X_1, X_2$ (different from those already seen in this section) and compute, using the convolution integral, the density of $Y=X_1+X_2$.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:0b1575d]
+	For the one-variable case, $f_Y(y) = \sum_{x:\,g(x)=y} \dfrac{f_X(x)}{|g'(x)|}$, summing the contribution of each preimage of $y$. For several variables, the density of $Y=g(X_1,\ldots,X_n)$ is obtained by integrating the joint density over the level surface $g(x_1,\ldots,x_n)=y$, dividing by the gradient of $g$---the idea is the same (redistribute the "probability mass" according to how much the transformation "stretches" each region), but now over a surface instead of isolated points.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:a8b056e]
+	The level set $\{(x_1,x_2): x_1+x_2=y\}$ is the line $x_2=y-x_1$. Integrating the joint density over that line (parameterized by $x_1$) is equivalent to traversing all pairs $(x_1,x_2)$ that sum to $y$, evaluating $f(x_1,y-x_1)$ for each $x_1$ and integrating in $x_1$. Since $f(x_1,x_2)=f_{X_1}(x_1)f_{X_2}(x_2)$ by independence, substituting $x_2=y-x_1$ gives exactly $f_Y(y)=\int f_{X_1}(x_1)f_{X_2}(y-x_1)\,dx_1$: the general integral over the level surface collapses to convolution precisely because the level surface of a sum is a simple line, parameterizable by one variable.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:4cdd21e]
+	With $f_{X_1}(x_1)=1$ on $(0,1)$ and $f_{X_2}(y-x_1)=1$ when $0<y-x_1<1$, that is, $y-1<x_1<y$:
+	\begin{align*}
+		f_Y(y) = \int_{\max(0,y-1)}^{\min(1,y)} 1\,dx_1.
+	\end{align*}
+	For $y\in(0,1)$: the limits are $0$ to $y$, so $f_Y(y) = y$. (For $y\in(1,2)$, by symmetry, $f_Y(y)=2-y$; altogether, $Y$ has a triangular density on $(0,2)$.)
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:43a7344]
+	For $y>0$, the equation $|x|=y$ has two solutions: $x_1=y$ and $x_2=-y$, both with $|g'(x)|=1$. Adding their contributions:
+	\begin{align*}
+		f_Y(y) = f_X(y)\cdot\frac{1}{|1|} + f_X(-y)\cdot\frac{1}{|-1|} = \frac{1}{\sqrt{2\pi}}e^{-y^2/2} + \frac{1}{\sqrt{2\pi}}e^{-y^2/2} = \sqrt{\frac{2}{\pi}}\,e^{-y^2/2}, \quad y>0,
+	\end{align*}
+	using $f_X(y)=f_X(-y)$ by symmetry of the standard Normal. This is the density of the half-normal distribution.
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:df21aa1]
+	The claim is \textbf{incorrect}. The general formula that is always valid (with or without independence) is $f_Y(y) = \int f_{X_1,X_2}(x_1,y-x_1)\,dx_1$, using the \textbf{joint} density directly. The "convolution" form $f_Y(y)=\int f_{X_1}(x_1)f_{X_2}(y-x_1)\,dx_1$ is valid only when the joint density \textbf{factorizes} as the product of the marginals, that is, exactly when $X_1$ and $X_2$ are independent. If they are not independent, one must integrate the true joint density $f_{X_1,X_2}(x_1,y-x_1)$ over the level line, which in general cannot be separated into a product of individual densities.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:db5d952]
+	\textbf{Example:} let $X_1\sim\text{Exp}(2)$ and $X_2\sim\text{Exp}(3)$ be independent, and let $Y=X_1+X_2$. For $y>0$:
+	\begin{align*}
+		f_Y(y) = \int_0^y 2e^{-2x_1}\cdot 3e^{-3(y-x_1)}\,dx_1 = 6e^{-3y}\int_0^y e^{x_1}\,dx_1 = 6e^{-3y}(e^y-1) = 6e^{-2y}-6e^{-3y}, \quad y>0,
+	\end{align*}
+	the density of a \emph{hypoexponential distribution} with rates $2$ and $3$ (sum of two exponentials with different rates, which is no longer Gamma because the rates differ).
+\end{solproblema}

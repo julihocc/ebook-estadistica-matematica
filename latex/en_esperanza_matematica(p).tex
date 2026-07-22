@@ -1,13 +1,10 @@
-% ==============================================================================
-% SECTION 04.03: MATHEMATICAL EXPECTATION, VARIANCE, AND THE CONTINUOUS LOTUS THEOREM
-% ==============================================================================
+\section*{Problems}
 
-\subsection*{Problem Statements --- Section 04.03}
+\subsection*{Problem statements}
 
-\subsubsection*{Fundamental Level}
-
+% Remember
 \begin{problema}
-	\label{prob:4.3.1}
+	\label{prob:4e01dbd}
 	A continuous random variable $X$ has triangular PDF $f(x) = 2x$ for $0 \le x \le 1$ and $f(x) = 0$ otherwise.
 	\begin{enumerate}
 		\item Compute the expectation $\E[X] = \int_{0}^{1} x \cdot 2x\,dx$.
@@ -16,262 +13,117 @@
 	\end{enumerate}
 \end{problema}
 
+% Understand
 \begin{problema}
-	\label{prob:4.3.2}
+	\label{prob:f43c638}
 	Let $X \sim \text{Exp}(\lambda = 0.5)$ with PDF $f(x) = 0.5 e^{-0.5 x}$ for $x \ge 0$.
 	\begin{enumerate}
 		\item Compute $\E[X] = 1/\lambda$ and $\Var(X) = 1/\lambda^{2}$ using the integral definitions.
-		\item Verify the \emph{memorylessness} property: $\E[X - a \mid X > a] = \E[X]$ for all $a > 0$.
+		\item Verify the \emph{memoryless} property: $\E[X - a \mid X > a] = \E[X]$ for every $a > 0$, and explain intuitively what this property means for a waiting process modeled with this distribution.
 	\end{enumerate}
 \end{problema}
 
+% Apply
 \begin{problema}
-	\label{prob:4.3.3}
-	Let $X$ be a random variable with PDF $f(x) = \dfrac{3}{8}(2 - x^{2})$ for $-1 \le x \le 1$ and $f(x) = 0$ otherwise.
+	\label{prob:7b147c4}
+	In a physics experiment, a quantity $X = \mu + \epsilon$ is measured, where $\mu$ is the true value and $\epsilon \sim N(0, \sigma^{2})$ is measurement error. There are $n$ independent measurements $X_{1}, \dots, X_{n}$.
 	\begin{enumerate}
-		\item Compute $\E[X]$ and $\E[X^{2}]$.
-		\item Compute $\Var(X)$ and the standard deviation $\sigma = \sqrt{\Var(X)}$.
-	\end{enumerate}
-\end{problema}
-
-\subsubsection*{Operational Level}
-
-\begin{problema}
-	\label{prob:4.3.4}
-	Compute the first four central moments of the Uniform distribution on $[0, 1]$ with PDF $f(x) = 1$ for $x \in [0, 1]$. Verify that $\E[X] = 0.5$, $\Var(X) = 1/12$, and that the skewness is $0$ (by symmetry).
-\end{problema}
-
-\begin{problema}
-	\label{prob:4.3.5}
-	For an exponential random variable $X \sim \text{Exp}(\lambda = 1)$:
-	\begin{enumerate}
-		\item Compute the skewness coefficient $\gamma_{1} = \E[(X - \mu)^{3}]/\sigma^{3}$ and the kurtosis $\gamma_{2} = \E[(X - \mu)^{4}]/\sigma^{4} - 3$.
-		\item Compare with the values for the standard Normal ($\gamma_{1} = 0$, $\gamma_{2} = 0$).
-		\item Implement a Monte Carlo simulation with $N = 250{,}000$ to verify the theoretical values.
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	\label{prob:4.3.6}
-	Let $X$ be a variable with PDF $f(x) = \dfrac{1}{\sqrt{2\pi}} e^{-x^{2}/2}$ (standard Normal). Use the LOTUS Theorem to compute:
-	\begin{enumerate}
-		\item $\E[X^{2}]$ (second moment, related to the variance).
-		\item $\E[|X|]$ (expectation of the absolute value).
-		\item $\E[\max(X, 0)]$ (expectation of the positive part).
-	\end{enumerate}
-\end{problema}
-
-\subsubsection*{Analytical Level}
-
-\begin{problema}
-	\label{prob:4.3.7}
-	Let $X$ be a continuous random variable with PDF $f(x)$ and $\E[X] = \mu$. Prove the \emph{linearity property} of expectation:
-	$$\E[aX + b] = a\mu + b, \quad \E[X + Y] = \E[X] + \E[Y]$$
-	for constants $a, b$ and random variables $X, Y$.
-\end{problema}
-
-\begin{problema}
-	\label{prob:4.3.8}
-	Prove the \emph{LOTUS Theorem} for monotonic transformations: if $g: \mathbb{R} \to \mathbb{R}$ is monotonically increasing and $X$ has PDF $f(x)$, then:
-	$$\E[g(X)] = \int g(x) f(x)\,dx$$
-	\begin{enumerate}
-		\item Prove the case $g(X) = e^{X}$ using the substitution $y = g(x)$.
-		\item Generalize to the case of $g$ monotonically increasing but not necessarily injective.
-	\end{enumerate}
-\end{problema}
-
-\subsubsection*{Challenging Level}
-
-\begin{problema}
-	\label{prob:4.3.9}
-	Let $X$ be a continuous random variable with PDF $f(x)$. Use the law of total expectation to prove the \emph{variance decomposition formula}:
-	$$\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$$
-	where $Y$ is another random variable. This identity is fundamental in analysis of variance (ANOVA) and hierarchical models.
-\end{problema}
-
-\begin{problema}
-	\label{prob:4.3.10}
-	In a physics experiment, a quantity $X = \mu + \epsilon$ is measured, where $\mu$ is the true value and $\epsilon \sim N(0, \sigma^{2})$ is the measurement error. $n$ independent measurements $X_{1}, \dots, X_{n}$ are taken.
-	\begin{enumerate}
-		\item Compute $\E[\bar{X}]$ and $\Var(\bar{X})$ where $\bar{X} = (1/n) \sum X_{i}$ is the sample mean.
+		\item Compute $\E[\bar{X}]$ and $\Var(\bar{X})$, where $\bar{X} = (1/n) \sum X_{i}$ is the sample mean.
 		\item Prove that the standard error of the estimate is $\sigma/\sqrt{n}$ and decreases with $\sqrt{n}$.
 		\item For $\sigma = 0.1$, determine $n$ such that $\sigma/\sqrt{n} < 0.01$ (error $< 10\%$ of the true value).
 	\end{enumerate}
 \end{problema}
 
-\subsection*{Problem Hints --- Section 04.03}
+% Analyze
+\begin{problema}
+	\label{prob:de8d740}
+	Let $X$ be a continuous random variable with PDF $f(x)$. Use the law of total expectation to prove the \emph{variance decomposition formula}:
+	$$\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$$
+	where $Y$ is another random variable. This identity is fundamental in analysis of variance (ANOVA) and hierarchical models.
+\end{problema}
 
-\begin{sugerencia}
-	\label{sug:4.3.1}
-	For Problem \ref{prob:4.3.1}, $\E[X] = \int_{0}^{1} x \cdot 2x\,dx = \int_{0}^{1} 2x^{2}\,dx = 2/3$. $\E[X^{2}] = \int_{0}^{1} 2x^{3}\,dx = 1/2$. $\Var(X) = 1/2 - 4/9 = 1/18 \approx 0.0556$. The median $m$ satisfies $m^{2} = 0.5$, giving $m = 1/\sqrt{2} \approx 0.707 > \E[X] = 2/3 \approx 0.667$.
-\end{sugerencia}
+% Evaluate
+\begin{problema}
+	\label{prob:9d4a41b}
+	For an exponential random variable $X \sim \text{Exp}(\lambda = 1)$:
+	\begin{enumerate}
+		\item Compute the skewness coefficient $\gamma_{1} = \E[(X - \mu)^{3}]/\sigma^{3}$ and the kurtosis $\gamma_{2} = \E[(X - \mu)^{4}]/\sigma^{4} - 3$.
+		\item Compare these values with those of the standard Normal distribution ($\gamma_{1} = 0$, $\gamma_{2} = 0$) and interpret what they imply for the shape of the distribution (tail direction and weight of extreme values).
+	\end{enumerate}
+\end{problema}
 
-\begin{sugerencia}
-	\label{sug:4.3.2}
-	For Problem \ref{prob:4.3.2}, $\E[X] = \int_{0}^{\infty} x \cdot 0.5 e^{-0.5x}\,dx = 1/0.5 = 2$. $\E[X^{2}] = \int_{0}^{\infty} x^{2} \cdot 0.5 e^{-0.5x}\,dx = 2/(0.5)^{2} = 8$. $\Var(X) = 8 - 4 = 4$. The memorylessness property is verified by computing $\E[X - a \mid X > a] = \int_{0}^{\infty} x \cdot 0.5 e^{-0.5 x}\,dx = 2 = \E[X]$.
-\end{sugerencia}
+% Create
+\begin{problema}
+	\label{prob:5c186f2}
+	Design an original problem applying linearity of expectation: an investment portfolio consists of three assets with random returns $R_1$, $R_2$, $R_3$ (define their expected values and the portfolio weights $w_1, w_2, w_3$, with $w_1+w_2+w_3=1$). Compute the total expected return of the portfolio $\E[w_1R_1+w_2R_2+w_3R_3]$, and explain why this linearity property is valid even if the returns of the three assets are correlated with one another.
+\end{problema}
 
-\begin{sugerencia}
-	\label{sug:4.3.3}
-	For Problem \ref{prob:4.3.3}, by symmetry of $f(x)$, $\E[X] = 0$. $\E[X^{2}] = \int_{-1}^{1} x^{2} \cdot (3/8)(2 - x^{2})\,dx = (3/8)[2x^{3}/3 - x^{5}/5]_{-1}^{1} = (3/8)(4/15) = 1/10$. $\Var(X) = 1/10 - 0 = 0.1$. $\sigma \approx 0.316$.
-\end{sugerencia}
+\subsection*{Detailed solutions}
 
-\begin{sugerencia}
-	\label{sug:4.3.4}
-	For Problem \ref{prob:4.3.4}, $\E[X] = \int_{0}^{1} x\,dx = 0.5$. $\E[X^{2}] = 1/3$. $\Var(X) = 1/12 \approx 0.0833$. By symmetry of $f(x) = 1$ on $[0, 1]$ about $0.5$, all odd central moments are zero: $\E[(X - 0.5)^{3}] = 0$, $\E[(X - 0.5)^{5}] = 0$, etc.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:4.3.5}
-	For Problem \ref{prob:4.3.5}, the skewness of Exponential($\lambda$) is $\gamma_{1} = 2$ (long right tail) and the kurtosis is $\gamma_{2} = 6$ (heavy tails). Compare with Normal: $\gamma_{1} = 0$, $\gamma_{2} = 0$. In the Monte Carlo simulation, use `np.random.seed(42)` and `np.random.exponential(1.0, 250000)`.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:4.3.6}
-	For Problem \ref{prob:4.3.6}, $\E[X^{2}] = \int x^{2} \phi(x)\,dx = 1$ (variance of the standard Normal). $\E[|X|] = 2 \int_{0}^{\infty} x \phi(x)\,dx = 2/\sqrt{2\pi} = \sqrt{2/\pi} \approx 0.7979$. $\E[\max(X, 0)] = \E[|X|]/2 = 1/\sqrt{2\pi} \approx 0.3989$.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:4.3.7}
-	For Problem \ref{prob:4.3.7}, $\E[aX + b] = \int (ax + b) f(x)\,dx = a \int x f(x)\,dx + b \int f(x)\,dx = a\mu + b$. For $\E[X + Y]$: use Fubini's theorem to swap integrals. Expectation is linear even for dependent variables.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:4.3.8}
-	For Problem \ref{prob:4.3.8}, use the change-of-variable formula: if $g$ is injective, $Y = g(X)$ has PDF $f_{Y}(y) = f_{X}(g^{-1}(y)) / |g'(g^{-1}(y))|$. Then $\E[g(X)] = \E[Y] = \int y f_{Y}(y)\,dy = \int g(x) f_{X}(x)\,dx$. For $g$ monotonic but not injective, decompose the domain into regions of injectivity.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:4.3.9}
-	For Problem \ref{prob:4.3.9}, use the total law $\E[X] = \E[\E[X \mid Y]]$ and the total law of variance $\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$. This identity is proved by expanding both sides. It is fundamental in ANOVA, where total variability decomposes into between-group and within-group variability.
-\end{sugerencia}
-
-\begin{sugerencia}
-	\label{sug:4.3.10}
-	For Problem \ref{prob:4.3.10}, $\E[\bar{X}] = \E[\mu + \bar{\epsilon}] = \mu + (1/n) \sum \E[\epsilon_{i}] = \mu$. $\Var(\bar{X}) = (1/n^{2}) \sum \Var(\epsilon_{i}) = \sigma^{2}/n$. For $\sigma/\sqrt{n} < 0.01$, we need $n > (\sigma/0.01)^{2} = (0.1/0.01)^{2} = 100$. With $n = 100$ the condition holds.
-\end{sugerencia}
-
-\subsection*{Problem Solutions --- Section 04.03}
-
-\begin{solucion}
-	\label{sol:4.3.1}
-	For Problem \ref{prob:4.3.1}:
+% Remember
+\begin{solproblema}[prob:4e01dbd]
 	\begin{enumerate}
 		\item $\E[X] = \int_{0}^{1} x \cdot 2x\,dx = \int_{0}^{1} 2x^{2}\,dx = \left[ \dfrac{2x^{3}}{3} \right]_{0}^{1} = \dfrac{2}{3}$.
-		\item $\E[X^{2}] = \int_{0}^{1} x^{2} \cdot 2x\,dx = \int_{0}^{1} 2x^{3}\,dx = \left[ \dfrac{x^{4}}{2} \right]_{0}^{1} = \dfrac{1}{2}$. Therefore, $\Var(X) = \E[X^{2}] - (\E[X])^{2} = \dfrac{1}{2} - \dfrac{4}{9} = \dfrac{1}{18} \approx 0.0556$.
-		\item The median $m$ satisfies $F(m) = m^{2} = 0.5$, giving $m = 1/\sqrt{2} \approx 0.7071$. Comparing: $\E[X] = 2/3 \approx 0.6667 < m \approx 0.7071$. The difference is due to the skewness of the triangular distribution: the right tail is longer, so the mean exceeds the median.
+		\item $\E[X^{2}] = \int_{0}^{1} 2x^{3}\,dx = \dfrac{1}{2}$. Therefore, $\Var(X) = \dfrac{1}{2} - \dfrac{4}{9} = \dfrac{1}{18} \approx 0.0556$.
+		\item The median $m$ satisfies $F(m) = m^{2} = 0.5$, giving $m = 1/\sqrt{2} \approx 0.7071$. Since $\E[X] = 2/3 \approx 0.6667 < m$, the mean is less than the median because of the asymmetry of the triangular distribution: the left tail contains less mass but extends comparatively, pulling the mean below the median.
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
-	\label{sol:4.3.2}
-	For Problem \ref{prob:4.3.2}:
+% Understand
+\begin{solproblema}[prob:f43c638]
 	\begin{enumerate}
-		\item By integration by parts with $u = x$, $dv = 0.5 e^{-0.5 x}\,dx$:
+		\item By integration by parts with $u=x$, $dv=0.5e^{-0.5x}dx$:
 		\begin{align*}
-			\E[X] &= \int_{0}^{\infty} x \cdot 0.5 e^{-0.5 x}\,dx = \left[ -x e^{-0.5 x} \right]_{0}^{\infty} + \int_{0}^{\infty} e^{-0.5 x}\,dx = 0 + 2 = 2 = 1/\lambda.
+			\E[X] = \int_{0}^{\infty} x \cdot 0.5 e^{-0.5x}\,dx = \left[-xe^{-0.5x}\right]_0^\infty + \int_0^\infty e^{-0.5x}\,dx = 0+2 = 2 = 1/\lambda.
 		\end{align*}
-		Similarly, $\E[X^{2}] = 2 \cdot \E[X] \cdot (1/\lambda) = 2/(\lambda \cdot 0.5) = 8 = 1/\lambda^{2}$. Therefore, $\Var(X) = 8 - 4 = 4 = 1/\lambda^{2}$.
-		\item Memorylessness property: conditional on $X > a$, $X - a$ follows $\text{Exp}(\lambda)$. Therefore, $\E[X - a \mid X > a] = 1/\lambda = \E[X]$. This property, unique to the exponential distribution, makes it fundamental in queueing theory and memoryless processes.
+		Similarly, $\E[X^2] = 8 = 1/\lambda^2$, so $\Var(X) = 8-4=4=1/\lambda^2$.
+		\item Conditional on $X>a$, $X-a$ follows $\text{Exp}(\lambda)$, so $\E[X-a\mid X>a] = 1/\lambda = \E[X]$. Intuitively, this means that an exponential waiting process \emph{does not age}: if one has already waited $a$ units of time without the event occurring, the expected additional waiting time is exactly the same as at the beginning, as if the clock had restarted. This is why the exponential models processes without fatigue or accumulated wear (for example, interarrival times in queueing theory).
 	\end{enumerate}
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
-	\label{sol:4.3.3}
-	For Problem \ref{prob:4.3.3}:
+% Apply
+\begin{solproblema}[prob:7b147c4]
 	\begin{enumerate}
-		\item By symmetry of $f(x) = (3/8)(2 - x^{2})$ on $[-1, 1]$ (even function): $\E[X] = 0$.
-		\item $\E[X^{2}] = \int_{-1}^{1} x^{2} \cdot (3/8)(2 - x^{2})\,dx = (3/8) \int_{-1}^{1} (2x^{2} - x^{4})\,dx = (3/8) \cdot 2 \left[ \dfrac{2x^{3}}{3} - \dfrac{x^{5}}{5} \right]_{0}^{1} = (3/4) \cdot \dfrac{7}{15} = \dfrac{7}{20} = 0.35$.
+		\item Each measurement is $X_i=\mu+\epsilon_i$ with independent $\epsilon_i\sim N(0,\sigma^2)$. The sample mean is $\bar{X}=\mu+(1/n)\sum\epsilon_i$, so $\E[\bar{X}]=\mu+0=\mu$, and $\Var(\bar{X})=(1/n^2)\cdot n\sigma^2=\sigma^2/n$.
+		\item The standard error is $\text{SE}(\bar{X})=\sqrt{\Var(\bar{X})}=\sigma/\sqrt{n}$. To reduce the error by half, $n$ must be quadrupled (the dependence is through $\sqrt{n}$).
+		\item For $\sigma/\sqrt{n}<0.01$ with $\sigma=0.1$: $\sqrt{n}>10$, so $n>100$. With $n=100$ measurements, the standard error is exactly $0.01$ (1\% of the true value).
 	\end{enumerate}
-	$\Var(X) = 0.35 - 0 = 0.35$. The standard deviation is $\sigma = \sqrt{0.35} \approx 0.5916$.
-\end{solucion}
+\end{solproblema}
 
-\begin{solucion}
-	\label{sol:4.3.4}
-	For Problem \ref{prob:4.3.4} (Uniform on $[0, 1]$):
+% Analyze
+\begin{solproblema}[prob:de8d740]
+	By the law of total expectation, $\E[X]=\E[\E[X\mid Y]]$. Expand $\Var(X)$:
 	\begin{align*}
-		\E[X] &= \int_{0}^{1} x\,dx = \dfrac{1}{2}, \\
-		\E[X^{2}] &= \int_{0}^{1} x^{2}\,dx = \dfrac{1}{3}, \\
-		\Var(X) &= \E[X^{2}] - (\E[X])^{2} = \dfrac{1}{3} - \dfrac{1}{4} = \dfrac{1}{12}.
+		\Var(X) &= \E[(X-\E[X])^2] = \E\big[\E[(X-\E[X\mid Y]+\E[X\mid Y]-\E[X])^2 \mid Y]\big] \\
+		&= \E[\E[(X-\E[X\mid Y])^2\mid Y]] + \E[\E[(\E[X\mid Y]-\E[X])^2\mid Y]] \\
+		&\quad + 2\E\big[\E[(X-\E[X\mid Y])(\E[X\mid Y]-\E[X])\mid Y]\big].
 	\end{align*}
-	The odd central moments are zero by symmetry of $f(x) = 1$ on $[0, 1]$ about $0.5$. In particular, $\E[(X - 0.5)^{3}] = 0$ and $\E[(X - 0.5)^{5}] = 0$, so the skewness is $\gamma_{1} = 0$. The kurtosis $\gamma_{2} = \E[(X - 0.5)^{4}]/\sigma^{4} - 3 = (1/80)/(1/144) - 3 = 9/5 - 3 = -6/5 = -1.2$ (platykurtic distribution).
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:4.3.5}
-	For Problem \ref{prob:4.3.5} (Exponential with $\lambda = 1$):
-	For the exponential distribution with $\lambda = 1$, the central moments are:
+	The third term is zero by the tower property: $\E[X-\E[X\mid Y]\mid Y]=\E[X\mid Y]-\E[X\mid Y]=0$. The first term is $\E[\Var(X\mid Y)]$ and the second is $\Var(\E[X\mid Y])$. Therefore:
 	\begin{align*}
-		\mu = 1, \quad \sigma = 1, \quad \E[(X-1)^{3}] = 2, \quad \E[(X-1)^{4}] = 9.
+		\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y]).
 	\end{align*}
-	Therefore, $\gamma_{1} = 2/1^{3} = 2$ (positive skewness) and $\gamma_{2} = 9/1^{4} - 3 = 6$ (excess kurtosis). Comparing with the Normal ($\gamma_{1} = 0$, $\gamma_{2} = 0$), the exponential has a heavier right tail. With Monte Carlo ($N = 250{,}000$, seed 42), the empirical values are approximately $\hat{\gamma}_{1} \approx 1.99$ and $\hat{\gamma}_{2} \approx 5.97$, confirming the theory.
-\end{solucion}
+	In ANOVA, total variability decomposes into \emph{within-group variability} ($\E[\Var(X\mid Y)]$, analogous to SSE) and \emph{between-group variability} ($\Var(\E[X\mid Y])$, analogous to SSTR).
+\end{solproblema}
 
-\begin{solucion}
-	\label{sol:4.3.6}
-	For Problem \ref{prob:4.3.6} (standard Normal with PDF $\phi(x) = \frac{1}{\sqrt{2\pi}} e^{-x^{2}/2}$):
-	\begin{enumerate}
-		\item $\E[X^{2}] = \int_{-\infty}^{\infty} x^{2} \phi(x)\,dx = 1$ (variance of the standard Normal).
-		\item By symmetry, $\E[X] = 0$ and $\E[|X|] = 2\int_{0}^{\infty} x \phi(x)\,dx$. With the substitution $u = x^{2}/2$, $du = x\,dx$: $\int_{0}^{\infty} x \phi(x)\,dx = \int_{0}^{\infty} \dfrac{x}{\sqrt{2\pi}} e^{-x^{2}/2}\,dx = \dfrac{1}{\sqrt{2\pi}} \int_{0}^{\infty} e^{-u}\,du = \dfrac{1}{\sqrt{2\pi}}$. Therefore, $\E[|X|] = 2/\sqrt{2\pi} = \sqrt{2/\pi} \approx 0.7979$.
-		\item $\E[\max(X, 0)] = \dfrac{1}{2}\E[|X|] = \dfrac{1}{\sqrt{2\pi}} \approx 0.3989$ (by symmetry of the Normal).
-	\end{enumerate}
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:4.3.7}
-	For Problem \ref{prob:4.3.7}, we prove the linearity of expectation:
+% Evaluate
+\begin{solproblema}[prob:9d4a41b]
+	For the exponential distribution with $\lambda=1$: $\mu=1$, $\sigma=1$, $\E[(X-1)^3]=2$, $\E[(X-1)^4]=9$. Therefore:
 	\begin{align*}
-		\E[aX + b] &= \int_{-\infty}^{\infty} (ax + b) f(x)\,dx = a \int_{-\infty}^{\infty} x f(x)\,dx + b \int_{-\infty}^{\infty} f(x)\,dx = a \E[X] + b \cdot 1 = a\mu + b.
+		\gamma_1 = 2/1^3 = 2 \quad \text{(positive skewness)}, \qquad \gamma_2 = 9/1^4-3 = 6 \quad \text{(excess kurtosis)}.
 	\end{align*}
-	For the sum $\E[X + Y]$: using Fubini's theorem to swap integrals with the joint PDF $f_{X,Y}(x, y)$:
-	\begin{align*}
-		\E[X + Y] &= \int\int (x + y) f_{X,Y}(x, y)\,dx\,dy = \int\int x f_{X,Y}(x, y)\,dx\,dy + \int\int y f_{X,Y}(x, y)\,dx\,dy = \E[X] + \E[Y].
-	\end{align*}
-	Linearity holds \emph{even for dependent random variables} (unlike variance, which requires independence or explicit covariances). \quad \qedhere
-\end{solucion}
+	Compared with the standard Normal distribution ($\gamma_1=0$, $\gamma_2=0$), the exponential has marked positive skewness: its right tail is much longer than its left side (which does not even exist, since the support is $[0,\infty)$), reflecting that values far above the mean, while rare, are substantially more likely than in a symmetric distribution. The positive excess kurtosis ($\gamma_2=6 \gg 0$) indicates a \emph{leptokurtic} distribution: more peaked near the origin and with heavier tails than the Normal, meaning greater probability of both very small values (near zero) and extremely large values compared with what a normal approximation would predict.
+\end{solproblema}
 
-\begin{solucion}
-	\label{sol:4.3.8}
-	For Problem \ref{prob:4.3.8}:
-	\begin{enumerate}
-		\item For $g(x) = e^{x}$, $g$ is injective and monotonically increasing. The PDF of $Y = e^{X}$ under the change of variable $y = e^{x}$, $x = \ln y$, $dx = dy/y$ is:
-		\begin{align*}
-			f_{Y}(y) = f_{X}(\ln y) \cdot \dfrac{1}{y} = \dfrac{1}{y} \cdot f_{X}(\ln y).
-		\end{align*}
-		By definition, $\E[Y] = \int_{0}^{\infty} y f_{Y}(y)\,dy = \int_{0}^{\infty} y \cdot \dfrac{f_{X}(\ln y)}{y}\,dy = \int_{-\infty}^{\infty} e^{x} f_{X}(x)\,dx$. \quad \qedhere
-		\item For $g$ monotonically increasing but not injective (e.g., $g(x) = x^{2}$ on $\mathbb{R}$), decompose the domain into regions of injectivity: $g$ is injective on $(-\infty, 0)$ and on $(0, \infty)$. Then:
-		\begin{align*}
-			\E[g(X)] &= \int_{-\infty}^{0} g(x) f_{X}(x)\,dx + \int_{0}^{\infty} g(x) f_{X}(x)\,dx = \int_{-\infty}^{\infty} g(x) f_{X}(x)\,dx.
-		\end{align*}
-		The total integral over the domain still gives the same expression, so LOTUS holds for general monotonic functions.
-	\end{enumerate}
-\end{solucion}
+% Create
+\begin{solproblema}[prob:5c186f2]
+	\textbf{Example:} let a portfolio have expected returns $\E[R_1]=0.08$ (8\%, stocks), $\E[R_2]=0.05$ (5\%, bonds), $\E[R_3]=0.12$ (12\%, high-risk fund), with weights $w_1=0.40$, $w_2=0.35$, $w_3=0.25$.
 
-\begin{solucion}
-	\label{sol:4.3.9}
-	For Problem \ref{prob:4.3.9}, we prove the total law of variance. By the law of total expectation, $\E[X] = \E[\E[X \mid Y]]$. We expand $\Var(X)$:
+	By linearity of expectation:
 	\begin{align*}
-		\Var(X) &= \E[(X - \E[X])^{2}] = \E[\E[(X - \E[X])^{2} \mid Y]] \\
-		&= \E[\E[(X - \E[X \mid Y] + \E[X \mid Y] - \E[X])^{2} \mid Y]] \\
-		&= \E[\E[(X - \E[X \mid Y])^{2} \mid Y]] + \E[\E[(\E[X \mid Y] - \E[X])^{2} \mid Y]] + 2 \E[\E[(X - \E[X \mid Y])(\E[X \mid Y] - \E[X]) \mid Y]].
+		\E[w_1R_1+w_2R_2+w_3R_3] = w_1\E[R_1]+w_2\E[R_2]+w_3\E[R_3] = 0.40(0.08)+0.35(0.05)+0.25(0.12).
 	\end{align*}
-	The third term is zero by the tower property of expectation: $\E[X - \E[X \mid Y] \mid Y] = \E[X \mid Y] - \E[X \mid Y] = 0$. The first term is $\E[\Var(X \mid Y)]$ and the second is $\Var(\E[X \mid Y])$. Therefore:
 	\begin{align*}
-		\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y]). \quad \blacksquare
+		= 0.032+0.0175+0.030 = 0.0795 \text{ (7.95\%).}
 	\end{align*}
-	In ANOVA: total variability decomposes into \emph{within-group variability} ($\E[\Var(X \mid Y)]$) and \emph{between-group variability} ($\Var(\E[X \mid Y])$).
-\end{solucion}
-
-\begin{solucion}
-	\label{sol:4.3.10}
-	For Problem \ref{prob:4.3.10}:
-	\begin{enumerate}
-		\item Each measurement is $X_{i} = \mu + \epsilon_{i}$ with $\epsilon_{i} \sim N(0, \sigma^{2})$ independent. The sample mean is:
-		\begin{align*}
-			\bar{X} = \dfrac{1}{n} \sum_{i=1}^{n} X_{i} = \mu + \dfrac{1}{n} \sum_{i=1}^{n} \epsilon_{i}.
-		\end{align*}
-		Therefore, $\E[\bar{X}] = \mu + (1/n) \cdot n \cdot \E[\epsilon_{i}] = \mu + 0 = \mu$. The variance is $\Var(\bar{X}) = (1/n)^{2} \cdot n \cdot \sigma^{2} = \sigma^{2}/n$.
-		\item The standard error of the estimate is $\text{SE}(\bar{X}) = \sqrt{\Var(\bar{X})} = \sigma/\sqrt{n}$. To halve the error, we must quadruple $n$ (due to the $\sqrt{n}$ dependence).
-		\item For $\sigma/\sqrt{n} < 0.01$ with $\sigma = 0.1$: $\sqrt{n} > 0.1/0.01 = 10$, so $n > 100$. With $n = 100$ the condition holds; with $n = 100$ measurements, the standard error is exactly $0.01$ (1\% of the true value).
-	\end{enumerate}
-\end{solucion}
+	Linearity of expectation does not require independence among $R_1, R_2, R_3$: the general proof $\E[aX+bY]=a\E[X]+b\E[Y]$ relies only on the linearity of the integral (or sum) that defines expectation, without using at any point the factorization of a joint density that independence would require. Therefore, the portfolio's expected return is valid and computable this way even if, in practice, the three assets are correlated (as often happens in real financial markets).
+\end{solproblema}

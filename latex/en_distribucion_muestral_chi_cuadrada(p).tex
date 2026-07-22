@@ -1,0 +1,80 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:0d114e5}
+Define a chi-square random variable with $\nu$ degrees of freedom as a sum of squared standard normal variables. State its mean and variance.
+\end{problema}
+
+\begin{problema}\label{prob:66b286b}
+Let $Z_1,\ldots,Z_5$ be independent standard normal variables. Explain why
+\[
+	Y=\sum_{i=1}^5 Z_i^2
+\]
+has exactly $5$ degrees of freedom.
+\end{problema}
+
+\begin{problema}\label{prob:94c69e2}
+A bottling process is expected to have variance $\sigma_0^2=10$. A normal sample of size $n=16$ gives $S^2=18.2$. Construct the chi-square test statistic and decide whether to reject $H_0:\sigma^2=10$ against $H_a:\sigma^2>10$ at $\alpha=0.05$, using $\chi^2_{15,0.95}=24.996$.
+\end{problema}
+
+\begin{problema}\label{prob:b08d077}
+Using the fact that $\chi^2_\nu$ is a Gamma distribution with shape $\nu/2$ and scale $2$, derive its mean and variance.
+\end{problema}
+
+\begin{problema}\label{prob:db05590}
+Evaluate the use of a chi-square variance test when the sample comes from a visibly skewed distribution and normality has not been justified. Why is this test especially sensitive to this assumption, unlike some procedures for means that are supported by the central limit theorem?
+\end{problema}
+
+\begin{problema}\label{prob:501e850}
+Create an original hypothesis-test example for a population variance using a chi-square statistic. State the context, hypotheses, sample size, sample variance, critical value, and conclusion.
+\end{problema}
+
+\begin{solproblema}[prob:0d114e5]
+If $Z_1,\ldots,Z_\nu$ are independent standard normal random variables, then
+\[
+	\chi^2_\nu=\sum_{i=1}^{\nu}Z_i^2.
+\]
+Its mean is $\nu$ and its variance is $2\nu$.
+\end{solproblema}
+
+\begin{solproblema}[prob:66b286b]
+The degrees of freedom count the number of independent standard normal components being squared and added. Since $Y$ is the sum of five independent squared standard normals, $Y\sim \chi^2_5$ and has $5$ degrees of freedom.
+\end{solproblema}
+
+\begin{solproblema}[prob:94c69e2]
+The statistic is
+\[
+	\chi^2=\frac{(n-1)S^2}{\sigma_0^2}=\frac{15(18.2)}{10}=27.3.
+\]
+Since $27.3>24.996$, reject $H_0$ at the $5\%$ level. There is evidence that the process variance exceeds $10$.
+\end{solproblema}
+
+\begin{solproblema}[prob:b08d077]
+For a Gamma distribution with shape $\alpha$ and scale $\beta$,
+\[
+	E(X)=\alpha\beta,\qquad \operatorname{Var}(X)=\alpha\beta^2.
+\]
+With $\alpha=\nu/2$ and $\beta=2$,
+\[
+	E(\chi^2_\nu)=\frac{\nu}{2}(2)=\nu,\qquad
+	\operatorname{Var}(\chi^2_\nu)=\frac{\nu}{2}(2^2)=2\nu.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:db05590]
+The chi-square variance test is problematic in this setting. Its exact reference distribution comes from the normal-theory result
+\[
+	\frac{(n-1)S^2}{\sigma^2}\sim \chi^2_{n-1},
+\]
+which depends structurally on normality. A skewed population can change the distribution of $S^2$ substantially. In contrast, many procedures for means can become approximately normal for large samples by the central limit theorem. There is no equally direct normality-free guarantee for the usual chi-square variance statistic.
+\end{solproblema}
+
+\begin{solproblema}[prob:501e850]
+Example: a manufacturer claims that resistor variance is $\sigma_0^2=0.04\ \Omega^2$. From a normal sample of $n=21$ resistors, suppose $S^2=0.065$. Test
+\[
+	H_0:\sigma^2=0.04,\qquad H_a:\sigma^2>0.04.
+\]
+The statistic is
+\[
+	\chi^2=\frac{20(0.065)}{0.04}=32.5.
+\]
+Using the upper $5\%$ critical value $\chi^2_{20,0.95}=31.410$, reject $H_0$. There is evidence that the variance exceeds the claimed value.
+\end{solproblema}

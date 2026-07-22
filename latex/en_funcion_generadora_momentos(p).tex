@@ -1,0 +1,92 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:5a5f63a}
+	State, without performing any calculation, the definition of the moment-generating function $M_X(t)$ of a random variable $X$, both for the discrete case and for the continuous case.
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:f26d9b0}
+	Explain, without computing any concrete MGF, why the Uniqueness Theorem makes it possible to prove that two random variables have the same distribution simply by showing that their moment-generating functions coincide in a neighborhood of $t=0$---without needing to compare their density or probability mass functions directly.
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:2c4cd93}
+	Let $X \sim \text{Poisson}(\lambda)$.
+	\begin{enumerate}
+		\item Compute $M_X(t) = E[e^{tX}]$ from the definition, summing the series $\sum_{k=0}^{\infty} e^{tk}\dfrac{e^{-\lambda}\lambda^k}{k!}$ and recognizing the resulting exponential series.
+		\item Differentiate $M_X(t)$ to obtain $E[X]=\lambda$.
+	\end{enumerate}
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:cf5e60c}
+	Let $X$ be a random variable with MGF $M_X(t)$, and consider the linear transformation $Y = aX+b$ for constants $a\neq0$, $b$.
+	\begin{enumerate}
+		\item Prove that $M_Y(t) = e^{bt} M_X(at)$.
+		\item Apply this result to the standardization $Z=(X-\mu)/\sigma$ (that is, $a=1/\sigma$, $b=-\mu/\sigma$) to express $M_Z(t)$ in terms of $M_X(t/\sigma)$.
+	\end{enumerate}
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:5098ae4}
+	A student claims: ``if two random variables have the same mean and the same variance, then they must have the same distribution''. Evaluate this claim using the concept of moment-generating function: what is the relationship between "having the same first two moments" and "having the same MGF"? Explain why equality of a few moments is not enough, whereas equality of the complete MGF is.
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:a48cc99}
+	Choose a discrete or continuous distribution that does not appear in the MGF summary table of this section (Bernoulli, Binomial, Poisson, Geometric, Exponential, Normal, Gamma, Chi-square), and derive its moment-generating function from the definition. Use the result to obtain $E[X]$.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:5a5f63a]
+	$M_X(t) = E[e^{tX}]$. If $X$ is discrete with probability function $f$, then $M_X(t) = \sum_x e^{tx}f(x)$. If $X$ is continuous with density $f$, then $M_X(t) = \int_{-\infty}^{\infty} e^{tx}f(x)\,dx$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:f26d9b0]
+	The Uniqueness Theorem states that the MGF, when it exists in a neighborhood of $t=0$, uniquely determines the complete probability distribution of a random variable---not just some of its moments, but all distributional information (support, shape, all moments simultaneously). Therefore, if one can algebraically manipulate $M_X(t)$ until recognizing that it exactly matches the MGF of another known distribution $Y$, one automatically concludes that $X$ and $Y$ have the same distribution, without needing to integrate or sum directly to compare density or probability mass functions. This is precisely the technique used repeatedly in previous sections of the book to prove, for example, that the sum of independent Poissons is Poisson or that the sum of gammas with equal scale is gamma.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:2c4cd93]
+	\begin{enumerate}
+		\item
+		\begin{align*}
+			M_X(t) = \sum_{k=0}^{\infty} e^{tk}\dfrac{e^{-\lambda}\lambda^k}{k!} = e^{-\lambda}\sum_{k=0}^{\infty}\dfrac{(\lambda e^t)^k}{k!} = e^{-\lambda}e^{\lambda e^t} = e^{\lambda(e^t-1)}.
+		\end{align*}
+		\item Differentiating: $M_X'(t) = \lambda e^t \cdot e^{\lambda(e^t-1)}$, so $M_X'(0) = \lambda e^0 \cdot e^{\lambda(1-1)} = \lambda$, that is $E[X]=\lambda$.
+	\end{enumerate}
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:cf5e60c]
+	\begin{enumerate}
+		\item By definition, $M_Y(t) = E[e^{tY}] = E[e^{t(aX+b)}] = E[e^{tb}e^{taX}] = e^{tb}E[e^{(ta)X}] = e^{bt}M_X(at)$.
+		\item With $a=1/\sigma$ and $b=-\mu/\sigma$: $M_Z(t) = e^{-\mu t/\sigma}\,M_X(t/\sigma)$. This is exactly the identity used to derive the MGF of the standard Normal from the MGF of a general Normal, and it is the same technique that supports the proof of the Central Limit Theorem through the MGF of the standardized variable $Z_n$.
+	\end{enumerate}
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:5098ae4]
+	The claim is \textbf{incorrect}. Having the same mean and variance is equivalent only to matching the first and second moments ($E[X]=E[Y]$, $E[X^2]=E[Y^2]$), that is, only two values of the complete MGF (specifically, $M_X'(0)=M_Y'(0)$ and $M_X''(0)=M_Y''(0)$). This does not imply that $M_X(t)=M_Y(t)$ as functions---two distinct distributions may share exactly the same mean and variance but differ in higher-order moments (skewness, kurtosis, etc.), and therefore in their complete MGF and distribution. The Uniqueness Theorem requires equality of the \emph{complete} function $M_X(t)$ in a neighborhood of $t=0$ (equivalent to equality of \textbf{all} moments simultaneously), not just a pair of them.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:a48cc99]
+	\textbf{Example:} let $X \sim \text{Uniform}(0,1)$ (not included in the table). By definition:
+	\begin{align*}
+		M_X(t) = \int_0^1 e^{tx}\,dx = \left[\dfrac{e^{tx}}{t}\right]_0^1 = \dfrac{e^t-1}{t}, \quad t\neq0 \quad (M_X(0)=1).
+	\end{align*}
+	Differentiating (or using the Taylor expansion of $e^t$ to avoid the $0/0$ form at $t=0$): $M_X(t) = \dfrac{1}{t}\left(t+\dfrac{t^2}{2}+\dfrac{t^3}{6}+\cdots\right) = 1+\dfrac{t}{2}+\dfrac{t^2}{6}+\cdots$, so $E[X] = $ coefficient of $t$ in the expansion $= 1/2$, consistent with the known formula $E[X]=(a+b)/2$ for $U(0,1)$.
+\end{solproblema}

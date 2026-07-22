@@ -1,0 +1,83 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:d3727e9}
+	State, without performing any calculation, the general change-of-variable formula for $Y=g(X)$ with $g$ strictly monotone and differentiable, and the particular case of the affine transformation $Y=aX+b$ (formulas for $\mu_Y$ and $\sigma_Y^2$).
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:fbf2d01}
+	In the formula $f_Y(y) = f_X(g^{-1}(y))\cdot\left|\dfrac{d}{dy}g^{-1}(y)\right|$, explain why the absolute value of the term $\dfrac{d}{dy}g^{-1}(y)$ is indispensable: what would happen to the density of $Y$ if $g$ were a strictly decreasing transformation and the absolute value were omitted?
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:d795060}
+	Let $X \sim N(5,4)$ and $Y=3X-2$. Use the affine transformation theorem to identify the exact distribution of $Y$ (including its parameters).
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:182603c}
+	Let $X \sim \text{Exp}(\lambda)$ with density $f_X(x)=\lambda e^{-\lambda x}$ for $x>0$, and let $Y=\sqrt{X}$. Use the change-of-variable theorem (monotone case) to derive the density $f_Y(y)$, and identify which distribution family it belongs to.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:5ce800e}
+	A student, while computing the density of $Y=X^2$ for $X\sim U(-1,1)$, directly applies the monotone-case formula $f_Y(y) = f_X(g^{-1}(y))\cdot|d/dy\,g^{-1}(y)|$ using a single root $g^{-1}(y)=\sqrt{y}$, and obtains $f_Y(y) = \frac{1}{2}\cdot\frac{1}{2\sqrt{y}}$ for $y\in(0,1)$. Evaluate whether this procedure is correct, pointing out specifically which assumption of the monotone-case theorem is violated, and correct the result.
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:12a4921}
+	Design an original example (a variable $X$ with a known distribution and a monotone transformation $g$) different from the examples in this section (Pareto, log-normal, arcsine), and derive the density of $Y=g(X)$ using the change-of-variable theorem.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:d3727e9]
+	For strictly monotone and differentiable $g$, $f_Y(y) = f_X(g^{-1}(y))\cdot\left|\dfrac{d}{dy}g^{-1}(y)\right|$. For the affine case $Y=aX+b$ with $a\neq0$: $\mu_Y = a\mu_X+b$ and $\sigma_Y^2 = a^2\sigma_X^2$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:fbf2d01]
+	The absolute value is indispensable because a probability density can never be negative. If $g$ is decreasing, then $g^{-1}$ is also decreasing, so $\dfrac{d}{dy}g^{-1}(y) < 0$; without the absolute value, the formula would produce a negative value for $f_Y(y)$, which is absurd for a density. The absolute value corrects this by ensuring that the magnitude of the "stretching/compression" factor introduced by the transformation is always used, regardless of whether $g$ increases or decreases.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:d795060]
+	With $a=3$, $b=-2$: $\mu_Y = 3(5)-2 = 13$ and $\sigma_Y^2 = 3^2(4) = 36$. By the closure property of the Normal distribution under linear transformations, $Y \sim N(13, 36)$.
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:182603c]
+	The transformation $g(x)=\sqrt{x}$ is strictly increasing on $(0,\infty)$, with inverse $g^{-1}(y)=y^2$ and $\dfrac{d}{dy}g^{-1}(y) = 2y$. By the change-of-variable theorem, for $y>0$:
+	\begin{align*}
+		f_Y(y) = f_X(y^2)\cdot|2y| = \lambda e^{-\lambda y^2}\cdot 2y = 2\lambda y\,e^{-\lambda y^2}.
+	\end{align*}
+	This is the density of a \textbf{Weibull} distribution with shape parameter $\beta=2$ and scale $\eta=1/\sqrt{\lambda}$ (also known, in this particular case, as a generalized Rayleigh distribution).
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:5ce800e]
+	The procedure is \textbf{incorrect}. The monotone-case theorem requires $g$ to be \emph{strictly monotone} (one-to-one) on the entire support of $X$; but $g(x)=x^2$ for $X\sim U(-1,1)$ is \textbf{not} monotone on $(-1,1)$ (it decreases on $(-1,0)$ and increases on $(0,1)$), so each value $y\in(0,1)$ has \textbf{two} preimages, $x=\sqrt{y}$ and $x=-\sqrt{y}$, not just one. The student should have used the general formula for nonmonotone functions, adding the contribution of both roots:
+	\begin{align*}
+		f_Y(y) = f_X(\sqrt{y})\cdot\left|\frac{d}{dy}\sqrt{y}\right| + f_X(-\sqrt{y})\cdot\left|\frac{d}{dy}(-\sqrt{y})\right| = \frac{1}{2}\cdot\frac{1}{2\sqrt{y}} + \frac{1}{2}\cdot\frac{1}{2\sqrt{y}} = \frac{1}{2\sqrt{y}}, \quad y\in(0,1),
+	\end{align*}
+	twice the student's incomplete result.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:12a4921]
+	\textbf{Example:} let $X \sim U(0,1)$ and $Y = -\ln(X)$ (a decreasing transformation, with $g^{-1}(y)=e^{-y}$). Since $\dfrac{d}{dy}e^{-y} = -e^{-y}$, the density is:
+	\begin{align*}
+		f_Y(y) = f_X(e^{-y})\cdot|-e^{-y}| = 1\cdot e^{-y} = e^{-y}, \quad y>0.
+	\end{align*}
+	Therefore $Y \sim \text{Exp}(1)$---this is precisely the inverse-transform method used to generate exponential variables from uniforms.
+\end{solproblema}

@@ -1,0 +1,86 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:6f58870}
+	State, without performing any calculation, the density function of $X \sim N(\mu,\sigma^2)$ and the standardization transformation $Z=(X-\mu)/\sigma$ that relates it to the standard Normal distribution.
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:74e7285}
+	Explain, without computing any numerical probability, why having the CDF of a single distribution tabulated (or programmed)---the standard Normal $N(0,1)$---is enough to compute any probability for any variable $X \sim N(\mu,\sigma^2)$, regardless of the values of $\mu$ and $\sigma$.
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:48f2103}
+	The height of an adult population follows $X \sim N(170, 100)$ (in cm, $\sigma=10$ cm).
+	\begin{enumerate}
+		\item Compute the probability that a randomly chosen person is taller than $185$ cm.
+		\item Compute the probability that a person is between $160$ cm and $180$ cm tall.
+	\end{enumerate}
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:dd1e027}
+	Prove that if $X \sim N(\mu,\sigma^2)$, its moment-generating function is $M_X(t) = e^{\mu t + \sigma^2t^2/2}$, by completing the square in the exponent of $M_X(t) = \int e^{tx}f(x)\,dx$ and using that the normalized Gaussian integral equals 1. From $M_X(t)$, derive $\mathbb{E}[X]=\mu$ and $\mathbb{E}[X^2]=\mu^2+\sigma^2$.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:96d8f57}
+	An analyst claims: ``the Central Limit Theorem guarantees that $\bar{X}$ is approximately Normal for any sample with $n\ge30$, regardless of the population from which the data come''. Evaluate this claim: what condition on the original population does it omit, and in what concrete situation (for example, a population with infinite variance) would the approximation fail even if $n\ge30$?
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:1c4fda2}
+	Design an original example (context and parameters $\mu,\sigma$) that is naturally modeled by a Normal distribution, different from the manufacturing or height examples already seen in this section. State the probability question of interest and compute the corresponding probability using standardization.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:6f58870]
+	The density is $f(x) = \dfrac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/(2\sigma^2)}$, and the standardization $Z=(X-\mu)/\sigma$ transforms $X\sim N(\mu,\sigma^2)$ into $Z\sim N(0,1)$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:74e7285]
+	Any probability involving $X\sim N(\mu,\sigma^2)$ can be rewritten in terms of $Z=(X-\mu)/\sigma$: for example, $P(X\le x) = P(Z \le (x-\mu)/\sigma) = \Phi((x-\mu)/\sigma)$, where $\Phi$ is the CDF of the standard Normal. Since the transformation $Z=(X-\mu)/\sigma$ is a one-to-one linear function that converts \emph{any} Normal into the standard Normal, the problem of computing probabilities for infinitely many possible combinations of $(\mu,\sigma)$ always reduces to the same calculation over a single reference distribution---there is no need for a different table for every $(\mu,\sigma)$.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:48f2103]
+	With $X\sim N(170,100)$ ($\sigma=10$):
+	\begin{enumerate}
+		\item $P(X>185) = P(Z>1.5) = 1-\Phi(1.5) \approx 0.0668$.
+		\item $P(160\le X\le180) = P(-1\le Z\le1) \approx 0.6827$.
+	\end{enumerate}
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:dd1e027]
+	\begin{align*}
+		M_X(t) = \int_{-\infty}^{\infty} e^{tx}\cdot\dfrac{1}{\sigma\sqrt{2\pi}}e^{-(x-\mu)^2/(2\sigma^2)}\,dx.
+	\end{align*}
+	Completing the square in the exponent: $tx - \dfrac{(x-\mu)^2}{2\sigma^2} = -\dfrac{(x-(\mu+\sigma^2t))^2}{2\sigma^2} + \mu t + \dfrac{\sigma^2t^2}{2}$. Factoring out the constant term:
+	\begin{align*}
+		M_X(t) = e^{\mu t+\sigma^2t^2/2}\int_{-\infty}^{\infty}\dfrac{1}{\sigma\sqrt{2\pi}}e^{-(x-(\mu+\sigma^2t))^2/(2\sigma^2)}\,dx = e^{\mu t+\sigma^2t^2/2},
+	\end{align*}
+	since the remaining integral is the density of a Normal with mean $\mu+\sigma^2t$ and variance $\sigma^2$, which integrates to $1$. Differentiating: $\mathbb{E}[X]=M_X'(0)=\mu$ and $\mathbb{E}[X^2]=M_X''(0)=\mu^2+\sigma^2$.
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:96d8f57]
+	The claim is \textbf{incomplete}: the CLT requires the original population to have \textbf{finite variance} ($\sigma^2<\infty$); if the population has infinite variance (for example, a very heavy-tailed distribution such as the Cauchy, or a Pareto distribution with shape exponent $\le 2$), the sample mean $\bar{X}$ does \textbf{not} converge to a Normal distribution no matter how large $n$ is, even with $n\ge30$. The practical "$n\ge30$" rule is only a heuristic about \emph{how quickly} the approximation converges for reasonably well-behaved populations (with finite moments); it is not a universal sufficient condition, and it fails precisely in cases where the population variance does not exist.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:1c4fda2]
+	\textbf{Example:} an athlete's reaction time at the start of a sprint follows $X\sim N(0.150, 0.0004)$ seconds ($\mu=0.150$ s, $\sigma=0.02$ s). Question of interest: the false-start rule disqualifies an athlete if they react before $0.100$ s; what is the probability of a false start, $P(X<0.100)$? Standardizing: $Z = (0.100-0.150)/0.02 = -2.5$, so $P(X<0.100) = \Phi(-2.5) \approx 0.0062$.
+\end{solproblema}

@@ -1,0 +1,109 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:3de3320}
+Define a Student $t$ random variable with $\nu$ degrees of freedom as
+\[
+	T=\frac{Z}{\sqrt{\chi^2_\nu/\nu}},
+\]
+where $Z$ and $\chi^2_\nu$ are independent. State its variance when $\nu>2$.
+\end{problema}
+
+\begin{problema}\label{prob:03aebae}
+Explain why the quantiles of the $t_\nu$ distribution approach the corresponding standard normal quantiles as $\nu$ increases.
+\end{problema}
+
+\begin{problema}\label{prob:e378132}
+Assume the data
+\[
+	23,\ 25,\ 21,\ 27,\ 24
+\]
+come from a normal population with unknown variance. Compute $\bar x$ and $S$, and build a $95\%$ confidence interval for $\mu$ using $t_{4,0.025}=2.776$.
+\end{problema}
+
+\begin{problema}\label{prob:7943b46}
+Derive the variance of a $t_\nu$ random variable for $\nu>2$, using independence, $E(Z^2)=1$, and
+\[
+	E\left(\frac{1}{\chi^2_\nu}\right)=\frac{1}{\nu-2}.
+\]
+\end{problema}
+
+\begin{problema}\label{prob:bbda1fa}
+An analyst uses $z=1.96$ instead of $t_{19,0.025}=2.093$ for a $95\%$ confidence interval with $n=20$ and unknown $\sigma$. Compute the relative error in the multiplier and discuss the consequence.
+\end{problema}
+
+\begin{problema}\label{prob:c34507c}
+Create an original confidence-interval example for a population mean with unknown standard deviation and sample size below $15$. Include the data, $\bar x$, $S$, the standard error, the margin of error, and the final interval.
+\end{problema}
+
+\begin{solproblema}[prob:3de3320]
+If $Z\sim N(0,1)$, $V\sim \chi^2_\nu$, and $Z$ and $V$ are independent, then
+\[
+	T=\frac{Z}{\sqrt{V/\nu}}\sim t_\nu.
+\]
+For $\nu>2$,
+\[
+	\operatorname{Var}(T)=\frac{\nu}{\nu-2}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:03aebae]
+As $\nu$ grows, the law of large numbers suggests that $\chi^2_\nu/\nu$ concentrates near $1$. Therefore the denominator in
+\[
+	T=\frac{Z}{\sqrt{\chi^2_\nu/\nu}}
+\]
+approaches $1$, so the distribution of $T$ approaches the distribution of $Z$, a standard normal variable.
+\end{solproblema}
+
+\begin{solproblema}[prob:e378132]
+The sample mean is
+\[
+	\bar x=\frac{23+25+21+27+24}{5}=24.
+\]
+The squared deviations sum to $20$, so
+\[
+	S^2=\frac{20}{4}=5,\qquad S=\sqrt5.
+\]
+The standard error is $S/\sqrt5=1$, and the interval is
+\[
+	24\pm 2.776(1)=[21.224,\ 26.776].
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:7943b46]
+Let $V\sim\chi^2_\nu$ be independent of $Z$. Then
+\[
+	T^2=\frac{Z^2}{V/\nu}=\nu\frac{Z^2}{V}.
+\]
+Since $E(T)=0$ for $\nu>1$,
+\[
+	\operatorname{Var}(T)=E(T^2)=\nu E(Z^2)E\left(\frac1V\right)
+	=\nu(1)\frac{1}{\nu-2}
+	=\frac{\nu}{\nu-2}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:bbda1fa]
+The relative error in the multiplier is
+\[
+	\frac{2.093-1.96}{1.96}\approx 0.0679,
+\]
+or about $6.8\%$. Using $1.96$ makes the interval too narrow and gives coverage below the intended $95\%$ level when the $t$ model is appropriate.
+\end{solproblema}
+
+\begin{solproblema}[prob:c34507c]
+Example: coagulation times in seconds are
+\[
+	8.2,\ 7.9,\ 8.5,\ 8.1,\ 7.8,\ 8.3.
+\]
+Here $\bar x\approx 8.133$, $S\approx 0.246$, and the standard error is
+\[
+	SE=\frac{0.246}{\sqrt6}\approx 0.1004.
+\]
+With $df=5$ and $t_{5,0.025}\approx 2.571$, the margin is
+\[
+	2.571(0.1004)\approx 0.258.
+\]
+Thus a $95\%$ interval is approximately
+\[
+	[7.875,\ 8.391].
+\]
+\end{solproblema}

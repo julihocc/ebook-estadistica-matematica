@@ -1,0 +1,84 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:287fdc5}
+	Let $X$ be the number of independent Bernoulli trials, with success probability $p$, required to obtain the first success (including the successful trial). State, without deriving it, the probability mass function $f_X(k) = P(X=k)$ and its support $\mathcal{S}_X$.
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:0ebda90}
+	A database transaction fails independently on each attempt with failure probability $q=0.04$, and it has already failed on its first $5$ attempts. Without computing any numerical probability, explain why the probability that it needs more than $8$ total attempts to succeed, conditional on having failed the first $5$, must be identical to the unconditional probability of needing more than $3$ attempts from the start of the process.
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:6ccfa13}
+	An auditing firm inspects transactions sequentially and independently; a fraction $p=0.10$ has some tax irregularity. The auditors inspect until they find exactly $r=3$ irregular transactions. Compute the probability that the third irregularity is detected exactly on the twentieth inspection ($X=20$), and write the general mass function of $X \sim \text{BN}(r,p)$ over its support.
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:a4a72f3}
+	Let $X \sim \text{BN}(r,p)$ be the number of Bernoulli trials needed to accumulate $r$ successes.
+	\begin{enumerate}
+		\item Prove by stochastic decomposition that $X = \sum_{i=1}^r Y_i$, where $Y_i \sim \text{Geom}(p)$ are i.i.d.
+		\item Derive the moment-generating function $M_{Y_1}(t) = \dfrac{pe^t}{1-qe^t}$ of an elementary geometric variable.
+		\item Using independence, deduce $M_X(t)$ for the Negative Binomial.
+	\end{enumerate}
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:ca5c4c8}
+	An engineer observes that the number of server connection retries has sample mean $\bar{x}=3.2$ and sample variance $s^2=13.44$, and proposes modeling it with a pure Poisson distribution. Evaluate whether this choice is appropriate by computing the dispersion index $s^2/\bar{x}$ and contrasting it with the Poisson equidispersion assumption ($\sigma^2=\mu$); if it is not appropriate, justify why a Negative Binomial model (through $Y=X-r$) is more suitable.
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:4c2c37d}
+	Design an original example (context, success probability $p$, and required number of successes $r$) that is naturally modeled by a Geometric distribution ($r=1$) or Negative Binomial distribution ($r>1$), different from the database, auditing, or manufacturing examples already seen in this section. State the probability question of interest and compute $\mathbb{E}[X]$ and $\text{Var}(X)$ for the parameters you chose.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:287fdc5]
+	For the first success to occur exactly on trial $k \ge 1$, the first $k-1$ trials must be failures and trial $k$ must be a success: $f_X(k) = q^{k-1}p = (1-p)^{k-1}p$, for $k \in \mathcal{S}_X = \set{1,2,3,\dots}$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:0ebda90]
+	The geometric distribution has the memoryless property: $P(X > m+n \mid X>m) = P(X>n)$ for any integers $m,n\ge1$, since $P(X>k)=q^k$ depends only on how many additional attempts are required, not on the history of failures that already occurred. With $m=5$ and $n=3$, it follows directly that $P(X>8\mid X>5) = q^{8-5} = q^3 = P(X>3)$: having already failed $5$ times does not change the probability of needing $3$ or more additional attempts, because the process "does not remember" how many failures have already occurred.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:6ccfa13]
+	For the third irregularity to occur exactly on inspection $20$, exactly $r-1=2$ irregularities must be detected in the first $19$ inspections (with probability $\comb{19}{2}p^2q^{17}$), and inspection $20$ must be irregular (probability $p$):
+	\begin{align*}
+		P(X=20) = \comb{19}{2}p^3q^{17} = \comb{19}{2}(0.10)^3(0.90)^{17} \approx 0.0285.
+	\end{align*}
+	In general, the Negative Binomial mass function is $f_X(k) = \comb{k-1}{r-1}p^r q^{k-r}$, for $k \in \mathcal{S}_X = \set{r, r+1, r+2, \dots}$.
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:a4a72f3]
+	\begin{enumerate}
+		\item Let $Y_1$ be the number of trials until the first success ($Y_1\sim\text{Geom}(p)$), and for $i\ge2$ let $Y_i$ be the number of additional trials between success $(i-1)$ and success $i$. By independence of the Bernoulli trials and the memoryless property, each $Y_i$ is independent of the previous ones and follows the same $\text{Geom}(p)$ distribution. The total waiting time until the $r$-th success is the sum of these $r$ waiting times: $X = \sum_{i=1}^r Y_i$.
+		\item By definition, $M_{Y_1}(t) = \sum_{k=1}^\infty e^{tk}q^{k-1}p = pe^t\sum_{j=0}^\infty (qe^t)^j = \dfrac{pe^t}{1-qe^t}$, valid for $t < -\ln(q)$ (convergence of the geometric series).
+		\item Since $X$ is the sum of $r$ i.i.d. variables, its MGF is the product of the individual MGFs: $M_X(t) = \left(\dfrac{pe^t}{1-qe^t}\right)^r$.
+	\end{enumerate}
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:ca5c4c8]
+	The dispersion index is $s^2/\bar{x} = 13.44/3.2 = 4.2 \gg 1$: the observed variance is more than $4$ times the mean, violating the Poisson equidispersion assumption ($\sigma^2=\mu$). Modeling this traffic as pure Poisson would systematically underestimate the tails of the distribution. A Negative Binomial model (through $Y=X-r\sim\text{BN}(r,p)$, with $\mu_Y=r(1-p)/p$ and $\sigma_Y^2=r(1-p)/p^2$) is more appropriate because it has an additional parameter that explicitly absorbs overdispersion: by matching moments, $\sigma_Y^2/\mu_Y = 1/p$, so $\hat p = 3.2/13.44 \approx 0.2381$ and, substituting into $\mu_Y$, $\hat r \approx 1$---suggesting, in fact, that the simple Geometric model already captures this overdispersion adequately.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:4c2c37d]
+	\textbf{Example:} a telephone sales team closes a call successfully with probability $p=0.15$ per attempt, independently. Let $X$ be the number of calls needed to achieve $r=4$ successful sales, $X\sim\text{BN}(4, 0.15)$. Question of interest: how many calls are expected on average before achieving the $4$ sales, and what is the variability of that count? $\mathbb{E}[X] = r/p = 4/0.15 \approx 26.67$ calls, and $\text{Var}(X) = r(1-p)/p^2 = 4(0.85)/(0.15)^2 \approx 151.11$, with standard deviation $\sigma_X \approx 12.29$ calls.
+\end{solproblema}

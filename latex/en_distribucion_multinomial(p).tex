@@ -1,0 +1,74 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:2499194}
+	A fair cubic die is rolled independently $n=6$ times, and $\bm{X}=(X_1,\dots,X_6)$ counts how many times each face appears. State, without computing any specific probability, the joint probability mass function of $\bm{X} \sim \text{Mult}(n,p_1,\dots,p_6)$.
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:97df06e}
+	For $\bm{X}=(X_1,\dots,X_k)\sim\text{Mult}(n,p_1,\dots,p_k)$, it is known that $\text{Cov}(X_i,X_j) = -np_ip_j < 0$ for $i\neq j$. Without repeating the algebraic derivation, explain in words why the sign must necessarily be negative, using the fact that $\sum_i X_i = n$ is a fixed constraint.
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:33bf5d2}
+	A political survey is administered to $n=100$ voters, each choosing among three candidates with probabilities $p_1=0.45$, $p_2=0.35$, $p_3=0.20$. Compute the probability that candidate 1 receives exactly $50$ votes, candidate 2 receives $30$, and candidate 3 receives $20$.
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:277341a}
+	Let $\bm{X}=(X_1,\dots,X_k)\sim\text{Mult}(n,p_1,\dots,p_k)$. Using the representation $X_i=\sum_{r=1}^n I_r^{(i)}$ (indicators that trial $r$ falls in category $i$), prove that $\text{Cov}(X_i,X_j) = -np_ip_j$ for $i\neq j$.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:81748ff}
+	A student argues: ``since the marginal distribution of each component of a multinomial vector is Binomial ($X_i \sim \text{Bin}(n,p_i)$), then $X_1$ and $X_2$ must be independent, because each one separately behaves as if it were a simple binomial''. Evaluate this claim using the result $\text{Cov}(X_i,X_j)=-np_ip_j$: is the conclusion of independence valid? Justify.
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:858a3a8}
+	Design an original example (context, number of categories $k$, probabilities $p_1,\dots,p_k$, and sample size $n$) that is naturally modeled by a Multinomial distribution, different from the survey or manufacturing examples already seen in this section. State the probability question of interest and compute $\mathbb{E}[X_1]$ and $\text{Var}(X_1)$ for the first category.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:2499194]
+	$P(X_1=x_1,\dots,X_6=x_6) = \dfrac{n!}{x_1!\cdots x_6!}p_1^{x_1}\cdots p_6^{x_6}$, subject to $\sum_{i=1}^6 x_i = n$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:97df06e]
+	Since the total $\sum_i X_i = n$ is fixed, the components cannot vary freely: if the count for category $i$ is above its expected value $np_i$ (an "excess"), some other count $X_j$ must necessarily compensate by falling below its expected value $np_j$, so that the sum remains exactly $n$. This structural dependence, imposed by the fixed-sum constraint, is what produces a negative covariance between any pair of components.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:33bf5d2]
+	With $\bm{X}\sim\text{Mult}(100; 0.45,0.35,0.20)$:
+	\begin{align*}
+		P(X_1=50,X_2=30,X_3=20) = \comb{100}{50,30,20}(0.45)^{50}(0.35)^{30}(0.20)^{20} \approx 4.32\times10^{-18}.
+	\end{align*}
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:277341a]
+	With $\text{Cov}(X_i,X_j) = \sum_{r=1}^n\sum_{s=1}^n \text{Cov}(I_r^{(i)}, I_s^{(j)})$: for $r\neq s$ the trials are independent and the covariance is $0$; for $r=s$, mutual exclusivity implies $I_r^{(i)}I_r^{(j)}=0$, so $\text{Cov}(I_r^{(i)},I_r^{(j)}) = \mathbb{E}[I_r^{(i)}I_r^{(j)}]-\mathbb{E}[I_r^{(i)}]\mathbb{E}[I_r^{(j)}] = 0-p_ip_j = -p_ip_j$. Summing the $n$ diagonal terms: $\text{Cov}(X_i,X_j) = n(-p_ip_j) = -np_ip_j$.
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:81748ff]
+	The claim is \textbf{incorrect}. The fact that each marginal $X_i$ is individually Binomial says nothing about the joint relationship between $X_1$ and $X_2$: independence requires the joint distribution to factor as the product of the marginals, and that fails here. The result $\text{Cov}(X_1,X_2)=-np_1p_2 \neq 0$ (always strictly negative while $p_1,p_2>0$) directly proves that $X_1$ and $X_2$ are \textbf{not} independent: binomial marginal distributions are consistent with multiple joint dependence structures, and in the multinomial case that dependence is negative because of the constraint $\sum_i X_i=n$.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:858a3a8]
+	\textbf{Example:} a call center classifies each received call into one of $k=4$ categories (inquiry, complaint, sale, technical support) with probabilities $p_1=0.4$, $p_2=0.15$, $p_3=0.25$, $p_4=0.2$. In $n=50$ calls received in one hour, let $\bm{X}=(X_1,X_2,X_3,X_4)$ be the count vector. Question of interest: what is the probability of receiving exactly $20$ inquiries, $8$ complaints, $12$ sales, and $10$ support requests? For the first category: $\mathbb{E}[X_1] = np_1 = 50(0.4) = 20$ and $\text{Var}(X_1) = np_1(1-p_1) = 50(0.4)(0.6) = 12$.
+\end{solproblema}

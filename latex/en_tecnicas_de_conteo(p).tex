@@ -1,0 +1,122 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:6369f2a}
+	Without performing any numerical calculation:
+	\begin{enumerate}
+		\item Write the general formula for the number of permutations of $n$ objects taken $r$ at a time, $P(n,r)$.
+		\item Write the general formula for the binomial coefficient $\comb{n}{r}$.
+		\item State in words the fundamental counting principle (multiplication principle).
+	\end{enumerate}
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:4f6f981}
+	A restaurant menu offers 5 appetizers, 4 main courses, and 2 desserts. Using only the multiplication principle (without permutations or combinations), determine how many distinct menus (one option from each category) a diner can form. Explain in your own words why it is enough to multiply the 3 quantities.
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:490657c}
+	In a race with 10 athletes, gold, silver, and bronze medals are awarded to the first 3 places (with no ties).
+	\begin{enumerate}
+		\item In how many different ways can the 3 medals be distributed?
+		\item If instead a committee of 3 athletes is selected for a ceremony, without distinguishing roles, how many distinct committees are possible?
+		\item Compare both results and explain the conceptual relationship between them.
+	\end{enumerate}
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:d8ce0cf}
+	A committee of 5 people must be formed from a group of 6 men (including Dr. Perez) and 5 women. The committee must have exactly 3 men and 2 women, and Dr. Perez must be part of it. Determine the total number of possible committees, decomposing the count into the independent decisions that must be made.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:3007304}
+	A student claims that the number of ways to assign the positions of president, secretary, and member-at-large (distinct roles) among 8 candidates is $\comb{8}{3} = 56$, arguing that ``after all, 3 people are being chosen''. Evaluate whether the student's reasoning is correct. If it is not, identify the conceptual error precisely and provide the correct calculation.
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:b53268b}
+	Return to the example from this section's theory about the probability of a poker ``flush''. Design and solve an analogous original problem that computes the probability of obtaining, in a 5-card hand from a standard 52-card deck, exactly \textbf{two pairs} (two distinct ranks with 2 cards each, and a fifth card of a third rank, so the hand is neither four of a kind nor a full house). State the sample space explicitly, count favorable cases using the multiplication principle and binomial coefficients, and compute the final probability.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:6369f2a]
+	\begin{enumerate}
+		\item $P(n,r) = \dfrac{n!}{(n-r)!}$.
+		\item $\comb{n}{r} = \dfrac{n!}{r!(n-r)!}$.
+		\item If one operation can be performed in $n_1$ distinct ways, and for each of them a second operation can be performed in $n_2$ distinct ways, then both operations together can be performed in $n_1 \cdot n_2$ ways; the principle extends to any finite number of successive operations.
+	\end{enumerate}
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:4f6f981]
+	Each menu is formed by choosing exactly one option from each of the 3 categories, and the choices are independent of one another. By the multiplication principle:
+	\begin{align}
+		5 \times 4 \times 2 = 40 \text{ distinct menus.}
+	\end{align}
+	It is enough to multiply because each combination of (appetizer, main course, dessert) is a different menu, and there is no restriction that rules out any combinations.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:490657c]
+	\begin{enumerate}
+		\item Order matters (gold, silver, and bronze are distinct roles), so this is a permutation:
+		\begin{align}
+			P(10,3) = \frac{10!}{(10-3)!} = 10 \times 9 \times 8 = 720.
+		\end{align}
+		\item Order does not matter (there are no roles), so this is a combination:
+		\begin{align}
+			\comb{10}{3} = \frac{10!}{3!\,7!} = 120.
+		\end{align}
+		\item $P(10,3) = 3! \times \comb{10}{3}$, since $720 = 6 \times 120$: each of the 120 unordered committees gives rise to $3! = 6$ distinct medal assignments (one for each way to order its 3 members on the 3 podium positions).
+	\end{enumerate}
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:d8ce0cf]
+	Dr. Perez already occupies one of the 3 places reserved for men, so 2 more men must be chosen from the 5 remaining men, and the 2 women must be chosen from the 5 available women---two independent decisions:
+	\begin{align}
+		\underbrace{\comb{5}{2}}_{\text{remaining men}} \times \underbrace{\comb{5}{2}}_{\text{women}} = 10 \times 10 = 100 \text{ possible committees.}
+	\end{align}
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:3007304]
+	The student's reasoning is \textbf{incorrect}. Since the 3 positions (president, secretary, member-at-large) are distinct roles, the order of assignment matters: it is not the same for Ana to be president and Luis secretary as the other way around. The binomial coefficient $\comb{8}{3}$ counts unordered subsets of 3 people, ignoring who receives each role---it undercounts the true result by a factor of $3! = 6$. The correct calculation is a permutation:
+	\begin{align}
+		P(8,3) = 8 \times 7 \times 6 = 336 \neq \comb{8}{3} = 56.
+	\end{align}
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:b53268b]
+	\textbf{Sample space:} all possible 5-card hands from the 52 available cards, ignoring the order in which they are dealt: $\comb{52}{5} = 2{,}598{,}960$ equally likely outcomes.
+
+	\textbf{Favorable cases (two pairs):}
+	\begin{enumerate}
+		\item Choose the 2 distinct ranks that will form the pairs, from the 13 available ranks: $\comb{13}{2} = 78$.
+		\item For each of those 2 ranks, choose 2 of the 4 available suits: $\comb{4}{2} = 6$ per rank, that is, $6^2 = 36$ for both pairs together.
+		\item Choose the rank of the fifth card, different from the 2 ranks already used: $\comb{11}{1} = 11$.
+		\item Choose the suit of that fifth card: $\comb{4}{1} = 4$.
+	\end{enumerate}
+	By the multiplication principle, the number of hands with exactly two pairs is:
+	\begin{align}
+		\comb{13}{2} \times \comb{4}{2}^2 \times \comb{11}{1} \times \comb{4}{1} = 78 \times 36 \times 11 \times 4 = 123{,}552.
+	\end{align}
+	Using the classical approach to probability:
+	\begin{align}
+		P(\text{two pairs}) = \frac{123{,}552}{2{,}598{,}960} \approx 0.0475,
+	\end{align}
+	that is, approximately $4.75\%$ of hands, or about 1 in 21.
+\end{solproblema}

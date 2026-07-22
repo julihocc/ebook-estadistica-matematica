@@ -1,0 +1,84 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:9f56f56}
+Choose the appropriate statistic or reference distribution---$Z$, $t$, $\chi^2$, or $F$---for each situation:
+\begin{enumerate}[label=(\alph*)]
+	\item confidence interval for a mean with unknown $\sigma$,
+	\item confidence interval for $\sigma^2$,
+	\item comparison of two variances,
+	\item confidence interval for a mean with known $\sigma$.
+\end{enumerate}
+\end{problema}
+
+\begin{problema}\label{prob:56afb0b}
+Explain how the bootstrap approximates a sampling distribution without knowing the population distribution $F$. What role does the empirical distribution $\hat F_n$ play?
+\end{problema}
+
+\begin{problema}\label{prob:f78153c}
+In an A/B registration experiment, version A has $n_A=1500$ users and $x_A=210$ registrations, while version B has $n_B=1500$ users and $x_B=255$ registrations. Compute the two-proportion $Z$ statistic for $H_0:p_A=p_B$ and decide whether B performs better at $\alpha=0.05$.
+\end{problema}
+
+\begin{problema}\label{prob:4d90cdd}
+In a $k$-fold comparison of two predictive models, explain why a paired $t$ procedure on fold-by-fold performance differences can reduce variance. Refer explicitly to the covariance induced by evaluating both models on the same fold.
+\end{problema}
+
+\begin{problema}\label{prob:cf54ef8}
+A data scientist trains the same model $30$ times with different random seeds on the same train/test split and bootstraps the $30$ accuracies to describe the model's ``true accuracy.'' Evaluate what type of variability this captures and what type it fails to capture.
+\end{problema}
+
+\begin{problema}\label{prob:7d50e57}
+Create an original data-science example that uses a sampling distribution to support an inferential decision. State the statistic, reference distribution, and conclusion.
+\end{problema}
+
+\begin{solproblema}[prob:9f56f56]
+The choices are:
+\begin{enumerate}[label=(\alph*)]
+	\item $t$,
+	\item $\chi^2$,
+	\item $F$,
+	\item $Z$.
+\end{enumerate}
+\end{solproblema}
+
+\begin{solproblema}[prob:56afb0b]
+The bootstrap replaces the unknown population distribution $F$ with the empirical distribution $\hat F_n$, which assigns probability $1/n$ to each observed value. Repeated samples with replacement from $\hat F_n$ produce bootstrap statistics $\theta^\ast$. The distribution of these $\theta^\ast$ values approximates the sampling distribution of the statistic when the sample is representative and $n$ is sufficiently large.
+\end{solproblema}
+
+\begin{solproblema}[prob:f78153c]
+The observed proportions are
+\[
+	\hat p_A=\frac{210}{1500}=0.14,\qquad \hat p_B=\frac{255}{1500}=0.17.
+\]
+The pooled proportion is
+\[
+	\hat p=\frac{210+255}{3000}=0.155.
+\]
+Thus
+\[
+	SE=\sqrt{0.155(0.845)\left(\frac1{1500}+\frac1{1500}\right)}\approx 0.01320,
+\]
+and
+\[
+	Z=\frac{0.17-0.14}{0.01320}\approx 2.27.
+\]
+The one-sided $p$-value is about $0.0116$ and the two-sided value is about $0.0232$. At $\alpha=0.05$, reject $H_0$; B has a higher registration rate.
+\end{solproblema}
+
+\begin{solproblema}[prob:4d90cdd]
+Pairing compares the two models on the same fold, so fold difficulty affects both measurements. If the two fold scores have positive covariance, then
+\[
+	\operatorname{Var}(X-Y)=\operatorname{Var}(X)+\operatorname{Var}(Y)-2\operatorname{Cov}(X,Y)
+\]
+is smaller than it would be under an unpaired comparison. This lowers the noise in the difference and can increase power.
+\end{solproblema}
+
+\begin{solproblema}[prob:cf54ef8]
+The procedure captures variability due to stochastic training choices, such as random initialization or minibatch order. It does not capture uncertainty from drawing a different dataset, choosing another train/test split, or generalizing to future data. Therefore it should not be interpreted as the full sampling uncertainty of the model's true predictive accuracy.
+\end{solproblema}
+
+\begin{solproblema}[prob:7d50e57]
+Example: two models are compared by the variance of their prediction errors. Model 1 has $n_1=25$ validation errors with $S_1^2=12.4$; model 2 has $n_2=25$ with $S_2^2=6.8$. To test equality of error variances,
+\[
+	F=\frac{12.4}{6.8}=1.82,
+\]
+with $df_1=24$ and $df_2=24$. If the upper two-sided critical value is about $2.27$, do not reject equality of variances. The observed variance difference is not large enough to conclude that one model has more variable errors.
+\end{solproblema}

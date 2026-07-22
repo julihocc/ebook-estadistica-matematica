@@ -1,0 +1,104 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:22013b6}
+State the formulas for the expectation and variance of the sample mean $\bar X$ in a simple random sample of size $n$ drawn from a population with mean $\mu$ and variance $\sigma^2$.
+\end{problema}
+
+\begin{problema}\label{prob:f4e7b8b}
+Classify each quantity as a parameter or a statistic:
+\begin{enumerate}[label=(\alph*)]
+	\item the population mean $\mu$,
+	\item the sample mean $\bar x$ from a survey,
+	\item the sample proportion $\hat p$ from an election poll,
+	\item the population variance $\sigma^2$.
+\end{enumerate}
+\end{problema}
+
+\begin{problema}\label{prob:6815de7}
+An insurer receives $100$ independent claims. The amount of each claim has mean $\$800$ and standard deviation $\$300$. Use the central limit theorem to approximate
+\[
+	P\left(\sum_{i=1}^{100} X_i > \$85{,}000\right).
+\]
+\end{problema}
+
+\begin{problema}\label{prob:716e9bb}
+Let $X_1,\ldots,X_n$ be iid observations with mean $\mu$ and variance $\sigma^2$. Prove that
+\[
+	S^2=\frac{1}{n-1}\sum_{i=1}^n (X_i-\bar X)^2
+\]
+is an unbiased estimator of $\sigma^2$. In your proof, justify the identity
+\[
+	\sum_{i=1}^n (X_i-\mu)=n(\bar X-\mu).
+\]
+\end{problema}
+
+\begin{problema}\label{prob:0555e27}
+A population distribution is highly skewed. A colleague says that $n=30$ is automatically large enough to use a normal approximation for $\bar X$. Evaluate this claim using the Berry--Esseen theorem as a reference point.
+\end{problema}
+
+\begin{problema}\label{prob:2e2f544}
+Create an original central limit theorem example that is not about exams or insurance claims. State the context, the assumptions, the approximation, and one probability that can be computed with it.
+\end{problema}
+
+\begin{solproblema}[prob:22013b6]
+The sample mean satisfies
+\[
+	E(\bar X)=\mu,\qquad \operatorname{Var}(\bar X)=\frac{\sigma^2}{n}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:f4e7b8b]
+The population mean $\mu$ is a parameter; the survey mean $\bar x$ is a statistic; the poll proportion $\hat p$ is a statistic; and the population variance $\sigma^2$ is a parameter.
+\end{solproblema}
+
+\begin{solproblema}[prob:6815de7]
+Let $T=\sum_{i=1}^{100}X_i$. Then
+\[
+	E(T)=100(800)=80000,\qquad \operatorname{Var}(T)=100(300^2)=9000000,
+\]
+so $\operatorname{sd}(T)=3000$. Therefore,
+\[
+	P(T>85000)\approx P\left(Z>\frac{85000-80000}{3000}\right)
+	=P(Z>1.667)\approx 0.0478.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:716e9bb]
+Use
+\[
+	\sum_{i=1}^n(X_i-\bar X)^2
+	=\sum_{i=1}^n(X_i-\mu)^2-n(\bar X-\mu)^2.
+\]
+The identity $\sum_{i=1}^n(X_i-\mu)=n(\bar X-\mu)$ follows because
+\[
+	\sum_{i=1}^n(X_i-\mu)=\sum_{i=1}^n X_i-n\mu=n\bar X-n\mu.
+\]
+Taking expectations,
+\[
+	E\left[\sum_{i=1}^n(X_i-\mu)^2\right]=n\sigma^2,\qquad
+	E\left[n(\bar X-\mu)^2\right]=n\operatorname{Var}(\bar X)=\sigma^2.
+\]
+Thus
+\[
+	E\left[\sum_{i=1}^n(X_i-\bar X)^2\right]=(n-1)\sigma^2,
+\]
+and $E(S^2)=\sigma^2$.
+\end{solproblema}
+
+\begin{solproblema}[prob:0555e27]
+The claim is not universally valid. Berry--Esseen bounds the approximation error by a constant times
+\[
+	\frac{\rho}{\sigma^3\sqrt n},
+\]
+where $\rho=E(|X-\mu|^3)$. If the distribution is very skewed or heavy-tailed, $\rho$ can be large, so the error may still be substantial when $n=30$. The practical decision should depend on distributional shape, diagnostics, or simulation, not only on a fixed rule of thumb.
+\end{solproblema}
+
+\begin{solproblema}[prob:2e2f544]
+One example is file-download time. Suppose individual download times have mean $4$ seconds and standard deviation $1.2$ seconds, and that $64$ downloads are independent. Then
+\[
+	\bar X\approx N\left(4,\frac{1.2^2}{64}\right).
+\]
+For example,
+\[
+	P(\bar X>4.3)\approx P\left(Z>\frac{4.3-4}{1.2/8}\right)=P(Z>2)\approx 0.0228.
+\]
+\end{solproblema}

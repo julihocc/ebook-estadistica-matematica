@@ -1,0 +1,82 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:9b48fd0}
+	State, without using any numerical data, the definition of the dispersion ratio (index) $D = s^2/\bar{x}$ for count data, and the reference value of $D$ that corresponds to Poisson equidispersion.
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:65ac238}
+	A data set of $n=500$ customers has $\bar{x}=3.2$ monthly transactions and $s^2=12.5$. Without performing any formal hypothesis test, explain why a dispersion ratio $D=s^2/\bar{x}\approx3.91$ indicates that the Poisson model is structurally inadequate, and what the model gains by moving to a Negative Binomial distribution.
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:486b84f}
+	A web-analytics team monitors $n=100$ advertisements; the observed clicks in one hour have sample mean $\bar{x}=4.2$ and sample variance $s^2=8.7$.
+	\begin{enumerate}
+		\item Compute the Poisson MLE $\hat{\lambda}$ under the equidispersion assumption.
+		\item Compute the dispersion ratio $D=s^2/\bar{x}$ and interpret whether the data exhibit overdispersion, underdispersion, or equidispersion.
+	\end{enumerate}
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:8fd9d7f}
+	Consider the Negative Binomial parameterized with $p=r/(r+\lambda)$, so that $\lambda=r(1-p)/p$ remains fixed. Prove analytically that, in the limit $r\to\infty$, the Negative Binomial PMF converges to the Poisson($\lambda$) PMF, and discuss the practical implication for choosing between the two models when the MLE $\hat{r}$ is very large.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:395bc31}
+	A streaming platform fits a Poisson model and a Negative Binomial model (by maximum likelihood) to $200$ observations with $\bar{x}=8.5$ and $s^2=9.8$, obtaining $\hat{r}\approx55.6$ for the Negative Binomial. Based on the principle of parsimony and the dispersion ratio $s^2/\bar{x}\approx1.15$, evaluate which model is preferable, considering that the Negative Binomial can always match or improve the log-likelihood relative to Poisson because it has one additional parameter.
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:a28b8e6}
+	Design an original data science example (context, sample size $n$, hypothetical sample mean $\bar{x}$, and hypothetical sample variance $s^2$) in which one must decide between a Poisson model and a Negative Binomial model for count data. Compute the dispersion ratio for your data and justify which model you would recommend.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:9b48fd0]
+	The dispersion ratio is $D = s^2/\bar{x}$, the ratio between the sample variance and the sample mean of a count. Under Poisson equidispersion, theoretically $\text{Var}(X)=\mathbb{E}[X]=\lambda$, so the reference value is $D\approx1$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:65ac238]
+	The Poisson model rigidly imposes $\text{Var}(X)=\mathbb{E}[X]$, that is, $D=1$ by construction. An observed value $D\approx3.91$ means that the real variance is almost $4$ times greater than the mean: there is additional variability that Poisson, with a single parameter controlling both mean and variance, cannot represent. The Negative Binomial introduces a second parameter ($r$) that decouples the variance from the mean ($\text{Var}(X)=\mu+\mu^2/r$), allowing it to explicitly capture that overdispersion without forcing the data into an overly rigid model.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:486b84f]
+	\begin{enumerate}
+		\item $\hat{\lambda} = \bar{x} = 4.2$.
+		\item $D = s^2/\bar{x} = 8.7/4.2 \approx 2.07 \gg 1$: the data exhibit significant overdispersion (the empirical variance is twice the mean), so pure Poisson is structurally inadequate.
+	\end{enumerate}
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:8fd9d7f]
+	With $\comb{k+r-1}{k} = \dfrac{r(r+1)\cdots(r+k-1)}{k!} \approx \dfrac{r^k}{k!}$ for large $r$, and substituting $p=r/(r+\lambda)\approx1-\lambda/r$, $1-p\approx\lambda/r$:
+	\begin{align*}
+		P(X=k) \approx \dfrac{r^k}{k!}\left(1-\dfrac{\lambda}{r}\right)^r\left(\dfrac{\lambda}{r}\right)^k \xrightarrow[r\to\infty]{} \dfrac{\lambda^k}{k!}e^{-\lambda},
+	\end{align*}
+	using $\lim_{r\to\infty}(1-\lambda/r)^r=e^{-\lambda}$. This is the Poisson($\lambda$) PMF. Practical implication: if the MLE $\hat{r}$ is very large, the data are essentially consistent with equidispersion, and the Negative Binomial model provides no substantial improvement over the simpler Poisson model---so the latter should be preferred by parsimony.
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:395bc31]
+	Although the Negative Binomial, by having one additional parameter, can always match or improve the Poisson log-likelihood, that improvement must be large enough to justify the extra complexity. Here $\hat{r}\approx55.6$ is very large, which---by the previous analytical result---indicates that the Negative Binomial is practically collapsing to a Poisson; and the observed dispersion ratio, $D\approx1.15$, is very close to $1$, indicating only mild overdispersion. In this case the \textbf{Poisson model is preferable}: the Negative Binomial's gain in fit is marginal and does not compensate for the cost of an additional parameter (criteria such as AIC/BIC would penalize that complexity).
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:a28b8e6]
+	\textbf{Example:} a delivery app records the number of canceled orders per driver in one week, for $n=300$ drivers, with $\bar{x}=2.1$ and $s^2=6.8$. The dispersion ratio is $D=s^2/\bar{x}=6.8/2.1\approx3.24\gg1$, indicating strong overdispersion (possibly due to heterogeneity among drivers: some have much higher cancellation rates than others). A Negative Binomial model would be recommended instead of Poisson, since the latter would systematically underestimate the probability of drivers with extreme cancellation counts.
+\end{solproblema}

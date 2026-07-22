@@ -1,0 +1,91 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:748a77d}
+	Let a finite population of size $N$ be divided into $K$ successes and $N-K$ failures, from which a random sample of size $n$ is drawn \emph{without replacement}. State, without deriving it, the probability mass function $f_X(k)=P(X=k)$ of $X \sim \text{Hiper}(N,K,n)$.
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:5e6e8bf}
+	The variance of $X \sim \text{Hiper}(N,K,n)$ is $\text{Var}(X) = n\dfrac{K}{N}\left(1-\dfrac{K}{N}\right)\left(\dfrac{N-n}{N-1}\right)$. Explain what the term $\dfrac{N-n}{N-1}$ represents (Finite Population Correction Factor), and why its value tends to $1$ when $n=1$ but to $0$ when $n=N$.
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:1651c98}
+	An assembly plant receives a lot of $N=30$ electronic tablets, of which $K=6$ are defective. Quality control inspects a sample of $n=5$ tablets without replacement and rejects the lot if it finds at least $2$ defective tablets.
+	\begin{enumerate}
+		\item Compute $P(X=0)$, the probability of finding no defective tablets in the sample.
+		\item Compute the probability that the lot is accepted, $P(X\le1)$.
+	\end{enumerate}
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:64e9a8d}
+	Starting from the decomposition $X=\sum_{i=1}^n I_i$ into indicator variables ($I_i\sim\text{Bern}(K/N)$) for sampling without replacement:
+	\begin{enumerate}
+		\item Prove that for $i\neq j$, $P(I_i=1,I_j=1) = \dfrac{K}{N}\cdot\dfrac{K-1}{N-1}$.
+		\item Deduce that $\text{Cov}(I_i,I_j) = -\dfrac{K(N-K)}{N^2(N-1)} < 0$, and explain why the negative sign makes sense in sampling without replacement.
+		\item Use the general formula for the variance of a sum of correlated variables to obtain $\text{Var}(X)$.
+	\end{enumerate}
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:7cf587b}
+	A municipal database contains $N=2000$ records, of which $K=100$ contain errors; a sample of $n=20$ is drawn without replacement. Evaluate whether it is appropriate to approximate $X\sim\text{Hiper}(2000,100,20)$ by $Y\sim\text{Bin}(20, 0.05)$: verify the empirical rule $n/N<0.05$, compute $P(X=2)$ and $P(Y=2)$, and determine whether the absolute error between them is small enough to justify using the binomial approximation in practice.
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:969b25a}
+	Design an original example (population size $N$, number of "success" elements $K$, and sample size $n$) that is naturally modeled by a Hypergeometric distribution, different from the quality-control or auditing examples already seen in this section. State the probability question of interest and compute $\mathbb{E}[X]$ and $\text{Var}(X)$ for the parameters you chose.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:748a77d]
+	The number of ways to choose $k$ successes from the $K$ available successes is $\comb{K}{k}$, and the number of ways to choose $(n-k)$ failures from the $N-K$ available failures is $\comb{N-K}{n-k}$; the total number of equiprobable samples of size $n$ is $\comb{N}{n}$. Therefore $f_X(k) = \dfrac{\comb{K}{k}\comb{N-K}{n-k}}{\comb{N}{n}}$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:5e6e8bf]
+	The FPCF measures how much sampling variability is reduced relative to sampling with replacement, because each draw without replacement decreases the available set and negatively correlates the following draws. When $n=1$ there is only one draw, with no previous draw that can affect the next one, so $\text{FPCF}=\frac{N-1}{N-1}=1$ (it coincides with Bernoulli, with no correction). When $n=N$ the entire population is sampled (a census), so there is no sampling uncertainty and $\text{FPCF}=\frac{0}{N-1}=0$, forcing $\text{Var}(X)=0$.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:1651c98]
+	With $N=30$, $K=6$, $N-K=24$, $n=5$:
+	\begin{enumerate}
+		\item $P(X=0) = \dfrac{\comb{6}{0}\comb{24}{5}}{\comb{30}{5}} = \dfrac{42504}{142506} \approx 0.2983$.
+		\item $P(X=1) = \dfrac{\comb{6}{1}\comb{24}{4}}{\comb{30}{5}} = \dfrac{63756}{142506} \approx 0.4474$. Therefore $P(X\le1) = P(X=0)+P(X=1) \approx 0.2983+0.4474 = 0.7457$: the lot is accepted with probability $74.57\%$.
+	\end{enumerate}
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:64e9a8d]
+	\begin{enumerate}
+		\item By the unconditional multiplication rule, $P(I_i=1,I_j=1) = P(I_i=1)P(I_j=1\mid I_i=1) = \dfrac{K}{N}\cdot\dfrac{K-1}{N-1}$ (once one success has already been drawn, $K-1$ successes remain among $N-1$ remaining elements).
+		\item $\text{Cov}(I_i,I_j) = \mathbb{E}[I_iI_j]-\mathbb{E}[I_i]\mathbb{E}[I_j] = \dfrac{K(K-1)}{N(N-1)}-\dfrac{K^2}{N^2} = -\dfrac{K(N-K)}{N^2(N-1)}$. The sign is negative because, without replacement, drawing a success in position $i$ reduces the number of successes available for position $j$: the draws "compete" for the same $K$ elements.
+		\item With $\text{Var}(I_i)=\frac{K}{N}(1-\frac{K}{N})$ and $n(n-1)$ ordered pairs $i\neq j$:
+		\begin{align*}
+			\text{Var}(X) = n\dfrac{K}{N}\left(1-\dfrac{K}{N}\right) - n(n-1)\dfrac{K(N-K)}{N^2(N-1)} = n\dfrac{K}{N}\left(1-\dfrac{K}{N}\right)\left(\dfrac{N-n}{N-1}\right).
+		\end{align*}
+	\end{enumerate}
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:7cf587b]
+	The sampling ratio is $n/N = 20/2000 = 0.01 = 1\% < 5\%$, easily satisfying the empirical rule. Computing: $P(X=2) = \dfrac{\comb{100}{2}\comb{1900}{18}}{\comb{2000}{20}} \approx 0.189725$ and, with $p=K/N=0.05$, $P(Y=2) = \comb{20}{2}(0.05)^2(0.95)^{18} \approx 0.188677$. The absolute error is $|0.189725-0.188677| \approx 0.00105$ ($\approx 0.1\%$), small enough for most practical applications: the binomial approximation is appropriate here precisely because the sampling fraction $n/N$ is small, making sampling without replacement change the marginal probabilities of each draw very little.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:969b25a]
+	\textbf{Example:} a library has $N=200$ books on a shelf, of which $K=25$ are miscataloged. A librarian checks a random sample of $n=15$ books without replacement. Question of interest: what is the probability of finding exactly $3$ miscataloged books in the sample, $P(X=3)$? The moments are $\mathbb{E}[X] = n\frac{K}{N} = 15\left(\frac{25}{200}\right) = 1.875$ and $\text{Var}(X) = 15\left(\frac{25}{200}\right)\left(\frac{175}{200}\right)\left(\frac{200-15}{200-1}\right) = 1.640625\left(\frac{185}{199}\right) \approx 1.5254$.
+\end{solproblema}

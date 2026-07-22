@@ -1,0 +1,86 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:f00c4b6}
+	State, without performing any calculation, the density function $f(x)$ of $X \sim \text{Exp}(\lambda)$ and its support, and write from memory the formulas for $\mathbb{E}[X]$ and $\text{Var}(X)$.
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:de365e8}
+	Explain, without doing any numerical calculation, why $\text{Gamma}(1,\beta)$ is exactly the same as $\text{Exp}(\lambda=1/\beta)$, and why $\text{Gamma}(\nu/2, 2)$ is, by definition, the $\chi^2_\nu$ distribution. What role does the shape parameter $\alpha$ of the Gamma family play in distinguishing these particular cases?
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:491786c}
+	In a satisfaction survey, the proportion $X$ of customers satisfied with a new product is modeled as $X \sim \text{Beta}(6,4)$.
+	\begin{enumerate}
+		\item Compute the expected proportion of satisfied customers, $\mathbb{E}(X)$.
+		\item Compute the variance $\text{Var}(X)$.
+	\end{enumerate}
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:6b498ea}
+	Let $X \sim \text{Gamma}(\alpha,\beta)$ with moment-generating function $M_X(t) = (1-\beta t)^{-\alpha}$.
+	\begin{enumerate}
+		\item Substituting $\alpha=\nu/2$ and $\beta=2$, show that $M_X(t) = (1-2t)^{-\nu/2}$, the MGF of $\chi^2_\nu$.
+		\item Knowing that $Z^2 \sim \text{Gamma}(1/2,2)$ for $Z\sim N(0,1)$, use the sum property of independent gamma variables with equal scale to justify that $S=Z_1^2+Z_2^2+Z_3^2 \sim \chi^2_3$ when $Z_i \sim N(0,1)$ are i.i.d.
+	\end{enumerate}
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:0f44096}
+	Two lots of components have Weibull lifetimes with the same scale $\eta=10$: Lot A $\sim \text{Weibull}(\beta=1,\eta=10)$ and Lot B $\sim \text{Weibull}(\beta=2,\eta=10)$. Evaluate which lot is more reliable by comparing the hazard functions $h_A(t)$ and $h_B(t)$ at $t=5$ and $t=15$, and explain the physical difference between the two in terms of component aging.
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:31a003b}
+	Design an original example (context and parameters) that is naturally modeled by some distribution from the gamma family (Exponential, Gamma, or Weibull), different from the reliability or server examples already seen in this section. State the probability question of interest and compute $\mathbb{E}[X]$ for the parameters you chose.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:f00c4b6]
+	$f(x) = \lambda e^{-\lambda x}$ for $x\ge0$. The moments are $\mathbb{E}[X] = 1/\lambda$ and $\text{Var}(X) = 1/\lambda^2$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:de365e8]
+	The shape parameter $\alpha$ of the Gamma family controls how many "elementary events" are being accumulated: with $\alpha=1$, the density $\text{Gamma}(1,\beta) = \dfrac{1}{\beta}e^{-x/\beta}$ coincides exactly with that of $\text{Exp}(\lambda=1/\beta)$---the waiting time for a single event. With $\alpha=\nu/2$ and fixed scale $\beta=2$, the Gamma family reproduces exactly $\chi^2_\nu$ by definition (the $\chi^2_\nu$ is defined as the sum of $\nu$ squared independent standard normals, and that sum is $\text{Gamma}(\nu/2,2)$). Thus, both the exponential and chi-square are not distributions separate from the Gamma, but special cases of the same family obtained by fixing specific values of the shape parameter.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:491786c]
+	With $X\sim\text{Beta}(6,4)$:
+	\begin{enumerate}
+		\item $\mathbb{E}(X) = \dfrac{6}{6+4} = 0.6$.
+		\item $\text{Var}(X) = \dfrac{6\cdot4}{10^2\cdot11} = \dfrac{24}{1100} \approx 0.0218$.
+	\end{enumerate}
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:6b498ea]
+	\begin{enumerate}
+		\item Directly substituting $\alpha=\nu/2$, $\beta=2$ in $M_X(t)=(1-\beta t)^{-\alpha}$ gives $M_X(t) = (1-2t)^{-\nu/2}$, which is the MGF of $\chi^2_\nu$.
+		\item Each $Z_i^2 \sim \text{Gamma}(1/2,2)$. Since all terms share the same scale $\beta=2$, the sum property of independent gammas gives $\sum_{i=1}^3 Z_i^2 \sim \text{Gamma}(3\cdot\tfrac{1}{2},2) = \text{Gamma}(3/2,2) = \chi^2_3$.
+	\end{enumerate}
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:0f44096]
+	$h_A(t) = 1/10 = 0.1$ for all $t$ (constant rate, $\beta=1$). $h_B(t) = (2/10)(t/10) = t/50$: at $t=5$, $h_B=0.1$ (tie); at $t=15$, $h_B=0.3 > h_A=0.1$. In the short term ($t=5$) both lots have comparable risk, but in the long term ($t=15$) Lot A is more reliable. Physically, Lot A ($\beta=1$) does not age: it fails in a purely random way (memoryless, equivalent to exponential). Lot B ($\beta=2$) does age: its failure risk grows linearly with time, typical of accumulated mechanical wear. The evaluation depends on the usage horizon: they are equivalent for short-term operation, but Lot A is preferable for a long useful life.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:31a003b]
+	\textbf{Example:} the time between email arrivals in a corporate inbox follows $X \sim \text{Exp}(\lambda=4)$ emails per hour. Question of interest: what is the probability that more than $20$ minutes ($1/3$ of an hour) pass without receiving an email, $P(X > 1/3)$? The moment is $\mathbb{E}[X] = 1/\lambda = 0.25$ hours $= 15$ minutes.
+\end{solproblema}

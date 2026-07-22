@@ -1,0 +1,86 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:20ee012}
+Define an $F$ random variable as a ratio of two independent normalized chi-square variables. State $E(F)$ when the denominator degrees of freedom are $d_2>2$.
+\end{problema}
+
+\begin{problema}\label{prob:2e8078c}
+Explain why the reciprocal of a random variable with distribution $F_{5,8}$ has distribution $F_{8,5}$.
+\end{problema}
+
+\begin{problema}\label{prob:b47df2a}
+Two production lines are compared for equality of variance. The first sample has $n_1=13$ and $S_1^2=45$; the second has $n_2=11$ and $S_2^2=20$. Test equality of variances at $\alpha=0.05$ using a two-sided procedure and the upper critical value $F_{12,10,0.025}=3.62$.
+\end{problema}
+
+\begin{problema}\label{prob:23d903e}
+Prove that if $T\sim t_\nu$, then $T^2\sim F_{1,\nu}$.
+\end{problema}
+
+\begin{problema}\label{prob:e04a795}
+Two groups have $n_1=15$, $S_1^2=50$, $n_2=12$, and $S_2^2=48$. Evaluate whether an equal-variance assumption is reasonable before choosing between a pooled two-sample $t$ procedure and Welch's procedure.
+\end{problema}
+
+\begin{problema}\label{prob:6277cc2}
+Create an original example of a variance-comparison test using an $F$ statistic. Include the context, hypotheses, sample variances, statistic, critical value, and conclusion.
+\end{problema}
+
+\begin{solproblema}[prob:20ee012]
+If $U\sim\chi^2_{d_1}$ and $V\sim\chi^2_{d_2}$ are independent, then
+\[
+	F=\frac{U/d_1}{V/d_2}\sim F_{d_1,d_2}.
+\]
+For $d_2>2$,
+\[
+	E(F)=\frac{d_2}{d_2-2}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:2e8078c]
+If
+\[
+	F=\frac{U/5}{V/8}\sim F_{5,8},
+\]
+where $U\sim\chi^2_5$ and $V\sim\chi^2_8$ are independent, then
+\[
+	\frac1F=\frac{V/8}{U/5}\sim F_{8,5}.
+\]
+The reciprocal swaps the numerator and denominator degrees of freedom.
+\end{solproblema}
+
+\begin{solproblema}[prob:b47df2a]
+Use the larger sample variance in the numerator:
+\[
+	F=\frac{45}{20}=2.25.
+\]
+The degrees of freedom are $12$ and $10$. Since $2.25<3.62$, do not reject equality of variances at the $5\%$ level.
+\end{solproblema}
+
+\begin{solproblema}[prob:23d903e]
+Write
+\[
+	T=\frac{Z}{\sqrt{V/\nu}},
+\]
+where $Z\sim N(0,1)$, $V\sim\chi^2_\nu$, and $Z$ and $V$ are independent. Then
+\[
+	T^2=\frac{Z^2}{V/\nu}=\frac{\chi^2_1/1}{\chi^2_\nu/\nu}\sim F_{1,\nu}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:e04a795]
+The variance ratio is
+\[
+	F=\frac{50}{48}=1.042.
+\]
+With $df_1=14$ and $df_2=11$, this is far below a typical upper $5\%$ critical value near $3.36$. There is no practical evidence of unequal variances. A pooled procedure is reasonable under the usual normality and independence assumptions, although Welch's method remains valid and is often a safe default.
+\end{solproblema}
+
+\begin{solproblema}[prob:6277cc2]
+Example: two blood-pressure instruments are compared. Instrument A gives $n_1=10$ readings with $S_1^2=4.2$; instrument B gives $n_2=8$ readings with $S_2^2=1.5$. Test
+\[
+	H_0:\sigma_A^2=\sigma_B^2,\qquad H_a:\sigma_A^2\ne\sigma_B^2.
+\]
+The statistic is
+\[
+	F=\frac{4.2}{1.5}=2.8,
+\]
+with $df_1=9$ and $df_2=7$. Using an upper two-sided critical value about $4.82$, do not reject $H_0$.
+\end{solproblema}

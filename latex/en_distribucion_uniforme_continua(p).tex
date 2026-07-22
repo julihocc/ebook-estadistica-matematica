@@ -1,0 +1,87 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:97c4388}
+	State, without performing any calculation, the density function $f(x)$ and support of a variable $X \sim U(a,b)$, and write from memory the formulas for $\mathbb{E}[X]$ and $\text{Var}(X)$.
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:9f6e77c}
+	The waiting time for a bus at a stop is modeled as $X \sim U(0, 15)$ minutes. A passenger claims: ``since the exponential distribution is memoryless, the uniform is too, so if I have already waited 10 minutes, the probability of waiting 5 more minutes is the same as at the beginning''. Explain why this claim is false for the uniform distribution, explicitly computing $P(X \ge 15 \mid X \ge 10)$ and comparing it with $P(X \ge 5)$.
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:8fcc221}
+	With the same waiting time $X \sim U(0, 15)$ minutes:
+	\begin{enumerate}
+		\item Compute the probability that the waiting time is less than 5 minutes.
+		\item Compute the quantile $q_{0.75}$ (the time below which 75\% of passengers wait).
+	\end{enumerate}
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:5794e09}
+	Let $X$ be a continuous variable with bounded support on $[a,b]$. Prove, using Lagrange multipliers under the constraint $\int_a^b f(x)\,dx=1$, that the distribution $U(a,b)$ maximizes the differential entropy $h(X) = -\int f(x)\log f(x)\,dx$ among all distributions with that support.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:126be41}
+	A simulation engineer needs to generate samples from $Y \sim \text{Exp}(\lambda=2)$ and claims: ``the inverse-transform method ($Y = F^{-1}(U)$ with $U \sim U(0,1)$) only works if $F$ has an explicit closed form, so I cannot use it for distributions without a closed-form invertible CDF''. Evaluate this claim: is the condition required by the method correct? Justify with the proof of why $Y=F^{-1}(U)$ has CDF $F$, and clarify what is actually needed to apply the method.
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:c1c6ece}
+	Design an original example (context and parameters $a,b$) that is naturally modeled by a continuous Uniform distribution, different from the waiting-time examples already seen in this section. State the probability question of interest and compute $\mathbb{E}[X]$ and $\text{Var}(X)$ for the parameters you chose.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:97c4388]
+	The density function is $f(x) = \dfrac{1}{b-a}$ for $x \in [a,b]$ and $0$ otherwise. The moments are $\mathbb{E}[X] = \dfrac{a+b}{2}$ and $\text{Var}(X) = \dfrac{(b-a)^2}{12}$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:9f6e77c]
+	The claim is \textbf{false}: memorylessness is an exclusive property of the exponential distribution (and the geometric distribution in the discrete case); it does not transfer to other distributions. With $X \sim U(0,15)$, the CDF is $F(x)=x/15$, so:
+	\begin{align*}
+		P(X \ge 15 \mid X \ge 10) = \dfrac{P(X\ge15)}{P(X\ge10)} = \dfrac{0/15}{5/15} = 0,
+	\end{align*}
+	whereas $P(X\ge5) = 10/15 = 2/3 \approx 0.667$. Since $0 \neq 2/3$, the memoryless property clearly does not hold: after already waiting 10 minutes, the passenger knows with certainty that the bus will arrive within the next 5 minutes (the bounded support at 15 guarantees it), exactly the opposite of what the false analogy with the exponential would predict.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:8fcc221]
+	With $F(x) = x/15$:
+	\begin{enumerate}
+		\item $P(X<5) = F(5) = 5/15 = 1/3 \approx 0.333$.
+		\item $q_{0.75}$ satisfies $q_{0.75}/15 = 0.75$, that is $q_{0.75} = 11.25$ minutes.
+	\end{enumerate}
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:5794e09]
+	Maximize $h[f] = -\int_a^b f(x)\log f(x)\,dx$ subject to $\int_a^b f(x)\,dx=1$. The Lagrangian is $\mathcal{L}[f] = -\int_a^b f(x)\log f(x)\,dx - \lambda\left(\int_a^b f(x)\,dx - 1\right)$. The functional derivative with respect to $f$ gives $-\log f(x) - 1 - \lambda = 0$, so $f(x) = e^{-(1+\lambda)}$ is constant on $[a,b]$. Normalization requires $f(x) = 1/(b-a)$, exactly the density of $U(a,b)$. Therefore, among all distributions with support on $[a,b]$, the uniform distribution maximizes differential entropy---it is the ``least informative'' distribution, consistent with imposing no preference within the interval.
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:126be41]
+	The claim is \textbf{incorrect}. The proof that $Y=F^{-1}(U)$ has CDF $F$ is general:
+	\begin{align*}
+		P(Y\le y) = P(F^{-1}(U)\le y) = P(U\le F(y)) = F(y),
+	\end{align*}
+	using only the monotonicity of $F$ (and hence of $F^{-1}$) and the fact that $U\sim U(0,1)$. What is actually needed is that $F$ be invertible (strictly increasing on its support)---not that $F^{-1}$ have an \emph{explicit closed form}. When $F^{-1}$ has no closed form, the method remains valid in principle; one simply evaluates $F^{-1}$ numerically (for example, by bisection or another solver). For $\text{Exp}(\lambda=2)$, in fact, there is a closed form: $F(y)=1-e^{-2y} \implies Y = -\tfrac{1}{2}\ln(1-U)$, so the supposed limitation does not even apply in this concrete case.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:c1c6ece]
+	\textbf{Example:} a hardware random-number generator produces thermal-noise voltages uniformly distributed as $X \sim U(-5, 5)$ millivolts. Question of interest: what is the probability that the measured voltage exceeds $3$ mV in absolute value, $P(|X|>3)$? The moments are $\mathbb{E}[X] = \dfrac{-5+5}{2} = 0$ and $\text{Var}(X) = \dfrac{(5-(-5))^2}{12} = \dfrac{100}{12} \approx 8.33$.
+\end{solproblema}

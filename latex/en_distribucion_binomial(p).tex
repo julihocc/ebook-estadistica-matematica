@@ -1,0 +1,88 @@
+\section*{Problems}
+
+\subsection*{Problem statements}
+
+% Remember
+\begin{problema}
+	\label{prob:71ce5a0}
+	State, without performing any calculation, the probability mass function of a Bernoulli trial with parameter $p$, and write from memory the formulas for $\mathbb{E}[X]$ and $\text{Var}(X)$ for $X \sim \text{Bin}(n,p)$.
+\end{problema}
+
+% Understand
+\begin{problema}
+	\label{prob:1149be6}
+	Explain, without invoking the binomial formula from memory, why the number of sequences of $n$ independent Bernoulli trials that produce exactly $k$ successes is $\comb{n}{k}$, and use that argument to justify why $P(Y=k) = \comb{n}{k}p^k q^{n-k}$.
+\end{problema}
+
+% Apply
+\begin{problema}
+	\label{prob:c3d2032}
+	A cybersecurity firm monitors $n=12$ independent access attempts, each classified as malicious with probability $p=0.15$. Let $X \sim \text{Bin}(12, 0.15)$ be the number of detected malicious accesses.
+	\begin{enumerate}
+		\item Compute $P(X \le 2)$.
+		\item Compute the conditional probability $P(X \ge 4 \mid X \ge 1)$.
+	\end{enumerate}
+\end{problema}
+
+% Analyze
+\begin{problema}
+	\label{prob:bae56b2}
+	Let $X \sim \text{Bin}(n_1,p)$ and $Y \sim \text{Bin}(n_2,p)$ be independent, with the same success parameter $p$. Prove, using discrete convolution and Vandermonde's identity $\sum_{j=0}^m \comb{n_1}{j}\comb{n_2}{m-j}=\comb{n_1+n_2}{m}$, that $Z=X+Y \sim \text{Bin}(n_1+n_2,p)$, and verify that additivity of $\mathbb{E}[\cdot]$ and $\text{Var}(\cdot)$ is preserved under this sum.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+	\label{prob:19f50da}
+	A quality-control engineer, facing $X \sim \text{Bin}(n=500, p=0.04)$, decides to approximate $X$ by a Normal distribution $N(np, np(1-p))$ to compute the probability of accepting a lot (criterion $X \le 25$), without checking any preliminary condition and without applying a continuity correction. Evaluate this decision: is the Normal approximation valid in this case? Justify by citing the usual operational rule ($np \ge 5$ and $n(1-p) \ge 5$), and explain what error is introduced by omitting Yates' continuity correction.
+\end{problema}
+
+% Create
+\begin{problema}
+	\label{prob:3c14103}
+	Design an original example (context, values of $n$ and $p$, and the random variable of interest) that models a count of successes with a Binomial distribution, different from the quality-control or cybersecurity examples already seen in this section. State explicitly the probability question your example would solve and compute $\mathbb{E}[X]$ and $\text{Var}(X)$ for the parameters you chose.
+\end{problema}
+
+\subsection*{Detailed solutions}
+
+% Remember
+\begin{solproblema}[prob:71ce5a0]
+	The probability mass function of a Bernoulli($p$) trial is $f_X(x) = p^x(1-p)^{1-x}$ for $x \in \set{0,1}$. For $X \sim \text{Bin}(n,p)$, the sum of $n$ independent Bernoulli trials, $\mathbb{E}[X] = np$ and $\text{Var}(X) = np(1-p)$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:1149be6]
+	Each particular sequence of $n$ trials with exactly $k$ successes and $n-k$ failures has probability $p^k q^{n-k}$ by independence (the order of the trials does not affect the product). The number of distinct ways to choose which of the $n$ positions contain the $k$ successes is the number of subsets of size $k$ of a set of $n$ elements, namely $\comb{n}{k}$. Since these sequences are mutually exclusive events that together form the event $\set{Y=k}$, adding their equal individual probabilities gives $P(Y=k) = \comb{n}{k}p^k q^{n-k}$.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:c3d2032]
+	\begin{enumerate}
+		\item With $P(X=0)\approx0.14224$, $P(X=1)\approx0.30121$, $P(X=2)\approx0.29236$:
+		\begin{align*}
+			P(X\le2) = 0.14224+0.30121+0.29236 \approx 0.7358.
+		\end{align*}
+		\item With $P(X=3)\approx0.17197$, we have $P(X\le3)\approx0.90778$. Therefore:
+		\begin{align*}
+			P(X\ge4\mid X\ge1) = \dfrac{1-P(X\le3)}{1-P(X=0)} = \dfrac{1-0.90778}{1-0.14224} = \dfrac{0.09222}{0.85776}\approx0.1075.
+		\end{align*}
+	\end{enumerate}
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:bae56b2]
+	By independence, the probability that $Z=X+Y=m$ is obtained by discrete convolution:
+	\begin{align*}
+		P(Z=m) = \sum_{j=0}^m P(X=j)P(Y=m-j) = \sum_{j=0}^m \comb{n_1}{j}p^j q^{n_1-j} \comb{n_2}{m-j}p^{m-j}q^{n_2-(m-j)} = p^m q^{(n_1+n_2)-m}\sum_{j=0}^m \comb{n_1}{j}\comb{n_2}{m-j}.
+	\end{align*}
+	By Vandermonde's identity, the remaining sum is $\comb{n_1+n_2}{m}$, so $P(Z=m) = \comb{n_1+n_2}{m}p^m q^{(n_1+n_2)-m}$; that is, $Z \sim \text{Bin}(n_1+n_2,p)$. Additivity is verified directly: $\mathbb{E}[Z]=(n_1+n_2)p=\mathbb{E}[X]+\mathbb{E}[Y]$ and $\text{Var}(Z)=(n_1+n_2)p(1-p)=\text{Var}(X)+\text{Var}(Y)$.
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:19f50da]
+	With $np = 500(0.04) = 20 \ge 5$ and $n(1-p) = 500(0.96) = 480 \ge 5$, the usual operational rule is satisfied, so the Normal approximation is reasonable in principle. However, omitting Yates' continuity correction introduces an avoidable systematic bias: when approximating a discrete variable by a continuous one, $P(X \le 25)$ should be computed as $\Phi\!\left(\dfrac{25.5-20}{\sqrt{19.2}}\right)$ and not as $\Phi\!\left(\dfrac{25-20}{\sqrt{19.2}}\right)$; ignoring the $0.5$ term underestimates the true cumulative probability by approximately the area under the Normal curve between $25$ and $25.5$. The engineer's decision is partially valid (the applicability conditions hold) but technically incomplete because it omits the continuity correction.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:3c14103]
+	\textbf{Example:} an agricultural study plants $n=15$ seeds of a variety with independent germination probability $p=0.7$ for each seed. Let $X$ be the number of seeds that germinate, $X \sim \text{Bin}(15, 0.7)$. Question of interest: what is the probability that at least $12$ seeds germinate, $P(X \ge 12)$? The moments are $\mathbb{E}[X] = np = 15(0.7) = 10.5$ and $\text{Var}(X) = np(1-p) = 15(0.7)(0.3) = 3.15$. The probability $P(X\ge12)$ would be computed by summing $P(X=12)+P(X=13)+P(X=14)+P(X=15)$, each term evaluated with $\comb{15}{k}(0.7)^k(0.3)^{15-k}$.
+\end{solproblema}
