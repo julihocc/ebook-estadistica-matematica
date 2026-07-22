@@ -1,0 +1,83 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:01c5fc7}
+State, without calculation, the formula for the sample size $n$ required to estimate a population mean $\mu$ with margin of error $E$ and confidence $(1-\alpha)$, and name the three quantities that must be specified beforehand to compute it.
+\end{problema}
+
+\begin{problema}\label{prob:f82cc83}
+When planning a survey with no prior information about the population proportion $p$, one uses $p^*=0.5$ in
+\[
+	n=\left(\frac{Z_{\alpha/2}}{E}\right)^2p^*(1-p^*).
+\]
+Explain why $p^*=0.5$ is the most conservative choice, meaning the one that produces the largest sample size, using the fact that $g(p)=p(1-p)$ is maximized at $p=0.5$.
+\end{problema}
+
+\begin{problema}\label{prob:f57d73c}
+A research team wants to estimate average session time on a virtual education platform. Prior studies suggest $\sigma=18$ minutes.
+\begin{enumerate}[label=(\alph*)]
+	\item What sample size is required for maximum margin of error $E=2$ minutes at $95\%$ confidence?
+	\item If the budget allows only $n=150$ sessions, what margin of error would actually be achieved?
+\end{enumerate}
+\end{problema}
+
+\begin{problema}\label{prob:2e73754}
+When the calculated sample size $n$ is more than $5\%$ of a finite population of size $N$, the finite population correction is used:
+\[
+	n_a=\frac{n}{1+\frac{n-1}{N}}.
+\]
+Prove algebraically that $n_a<n$ whenever $N$ is finite and $n>1$, and that $n_a\to n$ as $N\to\infty$.
+\end{problema}
+
+\begin{problema}\label{prob:d79f0c1}
+An analytics firm plans a national survey about generative AI use. With no prior information, the conservative required sample size is $n=1{,}844$ for $E=0.03$ and $99\%$ confidence. A pilot study suggests $\hat p^*=0.20$, reducing the size to $n=1{,}180$, a $36\%$ savings. Evaluate whether it is worth investing in the pilot before the main survey, considering the trade-off between pilot cost and potential savings.
+\end{problema}
+
+\begin{problema}\label{prob:a691b8d}
+Design an original example, including context, estimated $\sigma$ or $p^*$, desired margin of error, and confidence level, where a sample size must be computed. Calculate $n$ and round correctly.
+\end{problema}
+
+\begin{solproblema}[prob:01c5fc7]
+For a mean with known or previously estimated $\sigma$,
+\[
+	n=\left(\frac{Z_{\alpha/2}\sigma}{E}\right)^2.
+\]
+The required inputs are the confidence level $(1-\alpha)$, the maximum margin of error $E$, and a prior estimate of population variability, such as $\sigma$ or $p^*$ depending on the parameter.
+\end{solproblema}
+
+\begin{solproblema}[prob:f82cc83]
+The function $g(p)=p(1-p)$ is an inverted parabola whose maximum on $[0,1]$ occurs at $p=0.5$, where $g(0.5)=0.25$. Since the sample-size formula is directly proportional to $p^*(1-p^*)$, using $p^*=0.5$ gives the largest required $n$ and protects against the worst-case variance when no prior estimate is available.
+\end{solproblema}
+
+\begin{solproblema}[prob:f57d73c]
+\begin{enumerate}[label=(\alph*)]
+	\item
+	\[
+		n=\left(\frac{1.96(18)}{2}\right)^2=(17.64)^2\approx311.17,
+	\]
+	so $n=312$ sessions are required.
+	\item
+	\[
+		E=1.96\frac{18}{\sqrt{150}}\approx2.88
+	\]
+	minutes.
+\end{enumerate}
+\end{solproblema}
+
+\begin{solproblema}[prob:2e73754]
+If $N$ is finite and $n>1$, then $(n-1)/N>0$, so
+\[
+	1+\frac{n-1}{N}>1.
+\]
+Dividing $n$ by a number greater than $1$ gives $n_a<n$. As $N\to\infty$, the term $(n-1)/N\to0$, so the denominator tends to $1$ and $n_a\to n$.
+\end{solproblema}
+
+\begin{solproblema}[prob:d79f0c1]
+The pilot reduces the main survey by $664$ observations. It is worthwhile if the cost of running a small, reasonably representative pilot is lower than the expected savings from avoiding those $664$ full survey responses. It may not be worthwhile if the pilot requires nearly the same expensive logistics as the main survey or if the pilot is biased enough to make the reduced $n$ unsafe. The decision should compare real pilot cost, expected sampling-cost savings, and the risk of underestimating the needed sample size.
+\end{solproblema}
+
+\begin{solproblema}[prob:a691b8d]
+Example: a market study wants to estimate average monthly spending on video streaming. A prior study suggests $\sigma=\$45$, the desired margin of error is $E=\$5$, and confidence is $95\%$. Then
+\[
+	n=\left(\frac{1.96(45)}{5}\right)^2=(17.64)^2\approx311.17,
+\]
+so $n=312$ people are required.
+\end{solproblema}

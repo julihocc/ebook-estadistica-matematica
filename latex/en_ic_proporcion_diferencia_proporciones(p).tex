@@ -1,0 +1,96 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:d02cdce}
+State, without calculation, the Wald confidence interval for a population proportion $p$, and the large-sample condition $n\hat p\ge5$ and $n(1-\hat p)\ge5$ that should be checked before using it.
+\end{problema}
+
+\begin{problema}\label{prob:8394415}
+Explain why the Wald interval may have actual coverage notably below the nominal level when $n$ is small or $\hat p$ is close to $0$ or $1$, and why the Wilson score interval does not suffer from this problem in the same way.
+\end{problema}
+
+\begin{problema}\label{prob:f92b151}
+In an A/B test for an e-commerce website, $X_1=144$ of $n_1=800$ users exposed to Version A completed a purchase, while $X_2=187$ of $n_2=850$ users exposed to Version B completed a purchase. Construct a $95\%$ confidence interval for $p_1-p_2$.
+\end{problema}
+
+\begin{problema}\label{prob:2bf037d}
+The Wilson interval is obtained by inverting the score test
+\[
+	Z=\frac{\hat p-p}{\sqrt{p(1-p)/n}}
+\]
+without replacing $p$ by $\hat p$ in the denominator, and solving $|Z|\le Z_{\alpha/2}$ for $p$. Set up the quadratic equation in $p$ obtained by squaring $Z^2\le Z_{\alpha/2}^2$, and show that its two roots correspond to the Wilson interval limits given in the theory section.
+\end{problema}
+
+\begin{problema}\label{prob:816285e}
+Using the data from the application problem in this section, $\hat p_1=0.18$, $\hat p_2=0.22$, and
+\[
+	IC_{95\%}(p_1-p_2)=[-0.0785,\,-0.0015],
+\]
+evaluate whether the data justify permanently adopting Version B. Explain your reasoning in terms of whether the interval contains zero.
+\end{problema}
+
+\begin{problema}\label{prob:e10df82}
+Design an original example, with context and data for a single proportion rather than a difference, where a Wald confidence interval for $p$ must be constructed. Use a context different from the web-conversion examples in this section. Verify the large-sample condition and construct the $95\%$ interval.
+\end{problema}
+
+\begin{solproblema}[prob:d02cdce]
+The Wald interval is
+\[
+	\hat p\pm Z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}}.
+\]
+Before using it, check that $n\hat p\ge5$ and $n(1-\hat p)\ge5$, or more conservatively that both are at least $10$.
+\end{solproblema}
+
+\begin{solproblema}[prob:8394415]
+The Wald interval substitutes $\hat p$ into the standard error and then builds a symmetric interval around $\hat p$. When $n$ is small or $\hat p$ is near $0$ or $1$, the real sampling distribution is discrete, bounded, and asymmetric, so this approximation can under-cover and even produce limits outside $[0,1]$. The Wilson interval inverts the score test without substituting $\hat p$ in the denominator, producing limits that adapt to the asymmetry and remain within the feasible probability range.
+\end{solproblema}
+
+\begin{solproblema}[prob:f92b151]
+The sample proportions are
+\[
+	\hat p_1=\frac{144}{800}=0.18,\qquad
+	\hat p_2=\frac{187}{850}=0.22.
+\]
+The standard error is
+\[
+	SE=\sqrt{\frac{0.18(0.82)}{800}+\frac{0.22(0.78)}{850}}
+	\approx0.01966.
+\]
+With $Z_{0.025}=1.96$, the margin is approximately $0.0385$, so
+\[
+	IC_{95\%}(p_1-p_2)=-0.04\pm0.0385=[-0.0785,\,-0.0015].
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:2bf037d]
+Squaring gives
+\[
+	(\hat p-p)^2\le\frac{Z_{\alpha/2}^2}{n}p(1-p).
+\]
+Expanding and collecting terms,
+\[
+	\left(1+\frac{Z_{\alpha/2}^2}{n}\right)p^2
+	-\left(2\hat p+\frac{Z_{\alpha/2}^2}{n}\right)p
+	+\hat p^2\le0.
+\]
+Solving this quadratic yields
+\[
+	p_{L,U}=\frac{1}{1+\frac{Z_{\alpha/2}^2}{n}}
+	\left[\hat p+\frac{Z_{\alpha/2}^2}{2n}
+	\mp Z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}n+\frac{Z_{\alpha/2}^2}{4n^2}}\right],
+\]
+which are the Wilson score limits.
+\end{solproblema}
+
+\begin{solproblema}[prob:816285e]
+The data do justify adopting Version B at the $95\%$ level. The interval for $p_1-p_2$ is entirely negative and does not contain zero, so the conversion rate for Version A is lower than that for Version B. If the interval contained zero, the observed difference would not be statistically resolved at this confidence level.
+\end{solproblema}
+
+\begin{solproblema}[prob:e10df82]
+Example: a manufacturing quality-control sample inspects $n=250$ units and finds $18$ defective. Then $\hat p=18/250=0.072$. The condition holds because $n\hat p=18\ge5$ and $n(1-\hat p)=232\ge5$. With
+\[
+	SE=\sqrt{\frac{0.072(0.928)}{250}}\approx0.01636
+\]
+and $Z_{0.025}=1.96$, the margin is about $0.0321$. Therefore,
+\[
+	IC_{95\%}(p)=0.072\pm0.0321=[0.040,\ 0.104].
+\]
+\end{solproblema}

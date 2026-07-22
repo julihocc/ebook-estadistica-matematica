@@ -18,6 +18,7 @@ por fechas e hitos editoriales.
 - Migrado el checkpoint 4D de problemas EN: los 2 cuadernos heredados del inicio del Capítulo 4 (`en_variables_aleatorias_continuas(p).tex`, `en_esperanza_matematica(p).tex`) ahora son espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES, sin encabezados visibles heredados ni etiquetas numéricas.
 - Migrado el checkpoint 4E de problemas EN: creados los 6 cuadernos faltantes del resto del Capítulo 4 (`en_distribucion_uniforme_continua(p).tex`, `en_distribucion_normal(p).tex`, `en_distribuciones_tipo_gamma(p).tex`, `en_funcion_generadora_momentos(p).tex`, `en_transformacion_variables(p).tex`, `en_distribuciones_funciones_variable_aleatoria(p).tex`) como espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES. Se retiró del maestro EN y del árbol vivo el bundle heredado `en_variables_aleatorias_continuas_avanzado(p).tex`.
 - Migrado el checkpoint 4F de problemas EN: creados o reemplazados los 6 cuadernos del Capítulo 5 (`en_distribuciones_muestrales_medias(p).tex`, `en_distribucion_muestral_chi_cuadrada(p).tex`, `en_distribucion_muestral_t(p).tex`, `en_distribucion_muestral_f(p).tex`, `en_distribuciones_muestreo_ciencia_datos(p).tex`, `en_estadisticos_z_t(p).tex`) como espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES. Se retiró del maestro EN y del árbol vivo el bundle heredado `en_distribuciones_muestreo_avanzado(p).tex`.
+- Migrado el checkpoint 4G de problemas EN: creados o reemplazados los 7 cuadernos del Capítulo 6 (`en_estimacion_puntual(p).tex`, `en_intervalos_de_confianza(p).tex`, `en_ic_media_diferencia_medias(p).tex`, `en_errores_estandar(p).tex`, `en_ic_proporcion_diferencia_proporciones(p).tex`, `en_ic_varianza_razon_varianzas(p).tex`, `en_tamano_muestra_estimacion(p).tex`) como espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES. Se retiró del maestro EN y del árbol vivo el bundle heredado `en_estimacion_intervalos_avanzado(p).tex`.
 
 ### Verificación
 - Confirmado que no quedan ocurrencias de `\label{exmp:5.1.1}` en `latex/`.
@@ -30,6 +31,8 @@ por fechas e hitos editoriales.
 - Confirmada la paridad de etiquetas, conteos de 6 problemas/6 soluciones y ausencia de tiers visibles heredados en los 6 cuadernos EN nuevos del resto del Capítulo 4.
 - Confirmada la paridad de etiquetas, conteos de 6 problemas/6 soluciones y ausencia de tiers visibles heredados en los 6 cuadernos EN del Capítulo 5.
 - Después del checkpoint 4F, el maestro EN tiene 124 entradas `\input{}` sin objetivos faltantes; 30 de 60 secciones ES de problemas tienen contraparte EN exacta normalizada, 19 contrapartes exactas EN siguen faltantes y 11 archivos EN exactos siguen pendientes de normalización.
+- Confirmada la paridad de etiquetas, conteos de 6 problemas/6 soluciones y ausencia de tiers visibles heredados en los 7 cuadernos EN del Capítulo 6.
+- Después del checkpoint 4G, el maestro EN tiene 128 entradas `\input{}` sin objetivos faltantes; 37 de 60 secciones ES de problemas tienen contraparte EN exacta normalizada, 14 contrapartes exactas EN siguen faltantes y 9 archivos EN exactos siguen pendientes de normalización.
 - No se tocó `presentaciones/`. No se hizo `git commit`.
 
 ## 2026-07-22 (migración de los 21 cuadernos `(p).tex` restantes a la convención Bloom + hash-labels)

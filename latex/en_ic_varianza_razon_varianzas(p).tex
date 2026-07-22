@@ -1,0 +1,95 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:05ea7a1}
+State, without calculation, the confidence-interval formula for $\sigma^2$ based on $\chi^2$ and for the ratio $\sigma_1^2/\sigma_2^2$ based on $F$, including the relevant degrees of freedom in each case.
+\end{problema}
+
+\begin{problema}\label{prob:c70c188}
+Unlike the confidence interval for $\mu$, which is symmetric around $\bar X$, the confidence interval for $\sigma^2$ is not symmetric around $S^2$. Explain why, using the fact that the $\chi^2_{n-1}$ distribution is skewed rather than symmetric like the Normal distribution.
+\end{problema}
+
+\begin{problema}\label{prob:fa97dc8}
+A financial analytics team monitors daily volatility of a stock index. During $n=21$ business days, log returns have sample standard deviation $S=1.45\%$. Assuming normality, construct a $90\%$ confidence interval for $\sigma^2$ and for $\sigma$, using $\chi^2_{0.05,20}=31.410$ and $\chi^2_{0.95,20}=10.851$.
+\end{problema}
+
+\begin{problema}\label{prob:33162ae}
+To check whether two IoT temperature sensors have the same variability, two samples are taken: Supplier 1 has $n_1=16$ and $S_1^2=0.36\,^\circ\text{C}^2$; Supplier 2 has $n_2=13$ and $S_2^2=0.12\,^\circ\text{C}^2$. Use the reciprocal property
+\[
+	F_{1-\alpha/2,\nu_1,\nu_2}=\frac{1}{F_{\alpha/2,\nu_2,\nu_1}}
+\]
+to construct a $98\%$ confidence interval for $\sigma_1^2/\sigma_2^2$, using $F_{0.01,15,12}=3.96$ and $F_{0.01,12,15}=3.67$.
+\end{problema}
+
+\begin{problema}\label{prob:6bad87b}
+A quality-control analyst applies the $\chi^2$ confidence interval formula for $\sigma^2$ to data that normality tests show are markedly non-normal and strongly skewed. Evaluate whether the resulting interval is still reliable, explaining why the interval for $\sigma^2$ is especially sensitive to normality compared with the interval for $\mu$.
+\end{problema}
+
+\begin{problema}\label{prob:866061e}
+Design an original example, with context, sample size, and sample variance, where a confidence interval for a population variance $\sigma^2$ is applied. Use a context different from the stock-index example in this section, and construct a $90\%$ interval using reasonable $\chi^2$ quantiles.
+\end{problema}
+
+\begin{solproblema}[prob:05ea7a1]
+For one variance,
+\[
+	\frac{(n-1)S^2}{\chi^2_{\alpha/2,n-1}}
+	\le\sigma^2\le
+	\frac{(n-1)S^2}{\chi^2_{1-\alpha/2,n-1}}.
+\]
+For a variance ratio,
+\[
+	\frac{S_1^2}{S_2^2}\frac{1}{F_{\alpha/2,n_1-1,n_2-1}}
+	\le
+	\frac{\sigma_1^2}{\sigma_2^2}
+	\le
+	\frac{S_1^2}{S_2^2}\frac{1}{F_{1-\alpha/2,n_1-1,n_2-1}}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:c70c188]
+Intervals for means use symmetric $Z$ or $t$ reference distributions, so the same margin is added and subtracted from $\bar X$. For $\sigma^2$, the interval is obtained by inverting chi-square quantiles. The $\chi^2_{n-1}$ distribution is right-skewed and supported on $[0,\infty)$, so its two tail quantiles are not symmetric. Dividing $(n-1)S^2$ by these unequal quantiles produces an interval that is not centered symmetrically around $S^2$.
+\end{solproblema}
+
+\begin{solproblema}[prob:fa97dc8]
+Here $(n-1)S^2=20(1.45)^2=42.05$. Thus
+\[
+	IC_{90\%}(\sigma^2)=\left[\frac{42.05}{31.410},\frac{42.05}{10.851}\right]
+	=[1.339,\ 3.875]\text{ \%}^2.
+\]
+Taking square roots,
+\[
+	IC_{90\%}(\sigma)=[1.157,\ 1.969]\%.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:33162ae]
+With $\nu_1=15$ and $\nu_2=12$,
+\[
+	F_{0.99,15,12}=\frac1{F_{0.01,12,15}}=\frac1{3.67}\approx0.2725.
+\]
+The sample variance ratio is $S_1^2/S_2^2=0.36/0.12=3.00$. Hence
+\[
+	IC_{98\%}\left(\frac{\sigma_1^2}{\sigma_2^2}\right)
+	=\left[\frac{3.00}{3.96},\frac{3.00}{0.2725}\right]
+	=[0.758,\ 11.01].
+\]
+Because the interval contains $1$, there is no evidence at this level that the variances differ.
+\end{solproblema}
+
+\begin{solproblema}[prob:6bad87b]
+The interval is not reliable in this setting. The exact result
+\[
+	\frac{(n-1)S^2}{\sigma^2}\sim\chi^2_{n-1}
+\]
+depends structurally on normality. Strong skewness changes the sampling distribution of $S^2$, so the actual coverage can differ from the nominal level. Mean intervals are often more robust for large samples because the central limit theorem supports approximate normality of $\bar X$ even when the population is not normal.
+\end{solproblema}
+
+\begin{solproblema}[prob:866061e]
+Example: a screw manufacturer studies diameter consistency. A sample of $n=25$ screws gives $S=0.08$ mm. With $\chi^2_{0.05,24}\approx36.415$ and $\chi^2_{0.95,24}\approx13.848$,
+\[
+	(n-1)S^2=24(0.08)^2=0.1536.
+\]
+Thus
+\[
+	IC_{90\%}(\sigma^2)=\left[\frac{0.1536}{36.415},\frac{0.1536}{13.848}\right]
+	=[0.00422,\ 0.01109]\text{ mm}^2.
+\]
+\end{solproblema}

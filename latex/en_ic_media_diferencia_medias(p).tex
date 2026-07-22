@@ -1,0 +1,90 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:3988afe}
+State, without calculation, the general structure of a confidence interval for $\mu_1-\mu_2$---point estimator $\pm$ critical value $\times$ standard error---and name the four cases that determine which critical value and standard error to use: known variances, unknown but equal variances, unknown and unequal variances, and paired samples.
+\end{problema}
+
+\begin{problema}\label{prob:7eaa452}
+In a data-center performance audit, two server clusters are compared with large samples ($n_1=50$, $n_2=60$). Explain why it is valid in this case to use the normal quantile $Z_{\alpha/2}$ instead of a $t$ quantile to build a confidence interval for $\mu_1-\mu_2$, even though the population variances are unknown.
+\end{problema}
+
+\begin{problema}\label{prob:f1e6f4b}
+A data-science engineer evaluates the latency time, in milliseconds, of two cloud database architectures under similar workloads:
+\begin{itemize}
+	\item Architecture A: $n_1=15$, $\bar X_1=48.5$ ms, $S_1=6.2$ ms.
+	\item Architecture B: $n_2=12$, $\bar X_2=53.8$ ms, $S_2=5.8$ ms.
+\end{itemize}
+Assuming normal populations and equal variances, construct a $95\%$ confidence interval for $\mu_1-\mu_2$.
+\end{problema}
+
+\begin{problema}\label{prob:51e0d64}
+In a study comparing two optimization algorithms, equal variances are not assumed ($\sigma_1^2\ne\sigma_2^2$). Algorithm 1 has $n_1=10$, $\bar X_1=120.4$ s, $S_1=18.5$ s; Algorithm 2 has $n_2=14$, $\bar X_2=105.2$ s, $S_2=7.3$ s. Compute the Welch--Satterthwaite degrees of freedom $\nu$ and construct the $99\%$ confidence interval for $\mu_1-\mu_2$.
+\end{problema}
+
+\begin{problema}\label{prob:4b6b800}
+An analyst comparing two groups with $S_1^2=100$ and $S_2^2=4$---a $25{:}1$ ratio---uses the pooled-variance method ``to simplify the analysis'' instead of Welch's method. Evaluate this decision: which critical assumption of the pooled method is violated, and what consequence does that have for the validity of the resulting confidence interval?
+\end{problema}
+
+\begin{problema}\label{prob:ae13605}
+Design an original paired-sample example, with the same subject or object measured twice, different from the examples in this section. Compute $\bar D$ and $S_D$ for data you propose, and construct the $95\%$ confidence interval for $\mu_D$.
+\end{problema}
+
+\begin{solproblema}[prob:3988afe]
+The general structure is
+\[
+	(\bar X_1-\bar X_2)\pm(\text{critical value})\operatorname{SE}(\bar X_1-\bar X_2).
+\]
+The four cases are: known variances, using $Z_{\alpha/2}$; unknown but equal variances, using $t_{\alpha/2,n_1+n_2-2}$ and pooled variance $S_p^2$; unknown and unequal variances, using $t_{\alpha/2,\nu}$ with Welch--Satterthwaite degrees of freedom; and paired samples, reducing the problem to a one-sample interval for the differences $D_i$.
+\end{solproblema}
+
+\begin{solproblema}[prob:7eaa452]
+Both sample sizes exceed the usual large-sample threshold. By the central limit theorem, $\bar X_1$, $\bar X_2$, and their difference are approximately normal. For large samples, replacing unknown population variances by sample variances adds little extra uncertainty, and the relevant $t$ quantiles are nearly indistinguishable from $Z$ quantiles. Thus using $Z_{\alpha/2}$ is a standard large-sample approximation here.
+\end{solproblema}
+
+\begin{solproblema}[prob:f1e6f4b]
+The pooled variance is
+\[
+	S_p^2=\frac{14(6.2)^2+11(5.8)^2}{25}=\frac{538.16+370.04}{25}=36.328,
+\]
+so $S_p\approx6.027$ ms. With $\nu=25$ and $t_{0.025,25}=2.060$, the margin is
+\[
+	2.060(6.027)\sqrt{\frac1{15}+\frac1{12}}\approx4.809.
+\]
+Since $\bar X_1-\bar X_2=-5.3$ ms,
+\[
+	IC_{95\%}(\mu_1-\mu_2)=[-10.11,\ -0.49]\text{ ms}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:51e0d64]
+Compute
+\[
+	\frac{S_1^2}{n_1}=34.225,\qquad \frac{S_2^2}{n_2}\approx3.806.
+\]
+Then
+\[
+	\nu=\frac{(34.225+3.806)^2}{34.225^2/9+3.806^2/13}\approx11.02.
+\]
+Using $\nu=11$, $t_{0.005,11}=3.106$, and
+\[
+	SE=\sqrt{34.225+3.806}\approx6.167,
+\]
+the margin is $3.106(6.167)\approx19.155$. With $\bar X_1-\bar X_2=15.2$,
+\[
+	IC_{99\%}(\mu_1-\mu_2)=[-3.96,\ 34.36]\text{ s}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:4b6b800]
+The decision is incorrect. The pooled method assumes homoscedasticity, $\sigma_1^2=\sigma_2^2$. A sample variance ratio of $25{:}1$ is strong evidence that this assumption is not credible. Forcing a pooled variance can distort the standard error and therefore the actual coverage of the interval. Welch's method is the appropriate choice when variances are unequal.
+\end{solproblema}
+
+\begin{solproblema}[prob:ae13605]
+Example: a productivity study measures lines of code reviewed per hour by $n=10$ developers before and after adopting an AI-assisted review tool. Suppose the differences, after minus before, have $\bar D=12.4$ lines/hour and $S_D=8.1$. With $t_{0.025,9}\approx2.262$,
+\[
+	SE=\frac{8.1}{\sqrt{10}}\approx2.562,\qquad E\approx2.262(2.562)=5.796.
+\]
+Thus
+\[
+	IC_{95\%}(\mu_D)=12.4\pm5.796=[6.60,\ 18.20]\text{ lines/hour}.
+\]
+\end{solproblema}

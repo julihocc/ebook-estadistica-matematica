@@ -1,0 +1,97 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:395183d}
+State, without calculation, the general definition of the standard error of an estimator $\hat\theta$, and write from memory the theoretical standard error of $\bar X$ for one population mean and of $\hat p$ for one population proportion.
+\end{problema}
+
+\begin{problema}\label{prob:8a98763}
+Explain why the standard error of $\bar X$ has the form $\sigma/\sqrt n$, while the standard error of a proportion $\hat p$ has the form $\sqrt{p(1-p)/n}$. What is the relationship between the two formulas if $\hat p$ is viewed as the sample mean of Bernoulli variables?
+\end{problema}
+
+\begin{problema}\label{prob:0d972a2}
+An opinion poll samples $n=400$ voters, of whom $180$ support a proposal. Compute the estimated standard error $\widehat{\operatorname{SE}}(\hat p)$.
+\end{problema}
+
+\begin{problema}\label{prob:a48a78a}
+Starting from the fact that $\bar X_1$ and $\bar X_2$ are independent with $\Var(\bar X_i)=\sigma_i^2/n_i$, derive the theoretical standard error of the difference
+\[
+	\operatorname{SE}(\bar X_1-\bar X_2)=\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}.
+\]
+\end{problema}
+
+\begin{problema}\label{prob:acdadd3}
+An analyst who does not know the population standard deviation $\sigma$ decides to use
+\[
+	\widehat{\operatorname{SE}}(\bar X)=\frac{\sigma_{\text{guessed}}}{\sqrt n},
+\]
+replacing $\sigma$ with a value that merely seems reasonable, instead of computing the sample standard deviation $s$ from the observed data. Evaluate this practice: what statistical guarantees are lost, and why is $s$ the correct choice when $\sigma$ is unknown?
+\end{problema}
+
+\begin{problema}\label{prob:aaefa50}
+Design an original example, including context, parameter of interest, and sample data, in which the standard error of an estimator must be computed. Use a context different from the survey examples in this section. Identify which row of the standard-error table applies and compute $\widehat{\operatorname{SE}}$.
+\end{problema}
+
+\begin{solproblema}[prob:395183d]
+The standard error of $\hat\theta$ is
+\[
+	\operatorname{SE}(\hat\theta)=\sqrt{\Var(\hat\theta)},
+\]
+the standard deviation of its sampling distribution. For $\bar X$,
+\[
+	\operatorname{SE}(\bar X)=\frac{\sigma}{\sqrt n}.
+\]
+For $\hat p$,
+\[
+	\operatorname{SE}(\hat p)=\sqrt{\frac{p(1-p)}{n}}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:8a98763]
+If $\hat p=\bar X$ is the sample mean of Bernoulli variables $X_i$, each has variance $p(1-p)$. Therefore the general mean formula
+\[
+	\operatorname{SE}(\bar X)=\frac{\sigma}{\sqrt n}
+\]
+becomes
+\[
+	\operatorname{SE}(\hat p)=\frac{\sqrt{p(1-p)}}{\sqrt n}
+	=\sqrt{\frac{p(1-p)}{n}}.
+\]
+The proportion formula is a special case of the mean formula applied to binary data.
+\end{solproblema}
+
+\begin{solproblema}[prob:0d972a2]
+The sample proportion is
+\[
+	\hat p=\frac{180}{400}=0.45.
+\]
+Thus
+\[
+	\widehat{\operatorname{SE}}(\hat p)
+	=\sqrt{\frac{0.45(0.55)}{400}}
+	=\sqrt{0.00061875}\approx0.02487.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:a48a78a]
+By independence,
+\[
+	\Var(\bar X_1-\bar X_2)=\Var(\bar X_1)+\Var(\bar X_2)
+	=\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}.
+\]
+Taking square roots gives
+\[
+	\operatorname{SE}(\bar X_1-\bar X_2)
+	=\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:acdadd3]
+The practice is incorrect. A subjective guess for $\sigma$ has no statistical guarantee of being close to the true value and may systematically understate or overstate uncertainty, invalidating the nominal coverage of intervals that use it. The sample standard deviation $s$ is computed from the observed data; $S^2$ is unbiased for $\sigma^2$ and is consistent, so it is the appropriate empirical replacement when $\sigma$ is unknown.
+\end{solproblema}
+
+\begin{solproblema}[prob:aaefa50]
+Example: an air-quality study measures PM2.5 concentration in $n=36$ urban monitoring stations and obtains $s=8.4$. The parameter is the population mean concentration, so the row for one population mean applies:
+\[
+	\widehat{\operatorname{SE}}(\bar X)=\frac{s}{\sqrt n}=\frac{8.4}{6}=1.4
+\]
+in the same concentration units.
+\end{solproblema}
