@@ -1,7 +1,7 @@
 # Plan: Renumeración de `latex/*.tex` (Caps. 2-8) para correspondencia 1:1 con el temario MA1001B
 
 **Fecha:** 2026-07-18
-**Estado:** Ejecutado el 2026-07-20 (ver `CHANGELOG.md`, entrada 2026-07-20). La numeración 1:1 con el temario está completa y verificada para los caps. 2-8; los 5 bloques de contenido nuevo que este plan pedía (1.2, 6.2, 6.4, 7.5 ampliado, 7.6) quedaron como `\section`/`\subsection` con título y número correctos más un comentario `% TODO(contenido-nuevo)`, pendientes de redacción en una tarea separada. La mecánica del Cap. 7 se ejecutó de forma distinta a como la describe la tabla de este documento (fue necesario partir `pruebas_hipotesis_avanzadas.tex` en dos archivos para lograr la numeración 6.1-6.11 en el orden real del temario; ver detalle en el changelog) — el resto de las tablas de este plan se siguió tal cual.
+**Estado:** Ejecutado el 2026-07-20 (ver `CHANGELOG.md`, entradas 2026-07-20). La numeración 1:1 con el temario está completa y verificada para los caps. 2-8; los 5 bloques de contenido nuevo que este plan pedía (1.2, 6.2, 6.4, 7.5 ampliado, 7.6) ya fueron redactados en la continuación del 2026-07-20 y no quedan comentarios `% TODO(contenido-nuevo)` vivos en `latex/`. La mecánica del Cap. 7 se ejecutó de forma distinta a como la describe la tabla de este documento (fue necesario partir `pruebas_hipotesis_avanzadas.tex` en dos archivos para lograr la numeración 6.1-6.11 en el orden real del temario; ver detalle en el changelog) — el resto de las tablas de este plan se siguió tal cual. Este documento es histórico, no una lista de pendientes activa.
 **Alcance:** Capítulos 2 a 8 del libro maestro en español (`latex/*.tex`)
 
 ---
