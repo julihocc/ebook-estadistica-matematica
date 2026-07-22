@@ -1,11 +1,10 @@
-\section{Problemas resueltos de diagnóstico de residuos y supuestos de regresión}
+\section*{Problemas}
 
-\subsection{Enunciados de los problemas}
+\subsection*{Enunciados de los problemas}
 
-\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
-
+% Recordar
 \begin{problema}
-	\label{prob:supreg_durbin_watson_basico}
+	\label{prob:c7c2f12}
 	Un analista financiero ajusta un modelo de regresión de series de tiempo con $n = 10$ observaciones consecutivas y obtiene los siguientes residuos ordenados temporalmente:
 	\begin{align}
 		e = \{2.1,\ 1.8,\ -0.5,\ -1.2,\ -2.0,\ -1.5,\ 0.8,\ 1.9,\ 2.2,\ 1.0\}.
@@ -13,89 +12,31 @@
 	Calcule el estadístico de Durbin-Watson $DW = \dfrac{\sum_{i=2}^n (e_i - e_{i-1})^2}{\sum_{i=1}^n e_i^2}$ y determine si existe autocorrelación positiva, negativa, o ausencia de autocorrelación en los residuos.
 \end{problema}
 
+% Comprender
 \begin{problema}
-	\label{prob:supreg_shapiro_qq}
-	Un modelo de regresión múltiple con $n = 45$ observaciones produce residuos cuya gráfica Q-Q muestra una clara curva en forma de S (colas más pesadas que la distribución normal). La Prueba de Shapiro-Wilk sobre los residuos reporta un estadístico $W = 0.912$ con un valor-$p = 0.003$.
-	\begin{enumerate}
-		\item Al nivel de significancia $\alpha = 0.05$, ¿qué se concluye formalmente sobre el supuesto de normalidad de los errores?
-		\item ¿Qué consecuencia práctica tiene esta violación sobre la validez de los intervalos de confianza y las pruebas de hipótesis del modelo, especialmente considerando que $n$ es relativamente pequeña?
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	\label{prob:supreg_embudo_transformacion}
+	\label{prob:90810fe}
 	En un modelo de regresión sobre gasto en publicidad ($X$) y ventas ($Y$), se grafican los residuos contra los valores ajustados y se observa el siguiente patrón: para valores ajustados bajos ($\hat{Y} < 50$) los residuos oscilan en $\pm 2$; para valores ajustados intermedios ($50 \leq \hat{Y} < 150$) oscilan en $\pm 8$; para valores ajustados altos ($\hat{Y} \geq 150$) oscilan en $\pm 20$.
 	\begin{enumerate}
 		\item Identifique el patrón geométrico descrito y el supuesto clásico que se viola.
-		\item Proponga una transformación correctiva de la tabla de transformaciones comunes y justifique por qué sería efectiva en este escenario.
+		\item Proponga una transformación correctiva y justifique por qué sería efectiva en este escenario.
 	\end{enumerate}
 \end{problema}
 
-\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
-
+% Aplicar
 \begin{problema}
-	\label{prob:supreg_breusch_pagan}
-	Para contrastar formalmente la homocedasticidad de un modelo de regresión múltiple con $n = 60$ observaciones y $p = 3$ predictores, se ajusta el modelo auxiliar de Breusch-Pagan (regresión de los residuos al cuadrado $\hat{\varepsilon}_i^2$ sobre los predictores originales), obteniendo un coeficiente de determinación auxiliar $R_{\text{aux}}^2 = 0.15$.
-	\begin{enumerate}
-		\item Calcule el estadístico de la Prueba de Breusch-Pagan, $LM = n \cdot R_{\text{aux}}^2$, que bajo $H_0$ (homocedasticidad) sigue una distribución $\chi^2_p$.
-		\item Al nivel $\alpha = 0.05$ (cuantil crítico $\chi^2_{0.05, 3} = 7.815$), decida si existe evidencia estadística de heterocedasticidad.
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	\label{prob:supreg_vif_credito}
+	\label{prob:46ca545}
 	Un analista de crédito construye un modelo con $p = 3$ predictores financieros potencialmente correlacionados. Al regredir cada predictor contra los otros dos, obtiene los siguientes coeficientes de determinación auxiliares: $R_1^2 = 0.85$, $R_2^2 = 0.55$, $R_3^2 = 0.30$.
 	\begin{enumerate}
 		\item Calcule el Factor de Inflación de Varianza $\text{VIF}_j = 1/(1-R_j^2)$ para cada predictor.
 		\item Usando el umbral crítico convencional $\text{VIF} > 5$, determine cuál(es) predictor(es) ameritan intervención.
-		\item Proponga qué remedio de la Sección 09.02 (Ridge, Lasso, o eliminación de variables) aplicaría para el predictor más problemático, y justifique su elección.
+		\item Proponga qué remedio (Ridge, Lasso, o eliminación de variables) aplicaría para el predictor más problemático, y justifique su elección.
 	\end{enumerate}
 \end{problema}
 
+% Analizar
 \begin{problema}
-	\label{prob:supreg_transformacion_conteo}
-	Un modelo que predice el número diario de llamadas a un centro de atención telefónica exhibe un patrón de embudo creciente en su gráfica de escala (\emph{scale-location}): la dispersión de los residuos crece proporcionalmente a la media de los valores ajustados ($\text{Var}(Y) \propto E(Y)$), un patrón característico de datos de conteo.
-	\begin{enumerate}
-		\item Proponga la transformación más adecuada de la tabla de transformaciones comunes para este escenario.
-		\item Justifique matemáticamente, usando el método delta o una expansión de primer orden, por qué $\log(Y)$ estabiliza aproximadamente la varianza cuando $\text{Var}(Y) \propto E(Y)$.
-	\end{enumerate}
-\end{problema}
-
-\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
-
-\begin{problema}
-	\label{prob:supreg_cooks_distance_multiple}
-	En un modelo con $n = 50$ observaciones y $p = 4$ predictores (5 parámetros incluyendo el intercepto), se identifican tres observaciones sospechosas con los siguientes valores de apalancamiento ($h_{ii}$, diagonal de la Matriz Sombrero de la Sección 09.02) y residuo estudentizado internamente ($r_i$):
-	\begin{align}
-		\text{Obs. A: } h_{ii}=0.15,\ r_i=1.2; \qquad \text{Obs. B: } h_{ii}=0.45,\ r_i=0.8; \qquad \text{Obs. C: } h_{ii}=0.08,\ r_i=3.5.
-	\end{align}
-	\begin{enumerate}
-		\item Calcule la Distancia de Cook para cada observación usando la fórmula computacional $D_i = \dfrac{r_i^2}{p+1}\cdot\dfrac{h_{ii}}{1-h_{ii}}$.
-		\item Usando el umbral convencional $4/n$, determine cuáles observaciones son influyentes.
-		\item Explique el mecanismo distinto por el cual las Observaciones B y C resultan influyentes (alto apalancamiento vs. residuo grande), a pesar de que la Observación A no lo es pese a tener valores moderados en ambas cantidades.
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	\label{prob:supreg_vif_matriz_correlacion}
-	Demuestre que el Factor de Inflación de Varianza del predictor $j$-ésimo puede escribirse como el elemento diagonal $j$-ésimo de la matriz inversa de correlación de los predictores estandarizados, $\text{VIF}_j = (\mathbf{R}^{-1})_{jj}$, donde $\mathbf{R}$ es la matriz de correlación muestral entre los $p$ predictores. Explique la relación entre un $\text{VIF}$ alto y la proximidad de $\mathbf{X}^T\mathbf{X}$ a la singularidad discutida en la Ecuación Normal de la Sección 09.02.
-\end{problema}
-
-\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
-
-\begin{problema}
-	\label{prob:supreg_dw_autocorrelacion_deduccion}
-	Demuestre que el estadístico de Durbin-Watson satisface aproximadamente la relación
-	\begin{align}
-		DW \approx 2(1-\hat\rho),
-	\end{align}
-	donde $\hat\rho = \dfrac{\sum_{i=2}^n e_i e_{i-1}}{\sum_{i=1}^n e_i^2}$ es el coeficiente de autocorrelación muestral de orden 1 de los residuos. A partir de esta identidad, deduzca y justifique el rango teórico completo $DW \in (0,4)$ y su interpretación en los tres casos límite $\hat\rho \to 1$, $\hat\rho = 0$ y $\hat\rho \to -1$.
-\end{problema}
-
-\begin{problema}
-	\label{prob:supreg_cooks_distance_deduccion}
-	\textbf{Deducción de la fórmula computacional de la Distancia de Cook a partir de su definición matricial:}
-	Partiendo de la definición general de la Distancia de Cook en términos del cambio en el vector de coeficientes al eliminar la $i$-ésima observación,
+	\label{prob:269eee0}
+	\textbf{Deducción de la fórmula computacional de la Distancia de Cook a partir de su definición matricial:} partiendo de la definición general
 	\begin{align}
 		D_i = \frac{(\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)})^T (\mathbf{X}^T\mathbf{X}) (\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)})}{(p+1)\hat\sigma^2},
 	\end{align}
@@ -106,173 +47,88 @@
 	donde $r_i$ es el residuo estudentizado internamente. Demuestre por qué observaciones con apalancamiento $h_{ii}\to 1$ producen distancias de Cook explosivas independientemente de la magnitud del residuo ordinario $e_i$.
 \end{problema}
 
-
-\subsection{Soluciones detalladas}
-
-\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
-
-\begin{solproblema}[prob:supreg_durbin_watson_basico]
-	\textbf{Paso 1: Numerador --- suma de cuadrados de diferencias sucesivas.}
-	Calculamos las 9 diferencias $e_i - e_{i-1}$ y las elevamos al cuadrado:
+% Evaluar
+\begin{problema}
+	\label{prob:dc2ca7b}
+	En un modelo con $n = 50$ observaciones y $p = 4$ predictores (5 parámetros incluyendo el intercepto), se identifican tres observaciones sospechosas con los siguientes valores de apalancamiento ($h_{ii}$) y residuo estudentizado internamente ($r_i$):
 	\begin{align}
-		(1.8-2.1)^2 + (-0.5-1.8)^2 + (-1.2-(-0.5))^2 + (-2.0-(-1.2))^2 + (-1.5-(-2.0))^2 \\
-		+ (0.8-(-1.5))^2 + (1.9-0.8)^2 + (2.2-1.9)^2 + (1.0-2.2)^2 = 14.79.
+		\text{Obs. A: } h_{ii}=0.15,\ r_i=1.2; \qquad \text{Obs. B: } h_{ii}=0.45,\ r_i=0.8; \qquad \text{Obs. C: } h_{ii}=0.08,\ r_i=3.5.
 	\end{align}
+	\begin{enumerate}
+		\item Calcule la Distancia de Cook para cada observación usando $D_i = \dfrac{r_i^2}{p+1}\cdot\dfrac{h_{ii}}{1-h_{ii}}$.
+		\item Usando el umbral convencional $4/n$, determine cuáles observaciones son influyentes.
+		\item Evalúe el mecanismo distinto por el cual las Observaciones B y C resultan influyentes (alto apalancamiento vs. residuo grande), a pesar de que la Observación A no lo es pese a tener valores moderados en ambas cantidades.
+	\end{enumerate}
+\end{problema}
 
-	\textbf{Paso 2: Denominador --- suma de cuadrados de los residuos.}
-	\begin{align}
-		\sum_{i=1}^{10} e_i^2 = 2.1^2+1.8^2+(-0.5)^2+\cdots+1.0^2 = 25.68.
-	\end{align}
+% Crear
+\begin{problema}
+	\label{prob:f0b580a}
+	Diseñe un problema original de diagnóstico de heterocedasticidad (distinto del caso de publicidad y ventas ya visto): un modelo de consumo energético industrial ($Y$) en función del tamaño de la planta y otras $p=4$ variables de proceso, ajustado sobre $n=80$ observaciones. Al estimar el modelo auxiliar de Breusch-Pagan (regresión de los residuos al cuadrado sobre los predictores originales), se obtiene $R_{\text{aux}}^2 = 0.22$. Calcule el estadístico $LM = n\cdot R_{\text{aux}}^2$, compárelo contra el cuantil crítico $\chi^2_{0.05,4} = 9.488$, y decida si existe evidencia de heterocedasticidad al nivel $\alpha=0.05$.
+\end{problema}
 
-	\textbf{Paso 3: Estadístico de Durbin-Watson.}
-	\begin{align}
-		DW = \frac{14.79}{25.68} \approx 0.576.
-	\end{align}
+\subsection*{Soluciones detalladas}
 
-	\textbf{Conclusión:} Como $DW \approx 0.576 \ll 2$, existe evidencia fuerte de \textbf{autocorrelación positiva} en los residuos: observaciones consecutivas tienden a tener el mismo signo, violando el supuesto de independencia. Esto es consistente con la naturaleza suavemente oscilante de la secuencia de residuos observada.
+% Recordar
+\begin{solproblema}[prob:c7c2f12]
+	\textbf{Numerador:} sumando las 9 diferencias sucesivas al cuadrado, $\sum_{i=2}^{10}(e_i-e_{i-1})^2 = 14.79$.
+
+	\textbf{Denominador:} $\sum_{i=1}^{10} e_i^2 = 2.1^2+1.8^2+(-0.5)^2+\cdots+1.0^2 = 25.68$.
+
+	\textbf{Estadístico:} $DW = 14.79/25.68 \approx 0.576$.
+
+	Como $DW\approx0.576\ll2$, existe evidencia fuerte de \textbf{autocorrelación positiva} en los residuos: observaciones consecutivas tienden a tener el mismo signo, violando el supuesto de independencia.
 \end{solproblema}
 
-\begin{solproblema}[prob:supreg_shapiro_qq]
-	\textbf{Parte 1: Decisión formal.}
-	Como el valor-$p = 0.003 < \alpha = 0.05$, \textbf{se rechaza $H_0$}: existe evidencia estadística contundente de que los residuos no siguen una distribución normal. Esto es coherente con el patrón en forma de S observado en la gráfica Q-Q, que indica colas más pesadas que la normal teórica.
-
-	\textbf{Parte 2: Consecuencia práctica.}
-	Con $n=45$ (una muestra moderada, no extremadamente grande), el Teorema del Límite Central ofrece solo una protección parcial. Los intervalos de confianza y las pruebas $t$/$F$ sobre los coeficientes pueden tener una cobertura y un nivel de significancia real distintos de los nominales, especialmente si las colas pesadas reflejan la presencia de valores atípicos extremos que además podrían ser observaciones influyentes. Se recomienda transformar $Y$ (por ejemplo, $\log(Y)$ si la variable es positiva y sesgada) o recurrir a métodos robustos/bootstrap para la inferencia.
+% Comprender
+\begin{solproblema}[prob:90810fe]
+	\begin{enumerate}
+		\item La amplitud de los residuos crece sistemáticamente con el valor ajustado ($\pm2\to\pm8\to\pm20$), generando la clásica \textbf{forma de embudo} en la gráfica de residuos vs. ajustados. Esto viola el supuesto de \textbf{homocedasticidad}: la varianza del error no es constante, sino que crece con el nivel de la respuesta.
+		\item La heterocedasticidad con varianza aproximadamente proporcional a la media (o a su cuadrado) se corrige típicamente aplicando $\log(Y)$ a la variable respuesta. Esta transformación comprime las diferencias absolutas proporcionalmente más en la región de valores grandes que en la de valores pequeños, estabilizando la dispersión relativa de los residuos.
+	\end{enumerate}
 \end{solproblema}
 
-\begin{solproblema}[prob:supreg_embudo_transformacion]
-	\textbf{Parte 1: Identificación del patrón.}
-	La amplitud de los residuos crece sistemáticamente conforme aumenta el valor ajustado ($\pm2 \to \pm8 \to \pm20$), generando la clásica \textbf{forma de embudo (\emph{funnel shape})} en la gráfica de residuos vs. ajustados. Esto viola el supuesto de \textbf{homocedasticidad}: la varianza del error no es constante, sino que crece con el nivel de la variable respuesta.
-
-	\textbf{Parte 2: Transformación correctiva.}
-	De la tabla de transformaciones comunes, la heterocedasticidad con varianza aproximadamente proporcional a la media (o al cuadrado de la media) se corrige típicamente aplicando $\log(Y)$ a la variable respuesta. Esta transformación comprime las diferencias absolutas en la escala original de forma proporcionalmente mayor en la región de valores grandes que en la de valores pequeños, estabilizando la dispersión relativa de los residuos en la escala transformada.
+% Aplicar
+\begin{solproblema}[prob:46ca545]
+	\begin{enumerate}
+		\item $\text{VIF}_1 = 1/(1-0.85) \approx 6.667$, $\text{VIF}_2 = 1/(1-0.55) \approx 2.222$, $\text{VIF}_3 = 1/(1-0.30) \approx 1.429$.
+		\item Solo el predictor 1 supera el umbral ($\text{VIF}_1\approx6.667>5$), indicando multicolinealidad severa: su varianza está inflada en un factor de $\approx6.67$ respecto a la ortogonalidad perfecta. Los predictores 2 y 3 son tolerables.
+		\item Como no se desea necesariamente eliminar el predictor 1 (podría tener relevancia teórica), la \textbf{regresión Ridge} es la opción más adecuada: penaliza la norma $L_2$ de todos los coeficientes de forma continua, estabilizando $(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}$ sin descartar variables.
+	\end{enumerate}
 \end{solproblema}
 
-\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
-
-\begin{solproblema}[prob:supreg_breusch_pagan]
-	\textbf{Parte 1: Estadístico de Breusch-Pagan.}
+% Analizar
+\begin{solproblema}[prob:269eee0]
+	Por el Teorema de Allen-PRESS, el cambio en el vector de coeficientes al eliminar la $i$-ésima observación es:
 	\begin{align}
-		LM = n \cdot R_{\text{aux}}^2 = 60 \times 0.15 = 9.0.
+		\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)} = \frac{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i \, e_i}{1-h_{ii}}.
 	\end{align}
-
-	\textbf{Parte 2: Decisión.}
-	Como $LM = 9.0 > \chi^2_{0.05,3} = 7.815$, \textbf{se rechaza $H_0$}: existe evidencia estadística significativa de \textbf{heterocedasticidad} en los errores del modelo al nivel del 5\%. Los estimadores de mínimos cuadrados permanecen insesgados, pero dejan de ser eficientes, y los errores estándar reportados por el software podrían ser incorrectos; se recomienda usar errores estándar robustos (Huber-White) o transformar la variable respuesta.
-\end{solproblema}
-
-\begin{solproblema}[prob:supreg_vif_credito]
-	\textbf{Parte 1: Cálculo de los VIF.}
+	Sustituyendo en la forma cuadrática de $D_i$:
 	\begin{align}
-		\text{VIF}_1 = \frac{1}{1-0.85} \approx 6.667, \qquad \text{VIF}_2 = \frac{1}{1-0.55} \approx 2.222, \qquad \text{VIF}_3 = \frac{1}{1-0.30} \approx 1.429.
+		D_i = \frac{1}{(p+1)\hat\sigma^2}\left[\frac{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i \, e_i}{1-h_{ii}}\right]^T (\mathbf{X}^T\mathbf{X}) \left[\frac{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i \, e_i}{1-h_{ii}}\right] = \frac{e_i^2}{(p+1)\hat\sigma^2}\cdot\frac{h_{ii}}{(1-h_{ii})^2},
 	\end{align}
-
-	\textbf{Parte 2: Decisión de intervención.}
-	Solo el predictor 1 supera el umbral crítico ($\text{VIF}_1 \approx 6.667 > 5$), indicando multicolinealidad severa: su varianza estimada está inflada en un factor de $\approx 6.67$ respecto al caso de ortogonalidad perfecta. Los predictores 2 y 3 presentan colinealidad moderada a leve, tolerable sin intervención inmediata.
-
-	\textbf{Parte 3: Remedio recomendado.}
-	Dado que el predictor 1 es el único que supera el umbral y no se desea necesariamente eliminarlo del modelo (podría tener relevancia teórica), la \textbf{regresión Ridge} es la opción más adecuada: penaliza la norma $L_2$ de todos los coeficientes de forma continua, estabilizando $(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}$ sin descartar variables. Si el objetivo fuera además obtener un modelo más parsimonioso, Lasso induciría selección automática de variables.
-\end{solproblema}
-
-\begin{solproblema}[prob:supreg_transformacion_conteo]
-	\textbf{Parte 1: Transformación adecuada.}
-	Para datos de conteo con $\text{Var}(Y) \propto E(Y)$ (comportamiento tipo Poisson), la tabla de transformaciones comunes recomienda $\log(Y)$ o, alternativamente, $\sqrt{Y}$.
-
-	\textbf{Parte 2: Justificación vía expansión de primer orden (método delta).}
-	Sea $g(Y) = \log(Y)$. Expandiendo alrededor de $\mu=E(Y)$:
-	\begin{align}
-		g(Y) \approx g(\mu) + g'(\mu)(Y-\mu) = \log(\mu) + \frac{1}{\mu}(Y-\mu).
-	\end{align}
-	Por tanto:
-	\begin{align}
-		\text{Var}(g(Y)) \approx [g'(\mu)]^2 \text{Var}(Y) = \frac{1}{\mu^2}\text{Var}(Y).
-	\end{align}
-	Si $\text{Var}(Y) = c\mu$ (proporcional a la media, como en datos de conteo), sustituyendo:
-	\begin{align}
-		\text{Var}(\log Y) \approx \frac{c\mu}{\mu^2} = \frac{c}{\mu}.
-	\end{align}
-	Aunque no queda perfectamente constante, la dependencia de la varianza respecto a $\mu$ se reduce de lineal ($c\mu$) a inversamente proporcional ($c/\mu$), una mejora sustancial. La transformación $\sqrt{Y}$ produce una estabilización aún más directa cuando $\text{Var}(Y)\propto E(Y)$ exactamente (varianza aproximadamente constante e igual a $c/4$).
-\end{solproblema}
-
-\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
-
-\begin{solproblema}[prob:supreg_cooks_distance_multiple]
-	\textbf{Parte 1: Cálculo de las Distancias de Cook.}
-	Con $p+1=5$:
-	\begin{align}
-		D_A = \frac{(1.2)^2}{5}\cdot\frac{0.15}{1-0.15} = \frac{1.44}{5}(0.1765) \approx 0.0508,
-	\end{align}
-	\begin{align}
-		D_B = \frac{(0.8)^2}{5}\cdot\frac{0.45}{1-0.45} = \frac{0.64}{5}(0.8182) \approx 0.1047,
-	\end{align}
-	\begin{align}
-		D_C = \frac{(3.5)^2}{5}\cdot\frac{0.08}{1-0.08} = \frac{12.25}{5}(0.0870) \approx 0.2130.
-	\end{align}
-
-	\textbf{Parte 2: Decisión con umbral $4/n=4/50=0.08$.}
-	$D_A \approx 0.0508 < 0.08$ (no influyente); $D_B \approx 0.1047 > 0.08$ (influyente); $D_C \approx 0.2130 > 0.08$ (influyente).
-
-	\textbf{Parte 3: Mecanismos distintos de influencia.}
-	La Observación B es influyente principalmente por su \textbf{alto apalancamiento} ($h_{ii}=0.45$, cercano al centro de masa geométrico extremo del diseño), a pesar de tener un residuo moderado: su posición inusual en el espacio de los predictores le otorga gran capacidad de "halar" la recta ajustada hacia sí misma. La Observación C, en cambio, es influyente por tener un \textbf{residuo grande} ($r_i=3.5$, un posible atípico), a pesar de un apalancamiento bajo: aunque su posición en $X$ es típica, su valor de $Y$ se aparta enormemente del patrón general. La Observación A no es influyente porque no presenta ninguno de los dos mecanismos en grado severo.
-\end{solproblema}
-
-\begin{solproblema}[prob:supreg_vif_matriz_correlacion]
-	\textbf{Demostración de $\text{VIF}_j = (\mathbf{R}^{-1})_{jj}$:}
-
-	Sea $\mathbf{Z}$ la matriz de predictores estandarizados (media cero, varianza unitaria), de modo que $\mathbf{R}=\mathbf{Z}^T\mathbf{Z}/(n-1)$ es la matriz de correlación muestral. Al regredir el predictor estandarizado $Z_j$ contra los $p-1$ predictores restantes, el coeficiente de determinación de ese modelo auxiliar es $R_j^2 = 1 - \dfrac{1}{(\mathbf{R}^{-1})_{jj}}$ (un resultado estándar de la teoría de regresión múltiple aplicado recursivamente al conjunto de predictores). Despejando:
-	\begin{align}
-		(\mathbf{R}^{-1})_{jj} = \frac{1}{1-R_j^2} = \text{VIF}_j.
-	\end{align}
-
-	\textbf{Relación con la singularidad de $\mathbf{X}^T\mathbf{X}$:} Cuando los predictores están altamente correlacionados, la matriz $\mathbf{R}$ se aproxima a la singularidad (su determinante tiende a cero), lo que hace que los elementos de su inversa $\mathbf{R}^{-1}$ --- y por tanto los VIF --- crezcan sin cota. Esto es exactamente la misma patología numérica discutida para $(\mathbf{X}^T\mathbf{X})^{-1}$ en la Ecuación Normal de la Sección 09.02: un VIF alto es la manifestación diagnóstica, a nivel de un solo predictor, de la inestabilidad de inversión que la regularización Ridge/Lasso busca remediar a nivel de todo el sistema.
-\end{solproblema}
-
-\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
-
-\begin{solproblema}[prob:supreg_dw_autocorrelacion_deduccion]
-	\textbf{Deducción de $DW\approx2(1-\hat\rho)$:}
-
-	Expandimos el numerador del estadístico de Durbin-Watson:
-	\begin{align}
-		\sum_{i=2}^n (e_i-e_{i-1})^2 = \sum_{i=2}^n e_i^2 - 2\sum_{i=2}^n e_i e_{i-1} + \sum_{i=2}^n e_{i-1}^2.
-	\end{align}
-	Para $n$ moderadamente grande, las sumas parciales $\sum_{i=2}^n e_i^2$ y $\sum_{i=2}^n e_{i-1}^2$ difieren de la suma completa $\sum_{i=1}^n e_i^2$ únicamente en un término de frontera ($e_1^2$ o $e_n^2$), una diferencia despreciable relativa al total. Aproximando ambas por $\sum_{i=1}^n e_i^2$:
-	\begin{align}
-		\sum_{i=2}^n (e_i-e_{i-1})^2 \approx 2\sum_{i=1}^n e_i^2 - 2\sum_{i=2}^n e_i e_{i-1}.
-	\end{align}
-	Dividiendo entre $\sum_{i=1}^n e_i^2$ y usando la definición $\hat\rho=\sum_{i=2}^n e_ie_{i-1}/\sum_{i=1}^n e_i^2$:
-	\begin{align}
-		DW \approx 2 - 2\hat\rho = 2(1-\hat\rho).
-	\end{align}
-
-	\textbf{Rango teórico y casos límite:} Como $\hat\rho$ es un coeficiente de correlación, $\hat\rho\in[-1,1]$, lo que fuerza $DW\in[0,4]$ (excluyendo los extremos exactos en la práctica, de ahí $DW\in(0,4)$):
-	\begin{itemize}
-		\item Si $\hat\rho\to1$ (autocorrelación positiva perfecta, residuos consecutivos casi idénticos): $DW\to0$.
-		\item Si $\hat\rho=0$ (ausencia de autocorrelación): $DW=2$, el valor de referencia ideal.
-		\item Si $\hat\rho\to-1$ (autocorrelación negativa perfecta, residuos consecutivos alternando de signo): $DW\to4$.
-	\end{itemize}
-\end{solproblema}
-
-\begin{solproblema}[prob:supreg_cooks_distance_deduccion]
-	\textbf{Deducción de la fórmula computacional de la Distancia de Cook:}
-
-	Por el Teorema de Allen-PRESS (Sección de validación de modelos), el cambio en el vector de coeficientes al eliminar la $i$-ésima observación se expresa exactamente como:
-	\begin{align}
-		\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)} = \frac{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i \, e_i}{1-h_{ii}},
-	\end{align}
-	donde $\mathbf{x}_i$ es la fila (transpuesta) de la matriz de diseño correspondiente a la observación $i$, $e_i$ es su residuo ordinario de MCO, y $h_{ii}=\mathbf{x}_i^T(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i$ es su apalancamiento (elemento diagonal de la Matriz Sombrero).
-
-	Sustituyendo esta expresión en la forma cuadrática de la definición general de $D_i$:
-	\begin{align}
-		D_i = \frac{1}{(p+1)\hat\sigma^2}\left[\frac{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i \, e_i}{1-h_{ii}}\right]^T (\mathbf{X}^T\mathbf{X}) \left[\frac{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i \, e_i}{1-h_{ii}}\right] = \frac{e_i^2}{(p+1)\hat\sigma^2(1-h_{ii})^2}\, \mathbf{x}_i^T(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i.
-	\end{align}
-	Reconociendo que $\mathbf{x}_i^T(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i = h_{ii}$ por definición:
-	\begin{align}
-		D_i = \frac{e_i^2}{(p+1)\hat\sigma^2}\cdot\frac{h_{ii}}{(1-h_{ii})^2}.
-	\end{align}
-	Finalmente, usando la definición del residuo estudentizado internamente $r_i = e_i/(\hat\sigma\sqrt{1-h_{ii}})$, de modo que $e_i^2/\hat\sigma^2 = r_i^2(1-h_{ii})$, sustituimos:
+	usando $\mathbf{x}_i^T(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i = h_{ii}$. Con el residuo estudentizado $r_i = e_i/(\hat\sigma\sqrt{1-h_{ii}})$, de modo que $e_i^2/\hat\sigma^2 = r_i^2(1-h_{ii})$:
 	\begin{align}
 		D_i = \frac{r_i^2(1-h_{ii})}{p+1}\cdot\frac{h_{ii}}{(1-h_{ii})^2} = \frac{r_i^2}{p+1}\cdot\frac{h_{ii}}{1-h_{ii}}.
 	\end{align}
+	El factor $h_{ii}/(1-h_{ii})$ diverge a infinito cuando $h_{ii}\to1$, sin importar $r_i$: una observación con apalancamiento cercano a $1$ ocupa una posición tan extrema que la recta ajustada casi pasa por ella, ocultando (vía el mismo término $(1-h_{ii})\to0$ en el denominador del residuo estudentizado) la verdadera magnitud del desajuste que se revelaría al eliminarla.
+\end{solproblema}
 
-	\textbf{Explosión cuando $h_{ii}\to1$:} El factor $h_{ii}/(1-h_{ii})$ diverge a infinito cuando $h_{ii}\to1$, sin importar el valor de $r_i$ (incluso si $r_i$ es pequeño). Esto ocurre porque una observación con apalancamiento cercano a $1$ ocupa una posición tan extrema en el espacio de los predictores que la recta ajustada se ve obligada a pasar casi exactamente por ella (el término $(1-h_{ii})$ en el denominador del residuo estudentizado también se anula, ocultando la verdadera magnitud del desajuste real que se revelaría al eliminar dicha observación). Por ello, el apalancamiento por sí solo --- independientemente del residuo observado --- es una señal de alerta que amerita auditoría.
+% Evaluar
+\begin{solproblema}[prob:dc2ca7b]
+	Con $p+1=5$:
+	\begin{align}
+		D_A = \frac{1.44}{5}(0.1765) \approx 0.0508, \qquad D_B = \frac{0.64}{5}(0.8182) \approx 0.1047, \qquad D_C = \frac{12.25}{5}(0.0870) \approx 0.2130.
+	\end{align}
+	Con umbral $4/50=0.08$: $D_A<0.08$ (no influyente); $D_B, D_C>0.08$ (influyentes).
+
+	La Observación B es influyente por su \textbf{alto apalancamiento} ($h_{ii}=0.45$), a pesar de un residuo moderado: su posición inusual en el espacio de predictores le da gran capacidad de "halar" la recta hacia sí. La Observación C es influyente por tener un \textbf{residuo grande} ($r_i=3.5$, posible atípico) pese a un apalancamiento bajo: su posición en $X$ es típica, pero su valor de $Y$ se aparta enormemente del patrón general. La Observación A no es influyente porque no presenta ninguno de los dos mecanismos en grado severo.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:f0b580a]
+	\begin{align}
+		LM = n \cdot R_{\text{aux}}^2 = 80 \times 0.22 = 17.6.
+	\end{align}
+	Como $LM = 17.6 > \chi^2_{0.05,4} = 9.488$, \textbf{se rechaza $H_0$}: existe evidencia estadística significativa de \textbf{heterocedasticidad} en los errores del modelo de consumo energético al nivel del 5\%. Los estimadores de mínimos cuadrados siguen siendo insesgados, pero dejan de ser eficientes, y los errores estándar reportados podrían ser incorrectos; se recomienda usar errores estándar robustos (Huber-White) o transformar la variable respuesta.
 \end{solproblema}
