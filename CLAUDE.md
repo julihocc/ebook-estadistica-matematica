@@ -36,13 +36,14 @@ latex/[Statistical Modeling].tex     ← EN master file (mirror, kept structural
 latex/_*.tex                         ← shared preamble infrastructure
 latex/<topic>.tex                    ← ES theory content; latex/en_<topic>.tex is its EN mirror
 latex/<topic>(p).tex                 ← ES exercise/problem companion; latex/en_<topic>(p).tex is its EN mirror
-latex/pe-NN <title>.tex              ← standalone parallel chapters (NOT included by master, orphaned)
 latex/images/, em/, pe/              ← near-duplicate image directories (~80 files each)
 code/<topic>/<example>/              ← standalone Python scripts for the book (\lstinputlisting targets)
 soluciones/                          ← solution write-ups (mostly empty)
 docs/                                ← syllabus reference + planning docs (see below)
 presentaciones/                      ← Beamer decks (es/, en/) + Python labs (code/), see its own README.md
-archive/                             ← retired content, not part of the live build
+archive/latex/                       ← retired content, not part of the live build: pe-NN <title>.tex
+                                        (orphaned parallel chapters) and 3 empty stub files, moved out of
+                                        latex/ in commit 136315b
 ```
 
 ## Key conventions (LaTeX book, `latex/`)
@@ -51,24 +52,22 @@ archive/                             ← retired content, not part of the live b
 - **`_` prefix files** are infrastructure loaded by the master preamble. Do not `\input{}` them from chapter files.
 - **Duplicate preamble files exist**: `_comandos_md.tex` = `_md_comandos.tex`, `_comandos_pe.tex` ≈ `_pe_comandos.tex`, `_comandos_trig.tex` = `_trig_comandos.tex`. Only the `_md_*` / `_pe_*` / `_trig_*` naming is loaded by the master — the `_comandos_*` variants are stale duplicates.
 - **Image paths in chapters**: referenced as `./images/...` or `./pe/...`; `images/` and `em/` dirs are near-identical.
-- **`pe-*.tex` files are orphaned**: they use different environment names (`defn`/`thm`/`rem`/`axiom` instead of `definicion`/`teorema`/`observacion`/`axioma`) and are not included by the master.
-- **All ES prose is in Spanish** (babel: `spanish,mexico`); EN files under `latex/en_*.tex` are the parallel English content and should be kept structurally in sync with their ES counterpart (same `\section`/`\subsection` shape) — see `docs/revision-notas-2026-07-13.md` for the kind of ES/EN divergence bugs that have occurred (missing sections, mismatched problem numbering) and how they were diagnosed.
+- **All ES prose is in Spanish** (babel: `spanish,mexico`); EN files under `latex/en_*.tex` are the parallel English content and **are currently substantially diverged from ES** — see "English mirror gap" below before touching any `en_*.tex` file.
 - **Code listings**: `\begin{lstlisting}[language=Python]` (styled in `_color-listings.tex`) or `\lstinputlisting[language=python]{../code/...}`.
 - **Custom environments** (`_entornos.tex`): `teorema`, `lema`, `proposicion`, `corolario`, `problema`, `ejemplo`, `definicion`, `axioma`, `propiedad`, `observacion`, `sugerencia`, `solucion` (TecRojo), `algoritmo` (TecAzulOscuro) — colores institucionales del Tec de Monterrey (`_paquetes.tex`). Additional from `_md_entornos.tex`: `conj`, `ax`, `tdv`, `claim`, `case`.
 - **Custom commands**: see `_comandos.tex`, `_md_comandos.tex`, `_pe_comandos.tex`. Notable: `\Var`, `\cov`, `\comb`, `\s` (sigma), `\corr` (rho), `\card`, `\particion`.
-- **Empty stub files**: `estadistica-descriptiva.tex`, `regresiones-lineales.tex`, `conceptos-estadisticos.tex` are empty — do not add content to these unless they are actually `\input{}`'d by the master (currently they are not).
-- **LaTeX section-numbering gotcha**: a `\label` on a subsection block does not dictate the compiled section number — the printed number depends purely on how many real (non-starred) `\section`/`\subsection` commands precede it via the master's `\input` order. Don't assume a label like `\label{prob:4.1.1}` will compile to "4.1.1"; verify against the compiled `.aux`/PDF. `\subsection*` (starred) does not advance the counter.
-- **Problem numbering convention is currently in flux** — see "Active restructuring" below before touching any `(p).tex` file or its problem taxonomy.
+- **LaTeX section-numbering gotcha**: a `\label` on a subsection block does not dictate the compiled section number — the printed number depends purely on how many real (non-starred) `\section`/`\subsection` commands precede it via the master's `\input` order. Don't assume a label like `\label{prob:4.1.1}` will compile to "4.1.1"; verify against the compiled `.aux`/PDF. `\subsection*` (starred) does not advance the counter. A few theory files still have no `\section` of their own (`fundamentos_de_probabilidad.tex`, `teorema_de_bayes.tex` — orphan `\subsection`; `estadisticos_z_t.tex` — `\section*`), so content there inherits the previous section's printed number; known and left as-is.
+- **Problem-file convention (ES) is now settled and fully applied**: every `latex/*(p).tex` file (excluding `en_*`) uses exactly 6 problems ordered by Bloom's taxonomy level (Recordar → Comprender → Aplicar → Analizar → Evaluar → Crear, documented as an invisible `% <Nivel>` LaTeX comment) and hashed `\label{prob:<7-hex>}` tags (no numeric `prob:X.Y.Z` labels remain anywhere in `latex/*(p).tex`). This replaced the old 10-problem 3-3-2-2 tier convention (visible `Nivel Fundamental/Operativo/Analítico/Desafiante` banners, numeric labels) across two migration sessions — see `CHANGELOG.md` entries dated 2026-07-20 ("continuación 2") and 2026-07-22. `docs/diagnostico-cuadernos-problemas-2026-07-20.md` documents the pre-migration state (81% of numeric labels landing in the wrong section) as a historical snapshot only — its findings no longer apply to any current file.
 
-## Active restructuring (read before editing chapters 2-8 or problem files)
+## Chapter structure (chapters 2–8 renumbered to the MA1001B syllabus)
 
-Two planning documents in `docs/` describe **decided but not-yet-executed** structural work. Check these before assuming the current `\section` layout, chapter-to-syllabus mapping, or problem-count convention is final:
+`docs/MA1001B-plan-de-estudios.md` is the official syllabus (7 units, numbered subtopics 1.1–7.6) that chapters 2–8 of the master book map to 1:1. Chapter 1 (Estadística Descriptiva) and chapter 9 (Regresiones) are supplementary, outside the official syllabus.
 
-- `docs/MA1001B-plan-de-estudios.md` — official syllabus (7 units, numbered subtopics 1.1–7.6) that chapters 2–8 of the master book are meant to map to 1:1. Chapter 1 (Estadística Descriptiva) and chapter 9 (Regresiones) are supplementary, outside the official syllabus.
-- `docs/plan-renumeracion-temario-MA1001B.md` — detailed, file-by-file plan to renumber/reorganize `latex/*.tex` chapters 2–8 (ES only; `en_*`, `presentaciones/`, and `(p).tex` files are explicitly out of scope for this particular plan) so each chapter has exactly one numbered `\section` per syllabus subtopic. Execution order: chapters 6 → 3 → 4 → 5 → 2 → 8 → 7. If asked to work on chapter restructuring, follow this plan's per-chapter table rather than improvising a new mapping.
-- `docs/revision-notas-2026-07-13.md` and `CHANGELOG.md` — history of ES/EN divergence fixes and the still-unresolved problem-numbering offset bug; read before trusting that ES and EN chapter structures currently match.
-- `docs/diagnostico-cuadernos-problemas-2026-07-20.md` — read-only audit (chapters 2–8, ES only) confirming the numbering offset is not theoretical: 81% of numeric `\label{prob:X.Y.Z}` in the 19 `(p).tex` files compile to a section different from what their own name suggests, 5 syllabus sections have zero problems, and `distribuciones_especiales(p).tex`/`chi_cuadrada(p).tex` have a live duplicate-label collision (`prob:3.9.1`–`.5`) that makes solution hints in the PDF point to the wrong problem. Consult its per-file table before assuming a `(p).tex` file's problems live under the section its labels claim.
-- `CHANGELOG.md` (2026-07-18 entry) records a **decided-but-unexecuted** change to the problem-file/slide conventions: moving from "one `(p).tex` per chapter" to "one `(p).tex` per section", from a fixed 10-problem 3-3-2-2 taxonomy to a flexible 3-6 problems per section, and from visible difficulty banners to LaTeX comments. Check this entry before creating or restructuring any `(p).tex` file — the "3-3-2-2" rule below is the convention being phased out, not necessarily the one to apply to new work.
+`docs/plan-renumeracion-temario-MA1001B.md` — the file-by-file plan that renumbered/reorganized `latex/*.tex` chapters 2–8 (ES only) to this mapping — **has already been executed** (its own header records "Estado: Ejecutado el 2026-07-20"; verified 2026-07-22 against the master's actual `\input` order). Treat its per-chapter table as a historical record of what was done, not a to-do list. `docs/revision-notas-2026-07-13.md` and `CHANGELOG.md` document the history of ES/EN divergence fixes that preceded and followed this renumbering.
+
+## English mirror gap (read before editing `latex/en_*.tex`)
+
+The ES-only chapter renumbering above (2026-07-20) and both `(p).tex` convention migrations (2026-07-20, 2026-07-22) were explicitly scoped to Spanish only. As a result, `latex/en_*.tex` is now **more diverged from ES than before**: the EN master (`[Statistical Modeling].tex`) still `\input`s the old pre-renumbering, bundled theory-file structure; none of the 29 `en_*(p).tex` files have been migrated to the Bloom/hash convention (still 3-3-2-2 tiers with numeric labels); and ES now has 60 `(p).tex` files to EN's 29 (several ES file-splits have no EN counterpart at all). Full breakdown and a phased catch-up plan: `docs/proximos-pasos-2026-07-22.md`. Do not assume EN structure mirrors ES until that gap is closed.
 
 ## Beamer Presentations & Python Labs (`presentaciones/`)
 
