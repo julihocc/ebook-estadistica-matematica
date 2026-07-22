@@ -4,6 +4,34 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-22 (documentación de cierre y corrección de etiqueta duplicada)
+
+### Añadido / Corregido
+- Creado `docs/proximos-pasos-2026-07-22.md` como documento rector de cierre por etapas: línea base verificada, brecha del espejo EN, tareas pendientes, criterios de aceptación y backlog separado para `presentaciones/`/tablas.
+- Corregida la colisión preexistente de `\label{exmp:5.1.1}` en ES y EN. Las etiquetas vivas ahora son semánticas y compartidas por idioma: `exmp:sample-mean-unbiased` para el ejemplo de media muestral insesgada y `exmp:sample-mean-and-unbiased-variance` para el ejemplo de media y varianza muestral insesgada.
+- Sincronizados `CLAUDE.md`, `AGENTS.md` y el encabezado de `docs/plan-renumeracion-temario-MA1001B.md` para indicar que la convención ES vigente es 6 problemas Bloom con etiquetas hash, que el diagnóstico 3-3-2-2/numérico es histórico para ES, y que el espejo EN sigue abierto hasta completar el plan de cierre.
+- Reconstruido el espejo teórico EN a partir de los bundles heredados y del contenido ES nuevo: existen 70 archivos de teoría ES y 70 contrapartes EN; el maestro `latex/[Statistical Modeling].tex` ahora usa los archivos de teoría divididos y conserva temporalmente los 29 cuadernos de problemas EN heredados hasta la migración de problemas.
+- Copiados al archivo histórico `archive/latex/en-pre-syllabus-2026-07-22/` los 8 bundles EN previos a la renumeración y sus 8 compañeros `(p).tex`. Los bundles teóricos sin contraparte viva fueron retirados de `latex/` tras generar sus archivos divididos.
+- Migrado el checkpoint 4A de problemas EN: los 3 cuadernos del Capítulo 1 (`en_introduccion_estadistica_descriptiva(p).tex`, `en_medidas_tendencia_central(p).tex`, `en_medidas_dispersion(p).tex`) ahora son espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES, sin encabezados visibles heredados ni etiquetas `prob:en:*`.
+- Migrado el checkpoint 4B de problemas EN: los 6 cuadernos del Capítulo 2 (`en_conjuntos(p).tex`, `en_fundamentos_de_probabilidad(p).tex`, `en_tecnicas_de_conteo(p).tex`, `en_probabilidad_condicional(p).tex`, `en_teorema_de_bayes(p).tex`, `en_muestreo_aleatorio(p).tex`) ahora son espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES. Se creó `en_tecnicas_de_conteo(p).tex` y se agregó al maestro `latex/[Statistical Modeling].tex`.
+- Migrado el checkpoint 4C de problemas EN: los 7 cuadernos del Capítulo 3 (`en_variables_aleatorias_discretas(p).tex`, `en_distribucion_binomial(p).tex`, `en_distribucion_multinomial(p).tex`, `en_distribucion_geometrica_binomial_negativa(p).tex`, `en_distribucion_hipergeometrica(p).tex`, `en_distribucion_poisson(p).tex`, `en_variables_discretas_ciencia_datos(p).tex`) ahora son espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES. Se agregaron al maestro EN las 6 entradas de problemas que faltaban en las secciones nuevas del capítulo.
+- Migrado el checkpoint 4D de problemas EN: los 2 cuadernos heredados del inicio del Capítulo 4 (`en_variables_aleatorias_continuas(p).tex`, `en_esperanza_matematica(p).tex`) ahora son espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES, sin encabezados visibles heredados ni etiquetas numéricas.
+- Migrado el checkpoint 4E de problemas EN: creados los 6 cuadernos faltantes del resto del Capítulo 4 (`en_distribucion_uniforme_continua(p).tex`, `en_distribucion_normal(p).tex`, `en_distribuciones_tipo_gamma(p).tex`, `en_funcion_generadora_momentos(p).tex`, `en_transformacion_variables(p).tex`, `en_distribuciones_funciones_variable_aleatoria(p).tex`) como espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES. Se retiró del maestro EN y del árbol vivo el bundle heredado `en_variables_aleatorias_continuas_avanzado(p).tex`.
+- Migrado el checkpoint 4F de problemas EN: creados o reemplazados los 6 cuadernos del Capítulo 5 (`en_distribuciones_muestrales_medias(p).tex`, `en_distribucion_muestral_chi_cuadrada(p).tex`, `en_distribucion_muestral_t(p).tex`, `en_distribucion_muestral_f(p).tex`, `en_distribuciones_muestreo_ciencia_datos(p).tex`, `en_estadisticos_z_t(p).tex`) como espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES. Se retiró del maestro EN y del árbol vivo el bundle heredado `en_distribuciones_muestreo_avanzado(p).tex`.
+
+### Verificación
+- Confirmado que no quedan ocurrencias de `\label{exmp:5.1.1}` en `latex/`.
+- Confirmado que las dos etiquetas nuevas aparecen una vez por idioma y no se referencian desde otros archivos.
+- Confirmado que el maestro EN no apunta a `\input{}` faltantes y que no quedan archivos de teoría ES sin contraparte `en_`.
+- Confirmada la paridad de etiquetas, conteos de 6 problemas/6 soluciones y ausencia de tiers visibles heredados en los 3 cuadernos EN del Capítulo 1.
+- Confirmada la paridad de etiquetas, conteos de 6 problemas/6 soluciones y ausencia de tiers visibles heredados en los 6 cuadernos EN del Capítulo 2.
+- Confirmada la paridad de etiquetas, conteos de 6 problemas/6 soluciones y ausencia de tiers visibles heredados en los 7 cuadernos EN del Capítulo 3.
+- Confirmada la paridad de etiquetas, conteos de 6 problemas/6 soluciones y ausencia de tiers visibles heredados en los 2 cuadernos EN heredados del inicio del Capítulo 4.
+- Confirmada la paridad de etiquetas, conteos de 6 problemas/6 soluciones y ausencia de tiers visibles heredados en los 6 cuadernos EN nuevos del resto del Capítulo 4.
+- Confirmada la paridad de etiquetas, conteos de 6 problemas/6 soluciones y ausencia de tiers visibles heredados en los 6 cuadernos EN del Capítulo 5.
+- Después del checkpoint 4F, el maestro EN tiene 124 entradas `\input{}` sin objetivos faltantes; 30 de 60 secciones ES de problemas tienen contraparte EN exacta normalizada, 19 contrapartes exactas EN siguen faltantes y 11 archivos EN exactos siguen pendientes de normalización.
+- No se tocó `presentaciones/`. No se hizo `git commit`.
+
 ## 2026-07-22 (migración de los 21 cuadernos `(p).tex` restantes a la convención Bloom + hash-labels)
 
 ### Añadido / Corregido

@@ -11,21 +11,23 @@ La reestructuración del libro en español ya está aplicada. Los archivos de pr
 El espejo en inglés sigue abierto y es la deuda principal:
 
 - Archivos de problemas ES: 60.
-- Archivos de problemas EN: 29.
-- Contrapartes exactas EN faltantes para archivos ES `(p).tex`: 37.
+- Archivos de problemas EN: 45 después del checkpoint 4F.
+- Contrapartes exactas EN completas y normalizadas para archivos ES `(p).tex`: 30 de 60 después del checkpoint 4F.
+- Contrapartes exactas EN faltantes para archivos ES `(p).tex`: 19 después del checkpoint 4F.
+- Contrapartes exactas EN existentes pero todavía no normalizadas contra su fuente ES: 11 después del checkpoint 4F.
 - `\input{}` en el maestro ES: 139.
-- `\input{}` en el maestro EN: 77.
-- Archivos EN `(p).tex` con encabezados visibles de niveles heredados: 29.
-- Archivos EN `(p).tex` con etiquetas numéricas `prob:X.Y.Z`: 14.
+- `\input{}` en el maestro EN: 124 después del checkpoint 4F; la paridad total de 139 entradas queda pendiente de la migración de problemas EN.
+- Archivos EN `(p).tex` con encabezados visibles de niveles heredados: 15.
+- Archivos EN `(p).tex` con etiquetas numéricas `prob:X.Y.Z` o `prob:en:*`: 2.
 
-También queda un choque de etiqueta de ejemplo:
+Se detectó y corrigió en la etapa 2 un choque de etiqueta de ejemplo:
 
 - `latex/conceptos_estadisticos.tex`
 - `latex/distribuciones_muestrales_medias.tex`
 - `latex/en_conceptos_estadisticos.tex`
 - `latex/en_distribuciones_muestreo_avanzado.tex`
 
-En los cuatro aparece `\label{exmp:5.1.1}`. No se encontró una referencia viva a esa etiqueta durante el diagnóstico previo, pero debe corregirse antes de compilar para evitar advertencias de etiquetas duplicadas.
+En los cuatro aparecía `\label{exmp:5.1.1}`. No se encontró una referencia viva a esa etiqueta durante el diagnóstico previo. Se reemplazó por etiquetas semánticas compartidas entre ES y EN.
 
 ## Plan de cierre por etapas
 
@@ -37,33 +39,35 @@ Crear este documento como referencia canónica de las tareas abiertas, con líne
 
 ### 2. Corrección de etiquetas y documentación operativa
 
-**Estado:** Pendiente.
+**Estado:** Cubierto en esta etapa.
 
-Cambiar las etiquetas duplicadas `exmp:5.1.1` por etiquetas semánticas compartidas entre ES y EN:
+Se cambiaron las etiquetas duplicadas `exmp:5.1.1` por etiquetas semánticas compartidas entre ES y EN:
 
 - `exmp:sample-mean-unbiased`
 - `exmp:sample-mean-and-unbiased-variance`
 
-Actualizar `CLAUDE.md`, `AGENTS.md` y el encabezado de `docs/plan-renumeracion-temario-MA1001B.md` para reflejar el estado actual:
+Se actualizaron `CLAUDE.md`, `AGENTS.md` y el encabezado de `docs/plan-renumeracion-temario-MA1001B.md` para reflejar el estado actual:
 
 - El estándar ES vigente es exactamente 6 problemas por archivo `(p).tex`, en orden Bloom, con etiquetas hash.
 - El estándar 3-3-2-2 y el diagnóstico de etiquetas numéricas son históricos.
 - Los archivos teóricos sin sección propia son parte intencional de la jerarquía actual.
 - La brecha EN sigue activa hasta completar este documento.
 
-Registrar el checkpoint en `CHANGELOG.md`.
+Se registró el checkpoint en `CHANGELOG.md`.
 
 ### 3. Reconstrucción del espejo teórico EN
 
-**Estado:** Pendiente.
+**Estado:** Cubierto parcialmente en esta etapa.
 
-Usar el libro ES como fuente canónica. El maestro EN debe quedar con la misma secuencia normalizada de `\input{}` que el maestro ES para los capítulos 1-9, cambiando solamente el prefijo `en_` y la infraestructura propia del idioma.
+Se usó el libro ES como fuente canónica para reconstruir el espejo teórico EN. Ahora existen 70 archivos de teoría ES y 70 contrapartes EN. El maestro EN quedó actualizado para usar los archivos de teoría divididos; conserva temporalmente los 29 cuadernos de problemas EN heredados hasta que la etapa 4 cree las 37 contrapartes faltantes.
 
-Archivar los paquetes EN previos a la renumeración, junto con sus compañeros de problemas del mismo nombre, en:
+La secuencia total normalizada de `\input{}` todavía no puede ser idéntica a ES porque faltan los archivos `en_*(p).tex` de la etapa 4.
+
+Se archivaron copias de los paquetes EN previos a la renumeración, junto con sus compañeros de problemas del mismo nombre, en:
 
 `archive/latex/en-pre-syllabus-2026-07-22/`
 
-Paquetes EN teóricos identificados para archivo y reutilización controlada:
+Paquetes EN teóricos archivados y reutilizados de forma controlada:
 
 - `en_distribuciones_especiales.tex`
 - `en_variables_aleatorias_continuas_avanzado.tex`
@@ -74,13 +78,83 @@ Paquetes EN teóricos identificados para archivo y reutilización controlada:
 - `en_pruebas_hipotesis_avanzadas.tex`
 - `en_diseno_experimentos_anova.tex`
 
-El material traducido que siga siendo fiel se puede reutilizar. Lo que falte o haya cambiado después de la reestructuración ES debe traducirse desde el contenido ES actual.
+El material traducido fiel se reutilizó por división mecánica. Las secciones nuevas desde la reestructuración ES se tradujeron directamente: `en_tecnicas_de_conteo.tex`, `en_relacion_ic_pruebas_hipotesis.tex`, `en_prueba_media_varianza_desconocida.tex`, el bloque de cuadrados latinos/grecolatinos en `en_dbca_cuadrados_latinos.tex`, y `en_diseno_factorial.tex`.
 
 No agregar `_md_entornos` al maestro EN: `_en_entornos.tex` ya incorpora los alias necesarios (`problema`/`problem`, `solucion`/`solution`, `solproblema`/`solproblem`).
 
 ### 4. Migración de problemas EN
 
-**Estado:** Pendiente.
+**Estado:** En ejecución por checkpoints.
+
+Checkpoint 4A cubierto: los 3 cuadernos EN del Capítulo 1 fueron reemplazados por espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES:
+
+- `en_introduccion_estadistica_descriptiva(p).tex`
+- `en_medidas_tendencia_central(p).tex`
+- `en_medidas_dispersion(p).tex`
+
+Después de este checkpoint, quedan 57 cuadernos EN por normalizar al estándar vivo. La cuenta de contrapartes exactas EN faltantes sigue en 37 porque este checkpoint migró archivos EN que ya existían, no creó todavía los pares ausentes de capítulos posteriores.
+
+Checkpoint 4B cubierto: los 6 cuadernos EN del Capítulo 2 fueron reemplazados o creados como espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES:
+
+- `en_conjuntos(p).tex`
+- `en_fundamentos_de_probabilidad(p).tex`
+- `en_tecnicas_de_conteo(p).tex`
+- `en_probabilidad_condicional(p).tex`
+- `en_teorema_de_bayes(p).tex`
+- `en_muestreo_aleatorio(p).tex`
+
+En este checkpoint se creó la contraparte faltante `en_tecnicas_de_conteo(p).tex` y se agregó al maestro EN inmediatamente después de `en_tecnicas_de_conteo`.
+
+Después de este checkpoint, hay 9 cuadernos EN ya normalizados y quedan 51 cuadernos EN por normalizar al estándar vivo. Las contrapartes exactas EN faltantes bajan de 37 a 36.
+
+Checkpoint 4C cubierto: los 7 cuadernos EN del Capítulo 3 fueron reemplazados o creados como espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES:
+
+- `en_variables_aleatorias_discretas(p).tex`
+- `en_distribucion_binomial(p).tex`
+- `en_distribucion_multinomial(p).tex`
+- `en_distribucion_geometrica_binomial_negativa(p).tex`
+- `en_distribucion_hipergeometrica(p).tex`
+- `en_distribucion_poisson(p).tex`
+- `en_variables_discretas_ciencia_datos(p).tex`
+
+En este checkpoint se agregaron al maestro EN las seis entradas de problemas que faltaban después de las secciones nuevas del Capítulo 3: binomial, multinomial, geométrica/binomial negativa, hipergeométrica, Poisson y aplicaciones de variables discretas en ciencia de datos.
+
+Después de este checkpoint, hay 16 cuadernos EN ya normalizados y quedan 44 cuadernos EN por normalizar al estándar vivo. Las contrapartes exactas EN faltantes bajan de 36 a 30.
+
+Checkpoint 4D cubierto: los 2 cuadernos EN heredados del inicio del Capítulo 4 fueron reemplazados como espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES:
+
+- `en_variables_aleatorias_continuas(p).tex`
+- `en_esperanza_matematica(p).tex`
+
+Este checkpoint no crea contrapartes faltantes nuevas porque ambos archivos ya existían en el maestro EN. Sí reduce la deuda heredada: los archivos EN con encabezados visibles de tiers bajan de 20 a 18 y los archivos EN con etiquetas numéricas o `prob:en:*` bajan de 6 a 4.
+
+Después de este checkpoint, hay 18 cuadernos EN ya normalizados y quedan 42 cuadernos EN por normalizar al estándar vivo. Las contrapartes exactas EN faltantes permanecen en 30.
+
+Checkpoint 4E cubierto: se crearon las 6 contrapartes EN faltantes del resto del Capítulo 4 como espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES:
+
+- `en_distribucion_uniforme_continua(p).tex`
+- `en_distribucion_normal(p).tex`
+- `en_distribuciones_tipo_gamma(p).tex`
+- `en_funcion_generadora_momentos(p).tex`
+- `en_transformacion_variables(p).tex`
+- `en_distribuciones_funciones_variable_aleatoria(p).tex`
+
+En este checkpoint se retiró del maestro EN el bundle heredado `en_variables_aleatorias_continuas_avanzado(p)` y se eliminó el archivo vivo `en_variables_aleatorias_continuas_avanzado(p).tex`, porque sus contenidos ya quedaron reemplazados por los cuadernos de sección correspondientes.
+
+Después de este checkpoint, hay 24 cuadernos EN ya normalizados y quedan 36 cuadernos EN por normalizar al estándar vivo. Las contrapartes exactas EN faltantes bajan de 30 a 24.
+
+Checkpoint 4F cubierto: se crearon o reemplazaron los 6 cuadernos EN del Capítulo 5 como espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES:
+
+- `en_distribuciones_muestrales_medias(p).tex`
+- `en_distribucion_muestral_chi_cuadrada(p).tex`
+- `en_distribucion_muestral_t(p).tex`
+- `en_distribucion_muestral_f(p).tex`
+- `en_distribuciones_muestreo_ciencia_datos(p).tex`
+- `en_estadisticos_z_t(p).tex`
+
+En este checkpoint se retiró del maestro EN el bundle heredado `en_distribuciones_muestreo_avanzado(p)` y se eliminó el archivo vivo `en_distribuciones_muestreo_avanzado(p).tex`, porque sus contenidos ya quedaron reemplazados por los cuadernos de sección correspondientes.
+
+Después de este checkpoint, hay 30 contrapartes exactas EN ya normalizadas contra sus fuentes ES y quedan 30 secciones ES de problemas por cubrir en EN: 19 todavía no tienen contraparte exacta `en_*(p).tex`, y 11 ya tienen archivo EN exacto pero falta normalizarlo contra etiquetas/contenido del ES vigente. Los archivos EN con encabezados visibles heredados bajan de 17 a 15 y los archivos EN con etiquetas numéricas o `prob:en:*` bajan de 3 a 2.
 
 Crear una contraparte `en_*(p).tex` por cada uno de los 60 archivos ES de problemas.
 
