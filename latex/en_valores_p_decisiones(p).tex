@@ -1,0 +1,85 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:f1273a2}
+State, without calculation, the definition of the $p$-value for a right-tailed test and the decision rule that compares the $p$-value with the significance level $\alpha$.
+\end{problema}
+
+\begin{problema}\label{prob:ed08255}
+Explain the difference between ``not rejecting $H_0$'' and ``accepting $H_0$'' as conclusions of a hypothesis test. Why does failing to reject $H_0$ not prove that $H_0$ is true?
+\end{problema}
+
+\begin{problema}\label{prob:28d9ae6}
+An internet provider claims that the average download speed of its residential plan is $50$ Mbps. A regulator suspects the true speed is lower and samples $n=49$ connections, obtaining $\bar x=47.8$ Mbps with $s=7$ Mbps. Formulate the hypotheses, compute the $Z$ statistic and $p$-value, and decide at level $\alpha=0.05$.
+\end{problema}
+
+\begin{problema}\label{prob:ff47cad}
+Let a test have continuous statistic $T$ whose distribution function under $H_0$ is $F_0(t)$, strictly monotone and continuous, with survival function $S_0(t)=1-F_0(t)$. The random $p$-value for an upper-tailed test is $P=S_0(T)$. Prove, using the probability integral transform, that when $H_0$ is true, $P\sim U(0,1)$; that is, $P_{H_0}(P\le x)=x$ for every $x\in(0,1)$.
+\end{problema}
+
+\begin{problema}\label{prob:af3b6da}
+A researcher reports $p=0.03$ and concludes: ``there is only a $3\%$ probability that the null hypothesis is true.'' Evaluate this interpretation. What does the $p$-value actually represent, and why is it not the same as $P(H_0\mid\text{data})$?
+\end{problema}
+
+\begin{problema}\label{prob:de31e8f}
+Design an original example, with context, $H_0$, $H_a$, and sample data, where a $p$-value must be computed and a decision made at $\alpha=0.05$. Use a context different from delivery times or internet speed examples in this section and in the theory. Compute the test statistic, the $p$-value, and the conclusion.
+\end{problema}
+
+\begin{solproblema}[prob:f1273a2]
+For a right-tailed test,
+\[
+	p\text{-value}=P(\text{statistic}\ge\text{observed value}\mid H_0\text{ true}).
+\]
+Decision rule: if $p\text{-value}<\alpha$, reject $H_0$; if $p\text{-value}\ge\alpha$, do not reject $H_0$.
+\end{solproblema}
+
+\begin{solproblema}[prob:ed08255]
+Not rejecting $H_0$ means that the observed data are compatible with $H_0$ and do not provide enough evidence to discard it. It is not positive proof that $H_0$ is true. The null may be false but the sample may have insufficient power to detect the deviation. Saying ``accept $H_0$'' would imply a certainty that finite-sample inference cannot provide.
+\end{solproblema}
+
+\begin{solproblema}[prob:28d9ae6]
+The hypotheses are
+\[
+	H_0:\mu=50,\qquad H_a:\mu<50.
+\]
+The statistic is
+\[
+	Z=\frac{47.8-50}{7/\sqrt{49}}=-2.2.
+\]
+The left-tailed $p$-value is $\Phi(-2.2)\approx0.0139$. Since $0.0139<0.05$, reject $H_0$: there is evidence that the real speed is below the advertised value.
+\end{solproblema}
+
+\begin{solproblema}[prob:ff47cad]
+For $x\in(0,1)$,
+\[
+	P_{H_0}(P\le x)
+	=P_{H_0}(S_0(T)\le x)
+	=P_{H_0}(1-F_0(T)\le x)
+	=P_{H_0}(F_0(T)\ge1-x).
+\]
+Since $F_0$ is continuous and strictly increasing,
+\[
+	P_{H_0}(F_0(T)\ge1-x)
+	=P_{H_0}(T\ge F_0^{-1}(1-x))
+	=1-F_0(F_0^{-1}(1-x))=x.
+\]
+Thus $P\sim U(0,1)$ under $H_0$.
+\end{solproblema}
+
+\begin{solproblema}[prob:af3b6da]
+The interpretation is incorrect. A $p$-value is
+\[
+	P(\text{statistic as or more extreme than observed}\mid H_0\text{ true}),
+\]
+a probability of potential data outcomes assuming the null is true. It is not $P(H_0\mid\text{data})$, the posterior probability that the null is true given the observed data. Computing that posterior probability would require a Bayesian model and prior probabilities, neither of which is contained in a frequentist $p$-value.
+\end{solproblema}
+
+\begin{solproblema}[prob:de31e8f]
+Example: a cereal manufacturer claims that boxes have mean weight $\mu_0=500$ g. A consumer inspector suspects underfilling and weighs $n=40$ boxes, obtaining $\bar x=496$ g and $s=12$ g. Test
+\[
+	H_0:\mu=500,\qquad H_a:\mu<500.
+\]
+The statistic is
+\[
+	Z=\frac{496-500}{12/\sqrt{40}}\approx-2.109.
+\]
+The $p$-value is $\Phi(-2.109)\approx0.0175$. Since $0.0175<0.05$, reject $H_0$: there is evidence that the mean weight is below the declared value.
+\end{solproblema}

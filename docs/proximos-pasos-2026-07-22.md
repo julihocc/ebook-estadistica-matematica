@@ -11,13 +11,13 @@ La reestructuración del libro en español ya está aplicada. Los archivos de pr
 El espejo en inglés sigue abierto y es la deuda principal:
 
 - Archivos de problemas ES: 60.
-- Archivos de problemas EN: 49 después del checkpoint 4G.
-- Contrapartes exactas EN completas y normalizadas para archivos ES `(p).tex`: 37 de 60 después del checkpoint 4G.
-- Contrapartes exactas EN faltantes para archivos ES `(p).tex`: 14 después del checkpoint 4G.
-- Contrapartes exactas EN existentes pero todavía no normalizadas contra su fuente ES: 9 después del checkpoint 4G.
+- Archivos de problemas EN: 52 después del checkpoint 4H.
+- Contrapartes exactas EN completas y normalizadas para archivos ES `(p).tex`: 41 de 60 después del checkpoint 4H.
+- Contrapartes exactas EN faltantes para archivos ES `(p).tex`: 11 después del checkpoint 4H.
+- Contrapartes exactas EN existentes pero todavía no normalizadas contra su fuente ES: 8 después del checkpoint 4H.
 - `\input{}` en el maestro ES: 139.
-- `\input{}` en el maestro EN: 128 después del checkpoint 4G; la paridad total de 139 entradas queda pendiente de la migración de problemas EN.
-- Archivos EN `(p).tex` con encabezados visibles de niveles heredados: 12.
+- `\input{}` en el maestro EN: 131 después del checkpoint 4H; la paridad total de 139 entradas queda pendiente de la migración de problemas EN.
+- Archivos EN `(p).tex` con encabezados visibles de niveles heredados: 11.
 - Archivos EN `(p).tex` con etiquetas numéricas `prob:X.Y.Z` o `prob:en:*`: 1.
 
 Se detectó y corrigió en la etapa 2 un choque de etiqueta de ejemplo:
@@ -169,6 +169,17 @@ Checkpoint 4G cubierto: se crearon o reemplazaron los 7 cuadernos EN del Capítu
 En este checkpoint se retiró del maestro EN el bundle heredado `en_estimacion_intervalos_avanzado(p)` y se eliminó el archivo vivo `en_estimacion_intervalos_avanzado(p).tex`, porque sus contenidos ya quedaron reemplazados por los cuadernos de sección correspondientes.
 
 Después de este checkpoint, hay 37 contrapartes exactas EN ya normalizadas contra sus fuentes ES y quedan 23 secciones ES de problemas por cubrir en EN: 14 todavía no tienen contraparte exacta `en_*(p).tex`, y 9 ya tienen archivo EN exacto pero falta normalizarlo contra etiquetas/contenido del ES vigente. Los archivos EN con encabezados visibles heredados bajan de 15 a 12 y los archivos EN con etiquetas numéricas o `prob:en:*` bajan de 2 a 1.
+
+Checkpoint 4H cubierto: se crearon o reemplazaron los 4 cuadernos EN de la primera mitad del Capítulo 7 como espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES:
+
+- `en_pruebas_de_hipotesis(p).tex`
+- `en_relacion_ic_pruebas_hipotesis(p).tex`
+- `en_valores_p_decisiones(p).tex`
+- `en_prueba_media_varianza_desconocida(p).tex`
+
+En este checkpoint no se retiró todavía el bundle heredado `en_pruebas_hipotesis_avanzadas(p)`, porque aún respalda secciones posteriores del capítulo que no han recibido contraparte exacta EN.
+
+Después de este checkpoint, hay 41 contrapartes exactas EN ya normalizadas contra sus fuentes ES y quedan 19 secciones ES de problemas por cubrir en EN: 11 todavía no tienen contraparte exacta `en_*(p).tex`, y 8 ya tienen archivo EN exacto pero falta normalizarlo contra etiquetas/contenido del ES vigente. Los archivos EN con encabezados visibles heredados bajan de 12 a 11; los archivos EN con etiquetas numéricas o `prob:en:*` permanecen en 1.
 
 Crear una contraparte `en_*(p).tex` por cada uno de los 60 archivos ES de problemas.
 

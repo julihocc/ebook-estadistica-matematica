@@ -1,0 +1,83 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:b3d462b}
+Write the test statistic $T$ for testing $H_0:\mu=\mu_0$ when the population standard deviation $\sigma$ is unknown. State its distribution under $H_0$, and give the rejection rule for a two-tailed test at level $\alpha$.
+\end{problema}
+
+\begin{problema}\label{prob:313cd70}
+To test $H_0:\mu=120$ against $H_a:\mu\ne120$ with a sample of $n=20$ observations, so $\nu=19$ degrees of freedom, at level $\alpha=0.05$, one obtains $T=2.35$ and the critical value is $t_{19,0.025}\approx2.093$. Without further calculation, determine whether to reject $H_0$ and explain the criterion in one sentence.
+\end{problema}
+
+\begin{problema}\label{prob:50f5282}
+An LED-bulb manufacturer claims that its product has average lifetime $10{,}000$ hours. A sample of $n=20$ bulbs gives sample mean $\bar x=9{,}720$ hours and sample standard deviation $s=650$ hours. Is there evidence at significance level $\alpha=0.01$ that the true mean lifetime differs from the advertised value?
+\end{problema}
+
+\begin{problema}\label{prob:8d10618}
+A sample of $n=50$ tensile-strength measurements for a material has $\bar x=210$ MPa and $s=18$ MPa, with unknown $\sigma$. To test $H_0:\mu=205$ against $H_a:\mu\ne205$ at level $\alpha=0.05$:
+\begin{enumerate}[label=(\alph*)]
+	\item Compute the statistic $T$ and decide using the correct quantile $t_{49,0.025}\approx2.010$.
+	\item Compute what decision would have been made if the standard normal quantile $Z_{0.025}=1.96$ had incorrectly been used instead.
+	\item Compare the two results and explain why, even with $n=50$, the difference between using $t$ or $Z$ can still change the final decision. Connect your explanation to the property $t_{n-1}\xrightarrow{d}N(0,1)$ as $n\to\infty$.
+\end{enumerate}
+\end{problema}
+
+\begin{problema}\label{prob:1faa4e6}
+A data analyst with a sample of $n=8$ observations and unknown $\sigma$ decides, for simplicity, to use the standard normal quantile $Z_{0.025}=1.96$ instead of the correct quantile $t_{7,0.025}\approx2.365$ to build the rejection region for a two-tailed test at nominal level $\alpha=0.05$. Evaluate the consequences: does the analyst tend to reject $H_0$ more often or less often than appropriate? What happens to the real Type I error rate compared with the nominal $\alpha=0.05$? Justify using the relationship between the two quantiles.
+\end{problema}
+
+\begin{problema}\label{prob:cb4980c}
+Design an original example with small sample size $n<15$, sample mean, sample standard deviation, and hypothesized value $\mu_0$ where the $t$ test for a mean at level $\alpha=0.05$ is sensitive to using the correct $t$ distribution instead of the standard normal $Z$. That is, make the computed $T$ fall between the $Z_{\alpha/2}$ and $t_{n-1,\alpha/2}$ quantiles so the two criteria give different decisions. Compute $T$ and show both decisions.
+\end{problema}
+
+\begin{solproblema}[prob:b3d462b]
+\[
+	T=\frac{\bar X-\mu_0}{S/\sqrt n}.
+\]
+Under $H_0$ and the usual normality assumptions, $T\sim t_{n-1}$. For the two-tailed test $H_a:\mu\ne\mu_0$, reject $H_0$ at level $\alpha$ if
+\[
+	|T|>t_{n-1,\alpha/2}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:313cd70]
+Since $|T|=2.35>t_{19,0.025}\approx2.093$, reject $H_0$. The criterion is to compare the absolute observed statistic with the critical quantile of the $t$ distribution with the appropriate degrees of freedom.
+\end{solproblema}
+
+\begin{solproblema}[prob:50f5282]
+The hypotheses are
+\[
+	H_0:\mu=10000,\qquad H_a:\mu\ne10000.
+\]
+With $\nu=19$,
+\[
+	T=\frac{9720-10000}{650/\sqrt{20}}
+	=\frac{-280}{145.34}\approx-1.926.
+\]
+For a two-tailed test at $\alpha=0.01$, $t_{19,0.005}\approx2.861$. Since $|T|=1.926<2.861$, do not reject $H_0$. There is not enough evidence at the $1\%$ level that the mean lifetime differs from $10{,}000$ hours.
+\end{solproblema}
+
+\begin{solproblema}[prob:8d10618]
+\begin{enumerate}[label=(\alph*)]
+	\item The standard error is $18/\sqrt{50}\approx2.546$, so
+	\[
+		T=\frac{210-205}{2.546}\approx1.964.
+	\]
+	Since $1.964<2.010$, do not reject $H_0$ using the correct $t$ quantile.
+	\item If $Z_{0.025}=1.96$ were used, then $1.964>1.96$, so one would reject $H_0$.
+	\item The decisions differ because the observed statistic lies in the narrow gap between the $Z$ and $t$ critical values. Although $t_{49}$ is already close to $N(0,1)$, it is not identical. When $\sigma$ is unknown and estimated by $S$, the correct finite-sample reference remains $t$.
+\end{enumerate}
+\end{solproblema}
+
+\begin{solproblema}[prob:1faa4e6]
+Since $t_{7,0.025}\approx2.365$ is larger than $Z_{0.025}=1.96$, using $Z$ creates a wider rejection region with a lower threshold. The analyst will reject $H_0$ more often than appropriate, so the actual Type I error rate will exceed the nominal $0.05$.
+\end{solproblema}
+
+\begin{solproblema}[prob:cb4980c]
+Example: a quality-control lab measures the reaction time of a new sensor in $n=10$ independent trials, obtaining $\bar x=104$ ms and $s=6$ ms, against the specification $\mu_0=100$ ms. Test $H_0:\mu=100$ against $H_a:\mu\ne100$ at $\alpha=0.05$.
+\[
+	T=\frac{104-100}{6/\sqrt{10}}\approx2.108.
+\]
+Using the correct $t_{9,0.025}\approx2.262$, do not reject $H_0$. Using the incorrect $Z_{0.025}=1.96$, reject $H_0$. The statistic lies between the two critical values:
+\[
+	1.96<2.108<2.262.
+\]
+\end{solproblema}

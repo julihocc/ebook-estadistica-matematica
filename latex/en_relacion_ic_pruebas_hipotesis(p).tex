@@ -1,0 +1,86 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:43cddbb}
+State, in symbols and without numerical data, the exact equivalence between rejecting $H_0:\theta=\theta_0$ in a two-tailed test at level $\alpha$ and the position of $\theta_0$ relative to a $(1-\alpha)100\%$ confidence interval built from the same sample.
+\end{problema}
+
+\begin{problema}\label{prob:ae1a813}
+An engineer builds a $95\%$ confidence interval for the mean strength of a cable batch: $\operatorname{CI}=(48.2,52.6)$ MPa. Using only the CI--test equivalence, with no test statistic calculation, determine:
+\begin{enumerate}[label=(\alph*)]
+	\item Would $H_0:\mu=50$ against $H_a:\mu\ne50$ be rejected at $\alpha=0.05$?
+	\item Would $H_0:\mu=53$ against $H_a:\mu\ne53$ be rejected at the same level?
+\end{enumerate}
+Justify each answer only from the position of the hypothesized value relative to the interval.
+\end{problema}
+
+\begin{problema}\label{prob:1b375b0}
+A sample of $n=25$ pH measurements from a chemical process has $\bar x=7.08$ and $s=0.15$, with unknown population variance.
+\begin{enumerate}[label=(\alph*)]
+	\item Construct the $99\%$ confidence interval for $\mu$ using the $t$ distribution, with $t_{24,0.005}\approx2.797$.
+	\item Use that interval, without calculating any additional $T$ statistic, to decide whether to reject $H_0:\mu=7.00$ against $H_a:\mu\ne7.00$ at level $\alpha=0.01$.
+\end{enumerate}
+\end{problema}
+
+\begin{problema}\label{prob:6517bf1}
+Using the same data as the previous problem, an analyst performs a one-tailed test $H_0:\mu=7.00$ against $H_a:\mu>7.00$ at level $\alpha=0.01$, obtains $T=2.667$, and rejects $H_0$ because $T>t_{24,0.01}\approx2.492$. However, the previous two-tailed $99\%$ confidence interval did not lead to rejection of the corresponding two-tailed test. Explain why both results are consistent, identifying which critical value each procedure compares against and why they differ.
+\end{problema}
+
+\begin{problema}\label{prob:4f1ea6b}
+A student concludes that because $\mu_0=50$ falls inside the $95\%$ confidence interval from the second problem, ``it has been proved that the true population mean is exactly $50$.'' Evaluate this claim. Relate your answer to the distinction between ``not rejecting $H_0$'' and ``accepting $H_0$.''
+\end{problema}
+
+\begin{problema}\label{prob:1e58b99}
+Design a short original example, with context, fictional sample summary data, and a confidence interval calculated from them, that illustrates how a single confidence interval can answer three different hypothesis tests, $H_0:\mu=\theta_1$, $H_0:\mu=\theta_2$, and $H_0:\mu=\theta_3$, without computing three separate test statistics. Present the three values and the decision for each, justified only by its position relative to the interval.
+\end{problema}
+
+\begin{solproblema}[prob:43cddbb]
+\[
+	\text{Reject }H_0\text{ at level }\alpha
+	\quad\Longleftrightarrow\quad
+	\theta_0\notin \operatorname{CI}_{(1-\alpha)100\%}.
+\]
+That is, the null value is rejected exactly when it falls outside the confidence interval built with the matching confidence level and the same sample.
+\end{solproblema}
+
+\begin{solproblema}[prob:ae1a813]
+\begin{enumerate}[label=(\alph*)]
+	\item Since $50\in(48.2,52.6)$, do not reject $H_0:\mu=50$.
+	\item Since $53\notin(48.2,52.6)$, reject $H_0:\mu=53$.
+\end{enumerate}
+\end{solproblema}
+
+\begin{solproblema}[prob:1b375b0]
+\begin{enumerate}[label=(\alph*)]
+	\item The standard error is $s/\sqrt n=0.15/\sqrt{25}=0.03$. Therefore,
+	\[
+		\operatorname{CI}_{99\%}=7.08\pm2.797(0.03)
+		=(6.9961,\ 7.1639).
+	\]
+	\item Since $7.00$ lies inside this interval, do not reject $H_0:\mu=7.00$ at $\alpha=0.01$ for the two-tailed test.
+\end{enumerate}
+\end{solproblema}
+
+\begin{solproblema}[prob:6517bf1]
+There is no contradiction. The one-tailed test puts all $\alpha=0.01$ in one tail, so it uses the smaller critical value $t_{24,0.01}\approx2.492$. The two-tailed test splits $\alpha$ across both tails, using $t_{24,0.005}\approx2.797$. The observed $T=2.667$ lies between them:
+\[
+	2.492<2.667<2.797.
+\]
+Thus it is large enough to reject in the one-tailed test but not in the two-tailed test. The CI--test equivalence stated here applies to two-tailed tests.
+\end{solproblema}
+
+\begin{solproblema}[prob:4f1ea6b]
+The claim is incorrect. Not rejecting $H_0$ means only that the observed data are compatible with $\mu_0=50$; it does not prove that $\mu$ equals exactly $50$. Other values inside the interval, such as $49$ or $51.5$, would also not be rejected. A finite sample does not prove an exact parameter value; it only provides evidence about which values are plausible under the chosen procedure.
+\end{solproblema}
+
+\begin{solproblema}[prob:1e58b99]
+Example: a bottling-plant manager samples $n=36$ bottles and obtains $\bar x=500.4$ ml, with known $\sigma=3.0$ ml. A $95\%$ interval is
+\[
+	500.4\pm1.96\left(\frac{3.0}{\sqrt{36}}\right)
+	=500.4\pm0.98=(499.42,\ 501.38).
+\]
+This single interval answers three tests at $\alpha=0.05$:
+\begin{itemize}
+	\item $H_0:\mu=500$: do not reject, since $500$ is inside.
+	\item $H_0:\mu=499$: reject, since $499$ is outside.
+	\item $H_0:\mu=502$: reject, since $502$ is outside.
+\end{itemize}
+\end{solproblema}
