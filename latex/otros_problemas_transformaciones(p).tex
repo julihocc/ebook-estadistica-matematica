@@ -1,151 +1,94 @@
-\section{Problemas resueltos de transformaciones no lineales y regresión polinomial}
+\section*{Problemas}
 
-\subsection{Enunciados de los problemas}
+\subsection*{Enunciados de los problemas}
 
-\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
-
+% Recordar
 \begin{problema}
-	\label{prob:identificar_patron_no_lineal}
-	Un ingeniero grafica el diagrama de dispersión entre la potencia de un motor (\texttt{hp}) y su rendimiento en millas por galón (\texttt{mpg}), observando que los puntos forman una curva descendente que se aplana y luego repunta ligeramente para valores muy altos de \texttt{hp} (forma de "U" invertida y asimétrica). Identifique qué tipo de transformación o especificación de modelo sería más apropiada, y explique por qué un modelo estrictamente lineal $\texttt{mpg}=c_0+c_1\,\texttt{hp}$ sería inadecuado en este escenario.
+	\label{prob:85eb17b}
+	Un modelo cuadrático ajustado es $\hat{\texttt{mpg}} = 64.20 - 0.7634\,\texttt{hp} + 0.003657\,\texttt{hp}^2$. Calcule el \texttt{mpg} predicho para automóviles con $\texttt{hp}=60$, $\texttt{hp}=100$, y $\texttt{hp}=180$, e identifique en qué valor aproximado de \texttt{hp} el modelo predice el \texttt{mpg} mínimo.
 \end{problema}
 
+% Comprender
 \begin{problema}
-	\label{prob:prediccion_modelo_cuadratico_basico}
-	Un modelo cuadrático ajustado es $\hat{\texttt{mpg}} = 64.20 - 0.7634\,\texttt{hp} + 0.003657\,\texttt{hp}^2$. Calcule el \texttt{mpg} predicho para automóviles con $\texttt{hp}=60$, $\texttt{hp}=100$, y $\texttt{hp}=180$, e identifique en qué rango aproximado de \texttt{hp} el modelo predice el \texttt{mpg} mínimo.
-\end{problema}
-
-\begin{problema}
-	\label{prob:comparacion_r2_lineal_cuadratico}
+	\label{prob:5afaae8}
 	Al ajustar dos modelos sobre el mismo conjunto de datos (\texttt{hp} vs. \texttt{mpg}), se obtiene $R^2_{\text{lineal}}=0.080$ para el modelo $\texttt{mpg}=c_0+c_1\,\texttt{hp}$ y $R^2_{\text{cuadrático}}=0.994$ para el modelo $\texttt{mpg}=c_0+c_1\,\texttt{hp}+c_2\,\texttt{hp}^2$. Interprete esta diferencia dramática y explique qué le dice sobre la verdadera forma funcional de la relación entre las variables.
 \end{problema}
 
-\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
-
+% Aplicar
 \begin{problema}
-	\label{prob:ajuste_manual_cuadratico}
-	Con los datos $\texttt{hp}=\{50,75,100,125,150\}$ y $\texttt{mpg}=\{35,28,24,26,32\}$, ajuste un modelo cuadrático $\texttt{mpg}=c_0+c_1\,\texttt{hp}+c_2\,\texttt{hp}^2$ construyendo la matriz de diseño expandida $\mathbf{X}=[\mathbf{1},\ \texttt{hp},\ \texttt{hp}^2]$ y resolviendo la Ecuación Normal de la Sección 09.07. Reporte los tres coeficientes estimados.
+	\label{prob:e757ebc}
+	Con $n=5$ datos de \texttt{hp} y \texttt{mpg}, se obtuvo $R^2_{\text{lineal}}=0.080$ y $R^2_{\text{cuadrático}}=0.994$. Realice la Prueba $F$ Parcial ($H_0:c_2=0$, es decir, el término cuadrático no es necesario) al $\alpha=0.05$ (cuantil crítico $F_{0.05,1,2}=18.51$), usando $F_{\text{parcial}}=\dfrac{(R^2_{\text{cuad}}-R^2_{\text{lin}})/(2-1)}{(1-R^2_{\text{cuad}})/(5-2-1)}$.
 \end{problema}
 
+% Analizar
 \begin{problema}
-	\label{prob:prediccion_curva_completa}
-	Usando el modelo ajustado del Problema \ref{prob:ajuste_manual_cuadratico}, calcule los valores predichos $\hat{\texttt{mpg}}$ para cada uno de los 5 valores observados de \texttt{hp}, y calcule la Suma de Cuadrados del Error Residual (SCE) resultante.
+	\label{prob:c772cd1}
+	Demuestre que el problema de ajustar por mínimos cuadrados un modelo polinomial $Y=c_0+c_1X+c_2X^2+\varepsilon$ es formalmente idéntico al problema de regresión lineal múltiple si se define la variable auxiliar $Z=X^2$ y se ajusta $Y=c_0+c_1X+c_2Z+\varepsilon$. Explique por qué la Ecuación Normal $\hat{\mathbf{c}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ se aplica sin ninguna modificación, a pesar de que el modelo es \emph{no lineal} en la variable original $X$.
 \end{problema}
 
+% Evaluar
 \begin{problema}
-	\label{prob:transformacion_log_heterocedasticidad}
-	Un modelo de regresión sobre datos de conteo (número de reclamos de seguro) exhibe un patrón de embudo en su gráfica de residuos vs. ajustados: la dispersión de los residuos crece proporcionalmente con el valor ajustado. Proponga la transformación más adecuada de la variable respuesta y justifique, usando el método delta (expansión de primer orden), por qué esa transformación estabiliza aproximadamente la varianza.
+	\label{prob:6954b16}
+	\textbf{La multicolinealidad inherente de los modelos polinomiales:} en un modelo polinomial $Y=c_0+c_1X+c_2X^2+\varepsilon$ donde $X$ toma valores estrictamente positivos concentrados en un rango angosto (por ejemplo, $X\in[95,105]$), demuestre que las columnas $X$ y $X^2$ de la matriz de diseño están necesariamente muy correlacionadas entre sí (correlación cercana a $1$), y evalúe por qué esto infla el VIF de ambos predictores sin que esto invalide las predicciones del modelo, aunque sí complica la interpretación aislada de $c_1$ y $c_2$.
 \end{problema}
 
-\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
-
+% Crear
 \begin{problema}
-	\label{prob:polinomial_como_lineal}
-	Demuestre que el problema de ajustar por mínimos cuadrados un modelo polinomial $Y=c_0+c_1X+c_2X^2+\varepsilon$ es formalmente idéntico al problema de regresión lineal múltiple de la Sección 09.07 si se define la variable auxiliar $Z=X^2$ y se ajusta $Y=c_0+c_1X+c_2Z+\varepsilon$. Explique por qué la Ecuación Normal $\hat{\mathbf{c}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ se aplica sin ninguna modificación, a pesar de que el modelo es "no lineal" en la variable original $X$.
+	\label{prob:bc664de}
+	Diseñe un problema original de regresión polinomial (distinto de la relación \texttt{hp}-\texttt{mpg} ya vista): un economista de precios modela las unidades vendidas ($Y$) de un producto en función de su precio de venta ($X$, en dólares), observando que la relación no es monótona: ventas relativamente altas a precios bajos, ventas mínimas a precios intermedios, y un repunte a precios muy altos (percepción de exclusividad). Se ajusta $\hat Y = 850 - 12X + 0.09X^2$. Calcule las ventas predichas para $X=30$, $X=70$ y $X=110$, e identifique el precio donde el modelo predice el mínimo de ventas.
 \end{problema}
 
-\begin{problema}
-	\label{prob:prueba_f_parcial_termino_cuadratico}
-	Para los datos del Problema \ref{prob:ajuste_manual_cuadratico} ($n=5$), realice la Prueba $F$ Parcial ($H_0:c_2=0$, es decir, el término cuadrático no es necesario) al $\alpha=0.05$, usando $R^2_{\text{lineal}}=0.080$ y $R^2_{\text{cuadrático}}=0.994$ (cuantil crítico aproximado $F_{0.05,1,2}=18.51$).
-\end{problema}
+\subsection*{Soluciones detalladas}
 
-\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
-
-\begin{problema}
-	\label{prob:multicolinealidad_polinomial_deduccion}
-	\textbf{La multicolinealidad inherente de los modelos polinomiales:}
-	En un modelo polinomial $Y=c_0+c_1X+c_2X^2+\varepsilon$ donde $X$ toma valores estrictamente positivos concentrados en un rango angosto (por ejemplo, $X\in[95,105]$), demuestre que las columnas $X$ y $X^2$ de la matriz de diseño están necesariamente muy correlacionadas entre sí (correlación cercana a $1$), y explique --- conectando con la Sección 09.09 --- por qué esto infla el VIF de ambos predictores sin que esto invalide las predicciones del modelo, aunque sí complica la interpretación aislada de $c_1$ y $c_2$.
-\end{problema}
-
-\begin{problema}
-	\label{prob:transformacion_log_deduccion_general}
-	\textbf{Deducción general de la familia de transformaciones estabilizadoras de varianza:}
-	Suponga que $\text{Var}(Y)=k\cdot[E(Y)]^{2\lambda}$ para alguna constante $k>0$ y un exponente $\lambda$ (este es el marco general de Box-Cox para heterocedasticidad). Usando el método delta sobre una transformación general $g(Y)$, derive la condición que debe satisfacer $g$ para que $\text{Var}(g(Y))$ sea aproximadamente constante (no dependiente de $E(Y)$), y determine la transformación correcta $g(Y)$ para los dos casos particulares $\lambda=1/2$ (es decir, $\text{Var}(Y)\propto E(Y)$, el caso de conteos tipo Poisson) y $\lambda=1$ (es decir, $\text{Var}(Y)\propto[E(Y)]^2$, coeficiente de variación constante).
-\end{problema}
-
-
-\subsection{Soluciones detalladas}
-
-\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
-
-\begin{solproblema}[prob:identificar_patron_no_lineal]
-	El patrón descrito (forma de U invertida asimétrica, no monótona) es característico de una relación \textbf{cuadrática} o de orden superior, no de una relación lineal simple. Un modelo lineal $\texttt{mpg}=c_0+c_1\,\texttt{hp}$ solo puede capturar una tendencia monótona (siempre creciente o siempre decreciente); no puede representar un cambio de dirección en la curva. Forzar un ajuste lineal sobre datos con esta curvatura produce residuos sistemáticamente sesgados (positivos en los extremos, negativos en el centro, o viceversa), violando el supuesto de linealidad y subestimando severamente la calidad real del ajuste. La especificación adecuada es agregar un término cuadrático: $\texttt{mpg}=c_0+c_1\,\texttt{hp}+c_2\,\texttt{hp}^2$.
-\end{solproblema}
-
-\begin{solproblema}[prob:prediccion_modelo_cuadratico_basico]
-	Sustituyendo directamente:
+% Recordar
+\begin{solproblema}[prob:85eb17b]
 	\begin{align}
-		\hat{\texttt{mpg}}(60) &= 64.20-0.7634(60)+0.003657(60)^2 = 64.20-45.80+13.17 \approx 31.57.\\
-		\hat{\texttt{mpg}}(100) &= 64.20-0.7634(100)+0.003657(100)^2 = 64.20-76.34+36.57 \approx 24.43.\\
-		\hat{\texttt{mpg}}(180) &= 64.20-0.7634(180)+0.003657(180)^2 = 64.20-137.41+118.53 \approx 45.32.
+		\hat{\texttt{mpg}}(60) &= 64.20-0.7634(60)+0.003657(60)^2 \approx 31.57.\\
+		\hat{\texttt{mpg}}(100) &= 64.20-0.7634(100)+0.003657(100)^2 \approx 24.43.\\
+		\hat{\texttt{mpg}}(180) &= 64.20-0.7634(180)+0.003657(180)^2 \approx 45.32.
 	\end{align}
 	El vértice de la parábola (mínimo) ocurre en $\texttt{hp}^*=-c_1/(2c_2)=0.7634/(2\times0.003657)\approx104.4$, es decir, el \texttt{mpg} mínimo se predice alrededor de $\texttt{hp}\approx104$.
 \end{solproblema}
 
-\begin{solproblema}[prob:comparacion_r2_lineal_cuadratico]
-	La diferencia de $R^2=0.080$ a $R^2=0.994$ es dramática y revela que la relación entre \texttt{hp} y \texttt{mpg} \textbf{no es lineal en absoluto}: el modelo lineal apenas explica el $8\%$ de la variabilidad, prácticamente indistinguible de ruido, mientras que el modelo cuadrático explica el $99.4\%$. Esto confirma que la verdadera forma funcional subyacente es cuadrática (o al menos que un término de curvatura es indispensable), y que cualquier conclusión basada únicamente en el modelo lineal (por ejemplo, sobre la significancia o el signo del efecto de \texttt{hp}) sería completamente engañosa.
+% Comprender
+\begin{solproblema}[prob:5afaae8]
+	La diferencia de $R^2=0.080$ a $R^2=0.994$ es dramática y revela que la relación entre \texttt{hp} y \texttt{mpg} \textbf{no es lineal en absoluto}: el modelo lineal apenas explica el $8\%$ de la variabilidad, prácticamente indistinguible de ruido, mientras que el modelo cuadrático explica el $99.4\%$. Esto confirma que la verdadera forma funcional subyacente es cuadrática (o al menos que un término de curvatura es indispensable), y que cualquier conclusión basada únicamente en el modelo lineal sería completamente engañosa.
 \end{solproblema}
 
-\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
-
-\begin{solproblema}[prob:ajuste_manual_cuadratico]
-	Construimos $\mathbf{X}=\begin{pmatrix}1&50&2500\\1&75&5625\\1&100&10000\\1&125&15625\\1&150&22500\end{pmatrix}$ y $\mathbf{Y}=(35,28,24,26,32)^T$. Resolviendo $\hat{\mathbf{c}}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ (por álgebra matricial directa o eliminación gaussiana):
-	\begin{align}
-		\hat c_0\approx64.20, \qquad \hat c_1\approx-0.7634, \qquad \hat c_2\approx0.003657.
-	\end{align}
-\end{solproblema}
-
-\begin{solproblema}[prob:prediccion_curva_completa]
-	Sustituyendo cada valor de \texttt{hp} en el modelo ajustado:
-	\begin{align}
-		\hat{\texttt{mpg}} \approx \{35.17,\ 27.51,\ 24.43,\ 25.91,\ 31.97\} \quad \text{para } \texttt{hp}=\{50,75,100,125,150\}.
-	\end{align}
-	Los residuos son $\{-0.17,\ 0.49,\ -0.43,\ 0.09,\ 0.03\}$ aproximadamente, y la Suma de Cuadrados del Error Residual es:
-	\begin{align}
-		\text{SCE} = (-0.17)^2+(0.49)^2+(-0.43)^2+(0.09)^2+(0.03)^2 \approx 0.029+0.240+0.185+0.008+0.001 \approx 0.463.
-	\end{align}
-\end{solproblema}
-
-\begin{solproblema}[prob:transformacion_log_heterocedasticidad]
-	La tabla de transformaciones comunes recomienda $\sqrt{Y}$ para datos de conteo con $\text{Var}(Y)\propto E(Y)$ (comportamiento tipo Poisson). Sea $g(Y)=\sqrt{Y}$. Por el método delta, expandiendo alrededor de $\mu=E(Y)$: $g(Y)\approx g(\mu)+g'(\mu)(Y-\mu)$, con $g'(\mu)=1/(2\sqrt\mu)$. Entonces:
-	\begin{align}
-		\text{Var}(g(Y)) \approx [g'(\mu)]^2\text{Var}(Y) = \frac{1}{4\mu}\cdot(c\mu) = \frac{c}{4},
-	\end{align}
-	una constante que ya no depende de $\mu$: la transformación raíz cuadrada estabiliza exactamente la varianza cuando $\text{Var}(Y)\propto E(Y)$.
-\end{solproblema}
-
-\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
-
-\begin{solproblema}[prob:polinomial_como_lineal]
-	Definiendo $Z=X^2$ como una variable auxiliar calculada explícitamente (no como una transformación implícita), el modelo $Y=c_0+c_1X+c_2X^2+\varepsilon$ se reescribe exactamente como $Y=c_0+c_1X+c_2Z+\varepsilon$, que es \emph{lineal en los parámetros} $c_0,c_1,c_2$ --- la única condición que requiere la teoría de mínimos cuadrados de la Sección 09.07, independientemente de si las variables predictoras ($X$ y $Z=X^2$) tienen o no una relación no lineal entre sí. La matriz de diseño simplemente incluye una columna adicional con los valores de $X^2$ ya calculados: $\mathbf{X}_{\text{diseño}}=[\mathbf{1},\ X,\ X^2]$. Como la Ecuación Normal $(\mathbf{X}_{\text{diseño}}^T\mathbf{X}_{\text{diseño}})^{-1}\mathbf{X}_{\text{diseño}}^T\mathbf{Y}$ solo exige que la relación entre $Y$ y los parámetros $\mathbf{c}$ sea lineal (no que la relación entre $Y$ y $X$ lo sea), se aplica exactamente igual sin ninguna modificación.
-\end{solproblema}
-
-\begin{solproblema}[prob:prueba_f_parcial_termino_cuadratico]
+% Aplicar
+\begin{solproblema}[prob:e757ebc]
 	\begin{align}
 		F_{\text{parcial}} = \frac{(0.994-0.080)/(2-1)}{(1-0.994)/(5-2-1)} = \frac{0.914/1}{0.006/2} = \frac{0.914}{0.003} \approx304.7.
 	\end{align}
 	Como $304.7\gg18.51$, \textbf{se rechaza $H_0$} de forma contundente: el término cuadrático $c_2\,\texttt{hp}^2$ es altamente significativo y necesario en el modelo; el modelo lineal simple está gravemente mal especificado para estos datos.
 \end{solproblema}
 
-\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
-
-\begin{solproblema}[prob:multicolinealidad_polinomial_deduccion]
-	Si $X$ toma valores concentrados en un rango angosto alrededor de un valor central grande (por ejemplo $X_0=100$), podemos escribir $X=X_0+\delta$ con $|\delta|$ pequeño relativo a $X_0$. Entonces:
-	\begin{align}
-		X^2 = X_0^2+2X_0\delta+\delta^2 \approx X_0^2+2X_0\delta \quad (\text{ya que } \delta^2 \text{ es despreciable frente a } 2X_0\delta \text{ cuando } |\delta|\ll X_0),
-	\end{align}
-	de modo que $X^2$ es aproximadamente una función \textbf{lineal} de $X$ (con pendiente $2X_0$) en ese rango angosto, lo que produce una correlación muestral $r_{X,X^2}$ muy cercana a $1$. Por la identidad $\text{VIF}_j=1/(1-R_j^2)$ de la Sección 09.09, una correlación tan alta entre $X$ y $X^2$ produce un $R_j^2$ cercano a $1$ al regredir una contra la otra, y por tanto un VIF muy elevado para ambos predictores.
-
-	Sin embargo, esto \textbf{no invalida las predicciones} $\hat Y$ del modelo, que dependen de la combinación conjunta $\hat c_1X+\hat c_2X^2$ y permanecen numéricamente estables y precisas. Lo que sí se ve comprometido es la interpretación marginal aislada de $\hat c_1$ o $\hat c_2$ individualmente (sus errores estándar individuales se inflan, y separar "el efecto de $X$" del "efecto de $X^2$" pierde sentido práctico), exactamente el mismo fenómeno interpretativo discutido para predictores correlacionados en general.
+% Analizar
+\begin{solproblema}[prob:c772cd1]
+	Definiendo $Z=X^2$ como una variable auxiliar calculada explícitamente, el modelo $Y=c_0+c_1X+c_2X^2+\varepsilon$ se reescribe exactamente como $Y=c_0+c_1X+c_2Z+\varepsilon$, que es \emph{lineal en los parámetros} $c_0,c_1,c_2$ —la única condición que requiere la teoría de mínimos cuadrados, independientemente de si las variables predictoras ($X$ y $Z=X^2$) tienen o no una relación no lineal entre sí. La matriz de diseño simplemente incluye una columna adicional con los valores de $X^2$ ya calculados: $\mathbf{X}_{\text{diseño}}=[\mathbf{1},\ X,\ X^2]$. Como la Ecuación Normal $(\mathbf{X}_{\text{diseño}}^T\mathbf{X}_{\text{diseño}})^{-1}\mathbf{X}_{\text{diseño}}^T\mathbf{Y}$ solo exige que la relación entre $Y$ y los parámetros $\mathbf{c}$ sea lineal (no que la relación entre $Y$ y $X$ lo sea), se aplica exactamente igual sin ninguna modificación.
 \end{solproblema}
 
-\begin{solproblema}[prob:transformacion_log_deduccion_general]
-	Por el método delta, para una transformación general $g(Y)$ expandida alrededor de $\mu=E(Y)$:
+% Evaluar
+\begin{solproblema}[prob:6954b16]
+	Si $X$ toma valores concentrados en un rango angosto alrededor de un valor central grande (por ejemplo $X_0=100$), podemos escribir $X=X_0+\delta$ con $|\delta|$ pequeño relativo a $X_0$. Entonces:
 	\begin{align}
-		\text{Var}(g(Y)) \approx [g'(\mu)]^2\,\text{Var}(Y) = [g'(\mu)]^2\cdot k\mu^{2\lambda}.
+		X^2 = X_0^2+2X_0\delta+\delta^2 \approx X_0^2+2X_0\delta \quad (\delta^2 \text{ despreciable frente a } 2X_0\delta \text{ cuando } |\delta|\ll X_0),
 	\end{align}
-	Para que esta expresión sea constante (no dependiente de $\mu$), necesitamos que $[g'(\mu)]^2\mu^{2\lambda}$ sea constante, es decir, $g'(\mu)\propto \mu^{-\lambda}$. Integrando:
+	de modo que $X^2$ es aproximadamente una función \textbf{lineal} de $X$ (con pendiente $2X_0$) en ese rango angosto, lo que produce una correlación muestral $r_{X,X^2}$ muy cercana a $1$. Por la identidad $\text{VIF}_j=1/(1-R_j^2)$, una correlación tan alta entre $X$ y $X^2$ produce un $R_j^2$ cercano a $1$ al regredir una contra la otra, y por tanto un VIF muy elevado para ambos predictores.
+
+	Sin embargo, esto \textbf{no invalida las predicciones} $\hat Y$ del modelo, que dependen de la combinación conjunta $\hat c_1X+\hat c_2X^2$ y permanecen numéricamente estables y precisas. Lo que sí se ve comprometido es la interpretación marginal aislada de $\hat c_1$ o $\hat c_2$ individualmente (sus errores estándar se inflan, y separar el efecto de $X$ del efecto de $X^2$ pierde sentido práctico), exactamente el mismo fenómeno interpretativo discutido para predictores correlacionados en general.
+\end{solproblema}
+
+% Crear
+\begin{solproblema}[prob:bc664de]
 	\begin{align}
-		g(\mu) \propto \begin{cases} \mu^{1-\lambda} & \text{si } \lambda\neq1 \\ \log(\mu) & \text{si } \lambda=1 \end{cases}
+		\hat Y(30) &= 850-12(30)+0.09(30)^2 = 850-360+81 = 571 \text{ unidades.} \\
+		\hat Y(70) &= 850-12(70)+0.09(70)^2 = 850-840+441 = 451 \text{ unidades.} \\
+		\hat Y(110) &= 850-12(110)+0.09(110)^2 = 850-1320+1089 = 619 \text{ unidades.}
 	\end{align}
-	(la familia general de transformaciones potencia de Box-Cox). Para el caso $\lambda=1/2$ (es decir, $\text{Var}(Y)=k\mu$, proporcional a la media, el comportamiento de conteos tipo Poisson): $g'(\mu)\propto\mu^{-1/2}$, cuya antiderivada es $g(\mu)\propto\mu^{1/2}=\sqrt\mu$, \textbf{no} $\log(\mu)$. La transformación logarítmica corresponde en realidad al caso límite $\lambda=1$ ($\text{Var}(Y)\propto[E(Y)]^2$, es decir, cuando el coeficiente de variación de $Y$ es aproximadamente constante), mientras que $\sqrt{Y}$ es la transformación correcta específicamente para $\text{Var}(Y)\propto E(Y)$ ($\lambda=1/2$), consistente con la solución obtenida en el Problema \ref{prob:transformacion_log_heterocedasticidad}.
+	El vértice de la parábola (mínimo de ventas) ocurre en:
+	\begin{align}
+		X^* = -\frac{c_1}{2c_2} = \frac{12}{2(0.09)} = \frac{12}{0.18} \approx 66.67,
+	\end{align}
+	es decir, el modelo predice que las ventas alcanzan su punto más bajo alrededor de un precio de $\$66.67$, consistente con el valor mínimo observado entre los tres precios evaluados ($\hat Y(70)=451$, el más cercano al vértice).
 \end{solproblema}
