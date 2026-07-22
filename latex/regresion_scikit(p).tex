@@ -1,11 +1,10 @@
-\section{Problemas resueltos de regresión lineal con \texttt{scikit-learn}}
+\section*{Problemas}
 
-\subsection{Enunciados de los problemas}
+\subsection*{Enunciados de los problemas}
 
-\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
-
+% Recordar
 \begin{problema}
-	\label{prob:sklearn_fit_predict_score}
+	\label{prob:eaaa432}
 	Un científico de datos ajusta un modelo con \texttt{scikit-learn}:
 	\begin{align}
 		\texttt{lm = LinearRegression(); lm.fit(X\_train, y\_train)}
@@ -13,154 +12,80 @@
 	Explique, en una oración cada uno, qué calcula y qué retorna exactamente cada uno de los siguientes tres métodos: \texttt{lm.fit(X,y)}, \texttt{lm.predict(X\_new)}, y \texttt{lm.score(X,y)}. Especifique cuál de los tres modifica el estado interno del objeto \texttt{lm} y cuáles no.
 \end{problema}
 
+% Comprender
 \begin{problema}
-	\label{prob:sklearn_coef_intercept}
-	Al ajustar un modelo \texttt{LinearRegression} con dos predictores (\texttt{TV}, \texttt{Radio}) sobre datos de ventas, se obtiene:
-	\begin{align}
-		\texttt{lm.intercept\_} = 2.92, \qquad \texttt{lm.coef\_} = [0.046,\ 0.188].
-	\end{align}
-	Escriba la ecuación del modelo en notación algebraica estándar y calcule la venta predicha para un presupuesto de \texttt{TV}$=100$ y \texttt{Radio}$=20$.
-\end{problema}
-
-\begin{problema}
-	\label{prob:sklearn_train_test_split_basico}
+	\label{prob:ab54576}
 	Un analista tiene $n=250$ observaciones y ejecuta \texttt{train\_test\_split(X, y, test\_size=0.2, random\_state=42)}. Calcule el número exacto de observaciones en los conjuntos de entrenamiento y de prueba, y explique por qué fijar \texttt{random\_state} garantiza la reproducibilidad exacta de la partición entre distintas ejecuciones del código.
 \end{problema}
 
-\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
-
+% Aplicar
 \begin{problema}
-	\label{prob:sklearn_r2_manual_vs_score}
-	Sobre un conjunto de prueba de $n=5$ observaciones, un modelo predice $\hat Y=\{18.2,\ 9.5,\ 8.1,\ 14.0,\ 15.9\}$ contra los valores reales $Y=\{17.9,\ 10.4,\ 7.8,\ 14.2,\ 15.6\}$. Calcule manualmente el $R^2$ usando $\text{SCR}=\sum(\hat Y_i-\bar Y)^2$ y $\text{SCT}=\sum(Y_i-\bar Y)^2$, y explique por qué este valor debe coincidir exactamente con lo que retornaría \texttt{lm.score(X\_test, y\_test)}.
+	\label{prob:7554cf7}
+	Sobre un conjunto de prueba de $n=5$ observaciones, un modelo predice $\hat Y=\{18.2,\ 9.5,\ 8.1,\ 14.0,\ 15.9\}$ contra los valores reales $Y=\{17.9,\ 10.4,\ 7.8,\ 14.2,\ 15.6\}$. Calcule manualmente el $R^2$ usando $R^2=1-\text{SCE}/\text{SCT}$, y explique por qué este valor debe coincidir exactamente con lo que retornaría \texttt{lm.score(X\_test, y\_test)}.
 \end{problema}
 
+% Analizar
 \begin{problema}
-	\label{prob:sklearn_rfe_interpretacion}
-	Al ejecutar \texttt{RFE(estimator, n\_features\_to\_select=2)} sobre 4 predictores (\texttt{TV}, \texttt{Radio}, \texttt{Newspaper}, \texttt{Online}), se obtiene:
-	\begin{align}
-		\texttt{selector.support\_} = [\texttt{True},\texttt{True},\texttt{False},\texttt{False}], \qquad \texttt{selector.ranking\_} = [1,1,3,2].
-	\end{align}
-	Determine qué predictores fueron seleccionados para el modelo final, y determine el orden exacto en que los predictores no seleccionados fueron eliminados durante el proceso recursivo.
+	\label{prob:011e008}
+	\texttt{scikit-learn} no resuelve \texttt{LinearRegression} invirtiendo directamente $\mathbf{X}^T\mathbf{X}$; en su lugar, utiliza una descomposición en valores singulares (SVD) de $\mathbf{X}$. Explique por qué ambos métodos producen el mismo resultado cuando $\mathbf{X}$ tiene rango columna completo, y explique la ventaja numérica de la SVD cuando $\mathbf{X}^T\mathbf{X}$ está cerca de ser singular por multicolinealidad severa.
 \end{problema}
 
+% Evaluar
 \begin{problema}
-	\label{prob:sklearn_fit_intercept_false}
-	Un analista ajusta accidentalmente \texttt{LinearRegression(fit\_intercept=False)} sobre un conjunto de datos donde la variable respuesta \texttt{Sales} nunca es cero cuando los predictores son cero (existe un piso de ventas orgánicas). Explique matemáticamente qué restricción geométrica impone \texttt{fit\_intercept=False} sobre la recta ajustada, y por qué esto probablemente sesgará las estimaciones de las pendientes $\hat\beta_j$ en este escenario.
+	\label{prob:5ad88f8}
+	\textbf{Análisis crítico de la solución de mínima norma bajo colinealidad perfecta:} suponga que dos predictores del modelo son perfectamente colineales ($X_2=2X_1$ exactamente), de modo que $\mathbf{X}^T\mathbf{X}$ es exactamente singular (no invertible) y la Ecuación Normal no tiene solución única. Evalúe por qué \texttt{scikit-learn} (usando SVD internamente) aun así retorna un vector de coeficientes $\hat{\boldsymbol\beta}$ sin error, qué representa exactamente esa solución particular (la de \emph{norma mínima} entre todas las soluciones que minimizan $\|\mathbf{Y}-\mathbf{X}\boldsymbol\beta\|^2$), y por qué esta solución, aunque numéricamente válida, no debe interpretarse como si cada coeficiente individual $\hat\beta_j$ tuviera un significado causal aislado.
 \end{problema}
 
-\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
-
+% Crear
 \begin{problema}
-	\label{prob:sklearn_svd_vs_ecuacion_normal}
-	\texttt{scikit-learn} no resuelve \texttt{LinearRegression} invirtiendo directamente $\mathbf{X}^T\mathbf{X}$ como en la Sección 09.07; en su lugar, utiliza una descomposición en valores singulares (SVD) de $\mathbf{X}$. Explique por qué ambos métodos producen el mismo resultado cuando $\mathbf{X}$ tiene rango columna completo, y explique la ventaja numérica de la SVD cuando $\mathbf{X}^T\mathbf{X}$ está cerca de ser singular por multicolinealidad severa (Sección 09.09).
+	\label{prob:0abfd8d}
+	Diseñe un problema original sobre validación cruzada con \texttt{scikit-learn} (distinto de los métodos \texttt{fit}/\texttt{predict}/\texttt{score} o la colinealidad perfecta ya vistos): un analista ejecuta \texttt{cross\_val\_score(lm, X, y, cv=5, scoring='r2')} y obtiene los cinco puntajes $[0.75,\ 0.71,\ 0.77,\ 0.73,\ 0.74]$. Calcule el promedio y la desviación estándar muestral de estos puntajes, y explique qué ventaja tiene reportar ambos valores en vez de solo el promedio al comunicar la confiabilidad del modelo a un equipo no técnico.
 \end{problema}
 
-\begin{problema}
-	\label{prob:sklearn_rfe_costo_computacional}
-	Considere \texttt{RFE(estimator, n\_features\_to\_select=k, step=1)} aplicado sobre un conjunto de $p$ predictores totales ($k<p$). En cada iteración, el algoritmo ajusta el estimador sobre el subconjunto de predictores actualmente activos y elimina exactamente 1 predictor (el de menor importancia) antes de continuar. Deduzca una fórmula general para el número total de modelos ajustados internamente por \texttt{RFE} durante todo el proceso, en función de $p$ y $k$.
-\end{problema}
+\subsection*{Soluciones detalladas}
 
-\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
-
-\begin{problema}
-	\label{prob:sklearn_pseudoinversa_deduccion}
-	\textbf{Deducción de la equivalencia entre la solución vía SVD y la Ecuación Normal:}
-	Sea $\mathbf{X}=\mathbf{U}\boldsymbol\Sigma\mathbf{V}^T$ la descomposición en valores singulares de la matriz de diseño ($\mathbf{U}$ y $\mathbf{V}$ ortogonales, $\boldsymbol\Sigma$ diagonal con las singulares $\sigma_i>0$). Demuestre que la solución de mínimos cuadrados obtenida mediante la pseudoinversa de Moore-Penrose $\hat{\boldsymbol\beta}=\mathbf{X}^+\mathbf{Y}$, donde $\mathbf{X}^+=\mathbf{V}\boldsymbol\Sigma^{-1}\mathbf{U}^T$, es algebraicamente idéntica a $\hat{\boldsymbol\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ cuando $\mathbf{X}$ tiene rango columna completo.
-\end{problema}
-
-\begin{problema}
-	\label{prob:sklearn_multicolinealidad_severa_svd}
-	\textbf{Análisis crítico de la solución de mínima norma bajo colinealidad perfecta:}
-	Suponga que dos predictores del modelo son perfectamente colineales ($X_2=2X_1$ exactamente), de modo que $\mathbf{X}^T\mathbf{X}$ es exactamente singular (no invertible) y la Ecuación Normal de la Sección 09.07 no tiene solución única. Explique por qué \texttt{scikit-learn} (usando SVD internamente) aun así retorna un vector de coeficientes $\hat{\boldsymbol\beta}$ sin error, qué representa exactamente esa solución particular (la de \emph{norma mínima} entre todas las soluciones que minimizan $\|\mathbf{Y}-\mathbf{X}\boldsymbol\beta\|^2$), y por qué esta solución, aunque numéricamente válida, no debe interpretarse como si cada coeficiente individual $\hat\beta_j$ tuviera un significado causal aislado.
-\end{problema}
-
-
-\subsection{Soluciones detalladas}
-
-\subsubsection*{1. Nivel Fundamental (Sencillos / Directos)}
-
-\begin{solproblema}[prob:sklearn_fit_predict_score]
+% Recordar
+\begin{solproblema}[prob:eaaa432]
 	\texttt{lm.fit(X,y)} calcula los coeficientes óptimos de mínimos cuadrados y los almacena internamente en \texttt{lm.intercept\_} y \texttt{lm.coef\_}, modificando el estado del objeto; \texttt{lm.predict(X\_new)} usa esos coeficientes ya almacenados para calcular $\hat Y=\hat\beta_0+\hat\beta_1X_{\text{new}}$ sin modificar el estado del objeto; \texttt{lm.score(X,y)} calcula el $R^2$ del modelo ya ajustado sobre el conjunto $(X,y)$ proporcionado, tampoco modifica el estado. Solo \texttt{fit} altera el objeto \texttt{lm}.
 \end{solproblema}
 
-\begin{solproblema}[prob:sklearn_coef_intercept]
-	La ecuación del modelo es $\hat{\texttt{Sales}}=2.92+0.046\,\texttt{TV}+0.188\,\texttt{Radio}$. Sustituyendo \texttt{TV}$=100$, \texttt{Radio}$=20$:
-	\begin{align}
-		\hat{\texttt{Sales}}=2.92+0.046(100)+0.188(20)=2.92+4.6+3.76=11.28.
-	\end{align}
+% Comprender
+\begin{solproblema}[prob:ab54576]
+	Con $n=250$ y \texttt{test\_size}$=0.2$: $n_{\text{test}}=0.2\times250=50$, $n_{\text{train}}=250-50=200$. Fijar \texttt{random\_state} inicializa el generador de números pseudoaleatorios con una semilla determinista: el algoritmo de mezcla y partición interno se vuelve completamente reproducible, generando exactamente la misma asignación de observaciones a cada subconjunto cada vez que se ejecuta el código con la misma semilla.
 \end{solproblema}
 
-\begin{solproblema}[prob:sklearn_train_test_split_basico]
-	Con $n=250$ y $\texttt{test\_size}=0.2$: $n_{\text{test}}=0.2\times250=50$, $n_{\text{train}}=250-50=200$. Fijar \texttt{random\_state} inicializa el generador de números pseudoaleatorios con una semilla determinista: el algoritmo de mezcla y partición interno se vuelve completamente reproducible, generando exactamente la misma asignación de observaciones a cada subconjunto cada vez que se ejecuta el código con la misma semilla.
+% Aplicar
+\begin{solproblema}[prob:7554cf7]
+	Calculamos $\bar Y=(17.9+10.4+7.8+14.2+15.6)/5=13.18$. Con $\text{SCE}=\sum(Y_i-\hat Y_i)^2=(0.3)^2+(-0.9)^2+(0.3)^2+(0.2)^2+(0.3)^2=0.09+0.81+0.09+0.04+0.09=1.12$ y $\text{SCT}=\sum(Y_i-\bar Y)^2\approx65.85$:
+	\begin{align}
+		R^2=1-\frac{\text{SCE}}{\text{SCT}}=1-\frac{1.12}{65.85}\approx0.983.
+	\end{align}
+	Este valor debe coincidir exactamente con \texttt{lm.score(X\_test,y\_test)} porque \texttt{score()} implementa precisamente esta misma fórmula internamente; no existe ningún cálculo alternativo oculto en el método.
 \end{solproblema}
 
-\subsubsection*{2. Nivel Operativo (Intermedios / De Desarrollo)}
-
-\begin{solproblema}[prob:sklearn_r2_manual_vs_score]
-	Calculamos $\bar Y=(17.9+10.4+7.8+14.2+15.6)/5=13.18$.
-	\begin{align}
-		\text{SCT}=\sum(Y_i-\bar Y)^2=(4.72)^2+(2.78)^2+(5.38)^2+(1.02)^2+(2.42)^2\approx22.28+7.73+28.94+1.04+5.86\approx65.85
-	\end{align}
-	\begin{align}
-		\text{SCR}=\sum(\hat Y_i-\bar Y)^2=(5.02)^2+(3.68)^2+(5.08)^2+(0.82)^2+(2.72)^2\approx25.20+13.54+25.81+0.67+7.40\approx72.62
-	\end{align}
-	Dado que aquí se solicita $R^2=1-\text{SCE}/\text{SCT}$ con $\text{SCE}=\sum(Y_i-\hat Y_i)^2=(0.3)^2+(-0.9)^2+(0.3)^2+(0.2)^2+(0.3)^2=0.09+0.81+0.09+0.04+0.09=1.12$:
-	\begin{align}
-		R^2=1-\frac{1.12}{65.85}\approx0.983.
-	\end{align}
-	Este valor debe coincidir exactamente con \texttt{lm.score(X\_test,y\_test)} porque \texttt{score()} implementa precisamente esta misma fórmula ($R^2=1-\text{SCE}/\text{SCT}$) internamente; no existe ningún cálculo alternativo oculto en el método.
+% Analizar
+\begin{solproblema}[prob:011e008]
+	Cuando $\mathbf{X}$ tiene rango columna completo, la matriz $\mathbf{X}^T\mathbf{X}$ es invertible y ambos métodos —inversión directa y SVD— resuelven exactamente el mismo sistema de ecuaciones normales, produciendo resultados idénticos hasta el error de redondeo de punto flotante. La ventaja de la SVD surge cuando $\mathbf{X}^T\mathbf{X}$ está cerca de ser singular: el número de condición de $\mathbf{X}^T\mathbf{X}$ es aproximadamente el \textbf{cuadrado} del número de condición de $\mathbf{X}$, de modo que invertir $\mathbf{X}^T\mathbf{X}$ directamente amplifica dramáticamente los errores numéricos de redondeo. La SVD opera directamente sobre $\mathbf{X}$ (no sobre $\mathbf{X}^T\mathbf{X}$), evitando ese cuadrado del número de condición y produciendo una solución numéricamente mucho más estable ante multicolinealidad severa.
 \end{solproblema}
 
-\begin{solproblema}[prob:sklearn_rfe_interpretacion]
-	Los predictores seleccionados son aquellos con \texttt{support\_}$=\texttt{True}$: \texttt{TV} y \texttt{Radio}. Para los eliminados, un ranking menor indica eliminación más tardía (mayor importancia relativa); ranking mayor indica eliminación más temprana. Con \texttt{ranking\_}$=[1,1,3,2]$: \texttt{Online} (ranking 2) fue eliminado en la penúltima ronda, y \texttt{Newspaper} (ranking 3) fue el primero en ser eliminado, siendo el predictor considerado menos relevante desde el inicio del proceso recursivo.
+% Evaluar
+\begin{solproblema}[prob:5ad88f8]
+	Cuando $X_2=2X_1$ exactamente, las columnas de $\mathbf{X}$ son linealmente dependientes: $\mathbf{X}$ no tiene rango columna completo, al menos un valor singular $\sigma_i=0$, y $\mathbf{X}^T\mathbf{X}$ es exactamente singular. La Ecuación Normal no tiene solución única: existen infinitas combinaciones de $(\hat\beta_1,\hat\beta_2)$ que producen la misma predicción $\hat Y$, ya que cualquier incremento en $\hat\beta_1$ compensado por un decremento apropiado en $\hat\beta_2$ (manteniendo $\hat\beta_1+2\hat\beta_2$ constante) deja $\mathbf{X}\hat{\boldsymbol\beta}$ inalterado.
+
+	\texttt{scikit-learn} no falla porque la pseudoinversa de Moore-Penrose $\mathbf{X}^+$ está definida incluso cuando algún $\sigma_i=0$ (ese término simplemente se omite). La solución retornada es específicamente aquella de \textbf{norma euclidiana mínima} ($\|\hat{\boldsymbol\beta}\|_2$ mínima) entre todas las soluciones que logran el mismo ajuste óptimo.
+
+	Esta solución es numéricamente válida y reproducible, pero \textbf{no debe interpretarse causalmente coeficiente por coeficiente}: dado que $(\hat\beta_1,\hat\beta_2)$ es solo una elección arbitraria (la de norma mínima) entre infinitas combinaciones equivalentes, el valor específico de $\hat\beta_1$ no representa de forma aislada e inequívoca \emph{el efecto de $X_1$ manteniendo $X_2$ constante} —esa interpretación pierde sentido precisamente porque $X_1$ y $X_2$ nunca varían de forma independiente en los datos observados.
 \end{solproblema}
 
-\begin{solproblema}[prob:sklearn_fit_intercept_false]
-	Geométricamente, \texttt{fit\_intercept=False} obliga a la recta o hiperplano ajustado a pasar exactamente por el origen ($\hat Y=0$ cuando todos los predictores son $0$). Si en la realidad existe un nivel base de \texttt{Sales} positivo incluso sin inversión publicitaria, forzar el modelo a pasar por el origen introduce un sesgo sistemático: el algoritmo de mínimos cuadrados compensará esa restricción incorrecta inflando artificialmente las pendientes $\hat\beta_j$ para intentar explicar ese nivel base a través de los predictores, en lugar de a través de un intercepto legítimamente distinto de cero.
-\end{solproblema}
-
-\subsubsection*{3. Nivel Analítico (Avanzados / De Conexión)}
-
-\begin{solproblema}[prob:sklearn_svd_vs_ecuacion_normal]
-	Cuando $\mathbf{X}$ tiene rango columna completo, la matriz $\mathbf{X}^T\mathbf{X}$ es invertible y ambos métodos --- inversión directa y SVD --- resuelven exactamente el mismo sistema de ecuaciones normales, produciendo resultados idénticos hasta el error de redondeo de punto flotante. La ventaja de la SVD surge cuando $\mathbf{X}^T\mathbf{X}$ está cerca de ser singular: el número de condición de $\mathbf{X}^T\mathbf{X}$ es aproximadamente el \textbf{cuadrado} del número de condición de $\mathbf{X}$, de modo que invertir $\mathbf{X}^T\mathbf{X}$ directamente amplifica dramáticamente los errores numéricos de redondeo. La SVD opera directamente sobre $\mathbf{X}$ (no sobre $\mathbf{X}^T\mathbf{X}$), evitando ese cuadrado del número de condición y produciendo una solución numéricamente mucho más estable ante multicolinealidad severa.
-\end{solproblema}
-
-\begin{solproblema}[prob:sklearn_rfe_costo_computacional]
-	Partiendo de $p$ predictores y terminando en $k$, con eliminación de exactamente 1 predictor por iteración, el número de iteraciones de eliminación es $p-k$. En cada una de esas iteraciones se ajusta un modelo sobre el subconjunto de predictores actualmente activo, y se requiere un ajuste final adicional sobre el subconjunto final de $k$ predictores seleccionados. Por lo tanto, el número total de modelos ajustados es:
+% Crear
+\begin{solproblema}[prob:0abfd8d]
+	El promedio es:
 	\begin{align}
-		N_{\text{ajustes}} = (p-k)+1.
+		\bar{R}_{\text{CV}}^2 = \frac{0.75+0.71+0.77+0.73+0.74}{5} = \frac{3.70}{5} = 0.740.
 	\end{align}
-	Por ejemplo, para $p=10$ predictores reduciendo a $k=3$, \texttt{RFE} ajusta $10-3+1=8$ modelos en total.
-\end{solproblema}
-
-\subsubsection*{4. Nivel Desafiante (Expertos / Deducción Profunda)}
-
-\begin{solproblema}[prob:sklearn_pseudoinversa_deduccion]
-	\textbf{Demostración de la equivalencia SVD--Ecuación Normal:}
-
-	Con $\mathbf{X}=\mathbf{U}\boldsymbol\Sigma\mathbf{V}^T$, calculamos $\mathbf{X}^T\mathbf{X}$:
+	Las desviaciones cuadráticas respecto a la media son $(0.01)^2+(-0.03)^2+(0.03)^2+(-0.01)^2+(0.00)^2 = 0.0001+0.0009+0.0009+0.0001+0.0000 = 0.0020$. Dividiendo entre $k-1=4$:
 	\begin{align}
-		\mathbf{X}^T\mathbf{X} = (\mathbf{U}\boldsymbol\Sigma\mathbf{V}^T)^T(\mathbf{U}\boldsymbol\Sigma\mathbf{V}^T) = \mathbf{V}\boldsymbol\Sigma\mathbf{U}^T\mathbf{U}\boldsymbol\Sigma\mathbf{V}^T = \mathbf{V}\boldsymbol\Sigma^2\mathbf{V}^T,
+		s_{R^2}^2 = \frac{0.0020}{4} = 0.0005 \implies s_{R^2} = \sqrt{0.0005} \approx 0.02236.
 	\end{align}
-	usando $\mathbf{U}^T\mathbf{U}=\mathbf{I}$ (ortogonalidad de $\mathbf{U}$). Como $\mathbf{V}$ es ortogonal ($\mathbf{V}^{-1}=\mathbf{V}^T$) y $\boldsymbol\Sigma^2$ es diagonal invertible (rango completo, todos los $\sigma_i>0$), la inversa es:
-	\begin{align}
-		(\mathbf{X}^T\mathbf{X})^{-1} = \mathbf{V}\boldsymbol\Sigma^{-2}\mathbf{V}^T.
-	\end{align}
-	Ahora calculamos $\mathbf{X}^T\mathbf{Y} = (\mathbf{U}\boldsymbol\Sigma\mathbf{V}^T)^T\mathbf{Y} = \mathbf{V}\boldsymbol\Sigma\mathbf{U}^T\mathbf{Y}$. Sustituyendo en la Ecuación Normal:
-	\begin{align}
-		\hat{\boldsymbol\beta} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y} = \mathbf{V}\boldsymbol\Sigma^{-2}\mathbf{V}^T\mathbf{V}\boldsymbol\Sigma\mathbf{U}^T\mathbf{Y} = \mathbf{V}\boldsymbol\Sigma^{-2}\boldsymbol\Sigma\mathbf{U}^T\mathbf{Y} = \mathbf{V}\boldsymbol\Sigma^{-1}\mathbf{U}^T\mathbf{Y},
-	\end{align}
-	usando $\mathbf{V}^T\mathbf{V}=\mathbf{I}$. Como $\mathbf{X}^+=\mathbf{V}\boldsymbol\Sigma^{-1}\mathbf{U}^T$ por definición de la pseudoinversa de Moore-Penrose, concluimos exactamente:
-	\begin{align}
-		\hat{\boldsymbol\beta} = \mathbf{X}^+\mathbf{Y} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}.
-	\end{align}
-	Las dos expresiones son algebraicamente idénticas cuando $\mathbf{X}$ tiene rango columna completo (todos los $\sigma_i>0$, garantizando que $\boldsymbol\Sigma^{-1}$ existe).
-\end{solproblema}
-
-\begin{solproblema}[prob:sklearn_multicolinealidad_severa_svd]
-	Cuando $X_2=2X_1$ exactamente, las columnas de $\mathbf{X}$ son linealmente dependientes: $\mathbf{X}$ no tiene rango columna completo, al menos un valor singular $\sigma_i=0$, y $\mathbf{X}^T\mathbf{X}$ es exactamente singular (determinante cero, sin inversa). La Ecuación Normal de la Sección 09.07 no tiene solución única: existen infinitas combinaciones de $(\hat\beta_1,\hat\beta_2)$ que producen la misma predicción $\hat Y$, ya que cualquier incremento en $\hat\beta_1$ compensado por un decremento apropiado en $\hat\beta_2$ (manteniendo $\hat\beta_1+2\hat\beta_2$ constante) deja $\mathbf{X}\hat{\boldsymbol\beta}$ inalterado.
-
-	\texttt{scikit-learn} no falla porque la pseudoinversa de Moore-Penrose $\mathbf{X}^+$ está definida incluso cuando algún $\sigma_i=0$ (simplemente se omite ese término, o se usa $\sigma_i^{-1}=0$ por convención en la descomposición truncada). La solución retornada, $\hat{\boldsymbol\beta}=\mathbf{X}^+\mathbf{Y}$, es específicamente aquella de \textbf{norma euclidiana mínima} ($\|\hat{\boldsymbol\beta}\|_2$ mínima) entre todas las soluciones que logran el mismo ajuste óptimo $\|\mathbf{Y}-\mathbf{X}\hat{\boldsymbol\beta}\|^2$ mínimo.
-
-	Esta solución es numéricamente válida y reproducible, pero \textbf{no debe interpretarse causalmente coeficiente por coeficiente}: dado que $(\hat\beta_1,\hat\beta_2)$ es solo una elección arbitraria (la de norma mínima) entre infinitas combinaciones equivalentes, el valor específico de $\hat\beta_1$ no representa de forma aislada e inequívoca "el efecto de $X_1$ manteniendo $X_2$ constante" --- esa interpretación pierde sentido precisamente porque $X_1$ y $X_2$ nunca varían de forma independiente en los datos observados.
+	Reportar solo el promedio ($0.740$) oculta qué tan consistente es el modelo entre distintas particiones de los datos: dos modelos podrían compartir el mismo promedio de $R^2$, pero uno con puntajes muy dispersos (poco confiable, sensible a qué datos caen en cada pliegue) y otro con puntajes casi idénticos (estable y predecible). Reportar también $s_{R^2}$ (o un intervalo aproximado $\bar{R}_{\text{CV}}^2 \pm s_{R^2}$) le permite a un equipo no técnico entender no solo qué tan bueno es el modelo en promedio, sino qué tan seguro se puede estar de que ese desempeño se repetirá con datos nuevos.
 \end{solproblema}
