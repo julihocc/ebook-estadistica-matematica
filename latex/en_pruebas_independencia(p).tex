@@ -1,0 +1,114 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:d20c80f}
+State, without calculation, the formula for the expected frequency $E_{ij}$ under the null hypothesis of independence in an $r\times c$ contingency table, and the formula for the corresponding degrees of freedom.
+\end{problema}
+
+\begin{problema}\label{prob:b002759}
+Explain, without numerical data, why
+\[
+	E_{ij}=\frac{R_iC_j}{N}
+\]
+is the correct expected frequency under independence, starting from the fact that if two events $F_i$ and $C_j$ are independent, then $P(F_i\cap C_j)=P(F_i)P(C_j)$.
+\end{problema}
+
+\begin{problema}\label{prob:147e151}
+A road-safety audit checks whether vehicle type and weekday are independent in urban accidents ($n=300$):
+\[
+\begin{array}{|l|c|c|c|c|}\hline
+\text{Vehicle type} & \text{Monday} & \text{Wednesday} & \text{Friday} & \text{Total}\\\hline
+\text{Car} & 30 & 25 & 45 & 100\\\hline
+\text{Van} & 20 & 30 & 30 & 80\\\hline
+\text{Motorcycle} & 25 & 20 & 35 & 80\\\hline
+\text{Truck} & 15 & 15 & 10 & 40\\\hline
+\text{Total} & 90 & 90 & 120 & 300\\\hline
+\end{array}
+\]
+Compute the expected frequencies, the $\chi^2$ statistic, the degrees of freedom, and decide at $\alpha=0.05$, using $\chi^2_{0.05,6}=12.59$, whether there is a significant relationship between day and vehicle type.
+\end{problema}
+
+\begin{problema}\label{prob:3c6b064}
+For a $2\times2$ contingency table with cells $a,b,c,d$, row totals $R_1,R_2$, and column totals $C_1,C_2$, prove algebraically that Pearson's general statistic under independence collapses to
+\[
+	\chi^2=\frac{N(ad-bc)^2}{(a+b)(c+d)(a+c)(b+d)}.
+\]
+Explain the meaning of $(ad-bc)$ as the determinant of the contingency matrix, relating it to the odds ratio $\operatorname{OR}=ad/bc$.
+\end{problema}
+
+\begin{problema}\label{prob:878a46f}
+After rejecting $H_0$ in a chi-square independence test between ``advertising channel seen'' and ``purchase decision,'' a marketing analyst concludes: ``it has been proved that the advertising channel causes the purchase decision.'' Evaluate this conclusion: what exactly does a significant $\chi^2$ independence test prove, and what does it not prove? Propose an alternative explanation, such as a confounding variable, that could produce the same non-independence without a direct causal relationship.
+\end{problema}
+
+\begin{problema}\label{prob:a5524c8}
+Design an original example, with context and an $r\times c$ contingency table with $r\ge2$ and $c\ge2$, where a $\chi^2$ independence test is applied. Use a context different from the traffic-accident example in this section. Compute at least one expected cell frequency and state the degrees of freedom of your table.
+\end{problema}
+
+\begin{solproblema}[prob:d20c80f]
+\[
+	E_{ij}=\frac{R_iC_j}{N},
+\]
+where $R_i$ is the row total, $C_j$ is the column total, and $N$ is the grand total. The degrees of freedom are
+\[
+	\nu=(r-1)(c-1).
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:b002759]
+Under independence, the marginal probabilities are estimated by $P(F_i)\approx R_i/N$ and $P(C_j)\approx C_j/N$. Thus
+\[
+	P(F_i\cap C_j)=P(F_i)P(C_j)\approx\frac{R_i}{N}\frac{C_j}{N}.
+\]
+Multiplying by $N$ converts this probability into an expected count:
+\[
+	E_{ij}=N\frac{R_i}{N}\frac{C_j}{N}=\frac{R_iC_j}{N}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:147e151]
+The expected frequencies are: Car $(30,30,40)$; Van $(24,24,32)$; Motorcycle $(24,24,32)$; Truck $(12,12,16)$. The statistic is approximately
+\[
+	\chi^2=8.49.
+\]
+The degrees of freedom are
+\[
+	\nu=(4-1)(3-1)=6.
+\]
+Since $8.49<12.59$, do not reject $H_0$: there is no statistically significant relationship between day and vehicle type at the $5\%$ level.
+\end{solproblema}
+
+\begin{solproblema}[prob:3c6b064]
+For example,
+\[
+	E_{11}=\frac{(a+b)(a+c)}{N},
+\]
+and simplifying $O_{11}-E_{11}$ gives a term proportional to $ad-bc$. The four cell deviations have the same determinant-driven magnitude with alternating signs. Substituting these deviations into
+\[
+	\chi^2=\sum\frac{(O_{ij}-E_{ij})^2}{E_{ij}}
+\]
+and simplifying yields
+\[
+	\chi^2=\frac{N(ad-bc)^2}{(a+b)(c+d)(a+c)(b+d)}.
+\]
+The term $ad-bc$ is the determinant of the table matrix. If $ad=bc$, the determinant is zero, the rows are proportional, $\operatorname{OR}=ad/bc=1$, and the table is consistent with independence.
+\end{solproblema}
+
+\begin{solproblema}[prob:878a46f]
+The conclusion is incorrect. A significant independence test shows statistical association between the two categorical variables; it does not establish causality or direction of effect. A plausible confounder is consumer income: income could affect both which advertising channels consumers see and their probability of purchase, producing association between channel and purchase even if the channel itself is not the direct cause.
+\end{solproblema}
+
+\begin{solproblema}[prob:a5524c8]
+Example: a university studies whether study modality and course result are independent among $400$ students:
+\[
+\begin{array}{|l|c|c|c|}\hline
+\text{Modality} & \text{Passed} & \text{Failed} & \text{Total}\\\hline
+\text{In person} & 120 & 30 & 150\\\hline
+\text{Hybrid} & 90 & 30 & 120\\\hline
+\text{Online} & 80 & 50 & 130\\\hline
+\text{Total} & 290 & 110 & 400\\\hline
+\end{array}
+\]
+For the In person--Passed cell,
+\[
+	E_{11}=\frac{150(290)}{400}=108.75.
+\]
+The degrees of freedom are $(3-1)(2-1)=2$.
+\end{solproblema}

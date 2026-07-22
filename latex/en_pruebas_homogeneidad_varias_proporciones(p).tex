@@ -1,0 +1,98 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:7ccb176}
+State, without calculation, the null hypothesis of a homogeneity test for $c$ independent populations with a categorical variable having $r$ levels, and give the compact $\chi^2$ statistic for the special case of $k$ proportions ($r=2$).
+\end{problema}
+
+\begin{problema}\label{prob:44ef899}
+The calculation formula, $\sum(O-E)^2/E$, is identical for independence and homogeneity tests. Explain the deeper conceptual difference between them in terms of sampling design: what is fixed in advance by the researcher in each case?
+\end{problema}
+
+\begin{problema}\label{prob:3a99a23}
+In a clinical trial, a vaccine is compared with placebo after six months of follow-up: Vaccine group ($n_1=150$): 12 infected and 138 healthy; Placebo group ($n_2=150$): 28 infected and 122 healthy. Construct the $2\times2$ contingency table and run the $\chi^2$ homogeneity test with $\nu=1$ to determine whether infection rate differs significantly between groups at $\alpha=0.05$, using $\chi^2_{0.05,1}=3.841$.
+\end{problema}
+
+\begin{problema}\label{prob:a98f897}
+Using the previous data, vaccine 12/150 infected and placebo 28/150 infected, compute the standardized normal statistic $Z$ for a conventional two-sided two-proportion test with pooled standard error, and verify numerically the algebraic identity $Z^2\equiv\chi^2$ against the statistic computed in the previous problem. Briefly explain why this identity always holds in $2\times2$ tables.
+\end{problema}
+
+\begin{problema}\label{prob:cb7e8b6}
+After rejecting the global hypothesis $H_0:p_1=p_2=p_3=p_4$ in a homogeneity test of $k=4$ proportions, an analyst identifies which proportions differ by running all $\binom42=6$ possible two-sided pairwise $Z$ tests, each at individual level $\alpha=0.05$, with no further adjustment. Evaluate this practice: what statistical problem does it introduce, and why is Marascuilo's multiple-comparison procedure, using
+\[
+	r_{ij}=\sqrt{\chi^2_{\alpha,k-1}}\sqrt{\frac{\hat p_i(1-\hat p_i)}{n_i}+\frac{\hat p_j(1-\hat p_j)}{n_j}},
+\]
+the statistically correct alternative?
+\end{problema}
+
+\begin{problema}\label{prob:4eeb5bb}
+Design an original example with $k=3$ independent populations, including context and sample success proportions, where the homogeneity test of $k$ proportions applies. Use a context different from the vaccination example in this section. State $H_0$ and compute the combined global proportion $\bar p$.
+\end{problema}
+
+\begin{solproblema}[prob:7ccb176]
+For $c$ populations and $r$ categories,
+\[
+	H_0:\ p_{i1}=p_{i2}=\cdots=p_{ic}\quad\text{for each }i=1,\ldots,r,
+\]
+meaning that all populations have the same categorical distribution. For $k$ proportions,
+\[
+	\chi^2=\sum_{j=1}^k
+	\frac{(X_j-n_j\bar p)^2}{n_j\bar p(1-\bar p)},
+	\qquad
+	\bar p=\frac{\sum X_j}{\sum n_j}.
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:44ef899]
+In an independence test, one sample of size $N$ is drawn and two categorical variables are observed on each individual; row and column totals both emerge from the data. In a homogeneity test, the researcher draws several independent samples with fixed sizes $n_1,\ldots,n_c$ and observes one categorical variable in each sample. The arithmetic is the same, but the sampling design and research question are different.
+\end{solproblema}
+
+\begin{solproblema}[prob:3a99a23]
+\[
+\begin{array}{|l|c|c|c|}\hline
+ & \text{Infected} & \text{Healthy} & \text{Total}\\\hline
+\text{Vaccine} & 12 & 138 & 150\\\hline
+\text{Placebo} & 28 & 122 & 150\\\hline
+\text{Total} & 40 & 260 & 300\\\hline
+\end{array}
+\]
+The expected infected count in each group is $150(40)/300=20$, and the expected healthy count is $130$. Therefore,
+\[
+	\chi^2=\frac{(12-20)^2}{20}+\frac{(138-130)^2}{130}
+	+\frac{(28-20)^2}{20}+\frac{(122-130)^2}{130}
+	=7.385.
+\]
+Since $7.385>3.841$, reject $H_0$: the infection rates differ significantly.
+\end{solproblema}
+
+\begin{solproblema}[prob:a98f897]
+\[
+	\hat p_1=\frac{12}{150}=0.08,\qquad
+	\hat p_2=\frac{28}{150}\approx0.18667,\qquad
+	\hat p=\frac{40}{300}\approx0.13333.
+\]
+The pooled standard error is
+\[
+	SE_p=\sqrt{0.13333(0.86667)\left(\frac1{150}+\frac1{150}\right)}
+	\approx0.03925.
+\]
+Thus
+\[
+	Z=\frac{0.08-0.18667}{0.03925}\approx-2.7175,
+	\qquad Z^2\approx7.385.
+\]
+This matches the chi-square statistic because in a $2\times2$ table Pearson's statistic is the squared standardized difference between the two binomial proportions, and $Z^2\sim\chi^2_1$.
+\end{solproblema}
+
+\begin{solproblema}[prob:cb7e8b6]
+The practice is statistically incorrect because six unadjusted pairwise tests inflate the family-wise error rate: the probability of at least one false positive across the family exceeds the nominal $5\%$. Marascuilo's procedure uses the global $\chi^2_{\alpha,k-1}$ critical value inside each pairwise critical range, controlling the error rate for the whole set of comparisons rather than each comparison in isolation.
+\end{solproblema}
+
+\begin{solproblema}[prob:4eeb5bb]
+Example: a customer-retention study compares cancellation rates across three pricing plans: Basic has $n_1=300$ and $X_1=45$ cancellations; Standard has $n_2=350$ and $X_2=28$; Premium has $n_3=200$ and $X_3=10$. The null hypothesis is
+\[
+	H_0:p_1=p_2=p_3.
+\]
+The combined proportion is
+\[
+	\bar p=\frac{45+28+10}{300+350+200}=\frac{83}{850}\approx0.0976.
+\]
+\end{solproblema}

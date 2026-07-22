@@ -1,0 +1,95 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:9667d45}
+State, without calculation, the formula for the $Z$ statistic used to test $H_0:p=p_0$ for a population proportion, and explicitly indicate whether the denominator's standard error uses the population value under $H_0$ or the observed sample value.
+\end{problema}
+
+\begin{problema}\label{prob:fa8ecc5}
+Explain why, in the $Z$ test for one proportion, the denominator's standard error is computed with $p_0(1-p_0)/n$, the value hypothesized under $H_0$, rather than with $\hat p(1-\hat p)/n$, the observed sample value used in a confidence interval for $p$.
+\end{problema}
+
+\begin{problema}\label{prob:7649a34}
+A cybersecurity company compares a classic spam filter with a new AI model. The classic filter correctly detected $X_1=340$ of $n_1=400$ malicious emails; the AI model correctly detected $X_2=465$ of $n_2=500$. Is there evidence at $\alpha=0.02$ that the AI model has a significantly higher detection rate?
+\end{problema}
+
+\begin{problema}\label{prob:451f58f}
+Starting from the standard error for one proportion under $H_0$,
+\[
+	SE=\sqrt{\frac{p_0(1-p_0)}{n}},
+\]
+and following the same reasoning used to derive the sample size for a mean test,
+\[
+	n=\left(\frac{(Z_\alpha+Z_\beta)\sigma}{\mu_a-\mu_0}\right)^2,
+\]
+derive the analogous sample-size formula needed for a one-tailed test of a proportion, $H_0:p=p_0$ against $H_a:p>p_0$, to attain power $1-\beta$ for detecting a true alternative $p_a>p_0$.
+\end{problema}
+
+\begin{problema}\label{prob:f016371}
+When constructing the test statistic for $H_0:p=0.30$ from a sample with $\hat p=0.38$, an analyst computes the standard error as $\sqrt{\hat p(1-\hat p)/n}=\sqrt{0.38(0.62)/n}$ instead of $\sqrt{p_0(1-p_0)/n}=\sqrt{0.30(0.70)/n}$. Evaluate this error: does it make the resulting $Z$ statistic larger or smaller in magnitude, and what practical consequence can it have for the decision?
+\end{problema}
+
+\begin{problema}\label{prob:134cb53}
+Design an original example, with context, hypothesized $p_0$, and sample data, where the $Z$ test for a single population proportion is applied. Use a context different from the spam-detection examples in this section. Verify the large-sample condition and compute the $Z$ statistic.
+\end{problema}
+
+\begin{solproblema}[prob:9667d45]
+\[
+	Z=\frac{\hat p-p_0}{\sqrt{p_0(1-p_0)/n}}.
+\]
+The standard error uses the value hypothesized under $H_0$, namely $p_0$, not the observed sample value $\hat p$.
+\end{solproblema}
+
+\begin{solproblema}[prob:fa8ecc5]
+A hypothesis test measures how compatible the data are with the specific fixed value $p_0$. Under $H_0$, the sampling variation is governed by $p_0$, so the null standard error uses $p_0(1-p_0)$. A confidence interval has no fixed null value; it estimates the unknown $p$ from the sample, so it uses $\hat p$ as the available estimate of the variance.
+\end{solproblema}
+
+\begin{solproblema}[prob:7649a34]
+Here $\hat p_1=340/400=0.85$ and $\hat p_2=465/500=0.93$. Under $H_0:p_1=p_2$, the pooled estimate is
+\[
+	\bar p=\frac{805}{900}\approx0.8944.
+\]
+The null standard error is
+\[
+	SE_0=\sqrt{0.8944(0.1056)\left(\frac1{400}+\frac1{500}\right)}
+	\approx0.02061.
+\]
+Using $Z=(\hat p_2-\hat p_1)/SE_0$,
+\[
+	Z=\frac{0.93-0.85}{0.02061}\approx3.881.
+\]
+Since $Z_{0.02}\approx2.054$ and $3.881>2.054$, reject $H_0$: the AI model has a significantly higher detection rate.
+\end{solproblema}
+
+\begin{solproblema}[prob:451f58f]
+The critical sample proportion under $H_0$ is
+\[
+	\hat p_c=p_0+Z_\alpha\sqrt{\frac{p_0(1-p_0)}n}.
+\]
+Under the alternative centered at $p_a$, requiring Type II error $\beta$ gives approximately
+\[
+	\hat p_c=p_a-Z_\beta\sqrt{\frac{p_a(1-p_a)}n}.
+\]
+Equating the two and using a representative variance term $\bar p(1-\bar p)$,
+\[
+	(Z_\alpha+Z_\beta)\sqrt{\frac{\bar p(1-\bar p)}n}=p_a-p_0.
+\]
+Solving,
+\[
+	n=\left(\frac{Z_\alpha+Z_\beta}{p_a-p_0}\right)^2\bar p(1-\bar p).
+\]
+\end{solproblema}
+
+\begin{solproblema}[prob:f016371]
+The calculation is conceptually wrong. In this case,
+\[
+	0.38(0.62)=0.2356>0.30(0.70)=0.21,
+\]
+so the incorrect standard error is larger. Therefore the resulting $Z$ statistic is smaller in magnitude than it should be, making the test artificially conservative. It could fail to reject $H_0$ in a case where the correct null-based standard error would lead to rejection.
+\end{solproblema}
+
+\begin{solproblema}[prob:134cb53]
+Example: an electronics factory claims its defect rate is $p_0=0.04$. An independent quality-control sample of $n=500$ units finds $28$ defective, so $\hat p=0.056$. The large-sample condition holds because $np_0=20\ge5$ and $n(1-p_0)=480\ge5$. The statistic is
+\[
+	Z=\frac{0.056-0.04}{\sqrt{0.04(0.96)/500}}
+	=\frac{0.016}{0.00876}\approx1.826.
+\]
+\end{solproblema}

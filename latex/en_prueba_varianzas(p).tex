@@ -1,0 +1,88 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:246a30e}
+State, without calculation, the formula for the $\chi^2$ statistic used to test $H_0:\sigma^2=\sigma_0^2$ for one population, and the formula for the $F$ statistic used to test $H_0:\sigma_1^2=\sigma_2^2$ for two populations, including their respective degrees of freedom.
+\end{problema}
+
+\begin{problema}\label{prob:0a7aead}
+When running a two-tailed $F$ test to compare two variances, it is common to put the larger sample variance in the numerator, $F=S_{\text{larger}}^2/S_{\text{smaller}}^2\ge1$, rather than simply computing $S_1^2/S_2^2$ in the original sample order. Explain the practical advantage of this convention when using statistical tables that report only upper-tail quantiles of the $F$ distribution.
+\end{problema}
+
+\begin{problema}\label{prob:682c2b2}
+Before a pooled $t$ test, homoscedasticity must be checked for two analog sensors. Two independent samples give $S_1^2=14.8$ with $n_1=16$, and $S_2^2=5.2$ with $n_2=11$. Perform a two-tailed $F$ test at $\alpha=0.10$ for $H_0:\sigma_1^2=\sigma_2^2$, using $F_{0.05,15,10}=2.85$. Is it legitimate to assume homoscedasticity?
+\end{problema}
+
+\begin{problema}\label{prob:120019a}
+For two independent normal samples with unknown means and variances, test $H_0:\sigma_1^2=\sigma_2^2$ using the likelihood-ratio test. Derive
+\[
+	-2\ln\Lambda
+	=n_1\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_1^2}\right)
+	+n_2\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_2^2}\right),
+\]
+where
+\[
+	\hat\sigma_0^2=\frac{n_1\hat\sigma_1^2+n_2\hat\sigma_2^2}{n_1+n_2}
+\]
+is the combined maximum-likelihood estimator under $H_0$, and explain why $-2\ln\Lambda$ converges asymptotically to $\chi^2_1$ by Wilks' theorem.
+\end{problema}
+
+\begin{problema}\label{prob:9db6e94}
+An analyst with two small samples, $n_1=8$ and $n_2=10$, must choose between Snedecor's exact $F$ test and a likelihood-ratio test using Wilks' asymptotic theorem to test equality of variances. Evaluate which choice is statistically more appropriate in this small-sample scenario, explaining the fundamental difference between an exact and an asymptotic test.
+\end{problema}
+
+\begin{problema}\label{prob:a0ad324}
+Design an original example, with context, sample size $n$, sample variance $S^2$, and target variance $\sigma_0^2$, where the $\chi^2$ test is applied to a single population variance. Use a context different from the sensor examples in this section. Compute the $\chi^2$ statistic and state the decision using a reasonable critical value.
+\end{problema}
+
+\begin{solproblema}[prob:246a30e]
+For one population,
+\[
+	\chi^2=\frac{(n-1)S^2}{\sigma_0^2},
+\]
+with $\nu=n-1$ degrees of freedom. For two populations,
+\[
+	F=\frac{S_1^2}{S_2^2},
+\]
+with numerator degrees of freedom $\nu_1=n_1-1$ and denominator degrees of freedom $\nu_2=n_2-1$.
+\end{solproblema}
+
+\begin{solproblema}[prob:0a7aead]
+Putting the larger variance in the numerator guarantees $F\ge1$, so the statistic can be compared directly with an upper-tail $F$ critical value. This avoids needing a lower-tail quantile from tables that usually report only upper tails. If the original order were kept, the lower quantile could still be recovered by the reciprocal identity, but the larger-over-smaller convention makes the procedure simpler.
+\end{solproblema}
+
+\begin{solproblema}[prob:682c2b2]
+\[
+	F=\frac{14.8}{5.2}\approx2.846,
+\]
+with $\nu_1=15$ and $\nu_2=10$. Since $F_{0.05,15,10}=2.85$ and $2.846<2.85$, formally do not reject $H_0$ at the $10\%$ level. However, the statistic is essentially on the boundary, so assuming pure homoscedasticity is not advisable; Welch's method would be safer in later mean comparisons.
+\end{solproblema}
+
+\begin{solproblema}[prob:120019a]
+Under the unrestricted model, the MLEs are
+\[
+	\hat\sigma_1^2=\frac1{n_1}\sum(X_i-\bar X)^2,\qquad
+	\hat\sigma_2^2=\frac1{n_2}\sum(Y_j-\bar Y)^2.
+\]
+Under $H_0$, the common-variance MLE is
+\[
+	\hat\sigma_0^2=\frac{n_1\hat\sigma_1^2+n_2\hat\sigma_2^2}{n_1+n_2}.
+\]
+Subtracting the maximized log-likelihoods and multiplying by $-2$ gives
+\[
+	-2\ln\Lambda
+	=n_1\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_1^2}\right)
+	+n_2\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_2^2}\right).
+\]
+By Wilks' theorem, the statistic converges to $\chi^2_\nu$, where $\nu$ is the difference in model dimensions. The unrestricted model has parameters $(\mu_1,\mu_2,\sigma_1^2,\sigma_2^2)$ and the null model has $(\mu_1,\mu_2,\sigma_0^2)$, so $\nu=1$.
+\end{solproblema}
+
+\begin{solproblema}[prob:9db6e94]
+For small samples, Snedecor's $F$ test is more appropriate. It is exact under normality: its $F_{\nu_1,\nu_2}$ reference distribution is valid at finite sample sizes. The likelihood-ratio test using Wilks' theorem is asymptotic, so the $\chi^2_1$ approximation is justified as sample sizes grow. With $n_1=8$ and $n_2=10$, that approximation may be poor, so the exact $F$ test is preferred.
+\end{solproblema}
+
+\begin{solproblema}[prob:a0ad324]
+Example: a battery manufacturer requires the variance of nominal capacity to be $\sigma_0^2=25\ \text{mAh}^2$. A sample of $n=18$ batteries gives $S^2=41.3\ \text{mAh}^2$. The statistic is
+\[
+	\chi^2=\frac{17(41.3)}{25}\approx28.08.
+\]
+For a two-tailed $5\%$ test with $17$ degrees of freedom, use approximately $\chi^2_{0.025,17}=30.191$ and $\chi^2_{0.975,17}=7.564$. Since $7.564<28.08<30.191$, do not reject $H_0:\sigma^2=25$.
+\end{solproblema}

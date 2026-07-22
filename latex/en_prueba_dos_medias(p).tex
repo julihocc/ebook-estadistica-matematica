@@ -1,0 +1,80 @@
+% Bloom levels: remember, understand, apply, analyze, evaluate, create.
+\begin{problema}\label{prob:16e7075}
+State, without calculation, the general form of $H_0$ for a test about the difference of two means, $H_0:\mu_1-\mu_2=\Delta_0$, and list the four cases that determine which statistic to use: known variances, unknown equal variances, unknown unequal variances, and paired samples.
+\end{problema}
+
+\begin{problema}\label{prob:b9ad2de}
+An analyst has two datasets for comparing means and does not know which of the four cases applies. Explain, as a verbal decision tree, which questions should be asked in order: are the samples related, are the population variances known, and are the sample variances reasonably similar?
+\end{problema}
+
+\begin{problema}\label{prob:b0c0618}
+In a physical-performance study, maximum oxygen consumption ($\text{VO}_2$ max) was measured in $n=12$ athletes before and after an eight-week altitude-training program. The individual differences have $\bar D=3.8$ ml/kg/min and $S_D=2.1$ ml/kg/min. Do the data provide enough evidence at $\alpha=0.01$ to claim that the program increases maximum oxygen consumption?
+\end{problema}
+
+\begin{problema}\label{prob:f2e4336}
+A data scientist compares execution times of two algorithms with explicitly heterogeneous variances: Algorithm 1 has $n_1=15$, $\bar X_1=85.2$ s, $S_1=12.4$ s; Algorithm 2 has $n_2=18$, $\bar X_2=74.5$ s, $S_2=5.2$ s. Compute the Welch--Satterthwaite degrees of freedom and perform the two-sided Welch $t$ test at $\alpha=0.05$.
+\end{problema}
+
+\begin{problema}\label{prob:bf23a02}
+A researcher measures the performance of $n=20$ employees before and after training, so the same employees are measured twice, but analyzes the data as two independent samples of size $20$ each, using the equal-variance two-sample $t$ test instead of the paired test. Evaluate this decision: what relevant information is lost by ignoring the pairing, and how does this affect test power?
+\end{problema}
+
+\begin{problema}\label{prob:7fe0aa3}
+Design an original example, with context and two independent samples whose population variances are known, where the $Z$ test for a difference of means is applied. Use a context different from those already seen in this section, and compute the $Z$ statistic for data you propose.
+\end{problema}
+
+\begin{solproblema}[prob:16e7075]
+The null hypothesis is
+\[
+	H_0:\mu_1-\mu_2=\Delta_0,
+\]
+usually with $\Delta_0=0$. The four cases are: known variances, using a $Z$ statistic; unknown equal variances, using a pooled-variance $t$ statistic; unknown unequal variances, using Welch's $t$ statistic; and paired samples, using a one-sample $t$ statistic on the differences $D_i$.
+\end{solproblema}
+
+\begin{solproblema}[prob:b9ad2de]
+First ask whether the samples are related, such as the same subject measured twice or naturally matched pairs. If yes, use the paired case. If the samples are independent, ask whether $\sigma_1^2$ and $\sigma_2^2$ are known. If yes, use the known-variance $Z$ case. If not, ask whether assuming equal variances is reasonable, for example after a variance check. If yes, use the pooled $t$ case; otherwise use Welch's $t$ case.
+\end{solproblema}
+
+\begin{solproblema}[prob:b0c0618]
+Use
+\[
+	H_0:\mu_D\le0,\qquad H_a:\mu_D>0.
+\]
+With $\nu=11$,
+\[
+	t=\frac{3.8}{2.1/\sqrt{12}}\approx6.268.
+\]
+Since $t_{0.01,11}=2.718$ and $6.268>2.718$, reject $H_0$. There is strong evidence that the program increases $\text{VO}_2$ max.
+\end{solproblema}
+
+\begin{solproblema}[prob:f2e4336]
+\[
+	\frac{S_1^2}{n_1}\approx10.251,\qquad \frac{S_2^2}{n_2}\approx1.502.
+\]
+Thus
+\[
+	\nu=\frac{(10.251+1.502)^2}{10.251^2/14+1.502^2/17}\approx18.08,
+\]
+so use $\nu=18$. The Welch standard error is
+\[
+	SE_W=\sqrt{11.753}\approx3.428,
+\]
+and
+\[
+	t=\frac{85.2-74.5}{3.428}\approx3.121.
+\]
+Since $t_{0.025,18}=2.101$ and $3.121>2.101$, reject $H_0$: Algorithm 2 is significantly faster.
+\end{solproblema}
+
+\begin{solproblema}[prob:bf23a02]
+The decision is incorrect. Treating paired measurements as independent ignores the natural within-employee correlation: high-performing employees tend to be high both before and after training. The paired design analyzes the differences $D_i$, removing between-subject variability and leaving the variability of the treatment effect. Ignoring pairing inflates the standard error and reduces power, making real effects harder to detect.
+\end{solproblema}
+
+\begin{solproblema}[prob:7fe0aa3]
+Example: two automated assembly lines produce parts whose weights have known population standard deviations $\sigma_1=\sigma_2=0.5$ g. A sample of $n_1=40$ parts from Line 1 gives $\bar X_1=250.3$ g, and a sample of $n_2=45$ parts from Line 2 gives $\bar X_2=250.1$ g. With $\Delta_0=0$,
+\[
+	Z=\frac{(250.3-250.1)-0}{\sqrt{0.5^2/40+0.5^2/45}}
+	=\frac{0.2}{0.1086}\approx1.842.
+\]
+For a two-tailed $5\%$ test, $|1.842|<1.96$, so do not reject $H_0$.
+\end{solproblema}
