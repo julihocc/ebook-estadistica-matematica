@@ -39,7 +39,7 @@ por fechas e hitos editoriales.
 - Después del checkpoint 4H, el maestro EN tiene 131 entradas `\input{}` sin objetivos faltantes; 41 de 60 secciones ES de problemas tienen contraparte EN exacta normalizada, 11 contrapartes exactas EN siguen faltantes y 8 archivos EN exactos siguen pendientes de normalización.
 - Confirmada la paridad de etiquetas, conteos de 6 problemas/6 soluciones y ausencia de tiers visibles heredados en los 6 cuadernos EN restantes del Capítulo 7.
 - Después del checkpoint 4I, el maestro EN tiene 135 entradas `\input{}` sin objetivos faltantes; 47 de 60 secciones ES de problemas tienen contraparte EN exacta normalizada, 6 contrapartes exactas EN siguen faltantes y 7 archivos EN exactos siguen pendientes de normalización.
-- No se tocó `presentaciones/`. No se hizo `git commit`.
+- No se tocó `presentaciones/`. Los checkpoints se committearon localmente por bloques revisables cuando el usuario lo solicitó; no se hizo `git push`.
 
 ## 2026-07-22 (migración de los 21 cuadernos `(p).tex` restantes a la convención Bloom + hash-labels)
 

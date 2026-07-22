@@ -4,6 +4,44 @@
 **Estado global:** Abierto, en ejecución por etapas.
 **Alcance de este documento:** cerrar las tareas que quedaron vivas después de la reestructuración del temario MA1001B, sin modificar `presentaciones/` en esta fase.
 
+## Bitácora de progreso registrada el 2026-07-22 17:04 -06:00
+
+Entre el checkpoint 4F y el corte documentado el 2026-07-22 17:04 -06:00 se avanzó el cierre del espejo EN hasta el checkpoint 4I, con verificación incremental y commits locales por bloques revisables:
+
+- `c8712a1` — `Completes EN checkpoint 4G migration`: migración de los 7 cuadernos EN del Capítulo 6 / Estimación, retiro de `en_estimacion_intervalos_avanzado(p).tex`, actualización del maestro EN y verificación de compilación.
+- `393207a` — `Advances EN Chapter 7 problem migration`: migración de los 4 cuadernos EN de la primera mitad del Capítulo 7 / Pruebas de hipótesis.
+- `a8db919` — `Completes EN Chapter 7 problem migration`: migración de los 6 cuadernos EN restantes del Capítulo 7, retiro de `en_pruebas_hipotesis_avanzadas(p).tex`, actualización del maestro EN y verificación de compilación.
+
+Estado verificado al 2026-07-22 17:04 -06:00:
+
+- 47 de 60 secciones ES de problemas ya tienen contraparte EN exacta normalizada.
+- Quedan 13 secciones por cubrir: 6 sin contraparte exacta EN y 7 con archivo EN existente pero todavía heredado.
+- El maestro EN tiene 135 entradas `\input{}` y 0 objetivos faltantes.
+- Quedan 2 referencias a nombres de bundles heredados de problemas en el maestro EN: `en_distribuciones_especiales(p)` y `en_diseno_experimentos_anova(p)`.
+- No se tocó `presentaciones/`.
+- No se hizo `git push`.
+
+Pendientes al 2026-07-22 17:04 -06:00:
+
+1. **Checkpoint 4J — Capítulo 8 / Diseño experimental.** Crear las 6 contrapartes EN faltantes y conectarlas al maestro EN inmediatamente después de sus archivos teóricos:
+   - `en_estrategias_experimentacion(p).tex`
+   - `en_anova_un_factor(p).tex`
+   - `en_efectos_modelo_fijo(p).tex`
+   - `en_adecuacion_modelo_anova(p).tex`
+   - `en_cuadrados_latinos_grecolatinos(p).tex`
+   - `en_diseno_factorial(p).tex`
+   Al cubrir este bloque debe retirarse del maestro EN y del árbol vivo `en_diseno_experimentos_anova(p).tex`.
+2. **Checkpoint 4K — Capítulo 9 / Regresiones.** Normalizar los 7 cuadernos EN que ya existen pero siguen heredados, verificando etiquetas contra sus fuentes ES:
+   - `en_regresiones_lineales(p).tex`
+   - `en_regresion_multiple(p).tex`
+   - `en_validacion_modelo(p).tex`
+   - `en_supuestos_regresion(p).tex`
+   - `en_regresion_scikit(p).tex`
+   - `en_otros_problemas_categoricas(p).tex`
+   - `en_otros_problemas_transformaciones(p).tex`
+3. **Revisión puntual de bundle vivo restante.** Confirmar en el cierre final si `en_distribuciones_especiales(p).tex` debe conservarse como contraparte válida del archivo ES homónimo o archivarse/retirarse si queda fuera de la estructura paralela final.
+4. **Verificación final completa.** Cuando los 60 pares estén normalizados: comparar secuencias de `\input{}` ES/EN, confirmar unicidad de etiquetas, compilar ES y EN, ejecutar `git diff --check`, revisar que no haya `.log` agregados ni cambios ajenos, y actualizar la documentación de operación si el estado vivo ya no coincide con notas históricas.
+
 ## Línea base verificada
 
 La reestructuración del libro en español ya está aplicada. Los archivos de problemas en español usan el estándar vigente de 6 problemas por sección, ordenados por nivel de Bloom, con etiquetas hash `prob:<7-hex>`.
@@ -224,7 +262,7 @@ Antes de cerrar la tarea:
 - Ejecutar `git diff --check`.
 - Confirmar que no se agregaron `.log` ni cambios ajenos.
 
-Los artefactos de build se actualizan si cambian por convención del repositorio, pero no se hace `git commit` ni `git push`.
+Los artefactos de build se actualizan si cambian por convención del repositorio. Los commits se hacen por chunks revisables cuando el usuario lo solicita; no se hace `git push` sin instrucción explícita.
 
 ## Backlog separado
 
