@@ -1,0 +1,256 @@
+\section{Fundamentals of Experimental Design (DOE)}
+
+In applied statistics and scientific research, observational studies often fail to establish causal relationships due to the presence of confounding variables and uncontrolled environmental noise. \textbf{Design of Experiments (DOE)} provides a rigorous mathematical and structural methodology to plan, execute, and analyze empirical tests where intentional changes are made to input variables (factors) of a system or process to observe, measure, and identify the corresponding changes in output variables (responses).
+
+The primary objectives of experimental design include:
+\begin{enumerate}
+	\item Maximizing the information obtained regarding the relationship between independent and dependent variables while minimizing experimental cost, time, and sample size.
+	\item Ensuring that the estimated experimental error ($\sigma^2$) is unbiased, consistent, and statistically independent of the treatments applied.
+	\item Providing exact probabilistic foundations to test hypotheses regarding treatment differences with maximum statistical power.
+\end{enumerate}
+
+To guarantee the validity of any statistical inference derived from an experiment, the experimental protocol must strictly satisfy the \textbf{Three Fundamental Principles of Experimental Design}, originally formalized by Sir Ronald A. Fisher:
+
+\subsection{1. Replication}
+\textbf{Replication} refers to the independent repetition of the basic experiment under identical operational conditions across distinct experimental units ($n \geq 2$). Replication serves two vital mathematical functions:
+\begin{itemize}
+	\item It permits the calculation of an \textbf{unbiased estimate of experimental error variance ($\sigma^2$)}, which represents the baseline biological, physical, or measurement variation between experimental units treated alike. Without replication ($n=1$), the error sum of squares ($\text{SCE}$) has zero degrees of freedom ($\nu_E = 0$), rendering exact parametric significance testing via the $F$-distribution impossible.
+	\item It increases the precision of treatment mean estimators ($\bar{Y}_{i.}$) by reducing the standard error of the sample mean ($\sigma_{\bar{Y}} = \frac{\sigma}{\sqrt{n}}$), directly enhancing the statistical power of the test ($1 - \beta$).
+\end{itemize}
+
+\subsection{2. Randomization}
+\textbf{Randomization} is the random assignment of treatments to experimental units, ensuring that every unit has an equal and independent probability of receiving any given treatment. Mathematically, randomization fulfills several crucial requirements:
+\begin{itemize}
+	\item It validates the foundational structural assumption that the random error terms ($\varepsilon_{ij}$) are independent and identically distributed ($\text{i.i.d.}$) random variables with zero mean and constant variance.
+	\item It transforms unknown, systematic bias or confounding gradients (e.g., spatial variation across a laboratory, temporal drift in instrument calibration) into random, unbiased experimental noise.
+	\item It guarantees the validity of parametric tests ($t$-test, $F$-test) by ensuring that the observed differences in sample means are attributable purely to treatment effects or pure chance, rather than pre-existing systemic differences among experimental units.
+\end{itemize}
+
+\subsection{3. Blocking (Local Control)}
+\textbf{Blocking} is the systematic grouping of experimental units into relatively homogeneous sets (called \textbf{blocks}) before assigning treatments. The fundamental philosophy of blocking is to isolate known, predictable sources of nuisance variability across experimental units so that they do not inflate the experimental error.
+
+By including the block effect ($\beta_j$) explicitly in the additive linear model, the variability among blocks ($\text{SCB}$) is orthogonally extracted and removed from the total residual error sum of squares ($\text{SCE}$). This reduction in residual error ($\text{CME}$) significantly tightens confidence intervals around treatment means and dramatically increases the sensitivity and statistical power of the $F$-test to detect subtle treatment effects. As a general rule of experimental design: *"Block what you can systematically identify and control; randomize what you cannot."*
+
+\section{One-Way Analysis of Variance (One-Way ANOVA)}
+
+The \textbf{One-Way Analysis of Variance (Completely Randomized Design, CRD)} is an inferential methodology designed to simultaneously compare the population means of $k \geq 2$ independent groups or levels of a single categorical independent variable (called a \textbf{factor}).
+
+While the two-sample Student's $t$-test is adequate for comparing $k=2$ population means, attempting to compare $k > 2$ means using $\binom{k}{2}$ multiple pairwise $t$-tests inevitably leads to a massive inflation of the \textbf{Family-Wise Error Rate ($\text{FWER}$)}. If $\binom{k}{2} = m$ independent pairwise comparisons are conducted, each at a nominal significance level $\alpha$, the true probability of committing at least one Type I error across the family of tests ($\alpha_{\text{global}}$) grows exponentially according to Boole's inequality and the independence bound:
+\begin{align}
+	\alpha_{\text{global}} = 1 - (1 - \alpha)^m = 1 - (1 - 0.05)^{10} = 1 - (0.95)^{10} \approx 0.4013 \quad (40.13\%).
+\end{align}
+ANOVA circumvents this inflation by executing a single global (\textbf{omnibus}) test that partitions the total observed variance into orthogonal components, maintaining the exact experimental Type I error rate at $\alpha$.
+
+\subsection{Structural Additive Linear Model}
+
+Let $Y_{ij}$ represent the continuous response observation from the $j$-th experimental unit assigned to the $i$-th treatment level ($i = 1, 2, \dots, k$; $j = 1, 2, \dots, n_i$). The total number of observations across the experiment is $N = \sum_{i=1}^k n_i$. When all group sample sizes are equal ($n_1 = n_2 = \dots = n_k = n$), the design is termed \textbf{balanced}, and $N = kn$.
+
+The observation $Y_{ij}$ is modeled by the parameterization of the effects model:
+\begin{align}
+	Y_{ij} = \mu + \tau_i + \varepsilon_{ij},
+\end{align}
+where:
+\begin{itemize}
+	\item $\mu$ is the overall population grand mean (the theoretical average response across all experimental units and treatments).
+	\item $\tau_i = \mu_i - \mu$ is the \textbf{treatment effect} associated with the $i$-th level of the factor, subject to the structural identification constraint $\sum_{i=1}^k n_i \tau_i = 0$ (or $\sum_{i=1}^k \tau_i = 0$ for balanced designs).
+	\item $\varepsilon_{ij}$ is the \textbf{random experimental error} associated with observation $(i,j)$, assumed to be independent and identically distributed normal variables:
+	\begin{align}
+		\varepsilon_{ij} \sim N(0, \sigma^2).
+	\end{align}
+\end{itemize}
+
+\subsection{Statistical Assumptions of ANOVA}
+
+For the parametric $F$-statistic to exactly follow the theoretical Snedecor $F$-distribution, the observational data must strictly satisfy three distributional assumptions:
+\begin{enumerate}
+	\item \textbf{Normality:} The residuals $\varepsilon_{ij} = Y_{ij} - \bar{Y}_{i.}$ are normally distributed within each treatment group across the population ($Y_{ij} \sim N(\mu_i, \sigma^2)$). This assumption is formally evaluated using residual quantile-quantile (Q-Q) plots, the Shapiro-Wilk test, or the Kolmogorov-Smirnov test. By virtue of the Central Limit Theorem, ANOVA is robust against moderate departures from normality when sample sizes are large and balanced.
+	\item \textbf{Homoscedasticity (Homogeneity of Variance):} All $k$ treatment populations possess identical intrinsic error variance ($\sigma_1^2 = \sigma_2^2 = \dots = \sigma_k^2 = \sigma^2$). This is the most critical assumption; severe heteroscedasticity combined with unbalanced sample sizes heavily distorts Type I error rates. Homoscedasticity is formally tested via \textbf{Levene's test}, \textbf{Brown-Forsythe test} (robust against non-normality), or \textbf{Bartlett's test} (highly sensitive to normality violations). If violated, \textbf{Welch's ANOVA} or variance-stabilizing transformations (such as logarithmic $\ln Y$ or square root $\sqrt{Y}$) must be employed.
+	\item \textbf{Independence of Errors:} The random error terms $\varepsilon_{ij}$ are mutually independent ($\text{Cov}(\varepsilon_{ij}, \varepsilon_{i'j'}) = 0$ for any $(i,j) \neq (i',j')$). This assumption is guaranteed methodologically through proper \textbf{randomization} during experimental execution. Violation of independence (e.g., temporal autocorrelation or spatial clustering) causes severe underestimation of residual error variance ($\text{CME}$), producing spurious false-positive rejections.
+\end{enumerate}
+
+\subsection{Partitioning of the Total Sum of Squares}
+
+The fundamental algebraic identity of ANOVA decomposes the total deviation of any observation from the grand mean into two distinct, additive components: the deviation of the group mean from the grand mean (between-group effect), and the deviation of the observation from its respective group mean (within-group error):
+\begin{align}
+	Y_{ij} - \bar{Y}_{..} = (\bar{Y}_{i.} - \bar{Y}_{..}) + (Y_{ij} - \bar{Y}_{i.}),
+\end{align}
+where the sample group mean is $\bar{Y}_{i.} = \frac{1}{n_i} \sum_{j=1}^{n_i} Y_{ij}$, and the sample grand mean across all observations is $\bar{Y}_{..} = \frac{1}{N} \sum_{i=1}^k \sum_{j=1}^{n_i} Y_{ij}$.
+
+By squaring both sides of this equation and summing over all $i = 1, \dots, k$ and $j = 1, \dots, n_i$, the cross-product term $\sum_{i=1}^k \sum_{j=1}^{n_i} (\bar{Y}_{i.} - \bar{Y}_{..})(Y_{ij} - \bar{Y}_{i.})$ vanishes algebraically because $\sum_{j=1}^{n_i} (Y_{ij} - \bar{Y}_{i.}) = 0$. This yields the exact orthogonal partitioning known as the \textbf{Fundamental Sum of Squares Identity}:
+\begin{align}
+	\sum_{i=1}^k \sum_{j=1}^{n_i} (Y_{ij} - \bar{Y}_{..})^2 = \sum_{i=1}^k n_i (\bar{Y}_{i.} - \bar{Y}_{..})^2 + \sum_{i=1}^k \sum_{j=1}^{n_i} (Y_{ij} - \bar{Y}_{i.})^2.
+\end{align}
+Expressed symbolically:
+\begin{align}
+	\text{SCT} = \text{SCTR} + \text{SCE},
+\end{align}
+where:
+\begin{itemize}
+	\item $\text{SCT}$ (\textbf{Total Sum of Squares}): Measures the total variation across all $N$ data points relative to the grand mean across $\nu_T = N - 1$ degrees of freedom.
+	\item $\text{SCTR}$ (\textbf{Treatment Sum of Squares}, also denoted $\text{SC}_{\text{Between}}$): Measures the systematic inter-group dispersion explained by differences across the $k$ treatment levels, with degrees of freedom $\nu_{\text{TR}} = k - 1$.
+	\item $\text{SCE}$ (\textbf{Error Sum of Squares}, also denoted $\text{SC}_{\text{Within}}$ or $\text{Residual SS}$): Measures the unexplained intra-group variation within experimental units subjected to the exact same treatment, with degrees of freedom $\nu_E = \sum_{i=1}^k (n_i - 1) = N - k$.
+\end{itemize}
+
+Notice that the degrees of freedom partition exactly in the exact same additive manner as the sums of squares:
+\begin{align}
+	\nu_T = \nu_{\text{TR}} + \nu_E \implies (N - 1) = (k - 1) + (N - k).
+\end{align}
+
+\subsection{Expected Mean Squares and the Hypothesis Test}
+
+A \textbf{Mean Square ($\text{CM}$)} is defined as a sum of squares divided by its associated degrees of freedom. Unlike sums of squares, mean squares are non-additive ($\text{CMT} \neq \text{CMTR} + \text{CME}$). We calculate:
+\begin{align}
+	\text{CMTR} &= \frac{\text{SCTR}}{k - 1}, \\
+	\text{CME} &= \frac{\text{SCE}}{N - k}.
+\end{align}
+Taking mathematical expectations over the random model $Y_{ij} = \mu + \tau_i + \varepsilon_{ij}$ reveals the fundamental logic of ANOVA:
+\begin{align}
+	E[\text{CME}] &= \sigma^2, \\
+	E[\text{CMTR}] &= \sigma^2 + \frac{\sum_{i=1}^k n_i \tau_i^2}{k - 1}.
+\end{align}
+Notice that $\text{CME}$ is an unconditionally unbiased estimator of the true experimental error variance $\sigma^2$. Conversely, $E[\text{CMTR}]$ equals $\sigma^2$ plus a non-negative quadratic term driven entirely by treatment effects ($\tau_i$).
+
+We formulate the omnibus statistical hypotheses as:
+\begin{align}
+	H_0&: \tau_1 = \tau_2 = \dots = \tau_k = 0 \quad \Longleftrightarrow \quad \mu_1 = \mu_2 = \dots = \mu_k \\
+	H_a&: \tau_i \neq 0 \text{ for at least one } i \quad \Longleftrightarrow \quad \mu_i \neq \mu_j \text{ for at least one pair } (i,j).
+\end{align}
+When the null hypothesis ($H_0$) is true, all treatment effects vanish ($\tau_i = 0$), implying that $E[\text{CMTR}] = \sigma^2$. Under $H_0$, both $\text{CMTR}$ and $\text{CME}$ represent independent estimates of the exact same underlying error variance $\sigma^2$. Therefore, by Cochran's Theorem, their ratio follows a central Snedecor $F$-distribution:
+\begin{align}
+	F_{\text{calc}} = \frac{\text{CMTR}}{\text{CME}} \sim F_{k-1, \, N-k}.
+\end{align}
+If the alternative hypothesis ($H_a$) is true, the quadratic term $\sum n_i \tau_i^2 / (k-1)$ is strictly positive, causing $E[\text{CMTR}] > E[\text{CME}]$. Consequently, the test statistic $F_{\text{calc}}$ will take systematically larger values, following a non-central $F$-distribution with non-centrality parameter $\lambda = \frac{1}{\sigma^2} \sum_{i=1}^k n_i \tau_i^2$.
+
+\textbf{Decision Rule:} At a chosen significance level $\alpha$, we reject the null hypothesis $H_0$ if and only if the calculated statistic exceeds the upper critical quantile from statistical tables:
+\begin{align}
+	F_{\text{calc}} > F_{\alpha, \, k-1, \, N-k} \quad \text{or equivalently, if } p\text{-value} < \alpha.
+\end{align}
+All computational results are systematically compiled in the classic \textbf{ANOVA Table} shown in Table \ref{tab:anova_unifactorial}.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Source of Variation} & \textbf{Sum of Squares (SC)} & \textbf{Degrees of Freedom ($\nu$)} & \textbf{Mean Square (CM)} & \textbf{$F$ Statistic} \\ \hline
+		Treatments (Between) & $\text{SCTR} = \sum n_i(\bar{Y}_{i.} - \bar{Y}_{..})^2$ & $k - 1$ & $\text{CMTR} = \frac{\text{SCTR}}{k-1}$ & $F = \frac{\text{CMTR}}{\text{CME}}$ \\
+		Error (Within) & $\text{SCE} = \sum \sum (Y_{ij} - \bar{Y}_{i.})^2$ & $N - k$ & $\text{CME} = \frac{\text{SCE}}{N-k}$ & \\ \hline
+		\textbf{Total} & $\text{SCT} = \sum \sum (Y_{ij} - \bar{Y}_{..})^2$ & $N - 1$ & & \\ \hline
+	\end{tabular}
+	\caption{General Analysis of Variance Table for a One-Way Completely Randomized Design.}
+	\label{tab:anova_unifactorial}
+\end{table}
+
+\section{Multiple Comparisons and Post-Hoc Tests}
+
+When an omnibus ANOVA yields a statistically significant $F_{\text{calc}}$ ($p < \alpha$), we conclude that at least one treatment mean differs from the others ($\mu_i \neq \mu_j$). However, the omnibus test provides no specific information regarding \emph{which} pairs or combinations of groups are responsible for the rejection. To pinpoint the exact location of significant differences without inflating the overall family-wise error rate ($\text{FWER}$), specialized \textbf{Post-Hoc Multiple Comparison Procedures} must be applied.
+
+\subsection{Tukey's Honestly Significant Difference (HSD)}
+\textbf{Tukey's HSD test} is the most widely recommended and statistically optimal method for conducting all possible $\binom{k}{2} = \frac{k(k-1)}{2}$ pairwise comparisons across balanced treatment groups ($n_1 = n_2 = \dots = n_k = n$). It rigorously controls the exact family-wise error rate at $\alpha$ across the entire set of pairwise contrasts.
+
+Tukey's procedure is derived from the \textbf{Studentized Range Distribution ($q$)}, which describes the sampling distribution of the difference between the sample maximum and sample minimum ($\bar{Y}_{\text{max}} - \bar{Y}_{\text{min}}$) divided by the pooled standard error.
+
+The \textbf{Honestly Significant Difference ($\text{HSD}$)} critical margin for comparing any two treatment sample means $\bar{Y}_{i.}$ and $\bar{Y}_{j.}$ is computed as:
+\begin{align}
+	\text{HSD} = q_{\alpha, \, k, \, \nu_E} \sqrt{\frac{\text{CME}}{n}},
+\end{align}
+where $q_{\alpha, \, k, \, \nu_E}$ is the upper critical quantile from the Studentized range table with $k$ treatments and $\nu_E = N - k$ error degrees of freedom, and $\text{CME}$ is the error mean square from the ANOVA table. If group sample sizes are unbalanced ($n_i \neq n_j$), the \textbf{Tukey-Kramer adjustment} replaces $n$ with the harmonic mean of the two group sample sizes:
+\begin{align}
+	\text{HSD}_{ij} = \frac{q_{\alpha, \, k, \, \nu_E}}{\sqrt{2}} \sqrt{\text{CME} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)}.
+\end{align}
+
+\textbf{Decision Rule for Tukey's HSD:} For any pair of treatments $(i, j)$, we declare that population means $\mu_i$ and $\mu_j$ are statistically different at overall family level $\alpha$ if and only if the absolute difference between their sample means exceeds the calculated $\text{HSD}$ threshold:
+\begin{align}
+	|\bar{Y}_{i.} - \bar{Y}_{j.}| > \text{HSD} \implies \text{Reject } H_0: \mu_i = \mu_j.
+\end{align}
+
+\subsection{Fisher's Least Significant Difference (LSD)}
+\textbf{Fisher's LSD test} is essentially a direct extension of the standard two-sample Student's $t$-test across all pairs of means, utilizing the pooled error mean square ($\text{CME}$) from the ANOVA across $\nu_E = N - k$ degrees of freedom. The critical difference threshold between any two sample means is defined as:
+\begin{align}
+	\text{LSD} = t_{\alpha/2, \, \nu_E} \sqrt{\text{CME} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)}.
+\end{align}
+\textbf{Critical Limitation:} Fisher's LSD does not incorporate a family-wise correction factor across multiple tests. Consequently, it suffers from severe Type I error inflation when $k > 3$. To mitigate false positives, Fisher proposed \textbf{Protected LSD}, which mandates that LSD comparisons may only be computed if the omnibus $F$-test is statistically significant at $\alpha$. While Protected LSD successfully controls $\text{FWER}$ at $\alpha$ when $k=3$, it fails completely when $k \geq 4$. Therefore, Fisher's LSD is primarily utilized for exploratory research or when statistical sensitivity (high power) is prioritized over Type I error protection.
+
+\subsection{Bonferroni Correction}
+The \textbf{Bonferroni correction} is a universal, simple, and conservative post-hoc method based on Boole's inequality for intersection event probabilities. If the researcher plans to perform $m = \binom{k}{2}$ pairwise comparisons and wishes to maintain the overall family-wise confidence level at or above $(1-\alpha)100\%$, the individual significance level for each specific pairwise test is adjusted by dividing the nominal level by the total number of comparisons:
+\begin{align}
+	\alpha^* = \frac{\alpha}{m} = \frac{\alpha}{\binom{k}{2}}.
+\end{align}
+The critical threshold for declaring two treatment means significantly different using the Bonferroni procedure becomes:
+\begin{align}
+	\text{CD}_{\text{Bonf}} = t_{\alpha^*/2, \, \nu_E} \sqrt{\text{CME} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)}.
+\end{align}
+While Bonferroni absolutely prevents false-positive rejections ($\text{FWER} \leq \alpha$), it becomes excessively conservative when the number of treatments $k$ is large ($k \geq 6 \implies m \geq 15$), drastically increasing Type II errors ($\beta$) and sacrificing statistical power.
+
+\section{Randomized Complete Block Design (RCBD)}
+
+When experimental units possess inherent, known heterogeneity (such as different batches of raw material, distinct age cohorts, or different physical testing machines), applying a Completely Randomized Design (CRD) forces all inter-unit variability directly into the residual error term ($\text{SCE}$). This inflates $\text{CME}$ and destroys the sensitivity of the $F$-test.
+
+The \textbf{Randomized Complete Block Design (RCBD)} overcomes this challenge by grouping experimental units into $b$ homogeneous blocks of size $k$ (where $k$ is the total number of treatments). Within each block, treatments are assigned completely at random, ensuring that every treatment appears exactly once per block ($N = kb$).
+
+\subsection{Additive Structural Model for RCBD}
+The observation $Y_{ij}$ for the $i$-th treatment ($i=1,\dots,k$) within the $j$-th block ($j=1,\dots,b$) is modeled by:
+\begin{align}
+	Y_{ij} = \mu + \tau_i + \beta_j + \varepsilon_{ij},
+\end{align}
+where:
+\begin{itemize}
+	\item $\mu$ is the overall population grand mean.
+	\item $\tau_i$ is the fixed effect of the $i$-th treatment ($\sum_{i=1}^k \tau_i = 0$).
+	\item $\beta_j$ is the effect of the $j$-th block ($\sum_{j=1}^b \beta_j = 0$), capturing systematic shifts across blocks.
+	\item $\varepsilon_{ij} \sim N(0, \sigma^2)$ are independent random residual errors, assuming no interaction between treatments and blocks (additivity of effects).
+\end{itemize}
+
+\subsection{Partitioning of Variance in RCBD}
+In an RCBD, the Total Sum of Squares ($\text{SCT}$, with $\nu_T = kb - 1$) is orthogonally partitioned into three mutually independent components:
+\begin{align}
+	\text{SCT} = \text{SCTR} + \text{SCB} + \text{SCE},
+\end{align}
+where:
+\begin{itemize}
+	\item $\text{SCTR} = b \sum_{i=1}^k (\bar{Y}_{i.} - \bar{Y}_{..})^2$, with $\nu_{\text{TR}} = k - 1$.
+	\item $\text{SCB} = k \sum_{j=1}^b (\bar{Y}_{.j} - \bar{Y}_{..})^2$, with $\nu_{\text{B}} = b - 1$, measuring structural variability isolated between blocks ($\bar{Y}_{.j} = \frac{1}{k} \sum_{i=1}^k Y_{ij}$).
+	\item $\text{SCE} = \sum_{i=1}^k \sum_{j=1}^b (Y_{ij} - \bar{Y}_{i.} - \bar{Y}_{.j} + \bar{Y}_{..})^2$, with residual degrees of freedom $\nu_E = (k - 1)(b - 1)$.
+\end{itemize}
+
+By comparing the expected mean squares:
+\begin{align}
+	E[\text{CME}] &= \sigma^2, \\
+	E[\text{CMTR}] &= \sigma^2 + \frac{b \sum_{i=1}^k \tau_i^2}{k - 1}, \\
+	E[\text{CMB}] &= \sigma^2 + \frac{k \sum_{j=1}^b \beta_j^2}{b - 1},
+\end{align}
+we construct two independent $F$-statistics: one to evaluate treatment differences ($F_{\text{TR}} = \frac{\text{CMTR}}{\text{CME}} \sim F_{k-1, \, (k-1)(b-1)}$) and another to assess the statistical effectiveness of the blocking factor ($F_{\text{B}} = \frac{\text{CMB}}{\text{CME}} \sim F_{b-1, \, (k-1)(b-1)}$), as summarized in Table \ref{tab:anova_dbca}.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Source of Variation} & \textbf{Sum of Squares (SC)} & \textbf{d.f. ($\nu$)} & \textbf{Mean Square (CM)} & \textbf{$F$ Statistic} \\ \hline
+		Treatments & $\text{SCTR} = b \sum (\bar{Y}_{i.} - \bar{Y}_{..})^2$ & $k - 1$ & $\text{CMTR} = \frac{\text{SCTR}}{k-1}$ & $F_{\text{TR}} = \frac{\text{CMTR}}{\text{CME}}$ \\
+		Blocks & $\text{SCB} = k \sum (\bar{Y}_{.j} - \bar{Y}_{..})^2$ & $b - 1$ & $\text{CMB} = \frac{\text{SCB}}{b-1}$ & $F_{\text{B}} = \frac{\text{CMB}}{\text{CME}}$ \\
+		Residual Error & $\text{SCE} = \text{SCT} - \text{SCTR} - \text{SCB}$ & $(k-1)(b-1)$ & $\text{CME} = \frac{\text{SCE}}{(k-1)(b-1)}$ & \\ \hline
+		\textbf{Total} & $\text{SCT} = \sum \sum (Y_{ij} - \bar{Y}_{..})^2$ & $kb - 1$ & & \\ \hline
+	\end{tabular}
+	\caption{ANOVA Table for a Randomized Complete Block Design (RCBD).}
+	\label{tab:anova_dbca}
+\end{table}
+
+\section{Verification of ANOVA Assumptions and Data Science Applications}
+
+The theoretical validity and inferential robustness of any conclusion drawn from an ANOVA rest fundamentally on the experimental data and residuals ($\hat{\varepsilon}_{ij} = Y_{ij} - \hat{Y}_{ij}$) satisfying the underlying assumptions of the parametric model. Every data scientist must rigorously audit and verify these three pillars before presenting experimental results in a production or research setting:
+
+\begin{enumerate}
+	\item \textbf{Homoscedasticity (equality of between-group variances):} The experimental error variance across all $k$ treatments must be statistically equivalent ($\sigma_1^2 = \sigma_2^2 = \ldots = \sigma_k^2 = \sigma^2$). One-way ANOVA is reasonably robust to moderate departures from homoscedasticity \emph{only if sample sizes are exactly equal} ($n_1 = n_2 = \ldots = n_k$). If sample sizes are unequal, however, the $F$-statistic can become highly imprecise.
+
+	Two reference tests are used to formally contrast the homoscedasticity hypothesis:
+	\begin{itemize}
+		\item \textbf{Bartlett's Test:} Highly sensitive to the assumption of population normality. It tests $H_0: \sigma_1^2 = \ldots = \sigma_k^2$ using a statistic based on a weighted ratio of sample variances that follows a chi-squared distribution with $k-1$ degrees of freedom.
+		\item \textbf{Levene's and Brown-Forsythe's Test:} The modern gold standard in computational analytics (implemented in \texttt{scipy.stats.levene}) due to its outstanding robustness to non-normal or skewed distributions. It consists of running a univariate ANOVA directly on the absolute deviations of the observations from the mean (Levene: $Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$) or from the treatment median (Brown-Forsythe: $Z_{ij} = |Y_{ij} - \tilde{Y}_{i.}|$).
+	\end{itemize}
+	If the homoscedasticity hypothesis is rejected at level $\alpha$, we must abandon the standard parametric ANOVA and use \textbf{Welch's one-way ANOVA} or variance-stabilizing transformations from the Box-Cox family (such as $\log Y$ or $\sqrt{Y}$).
+
+	\item \textbf{Normality of the residual errors ($\varepsilon_{ij} \sim N(0,\sigma^2)$):} The distribution of the residuals within each treatment, or of the model's overall residual vector, should approximate a normal distribution. This assumption is audited qualitatively via a \textbf{Q-Q Plot} of the residuals, and quantitatively via the \textbf{Shapiro-Wilk Test} or the \textbf{Kolmogorov-Smirnov Test} on the standardized residuals.
+
+	If severe violations of normality are detected (especially extreme skewness or extreme outliers with small samples), the data scientist should use the non-parametric alternative to ANOVA: the \textbf{Kruskal-Wallis Test} (based on ranks and medians rather than means and variances).
+
+	\item \textbf{Independence of the observations:} The residuals of any pair of experimental units must be statistically independent ($Cov(\varepsilon_{ij}, \varepsilon_{lm}) = 0$). This is the most critical assumption of all: \textbf{a violation of independence directly contaminates the estimation of the Mean Square Error ($\text{CME}$)}, completely invalidating the $F$-test. Independence cannot easily be fixed after the fact with algebraic transformations; it is guaranteed a priori through strict \textbf{randomization in the sampling design} and the correct identification of temporal or spatial dependencies (which would require time-series models or longitudinal mixed-effects models).
+\end{enumerate}

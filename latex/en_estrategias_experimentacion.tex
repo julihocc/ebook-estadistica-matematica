@@ -1,0 +1,32 @@
+\section{Experimental Strategies}
+
+In applied statistics and scientific research, observational studies often fail to establish causal relationships due to the presence of confounding variables and uncontrolled environmental noise. \textbf{Design of Experiments (DOE)} provides a rigorous mathematical and structural methodology to plan, execute, and analyze empirical tests where intentional changes are made to input variables (factors) of a system or process to observe, measure, and identify the corresponding changes in output variables (responses).
+
+The primary objectives of experimental design include:
+\begin{enumerate}
+	\item Maximizing the information obtained regarding the relationship between independent and dependent variables while minimizing experimental cost, time, and sample size.
+	\item Ensuring that the estimated experimental error ($\sigma^2$) is unbiased, consistent, and statistically independent of the treatments applied.
+	\item Providing exact probabilistic foundations to test hypotheses regarding treatment differences with maximum statistical power.
+\end{enumerate}
+
+To guarantee the validity of any statistical inference derived from an experiment, the experimental protocol must strictly satisfy the \textbf{Three Fundamental Principles of Experimental Design}, originally formalized by Sir Ronald A. Fisher:
+
+\subsection{1. Replication}
+\textbf{Replication} refers to the independent repetition of the basic experiment under identical operational conditions across distinct experimental units ($n \geq 2$). Replication serves two vital mathematical functions:
+\begin{itemize}
+	\item It permits the calculation of an \textbf{unbiased estimate of experimental error variance ($\sigma^2$)}, which represents the baseline biological, physical, or measurement variation between experimental units treated alike. Without replication ($n=1$), the error sum of squares ($\text{SCE}$) has zero degrees of freedom ($\nu_E = 0$), rendering exact parametric significance testing via the $F$-distribution impossible.
+	\item It increases the precision of treatment mean estimators ($\bar{Y}_{i.}$) by reducing the standard error of the sample mean ($\sigma_{\bar{Y}} = \frac{\sigma}{\sqrt{n}}$), directly enhancing the statistical power of the test ($1 - \beta$).
+\end{itemize}
+
+\subsection{2. Randomization}
+\textbf{Randomization} is the random assignment of treatments to experimental units, ensuring that every unit has an equal and independent probability of receiving any given treatment. Mathematically, randomization fulfills several crucial requirements:
+\begin{itemize}
+	\item It validates the foundational structural assumption that the random error terms ($\varepsilon_{ij}$) are independent and identically distributed ($\text{i.i.d.}$) random variables with zero mean and constant variance.
+	\item It transforms unknown, systematic bias or confounding gradients (e.g., spatial variation across a laboratory, temporal drift in instrument calibration) into random, unbiased experimental noise.
+	\item It guarantees the validity of parametric tests ($t$-test, $F$-test) by ensuring that the observed differences in sample means are attributable purely to treatment effects or pure chance, rather than pre-existing systemic differences among experimental units.
+\end{itemize}
+
+\subsection{3. Blocking (Local Control)}
+\textbf{Blocking} is the systematic grouping of experimental units into relatively homogeneous sets (called \textbf{blocks}) before assigning treatments. The fundamental philosophy of blocking is to isolate known, predictable sources of nuisance variability across experimental units so that they do not inflate the experimental error.
+
+By including the block effect ($\beta_j$) explicitly in the additive linear model, the variability among blocks ($\text{SCB}$) is orthogonally extracted and removed from the total residual error sum of squares ($\text{SCE}$). This reduction in residual error ($\text{CME}$) significantly tightens confidence intervals around treatment means and dramatically increases the sensitivity and statistical power of the $F$-test to detect subtle treatment effects. As a general rule of experimental design: *"Block what you can systematically identify and control; randomize what you cannot."*

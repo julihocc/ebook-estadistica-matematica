@@ -1,0 +1,66 @@
+\section{Uniform Distribution}
+
+The continuous uniform distribution models the case where a random variable takes values in an interval $[a,b]$ with the same probability density at every point.
+
+\begin{definicion}[Continuous Uniform Distribution]
+A continuous random variable $X$ has a \emph{continuous uniform distribution} on the interval $[a,b]$, with $a<b$, if its density function is given by
+\begin{align}
+ \label{eq:2.8.1}
+ f(x) =
+ \begin{cases}
+  \dfrac{1}{b-a} & a \leq x \leq b, \\
+  0 & \text{otherwise.}
+ \end{cases}
+\end{align}
+In this case, we write $X \sim U(a,b)$.
+\end{definicion}
+
+Its cumulative distribution function is
+\begin{align}
+ \label{eq:2.8.2}
+ F(x) = P(X \leq x) =
+ \begin{cases}
+  0 & x < a, \\
+  \dfrac{x-a}{b-a} & a \leq x \leq b, \\
+  1 & x > b.
+ \end{cases}
+\end{align}
+
+{Properties of the uniform distribution} If $X \sim U(a,b)$, then
+\begin{align}
+ \mu_X &= \frac{a+b}{2}, \\
+ \s_X^2 &= \frac{(b-a)^2}{12}.
+\end{align}
+
+\begin{observacion}
+The uniform distribution is the foundation of the \emph{simple random sample}: if $X_1,\dots,X_n \sim U(0,1)$ are independent, then $(X_1,\dots,X_n)$ is a uniform sample in the hypercube $[0,1]^n$.
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:2.8.1}
+The waiting time for a bus at a bus stop is uniform on the interval $[0,15]$ minutes. What is the probability that the bus arrives in less than $5$ minutes? What is the expected waiting time?
+\end{ejemplo}
+
+\begin{solucion}
+Since $X \sim U(0,15)$, the density is $f(x) = \frac{1}{15-0} = \frac{1}{15}$ for $x \in [0,15]$.
+
+The probability that it arrives in less than $5$ minutes is
+\begin{align}
+ P(X < 5) = \int_0^5 \frac{1}{15}\,dx = \frac{5}{15} = \frac{1}{3}.
+\end{align}
+
+The expected waiting time is
+\begin{align}
+ E(X) = \frac{a+b}{2} = \frac{0+15}{2} = 7.5 \text{ minutes}.
+\end{align}
+\end{solucion}
+
+\lstinputlisting[language=Python]{../code/distribuciones-continuas-avanzadas/distUniforme.py}
+
+\begin{figure}
+ \centering
+ \includegraphics[height=7cm,keepaspectratio=true]{./pe/distUniforme.png}
+ % distUniforme.png: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=
+ \caption{Continuous uniform distribution $U(0,15)$: density and CDF.}
+ \label{fig:2.8.1}
+\end{figure}

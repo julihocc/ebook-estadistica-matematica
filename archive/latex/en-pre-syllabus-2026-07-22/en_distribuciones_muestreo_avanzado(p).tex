@@ -1,0 +1,1011 @@
+% ==============================================================================
+% SECTION 05.01: SIMPLE RANDOM SAMPLING, SAMPLE MEAN, AND UNBIASED SAMPLE VARIANCE
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 05.01}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:5.1.1}
+	A simple random sample of size $n=5$ produces the observations $\{8, 12, 10, 14, 6\}$.
+	\begin{enumerate}
+		\item Compute the sample mean $\bar{X}$.
+		\item Compute the unbiased sample variance $S^{2}$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.1.2}
+	The scores of a standardized exam have population mean $\mu = 500$ and standard deviation $\sigma = 40$. A simple random sample of $n = 64$ students is taken.
+	\begin{enumerate}
+		\item Compute $E(\bar{X})$.
+		\item Compute $\Var(\bar{X})$ and the standard error $\text{SE}(\bar{X})$.
+	\end{enumerate}
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.1.3}
+	Classify each of the following quantities as a \emph{statistic} or a \emph{parameter}, justifying your answer: (a) the population mean $\mu$; (b) the sample mean $\bar{x}$ of a survey; (c) the sample proportion $\hat{p}$ of an election; (d) the population variance $\sigma^{2}$.
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:5.1.4}
+	Let $X_{1}, \ldots, X_{n}$ be independent random variables with the same variance $\sigma^{2}$. Starting from the property $\Var(\sum_i X_i) = \sum_i \Var(X_i)$ for independent variables, derive the formula $\Var(\bar{X}) = \sigma^{2}/n$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.1.5}
+	A measurement process has known population standard deviation $\sigma = 15$. Compute the standard error $\text{SE}(\bar{X}) = \sigma/\sqrt{n}$ for sample sizes $n = 25$, $n = 100$, and $n = 400$, and verify that quadrupling $n$ reduces the standard error by half.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.1.6}
+	For the data $\{5, 7, 9, 11, 13\}$ ($n=5$):
+	\begin{enumerate}
+		\item Compute the unbiased sample variance $S^{2} = \frac{1}{n-1}\sum(X_i-\bar{X})^{2}$.
+		\item Compute the ``natural'' (biased) estimator $\hat{\sigma}^{2} = \frac{1}{n}\sum(X_i-\bar{X})^{2}$.
+		\item Numerically verify the relation $\hat{\sigma}^{2} = \frac{n-1}{n}S^{2}$.
+	\end{enumerate}
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:5.1.7}
+	Prove that $E(S^{2}) = \sigma^{2}$ for $X_{1}, \ldots, X_{n}$ iid with mean $\mu$ and variance $\sigma^{2}$. Explicitly justify why $\sum_{i=1}^{n}(X_i-\mu) = n(\bar{X}-\mu)$ and how this identity is used in the proof.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.1.8}
+	Formally prove that $\Var(\bar{X}) = \sigma^{2}/n$ using the independence of $X_{1}, \ldots, X_{n}$, and explain why this result, together with the Law of Large Numbers, implies that $\bar{X}$ is a \emph{consistent estimator} of $\mu$ (that is, that $\Var(\bar{X}) \to 0$ as $n \to \infty$).
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:5.1.9}
+	Algebraically prove the direct computation formula (``shortcut formula'') for the sample variance: $S^{2} = \frac{1}{n-1}\left[\sum_{i=1}^n X_i^{2} - n\bar{X}^{2}\right]$, starting from the definition $S^{2} = \frac{1}{n-1}\sum(X_i-\bar{X})^{2}$. Apply both formulas to the data $\{2, 4, 6, 8, 10\}$ and verify that they produce the same result.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.1.10}
+	A finite population of $N = 200$ bank accounts has variance $\sigma^{2} = 900$. A simple random sample of $n = 20$ accounts is drawn \emph{without replacement}.
+	\begin{enumerate}
+		\item Compute $\Var(\bar{X})$ using the naive infinite-population formula $\sigma^{2}/n$.
+		\item Compute $\Var(\bar{X})$ using the finite population correction factor (FPC): $\Var(\bar{X}) = \frac{\sigma^{2}}{n}\cdot\frac{N-n}{N-1}$.
+		\item Explain why the FPC always reduces the variance when sampling without replacement from a finite population.
+	\end{enumerate}
+\end{problema}
+
+\subsection*{Hints for the Problems --- Section 05.01}
+
+\begin{sugerencia}
+	\label{sug:5.1.1}
+	For Problem \ref{prob:5.1.1}, $\bar{X} = 50/5 = 10$. The squared deviations are $4, 4, 0, 16, 16$, with sum $40$; divide by $n-1=4$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.1.2}
+	For Problem \ref{prob:5.1.2}, directly use $E(\bar{X})=\mu$ and $\Var(\bar{X})=\sigma^{2}/n$ with $\sigma^{2}=1600$ and $n=64$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.1.3}
+	For Problem \ref{prob:5.1.3}, a parameter describes the population (fixed, generally unknown); a statistic is computed from an observed sample (a random variable, known once the sample is taken).
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.1.4}
+	For Problem \ref{prob:5.1.4}, write $\bar{X}=\frac{1}{n}\sum X_i$ and use $\Var(aY)=a^{2}\Var(Y)$ together with the additivity of variance under independence.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.1.5}
+	For Problem \ref{prob:5.1.5}, $\text{SE}(\bar{X})=15/\sqrt{n}$: for $n=25$, $15/5=3$; for $n=100$, $15/10=1.5$; for $n=400$, $15/20=0.75$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.1.6}
+	For Problem \ref{prob:5.1.6}, $\bar{X}=9$; the squared deviations are $16,4,0,4,16$, with sum $40$. Divide by $4$ for $S^{2}$ and by $5$ for $\hat{\sigma}^{2}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.1.7}
+	For Problem \ref{prob:5.1.7}, follow the proof of the unbiasedness theorem for $S^2$: write $(X_i-\bar X)=(X_i-\mu)-(\bar X-\mu)$, expand the square, sum over $i$, and use $\sum(X_i-\mu)=n(\bar X-\mu)$ (which follows from the definition of $\bar X$) to simplify the cross term.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.1.8}
+	For Problem \ref{prob:5.1.8}, $\Var(\bar{X})=\Var\left(\frac{1}{n}\sum X_i\right)=\frac{1}{n^{2}}\sum\Var(X_i)=\frac{n\sigma^{2}}{n^{2}}=\sigma^{2}/n \to 0$ as $n\to\infty$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.1.9}
+	For Problem \ref{prob:5.1.9}, expand $(X_i-\bar X)^2 = X_i^2 - 2X_i\bar X + \bar X^2$, sum over $i$, and use $\sum X_i = n\bar X$ to simplify $-2\bar X\sum X_i + n\bar X^2$ to $-n\bar X^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.1.10}
+	For Problem \ref{prob:5.1.10}, the FPC factor $(N-n)/(N-1) = 180/199 \approx 0.9045$ is always less than $1$ when $n>1$ and $N$ is finite, so it always reduces the naive variance.
+\end{sugerencia}
+
+\subsection*{Solutions to the Problems --- Section 05.01}
+
+\begin{solucion}
+	\label{sol:5.1.1}
+	For Problem \ref{prob:5.1.1} with data $\{8, 12, 10, 14, 6\}$:
+	\begin{enumerate}
+		\item $\bar{X} = \dfrac{8+12+10+14+6}{5} = \dfrac{50}{5} = 10$.
+		\item The squared deviations are $(8-10)^{2}=4$, $(12-10)^{2}=4$, $(10-10)^{2}=0$, $(14-10)^{2}=16$, $(6-10)^{2}=16$, with sum $40$. Therefore, $S^{2} = 40/(5-1) = 10$. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.1.2}
+	For Problem \ref{prob:5.1.2} with $\mu=500$, $\sigma=40$, $n=64$:
+	\begin{enumerate}
+		\item $E(\bar{X}) = \mu = 500$.
+		\item $\Var(\bar{X}) = \sigma^{2}/n = 1600/64 = 25$. $\text{SE}(\bar{X}) = \sqrt{25} = 5$. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.1.3}
+	For Problem \ref{prob:5.1.3}: (a) $\mu$ is a \textbf{parameter} (it describes the entire population, is fixed, and generally unknown). (b) $\bar{x}$ is a \textbf{statistic} (it is computed from the observed sample). (c) $\hat{p}$ is a \textbf{statistic} (a proportion computed from sample data). (d) $\sigma^{2}$ is a \textbf{parameter} (it describes the dispersion of the entire population). \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.1.4}
+	For Problem \ref{prob:5.1.4}:
+	\begin{align*}
+		\Var(\bar{X}) = \Var\left(\frac{1}{n}\sum_{i=1}^{n} X_i\right) = \frac{1}{n^{2}}\Var\left(\sum_{i=1}^{n} X_i\right)
+		= \frac{1}{n^{2}}\sum_{i=1}^{n}\Var(X_i) = \frac{1}{n^{2}}\cdot n\sigma^{2} = \frac{\sigma^{2}}{n}. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.1.5}
+	For Problem \ref{prob:5.1.5} with $\sigma=15$:
+	\begin{itemize}
+		\item $n=25$: $\text{SE}(\bar{X}) = 15/\sqrt{25} = 15/5 = 3$.
+		\item $n=100$: $\text{SE}(\bar{X}) = 15/\sqrt{100} = 15/10 = 1.5$.
+		\item $n=400$: $\text{SE}(\bar{X}) = 15/\sqrt{400} = 15/20 = 0.75$.
+	\end{itemize}
+	Quadrupling $n$ ($25\to100$, $100\to400$) reduces the standard error exactly by half ($3\to1.5$, $1.5\to0.75$), consistent with the $1/\sqrt{n}$ dependence. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.1.6}
+	For Problem \ref{prob:5.1.6} with data $\{5,7,9,11,13\}$, $\bar{X}=9$, and squared deviations $16,4,0,4,16$ (sum $40$):
+	\begin{enumerate}
+		\item $S^{2} = 40/(5-1) = 10$.
+		\item $\hat{\sigma}^{2} = 40/5 = 8$.
+		\item Verification: $\frac{n-1}{n}S^{2} = \frac{4}{5}\cdot 10 = 8 = \hat{\sigma}^{2}$. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.1.7}
+	For Problem \ref{prob:5.1.7}: since $\bar{X}=\frac{1}{n}\sum X_i$, it follows that $\sum_{i=1}^n(X_i-\mu) = \sum X_i - n\mu = n\bar{X}-n\mu = n(\bar{X}-\mu)$. Using this identity,
+	\begin{align*}
+		\sum_{i=1}^n(X_i-\bar X)^2 &= \sum_{i=1}^n\left[(X_i-\mu)-(\bar X-\mu)\right]^2 \\
+		&= \sum_{i=1}^n(X_i-\mu)^2 - 2(\bar X-\mu)\underbrace{\sum_{i=1}^n(X_i-\mu)}_{=n(\bar X-\mu)} + n(\bar X-\mu)^2 \\
+		&= \sum_{i=1}^n(X_i-\mu)^2 - n(\bar X-\mu)^2.
+	\end{align*}
+	Taking expectation, $E[(X_i-\mu)^2]=\sigma^2$ and $E[(\bar X-\mu)^2]=\Var(\bar X)=\sigma^2/n$, so $E\left[\sum(X_i-\bar X)^2\right] = n\sigma^2 - n\cdot\sigma^2/n = (n-1)\sigma^2$. Dividing by $n-1$: $E(S^2)=\sigma^2$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.1.8}
+	For Problem \ref{prob:5.1.8}: by independence of $X_1,\ldots,X_n$,
+	\begin{align*}
+		\Var(\bar X) = \frac{1}{n^2}\sum_{i=1}^n \Var(X_i) = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}.
+	\end{align*}
+	Since $\sigma^2$ is finite and fixed, $\Var(\bar X) = \sigma^2/n \to 0$ as $n\to\infty$. Together with $E(\bar X)=\mu$ for all $n$ (unbiasedness), this implies that $\bar X$ converges in probability to $\mu$ (by Chebyshev's inequality), that is, $\bar X$ is a \emph{consistent} estimator of $\mu$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.1.9}
+	For Problem \ref{prob:5.1.9}: expanding the square,
+	\begin{align*}
+		\sum_{i=1}^n(X_i-\bar X)^2 = \sum_{i=1}^n\left(X_i^2 - 2X_i\bar X + \bar X^2\right)
+		= \sum_{i=1}^n X_i^2 - 2\bar X\sum_{i=1}^n X_i + n\bar X^2.
+	\end{align*}
+	Since $\sum X_i = n\bar X$, the cross term is $-2\bar X\cdot n\bar X = -2n\bar X^2$, so the expression reduces to $\sum X_i^2 - 2n\bar X^2 + n\bar X^2 = \sum X_i^2 - n\bar X^2$. Therefore $S^2 = \frac{1}{n-1}\left[\sum X_i^2 - n\bar X^2\right]$.
+
+	For $\{2,4,6,8,10\}$: $\bar X = 30/5=6$. Direct formula: squared deviations $16,4,0,4,16$, sum $40$, $S^2=40/4=10$. Shortcut formula: $\sum X_i^2 = 4+16+36+64+100=220$, $n\bar X^2 = 5\cdot 36=180$, $S^2=(220-180)/4=40/4=10$. Both coincide. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.1.10}
+	For Problem \ref{prob:5.1.10} with $N=200$, $\sigma^2=900$, $n=20$:
+	\begin{enumerate}
+		\item Naive formula: $\Var(\bar X) = \sigma^2/n = 900/20 = 45$.
+		\item With FPC: $\Var(\bar X) = \dfrac{\sigma^2}{n}\cdot\dfrac{N-n}{N-1} = 45\cdot\dfrac{180}{199} \approx 45\cdot 0.9045 \approx 40.70$.
+		\item The factor $(N-n)/(N-1)$ is strictly less than $1$ whenever $n>1$ and $N$ is finite (since $N-n<N-1$ when $n>1$), so the FPC always reduces the estimated variance relative to the infinite-population case; as $N\to\infty$ (or $n/N\to 0$), the factor tends to $1$ and both formulas coincide. \quad \qedhere
+	\end{enumerate}
+\end{solucion}
+
+% ==============================================================================
+% SECTION 05.02: ASYMPTOTIC CENTRAL LIMIT THEOREM
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 05.02}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:5.2.1}
+	A population has mean $\mu=200$ and standard deviation $\sigma=50$. A simple random sample of $n=100$ is taken. Use the CLT to approximate $P(180 < \bar{X} < 210)$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.2}
+	The lifetimes of a battery are iid with $\mu=500$ hours and $\sigma=50$ hours. For a sample of $n=49$, explicitly write the variable $Z_n$ from the Central Limit Theorem (Lindeberg-Lévy) and state its limiting distribution.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.3}
+	A population has a strongly skewed distribution (large skewness coefficient). Is $n=30$ necessarily sufficient for a good normal approximation of $\bar{X}$? Justify your answer using the Berry-Esseen theorem.
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:5.2.4}
+	An insurance company receives $n=100$ independent claims, each with mean $\mu=\$800$ and standard deviation $\sigma=\$300$. Use the CLT to approximate the probability that the total claimed amount $T=\sum_{i=1}^{100} X_i$ exceeds $\$85{,}000$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.5}
+	For a population with $\rho = E|X-\mu|^3 = 200$ and $\sigma=10$, compute the Berry-Esseen bound (with $C=0.5$) for $n=25$ and for $n=100$. Verify that the ratio between the two bounds is consistent with the convergence rate $O(1/\sqrt{n})$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.6}
+	In a survey, each response is an independent Bernoulli$(p=0.3)$. For a sample of $n=200$ respondents, use the CLT to approximate the distribution of the sample proportion $\hat{p}=\bar{X}$, and compute $P(\hat{p} > 0.35)$.
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:5.2.7}
+	Verify the MGF proof of the CLT specifically for $X_i \sim \text{Exp}(\lambda)$ (with $\mu=1/\lambda$, $\sigma=1/\lambda$). Use the MGF $M_{X_1}(t) = (1-t/\lambda)^{-1}$ for $t<\lambda$, and show that $M_{Z_n}(t) \to e^{t^2/2}$ as $n\to\infty$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.8}
+	Starting from the Berry-Esseen bound $\sup_z|F_{Z_n}(z)-\Phi(z)| \le C\rho/(\sigma^3\sqrt{n})$, derive a formula for the minimum sample size $n$ required so that the maximum error is less than a tolerance $\varepsilon$. Apply the formula with $C=0.5$, $\rho=150$, $\sigma=5$, $\varepsilon=0.01$.
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:5.2.9}
+	A Bernoulli$(p=0.4)$ process is repeated $n=250$ times independently, and $X=\sum X_i$ is the total number of successes. Use the CLT (with Yates' continuity correction) to approximate $P(X \ge 110)$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.2.10}
+	A finite population of $N=500$ accounts has standard deviation $\sigma=\$80$. A sample of $n=50$ accounts is drawn \emph{without replacement}. Combine the CLT with the finite population correction (FPC, Section 05.01) to approximate $P(\bar{X} > \mu + 15)$.
+\end{problema}
+
+\subsection*{Hints for the Problems --- Section 05.02}
+
+\begin{sugerencia}
+	\label{sug:5.2.1}
+	For Problem \ref{prob:5.2.1}, $\text{SE}(\bar X)=50/\sqrt{100}=5$. Standardize both endpoints and use the standard Normal table; note that $\Phi(-4)$ is practically $0$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.2}
+	For Problem \ref{prob:5.2.2}, directly substitute $\mu=500$, $\sigma=50$, $n=49$ into $Z_n=(\bar X_n-\mu)/(\sigma/\sqrt n)$; recall that $\sqrt{49}=7$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.3}
+	For Problem \ref{prob:5.2.3}, the Berry-Esseen bound depends on $\rho=E|X-\mu|^3$; strongly skewed distributions have large $\rho$, so they require larger $n$ for the same level of error than a symmetric population with small $\rho$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.4}
+	For Problem \ref{prob:5.2.4}, use $E(T)=n\mu$ and $\Var(T)=n\sigma^2$ (sum, not mean), then standardize: $Z=(85000-E(T))/\sqrt{\Var(T)}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.5}
+	For Problem \ref{prob:5.2.5}, the bound is $0.5\cdot 200/(10^3\sqrt n) = 0.1/\sqrt n$. Evaluate at $n=25$ and $n=100$, and compare the ratio with $\sqrt{25/100}=1/2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.6}
+	For Problem \ref{prob:5.2.6}, $\hat p$ is the sample mean of Bernoulli$(0.3)$ variables, with $\Var(X_i)=p(1-p)=0.21$. Use $\text{SE}(\hat p)=\sqrt{0.21/200}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.7}
+	For Problem \ref{prob:5.2.7}, substitute $\mu=1/\lambda$, $\sigma=1/\lambda$ into the general proof; the algebra is identical, just verify that the moments of the exponential are finite.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.8}
+	For Problem \ref{prob:5.2.8}, solve for $\sqrt n$ from $C\rho/(\sigma^3\sqrt n) < \varepsilon$ to obtain $n > (C\rho/(\sigma^3\varepsilon))^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.9}
+	For Problem \ref{prob:5.2.9}, $\mu=np=100$, $\sigma=\sqrt{np(1-p)}=\sqrt{60}\approx 7.746$. With Yates' correction, $P(X\ge 110)\approx P(Y\ge 109.5)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.2.10}
+	For Problem \ref{prob:5.2.10}, compute $\Var(\bar X)$ with the FPC as in Section 05.01, take the square root to obtain $\text{SE}(\bar X)$, and standardize $Z=15/\text{SE}(\bar X)$.
+\end{sugerencia}
+
+\subsection*{Solutions to the Problems --- Section 05.02}
+
+\begin{solucion}
+	\label{sol:5.2.1}
+	For Problem \ref{prob:5.2.1} with $\mu=200$, $\sigma=50$, $n=100$: $\text{SE}(\bar X)=50/\sqrt{100}=5$.
+	\begin{align*}
+		P(180 < \bar X < 210) \approx P\left(\frac{180-200}{5} < Z < \frac{210-200}{5}\right) = P(-4 < Z < 2) = \Phi(2)-\Phi(-4) \approx 0.9772-0.00003 \approx 0.9772. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.2}
+	For Problem \ref{prob:5.2.2}: with $\mu=500$, $\sigma=50$, $n=49$ (so $\sqrt{49}=7$):
+	\begin{align*}
+		Z_{49} = \frac{\bar X_{49} - 500}{50/7} \xrightarrow{d} N(0,1). \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.3}
+	For Problem \ref{prob:5.2.3}: not necessarily. The Berry-Esseen bound, $C\rho/(\sigma^3\sqrt n)$, depends on the third absolute moment $\rho=E|X-\mu|^3$. A strongly skewed distribution has large $\rho$ relative to $\sigma^3$, so the error of the normal approximation at $n=30$ can be considerably larger than for a symmetric population with similar moments; in such cases a larger $n$ is required to achieve the same precision. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.4}
+	For Problem \ref{prob:5.2.4}: $E(T) = n\mu = 100\cdot 800 = 80{,}000$. $\Var(T) = n\sigma^2 = 100\cdot 300^2 = 9{,}000{,}000$, so $\text{SE}(T)=3000$.
+	\begin{align*}
+		P(T > 85{,}000) \approx P\left(Z > \frac{85{,}000-80{,}000}{3000}\right) = P(Z > 1.667) \approx 1-0.9522 = 0.0478. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.5}
+	For Problem \ref{prob:5.2.5}: the bound is $\dfrac{0.5\cdot 200}{10^3\sqrt n} = \dfrac{0.1}{\sqrt n}$.
+	\begin{itemize}
+		\item $n=25$: bound $= 0.1/5 = 0.02$.
+		\item $n=100$: bound $= 0.1/10 = 0.01$.
+	\end{itemize}
+	The ratio $0.01/0.02 = 0.5 = \sqrt{25/100}$, confirming that quadrupling $n$ reduces the error bound exactly by half, consistent with the rate $O(1/\sqrt n)$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.6}
+	For Problem \ref{prob:5.2.6}: $\Var(X_i) = p(1-p) = 0.3\cdot 0.7 = 0.21$, so $\text{SE}(\hat p) = \sqrt{0.21/200} \approx 0.0324$.
+	\begin{align*}
+		P(\hat p > 0.35) \approx P\left(Z > \frac{0.35-0.3}{0.0324}\right) = P(Z > 1.543) \approx 1-0.9385 = 0.0615. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.7}
+	For Problem \ref{prob:5.2.7}: with $\mu=1/\lambda$, $\sigma=1/\lambda$, the standardized MGF is
+	\begin{align*}
+		M_{Z_n}(t) = e^{-\mu t\sqrt n/\sigma}\left[M_{X_1}\!\left(\frac{t}{\sigma\sqrt n}\right)\right]^n
+		= e^{-t\sqrt n}\left[\left(1-\frac{t}{\lambda\sigma\sqrt n}\right)^{-1}\right]^n.
+	\end{align*}
+	Since $\sigma=1/\lambda$, $\lambda\sigma=1$, so the inner term is $(1-t/\sqrt n)^{-1}$. Taking the logarithm and expanding in a Taylor series $-\log(1-t/\sqrt n) = t/\sqrt n + t^2/(2n) + O(n^{-3/2})$:
+	\begin{align*}
+		\log M_{Z_n}(t) = -t\sqrt n + n\left[\frac{t}{\sqrt n}+\frac{t^2}{2n}+O(n^{-3/2})\right] = \frac{t^2}{2}+O(n^{-1/2}) \longrightarrow \frac{t^2}{2},
+	\end{align*}
+	confirming $M_{Z_n}(t)\to e^{t^2/2}$, the MGF of $N(0,1)$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.8}
+	For Problem \ref{prob:5.2.8}: from $C\rho/(\sigma^3\sqrt n) < \varepsilon$ we obtain $\sqrt n > C\rho/(\sigma^3\varepsilon)$, that is, $n > \left(\dfrac{C\rho}{\sigma^3\varepsilon}\right)^2$.
+
+	Substituting $C=0.5$, $\rho=150$, $\sigma=5$, $\varepsilon=0.01$:
+	\begin{align*}
+		\frac{C\rho}{\sigma^3\varepsilon} = \frac{0.5\cdot 150}{125\cdot 0.01} = \frac{75}{1.25} = 60 \implies n > 60^2 = 3600.
+	\end{align*}
+	At least $n=3601$ observations are required to guarantee a maximum error less than $0.01$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.9}
+	For Problem \ref{prob:5.2.9}: $\mu = np = 250\cdot 0.4 = 100$, $\sigma=\sqrt{np(1-p)}=\sqrt{60}\approx 7.746$. With Yates' correction:
+	\begin{align*}
+		P(X\ge 110) \approx P(Y\ge 109.5) = P\left(Z \ge \frac{109.5-100}{7.746}\right) = P(Z\ge 1.226) \approx 1-0.8899 = 0.1101. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.2.10}
+	For Problem \ref{prob:5.2.10} with $N=500$, $\sigma=80$ ($\sigma^2=6400$), $n=50$:
+	\begin{align*}
+		\Var(\bar X) = \frac{\sigma^2}{n}\cdot\frac{N-n}{N-1} = \frac{6400}{50}\cdot\frac{450}{499} = 128\cdot 0.9018 \approx 115.43, \qquad \text{SE}(\bar X) \approx 10.744.
+	\end{align*}
+	\begin{align*}
+		P(\bar X > \mu+15) \approx P\left(Z > \frac{15}{10.744}\right) = P(Z > 1.396) \approx 1-0.9186 = 0.0814. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+% ==============================================================================
+% SECTION 05.03: CHI-SQUARED DISTRIBUTION AND SAMPLE VARIANCE
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 05.03}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:5.3.1}
+	Let $X \sim \chi^2_{15}$. Compute the mean $E(X)$ and the variance $\Var(X)$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.3.2}
+	Let $Z_1, \ldots, Z_5$ be independent random variables with $Z_i \sim N(0,1)$. Identify the distribution of $Y = Z_1^2+\cdots+Z_5^2$, including its degrees of freedom.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.3.3}
+	A sample of size $n=12$ from a normal population with $\sigma^2=20$ produces a sample variance $S^2=25$. Compute the value of the statistic $(n-1)S^2/\sigma^2$.
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:5.3.4}
+	Let $X \sim \chi^2_5$ and $Y \sim \chi^2_8$ be independent. Use the reproductive property to identify the distribution of $X+Y$, and compute its mean and variance.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.3.5}
+	Use the relation $\chi^2_\nu = \text{Gamma}(\nu/2, 2)$ and the MGF of the gamma distribution, $M_{X}(t)=(1-\beta t)^{-\alpha}$ (Section 04.07), to write the MGF of $\chi^2_6$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.3.6}
+	A bottling machine must have variance $\sigma_0^2=10$. A sample of $n=16$ bottles produces $S^2=18.2$. Compute the statistic $(n-1)S^2/\sigma_0^2$ and decide whether $H_0: \sigma^2=10$ is rejected at level $\alpha=0.05$, using the critical value $\chi^2_{15,0.95}\approx 24.996$.
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:5.3.7}
+	Starting from $\chi^2_\nu = \text{Gamma}(\nu/2, 2)$ and the general formulas $\mu_X=\alpha\beta$, $\sigma_X^2=\alpha\beta^2$ for $X\sim\text{Gamma}(\alpha,\beta)$ (Section 04.07), algebraically derive that $E(\chi^2_\nu)=\nu$ and $\Var(\chi^2_\nu)=2\nu$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.3.8}
+	Prove the reproductive property of the chi-squared distribution using moment generating functions: if $X\sim\chi^2_{\nu_1}$ and $Y\sim\chi^2_{\nu_2}$ are independent, then $X+Y\sim\chi^2_{\nu_1+\nu_2}$.
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:5.3.9}
+	Let $X_1,\ldots,X_n$ be an iid normal sample with mean $\mu$ and variance $\sigma^2$. Using Fisher's Theorem (independence of $\bar X$ and $S^2$, and $(n-1)S^2/\sigma^2\sim\chi^2_{n-1}$), algebraically show that
+	\begin{align*}
+		T = \frac{\bar X-\mu}{S/\sqrt n} = \frac{Z}{\sqrt{\chi^2_{n-1}/(n-1)}}, \qquad \text{where } Z=\frac{\bar X-\mu}{\sigma/\sqrt n} \sim N(0,1).
+	\end{align*}
+	Why is this decomposition relevant when $\sigma$ is unknown?
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.3.10}
+	A sample of $n=20$ normal observations produces $S^2=45$. Construct a $95\%$ confidence interval for $\sigma^2$ using the quantiles $\chi^2_{19,0.025}\approx 8.907$ and $\chi^2_{19,0.975}\approx 32.852$, with the formula
+	\begin{align*}
+		\left[\frac{(n-1)S^2}{\chi^2_{n-1,0.975}},\; \frac{(n-1)S^2}{\chi^2_{n-1,0.025}}\right].
+	\end{align*}
+\end{problema}
+
+\subsection*{Hints for the Problems --- Section 05.03}
+
+\begin{sugerencia}
+	\label{sug:5.3.1}
+	For Problem \ref{prob:5.3.1}, directly use $E(\chi^2_\nu)=\nu$ and $\Var(\chi^2_\nu)=2\nu$ with $\nu=15$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.3.2}
+	For Problem \ref{prob:5.3.2}, directly apply the definition $\chi^2_\nu=\sum_{i=1}^\nu Z_i^2$ with $\nu=5$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.3.3}
+	For Problem \ref{prob:5.3.3}, substitute $n=12$, $S^2=25$, $\sigma^2=20$ into $(n-1)S^2/\sigma^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.3.4}
+	For Problem \ref{prob:5.3.4}, use $\chi^2_{\nu_1}+\chi^2_{\nu_2}\sim\chi^2_{\nu_1+\nu_2}$ with $\nu_1=5,\nu_2=8$, and then apply $E=\nu$, $\Var=2\nu$ to the result.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.3.5}
+	For Problem \ref{prob:5.3.5}, substitute $\alpha=\nu/2=3$, $\beta=2$ into $M_X(t)=(1-\beta t)^{-\alpha}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.3.6}
+	For Problem \ref{prob:5.3.6}, compute $(n-1)S^2/\sigma_0^2 = 15\cdot 18.2/10$ and compare against $24.996$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.3.7}
+	For Problem \ref{prob:5.3.7}, substitute $\alpha=\nu/2$, $\beta=2$ directly into $\mu_X=\alpha\beta$ and $\sigma_X^2=\alpha\beta^2$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.3.8}
+	For Problem \ref{prob:5.3.8}, use $M_{X+Y}(t)=M_X(t)M_Y(t)$ for independent variables, substitute the MGFs of $\chi^2_{\nu_1}$ and $\chi^2_{\nu_2}$, and recognize the result as the MGF of $\chi^2_{\nu_1+\nu_2}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.3.9}
+	For Problem \ref{prob:5.3.9}, divide the numerator and denominator of $T$ by $\sigma/\sqrt n$, and recognize $S^2/\sigma^2 = \chi^2_{n-1}/(n-1)$ from Fisher's Theorem.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.3.10}
+	For Problem \ref{prob:5.3.10}, substitute $n=20$, $S^2=45$ directly into the given interval formula.
+\end{sugerencia}
+
+\subsection*{Solutions to the Problems --- Section 05.03}
+
+\begin{solucion}
+	\label{sol:5.3.1}
+	For Problem \ref{prob:5.3.1} with $\nu=15$: $E(X)=15$, $\Var(X)=2\cdot 15=30$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.3.2}
+	For Problem \ref{prob:5.3.2}: by definition, $Y=\sum_{i=1}^5 Z_i^2 \sim \chi^2_5$ (chi-squared with $5$ degrees of freedom). \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.3.3}
+	For Problem \ref{prob:5.3.3}: $(n-1)S^2/\sigma^2 = 11\cdot 25/20 = 275/20 = 13.75$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.3.4}
+	For Problem \ref{prob:5.3.4}: $X+Y \sim \chi^2_{5+8} = \chi^2_{13}$. $E(X+Y)=13$, $\Var(X+Y)=2\cdot 13=26$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.3.5}
+	For Problem \ref{prob:5.3.5}: with $\alpha=\nu/2=3$, $\beta=2$: $M_{\chi^2_6}(t) = (1-2t)^{-3}$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.3.6}
+	For Problem \ref{prob:5.3.6}: the statistic is $(n-1)S^2/\sigma_0^2 = 15\cdot 18.2/10 = 27.3$. Since $27.3 > 24.996 = \chi^2_{15,0.95}$, $H_0:\sigma^2=10$ is \textbf{rejected} at level $\alpha=0.05$: there is evidence that the true variance is greater than $10$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.3.7}
+	For Problem \ref{prob:5.3.7}: substituting $\alpha=\nu/2$, $\beta=2$:
+	\begin{align*}
+		E(\chi^2_\nu) = \alpha\beta = \frac{\nu}{2}\cdot 2 = \nu, \qquad
+		\Var(\chi^2_\nu) = \alpha\beta^2 = \frac{\nu}{2}\cdot 4 = 2\nu. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.3.8}
+	For Problem \ref{prob:5.3.8}: by independence,
+	\begin{align*}
+		M_{X+Y}(t) = M_X(t)M_Y(t) = (1-2t)^{-\nu_1/2}(1-2t)^{-\nu_2/2} = (1-2t)^{-(\nu_1+\nu_2)/2},
+	\end{align*}
+	which is exactly the MGF of $\chi^2_{\nu_1+\nu_2}$. By the uniqueness theorem for the MGF, $X+Y\sim\chi^2_{\nu_1+\nu_2}$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.3.9}
+	For Problem \ref{prob:5.3.9}: dividing the numerator and denominator of $T$ by $\sigma/\sqrt n$,
+	\begin{align*}
+		T = \frac{\bar X-\mu}{S/\sqrt n} = \frac{(\bar X-\mu)/(\sigma/\sqrt n)}{S/\sigma} = \frac{Z}{\sqrt{S^2/\sigma^2}} = \frac{Z}{\sqrt{\chi^2_{n-1}/(n-1)}},
+	\end{align*}
+	using that $(n-1)S^2/\sigma^2\sim\chi^2_{n-1}$ (Fisher's Theorem). This decomposition is relevant because, when $\sigma$ is unknown and is replaced by $S$, the resulting statistic $T$ no longer follows an exact Normal distribution, but rather Student's $t$-distribution (Section 05.04), defined precisely as the ratio of a standard Normal to the square root of an independent chi-squared divided by its degrees of freedom. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.3.10}
+	For Problem \ref{prob:5.3.10} with $n=20$, $S^2=45$, $(n-1)S^2 = 19\cdot 45 = 855$:
+	\begin{align*}
+		\left[\frac{855}{32.852},\; \frac{855}{8.907}\right] \approx [26.03,\; 95.99].
+	\end{align*}
+	With $95\%$ confidence, the population variance $\sigma^2$ is between approximately $26.03$ and $95.99$. \quad \qedhere
+\end{solucion}
+
+% ==============================================================================
+% SECTION 05.04: STUDENT'S T-DISTRIBUTION AND SMALL SAMPLES
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 05.04}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:5.4.1}
+	Let $T \sim t_{10}$. Compute $\Var(T)$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.4.2}
+	A sample of $n=16$ normal observations produces $\bar X=72.4$ and $S=8.5$. Construct a $95\%$ confidence interval for $\mu$ using $t_{15,0.025}\approx 2.131$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.4.3}
+	Compare the quantile $t_{5,0.025}\approx 2.571$ with $z_{0.025}=1.96$, and the quantile $t_{30,0.025}\approx 2.042$ with the same $z_{0.025}$. Compute the percentage difference in each case and explain the observed trend.
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:5.4.4}
+	The data $\{23, 25, 21, 27, 24\}$ ($n=5$) come from a normal population. Compute $\bar X$ and $S$, and construct a $95\%$ confidence interval for $\mu$ using $t_{4,0.025}\approx 2.776$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.4.5}
+	It is claimed that the population mean is $\mu_0=100$. A sample of $n=25$ produces $\bar X=104.2$ and $S=12$. Compute the statistic $t=(\bar X-\mu_0)/(S/\sqrt n)$ and decide whether $H_0:\mu=100$ is rejected at level $\alpha=0.05$, using $t_{24,0.025}\approx 2.064$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.4.6}
+	Compare the quantiles $t_{5,0.025}\approx 2.571$, $t_{30,0.025}\approx 2.042$, and $t_{120,0.025}\approx 1.980$ against $z_{0.025}=1.96$. Describe how the convergence behaves as $\nu$ grows.
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:5.4.7}
+	Knowing that $E(1/\chi^2_\nu) = 1/(\nu-2)$ for $\nu>2$, that $Z$ and $\chi^2_\nu$ are independent, and that $E(Z^2)=1$, derive $\Var(T)=\nu/(\nu-2)$ for $T=Z/\sqrt{\chi^2_\nu/\nu}$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.4.8}
+	Explain, using the consistency of $S^2$ (Sections 05.01/05.03) and Slutsky's Theorem, why $T_n=(\bar X-\mu)/(S/\sqrt n) \xrightarrow{d} N(0,1)$ as $n\to\infty$, even though $T_n \sim t_{n-1}$ exactly for each finite $n$.
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:5.4.9}
+	In a weight-loss study, $n=8$ subjects are weighed before and after a diet. The average difference is $\bar d=-3.2$ kg with standard deviation $S_d=2.1$ kg. Construct a $95\%$ confidence interval for the population mean difference, using $t_{7,0.025}\approx 2.365$, and determine whether there is evidence that the diet reduces weight (that is, whether the interval excludes zero).
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.4.10}
+	A pilot study estimates $S\approx 5$. A margin of error of $E=1.5$ is desired with $95\%$ confidence. Use the approximation $n\approx(z_{0.025}S/E)^2$ to obtain an initial estimate of $n$, and then check, using $t_{n-1,0.025}$ instead of $z_{0.025}$, whether the actual margin of error achieved with that $n$ is still approximately $1.5$.
+\end{problema}
+
+\subsection*{Hints for the Problems --- Section 05.04}
+
+\begin{sugerencia}
+	\label{sug:5.4.1}
+	For Problem \ref{prob:5.4.1}, directly use $\Var(T)=\nu/(\nu-2)$ with $\nu=10$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.4.2}
+	For Problem \ref{prob:5.4.2}, compute the standard error $S/\sqrt n = 8.5/4$, then the margin $t_{15,0.025}\cdot(S/\sqrt n)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.4.3}
+	For Problem \ref{prob:5.4.3}, compute $(t_\nu-z)/z \times 100\%$ for each $\nu$; note that the difference decreases as $\nu$ increases.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.4.4}
+	For Problem \ref{prob:5.4.4}, $\bar X=24$; the squared deviations are $1,1,9,9,0$, sum $20$, $S^2=20/4=5$, $S=\sqrt 5\approx 2.236$. Note that $S/\sqrt n = \sqrt5/\sqrt5=1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.4.5}
+	For Problem \ref{prob:5.4.5}, compute $t=(104.2-100)/(12/5)$ and compare $|t|$ against $2.064$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.4.6}
+	For Problem \ref{prob:5.4.6}, compute the percentage difference of each $t$ quantile relative to $1.96$ and note that it decreases monotonically with $\nu$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.4.7}
+	For Problem \ref{prob:5.4.7}, write $T^2=\nu Z^2/\chi^2_\nu$, use independence to factor $E(T^2)=\nu E(Z^2)E(1/\chi^2_\nu)$, and recall $E(T)=0$ for $\nu>1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.4.8}
+	For Problem \ref{prob:5.4.8}, note that $\chi^2_{n-1}/(n-1)=S^2/\sigma^2 \to 1$ in probability by the consistency of $S^2$; apply Slutsky's Theorem to $T_n=Z/\sqrt{\chi^2_{n-1}/(n-1)}$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.4.9}
+	For Problem \ref{prob:5.4.9}, compute $\text{SE}=S_d/\sqrt n = 2.1/\sqrt 8$, then the margin $t_{7,0.025}\cdot\text{SE}$, and add/subtract from $\bar d$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.4.10}
+	For Problem \ref{prob:5.4.10}, compute $n_0=(1.96\cdot 5/1.5)^2$, round up, and then recompute the margin with $t_{n_0-1,0.025}\cdot 5/\sqrt{n_0}$.
+\end{sugerencia}
+
+\subsection*{Solutions to the Problems --- Section 05.04}
+
+\begin{solucion}
+	\label{sol:5.4.1}
+	For Problem \ref{prob:5.4.1} with $\nu=10$: $\Var(T) = 10/(10-2) = 10/8 = 1.25$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.4.2}
+	For Problem \ref{prob:5.4.2}: $\text{SE}=8.5/\sqrt{16}=8.5/4=2.125$. Margin $=2.131\cdot 2.125\approx 4.53$.
+	\begin{align*}
+		\text{CI}_{95\%} = 72.4 \pm 4.53 = [67.87,\; 76.93]. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.4.3}
+	For Problem \ref{prob:5.4.3}: for $\nu=5$, $(2.571-1.96)/1.96 \approx 31.2\%$ greater. For $\nu=30$, $(2.042-1.96)/1.96\approx 4.2\%$ greater. The relative difference between the $t$ quantile and the $z$ quantile decreases considerably as the degrees of freedom increase, consistent with $t_\nu\xrightarrow{d}N(0,1)$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.4.4}
+	For Problem \ref{prob:5.4.4}: $\bar X = (23+25+21+27+24)/5 = 120/5 = 24$. Squared deviations: $1,1,9,9,0$, sum $20$, $S^2=20/4=5$, $S=\sqrt5\approx 2.236$. $\text{SE}=S/\sqrt5 = \sqrt5/\sqrt5=1$. Margin $=2.776\cdot 1=2.776$.
+	\begin{align*}
+		\text{CI}_{95\%} = 24 \pm 2.776 = [21.22,\; 26.78]. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.4.5}
+	For Problem \ref{prob:5.4.5}: $t = (104.2-100)/(12/5) = 4.2/2.4 = 1.75$. Since $|1.75| < 2.064$, $H_0:\mu=100$ \textbf{is not rejected} at level $\alpha=0.05$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.4.6}
+	For Problem \ref{prob:5.4.6}: the percentage differences relative to $z_{0.025}=1.96$ are $31.2\%$ ($\nu=5$), $4.2\%$ ($\nu=30$), and $1.0\%$ ($\nu=120$). The convergence is monotonically decreasing and fairly fast: for $\nu\ge 30$ the difference is already small, and for $\nu\ge 120$ it is practically negligible, justifying the use of $Z$ as a reasonable approximation in large samples. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.4.7}
+	For Problem \ref{prob:5.4.7}: since $E(T)=0$ for $\nu>1$, $\Var(T)=E(T^2)$. Writing $T^2 = Z^2/(\chi^2_\nu/\nu) = \nu Z^2/\chi^2_\nu$, and using the independence of $Z$ and $\chi^2_\nu$:
+	\begin{align*}
+		E(T^2) = \nu\, E(Z^2)\, E\!\left(\frac{1}{\chi^2_\nu}\right) = \nu \cdot 1 \cdot \frac{1}{\nu-2} = \frac{\nu}{\nu-2}.
+	\end{align*}
+	Therefore $\Var(T) = \nu/(\nu-2)$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.4.8}
+	For Problem \ref{prob:5.4.8}: by Fisher's Theorem, $\chi^2_{n-1}/(n-1) = S^2/\sigma^2$. Since $S^2$ is a consistent estimator of $\sigma^2$ (Sections 05.01 and 05.03), $S^2/\sigma^2 \to 1$ in probability as $n\to\infty$. By Slutsky's Theorem, if $Z_n \xrightarrow{d} Z\sim N(0,1)$ (here $Z_n=Z$ is fixed) and $Y_n\to 1$ in probability, then $Z_n/\sqrt{Y_n} \xrightarrow{d} Z$. Applying this to $T_n = Z/\sqrt{\chi^2_{n-1}/(n-1)}$ gives $T_n \xrightarrow{d} N(0,1)$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.4.9}
+	For Problem \ref{prob:5.4.9}: $\text{SE} = 2.1/\sqrt8 \approx 0.7425$. Margin $=2.365\cdot 0.7425\approx 1.756$.
+	\begin{align*}
+		\text{CI}_{95\%} = -3.2 \pm 1.756 = [-4.956,\; -1.444].
+	\end{align*}
+	Since the entire interval is negative (it excludes zero), there is statistical evidence that the diet reduces average weight. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.4.10}
+	For Problem \ref{prob:5.4.10}: the initial estimate is
+	\begin{align*}
+		n_0 = \left(\frac{1.96\cdot 5}{1.5}\right)^2 = (6.533)^2 \approx 42.7 \implies n_0 = 43.
+	\end{align*}
+	With $n_0=43$, $\nu=42$ and $t_{42,0.025}\approx 2.018$ (slightly greater than $1.96$), the actual margin achieved is
+	\begin{align*}
+		2.018\cdot\frac{5}{\sqrt{43}} \approx 2.018\cdot 0.7625 \approx 1.539,
+	\end{align*}
+	slightly above the desired $1.5$. This illustrates that, for small/moderate samples, the initial estimate based on $z$ slightly underestimates the required sample size, and in practice one or more refinement steps with the corresponding $t$ quantile are needed. \quad \qedhere
+\end{solucion}
+
+% ==============================================================================
+% SECTION 05.05: FISHER-SNEDECOR F-DISTRIBUTION
+% ==============================================================================
+
+\subsection*{Problem Statements --- Section 05.05}
+
+\subsubsection*{Fundamental Level}
+
+\begin{problema}
+	\label{prob:5.5.1}
+	Let $F \sim F_{5,10}$. Compute $E(F)$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.2}
+	Let $F \sim F_{5,8}$. Identify the distribution of $1/F$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.3}
+	Two independent samples of sizes $n_1=10$ and $n_2=8$ produce sample variances $S_1^2=25$ and $S_2^2=16$. Compute the statistic $F=S_1^2/S_2^2$ and its degrees of freedom.
+\end{problema}
+
+\subsubsection*{Operational Level}
+
+\begin{problema}
+	\label{prob:5.5.4}
+	Two production lines are compared: line 1 ($n_1=13$) has $S_1^2=45$, and line 2 ($n_2=11$) has $S_2^2=20$. Test $H_0:\sigma_1^2=\sigma_2^2$ at level $\alpha=0.05$ (two-tailed), using $F_{12,10,0.025}\approx 3.62$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.5}
+	In an experiment with $k=4$ groups of $n_i=6$ observations each ($n=24$), $\text{SS}_{\text{treat}}=180$ and $\text{SS}_{\text{error}}=276$ are obtained. Compute the ANOVA $F$ statistic and decide, at level $\alpha=0.05$, whether $H_0:\mu_1=\cdots=\mu_4$ is rejected, using $F_{3,20,0.05}\approx 3.10$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.6}
+	Using the data from Problem \ref{prob:5.5.4} ($n_1=13$, $S_1^2=45$, $n_2=11$, $S_2^2=20$), construct a $95\%$ confidence interval for $\sigma_1^2/\sigma_2^2$, using $F_{12,10,0.025}\approx 3.62$ and $F_{10,12,0.025}\approx 3.37$.
+\end{problema}
+
+\subsubsection*{Analytical Level}
+
+\begin{problema}
+	\label{prob:5.5.7}
+	Let $T \sim t_\nu$. Prove that $T^2 \sim F_{1,\nu}$, starting from the definition $T=Z/\sqrt{\chi^2_\nu/\nu}$ with $Z\sim N(0,1)$ and $Z\perp\chi^2_\nu$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.8}
+	Starting from $F=(\chi^2_{d_1}/d_1)/(\chi^2_{d_2}/d_2)$ with $\chi^2_{d_1}\perp\chi^2_{d_2}$, and using $E(\chi^2_{d_1})=d_1$ and $E(1/\chi^2_{d_2})=1/(d_2-2)$ (for $d_2>2$), derive $E(F)=d_2/(d_2-2)$.
+\end{problema}
+
+\subsubsection*{Challenging Level}
+
+\begin{problema}
+	\label{prob:5.5.9}
+	Three teaching methods are compared with $n=4$ students per group:
+	\begin{align*}
+		\text{Group A: } 10, 12, 14, 12 \qquad \text{Group B: } 8, 9, 11, 8 \qquad \text{Group C: } 15, 16, 14, 15.
+	\end{align*}
+	Compute $\text{SS}_{\text{treat}}$, $\text{SS}_{\text{error}}$, the $F$ statistic, and decide at level $\alpha=0.05$ whether there are differences among the methods, using $F_{2,9,0.05}\approx 4.26$.
+\end{problema}
+
+\begin{problema}
+	\label{prob:5.5.10}
+	Two independent samples have $n_1=15$, $S_1^2=50$ and $n_2=12$, $S_2^2=48$. First test $H_0:\sigma_1^2=\sigma_2^2$ with the $F$-test (use $F_{14,11,0.025}\approx 3.36$). Based on the result, indicate whether it would be appropriate to use the pooled $t$-test or Welch's $t$-test (unequal variances) to compare the means, and justify your answer.
+\end{problema}
+
+\subsection*{Hints for the Problems --- Section 05.05}
+
+\begin{sugerencia}
+	\label{sug:5.5.1}
+	For Problem \ref{prob:5.5.1}, directly use $E(F)=d_2/(d_2-2)$ with $d_2=10$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.2}
+	For Problem \ref{prob:5.5.2}, use the property $1/F_{d_1,d_2}\sim F_{d_2,d_1}$ with $d_1=5$, $d_2=8$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.3}
+	For Problem \ref{prob:5.5.3}, $F=S_1^2/S_2^2=25/16$, with degrees of freedom $(n_1-1,n_2-1)=(9,7)$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.4}
+	For Problem \ref{prob:5.5.4}, compute $F=45/20$ and compare it against $3.62$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.5}
+	For Problem \ref{prob:5.5.5}, compute $F=(180/(4-1))/(276/(24-4))$ and compare it against $3.10$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.6}
+	For Problem \ref{prob:5.5.6}, use the formula $\left[\frac{S_1^2}{S_2^2}\cdot\frac{1}{F_{12,10,0.025}},\ \frac{S_1^2}{S_2^2}\cdot F_{10,12,0.025}\right]$ with $S_1^2/S_2^2=2.25$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.7}
+	For Problem \ref{prob:5.5.7}, write $T^2=Z^2/(\chi^2_\nu/\nu)$ and recognize that $Z^2\sim\chi^2_1$.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.8}
+	For Problem \ref{prob:5.5.8}, rewrite $F=(d_2/d_1)(\chi^2_{d_1}/\chi^2_{d_2})$, use independence to factor $E(F)$, and substitute the given expectations.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.9}
+	For Problem \ref{prob:5.5.9}, first compute the group means ($12$, $9$, $15$) and the grand mean ($12$), then $\text{SS}_{\text{treat}}$ and $\text{SS}_{\text{error}}$ separately.
+\end{sugerencia}
+
+\begin{sugerencia}
+	\label{sug:5.5.10}
+	For Problem \ref{prob:5.5.10}, compute $F=50/48$ and compare it against $3.36$; if $H_0$ is not rejected, the variances are considered approximately equal.
+\end{sugerencia}
+
+\subsection*{Solutions to the Problems --- Section 05.05}
+
+\begin{solucion}
+	\label{sol:5.5.1}
+	For Problem \ref{prob:5.5.1} with $d_2=10$: $E(F) = 10/(10-2) = 10/8 = 1.25$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.2}
+	For Problem \ref{prob:5.5.2}: $1/F \sim F_{8,5}$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.3}
+	For Problem \ref{prob:5.5.3}: $F = 25/16 = 1.5625$, with degrees of freedom $(9,7)$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.4}
+	For Problem \ref{prob:5.5.4}: $F = 45/20 = 2.25$. Since $2.25 < 3.62 = F_{12,10,0.025}$, $H_0:\sigma_1^2=\sigma_2^2$ \textbf{is not rejected}: there is not sufficient evidence that the variances differ. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.5}
+	For Problem \ref{prob:5.5.5}: $F = \dfrac{180/3}{276/20} = \dfrac{60}{13.8} \approx 4.35$. Since $4.35 > 3.10 = F_{3,20,0.05}$, $H_0$ \textbf{is rejected}: there is evidence that at least one mean differs. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.6}
+	For Problem \ref{prob:5.5.6}: with $S_1^2/S_2^2 = 45/20 = 2.25$,
+	\begin{align*}
+		\left[2.25\cdot\frac{1}{3.62},\ 2.25\cdot 3.37\right] = [0.622,\ 7.583].
+	\end{align*}
+	With $95\%$ confidence, the ratio $\sigma_1^2/\sigma_2^2$ is between approximately $0.62$ and $7.58$; since this interval contains $1$, it is consistent with $\sigma_1^2=\sigma_2^2$. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.7}
+	For Problem \ref{prob:5.5.7}: $T^2 = \dfrac{Z^2}{\chi^2_\nu/\nu}$. Since $Z\sim N(0,1)$, $Z^2\sim\chi^2_1$ by definition of the chi-squared distribution. Therefore,
+	\begin{align*}
+		T^2 = \frac{\chi^2_1/1}{\chi^2_\nu/\nu},
+	\end{align*}
+	which is exactly the definition of $F_{1,\nu}$ (the ratio of two independent chi-squared variables, each divided by its degrees of freedom). \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.8}
+	For Problem \ref{prob:5.5.8}: rewriting $F=(d_2/d_1)(\chi^2_{d_1}/\chi^2_{d_2})$ and using independence,
+	\begin{align*}
+		E(F) = \frac{d_2}{d_1}\, E(\chi^2_{d_1})\, E\!\left(\frac{1}{\chi^2_{d_2}}\right) = \frac{d_2}{d_1}\cdot d_1 \cdot \frac{1}{d_2-2} = \frac{d_2}{d_2-2}. \quad \qedhere
+	\end{align*}
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.9}
+	For Problem \ref{prob:5.5.9}: the group means are $\bar X_A=12$, $\bar X_B=9$, $\bar X_C=15$, with grand mean $\bar X = 12$.
+	\begin{align*}
+		\text{SS}_{\text{treat}} = 4(12-12)^2+4(9-12)^2+4(15-12)^2 = 0+36+36 = 72.
+	\end{align*}
+	Within-group deviations: Group A: $4+0+4+0=8$; Group B: $1+0+4+1=6$; Group C: $0+1+1+0=2$. Thus, $\text{SS}_{\text{error}}=8+6+2=16$.
+	\begin{align*}
+		F = \frac{72/(3-1)}{16/(12-3)} = \frac{36}{1.778} \approx 20.25.
+	\end{align*}
+	Since $20.25 > 4.26 = F_{2,9,0.05}$, $H_0$ \textbf{is rejected}: there is strong evidence that the methods produce different results. \quad \qedhere
+\end{solucion}
+
+\begin{solucion}
+	\label{sol:5.5.10}
+	For Problem \ref{prob:5.5.10}: $F = 50/48 \approx 1.042$. Since $1.042 < 3.36 = F_{14,11,0.025}$, $H_0:\sigma_1^2=\sigma_2^2$ \textbf{is not rejected}: the sample variances are consistent with equal population variances. Consequently, it is appropriate to use the \textbf{pooled} $t$-test, which assumes equal variances and uses a combined variance $S_p^2$; it is not necessary to resort to the Welch correction, designed for the case where the variances are significantly different. \quad \qedhere
+\end{solucion}

@@ -1,0 +1,60 @@
+\section{Tests of Homogeneity}
+
+In section \ref{sec:3.9}, we explored the application of the chi-square distribution to contingency tables for testing \emph{independence} between two factors. There is another test of major importance for multidimensional comparisons: the \emph{test of homogeneity}. Although the computational formula ($\sum \frac{(O-E)^2}{E}$) is identical in both cases, there is a deep conceptual difference in experimental design and sampling.
+
+\begin{definicion}[Conceptual Difference Between Independence and Homogeneity]
+	\begin{itemize}
+		\item \textbf{Test of Independence:} \textbf{A single random sample} of total size $N$ is drawn from one population and subsequently cross-classified by two categorical variables $A$ (with $r$ levels) and $B$ (with $c$ levels). No marginal row or column total is fixed in advance by the researcher (except the grand total $N$). The tested hypothesis is $H_0: P(A_i \cap B_j) = P(A_i)P(B_j)$.
+		\item \textbf{Test of Homogeneity:} \textbf{$c$ independent random samples} of predetermined sizes ($n_1, n_2, \ldots, n_c$, fixing column totals by experimental design) are drawn from $c$ distinct subpopulations or groups. For each subpopulation, the distribution of \textbf{a single categorical variable} with $r$ levels is measured. The tested hypothesis is that all $c$ populations share identical categorical distributions:
+		\begin{align}
+			H_0: p_{i1} = p_{i2} = \ldots = p_{ic} \quad \text{for each category } i = 1, 2, \ldots, r,
+		\end{align}
+		where $p_{ij}$ is the probability that an observation from subpopulation $j$ falls into category $i$.
+	\end{itemize}
+\end{definicion}
+
+\begin{teorema}[Chi-square statistic for homogeneity]
+	Given a data table with $r$ rows (categories) and $c$ columns (independent populations or sub-groups), if $O_{ij}$ is the observed frequency in cell $(i,j)$, the expected frequency under the null hypothesis of homogeneity is:
+	\begin{align}
+		E_{ij} = \frac{R_i \cdot C_j}{N},
+	\end{align}
+	where $R_i = \sum_{j=1}^c O_{ij}$ is the row $i$ total, $C_j = n_j = \sum_{i=1}^r O_{ij}$ is the sample size of population $j$, and $N = \sum C_j$ is the grand total.
+	
+	The test statistic:
+	\begin{align}
+		\chi^2 = \sum_{i=1}^r \sum_{j=1}^c \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+	\end{align}
+	is asymptotically distributed (when all $E_{ij} \geq 5$) as a chi-square with $\nu = (r-1)(c-1)$ degrees of freedom.
+\end{teorema}
+
+\section{Tests of Multiple Proportions}
+
+Comparing multiple binomial proportions is a technical special case of the homogeneity test where the dependent variable is dichotomous ($r=2$: Success vs. Failure) across $c = k$ independent populations.
+
+\begin{definicion}[Testing $k$ proportions]
+	Let $p_1, p_2, \ldots, p_k$ be the true success proportions in $k$ independent populations. The null hypothesis is:
+	\begin{align}
+		H_0: p_1 = p_2 = \ldots = p_k = p,
+	\end{align}
+	versus the alternative hypothesis $H_a$: at least one proportion differs from the rest.
+	
+	The homogeneity $\chi^2$ statistic applied to the $2 \times k$ table has $\nu = (2-1)(k-1) = k-1$ degrees of freedom. It can be algebraically demonstrated that the statistic can be compactly expressed as:
+	\begin{align}
+		\chi^2 = \sum_{j=1}^k \frac{(X_j - n_j \bar{p})^2}{n_j \bar{p}(1-\bar{p})},
+		\label{eq:chi2_k_prop}
+	\end{align}
+	where $X_j$ is the number of successes in sample $j$ (of size $n_j$), and $\bar{p} = \frac{\sum X_j}{\sum n_j}$ is the overall pooled proportion of successes across the $k$ samples.
+\end{definicion}
+
+When the $\chi^2$ statistic is significant and we reject $H_0$, we know with statistical certainty that the $k$ proportions are not all equal, but the omnibus test does not tell us \emph{which} specific pairs differ. To identify significant pairs without inflating the overall family-wise Type I error rate across $\binom{k}{2}$ individual pairwise proportion difference tests, we use Marascuilo's multiple comparison procedure.
+
+\begin{teorema}[Marascuilo post-hoc comparison procedure]
+	If the omnibus $\chi^2$ test of $k$ proportions rejects $H_0$ at significance level $\alpha$, the observed absolute differences between every pair of sample proportions ($|\hat{p}_i - \hat{p}_j|$ for all $1 \leq i < j \leq k$) are compared against a pairwise critical range $r_{ij}$ given by:
+	\begin{align}
+		r_{ij} = \sqrt{\chi^2_{\alpha, \, k-1}} \sqrt{\frac{\hat{p}_i(1-\hat{p}_i)}{n_i} + \frac{\hat{p}_j(1-\hat{p}_j)}{n_j}},
+		\label{eq:marascuilo}
+	\end{align}
+	where $\chi^2_{\alpha, k-1}$ is the upper critical quantile of the omnibus statistic with $k-1$ degrees of freedom. 
+	
+	We declare that population proportions $p_i$ and $p_j$ differ significantly at family-wise error rate $\alpha$ if and only if $|\hat{p}_i - \hat{p}_j| > r_{ij}$.
+\end{teorema}

@@ -1,0 +1,107 @@
+\section{Counting Techniques}
+
+In the classical approach to probability, if an event can occur in $h$ different ways out of a total of $n$ equally likely outcomes, its probability is $h/n$. When $n$ is too large to enumerate the outcomes one by one, we need systematic tools for \emph{counting} them without listing them explicitly. This is the role of counting techniques.
+
+\subsection{Fundamental Counting Principle}
+
+\begin{teorema}[Multiplication Principle]
+	If one operation can be performed in $n_1$ different ways, and for each of those ways a second operation can be performed in $n_2$ different ways, then the two operations together can be performed in $n_1 \cdot n_2$ ways. In general, if there are $k$ successive operations with $n_1, n_2, \ldots, n_k$ possible ways respectively, the total number of possible outcomes is
+	\begin{align}
+		\label{eq:conteo.1}
+		n_1 \cdot n_2 \cdots n_k.
+	\end{align}
+\end{teorema}
+
+\begin{ejemplo}
+	\label{exmp:conteo.1}
+	A restaurant offers $4$ appetizers, $6$ main courses, and $3$ desserts. If a diner chooses exactly one option from each category, how many different menus can be formed?
+\end{ejemplo}
+
+\begin{solucion}
+	By the multiplication principle, the number of possible menus is
+	\begin{align}
+		4 \times 6 \times 3 = 72.
+	\end{align}
+\end{solucion}
+
+\subsection{Permutations}
+
+A \emph{permutation} is an \textbf{ordered} arrangement of objects, where the order in which the objects appear matters.
+
+\begin{definicion}[Permutation of $n$ objects taken $r$ at a time]
+	The number of ways to order $r$ distinct objects selected from a total of $n$ distinct objects ($r \leq n$), without repetition, is
+	\begin{align}
+		\label{eq:conteo.2}
+		P(n,r) = \frac{n!}{(n-r)!} = n(n-1)(n-2)\cdots(n-r+1).
+	\end{align}
+	When $r=n$, this gives the number of permutations of all $n$ objects: $P(n,n) = n!$.
+\end{definicion}
+
+\begin{observacion}[Permutations with repetition]
+	If we have $n$ distinct objects and repetitions are allowed when choosing $r$ of them in order (for example, when forming a password where the same character may appear more than once), the number of possible ordered arrangements is simply $n^r$, by applying the multiplication principle $r$ times.
+\end{observacion}
+
+\begin{ejemplo}
+	\label{exmp:conteo.2}
+	In a race with $8$ runners, in how many different ways can the gold, silver, and bronze medals be awarded, assuming there are no ties?
+\end{ejemplo}
+
+\begin{solucion}
+	This is a permutation of $8$ runners taken $3$ at a time, because the order (gold, silver, bronze) matters:
+	\begin{align}
+		P(8,3) = \frac{8!}{(8-3)!} = 8 \times 7 \times 6 = 336.
+	\end{align}
+\end{solucion}
+
+\subsection{Combinations and the Binomial Coefficient}
+
+Unlike permutations, a \emph{combination} is a selection of objects where the order \textbf{does not} matter.
+
+\begin{definicion}[Combination of $n$ objects taken $r$ at a time]
+	The number of ways to choose a subset of $r$ objects from a total of $n$ distinct objects ($r \leq n$), without regard to order, is denoted by $\comb{n}{r}$ and read as ``$n$ choose $r$''. Since each subset of size $r$ gives rise to $r!$ distinct permutations, we have
+	\begin{align}
+		\label{eq:conteo.3}
+		\comb{n}{r} = \frac{P(n,r)}{r!} = \frac{n!}{r!(n-r)!}.
+	\end{align}
+	The number $\comb{n}{r}$ is called a \emph{binomial coefficient}.
+\end{definicion}
+
+{Properties of the binomial coefficient}
+\begin{itemize}
+	\item \textbf{Symmetry}: $\comb{n}{r} = \comb{n}{n-r}$, since choosing the $r$ objects included is equivalent to choosing the $n-r$ objects excluded.
+	\item \textbf{Extreme cases}: $\comb{n}{0} = \comb{n}{n} = 1$ (there is only one way to choose no objects, or to choose all of them).
+	\item \textbf{Binomial theorem}: $\comb{n}{r}$ is precisely the coefficient of $x^r y^{n-r}$ in the expansion of $(x+y)^n$, which is where its name comes from.
+\end{itemize}
+
+\begin{ejemplo}
+	\label{exmp:conteo.3}
+	A committee of $4$ people must be formed from a group of $10$ candidates. In how many ways can the committee be formed if all positions are equivalent (there is no chair, secretary, etc.)?
+\end{ejemplo}
+
+\begin{solucion}
+	Since order does not matter (two committees with the same $4$ people are the same committee), this is a combination:
+	\begin{align}
+		\comb{10}{4} = \frac{10!}{4! \, 6!} = \frac{10 \times 9 \times 8 \times 7}{4 \times 3 \times 2 \times 1} = 210.
+	\end{align}
+\end{solucion}
+
+\begin{ejemplo}[Application to classical probability]
+	\label{exmp:conteo.4}
+	From a standard deck of $52$ cards, a hand of $5$ cards is drawn at random. What is the probability that all $5$ cards have the same suit (a \emph{flush}, regardless of the order in which they are received)?
+\end{ejemplo}
+
+\begin{solucion}
+	The sample space consists of all possible hands of $5$ cards from the $52$ available cards, without regard to order, that is $\comb{52}{5}$ equally likely outcomes:
+	\begin{align}
+		\comb{52}{5} = \frac{52!}{5!\,47!} = 2{,}598{,}960.
+	\end{align}
+	To count favorable cases, there are $4$ possible suits, and from each suit (which has $13$ cards) we must choose $5$: $\comb{13}{5} = 1{,}287$ hands per suit. By the multiplication principle, the total number of hands with all $5$ cards from the same suit is
+	\begin{align}
+		4 \times \comb{13}{5} = 4 \times 1{,}287 = 5{,}148.
+	\end{align}
+	By the classical approach to probability,
+	\begin{align}
+		P(\text{flush}) = \frac{5{,}148}{2{,}598{,}960} \approx 0.00198,
+	\end{align}
+	that is, approximately $1$ in $505$ hands.
+\end{solucion}

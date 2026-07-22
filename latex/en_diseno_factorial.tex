@@ -1,0 +1,66 @@
+\section{Introduction to Factorial Designs}
+
+All designs studied so far in this chapter examine the effect of a \textbf{single} treatment factor, possibly while controlling additional noise sources through blocking. However, many real experimental questions involve \textbf{two or more simultaneous treatment factors} whose joint effect, not only their individual effects, is of interest. Examples include the combined effect of temperature and pressure on the yield of a chemical reaction, or the joint effect of an algorithm and training batch size on the accuracy of a machine-learning model.
+
+\begin{definicion}[Complete factorial design]
+	A \emph{complete factorial design} with two factors $A$ (with $a$ levels) and $B$ (with $b$ levels) consists of observing \textbf{all} $a \times b$ possible combinations of the levels of both factors, with $n \geq 1$ independent replicates per combination (for a total of $N = abn$ observations). The generalization to more than two factors follows the same principle: all levels of all factors are crossed.
+\end{definicion}
+
+\begin{observacion}
+	Compared with the alternative of varying one factor at a time while holding the others fixed (\emph{one-factor-at-a-time}), the complete factorial design is strictly more efficient: with the same number of experimental runs, it allows us to estimate not only the main effects of each factor, but also their \textbf{interactions}, something the sequential approach cannot detect.
+\end{observacion}
+
+\subsection{Main Effects and Interaction}
+
+\begin{definicion}[Main effect and interaction]
+	The \emph{main effect} of a factor is the average change in the response variable when moving from one level of the factor to another, averaging over all levels of the other factor(s). There is an \emph{interaction} between two factors $A$ and $B$ when the effect of $A$ on the response variable \textbf{depends on the level} of $B$ at which it is evaluated (and vice versa); that is, the response curves of $A$ for different levels of $B$ are not parallel.
+\end{definicion}
+
+The parametric statistical model for a complete two-factor factorial design is
+\begin{align}
+	Y_{ijk} = \mu + \alpha_i + \beta_j + (\alpha\beta)_{ij} + \epsilon_{ijk}, \quad i=1,\ldots,a,\ j=1,\ldots,b,\ k=1,\ldots,n,
+	\label{eq:modelo_factorial}
+\end{align}
+where $\alpha_i$ and $\beta_j$ are the main effects of $A$ and $B$, respectively, and $(\alpha\beta)_{ij}$ is the \textbf{interaction effect} of the level pair $(i,j)$, subject to the usual constraints $\sum_i \alpha_i = \sum_j \beta_j = \sum_i (\alpha\beta)_{ij} = \sum_j (\alpha\beta)_{ij} = 0$.
+
+\begin{teorema}[Sum-of-squares partition in a two-factor factorial design]
+	The Total Sum of Squares decomposes into four orthogonal sources of variation:
+	\begin{align}
+		\text{SCT} = \text{SC}_A + \text{SC}_B + \text{SC}_{AB} + \text{SCE},
+	\end{align}
+	with degrees of freedom $\nu_A = a-1$, $\nu_B = b-1$, $\nu_{AB} = (a-1)(b-1)$ for the interaction, and $\nu_E = ab(n-1)$ for the residual error, out of a total of $\nu_T = abn - 1$.
+\end{teorema}
+
+\begin{center}
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Source of Variation} & \textbf{SS} & \textbf{d.f. ($\nu$)} & \textbf{Mean Square (MS)} & \textbf{$F$ Statistic} \\ \hline
+		Factor $A$ & $\text{SC}_A$ & $a-1$ & $\text{CM}_A = \frac{\text{SC}_A}{a-1}$ & $F_A = \frac{\text{CM}_A}{\text{CME}}$ \\ [1ex]
+		Factor $B$ & $\text{SC}_B$ & $b-1$ & $\text{CM}_B = \frac{\text{SC}_B}{b-1}$ & $F_B = \frac{\text{CM}_B}{\text{CME}}$ \\ [1ex]
+		Interaction $AB$ & $\text{SC}_{AB}$ & $(a-1)(b-1)$ & $\text{CM}_{AB} = \frac{\text{SC}_{AB}}{(a-1)(b-1)}$ & $F_{AB} = \frac{\text{CM}_{AB}}{\text{CME}}$ \\ [1ex]
+		Residual error & $\text{SCE}$ & $ab(n-1)$ & $\text{CME} = \frac{\text{SCE}}{ab(n-1)}$ & \\ [1ex] \hline
+		\textbf{Total} & $\text{SCT}$ & $abn-1$ & & \\ \hline
+	\end{tabular}
+\end{center}
+
+\begin{observacion}[Order of interpretation]
+	By convention, a factorial analysis is always interpreted \textbf{from the inside outward}: first examine the interaction statistic $F_{AB}$. If it is significant, the main effects $\alpha_i$ and $\beta_j$ no longer have a simple isolated interpretation (the effect of $A$ changes depending on the level of $B$), and the analysis must be reported in terms of specific level combinations. Only when the interaction is \textbf{not} significant does it make sense to interpret the main effects directly and separately.
+\end{observacion}
+
+\begin{ejemplo}
+	\label{exmp:8.6.1}
+	A data engineer evaluates the training time (in minutes) of a machine-learning model under two optimization algorithms ($A_1$, $A_2$) and two batch sizes ($B_1 = 32$, $B_2 = 256$), with $n=3$ replicates per combination. The observed sample means by cell are:
+	\begin{center}
+		\begin{tabular}{lcc}
+			\hline
+			 & $B_1$ (batch 32) & $B_2$ (batch 256) \\ \hline
+			$A_1$ & $42$ & $40$ \\
+			$A_2$ & $38$ & $20$ \\ \hline
+		\end{tabular}
+	\end{center}
+	Do these averages suggest an interaction between algorithm and batch size?
+\end{ejemplo}
+
+\begin{solucion}
+	The effect of moving from $B_1$ to $B_2$ is very different depending on the algorithm: under $A_1$, the time barely changes ($42 \to 40$, a reduction of $2$ minutes), whereas under $A_2$ the time drops sharply ($38 \to 20$, a reduction of $18$ minutes). Since the effect of factor $B$ (batch size) clearly depends on the level of factor $A$ (algorithm), the data suggest a \textbf{substantial interaction} between both factors. This means it is not correct to state generally that ``a large batch reduces training time''; the correct and useful statement is that a large batch reduces time \emph{only under algorithm $A_2$}. Formally confirming this suspicion would require computing $F_{AB}$ and comparing it against the critical quantile $F_{\alpha,\,(a-1)(b-1),\,ab(n-1)}$.
+\end{solucion}

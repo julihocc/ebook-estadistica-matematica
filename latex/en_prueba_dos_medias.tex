@@ -1,0 +1,55 @@
+\section{Tests on Two Means}
+
+When comparing the population means of two groups ($\mu_1$ and $\mu_2$), we test a null hypothesis of the form:
+\begin{align}
+	H_0: \mu_1 - \mu_2 = \Delta_0,
+\end{align}
+where $\Delta_0$ is the hypothesized difference (in the vast majority of comparative studies, no initial difference is postulated, meaning $\Delta_0 = 0 \implies \mu_1 = \mu_2$).
+
+The alternative hypothesis ($H_a$) can take three forms, determining the structure of the rejection region:
+\begin{itemize}
+	\item \textbf{Two-tailed test:} $H_a: \mu_1 - \mu_2 \neq \Delta_0$.
+	\item \textbf{Left-tailed test:} $H_a: \mu_1 - \mu_2 < \Delta_0$.
+	\item \textbf{Right-tailed test:} $H_a: \mu_1 - \mu_2 > \Delta_0$.
+\end{itemize}
+
+The test statistic to use depends on whether the population variances are known or unknown, and whether the samples are independent or paired.
+
+\begin{teorema}[Case 1: Independent samples with known population variances]
+	Let two independent random samples of sizes $n_1$ and $n_2$ be drawn from normal populations with means $\mu_1, \mu_2$ and known variances $\sigma_1^2, \sigma_2^2$. (If $n_1, n_2 \geq 30$, population normality is not strictly required due to the Central Limit Theorem). Under the null hypothesis $H_0: \mu_1 - \mu_2 = \Delta_0$, the standardized statistic:
+	\begin{align}
+		Z = \frac{(\bar{X}_1 - \bar{X}_2) - \Delta_0}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}
+	\end{align}
+	follows exactly a standard normal distribution $N(0,1)$. We reject $H_0$ at significance level $\alpha$ if $|Z| > Z_{\alpha/2}$ (two-tailed), $Z < -Z_\alpha$ (left-tailed), or $Z > Z_\alpha$ (right-tailed).
+\end{teorema}
+
+\begin{teorema}[Case 2: Independent samples with unknown but equal variances (Homoscedasticity)]
+	When $\sigma_1^2, \sigma_2^2$ are unknown but can be reasonably assumed equal ($\sigma_1^2 = \sigma_2^2 = \sigma^2$), we estimate the common variance using the pooled sample variance $S_p^2$:
+	\begin{align}
+		S_p^2 = \frac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 - 2}.
+	\end{align}
+	The test statistic under $H_0: \mu_1 - \mu_2 = \Delta_0$ is:
+	\begin{align}
+		t = \frac{(\bar{X}_1 - \bar{X}_2) - \Delta_0}{S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}},
+	\end{align}
+	which follows a Student's $t$-distribution with $\nu = n_1 + n_2 - 2$ degrees of freedom.
+\end{teorema}
+
+\begin{teorema}[Case 3: Independent samples with unknown and unequal variances (Welch)]
+	If the population variances are unknown and notably different ($\sigma_1^2 \neq \sigma_2^2$), we cannot pool the sample variances. The test statistic is:
+	\begin{align}
+		t = \frac{(\bar{X}_1 - \bar{X}_2) - \Delta_0}{\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}}},
+	\end{align}
+	whose sampling distribution is excellently approximated by a Student's $t$-distribution with Welch-Satterthwaite degrees of freedom:
+	\begin{align}
+		\nu = \frac{\left( \frac{S_1^2}{n_1} + \frac{S_2^2}{n_2} \right)^2}{\frac{\left(S_1^2/n_1\right)^2}{n_1 - 1} + \frac{\left(S_2^2/n_2\right)^2}{n_2 - 1}}.
+	\end{align}
+\end{teorema}
+
+\begin{definicion}[Case 4: Paired or dependent samples]
+	When measurements from both groups are taken on the same subjects or paired experimental units ($X_{1i}, X_{2i}$), we define the difference variable $D_i = X_{1i} - X_{2i}$. Testing $\mu_1 - \mu_2$ transforms into a one-sample $t$-test on the mean difference $\mu_D$. Under $H_0: \mu_D = \Delta_0$:
+	\begin{align}
+		t = \frac{\bar{D} - \Delta_0}{S_D / \sqrt{n}},
+	\end{align}
+	where $\bar{D} = \frac{1}{n}\sum D_i$ and $S_D = \sqrt{\frac{1}{n-1}\sum (D_i - \bar{D})^2}$. The statistic follows a Student's $t$-distribution with $\nu = n - 1$ degrees of freedom.
+\end{definicion}

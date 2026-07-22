@@ -1,0 +1,20 @@
+\section{Model Adequacy: Residual Analysis}
+
+The theoretical validity and inferential robustness of any conclusion drawn from an ANOVA rest fundamentally on the experimental data and residuals ($\hat{\varepsilon}_{ij} = Y_{ij} - \hat{Y}_{ij}$) satisfying the underlying assumptions of the parametric model. Every data scientist must rigorously audit and verify these three pillars before presenting experimental results in a production or research setting:
+
+\begin{enumerate}
+	\item \textbf{Homoscedasticity (equality of between-group variances):} The experimental error variance across all $k$ treatments must be statistically equivalent ($\sigma_1^2 = \sigma_2^2 = \ldots = \sigma_k^2 = \sigma^2$). One-way ANOVA is reasonably robust to moderate departures from homoscedasticity \emph{only if sample sizes are exactly equal} ($n_1 = n_2 = \ldots = n_k$). If sample sizes are unequal, however, the $F$-statistic can become highly imprecise.
+
+	Two reference tests are used to formally contrast the homoscedasticity hypothesis:
+	\begin{itemize}
+		\item \textbf{Bartlett's Test:} Highly sensitive to the assumption of population normality. It tests $H_0: \sigma_1^2 = \ldots = \sigma_k^2$ using a statistic based on a weighted ratio of sample variances that follows a chi-squared distribution with $k-1$ degrees of freedom.
+		\item \textbf{Levene's and Brown-Forsythe's Test:} The modern gold standard in computational analytics (implemented in \texttt{scipy.stats.levene}) due to its outstanding robustness to non-normal or skewed distributions. It consists of running a univariate ANOVA directly on the absolute deviations of the observations from the mean (Levene: $Z_{ij} = |Y_{ij} - \bar{Y}_{i.}|$) or from the treatment median (Brown-Forsythe: $Z_{ij} = |Y_{ij} - \tilde{Y}_{i.}|$).
+	\end{itemize}
+	If the homoscedasticity hypothesis is rejected at level $\alpha$, we must abandon the standard parametric ANOVA and use \textbf{Welch's one-way ANOVA} or variance-stabilizing transformations from the Box-Cox family (such as $\log Y$ or $\sqrt{Y}$).
+
+	\item \textbf{Normality of the residual errors ($\varepsilon_{ij} \sim N(0,\sigma^2)$):} The distribution of the residuals within each treatment, or of the model's overall residual vector, should approximate a normal distribution. This assumption is audited qualitatively via a \textbf{Q-Q Plot} of the residuals, and quantitatively via the \textbf{Shapiro-Wilk Test} or the \textbf{Kolmogorov-Smirnov Test} on the standardized residuals.
+
+	If severe violations of normality are detected (especially extreme skewness or extreme outliers with small samples), the data scientist should use the non-parametric alternative to ANOVA: the \textbf{Kruskal-Wallis Test} (based on ranks and medians rather than means and variances).
+
+	\item \textbf{Independence of the observations:} The residuals of any pair of experimental units must be statistically independent ($Cov(\varepsilon_{ij}, \varepsilon_{lm}) = 0$). This is the most critical assumption of all: \textbf{a violation of independence directly contaminates the estimation of the Mean Square Error ($\text{CME}$)}, completely invalidating the $F$-test. Independence cannot easily be fixed after the fact with algebraic transformations; it is guaranteed a priori through strict \textbf{randomization in the sampling design} and the correct identification of temporal or spatial dependencies (which would require time-series models or longitudinal mixed-effects models).
+\end{enumerate}

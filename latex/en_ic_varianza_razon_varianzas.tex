@@ -1,0 +1,33 @@
+\section{Estimation of Variance and the Ratio of Two Variances}
+
+In many statistical applications, process variability is just as crucial as its average. For instance, in quality control, quantitative finance (where variance measures asset risk or volatility), or verifying assumptions for ANOVA and linear regression.
+
+\begin{teorema}[Confidence Interval for a Population Variance $\sigma^2$]
+	Let $X_1, X_2, \ldots, X_n$ be a random sample of size $n$ from a normally distributed population with mean $\mu$ and variance $\sigma^2$. The sample statistic:
+	\begin{align}
+		\chi^2 = \frac{(n-1)S^2}{\sigma^2}
+	\end{align}
+	follows a chi-square ($\chi^2$) distribution with $n-1$ degrees of freedom.
+	
+	Therefore, a $(1-\alpha)100\%$ confidence interval for the population variance $\sigma^2$ (and taking the square root for the standard deviation $\sigma$) is obtained by solving for the quantiles of the $\chi^2$ distribution:
+	\begin{align}
+		\frac{(n-1)S^2}{\chi^2_{\alpha/2, \, n-1}} \leq \sigma^2 \leq \frac{(n-1)S^2}{\chi^2_{1-\alpha/2, \, n-1}},
+	\end{align}
+	where $\chi^2_{\alpha/2, n-1}$ and $\chi^2_{1-\alpha/2, n-1}$ are the upper and lower quantiles of the chi-square distribution leaving upper tail areas of $\alpha/2$ and $1-\alpha/2$, respectively.
+\end{teorema}
+
+\begin{teorema}[Confidence Interval for the Ratio of Two Variances $\sigma_1^2 / \sigma_2^2$]
+	Let two independent random samples of sizes $n_1$ and $n_2$ be drawn from independent normal populations with variances $\sigma_1^2$ and $\sigma_2^2$. The ratio of the standardized sample variances:
+	\begin{align}
+		F = \frac{S_1^2 / \sigma_1^2}{S_2^2 / \sigma_2^2} = \left(\frac{S_1^2}{S_2^2}\right)\left(\frac{\sigma_2^2}{\sigma_1^2}\right)
+	\end{align}
+	follows Snedecor's $F$-distribution with $\nu_1 = n_1 - 1$ numerator degrees of freedom and $\nu_2 = n_2 - 1$ denominator degrees of freedom.
+	
+	The $(1-\alpha)100\%$ confidence interval for the population variance ratio $\frac{\sigma_1^2}{\sigma_2^2}$ is:
+	\begin{align}
+		\frac{S_1^2}{S_2^2} \frac{1}{F_{\alpha/2, \, n_1-1, \, n_2-1}} \leq \frac{\sigma_1^2}{\sigma_2^2} \leq \frac{S_1^2}{S_2^2} \frac{1}{F_{1-\alpha/2, \, n_1-1, \, n_2-1}},
+	\end{align}
+	where $F_{\alpha/2, \nu_1, \nu_2}$ is the upper quantile of the $F$-distribution. 
+	
+	Recalling the reciprocal property of the $F$-distribution, we have $F_{1-\alpha/2, \nu_1, \nu_2} = \frac{1}{F_{\alpha/2, \nu_2, \nu_1}}$, which simplifies calculations when statistical tables report only upper tails.
+\end{teorema}

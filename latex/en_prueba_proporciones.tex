@@ -1,0 +1,27 @@
+\section{Tests Related to Proportions}
+
+In statistical modeling and machine learning, evaluating categorical or binary variables (success/failure) requires testing population proportions.
+
+\begin{teorema}[$Z$-test for a single population proportion]
+	Let $X$ be the number of successes in a random sample of size $n$ from a binomial distribution with true probability $p$. To test the null hypothesis $H_0: p = p_0$ when the sample size satisfies normal approximation conditions ($n p_0 \geq 5$ and $n(1-p_0) \geq 5$), the standardized test statistic is:
+	\begin{align}
+		Z = \frac{\hat{p} - p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}},
+	\end{align}
+	where $\hat{p} = X/n$ is the observed sample proportion. Note a crucial theoretical difference from the confidence interval: in the denominator of the $Z$ statistic, we use the expected standard deviation \emph{under the null hypothesis} ($p_0(1-p_0)$), rather than the empirical sample variance ($\hat{p}(1-\hat{p})$).
+\end{teorema}
+
+\begin{teorema}[$Z$-test for the difference between two proportions]
+	To compare the success rates of two independent populations ($p_1$ and $p_2$), we test the null hypothesis of equality $H_0: p_1 - p_2 = 0$ ($p_1 = p_2 = p$).
+	
+	Since under the null hypothesis both samples theoretically originate from the same population sharing a common proportion $p$, the most efficient point estimator of this proportion is the weighted average of successes across both samples, known as the \emph{pooled proportion} ($\bar{p}$):
+	\begin{align}
+		\bar{p} = \frac{X_1 + X_2}{n_1 + n_2} = \frac{n_1 \hat{p}_1 + n_2 \hat{p}_2}{n_1 + n_2}.
+		\label{eq:prop_combinada}
+	\end{align}
+	
+	The test statistic under $H_0$ is:
+	\begin{align}
+		Z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\bar{p}(1-\bar{p})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}},
+	\end{align}
+	which is asymptotically distributed as a standard normal $N(0,1)$ when $n_1 \bar{p}, n_1(1-\bar{p}), n_2 \bar{p}, n_2(1-\bar{p}) \geq 5$.
+\end{teorema}

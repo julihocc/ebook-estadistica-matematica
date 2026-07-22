@@ -1,0 +1,128 @@
+\section{Randomized Complete Blocks, Latin Squares, and Graeco-Latin Squares}
+
+When experimental units possess inherent, known heterogeneity (such as different batches of raw material, distinct age cohorts, or different physical testing machines), applying a Completely Randomized Design (CRD) forces all inter-unit variability directly into the residual error term ($\text{SCE}$). This inflates $\text{CME}$ and destroys the sensitivity of the $F$-test.
+
+The \textbf{Randomized Complete Block Design (RCBD)} overcomes this challenge by grouping experimental units into $b$ homogeneous blocks of size $k$ (where $k$ is the total number of treatments). Within each block, treatments are assigned completely at random, ensuring that every treatment appears exactly once per block ($N = kb$).
+
+\subsection{Additive Structural Model for RCBD}
+The observation $Y_{ij}$ for the $i$-th treatment ($i=1,\dots,k$) within the $j$-th block ($j=1,\dots,b$) is modeled by:
+\begin{align}
+	Y_{ij} = \mu + \tau_i + \beta_j + \varepsilon_{ij},
+\end{align}
+where:
+\begin{itemize}
+	\item $\mu$ is the overall population grand mean.
+	\item $\tau_i$ is the fixed effect of the $i$-th treatment ($\sum_{i=1}^k \tau_i = 0$).
+	\item $\beta_j$ is the effect of the $j$-th block ($\sum_{j=1}^b \beta_j = 0$), capturing systematic shifts across blocks.
+	\item $\varepsilon_{ij} \sim N(0, \sigma^2)$ are independent random residual errors, assuming no interaction between treatments and blocks (additivity of effects).
+\end{itemize}
+
+\subsection{Partitioning of Variance in RCBD}
+In an RCBD, the Total Sum of Squares ($\text{SCT}$, with $\nu_T = kb - 1$) is orthogonally partitioned into three mutually independent components:
+\begin{align}
+	\text{SCT} = \text{SCTR} + \text{SCB} + \text{SCE},
+\end{align}
+where:
+\begin{itemize}
+	\item $\text{SCTR} = b \sum_{i=1}^k (\bar{Y}_{i.} - \bar{Y}_{..})^2$, with $\nu_{\text{TR}} = k - 1$.
+	\item $\text{SCB} = k \sum_{j=1}^b (\bar{Y}_{.j} - \bar{Y}_{..})^2$, with $\nu_{\text{B}} = b - 1$, measuring structural variability isolated between blocks ($\bar{Y}_{.j} = \frac{1}{k} \sum_{i=1}^k Y_{ij}$).
+	\item $\text{SCE} = \sum_{i=1}^k \sum_{j=1}^b (Y_{ij} - \bar{Y}_{i.} - \bar{Y}_{.j} + \bar{Y}_{..})^2$, with residual degrees of freedom $\nu_E = (k - 1)(b - 1)$.
+\end{itemize}
+
+By comparing the expected mean squares:
+\begin{align}
+	E[\text{CME}] &= \sigma^2, \\
+	E[\text{CMTR}] &= \sigma^2 + \frac{b \sum_{i=1}^k \tau_i^2}{k - 1}, \\
+	E[\text{CMB}] &= \sigma^2 + \frac{k \sum_{j=1}^b \beta_j^2}{b - 1},
+\end{align}
+we construct two independent $F$-statistics: one to evaluate treatment differences ($F_{\text{TR}} = \frac{\text{CMTR}}{\text{CME}} \sim F_{k-1, \, (k-1)(b-1)}$) and another to assess the statistical effectiveness of the blocking factor ($F_{\text{B}} = \frac{\text{CMB}}{\text{CME}} \sim F_{b-1, \, (k-1)(b-1)}$), as summarized in Table \ref{tab:anova_dbca}.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Source of Variation} & \textbf{Sum of Squares (SC)} & \textbf{d.f. ($\nu$)} & \textbf{Mean Square (CM)} & \textbf{$F$ Statistic} \\ \hline
+		Treatments & $\text{SCTR} = b \sum (\bar{Y}_{i.} - \bar{Y}_{..})^2$ & $k - 1$ & $\text{CMTR} = \frac{\text{SCTR}}{k-1}$ & $F_{\text{TR}} = \frac{\text{CMTR}}{\text{CME}}$ \\
+		Blocks & $\text{SCB} = k \sum (\bar{Y}_{.j} - \bar{Y}_{..})^2$ & $b - 1$ & $\text{CMB} = \frac{\text{SCB}}{b-1}$ & $F_{\text{B}} = \frac{\text{CMB}}{\text{CME}}$ \\
+		Residual Error & $\text{SCE} = \text{SCT} - \text{SCTR} - \text{SCB}$ & $(k-1)(b-1)$ & $\text{CME} = \frac{\text{SCE}}{(k-1)(b-1)}$ & \\ \hline
+		\textbf{Total} & $\text{SCT} = \sum \sum (Y_{ij} - \bar{Y}_{..})^2$ & $kb - 1$ & & \\ \hline
+	\end{tabular}
+	\caption{ANOVA Table for a Randomized Complete Block Design (RCBD).}
+	\label{tab:anova_dbca}
+\end{table}
+
+\subsection{Latin Squares}
+
+The RCBD controls variability coming from \textbf{one} known blocking source. When there are \textbf{two} known nuisance sources of variability crossed with each other (for example, work shift and machine used on a production line), the \textbf{Latin square design} makes it possible to control both simultaneously without making the number of experimental runs grow multiplicatively.
+
+\begin{definicion}[Latin square]
+	A \emph{Latin square} of order $n$ is an arrangement of $n \times n$ cells in which $n$ treatments (traditionally denoted with Latin letters $A, B, C, \ldots$) are distributed so that each treatment appears \textbf{exactly once in each row and exactly once in each column}. Rows and columns represent the two blocking factors; the number of experimental runs is $n^2$ instead of the $n^3$ that would be required by a complete factorial design with three factors of $n$ levels each.
+\end{definicion}
+
+\begin{center}
+	\begin{tabular}{c|cccc}
+		 & Column 1 & Column 2 & Column 3 & Column 4 \\ \hline
+		Row 1 & $A$ & $B$ & $C$ & $D$ \\
+		Row 2 & $B$ & $C$ & $D$ & $A$ \\
+		Row 3 & $C$ & $D$ & $A$ & $B$ \\
+		Row 4 & $D$ & $A$ & $B$ & $C$ \\
+	\end{tabular}
+\end{center}
+
+The parametric statistical model for a Latin square of order $n$ is
+\begin{align}
+	Y_{ijk} = \mu + \rho_i + \gamma_j + \tau_k + \epsilon_{ijk},
+	\label{eq:modelo_cuadrado_latino}
+\end{align}
+where $\rho_i$ is the row effect, $\gamma_j$ is the column effect, and $\tau_k$ is the treatment effect (with $i,j,k = 1,\ldots,n$, subject to the usual constraints $\sum \rho_i = \sum \gamma_j = \sum \tau_k = 0$). Unlike the RCBD, only \emph{one} of the $n^2$ possible row-column-treatment combinations is observed for each pair $(i,j)$, since the Latin-square arrangement itself determines which treatment $k$ corresponds to each cell.
+
+\begin{teorema}[Sum-of-squares partition in a Latin square]
+	The Total Sum of Squares decomposes into four orthogonal sources of variation:
+	\begin{align}
+		\text{SCT} = \text{SC}_{\text{rows}} + \text{SC}_{\text{columns}} + \text{SCTR} + \text{SCE},
+	\end{align}
+	with $n^2 - 1$ total degrees of freedom, distributed as $\nu_{\text{rows}} = \nu_{\text{columns}} = \nu_{\text{TR}} = n-1$ and $\nu_E = (n-1)(n-2)$ for the residual error.
+\end{teorema}
+
+\begin{center}
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Source of Variation} & \textbf{SS} & \textbf{d.f. ($\nu$)} & \textbf{Mean Square (MS)} & \textbf{$F$ Statistic} \\ \hline
+		Rows & $\text{SC}_{\text{rows}}$ & $n-1$ & $\text{SC}_{\text{rows}}/(n-1)$ & --- \\ [1ex]
+		Columns & $\text{SC}_{\text{columns}}$ & $n-1$ & $\text{SC}_{\text{columns}}/(n-1)$ & --- \\ [1ex]
+		Treatments & $\text{SCTR}$ & $n-1$ & $\text{CMTR} = \frac{\text{SCTR}}{n-1}$ & $F_{\text{TR}} = \frac{\text{CMTR}}{\text{CME}}$ \\ [1ex]
+		Residual error & $\text{SCE}$ & $(n-1)(n-2)$ & $\text{CME} = \frac{\text{SCE}}{(n-1)(n-2)}$ & \\ [1ex] \hline
+		\textbf{Total} & $\text{SCT}$ & $n^2 - 1$ & & \\ \hline
+	\end{tabular}
+\end{center}
+
+\begin{observacion}
+	As in the RCBD, the main hypothesis of interest is $H_{0,\text{TR}}: \tau_k = 0$ for all $k$ (equality of treatments), tested through $F_{\text{TR}}$. Rows and columns are control blocks, not experimental variables of direct interest, so their $F$ statistics are usually not reported.
+\end{observacion}
+
+\subsection{Graeco-Latin Squares}
+
+When there is a \textbf{third} known nuisance source of variability (in addition to the two already controlled by rows and columns), the \textbf{Graeco-Latin square} extends the Latin-square idea by superimposing a second arrangement of letters (traditionally Greek: $\alpha, \beta, \gamma, \ldots$) on the same $n \times n$ square.
+
+\begin{definicion}[Graeco-Latin square]
+	A \emph{Graeco-Latin square} of order $n$ consists of two superimposed \textbf{orthogonal} Latin squares: one with Latin letters ($A, B, C, \ldots$, the main treatment factor) and another with Greek letters ($\alpha, \beta, \gamma, \ldots$, a fourth controlled factor), so that each combination (Latin letter, Greek letter) appears exactly once in the whole arrangement. The two squares are said to be \emph{orthogonal} because each pair (Latin letter, Greek letter) coincides in exactly one cell.
+\end{definicion}
+
+\begin{observacion}[Existence condition]
+	There are no orthogonal Graeco-Latin squares of order $n=6$ (a famous result conjectured by Euler in 1782 and proved in 1900); for every other $n \geq 3$ they do exist. In practice, Graeco-Latin squares are used almost exclusively for $n \geq 3$, $n \neq 6$.
+\end{observacion}
+
+The parametric statistical model adds a fourth term to the Latin-square model:
+\begin{align}
+	Y_{ijkl} = \mu + \rho_i + \gamma_j + \tau_k + \delta_l + \epsilon_{ijkl},
+	\label{eq:modelo_cuadrado_grecolatino}
+\end{align}
+where $\delta_l$ is the effect of the Greek factor $l$ (with $i,j,k,l = 1,\ldots,n$). The Total Sum of Squares now decomposes into five orthogonal sources:
+\begin{align}
+	\text{SCT} = \text{SC}_{\text{rows}} + \text{SC}_{\text{columns}} + \text{SCTR} + \text{SC}_{\text{Greek}} + \text{SCE},
+\end{align}
+with $\nu_{\text{rows}} = \nu_{\text{columns}} = \nu_{\text{TR}} = \nu_{\text{Greek}} = n-1$ and $\nu_E = (n-1)(n-3)$ degrees of freedom for the residual error, out of a total of $n^2 - 1$.
+
+\begin{observacion}
+	Each additional blocking source (row, column, Greek factor) that truly explains real variability reduces the Error Mean Square and therefore increases the power of the $F$ test on treatments - the same blocking principle as in the RCBD, now applied to three simultaneous noise sources instead of one.
+\end{observacion}

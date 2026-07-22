@@ -1,0 +1,57 @@
+\section{Advanced Interval Estimation and Sample Size Determination}
+
+In previous sections we intuitively introduced the concept of a confidence interval and evaluated basic interval estimations for the population mean. However, in real statistical analysis and data science projects, we rarely limit ourselves to studying a single population or assuming known population parameters. We frequently need to compare two treatments (such as in A/B testing for websites), evaluate proportions or conversion rates, analyze data variability or dispersion, and, critically before any study begins, accurately calculate the sample size required to achieve a desired statistical precision or power.
+
+In this section we formally, thoroughly, and rigorously develop the theory of interval estimation for differences in means, standard errors, proportions, variances, and sample size design.
+
+\section{Estimation of the Mean and Difference Between Two Means}
+
+When two populations are studied, primary interest often centers on estimating the difference between their means, $\mu_1 - \mu_2$, using independent or paired samples drawn from each population. The natural, minimum-variance point estimator for this difference is the difference between sample means: $\bar{X}_1 - \bar{X}_2$.
+
+The construction of the confidence interval for $\mu_1 - \mu_2$ depends critically on the sampling design and the assumptions or knowledge regarding the population variances ($\sigma_1^2, \sigma_2^2$).
+
+\begin{teorema}[Case 1: Independent Samples with Known Variances]
+	Let $X_{11}, X_{12}, \ldots, X_{1n_1}$ and $X_{21}, X_{22}, \ldots, X_{2n_2}$ be two independent random samples of sizes $n_1$ and $n_2$ drawn from populations with means $\mu_1, \mu_2$ and known variances $\sigma_1^2, \sigma_2^2$. If the populations are normal or the sample sizes are large ($n_1, n_2 \geq 30$ by the Central Limit Theorem), a $(1-\alpha)100\%$ confidence interval for the difference of means is:
+	\begin{align}
+		(\bar{X}_1 - \bar{X}_2) - Z_{\alpha/2} \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \leq \mu_1 - \mu_2 \leq (\bar{X}_1 - \bar{X}_2) + Z_{\alpha/2} \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}},
+	\end{align}
+	where $Z_{\alpha/2}$ is the critical value from the standard normal distribution leaving an upper tail area of $\alpha/2$.
+\end{teorema}
+
+\begin{teorema}[Case 2: Independent Samples with Unknown but Equal Variances]
+	If the population variances are unknown but homoscedasticity can be assumed ($\sigma_1^2 = \sigma_2^2 = \sigma^2$), we pool the information from both samples to obtain a degrees-of-freedom-weighted estimate of the common variance, denoted by the pooled variance $S_p^2$:
+	\begin{align}
+		S_p^2 = \frac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 - 2},
+		\label{eq:varianza_combinada}
+	\end{align}
+	where $S_1^2$ and $S_2^2$ are the respective unbiased sample variances. 
+	
+	The standardized statistic follows a Student's $t$-distribution with $\nu = n_1 + n_2 - 2$ degrees of freedom. The $(1-\alpha)100\%$ confidence interval for $\mu_1 - \mu_2$ is:
+	\begin{align}
+		(\bar{X}_1 - \bar{X}_2) \pm t_{\alpha/2, \, n_1+n_2-2} \, S_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}.
+	\end{align}
+\end{teorema}
+
+\begin{teorema}[Case 3: Independent Samples with Unknown and Unequal Variances (Welch)]
+	When population variances are unknown and it is not reasonable to assume they are equal ($\sigma_1^2 \neq \sigma_2^2$), we cannot use the pooled variance. In this scenario (known as the Behrens-Fisher problem), we use the individual sample variances and approximate the distribution of the test statistic using Student's $t$-distribution with Welch-Satterthwaite effective degrees of freedom:
+	\begin{align}
+		\nu = \frac{\left( \frac{S_1^2}{n_1} + \frac{S_2^2}{n_2} \right)^2}{\frac{\left(S_1^2 / n_1\right)^2}{n_1 - 1} + \frac{\left(S_2^2 / n_2\right)^2}{n_2 - 1}}.
+		\label{eq:df_welch}
+	\end{align}
+	If $\nu$ is not an integer, it is typically rounded down to the nearest integer to maintain a conservative attitude regarding interval coverage. The $(1-\alpha)100\%$ interval is given by:
+	\begin{align}
+		(\bar{X}_1 - \bar{X}_2) \pm t_{\alpha/2, \, \nu} \sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}}.
+	\end{align}
+\end{teorema}
+
+\begin{definicion}[Case 4: Paired or Dependent Sampling]
+	When two samples are pairwise correlated (for example, measurements from the same patient or system before and after a treatment), we cannot treat them as independent. Instead, we reduce the two-variable problem to a single-variable problem by computing individual paired differences:
+	\begin{align}
+		D_i = X_{1i} - X_{2i}, \quad \text{for } i = 1, 2, \ldots, n.
+	\end{align}
+	
+	We compute the sample mean of the differences $\bar{D} = \frac{1}{n}\sum D_i$ and the sample standard deviation of the differences $S_D = \sqrt{\frac{1}{n-1}\sum (D_i - \bar{D})^2}$. The $(1-\alpha)100\%$ confidence interval for the population mean difference $\mu_D = \mu_1 - \mu_2$ is:
+	\begin{align}
+		\bar{D} - t_{\alpha/2, \, n-1} \frac{S_D}{\sqrt{n}} \leq \mu_D \leq \bar{D} + t_{\alpha/2, \, n-1} \frac{S_D}{\sqrt{n}}.
+	\end{align}
+\end{definicion}

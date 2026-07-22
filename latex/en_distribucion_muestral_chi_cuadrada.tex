@@ -1,0 +1,62 @@
+\section{Chi-Square Distribution}
+
+The $\chi^2$ distribution arises when summing squares of standard normal random variables. Its detailed treatment is carried out in Section \ref{sec:3.9}; here we present the essential results.
+
+\begin{definicion}[$\chi^2$ Distribution]
+Let $Z_1, Z_2, \ldots, Z_\nu$ be independent random variables with $Z_i \sim N(0,1)$. The random variable
+\begin{align}
+ \label{eq:3.2.11}
+ \chi^2_\nu = \sum_{i=1}^\nu Z_i^2
+\end{align}
+follows a \emph{chi-square} distribution with $\nu$ degrees of freedom.
+\end{definicion}
+
+{Properties}
+\begin{itemize}
+ \item Mean: $E(\chi^2_\nu) = \nu$.
+ \item Variance: $\text{Var}(\chi^2_\nu) = 2\nu$.
+ \item As a special case of the gamma family (Section 2.11), $\chi^2_\nu = \text{Gamma}\!\left(\frac{\nu}{2}, 2\right)$.
+ \item Reproductive property: if $\chi^2_{\nu_1}$ and $\chi^2_{\nu_2}$ are independent, $\chi^2_{\nu_1} + \chi^2_{\nu_2} \sim \chi^2_{\nu_1 + \nu_2}$.
+\end{itemize}
+
+\begin{observacion}
+The $\chi^2$ distribution arises naturally when estimating the variance of a normal population. If $X_1, \ldots, X_n$ are iid normal and $S^2$ is the sample variance, then
+\begin{align}
+ \frac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}.
+\end{align}
+This result forms the basis for confidence intervals for $\sigma^2$ and for the chi-square goodness-of-fit test.
+\end{observacion}
+
+\begin{definicion}[Chi-square density]
+ \label{eq:5.3.1}
+As a special case of the gamma distribution with $\alpha=\nu/2$ and $\beta=2$, the density function of $\chi^2_\nu$ is
+\begin{align}
+ f(x) = \frac{1}{2^{\nu/2}\Gamma(\nu/2)}\,x^{\nu/2-1}e^{-x/2}, \qquad x > 0.
+\end{align}
+\end{definicion}
+
+\begin{teorema}[Fisher's Theorem]
+ \label{eq:5.3.2}
+Let $X_1, \ldots, X_n$ be iid random variables with $X_i \sim N(\mu, \sigma^2)$, with sample mean $\bar{X}$ and sample variance $S^2$. Then:
+\begin{enumerate}
+ \item $\bar{X}$ and $S^2$ are \emph{independent};
+ \item $\dfrac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}$.
+\end{enumerate}
+\end{teorema}
+
+\begin{observacion}[Idea of the proof]
+The independence of $\bar{X}$ and $S^2$ is a surprising result: even though $S^2$ is computed from the deviations $(X_i-\bar{X})$, which depend on $\bar{X}$, the vector of deviations turns out to be statistically independent of $\bar{X}$ when the population is normal. The formal proof uses an orthogonal transformation of the vector $(X_1,\ldots,X_n)$ that separates the direction of $\bar{X}$ (a single degree of freedom) from the remaining $n-1$ orthogonal directions, each capturing information independent of $\bar X$; the sum of squares along those $n-1$ directions is exactly $(n-1)S^2$, which explains both the independence and the $n-1$ degrees of freedom (this is a special case of \emph{Cochran's theorem}).
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:5.3.1}
+The fill volume of soda cans from a bottling plant follows $N(\mu, \sigma^2=4)$ (in milliliters, with $\sigma=2$). A sample of $n=10$ cans is taken and $S^2 = 7.2$ is computed. What is the value of the statistic $(n-1)S^2/\sigma^2$, and how extreme is this value compared to the $\chi^2_9$ distribution (whose expected value is $9$)?
+\end{ejemplo}
+
+\begin{solucion}
+The statistic is
+\begin{align}
+ \frac{(n-1)S^2}{\sigma^2} = \frac{9 \cdot 7.2}{4} = \frac{64.8}{4} = 16.2.
+\end{align}
+Since $16.2 > 9 = E(\chi^2_9)$, the observed sample variance is larger than expected under $\sigma^2=4$. Using $\chi^2_9$ tables, the $95\%$ critical value is $\chi^2_{9,0.95} \approx 16.92$; since $16.2 < 16.92$, the value is not extreme enough to reject $\sigma^2=4$ at the $\alpha=0.05$ level (though it is close to the threshold).
+\end{solucion}

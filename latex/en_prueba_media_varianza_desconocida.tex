@@ -1,0 +1,57 @@
+\section{Tests Related to One Mean (Unknown Variance)}
+\label{sec:prueba-t-media}
+
+The $Z$ tests studied so far assume that the population standard deviation $\sigma$ is known. In practice, $\sigma$ is almost never known in advance: it must be estimated from the same sample using the sample standard deviation $S$. When $\sigma$ is replaced by $S$, the test statistic no longer follows a standard normal distribution and instead follows a Student's $t$ distribution, already studied in Section \ref{sec:distribucion-t}.
+
+\begin{teorema}[$t$ test for a population mean, unknown $\sigma$]
+	Let $X_1, \ldots, X_n$ be a random sample from a normal population (or a sufficiently large sample) with unknown mean $\mu$ and unknown variance $\sigma^2$. To test $H_0: \mu = \mu_0$, the test statistic is
+	\begin{align}
+		\label{eq:6.4.1}
+		T = \frac{\bar{X} - \mu_0}{S/\sqrt{n}},
+	\end{align}
+	which, under $H_0$, follows a $t_{n-1}$ distribution (the same construction as in \eqref{eq:3.2.14}, with $\mu_0$ instead of $\mu$). We reject $H_0$ at significance level $\alpha$ according to the alternative hypothesis:
+	\begin{itemize}
+		\item $H_a: \mu \neq \mu_0$ (two-tailed): reject if $|T| > t_{n-1,\,\alpha/2}$.
+		\item $H_a: \mu > \mu_0$ (right-tailed): reject if $T > t_{n-1,\,\alpha}$.
+		\item $H_a: \mu < \mu_0$ (left-tailed): reject if $T < -t_{n-1,\,\alpha}$.
+	\end{itemize}
+\end{teorema}
+
+\begin{observacion}
+	As with the corresponding confidence interval (Section \ref{sec:distribucion-t}), using quantiles from $t_{n-1}$ instead of $N(0,1)$ produces a more conservative rejection region (critical values farther from zero), reflecting the additional uncertainty from estimating $\sigma$ from the sample. This difference is more pronounced for small samples and becomes negligible when $n \to \infty$, since $t_{n-1} \xrightarrow{d} N(0,1)$.
+\end{observacion}
+
+\begin{ejemplo}
+	\label{exmp:6.4.1}
+	A battery manufacturer claims that the mean lifetime of its product is $500$ hours. An independent laboratory tests a sample of $n=16$ batteries and obtains a sample mean $\bar{x} = 485$ hours, with sample standard deviation $s = 32$ hours. Is there evidence, at significance level $\alpha = 0.05$, that the true mean lifetime is lower than claimed?
+\end{ejemplo}
+
+\begin{solucion}
+	\textbf{Step 1: State the hypotheses}
+	\begin{align}
+		H_0: \mu &= 500 \text{ hours} \\
+		H_a: \mu &< 500 \text{ hours}
+	\end{align}
+
+	\textbf{Step 2: Choose the significance level}
+	\begin{align}
+		\alpha = 0.05
+	\end{align}
+
+	\textbf{Step 3: Compute the test statistic}
+
+	Since $\sigma$ is unknown and $n=16 < 30$, we use the $t$ test with $\nu = n-1 = 15$ degrees of freedom:
+	\begin{align}
+		T = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} = \frac{485 - 500}{32/\sqrt{16}} = \frac{-15}{8} = -1.875
+	\end{align}
+
+	\textbf{Step 4: Determine the critical region}
+
+	For a left-tailed test with $\alpha = 0.05$ and $\nu = 15$ degrees of freedom, the critical value is $t_{15,\,0.05} \approx 1.753$, so we reject $H_0$ if $T < -1.753$.
+
+	\textbf{Step 5: Make the decision}
+
+	Since $T = -1.875 < -1.753$, we reject $H_0$.
+
+	\textbf{Conclusion:} There is sufficient statistical evidence at the $5\%$ significance level to state that the true mean lifetime of the batteries is less than the advertised $500$ hours.
+\end{solucion}

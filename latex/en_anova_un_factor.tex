@@ -1,0 +1,64 @@
+\section{One-Factor Experiments: Analysis of Variance}
+
+The \textbf{One-Way Analysis of Variance (Completely Randomized Design, CRD)} is an inferential methodology designed to simultaneously compare the population means of $k \geq 2$ independent groups or levels of a single categorical independent variable (called a \textbf{factor}).
+
+While the two-sample Student's $t$-test is adequate for comparing $k=2$ population means, attempting to compare $k > 2$ means using $\binom{k}{2}$ multiple pairwise $t$-tests inevitably leads to a massive inflation of the \textbf{Family-Wise Error Rate ($\text{FWER}$)}. If $\binom{k}{2} = m$ independent pairwise comparisons are conducted, each at a nominal significance level $\alpha$, the true probability of committing at least one Type I error across the family of tests ($\alpha_{\text{global}}$) grows exponentially according to Boole's inequality and the independence bound:
+\begin{align}
+	\alpha_{\text{global}} = 1 - (1 - \alpha)^m = 1 - (1 - 0.05)^{10} = 1 - (0.95)^{10} \approx 0.4013 \quad (40.13\%).
+\end{align}
+ANOVA circumvents this inflation by executing a single global (\textbf{omnibus}) test that partitions the total observed variance into orthogonal components, maintaining the exact experimental Type I error rate at $\alpha$.
+
+\subsection{Structural Additive Linear Model}
+
+Let $Y_{ij}$ represent the continuous response observation from the $j$-th experimental unit assigned to the $i$-th treatment level ($i = 1, 2, \dots, k$; $j = 1, 2, \dots, n_i$). The total number of observations across the experiment is $N = \sum_{i=1}^k n_i$. When all group sample sizes are equal ($n_1 = n_2 = \dots = n_k = n$), the design is termed \textbf{balanced}, and $N = kn$.
+
+The observation $Y_{ij}$ is modeled by the parameterization of the effects model:
+\begin{align}
+	Y_{ij} = \mu + \tau_i + \varepsilon_{ij},
+\end{align}
+where:
+\begin{itemize}
+	\item $\mu$ is the overall population grand mean (the theoretical average response across all experimental units and treatments).
+	\item $\tau_i = \mu_i - \mu$ is the \textbf{treatment effect} associated with the $i$-th level of the factor, subject to the structural identification constraint $\sum_{i=1}^k n_i \tau_i = 0$ (or $\sum_{i=1}^k \tau_i = 0$ for balanced designs).
+	\item $\varepsilon_{ij}$ is the \textbf{random experimental error} associated with observation $(i,j)$, assumed to be independent and identically distributed normal variables:
+	\begin{align}
+		\varepsilon_{ij} \sim N(0, \sigma^2).
+	\end{align}
+\end{itemize}
+
+\subsection{Statistical Assumptions of ANOVA}
+
+For the parametric $F$-statistic to exactly follow the theoretical Snedecor $F$-distribution, the observational data must strictly satisfy three distributional assumptions:
+\begin{enumerate}
+	\item \textbf{Normality:} The residuals $\varepsilon_{ij} = Y_{ij} - \bar{Y}_{i.}$ are normally distributed within each treatment group across the population ($Y_{ij} \sim N(\mu_i, \sigma^2)$). This assumption is formally evaluated using residual quantile-quantile (Q-Q) plots, the Shapiro-Wilk test, or the Kolmogorov-Smirnov test. By virtue of the Central Limit Theorem, ANOVA is robust against moderate departures from normality when sample sizes are large and balanced.
+	\item \textbf{Homoscedasticity (Homogeneity of Variance):} All $k$ treatment populations possess identical intrinsic error variance ($\sigma_1^2 = \sigma_2^2 = \dots = \sigma_k^2 = \sigma^2$). This is the most critical assumption; severe heteroscedasticity combined with unbalanced sample sizes heavily distorts Type I error rates. Homoscedasticity is formally tested via \textbf{Levene's test}, \textbf{Brown-Forsythe test} (robust against non-normality), or \textbf{Bartlett's test} (highly sensitive to normality violations). If violated, \textbf{Welch's ANOVA} or variance-stabilizing transformations (such as logarithmic $\ln Y$ or square root $\sqrt{Y}$) must be employed.
+	\item \textbf{Independence of Errors:} The random error terms $\varepsilon_{ij}$ are mutually independent ($\text{Cov}(\varepsilon_{ij}, \varepsilon_{i'j'}) = 0$ for any $(i,j) \neq (i',j')$). This assumption is guaranteed methodologically through proper \textbf{randomization} during experimental execution. Violation of independence (e.g., temporal autocorrelation or spatial clustering) causes severe underestimation of residual error variance ($\text{CME}$), producing spurious false-positive rejections.
+\end{enumerate}
+
+\subsection{Partitioning of the Total Sum of Squares}
+
+The fundamental algebraic identity of ANOVA decomposes the total deviation of any observation from the grand mean into two distinct, additive components: the deviation of the group mean from the grand mean (between-group effect), and the deviation of the observation from its respective group mean (within-group error):
+\begin{align}
+	Y_{ij} - \bar{Y}_{..} = (\bar{Y}_{i.} - \bar{Y}_{..}) + (Y_{ij} - \bar{Y}_{i.}),
+\end{align}
+where the sample group mean is $\bar{Y}_{i.} = \frac{1}{n_i} \sum_{j=1}^{n_i} Y_{ij}$, and the sample grand mean across all observations is $\bar{Y}_{..} = \frac{1}{N} \sum_{i=1}^k \sum_{j=1}^{n_i} Y_{ij}$.
+
+By squaring both sides of this equation and summing over all $i = 1, \dots, k$ and $j = 1, \dots, n_i$, the cross-product term $\sum_{i=1}^k \sum_{j=1}^{n_i} (\bar{Y}_{i.} - \bar{Y}_{..})(Y_{ij} - \bar{Y}_{i.})$ vanishes algebraically because $\sum_{j=1}^{n_i} (Y_{ij} - \bar{Y}_{i.}) = 0$. This yields the exact orthogonal partitioning known as the \textbf{Fundamental Sum of Squares Identity}:
+\begin{align}
+	\sum_{i=1}^k \sum_{j=1}^{n_i} (Y_{ij} - \bar{Y}_{..})^2 = \sum_{i=1}^k n_i (\bar{Y}_{i.} - \bar{Y}_{..})^2 + \sum_{i=1}^k \sum_{j=1}^{n_i} (Y_{ij} - \bar{Y}_{i.})^2.
+\end{align}
+Expressed symbolically:
+\begin{align}
+	\text{SCT} = \text{SCTR} + \text{SCE},
+\end{align}
+where:
+\begin{itemize}
+	\item $\text{SCT}$ (\textbf{Total Sum of Squares}): Measures the total variation across all $N$ data points relative to the grand mean across $\nu_T = N - 1$ degrees of freedom.
+	\item $\text{SCTR}$ (\textbf{Treatment Sum of Squares}, also denoted $\text{SC}_{\text{Between}}$): Measures the systematic inter-group dispersion explained by differences across the $k$ treatment levels, with degrees of freedom $\nu_{\text{TR}} = k - 1$.
+	\item $\text{SCE}$ (\textbf{Error Sum of Squares}, also denoted $\text{SC}_{\text{Within}}$ or $\text{Residual SS}$): Measures the unexplained intra-group variation within experimental units subjected to the exact same treatment, with degrees of freedom $\nu_E = \sum_{i=1}^k (n_i - 1) = N - k$.
+\end{itemize}
+
+Notice that the degrees of freedom partition exactly in the exact same additive manner as the sums of squares:
+\begin{align}
+	\nu_T = \nu_{\text{TR}} + \nu_E \implies (N - 1) = (k - 1) + (N - k).
+\end{align}

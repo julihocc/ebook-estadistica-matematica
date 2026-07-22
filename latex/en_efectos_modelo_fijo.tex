@@ -1,0 +1,86 @@
+\section{Fixed-Effect Model Effects Analysis}
+
+\subsection{Expected Mean Squares and the Hypothesis Test}
+
+A \textbf{Mean Square ($\text{CM}$)} is defined as a sum of squares divided by its associated degrees of freedom. Unlike sums of squares, mean squares are non-additive ($\text{CMT} \neq \text{CMTR} + \text{CME}$). We calculate:
+\begin{align}
+	\text{CMTR} &= \frac{\text{SCTR}}{k - 1}, \\
+	\text{CME} &= \frac{\text{SCE}}{N - k}.
+\end{align}
+Taking mathematical expectations over the random model $Y_{ij} = \mu + \tau_i + \varepsilon_{ij}$ reveals the fundamental logic of ANOVA:
+\begin{align}
+	E[\text{CME}] &= \sigma^2, \\
+	E[\text{CMTR}] &= \sigma^2 + \frac{\sum_{i=1}^k n_i \tau_i^2}{k - 1}.
+\end{align}
+Notice that $\text{CME}$ is an unconditionally unbiased estimator of the true experimental error variance $\sigma^2$. Conversely, $E[\text{CMTR}]$ equals $\sigma^2$ plus a non-negative quadratic term driven entirely by treatment effects ($\tau_i$).
+
+We formulate the omnibus statistical hypotheses as:
+\begin{align}
+	H_0&: \tau_1 = \tau_2 = \dots = \tau_k = 0 \quad \Longleftrightarrow \quad \mu_1 = \mu_2 = \dots = \mu_k \\
+	H_a&: \tau_i \neq 0 \text{ for at least one } i \quad \Longleftrightarrow \quad \mu_i \neq \mu_j \text{ for at least one pair } (i,j).
+\end{align}
+When the null hypothesis ($H_0$) is true, all treatment effects vanish ($\tau_i = 0$), implying that $E[\text{CMTR}] = \sigma^2$. Under $H_0$, both $\text{CMTR}$ and $\text{CME}$ represent independent estimates of the exact same underlying error variance $\sigma^2$. Therefore, by Cochran's Theorem, their ratio follows a central Snedecor $F$-distribution:
+\begin{align}
+	F_{\text{calc}} = \frac{\text{CMTR}}{\text{CME}} \sim F_{k-1, \, N-k}.
+\end{align}
+If the alternative hypothesis ($H_a$) is true, the quadratic term $\sum n_i \tau_i^2 / (k-1)$ is strictly positive, causing $E[\text{CMTR}] > E[\text{CME}]$. Consequently, the test statistic $F_{\text{calc}}$ will take systematically larger values, following a non-central $F$-distribution with non-centrality parameter $\lambda = \frac{1}{\sigma^2} \sum_{i=1}^k n_i \tau_i^2$.
+
+\textbf{Decision Rule:} At a chosen significance level $\alpha$, we reject the null hypothesis $H_0$ if and only if the calculated statistic exceeds the upper critical quantile from statistical tables:
+\begin{align}
+	F_{\text{calc}} > F_{\alpha, \, k-1, \, N-k} \quad \text{or equivalently, if } p\text{-value} < \alpha.
+\end{align}
+All computational results are systematically compiled in the classic \textbf{ANOVA Table} shown in Table \ref{tab:anova_unifactorial}.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{lcccc}
+		\hline
+		\textbf{Source of Variation} & \textbf{Sum of Squares (SC)} & \textbf{Degrees of Freedom ($\nu$)} & \textbf{Mean Square (CM)} & \textbf{$F$ Statistic} \\ \hline
+		Treatments (Between) & $\text{SCTR} = \sum n_i(\bar{Y}_{i.} - \bar{Y}_{..})^2$ & $k - 1$ & $\text{CMTR} = \frac{\text{SCTR}}{k-1}$ & $F = \frac{\text{CMTR}}{\text{CME}}$ \\
+		Error (Within) & $\text{SCE} = \sum \sum (Y_{ij} - \bar{Y}_{i.})^2$ & $N - k$ & $\text{CME} = \frac{\text{SCE}}{N-k}$ & \\ \hline
+		\textbf{Total} & $\text{SCT} = \sum \sum (Y_{ij} - \bar{Y}_{..})^2$ & $N - 1$ & & \\ \hline
+	\end{tabular}
+	\caption{General Analysis of Variance Table for a One-Way Completely Randomized Design.}
+	\label{tab:anova_unifactorial}
+\end{table}
+
+\section*{Multiple Comparisons and Post-Hoc Tests}
+
+When an omnibus ANOVA yields a statistically significant $F_{\text{calc}}$ ($p < \alpha$), we conclude that at least one treatment mean differs from the others ($\mu_i \neq \mu_j$). However, the omnibus test provides no specific information regarding \emph{which} pairs or combinations of groups are responsible for the rejection. To pinpoint the exact location of significant differences without inflating the overall family-wise error rate ($\text{FWER}$), specialized \textbf{Post-Hoc Multiple Comparison Procedures} must be applied.
+
+\subsection{Tukey's Honestly Significant Difference (HSD)}
+\textbf{Tukey's HSD test} is the most widely recommended and statistically optimal method for conducting all possible $\binom{k}{2} = \frac{k(k-1)}{2}$ pairwise comparisons across balanced treatment groups ($n_1 = n_2 = \dots = n_k = n$). It rigorously controls the exact family-wise error rate at $\alpha$ across the entire set of pairwise contrasts.
+
+Tukey's procedure is derived from the \textbf{Studentized Range Distribution ($q$)}, which describes the sampling distribution of the difference between the sample maximum and sample minimum ($\bar{Y}_{\text{max}} - \bar{Y}_{\text{min}}$) divided by the pooled standard error.
+
+The \textbf{Honestly Significant Difference ($\text{HSD}$)} critical margin for comparing any two treatment sample means $\bar{Y}_{i.}$ and $\bar{Y}_{j.}$ is computed as:
+\begin{align}
+	\text{HSD} = q_{\alpha, \, k, \, \nu_E} \sqrt{\frac{\text{CME}}{n}},
+\end{align}
+where $q_{\alpha, \, k, \, \nu_E}$ is the upper critical quantile from the Studentized range table with $k$ treatments and $\nu_E = N - k$ error degrees of freedom, and $\text{CME}$ is the error mean square from the ANOVA table. If group sample sizes are unbalanced ($n_i \neq n_j$), the \textbf{Tukey-Kramer adjustment} replaces $n$ with the harmonic mean of the two group sample sizes:
+\begin{align}
+	\text{HSD}_{ij} = \frac{q_{\alpha, \, k, \, \nu_E}}{\sqrt{2}} \sqrt{\text{CME} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)}.
+\end{align}
+
+\textbf{Decision Rule for Tukey's HSD:} For any pair of treatments $(i, j)$, we declare that population means $\mu_i$ and $\mu_j$ are statistically different at overall family level $\alpha$ if and only if the absolute difference between their sample means exceeds the calculated $\text{HSD}$ threshold:
+\begin{align}
+	|\bar{Y}_{i.} - \bar{Y}_{j.}| > \text{HSD} \implies \text{Reject } H_0: \mu_i = \mu_j.
+\end{align}
+
+\subsection{Fisher's Least Significant Difference (LSD)}
+\textbf{Fisher's LSD test} is essentially a direct extension of the standard two-sample Student's $t$-test across all pairs of means, utilizing the pooled error mean square ($\text{CME}$) from the ANOVA across $\nu_E = N - k$ degrees of freedom. The critical difference threshold between any two sample means is defined as:
+\begin{align}
+	\text{LSD} = t_{\alpha/2, \, \nu_E} \sqrt{\text{CME} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)}.
+\end{align}
+\textbf{Critical Limitation:} Fisher's LSD does not incorporate a family-wise correction factor across multiple tests. Consequently, it suffers from severe Type I error inflation when $k > 3$. To mitigate false positives, Fisher proposed \textbf{Protected LSD}, which mandates that LSD comparisons may only be computed if the omnibus $F$-test is statistically significant at $\alpha$. While Protected LSD successfully controls $\text{FWER}$ at $\alpha$ when $k=3$, it fails completely when $k \geq 4$. Therefore, Fisher's LSD is primarily utilized for exploratory research or when statistical sensitivity (high power) is prioritized over Type I error protection.
+
+\subsection{Bonferroni Correction}
+The \textbf{Bonferroni correction} is a universal, simple, and conservative post-hoc method based on Boole's inequality for intersection event probabilities. If the researcher plans to perform $m = \binom{k}{2}$ pairwise comparisons and wishes to maintain the overall family-wise confidence level at or above $(1-\alpha)100\%$, the individual significance level for each specific pairwise test is adjusted by dividing the nominal level by the total number of comparisons:
+\begin{align}
+	\alpha^* = \frac{\alpha}{m} = \frac{\alpha}{\binom{k}{2}}.
+\end{align}
+The critical threshold for declaring two treatment means significantly different using the Bonferroni procedure becomes:
+\begin{align}
+	\text{CD}_{\text{Bonf}} = t_{\alpha^*/2, \, \nu_E} \sqrt{\text{CME} \left( \frac{1}{n_i} + \frac{1}{n_j} \right)}.
+\end{align}
+While Bonferroni absolutely prevents false-positive rejections ($\text{FWER} \leq \alpha$), it becomes excessively conservative when the number of treatments $k$ is large ($k \geq 6 \implies m \geq 15$), drastically increasing Type II errors ($\beta$) and sacrificing statistical power.

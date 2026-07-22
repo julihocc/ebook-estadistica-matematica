@@ -1,0 +1,42 @@
+\section{Sample Size Estimation}
+
+One of the questions with the highest economic and computational impact in experimental data science is: \emph{How much data do we need?} Taking too small a sample may leave the study underpowered to detect real effects, whereas taking an excessively large sample wastes financial resources, time, and computational infrastructure.
+
+To determine the appropriate sample size $n$ before collecting data, three parameters must be specified:
+\begin{enumerate}
+	\item The \textbf{nominal confidence level $(1-\alpha)$}, which determines the critical quantile ($Z_{\alpha/2}$ or $t_{\alpha/2}$).
+	\item The \textbf{maximum tolerable margin of error ($E$)}, representing half the desired width of the confidence interval.
+	\item A \textbf{prior estimate of population dispersion or variability} ($\sigma$ for means, or an expected proportion $p^*$ for proportions).
+\end{enumerate}
+
+\begin{teorema}[Sample Size for Estimating a Population Mean $\mu$]
+	When estimating the mean of a normal population or under the Central Limit Theorem, the margin of error of the confidence interval is $E = Z_{\alpha/2} \frac{\sigma}{\sqrt{n}}$. Solving for $n$, we obtain the required sample size:
+	\begin{align}
+		n = \left( \frac{Z_{\alpha/2} \cdot \sigma}{E} \right)^2.
+		\label{eq:n_media}
+	\end{align}
+	If the population variance $\sigma^2$ is unknown, a preliminary estimate can be obtained through: (a) a prior pilot study with a small sample ($n_0 \approx 30$) to use the sample standard deviation $s$; or (b) the empirical range rule ($\sigma \approx \frac{\text{Estimated Range}}{4}$ if the population is roughly normal). Whenever the result is not an exact integer, the computed value is always rounded \emph{up to the next integer} to guarantee that the final margin of error is less than or equal to $E$.
+\end{teorema}
+
+\begin{teorema}[Sample Size for Estimating a Population Proportion $p$]
+	The margin of error for a population proportion using the normal approximation is $E = Z_{\alpha/2} \sqrt{\frac{p(1-p)}{n}}$. Solving for $n$, we obtain:
+	\begin{align}
+		n = \left( \frac{Z_{\alpha/2}}{E} \right)^2 p^* (1 - p^*),
+		\label{eq:n_proporcion}
+	\end{align}
+	where $p^*$ is a prior estimate of the true proportion.
+	
+	\textbf{Conservative case (no prior information):} If no preliminary data on the likely value of $p$ are available, we must protect against the worst-case scenario regarding variability. The quadratic function $g(p) = p(1-p)$ reaches its absolute maximum at $p = 0.5$, where $g(0.5) = 0.5 \times 0.5 = 0.25$. Substituting this maximum into the previous equation yields the safest, most conservative formula:
+	\begin{align}
+		n_{\text{max}} = \frac{Z_{\alpha/2}^2}{4 E^2}.
+		\label{eq:n_conservador}
+	\end{align}
+\end{teorema}
+
+\begin{observacion}
+	When the total study population is of finite and relatively small size (denoted by $N$), and the sample size computed by the formulas above represents more than $5\%$ of the population ($n / N > 0.05$), we must apply the \emph{Finite Population Correction Factor} (FPCF). The adjusted sample size $n_a$ is:
+	\begin{align}
+		n_a = \frac{n}{1 + \frac{n-1}{N}}.
+	\end{align}
+	This adjustment reduces the number of required observations without sacrificing the stipulated statistical precision.
+\end{observacion}

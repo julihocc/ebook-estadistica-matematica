@@ -1,0 +1,40 @@
+\section{Probability Distributions of Functions of a Random Variable}
+
+This subsection generalizes the previous results to the case where $Y$ is a function (not necessarily monotone) of $X$ or of several variables.
+
+\subsubsection{Single Variable Case}
+
+When $g$ is not monotone, we must consider all preimages of each value $y$. The general formula is
+\begin{align}
+ \label{eq:3.2.5}
+ f_Y(y) = \sum_{x \in g^{-1}(y)} f_X(x) \cdot \left|\frac{dx}{dy}\right|
+ = \sum_{x: g(x) = y} \frac{f_X(x)}{|g'(x)|}.
+\end{align}
+
+\begin{observacion}
+The condition $|g'(x)| \neq 0$ at each $x \in g^{-1}(y)$ guarantees that the transformation is locally invertible at each preimage.
+\end{observacion}
+
+\subsubsection{Multivariate Case}
+
+If $(X_1, \ldots, X_n)$ has joint density $f_{X_1, \ldots, X_n}$ and $Y = g(X_1, \ldots, X_n)$, the density of $Y$ is obtained by integrating the joint density over the level set $g(x_1, \ldots, x_n) = y$:
+\begin{align}
+ \label{eq:3.2.6}
+ f_Y(y) = \int \cdots \int_{g(x_1, \ldots, x_n) = y} f_{X_1, \ldots, X_n}(x_1, \ldots, x_n)
+ 	\cdot \frac{dS}{|\nabla g|},
+\end{align}
+where $dS$ is the surface area element on the level set and $\nabla g$ is the gradient of $g$.
+
+\begin{ejemplo}
+ \label{exmp:3.2.5}
+If $X_1, X_2 \sim \text{Exp}(1)$ are independent, find the distribution of $Y = X_1 + X_2$.
+\end{ejemplo}
+
+\begin{solucion}
+The joint probability density function is $f(x_1, x_2) = e^{-(x_1+x_2)}$ for $x_1, x_2 > 0$. The sum $Y = X_1 + X_2$ is obtained by integrating along the line $x_1 + x_2 = y$:
+\begin{align}
+ f_Y(y) &= \int_0^y e^{-(x_1 + (y-x_1))}\,dx_1 = \int_0^y e^{-y}\,dx_1 = y\,e^{-y}, \quad y > 0.
+\end{align}
+
+This is the Erlang density with shape parameter $2$, or equivalently $\text{Gamma}(2, 1)$. Generalizing, the sum of $n$ iid exponential random variables is $\text{Gamma}(n, 1)$ (see Section 2.11).
+\end{solucion}

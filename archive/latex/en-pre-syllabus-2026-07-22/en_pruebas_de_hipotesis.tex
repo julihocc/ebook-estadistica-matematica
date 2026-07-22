@@ -1,4 +1,4 @@
-\section{Elements of Hypothesis Testing}
+\section{Hypothesis Testing}
 
 In hypothesis testing, we assume an initial premise (usually concerning the value of an estimator) called the \emph{null hypothesis}, and we attempt to determine whether or not it is true by applying statistical techniques.
 
@@ -100,3 +100,112 @@ The \emph{power} of a test is not a fixed value: it depends on the real effect s
 	\end{itemize}
 	This formalizes the intuition that there is a triangular trade-off among Type I error, Type II error, and the cost (sample size) of an experiment.
 \end{observacion}
+
+\subsection{Significance Level}
+
+The \emph{significance level} $\alpha$ is the maximum acceptable probability of committing a Type I error. Common values are:
+\begin{itemize}
+	\item $\alpha = 0.10$ (10\%) - Low significance level
+	\item $\alpha = 0.05$ (5\%) - Standard significance level
+	\item $\alpha = 0.01$ (1\%) - High significance level
+\end{itemize}
+
+\begin{observacion}
+	The choice of $\alpha$ depends on the context and the consequences of committing a Type I error. In medical or safety applications, stricter significance levels ($\alpha = 0.01$ or lower) are typically used.
+\end{observacion}
+
+\subsection{$p$-value}
+
+The \emph{$p$-value} is the probability of obtaining a test result at least as extreme as the one observed, assuming that the null hypothesis is true.
+
+\begin{definicion}[$p$-value]
+	The $p$-value is:
+	\begin{align}
+		p\text{-value} = P(\text{Statistic} \geq \text{observed value} \mid H_0 \text{ is true})
+	\end{align}
+	for right-tailed tests, or the corresponding area depending on the type of test.
+\end{definicion}
+
+\subsection{Decision Rule}
+
+The decision rule based on the $p$-value is:
+
+\begin{itemize}
+	\item If $p\text{-value} \leq \alpha$: \textbf{Reject} $H_0$
+	\item If $p\text{-value} > \alpha$: \textbf{Do not reject} $H_0$
+\end{itemize}
+
+\begin{observacion}
+	``Do not reject $H_0$'' is not the same as ``accept $H_0$''. It simply means there is not enough evidence to reject it.
+\end{observacion}
+
+\subsection{Complete Example}
+
+A company claims that the average delivery time for its products is 3 days. A customer suspects the time is longer and takes a sample of $n = 36$ deliveries, obtaining $\bar{x} = 3.5$ days with $s = 1.2$ days.
+
+\textbf{Step 1: Formulate hypotheses}
+\begin{align}
+	H_0: \mu &= 3 \text{ days} \\
+	H_a: \mu &> 3 \text{ days}
+\end{align}
+
+\textbf{Step 2: Choose significance level}
+\begin{align}
+	\alpha = 0.05
+\end{align}
+
+\textbf{Step 3: Calculate test statistic}
+
+Since $n = 36 \geq 30$, we use the $Z$-test:
+\begin{align}
+	Z = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} = \frac{3.5 - 3}{1.2/\sqrt{36}} = \frac{0.5}{0.2} = 2.5
+\end{align}
+
+\textbf{Step 4: Calculate $p$-value}
+\begin{align}
+	p\text{-value} = P(Z > 2.5) = 1 - \Phi(2.5) \approx 0.0062
+\end{align}
+
+\textbf{Step 5: Make decision}
+
+Since $p\text{-value} = 0.0062 < 0.05 = \alpha$, we reject $H_0$.
+
+\textbf{Conclusion:} There is sufficient statistical evidence at the 5\% significance level to claim that the average delivery time is greater than 3 days.
+
+\subsection{Interpretation of Results}
+
+It is crucial to correctly interpret the results:
+
+\begin{itemize}
+	\item \textbf{Reject $H_0$:} There is sufficient statistical evidence to support the alternative hypothesis.
+	
+	\item \textbf{Do not reject $H_0$:} There is not sufficient statistical evidence to support the alternative hypothesis. This does not mean $H_0$ is true, only that we could not prove otherwise.
+\end{itemize}
+
+\subsection{Important Considerations}
+
+\begin{enumerate}
+	\item \textbf{Sample size:} Larger samples provide greater statistical power to detect real differences.
+	
+	\item \textbf{Statistical vs. practical significance:} A result can be statistically significant without being practically relevant.
+	
+	\item \textbf{Assumptions:} Hypothesis tests assume that certain underlying conditions (normality, independence, etc.) are met.
+	
+	\item \textbf{Multiple testing:} Performing many tests increases the probability of committing at least one Type I error.
+\end{enumerate}
+
+\subsection{Summary of the Procedure}
+
+The general procedure for a hypothesis test is:
+
+\begin{enumerate}
+	\item Formulate $H_0$ and $H_a$
+	\item Choose the significance level $\alpha$
+	\item Select the appropriate test statistic
+	\item Calculate the value of the statistic using the sample data
+	\item Determine the $p$-value or critical region
+	\item Make a decision: reject or do not reject $H_0$
+	\item Interpret the result in the context of the problem
+\end{enumerate}
+
+In the following sections we will study specific tests for means ($Z$ and $t$ tests), proportions, and other common situations.

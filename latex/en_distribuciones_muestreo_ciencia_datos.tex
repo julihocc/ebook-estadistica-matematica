@@ -1,0 +1,105 @@
+\section{Sampling Distributions and Their Relationship to Data Science}
+
+The sampling distributions studied in this section form the foundation for the most widely used techniques in data science. Below we summarize the main applications.
+
+\subsubsection{Summary Table}
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Distribution} & \textbf{Statistic} & \textbf{Application} \\
+\hline
+$Z$ (standard normal) & $\dfrac{\bar{X}-\mu}{\sigma/\sqrt{n}}$
+& CI for $\mu$ with known $\sigma$; Z-test \\
+\hline
+Student's $t$ & $\dfrac{\bar{X}-\mu}{S/\sqrt{n}}$
+& CI for $\mu$ with unknown $\sigma$; t-test \\
+\hline
+$\chi^2$ & $\dfrac{(n-1)S^2}{\sigma^2}$
+& CI for $\sigma^2$; goodness-of-fit test \\
+\hline
+Snedecor's $F$ & $\dfrac{S_1^2}{S_2^2}$ or ANOVA
+& Comparing variances; ANOVA; F-test in regression \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsubsection{Application 1: A/B Testing}
+
+In A/B testing, two versions of a product are compared by measuring some metric of interest (e.g., conversion rate, time on page).
+
+\begin{ejemplo}
+ \label{exmp:3.2.7}
+A website has two versions: A (current version) and B (new version). In a test with $n_A = 1000$ users of A, $x_A = 120$ convert. In $n_B = 1000$ users of B, $x_B = 145$ convert. Is there evidence that B is better?
+\end{ejemplo}
+
+\begin{solucion}
+We estimate the proportions: $\hat{p}_A = 0.120$, $\hat{p}_B = 0.145$. Under the null hypothesis $H_0: p_A = p_B$, the pooled proportion is
+\begin{align}
+ \hat{p} = \frac{x_A + x_B}{n_A + n_B} = \frac{265}{2000} = 0.1325.
+\end{align}
+The pooled standard error is
+\begin{align}
+ \text{SE} = \sqrt{\hat{p}(1-\hat{p})\left(\frac{1}{n_A} + \frac{1}{n_B}\right)}
+ = \sqrt{0.1325 \times 0.8675 \times 0.002} \approx 0.01516.
+\end{align}
+The $Z$-statistic is
+\begin{align}
+ Z = \frac{\hat{p}_B - \hat{p}_A}{\text{SE}} = \frac{0.145 - 0.120}{0.01516} \approx 1.65.
+\end{align}
+Under $H_0$, $Z \sim N(0,1)$ approximately. The two-tailed $p$-value is $2(1 - \Phi(1.65)) \approx 0.099$. At the $5\%$ level, we do not reject $H_0$ (though at $10\%$ we would). The result is marginal.
+\end{solucion}
+
+\lstinputlisting[language=Python]{../code/distribuciones-muestreo/abTesting.py}
+
+\subsubsection{Application 2: Bootstrap}
+
+The \emph{bootstrap} is a non-parametric technique for estimating the sampling distribution of a statistic through resampling with replacement.
+
+\begin{teorema}[Bootstrap Principle]
+Let $X_1, \ldots, X_n$ be an iid sample from an unknown distribution $F$, and $\theta = T(F)$ a parameter of interest. If $\hat{\theta} = T(\hat{F}_n)$ is the plug-in estimator (where $\hat{F}_n$ is the empirical distribution), then the sampling distribution of $\hat{\theta}$ can be approximated by the distribution of $\hat{\theta}^* = T(\hat{F}_n^*)$, where $\hat{F}_n^*$ is obtained by resampling with replacement from the original sample.
+\end{teorema}
+
+\begin{ejemplo}
+ \label{exmp:3.2.8}
+Consider a sample of size $n = 50$ from a population with an unknown distribution. Use the bootstrap to estimate the bias and variance of the sample median.
+\end{ejemplo}
+
+\begin{solucion}
+\begin{enumerate}
+ \item Calculate the observed median $\hat{\theta} = \text{med}(X_1, \ldots, X_{50})$.
+ \item For $b = 1, \ldots, B$ (e.g., $B = 10000$):
+   \begin{enumerate}
+    \item Generate a bootstrap sample $X_1^*, \ldots, X_{50}^*$ by sampling with replacement from the original sample.
+    \item Calculate the bootstrap median $\hat{\theta}_b^* = \text{med}(X_1^*, \ldots, X_{50}^*)$.
+   \end{enumerate}
+ \item Estimate:
+   \begin{align}
+    \widehat{\text{Bias}}_{\text{boot}} &= \frac{1}{B}\sum_{b=1}^B \hat{\theta}_b^* - \hat{\theta}, \\
+    \widehat{\text{Var}}_{\text{boot}}(\hat{\theta}) &= \frac{1}{B-1}\sum_{b=1}^B (\hat{\theta}_b^* - \bar{\hat{\theta}}^*)^2.
+   \end{align}
+ \item The $95\%$ bootstrap confidence interval is $[\hat{\theta}_{\alpha/2}^*, \hat{\theta}_{1-\alpha/2}^*]$ where the quantiles are taken over $\{\hat{\theta}_b^*\}$.
+\end{enumerate}
+\end{solucion}
+
+\lstinputlisting[language=Python]{../code/distribuciones-muestreo/bootstrap.py}
+
+\subsubsection{Application 3: Inference in Machine Learning}
+
+In machine learning, sampling distributions underlie:
+
+\begin{itemize}
+ \item \textbf{Cross-Validation}: the variance of the generalization error estimator can be estimated using the bootstrap or via the $t$-distribution (with the number of folds determining the degrees of freedom).
+ \item \textbf{Hypothesis Testing for Model Comparison}: paired $t$-tests are used to compare two models on the same data, or $F$-tests to compare nested models (e.g., linear regression).
+ \item \textbf{Confidence Intervals for Metrics}: precision and recall follow approximately normal distributions for large samples; their CIs are constructed using $Z$ or $t$.
+ \item \emph{Feature Selection}: the $F$-test is used to evaluate the global significance of a regression model, and $\chi^2$ tests are used to evaluate independence between categorical variables.
+\end{itemize}
+
+\begin{observacion}
+In deep learning, classical sampling distributions are less prominent because models are trained on massive volumes of data and evaluated on holdout test sets rather than using classical hypothesis tests. However, they remain fundamental for:
+\begin{itemize}
+ \item Comparing architectures using hypothesis tests on aggregated performance metrics.
+ \item Estimating prediction uncertainty (confidence intervals, conformal prediction).
+ \item Quantifying the statistical significance of benchmark improvements.
+\end{itemize}
+\end{observacion}

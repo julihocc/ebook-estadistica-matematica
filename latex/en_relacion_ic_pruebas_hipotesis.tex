@@ -1,0 +1,28 @@
+\section{Relationship Between Confidence Intervals and Hypothesis Tests}
+\label{sec:relacion-ic-pruebas}
+
+The decision rule based on the p-value is:
+
+\begin{itemize}
+	\item If $p\text{-value} \leq \alpha$: \textbf{Reject} $H_0$.
+	\item If $p\text{-value} > \alpha$: \textbf{Do not reject} $H_0$.
+\end{itemize}
+
+\begin{observacion}
+	``Do not reject $H_0$'' is not the same as ``accept $H_0$''. It simply means that there is not enough evidence to reject it.
+\end{observacion}
+
+There is also an exact equivalence between a two-tailed hypothesis test and a confidence interval: both procedures use the same critical value ($z_{\alpha/2}$ or $t_{\alpha/2}$, depending on the case) to separate parameter values that are ``compatible'' with the observed data from those that are not.
+
+\begin{teorema}[Equivalence between confidence intervals and two-tailed tests]
+	Let a $(1-\alpha)100\%$ confidence interval for a parameter $\theta$ be constructed from a sample. For the two-tailed hypothesis test $H_0: \theta = \theta_0$ against $H_a: \theta \neq \theta_0$ at significance level $\alpha$, we have:
+	\begin{align}
+		\label{eq:6.2.1}
+		\text{Reject } H_0 \text{ at level } \alpha \quad \Longleftrightarrow \quad \theta_0 \notin \text{CI}_{(1-\alpha)100\%}.
+	\end{align}
+	That is, we reject the null hypothesis if and only if the hypothetical value $\theta_0$ falls \emph{outside} the confidence interval.
+\end{teorema}
+
+\begin{observacion}
+	This equivalence is a direct consequence of the fact that both procedures compare the same standardized distance $(\hat{\theta}-\theta_0)/SE(\hat{\theta})$ against the same critical value. For example, for a mean with known $\sigma$, the interval $\bar{X} \pm Z_{\alpha/2}\,\sigma/\sqrt{n}$ excludes $\mu_0$ exactly when $|\bar{X}-\mu_0|/(\sigma/\sqrt{n}) > Z_{\alpha/2}$, which is precisely the rejection region of the two-tailed $Z$ test at level $\alpha$. In practice, this allows a single confidence interval to answer both ``what range is the parameter in?'' and ``is $\theta_0$ a plausible value?'', without running both procedures separately.
+\end{observacion}

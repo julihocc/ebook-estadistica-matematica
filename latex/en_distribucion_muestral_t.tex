@@ -1,0 +1,66 @@
+\section{Student's $t$ Distribution}
+\label{sec:distribucion-t}
+
+The $t$-distribution arises when we standardize a sample mean using the sample standard deviation (which is a random variable) instead of the population standard deviation.
+
+\begin{definicion}[Student's $t$-Distribution]
+Let $Z \sim N(0,1)$ and $\chi^2_\nu$ be a chi-square variable with $\nu$ degrees of freedom, independent of each other. Then
+\begin{align}
+ \label{eq:3.2.12}
+ T = \frac{Z}{\sqrt{\chi^2_\nu / \nu}}
+\end{align}
+follows a \emph{Student's $t$-distribution} with $\nu$ degrees of freedom. We write $T \sim t_\nu$.
+\end{definicion}
+
+{Properties}
+\begin{itemize}
+ \item The probability density function of $T$ is
+ \begin{align}
+  \label{eq:3.2.13}
+  f(t) = \frac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\,\Gamma\!\left(\frac{\nu}{2}\right)}
+  \left(1 + \frac{t^2}{\nu}\right)^{-(\nu+1)/2}, \quad t \in \mathbb{R}.
+ \end{align}
+ \item $E(T) = 0$ for $\nu > 1$.
+ \item $\text{Var}(T) = \nu/(\nu - 2)$ for $\nu > 2$.
+ \item As $\nu \to \infty$, $T \xrightarrow{d} N(0,1)$. For small $\nu$, $T$ has heavier tails than the normal distribution.
+\end{itemize}
+
+\begin{observacion}
+The $t$-distribution arises when estimating the mean $\mu$ with unknown $\sigma$: if $X_1, \ldots, X_n \sim N(\mu, \sigma^2)$ iid and $S^2$ is the sample variance, then
+\begin{align}
+ \label{eq:3.2.14}
+ \frac{\bar{X} - \mu}{S/\sqrt{n}} \sim t_{n-1}.
+\end{align}
+This is the \emph{$t$-statistic} that gives its name to the $t$-test (Section 3.6). This is precisely the decomposition $T = Z/\sqrt{\chi^2_{n-1}/(n-1)}$ obtained from Fisher's theorem in the previous section.
+\end{observacion}
+
+\subsubsection{Confidence intervals with unknown $\sigma$: the small-sample case}
+
+When $\sigma$ is unknown (the most common practical case), the confidence interval for $\mu$ must use quantiles of the $t$-distribution instead of the standard Normal.
+
+\begin{teorema}[Confidence interval for $\mu$ with unknown $\sigma$]
+ \label{eq:5.4.1}
+Let $X_1, \ldots, X_n \sim N(\mu, \sigma^2)$ iid with unknown $\sigma^2$. A $(1-\alpha)\times 100\%$ confidence interval for $\mu$ is
+\begin{align}
+ \bar{X} \pm t_{n-1,\,\alpha/2} \cdot \frac{S}{\sqrt{n}},
+\end{align}
+where $t_{n-1,\,\alpha/2}$ is the upper $\alpha/2$ quantile of $t_{n-1}$.
+\end{teorema}
+
+\begin{observacion}[Why it matters more for small samples]
+Since $t_{n-1,\,\alpha/2} > z_{\alpha/2}$ for every finite $n$ (the tails of $t$ are heavier), the $t$-based interval is always \emph{wider} than the $Z$-based interval one would use if $\sigma$ were known. This difference is substantial for small $n$ (e.g., $t_{9,0.025}\approx 2.262$ vs. $z_{0.025}=1.96$, a difference of over $15\%$) and becomes negligible as $n \to \infty$, since $t_\nu \xrightarrow{d} N(0,1)$.
+\end{observacion}
+
+\begin{ejemplo}
+ \label{exmp:5.4.1}
+A sample of $n=9$ tensile strength measurements of a material yields $\bar{X}=48.5$ MPa and $S=3.2$ MPa. Construct a $95\%$ confidence interval for the mean strength $\mu$, using $t_{8,0.025}\approx 2.306$.
+\end{ejemplo}
+
+\begin{solucion}
+The standard error is $S/\sqrt{n} = 3.2/3 \approx 1.067$. The interval is
+\begin{align}
+ \bar{X} \pm t_{8,0.025}\cdot\frac{S}{\sqrt{n}} = 48.5 \pm 2.306\cdot 1.067
+ \approx 48.5 \pm 2.46 = [46.04,\ 50.96] \text{ MPa}.
+\end{align}
+Had we instead (incorrectly) used the Normal quantile $z_{0.025}=1.96$, the interval would have been $48.5 \pm 2.09 = [46.41, 50.59]$: narrower than the actual uncertainty of a sample of only $9$ observations justifies.
+\end{solucion}
