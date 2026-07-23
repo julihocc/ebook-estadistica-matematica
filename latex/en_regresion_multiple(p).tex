@@ -1,663 +1,139 @@
-\section{Solved Problems in Multiple Linear Regression}
+\section*{Problems}
 
-\subsection{Problem Statements}
+\subsection*{Problem Statements}
 
-\subsubsection*{1. Fundamental Level (Simple / Direct)}
-
+% Remember
 \begin{problema}
-	\label{prob:reg_mult_combustible}
-	We investigate the average fuel efficiency ($Y$, in km/l) of urban automobiles as a function of two continuous predictor variables: gross vehicle weight ($X_1$, in metric tons) and engine displacement ($X_2$, in liters of capacity). After collecting a random sample of $n = 30$ automobiles under standardized test conditions, the following multiple linear regression model is fitted via Ordinary Least Squares:
-	\begin{align}
-		\hat{Y} = 25.0 - 3.0X_1 - 1.5X_2, \quad R^2 = 0.780, \quad R_{\text{adj}}^2 = 0.763.
-	\end{align}
-	\begin{enumerate}
-		\item Interpret the physical and geometric meaning of the partial regression coefficients $\hat{\beta}_1 = -3.0$ and $\hat{\beta}_2 = -1.5$, explicitly stating the \emph{ceteris paribus} condition.
-		\item Compute the point prediction of expected fuel efficiency for a compact sedan weighing $1.5$ metric tons with a $2.0$-liter engine.
-		\item If the total sample variance of observed fuel efficiencies across the 30 vehicles was $S_Y^2 = 12.0$, compute the Regression Sum of Squares ($\text{SSR}$) and the Residual Sum of Squares ($\text{SSD}$).
-	\end{enumerate}
+\label{prob:0d6ff67}
+Urban-car fuel efficiency ($Y$, km/l) is studied as a function of two continuous predictors: gross vehicle weight ($X_1$, tons) and engine displacement ($X_2$, liters). From a random sample of $n=30$ cars under standardized conditions, the OLS multiple-regression model is
+\begin{align}
+\hat Y=25.0-3.0X_1-1.5X_2,\quad R^2=0.780,\quad R_{\text{adj}}^2=0.763.
+\end{align}
+\begin{enumerate}
+\item Interpret the partial coefficients $\hat\beta_1=-3.0$ and $\hat\beta_2=-1.5$, explicitly stating the ceteris-paribus condition.
+\item Calculate the point prediction for a compact sedan weighing 1.5 tons with a 2.0-liter engine.
+\item If the total sample variance of observed efficiencies is $S_Y^2=12.0$, calculate the Regression Sum of Squares ($\text{SSR}$) and Residual Sum of Squares ($\text{SSE}$).
+\end{enumerate}
 \end{problema}
 
+% Understand
 \begin{problema}
-	\label{prob:reg_mult_pruebas_t}
-	In the vehicular fuel efficiency model from Problem \ref{prob:reg_mult_combustible} with $n = 30$ observations ($p = 2$ regressors plus 1 intercept), analytical software reports that the estimated standard errors for each regression parameter are:
-	\begin{align}
-		SE(\hat{\beta}_0) = 2.50, \quad SE(\hat{\beta}_1) = 0.80, \quad SE(\hat{\beta}_2) = 0.60.
-	\end{align}
-	\begin{enumerate}
-		\item Formally state the null and alternative hypothesis sets to conduct individual significance tests on vehicle weight ($X_1$) and engine displacement ($X_2$).
-		\item Compute Student's $t$ test statistic for each partial coefficient ($t_j = \dfrac{\hat{\beta}_j}{SE(\hat{\beta}_j)}$).
-		\item At a two-tailed significance level $\alpha = 0.05$ (with critical quantile $t_{0.025, \, 27} = 2.052$), determine whether both predictors contribute individually and statistically to the model.
-	\end{enumerate}
+\label{prob:9f8863e}
+A marketing-consulting firm analyzes the impact of advertising-channel diversification on monthly corporate sales ($Y$, thousands of dollars). In a historical sample of $n=40$ quarters fitted with three independent variables ($p=3$), explained variance is $R^2=0.780$.
+\begin{enumerate}
+\item Calculate adjusted $R^2=1-\left[\dfrac{n-1}{n-p-1}(1-R^2)\right]$.
+\item Explain why, in multivariable analysis, adjusted $R^2$ is strictly less than nominal $R^2$ whenever two or more predictors are included.
+\item If an analyst adds an irrelevant fourth predictor $X_4$ (headquarters ZIP code), with $R^2$ barely increasing from $0.780$ to $0.781$, determine the new adjusted $R^2$ for $p=4$.
+\end{enumerate}
 \end{problema}
 
+% Apply
 \begin{problema}
-	\label{prob:reg_mult_r2_adj_basico}
-	A marketing consulting firm analyzes the impact of advertising channel diversification on corporate monthly sales ($Y$, in thousands of dollars). In a historical sample of $n = 40$ evaluated quarters using a model with three independent variables ($p = 3$: TV expenditure $X_1$, radio expenditure $X_2$, and number of sales executives $X_3$), the explained variance yielded a nominal coefficient of determination of $R^2 = 0.780$.
-	\begin{enumerate}
-		\item Algebraically compute the Adjusted Coefficient of Determination ($R_{\text{adj}}^2$) via the degrees of freedom correction formula:
-		\begin{align}
-			R_{\text{adj}}^2 = 1 - \left[ \frac{n - 1}{n - p - 1} (1 - R^2) \right].
-		\end{align}
-		\item Explain why, in multivariate analysis, the indicator $R_{\text{adj}}^2$ is strictly smaller than the nominal $R^2$ ($R_{\text{adj}}^2 < R^2$) whenever two or more predictors are included ($p \geq 2$).
-		\item If a junior analyst proposes adding a fourth predictor $X_4$ representing the numerical zip code of corporate headquarters (exhibiting zero true marginal correlation with sales, such that $R^2$ barely rises from $0.780$ to $0.781$), quantitatively determine what happens to the new $R_{\text{adj}}^2$ of the model with $p = 4$.
-	\end{enumerate}
+\label{prob:1d085e7}
+A multiple-regression model predicts residential appraisal value ($Y$, thousands of dollars) from $p=4$ variables: built area ($X_1$, m$^2$), number of rooms ($X_2$), age ($X_3$, years), and distance from the city center ($X_4$, km). For $n=50$ properties,
+\begin{align}
+\hat Y=50.0+0.80X_1+15.0X_2-2.0X_3-5.0X_4,
+\end{align}
+with $\text{VIF}(X_1)=4.2$, $\text{VIF}(X_2)=3.8$, $\text{VIF}(X_3)=1.5$, and $\text{VIF}(X_4)=1.2$.
+\begin{enumerate}
+\item Interpret the economic meaning of the area ($\hat\beta_1$) and distance ($\hat\beta_4$) coefficients.
+\item Evaluate collinearity diagnostics using the VIFs: is there severe multicollinearity or a moderately admissible level?
+\item Calculate the projected appraisal value for a residence with 120 m$^2$, 3 rooms, 10 years of age, and 8 km from the center.
+\item What modeling strategy would you apply if $\text{VIF}(X_1)$ exceeded the critical threshold of 10?
+\end{enumerate}
 \end{problema}
 
-\subsubsection*{2. Operational Level (Intermediate / Development)}
-
+% Analyze
 \begin{problema}
-	\label{prob:reg_mult_ventas_anidados}
-	To optimize the quarterly sales projections ($Y$, in thousands of dollars) from Problem \ref{prob:reg_mult_r2_adj_basico} ($n = 40$), corporate management compares two nested regression model specifications:
-	\begin{itemize}
-		\item \textbf{Model 1 (Restricted, $p_1 = 2$):} $\hat{Y} = 50.0 + 2.5X_1 + 1.8X_2$, with $R_1^2 = 0.750$.
-		\item \textbf{Model 2 (Full, $p_2 = 3$):} $\hat{Y} = 45.0 + 2.3X_1 + 1.6X_2 + 0.80X_3$, with $R_2^2 = 0.780$.
-	\end{itemize}
-	\begin{enumerate}
-		\item Compute the respective $R_{\text{adj}}^2$ values for Model 1 and Model 2.
-		\item Conduct a \textbf{Partial (Incremental) $F$-Test} ($H_0: \beta_3 = 0$) at significance level $\alpha = 0.05$ to rigorously assess whether adding the number of sales executives ($X_3$) significantly improves model fit, computing the statistic:
-		\begin{align}
-			F_{\text{partial}} = \frac{(R_2^2 - R_1^2) / (p_2 - p_1)}{(1 - R_2^2) / (n - p_2 - 1)},
-		\end{align}
-		and comparing it against Fisher's tabulated critical quantile $F_{0.05, \, 1, \, 36} = 4.113$.
-		\item Formulate a comprehensive argument regarding which model is both technically and managerially recommended.
-	\end{enumerate}
+\label{prob:15ced94}
+\textbf{Analytical derivation of vector-matrix OLS and population unbiasedness in the general $p$-regressor model:} consider $\mathbf Y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon$, where $\mathbf X$ has full column rank, $E[\boldsymbol\varepsilon]=\mathbf0$, and $\text{Var}(\boldsymbol\varepsilon)=\sigma^2\mathbf I_n$.
+\begin{enumerate}
+\item Starting from $S(\boldsymbol\beta)=(\mathbf Y-\mathbf X\boldsymbol\beta)^T(\mathbf Y-\mathbf X\boldsymbol\beta)$, use matrix differential calculus to derive the \textbf{normal equations} $\mathbf X^T\mathbf X\hat{\boldsymbol\beta}=\mathbf X^T\mathbf Y$ and justify the uniqueness of $\hat{\boldsymbol\beta}=(\mathbf X^T\mathbf X)^{-1}\mathbf X^T\mathbf Y$.
+\item Prove that $\hat{\boldsymbol\varepsilon}=(\mathbf I_n-\mathbf H)\mathbf Y$ is orthogonal to the column space of $\mathbf X$ ($\mathbf X^T\hat{\boldsymbol\varepsilon}=\mathbf0$) and that $\hat{\mathbf Y}^T\hat{\boldsymbol\varepsilon}=0$.
+\item Prove that $\hat{\boldsymbol\beta}$ is unbiased and that $\text{Var}(\hat{\boldsymbol\beta})=\sigma^2(\mathbf X^T\mathbf X)^{-1}$.
+\end{enumerate}
 \end{problema}
 
+% Evaluate
 \begin{problema}
-	\label{prob:reg_mult_vif_viviendas}
-	A multiple regression model is calibrated to predict the appraised value of residential housing properties ($Y$, in thousands of dollars) using $p = 4$ structural and locational characteristics: built area ($X_1$, in $\text{m}^2$), number of bedrooms ($X_2$), built age ($X_3$, in years), and radial distance to the urban center ($X_4$, in km). From a sample of $n = 50$ properties, the following model was obtained:
-	\begin{align}
-		\hat{Y} = 50.0 + 0.80X_1 + 15.0X_2 - 2.0X_3 - 5.0X_4,
-	\end{align}
-	and the Variance Inflation Factors ($\text{VIF}_j = \dfrac{1}{1 - R_j^2}$, where $R_j^2$ is the multiple correlation of regressing variable $X_j$ against all other $p-1$ predictors) are:
-	\begin{align}
-		\text{VIF}(X_1) = 4.2, \quad \text{VIF}(X_2) = 3.8, \quad \text{VIF}(X_3) = 1.5, \quad \text{VIF}(X_4) = 1.2.
-	\end{align}
-	\begin{enumerate}
-		\item Interpret economically the meaning of the area coefficient ($\hat{\beta}_1 = 0.80$) and the distance coefficient ($\hat{\beta}_4 = -5.0$).
-		\item Evaluate collinearity diagnostics via the magnitudes of $\text{VIF}_j$. Is there severe multicollinearity invalidating the model, or does it represent an acceptable moderate degree?
-		\item Compute the projected appraisal value for a residence with $120\text{ m}^2$, $3$ bedrooms, an age of $10$ years, and situated exactly $8\text{ km}$ from the city commercial center.
-		\item What modeling strategy (e.g., dimensionality reduction, standardization, or variable selection) would you apply if $\text{VIF}(X_1)$ exceeded the critical threshold of 10?
-	\end{enumerate}
+\label{prob:ee59291}
+A data scientist models annual salary ($Y$, thousands of dollars) from years of experience ($X_1$) and education indicators, with Bachelor's degree as the reference group ($D_1=D_2=0$): $D_1=1$ for a Bachelor's degree and $D_2=1$ for a Master's degree. For $n=100$ employees, $\hat Y=22.0+2.5X_1+12.0D_1+25.0D_2$, with $R^2=0.760$.
+\begin{enumerate}
+\item Interpret the intercept $\hat\beta_0=22.0$ and categorical coefficients $\hat\beta_2=12.0$ and $\hat\beta_3=25.0$.
+\item Write the three salary-versus-experience lines by education group, and predict salary for a manager with 8 years of experience and a Master's degree.
+\item Explain the \textbf{Dummy Variable Trap} and why including a third indicator $D_0=1$ for Bachelor's degree together with the intercept would be fatal to the model's matrix algebra.
+\end{enumerate}
 \end{problema}
 
+% Create
 \begin{problema}
-	\label{prob:reg_mult_dummy_salarios}
-	A data scientist in a human capital department models annual salary compensation ($Y$, in thousands of dollars) as a function of years of professional experience ($X_1$) and educational attainment level. Rather than making the mistake of coding education as a false ordinal variable ($1, 2, 3$), the scientist constructs a system of \textbf{indicator or dummy variables}, using professionals with \emph{High School / Secondary Education} as the reference baseline group ($D_1 = D_2 = 0$). We define:
-	\begin{align}
-		D_1 = \begin{cases} 1 & \text{if employee holds a Bachelor's Degree / College Degree} \\ 0 & \text{otherwise} \end{cases}, \qquad D_2 = \begin{cases} 1 & \text{if employee holds a Master's Degree / Advanced Degree} \\ 0 & \text{otherwise} \end{cases}.
-	\end{align}
-	Using a random sample of $n = 100$ employees, the parametric linear model is fitted:
-	\begin{align}
-		\hat{Y} = 22.0 + 2.5X_1 + 12.0D_1 + 25.0D_2, \quad R^2 = 0.760.
-	\end{align}
-	\begin{enumerate}
-		\item Interpret the numerical values of the intercept $\hat{\beta}_0 = 22.0$ and categorical coefficients $\hat{\beta}_2 = 12.0$ and $\hat{\beta}_3 = 25.0$ regarding company salaries.
-		\item Write the explicit regression lines for salary as a function of experience ($X_1$) separated individually for each of the three educational subgroups (High School, Bachelor's, and Master's).
-		\item Predict the expected salary for a manager with $8$ years of experience who holds a Master's degree.
-		\item Rigorously explain what constitutes the \textbf{Dummy Variable Trap} in linear matrix algebra and why it would have been fatal had the analyst included a third dummy variable $D_0 = 1$ for the High School group alongside the intercept $\beta_0$.
-	\end{enumerate}
+\label{prob:a6a21c3}
+Design an original multiple-regression problem (different from cars, marketing, housing, or salaries): a hospital models total hospitalization cost ($Y$, thousands of dollars) from patient age ($X_1$, years) and length of stay ($X_2$, days). For $n=45$ patients, $\hat Y=2.0+0.05X_1+1.2X_2$, $R^2=0.71$, $SE(\hat\beta_1)=0.02$, and $SE(\hat\beta_2)=0.15$. Formulate and solve individual $t$ tests for both predictors ($\nu=42$, $t_{0.025,42}=2.018$), interpret the model, and predict cost for a 65-year-old patient with a 5-day stay.
 \end{problema}
 
-\subsubsection*{3. Analytical Level (Advanced / Synthesis)}
+\subsection*{Detailed Solutions}
 
-\begin{problema}
-	\label{prob:reg_mult_matricial_exacto}
-	In an econometric study across $n = 5$ temporal observations modeling percentage return on equity ($Y$) as a function of two predictive indices ($X_1$: liquidity index, $X_2$: financial leverage), the model is specified in general Ordinary Least Squares matrix notation:
-	\begin{align}
-		\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}.
-	\end{align}
-	Following raw data processing, the exact cross-product matrix $\mathbf{X}^T \mathbf{X}$ and projection vector $\mathbf{X}^T \mathbf{Y}$ are calculated:
-	\begin{align}
-		\mathbf{X}^T \mathbf{X} = \begin{pmatrix} 5 & 10 & 20 \\ 10 & 30 & 40 \\ 20 & 40 & 90 \end{pmatrix}, \qquad \mathbf{X}^T \mathbf{Y} = \begin{pmatrix} 50 \\ 120 \\ 230 \end{pmatrix}.
-	\end{align}
-	(The first column of $\mathbf{X}$ is the vector of ones $\mathbf{1}_5$ corresponding to intercept $\beta_0$).
-	\begin{enumerate}
-		\item Knowing that the inverse of this symmetric normal matrix is:
-		\begin{align}
-			(\mathbf{X}^T \mathbf{X})^{-1} = \frac{1}{50} \begin{pmatrix} 110 & -10 & -20 \\ -10 & 5 & 0 \\ -20 & 0 & 5 \end{pmatrix} = \begin{pmatrix} 2.2 & -0.2 & -0.4 \\ -0.2 & 0.1 & 0.0 \\ -0.4 & 0.0 & 0.1 \end{pmatrix},
-		\end{align}
-		compute the exact least squares estimator solution vector $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} = (\hat{\beta}_0, \hat{\beta}_1, \hat{\beta}_2)^T$.
-		\item Write the scalar predictive equation of the resulting model.
-		\item Formally define the \textbf{Projection Matrix or Hat Matrix} $\mathbf{H} = \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T$ and algebraically prove its two axiomatic properties: symmetry ($\mathbf{H}^T = \mathbf{H}$) and idempotency ($\mathbf{H}^2 = \mathbf{H}$). Explain how operator $\mathbf{H}$ transforms raw response vector $\mathbf{Y}$ into predicted vector $\hat{\mathbf{Y}}$.
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	\label{prob:reg_mult_varianzas_ic_global}
-	For the econometric model from Problem \ref{prob:reg_mult_matricial_exacto} ($n = 5, p = 2$), suppose an extended sample of $n = 25$ firms operating under the exact same normalized covariance structure $(\mathbf{X}^T \mathbf{X})^{-1}$ yielded an Error Sum of Squares $\text{SSD} = 44.0$ and an identical estimated coefficient vector $\hat{\boldsymbol{\beta}} = (1.2, \; 2.6, \; 1.8)^T$.
-	\begin{enumerate}
-		\item Compute the unbiased residual variance of the multivariable system $\hat{\sigma}^2 = \text{MSE} = \dfrac{\text{SSD}}{n - p - 1}$.
-		\item Compute the \textbf{Estimated Parameter Variance-Covariance Matrix} $\widehat{\text{Cov}}(\hat{\boldsymbol{\beta}}) = \hat{\sigma}^2 (\mathbf{X}^T \mathbf{X})^{-1}$ and extract standard errors $SE(\hat{\beta}_0)$, $SE(\hat{\beta}_1)$, and $SE(\hat{\beta}_2)$.
-		\item Construct a $95\%$ confidence interval for the true liquidity index parameter $\beta_1$ ($t_{0.025, \, 22} = 2.074$).
-		\item If the Total Sum of Squares of returns in that sample was $\text{SST} = 264.0$, perform an \textbf{Overall $F$-Test for Regression Significance} ($H_0: \beta_1 = \beta_2 = 0$ vs $H_a$: at least one $\beta_j \neq 0$) at $\alpha = 0.05$ ($F_{0.05, \, 2, \, 22} = 3.443$), constructing the complete multiple regression ANOVA table.
-	\end{enumerate}
-\end{problema}
-
-\subsubsection*{4. Challenging Level (Expert / Deep Deduction)}
-
-\begin{problema}
-	\label{prob:reg_mult_deduccion_matricial_mco}
-	\textbf{Analytical Derivation of Vector-Matrix OLS and Population Unbiasedness in the General $p$-Regressor Model:}
-	Consider the multiple linear regression model in vector space $\mathbb{R}^n$:
-	\begin{align}
-		\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon},
-	\end{align}
-	where $\mathbf{Y}$ is the $n \times 1$ response vector, $\mathbf{X}$ is the non-random $n \times (p+1)$ design matrix of full column rank ($\text{rank}(\mathbf{X}) = p+1 \leq n$), $\boldsymbol{\beta}$ is the $(p+1) \times 1$ population parameter vector, and $\boldsymbol{\varepsilon}$ is the error vector satisfying $E[\boldsymbol{\varepsilon}] = \mathbf{0}$ and $\text{Var}(\boldsymbol{\varepsilon}) = E[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^T] = \sigma^2 \mathbf{I}_n$.
-	\begin{enumerate}
-		\item Starting from the scalar quadratic form of the error sum of squares $S(\boldsymbol{\beta}) = \boldsymbol{\varepsilon}^T \boldsymbol{\varepsilon} = (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})^T (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})$, apply vector-matrix differentiation rules over quadratic forms with respect to vector $\boldsymbol{\beta}$ to rigorously derive the normal equations $\mathbf{X}^T \mathbf{X} \hat{\boldsymbol{\beta}} = \mathbf{X}^T \mathbf{Y}$ and justify the uniqueness of the analytical solution $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$.
-		\item Prove that the empirical residual vector $\hat{\boldsymbol{\varepsilon}} = \mathbf{Y} - \hat{\mathbf{Y}} = (\mathbf{I}_n - \mathbf{H})\mathbf{Y}$ is orthogonal to the entire column space generated by design matrix $\mathbf{X}$ ($\mathbf{X}^T \hat{\boldsymbol{\varepsilon}} = \mathbf{0}$), and prove that the cross-product sum between predictions and residuals vanishes identically ($\hat{\mathbf{Y}}^T \hat{\boldsymbol{\varepsilon}} = 0$).
-		\item Applying expectation operator $E[\cdot]$, prove that vector $\hat{\boldsymbol{\beta}}$ is a multivariable \textbf{unbiased} estimator ($E[\hat{\boldsymbol{\beta}}] = \boldsymbol{\beta}$) and that its theoretical covariance matrix equals precisely $\text{Var}(\hat{\boldsymbol{\beta}}) = \sigma^2 (\mathbf{X}^T \mathbf{X})^{-1}$.
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	\label{prob:reg_mult_gauss_markov_meli}
-	\textbf{Proof of the Gauss-Markov Theorem (BLUE - \emph{Best Linear Unbiased Estimator}) and $R_{\text{adj}}^2$ Penalization:}
-	Within the matrix linear model framework $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$ under verified Gauss-Markov assumptions ($E[\boldsymbol{\varepsilon}] = \mathbf{0}$, $\text{Var}(\boldsymbol{\varepsilon}) = \sigma^2 \mathbf{I}_n$):
-	\begin{enumerate}
-		\item Let $\tilde{\boldsymbol{\beta}} = \mathbf{C}\mathbf{Y}$ be an arbitrary competing linear estimator required to be unbiased for vector $\boldsymbol{\beta}$ ($E[\tilde{\boldsymbol{\beta}}] = \boldsymbol{\beta}$ for all $\boldsymbol{\beta}$). Express its weighting matrix as an OLS perturbation: $\mathbf{C} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D}$. Prove step-by-step that for $\tilde{\boldsymbol{\beta}}$ to be unbiased, the perturbing matrix must strictly satisfy the orthogonality condition $\mathbf{D}\mathbf{X} = \mathbf{0}$.
-		\item With unbiasedness verified, algebraically prove that the variance-covariance matrix of $\tilde{\boldsymbol{\beta}}$ decomposes additively and exactly into:
-		\begin{align}
-			\text{Var}(\tilde{\boldsymbol{\beta}}) = \text{Var}(\hat{\boldsymbol{\beta}}) + \sigma^2 \mathbf{D}\mathbf{D}^T.
-		\end{align}
-		Conclude from the positive semi-definiteness of quadratic matrix $\mathbf{D}\mathbf{D}^T \succeq \mathbf{0}$ that the OLS estimator possesses minimum variance in the Loewner matrix sense ($\text{Var}(\tilde{\boldsymbol{\beta}}) - \text{Var}(\hat{\boldsymbol{\beta}}) \succeq \mathbf{0}$), proving the Gauss-Markov Theorem.
-		\item Prove that if, in a model containing $p$ true explanatory variables, one decides to incorporate an additional predictor ($X_{p+1}$) whose true population slope is zero ($\beta_{p+1} = 0$), the nominal sample coefficient $R^2$ satisfies the empirical dominance relation $R_{p+1}^2 \geq R_p^2$, whereas the Adjusted Coefficient of Determination $R_{\text{adj}, p+1}^2$ is strictly smaller than the previous $R_{\text{adj}, p}^2$ unless the Student's $t$ test statistic of that new regressor exceeds unit magnitude ($|t_{p+1}| > 1$).
-	\end{enumerate}
-\end{problema}
-
-
-\subsection{Detailed Solutions}
-
-\subsubsection*{1. Fundamental Level (Simple / Direct)}
-
-\begin{solproblema}
-	\begin{enumerate}
-		\item \textbf{Physical interpretation of partial coefficients:}
-		In multiple regression, each parameter represents the rate of change of expected $Y$ with respect to one variable, \emph{holding all other explanatory variables fixed} (\emph{ceteris paribus} condition):
-		\begin{itemize}
-			\item $\hat{\beta}_1 = -3.0$: For automobiles possessing the \textbf{same engine displacement} ($X_2$ constant), for every additional metric ton of gross vehicle weight ($X_1$), average fuel efficiency decreases by $3.0\text{ km/l}$.
-			\item $\hat{\beta}_2 = -1.5$: For automobiles of \textbf{identical vehicle weight} ($X_1$ constant), for every additional liter of engine displacement or capacity ($X_2$), average fuel efficiency decreases by $1.5\text{ km/l}$.
-		\end{itemize}
-		
-		\item Computation of projected efficiency for an automobile with $X_1 = 1.5$ metric tons and $X_2 = 2.0$ liters:
-		\begin{align}
-			\hat{Y} = 25.0 - 3.0(1.5) - 1.5(2.0) = 25.0 - 4.5 - 3.0 = 17.5\text{ km/l}.
-		\end{align}
-		An urban fuel efficiency of $17.5$ kilometers per liter is estimated.
-		
-		\item With $n = 30$ total observations and an observed sample variance $S_Y^2 = 12.0$, the Total Sum of Squares of fuel efficiency is:
-		\begin{align}
-			\text{SST} = (n - 1) S_Y^2 = (30 - 1)(12.0) = 29 \times 12.0 = 348.0\text{ (km/l)}^2.
-		\end{align}
-		Using the nominal coefficient of determination $R^2 = 0.780$, we obtain the Regression Sum of Squares ($\text{SSR}$):
-		\begin{align}
-			\text{SSR} = R^2 \times \text{SST} = (0.780)(348.0) = 271.44\text{ (km/l)}^2.
-		\end{align}
-		By the algebraic principle of orthogonal error partitioning in OLS, unexplained variability is:
-		\begin{align}
-			\text{SSD} = \text{SST} - \text{SSR} = 348.0 - 271.44 = 76.56\text{ (km/l)}^2.
-		\end{align}
-	\end{enumerate}
+% Remember
+\begin{solproblema}[prob:0d6ff67]
+\begin{enumerate}
+\item Holding $X_2$ constant, each additional ton of weight ($X_1$) reduces efficiency by 3.0 km/l. Holding $X_1$ constant, each additional liter of displacement ($X_2$) reduces efficiency by 1.5 km/l.
+\item $\hat Y=25.0-3.0(1.5)-1.5(2.0)=17.5$ km/l.
+\item $\text{SST}=(n-1)S_Y^2=(29)(12.0)=348.0$. $\text{SSR}=R^2\times\text{SST}=(0.780)(348.0)=271.44$. $\text{SSE}=348.0-271.44=76.56$.
+\end{enumerate}
 \end{solproblema}
 
-\begin{solproblema}
-	\begin{enumerate}
-		\item \textbf{Formal formulation of partial significance hypotheses:}
-		To evaluate whether each explanatory variable contributes non-redundant predictive information to the model (given the presence of the other):
-		\begin{itemize}
-			\item For vehicle weight ($X_1$):
-			\begin{align}
-				H_{0,1}: \beta_1 &= 0 \quad (\text{Weight provides no predictive significance once displacement is controlled}). \\
-				H_{a,1}: \beta_1 &\neq 0 \quad (\text{Vehicle weight significantly influences fuel efficiency}).
-			\end{align}
-			\item For engine displacement ($X_2$):
-			\begin{align}
-				H_{0,2}: \beta_2 &= 0 \quad (\text{Displacement is irrelevant for predicting consumption once weight is controlled}). \\
-				H_{a,2}: \beta_2 &\neq 0 \quad (\text{Displacement has a direct, significant impact on efficiency}).
-			\end{align}
-		\end{itemize}
-		
-		\item Computation of individual Student's $t$ test statistics under null hypotheses ($H_{0,j}: \beta_j = 0$):
-		Residual degrees of freedom for the model with $n=30$ and $p=2$ predictors are $\nu_E = n - p - 1 = 30 - 2 - 1 = 27$.
-		\begin{align}
-			t_1 &= \frac{\hat{\beta}_1}{SE(\hat{\beta}_1)} = \frac{-3.0}{0.80} = -3.750, \\
-			t_2 &= \frac{\hat{\beta}_2}{SE(\hat{\beta}_2)} = \frac{-1.5}{0.60} = -2.500.
-		\end{align}
-		
-		\item Decision rule and conclusion:
-		The critical quantile in the two-tailed Student's $t$ distribution with $\nu_E = 27$ at $\alpha = 0.05$ yields an absolute cutoff value of $t_{0.025, \, 27} = 2.052$.
-		\begin{itemize}
-			\item For weight ($X_1$): Since $|t_1| = 3.750 > 2.052$ ($p$-value $\approx 0.0008$), \textbf{we reject $H_{0,1}$}. Net vehicle weight is a proven and robust determinant of fuel economy.
-			\item For engine displacement ($X_2$): Since $|t_2| = 2.500 > 2.052$ ($p$-value $\approx 0.0188$), \textbf{we reject $H_{0,2}$}. Volumetric engine capacity contributes significantly to predicting consumption above and beyond physical vehicle weight.
-		\end{itemize}
-	\end{enumerate}
+% Understand
+\begin{solproblema}[prob:9f8863e]
+\begin{enumerate}
+\item $R_{\text{adj}}^2=1-\left[\frac{39}{36}(0.220)\right]=1-0.23833\approx0.7617$ (76.17\%).
+\item Adding a predictor can never increase $\text{SSE}$ ($\text{SSE}_{p+1}\le\text{SSE}_p$), so nominal $R^2$ never decreases, encouraging overfitting. Adjusted $R^2=1-\text{MSE}/\text{MST}$ corrects this: adding a predictor decreases $(n-p-1)$ and penalizes the MSE/MST ratio unless the new variable explains enough real variance.
+\item With $R^2_{\text{new}}=0.781$, $p=4$, $R_{\text{adj,new}}^2=1-\left[\frac{39}{35}(0.219)\right]\approx0.7560$. Although nominal $R^2$ rose slightly, adjusted $R^2$ fell from 0.7617 to 0.7560, showing that ZIP code adds no useful explanatory value.
+\end{enumerate}
 \end{solproblema}
 
-\begin{solproblema}
-	\begin{enumerate}
-		\item Rigorous computation of the Adjusted Coefficient of Determination ($R_{\text{adj}}^2$):
-		For $n = 40$ quarters, $p = 3$ predictors in the model, and an unadjusted coefficient $R^2 = 0.780$:
-		\begin{align}
-			R_{\text{adj}}^2 &= 1 - \left[ \frac{n - 1}{n - p - 1} (1 - R^2) \right] = 1 - \left[ \frac{40 - 1}{40 - 3 - 1} (1 - 0.780) \right] \\
-			&= 1 - \left[ \frac{39}{36} (0.220) \right] = 1 - \left[ (1.08333)(0.220) \right] = 1 - 0.23833 \approx 0.7617 \quad (76.17\%).
-		\end{align}
-		
-		\item \textbf{Theoretical justification and dimensional penalization:} In any Ordinary Least Squares regression fit, adding a new predictor variable (even if it consists of pure random number sequences sharing no geometric relationship with sales) invariably reduces the Residual Sum of Squares or, in the worst case, leaves it unchanged ($\text{SSD}_{p+1} \leq \text{SSD}_p$). Consequently, the \textbf{nominal $R^2$ can never decrease} upon adding variables, creating a deceptive analytical mirage that encourages overfitting complex models with noise.
-		
-		The \textbf{$R_{\text{adj}}^2$ mathematically corrects this optimistic bias} by replacing sums of squares with their corresponding *mean squares (sample variances)*:
-		\begin{align}
-			R_{\text{adj}}^2 = 1 - \frac{\text{MSE}}{\text{MST}} = 1 - \frac{\text{SSD} / (n - p - 1)}{\text{SST} / (n - 1)}.
-		\end{align}
-		Each time a predictor is added ($p \to p+1$), the term $(n - p - 1)$ in the error variance denominator \emph{decreases exactly by one unit}, penalizing the indicator by inflating the ratio $\text{MSE}/\text{MST}$. For net $R_{\text{adj}}^2$ to increase, the newly added variable must absorb enough true variance to overcome and compensate for the loss of that error degree of freedom.
-		
-		\item Numerical impact calculation when adding the spurious zip code ($X_4$) with $R_{\text{new}}^2 = 0.781$ and $p = 4$:
-		\begin{align}
-			R_{\text{adj, new}}^2 &= 1 - \left[ \frac{40 - 1}{40 - 4 - 1} (1 - 0.781) \right] = 1 - \left[ \frac{39}{35} (0.219) \right] \\
-			&= 1 - \left[ (1.11429)(0.219) \right] = 1 - 0.24403 \approx 0.7560 \quad (75.60\%).
-		\end{align}
-		Although nominal $R^2$ rose superficially from $0.780$ to $0.781$, \textbf{the Adjusted Coefficient of Determination suffered a noticeable drop from $0.7617$ to $0.7560$}. The $R_{\text{adj}}^2$ diagnostic severely penalizes and rejects the use of corporate zip code when predicting sales success.
-	\end{enumerate}
+% Apply
+\begin{solproblema}[prob:1d085e7]
+\begin{enumerate}
+\item $\hat\beta_1=0.80$: controlling for rooms, age, and distance, each additional m$^2$ increases value by \$800. $\hat\beta_4=-5.0$: holding the other variables fixed, each additional kilometer from the center reduces value by \$5,000.
+\item Diagnostic scale: VIF below 5 is low/moderate, $5\le\text{VIF}<10$ is concerning, and VIF at least 10 is severe. The largest VIF is $4.2<5$, so there is \textbf{no severe multicollinearity}; the moderate overlap between area and rooms is natural, with enough orthogonal variation to estimate both effects.
+\item $\hat Y=50.0+0.80(120)+15.0(3)-2.0(10)-5.0(8)=131.0$ thousand dollars.
+\item If VIF exceeded 10, combine collinear variables into a synthetic index, remove the variable with the least significant $t$, use principal-component regression, or use Ridge regression $\hat{\boldsymbol\beta}_{\text{Ridge}}=(\mathbf X^T\mathbf X+\lambda\mathbf I)^{-1}\mathbf X^T\mathbf Y$ to stabilize matrix inversion.
+\end{enumerate}
 \end{solproblema}
 
-\subsubsection*{2. Operational Level (Intermediate / Development)}
-
-\begin{solproblema}
-	\begin{enumerate}
-		\item Comparative Adjusted Coefficient of Determination computation:
-		\begin{itemize}
-			\item For \textbf{Model 1 (Restricted, $p_1 = 2, R_1^2 = 0.750, n=40$)}:
-			\begin{align}
-				R_{\text{adj, 1}}^2 = 1 - \left[ \frac{39}{40 - 2 - 1} (1 - 0.750) \right] = 1 - \left[ \frac{39}{37} (0.250) \right] = 1 - 0.26351 \approx 0.7365 \quad (73.65\%).
-			\end{align}
-			\item For \textbf{Model 2 (Full, $p_2 = 3, R_2^2 = 0.780, n=40$)}:
-			As established in Problem \ref{prob:reg_mult_r2_adj_basico}:
-			\begin{align}
-				R_{\text{adj, 2}}^2 = 1 - \left[ \frac{39}{36} (0.220) \right] \approx 0.7617 \quad (76.17\%).
-			\end{align}
-		\end{itemize}
-		
-		\item \textbf{Partial (Incremental) $F$-Test for Explained Sum of Squares:}
-		This test evaluates with inferential rigor whether the marginal improvement in fit achieved by including sales executives ($X_3$) is significantly larger than random sampling noise. We formulate the hypotheses:
-		\begin{align}
-			H_0: \beta_3 &= 0 \quad (\text{The restricted two-predictor model is statistically sufficient}). \\
-			H_a: \beta_3 &\neq 0 \quad (\text{The number of sales executives contributes significantly to forecasting}).
-		\end{align}
-		The incremental formula based on $R^2$ proportions yields:
-		\begin{align}
-			F_{\text{partial}} &= \frac{(R_2^2 - R_1^2) / (p_2 - p_1)}{(1 - R_2^2) / (n - p_2 - 1)} = \frac{(0.780 - 0.750) / (3 - 2)}{(1 - 0.780) / (40 - 3 - 1)} \\
-			&= \frac{0.030 / 1}{0.220 / 36} = \frac{0.030}{0.006111} \approx 4.9091.
-		\end{align}
-		For nominal significance level $\alpha = 0.05$, with $\nu_1 = p_2 - p_1 = 1$ and $\nu_2 = n - p_2 - 1 = 36$ degrees of freedom, the critical value from the Fisher-Snedecor distribution table is:
-		\begin{align}
-			F_{0.05, \, 1, \, 36} = 4.113.
-		\end{align}
-		Because our calculated incremental test statistic clearly exceeds the critical threshold ($F_{\text{partial}} = 4.909 > 4.113$, with $p$-value $\approx 0.033$), \textbf{we formally reject the null hypothesis $H_0$}.
-		
-		\item \textbf{Conclusion and strategic recommendation:} \textbf{Model 2 (containing all 3 predictors)} is indisputably established as the optimal specification. Incorporating the number of sales executives ($X_3$) increases explained sales variation by a statistically significant margin, passing the rigorous incremental $F$-test scrutiny and yielding a substantial net gain of $+2.52$ percentage points in adjusted goodness-of-fit ($R_{\text{adj}}^2$ rises from $73.65\%$ to $76.17\%$).
-	\end{enumerate}
+% Analyze
+\begin{solproblema}[prob:15ced94]
+\begin{enumerate}
+\item Expanding $S(\boldsymbol\beta)=\mathbf Y^T\mathbf Y-2\boldsymbol\beta^T\mathbf X^T\mathbf Y+\boldsymbol\beta^T\mathbf X^T\mathbf X\boldsymbol\beta$ and differentiating,
+\begin{align}
+\frac{\partial S(\boldsymbol\beta)}{\partial\boldsymbol\beta}=-2\mathbf X^T\mathbf Y+2\mathbf X^T\mathbf X\boldsymbol\beta=\mathbf0\implies\mathbf X^T\mathbf X\hat{\boldsymbol\beta}=\mathbf X^T\mathbf Y.
+\end{align}
+Since $\mathbf X$ has full rank, $\mathbf X^T\mathbf X$ is positive definite and nonsingular, guaranteeing the unique solution $\hat{\boldsymbol\beta}=(\mathbf X^T\mathbf X)^{-1}\mathbf X^T\mathbf Y$.
+\item With $\hat{\boldsymbol\varepsilon}=\mathbf Y-\mathbf X\hat{\boldsymbol\beta}$, $\mathbf X^T\hat{\boldsymbol\varepsilon}=\mathbf X^T\mathbf Y-\mathbf X^T\mathbf X\hat{\boldsymbol\beta}=\mathbf0$ by the normal equations. Since $\hat{\mathbf Y}=\mathbf X\hat{\boldsymbol\beta}$ lies in the column space of $\mathbf X$, $\hat{\mathbf Y}^T\hat{\boldsymbol\varepsilon}=\hat{\boldsymbol\beta}^T\mathbf X^T\hat{\boldsymbol\varepsilon}=0$.
+\item Substituting $\mathbf Y=\mathbf X\boldsymbol\beta+\boldsymbol\varepsilon$ gives $\hat{\boldsymbol\beta}=\boldsymbol\beta+(\mathbf X^T\mathbf X)^{-1}\mathbf X^T\boldsymbol\varepsilon$. Taking expectations gives $E[\hat{\boldsymbol\beta}]=\boldsymbol\beta$. For the variance,
+\begin{align}
+\text{Var}(\hat{\boldsymbol\beta})=(\mathbf X^T\mathbf X)^{-1}\mathbf X^T E[\boldsymbol\varepsilon\boldsymbol\varepsilon^T]\mathbf X(\mathbf X^T\mathbf X)^{-1}=\sigma^2(\mathbf X^T\mathbf X)^{-1}.
+\end{align}
+\end{enumerate}
 \end{solproblema}
 
-\begin{solproblema}
-	\begin{enumerate}
-		\item \textbf{Economic and real estate interpretation of partial coefficients:}
-		\begin{itemize}
-			\item $\hat{\beta}_1 = 0.80$: Holding constant the number of bedrooms, built age, and distance to the center, for every additional square meter of living area ($\text{m}^2$), estimated property valuation increases by $\$800$ dollars ($0.80$ thousand).
-			\item $\hat{\beta}_4 = -5.0$: Controlling for built area, bedrooms, and age, for every additional kilometer moving the residence away from the urban center, its market price suffers an average locational depreciation of $\$5,000$ dollars ($5.0$ thousand).
-		\end{itemize}
-		
-		\item \textbf{Multicollinearity audit using Variance Inflation Factors ($\text{VIF}_j$):}
-		The $\text{VIF}_j$ measures quantitatively how many times the variance of estimator $\hat{\beta}_j$ is multiplied due to linear overlap or collinearity between predictor $X_j$ and all other explanatory variables in the system:
-		\begin{align}
-			\text{VIF}_j = \frac{1}{1 - R_j^2} \implies \text{Var}(\hat{\beta}_j) = \sigma^2 \left( \frac{1}{S_{jj}} \right) \times \text{VIF}_j.
-		\end{align}
-		The observed values are: $\text{VIF}(X_1) = 4.2$, $\text{VIF}(X_2) = 3.8$, $\text{VIF}(X_3) = 1.5$, and $\text{VIF}(X_4) = 1.2$.
-		In applied econometrics, the following diagnostic severity scale is standard:
-		\begin{itemize}
-			\item $\text{VIF} < 5.0$: \textbf{Low or moderate collinearity acceptable within normal} system functioning. No corrective action required.
-			\item $5.0 \leq \text{VIF} < 10.0$: \textbf{Elevated and concerning multicollinearity}. Must be audited carefully to prevent instability in coefficient standard errors.
-			\item $\text{VIF} \geq 10.0$: \textbf{Severe / pathological multicollinearity} ($R_j^2 \geq 0.90$). Destroys precision of Ordinary Least Squares estimation.
-		\end{itemize}
-		Because our largest indicator is $\text{VIF}(X_1) = 4.2 < 5.0$, we conclude that \textbf{no severe collinearity pathology exists} in this real estate model. Moderate overlap between square meter area ($X_1$) and bedroom count ($X_2$) reflects natural geometric correlation between property size and room division, but the data contain sufficient pure orthogonal variability to estimate both effects with high parametric stability.
-		
-		\item Projected appraisal valuation for a residence with $X_1 = 120\text{ m}^2$, $X_2 = 3$ bed., $X_3 = 10$ years, and $X_4 = 8\text{ km}$:
-		\begin{align}
-			\hat{Y} &= 50.0 + 0.80(120.0) + 15.0(3.0) - 2.0(10.0) - 5.0(8.0) \\
-			&= 50.0 + 96.0 + 45.0 - 20.0 - 40.0 = 131.0\text{ thousand dollars}.
-		\end{align}
-		The projected fair market valuation price is $\$131,000$ dollars.
-		
-		\item \textbf{Methodological mitigation strategies for pathological multicollinearity ($\text{VIF} \geq 10$):}
-		If the inflation factor for built area or bedrooms exceeded the critical threshold of 10, the analyst should execute one of the following analytical remedies:
-		\begin{enumerate}
-			\item \textbf{Functional reduction or synthetic index creation:} Merge the two highly collinear variables into a single structurally meaningful metric (for instance, defining \emph{average room size}, $Z = X_1 / X_2$, or separating social area vs. private area).
-			\item \textbf{Systematic removal of redundant variables:} Drop the variable exhibiting the less significant partial correlation or Student's $t$-statistic from the collinear pair, retaining the one providing greater economic valuation intuition.
-			\item \textbf{Principal Component Regression (PCR):} Perform an orthogonal transformation of design matrix $\mathbf{X}$ into uncorrelated principal components and regress response $Y$ on the leading components capturing the highest spectral variance.
-			\item \textbf{Ridge Regression ($L_2$ Regularization):} Introduce a small biasing regularization parameter $\lambda > 0$ onto the diagonal of the normal cross-product matrix ($\hat{\boldsymbol{\beta}}_{\text{Ridge}} = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{Y}$) to stabilize matrix inversion and dramatically suppress estimator variance in exchange for assuming a minimal controlled bias.
-		\end{enumerate}
-	\end{enumerate}
+% Evaluate
+\begin{solproblema}[prob:ee59291]
+\begin{enumerate}
+\item $\hat\beta_0=22.0$: estimated salary of the Bachelor's reference group at $X_1=0$. $\hat\beta_2=12.0$: at equal experience, a Bachelor's graduate earns \$12,000 more than the reference group. $\hat\beta_3=25.0$: at equal experience, a Master's graduate earns \$25,000 more than the reference group.
+\item Bachelor's: $\hat Y=22.0+2.5X_1$. Licentiate degree: $\hat Y=34.0+2.5X_1$. Master's: $\hat Y=47.0+2.5X_1$. For $X_1=8$ and a Master's degree, $\hat Y=67.0$ thousand dollars.
+\item Including all three indicators ($D_0,D_1,D_2$) with an intercept gives $D_0+D_1+D_2=\mathbf1_n$ in every row, making the columns of $\mathbf X$ linearly dependent and $\det(\mathbf X^T\mathbf X)=0$. The normal matrix is singular, so $(\mathbf X^T\mathbf X)^{-1}\mathbf X^T\mathbf Y$ cannot be computed; one category must be omitted as the baseline.
+\end{enumerate}
 \end{solproblema}
 
-\begin{solproblema}
-	\begin{enumerate}
-		\item \textbf{Quantitative interpretation of coefficients with dummy or indicator variables:}
-		In a model featuring qualitative categorical variables with $g = 3$ levels (High School, Bachelor's, Master's), exactly $g - 1 = 2$ binary dummy variables ($D_1$ and $D_2$) are required. The category receiving no dummy variable (High School) operates as the \textbf{reference baseline group} ($D_1=0, D_2=0$):
-		\begin{itemize}
-			\item $\hat{\beta}_0 = 22.0$: This represents estimated average starting compensation in the firm ($\$22,000$ dollars annually) for a worker in the \textbf{baseline group (High School / Secondary Education)} upon hiring ($X_1 = 0$ years of experience).
-			\item $\hat{\beta}_2 = 12.0$: Holding years of professional experience ($X_1$) constant, a professional holding a \textbf{Bachelor's Degree ($D_1=1$)} earns an annual salary exceeding by $\$12,000$ dollars on average the compensation of a peer whose highest attainment is High School.
-			\item $\hat{\beta}_3 = 25.0$: Controlling for identical experience, holding a \textbf{Master's or Graduate Degree ($D_2=1$)} elevates annual salary by $\$25,000$ dollars above a High School graduate (and $\$13,000$ dollars above a Bachelor's degree holder).
-		\end{itemize}
-		
-		\item Breakdown of the three explicit salary vs. experience ($X_1$) regression lines by educational subgroup:
-		\begin{itemize}
-			\item \textbf{For the High School group ($D_1 = 0, D_2 = 0$):}
-			\begin{align}
-				\hat{Y}_{\text{High School}} = 22.0 + 2.5X_1 + 12.0(0) + 25.0(0) \implies \hat{Y}_{\text{High School}} = 22.0 + 2.5X_1.
-			\end{align}
-			\item \textbf{For the Bachelor's Degree group ($D_1 = 1, D_2 = 0$):}
-			\begin{align}
-				\hat{Y}_{\text{Bachelor's}} = 22.0 + 2.5X_1 + 12.0(1) + 25.0(0) \implies \hat{Y}_{\text{Bachelor's}} = 34.0 + 2.5X_1.
-			\end{align}
-			\item \textbf{For the Master's Degree group ($D_1 = 0, D_2 = 1$):}
-			\begin{align}
-				\hat{Y}_{\text{Master's}} = 22.0 + 2.5X_1 + 12.0(0) + 25.0(1) \implies \hat{Y}_{\text{Master's}} = 47.0 + 2.5X_1.
-			\end{align}
-		\end{itemize}
-		We obtain three parallel lines with identical slopes ($2.5$ thousand dollars per year of experience) whose intercepts are shifted progressively upward by the economic return to higher educational levels.
-		
-		\item Salary prediction for a manager with $X_1 = 8$ years of experience and a Master's degree ($D_1=0, D_2=1$):
-		\begin{align}
-			\hat{Y} = 47.0 + 2.5(8.0) = 47.0 + 20.0 = 67.0\text{ thousand dollars}.
-		\end{align}
-		An annual compensation of $\$67,000$ dollars is projected.
-		
-		\item \textbf{The Dummy Variable Trap in linear matrix algebra:}
-		If a categorical variable possesses $g$ mutually exclusive and exhaustive categories in the sample, the elementary arithmetic sum of the $g$ binary indicators across any row $i$ of the design equals unity with absolute constancy:
-		\begin{align}
-			D_{0,i} + D_{1,i} + \dots + D_{g-1, i} = 1 \quad \forall i=1,\dots,n.
-		\end{align}
-		If an inexperienced analyst included all three dummy variables ($D_0, D_1, D_2$) in design matrix $\mathbf{X}$ alongside the initial column of ones for the base intercept ($\mathbf{X}_0 = \mathbf{1}_n$), the linear vector sum of the categorical columns would exactly and perfectly equal the intercept vector:
-		\begin{align}
-			\mathbf{D}_0 + \mathbf{D}_1 + \mathbf{D}_2 = \mathbf{1}_n = \mathbf{X}_0.
-		\end{align}
-		This renders the columns of $\mathbf{X}$ \textbf{lineal dependent}, causing an immediate collapse in design matrix rank ($\text{rank}(\mathbf{X}) < p+1$). Consequently, the determinant of the normal cross-product matrix becomes identically zero:
-		\begin{align}
-			\det(\mathbf{X}^T \mathbf{X}) = 0.
-		\end{align}
-		Matrix $\mathbf{X}^T \mathbf{X}$ becomes \textbf{singular and non-invertible}, making it mathematically impossible to compute the Ordinary Least Squares estimator vector $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}$. To prevent this algebraic breakdown, it is a foundational rule of regression to always omit one binary category, establishing it as the basal reference anchor absorbed into the intercept.
-	\end{enumerate}
-\end{solproblema}
-
-\subsubsection*{3. Analytical Level (Advanced / Synthesis)}
-
-\begin{solproblema}
-	\begin{enumerate}
-		\item \textbf{Computation of the matrix OLS estimation vector ($\hat{\boldsymbol{\beta}}$):}
-		By the algebraic matrix principle of least squares, the solution is obtained by pre-multiplying the projection cross-product response vector $\mathbf{X}^T \mathbf{Y}$ by the normal inverse matrix $(\mathbf{X}^T \mathbf{X})^{-1}$:
-		\begin{align}
-			\hat{\boldsymbol{\beta}} &= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} \\
-			&= \frac{1}{50} \begin{pmatrix} 110 & -10 & -20 \\ -10 & 5 & 0 \\ -20 & 0 & 5 \end{pmatrix} \begin{pmatrix} 50 \\ 120 \\ 230 \end{pmatrix}.
-		\end{align}
-		Performing row-by-column multiplication across all three parameter vector components:
-		\begin{itemize}
-			\item For the intercept ($\hat{\beta}_0$):
-			\begin{align}
-				\hat{\beta}_0 = \frac{1}{50} [ 110(50) + (-10)(120) + (-20)(230) ] = \frac{1}{50} [ 5500 - 1200 - 4600 ] = \frac{-300}{50} = -6.00.
-			\end{align}
-			\item For the liquidity index ($\hat{\beta}_1$):
-			\begin{align}
-				\hat{\beta}_1 = \frac{1}{50} [ -10(50) + 5(120) + 0(230) ] = \frac{1}{50} [ -500 + 600 + 0 ] = \frac{100}{50} = 2.00.
-			\end{align}
-			\item For financial leverage ($\hat{\beta}_2$):
-			\begin{align}
-				\hat{\beta}_2 = \frac{1}{50} [ -20(50) + 0(120) + 5(230) ] = \frac{1}{50} [ -1000 + 0 + 1150 ] = \frac{150}{50} = 3.00.
-			\end{align}
-		\end{itemize}
-		The least squares coefficient vector is $\hat{\boldsymbol{\beta}} = \begin{pmatrix} -6.0, \; 2.0, \; 3.0 \end{pmatrix}^T$.
-		
-		\item The scalar econometric predictive equation of the fitted model is:
-		\begin{align}
-			\hat{Y} = -6.00 + 2.00X_1 + 3.00X_2.
-		\end{align}
-		
-		\item \textbf{Definition and algebraic proof of Hat Matrix ($\mathbf{H}$) properties:}
-		Matrix $\mathbf{H} = \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T$, of dimension $n \times n$, is termed the \textbf{Projection Matrix or Hat Matrix} because it acts as the linear operator that ``places the hat'' (the estimate $\hat{\cdot}$) onto the raw observed response vector $\mathbf{Y}$, projecting it orthogonally onto the column subspace spanned by matrix $\mathbf{X}$:
-		\begin{align}
-			\hat{\mathbf{Y}} = \mathbf{X}\hat{\boldsymbol{\beta}} = \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{Y} = \mathbf{H}\mathbf{Y}.
-		\end{align}
-		
-		Proof of its two foundational structural properties:
-		\begin{itemize}
-			\item \textbf{Symmetry ($\mathbf{H}^T = \mathbf{H}$):} Because the transpose of a matrix product reverses the factor order, and because normal cross-product matrix $\mathbf{X}^T \mathbf{X}$ (and consequently its inverse $(\mathbf{X}^T \mathbf{X})^{-1}$) is symmetric by construction:
-			\begin{align}
-				\mathbf{H}^T &= \left[ \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \right]^T = \left(\mathbf{X}^T\right)^T \left[ (\mathbf{X}^T \mathbf{X})^{-1} \right]^T \mathbf{X}^T \\
-				&= \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T = \mathbf{H}. \quad (\text{Q.E.D.})
-			\end{align}
-			\item \textbf{Idempotency ($\mathbf{H}^2 = \mathbf{H}$):} Squaring the projective operator and grouping intermediate matrices:
-			\begin{align}
-				\mathbf{H}^2 = \mathbf{H} \cdot \mathbf{H} &= \left[ \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \right] \left[ \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \right] \\
-				&= \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \left[ \mathbf{X}^T \mathbf{X} \right] (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T.
-			\end{align}
-			The product of the cross-product matrix and its own inverse collapses into the $(p+1) \times (p+1)$ identity matrix ($\mathbf{X}^T \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} = \mathbf{I}_{p+1}$):
-			\begin{align}
-				\mathbf{H}^2 = \mathbf{X} \cdot \mathbf{I}_{p+1} \cdot (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T = \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T = \mathbf{H}. \quad (\text{Q.E.D.})
-			\end{align}
-		\end{itemize}
-		Idempotency ensures physically that projecting data twice consecutively onto the regression plane leaves predictions unchanged ($\mathbf{H}\hat{\mathbf{Y}} = \hat{\mathbf{Y}}$), because fitted values already reside completely within the explained column space of the model.
-	\end{enumerate}
-\end{solproblema}
-
-\begin{solproblema}
-	\begin{enumerate}
-		\item For an extended sample across $n = 25$ firms, $p = 2$ predictors, and an Error Sum of Squares of $\text{SSD} = 44.0$, error denominator degrees of freedom are $\nu_E = n - p - 1 = 25 - 2 - 1 = 22$.
-		The unbiased sample residual variance or Mean Squared Error ($\text{MSE}$) is:
-		\begin{align}
-			\hat{\sigma}^2 = \text{MSE} = \frac{\text{SSD}}{n - p - 1} = \frac{44.0}{22} = 2.00\text{ (\%}^2\text{)}.
-		\end{align}
-		
-		\item \textbf{Computation of the Estimated Variance-Covariance Matrix ($\widehat{\text{Cov}}(\hat{\boldsymbol{\beta}})$):}
-		We pre-multiply the symmetric normal inverse by the scalar estimated residual variance $\hat{\sigma}^2 = 2.00$:
-		\begin{align}
-			\widehat{\text{Cov}}(\hat{\boldsymbol{\beta}}) &= \hat{\sigma}^2 (\mathbf{X}^T \mathbf{X})^{-1} = 2.00 \times \begin{pmatrix} 2.2 & -0.2 & -0.4 \\ -0.2 & 0.1 & 0.0 \\ -0.4 & 0.0 & 0.1 \end{pmatrix} \\
-			&= \begin{pmatrix} 4.40 & -0.40 & -0.80 \\ -0.40 & 0.20 & 0.00 \\ -0.80 & 0.00 & 0.20 \end{pmatrix}.
-		\end{align}
-		Individual parameter variances are the diagonal elements of this tensor ($V(\hat{\beta}_j) = \widehat{\text{Cov}}_{jj}$). Corresponding standard errors are extracted by taking square roots:
-		\begin{align}
-			SE(\hat{\beta}_0) &= \sqrt{4.40} \approx 2.0976, \\
-			SE(\hat{\beta}_1) &= \sqrt{0.20} \approx 0.4472, \\
-			SE(\hat{\beta}_2) &= \sqrt{0.20} \approx 0.4472.
-		\end{align}
-		
-		\item Construction of a $95\%$ confidence interval for true population liquidity parameter $\beta_1$ ($\hat{\beta}_1 = 2.60$):
-		For $\nu_E = 22$, Student's two-tailed critical quantile at $95\%$ confidence is $t_{0.025, \, 22} = 2.074$.
-		\begin{align}
-			IC_{95\%}(\beta_1) &= \hat{\beta}_1 \pm t_{\alpha/2, \, \nu_E} \cdot SE(\hat{\beta}_1) = 2.60 \pm (2.074)(0.4472) \\
-			&= 2.60 \pm 0.9275 = \left[ 1.6725, \; 3.5275 \right].
-		\end{align}
-		With $95\%$ econometric reliability, for every point increase in a firm's liquidity index, return on equity increases by between $1.67\%$ and $3.53\%$.
-		
-		\item \textbf{Overall $F$-Test for Regression Significance and multivariable ANOVA Table:}
-		We scrutinize the collective explanatory power of the entire predictive system:
-		\begin{align}
-			H_0: \beta_1 &= \beta_2 = 0 \quad (\text{The regression plane is completely flat; no predictor explains returns}). \\
-			H_a: \text{At least one } \beta_j &\neq 0 \quad (\text{The model is globally significant and the fit is informative}).
-		\end{align}
-		With $\text{SST} = 264.0$ and $\text{SSD} = 44.0$, the Regression Sum of Squares amounts to:
-		\begin{align}
-			\text{SSR} = \text{SST} - \text{SSD} = 264.0 - 44.0 = 220.0\text{ (\%}^2\text{)}.
-		\end{align}
-		The overall Coefficient of Determination of the study is $R^2 = \dfrac{220.0}{264.0} \approx 0.8333$ ($83.33\%$).
-		Model (regression) degrees of freedom are $\nu_{\text{Reg}} = p = 2$, making the Mean Square Regression:
-		\begin{align}
-			\text{MSR} = \frac{\text{SSR}}{p} = \frac{220.0}{2} = 110.00\text{ (\%}^2\text{)}.
-		\end{align}
-		We compute the overall $F$-statistic as the ratio of Mean Square Regression to Mean Squared Error ($\text{MSE} = 2.00$):
-		\begin{align}
-			F = \frac{\text{MSR}}{\text{MSE}} = \frac{110.00}{2.00} = 55.000.
-		\end{align}
-		We synthesize this complete partitioning in Table \ref{tab:anova_reg_mult_sol}.
-		\begin{table}[h!]
-			\centering
-			\begin{tabular}{lcccc}
-				\hline
-				\textbf{Source of Variation} & \textbf{SS} & \textbf{d.f. ($\nu$)} & \textbf{MS} & \textbf{$F$-Statistic} \\ \hline
-				Multiple Regression ($X_1, X_2$) & 220.0 & 2 & 110.00 & \textbf{55.000} \\
-				Residual Error ($\boldsymbol{\varepsilon}$) & 44.0 & 22 & 2.00 & \\ \hline
-				\textbf{Total} & 264.0 & 24 & & \\ \hline
-			\end{tabular}
-			\caption{Multiple linear regression ANOVA table for return on equity.}
-			\label{tab:anova_reg_mult_sol}
-		\end{table}
-		
-		At nominal level $\alpha = 0.05$ with $\nu_1 = 2$ and $\nu_2 = 22$, Fisher's tabulated critical quantile is $F_{0.05, \, 2, \, 22} = 3.443$.
-		Because our experimental test statistic overwhelmingly surpasses the critical boundary ($F = 55.00 \gg 3.443$, with a minuscule $p$-value $< 0.00001$), \textbf{we categorically reject the joint null hypothesis $H_0$}. We prove with matrix rigor and variance analysis that our multiple linear regression model possesses outstanding and highly reliable global explanatory significance.
-	\end{enumerate}
-\end{solproblema}
-
-\subsubsection*{4. Challenging Level (Expert / Deep Deduction)}
-
-\begin{solproblema}
-	\begin{enumerate}
-		\item \textbf{Analytical derivation of matrix OLS:}
-		Let the error sum of squares objective function be expressed via the Euclidean vector inner product:
-		\begin{align}
-			S(\boldsymbol{\beta}) &= (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta})^T (\mathbf{Y} - \mathbf{X}\boldsymbol{\beta}) \\
-			&= (\mathbf{Y}^T - \boldsymbol{\beta}^T \mathbf{X}^T)(\mathbf{Y} - \mathbf{X}\boldsymbol{\beta}) = \mathbf{Y}^T \mathbf{Y} - \mathbf{Y}^T \mathbf{X}\boldsymbol{\beta} - \boldsymbol{\beta}^T \mathbf{X}^T \mathbf{Y} + \boldsymbol{\beta}^T \mathbf{X}^T \mathbf{X}\boldsymbol{\beta}.
-		\end{align}
-		Because the intermediate term $\mathbf{Y}^T \mathbf{X}\boldsymbol{\beta}$ is a $1 \times 1$ scalar, it equals its own matrix transpose ($\mathbf{Y}^T \mathbf{X}\boldsymbol{\beta} = (\mathbf{Y}^T \mathbf{X}\boldsymbol{\beta})^T = \boldsymbol{\beta}^T \mathbf{X}^T \mathbf{Y}$). We can simplify the objective function to:
-		\begin{align}
-			S(\boldsymbol{\beta}) = \mathbf{Y}^T \mathbf{Y} - 2\boldsymbol{\beta}^T \mathbf{X}^T \mathbf{Y} + \boldsymbol{\beta}^T \mathbf{X}^T \mathbf{X}\boldsymbol{\beta}.
-		\end{align}
-		To locate the vector minimum, we take the gradient with respect to parameter vector $\boldsymbol{\beta}$, utilizing vector-matrix differentiation rules $\dfrac{\partial (\boldsymbol{\beta}^T \mathbf{a})}{\partial \boldsymbol{\beta}} = \mathbf{a}$ and $\dfrac{\partial (\boldsymbol{\beta}^T \mathbf{A} \boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = 2\mathbf{A}\boldsymbol{\beta}$ for symmetric matrices:
-		\begin{align}
-			\frac{\partial S(\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = -2\mathbf{X}^T \mathbf{Y} + 2\mathbf{X}^T \mathbf{X}\boldsymbol{\beta} = \mathbf{0}.
-		\end{align}
-		Dividing both sides of the vector equation by the constant $+2$, we obtain the general system of \textbf{Gaussian Matrix Normal Equations}:
-		\begin{align}
-			\mathbf{X}^T \mathbf{X} \hat{\boldsymbol{\beta}} = \mathbf{X}^T \mathbf{Y}.
-		\end{align}
-		By hypothesis, design matrix $\mathbf{X}$ has full column rank ($\text{rank}(\mathbf{X}) = p+1$), guaranteeing by real linear algebra that the $(p+1) \times (p+1)$ square cross-product matrix $\mathbf{X}^T \mathbf{X}$ is \textbf{symmetric positive-definite and non-singular} ($\det(\mathbf{X}^T \mathbf{X}) > 0$). Therefore, a unique inverse $(\mathbf{X}^T \mathbf{X})^{-1}$ exists. Pre-multiplying the normal system by this inverse uniquely isolates the estimator vector solution:
-		\begin{align}
-			(\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{X} \hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y} \implies \hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{Y}.
-		\end{align}
-		
-		\item \textbf{Matrix orthogonality between empirical residuals and predictors ($\mathbf{X}^T \hat{\boldsymbol{\varepsilon}} = \mathbf{0}$):}
-		The OLS residual vector is $\hat{\boldsymbol{\varepsilon}} = \mathbf{Y} - \hat{\mathbf{Y}} = \mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}$. Substituting $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{Y}$ and incorporating hat matrix $\mathbf{H}$:
-		\begin{align}
-			\hat{\boldsymbol{\varepsilon}} = \mathbf{Y} - \mathbf{H}\mathbf{Y} = (\mathbf{I}_n - \mathbf{H})\mathbf{Y}.
-		\end{align}
-		To prove geometric orthogonality to the column space of $\mathbf{X}$, we pre-multiply the residual vector by the transpose of design matrix $\mathbf{X}$:
-		\begin{align}
-			\mathbf{X}^T \hat{\boldsymbol{\varepsilon}} = \mathbf{X}^T (\mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}}) = \mathbf{X}^T \mathbf{Y} - \mathbf{X}^T \mathbf{X} \hat{\boldsymbol{\beta}}.
-		\end{align}
-		Invoking the exact identity of the Normal Equations ($\mathbf{X}^T \mathbf{X}\hat{\boldsymbol{\beta}} = \mathbf{X}^T \mathbf{Y}$), we prove conclusively:
-		\begin{align}
-			\mathbf{X}^T \hat{\boldsymbol{\varepsilon}} = \mathbf{X}^T \mathbf{Y} - \mathbf{X}^T \mathbf{Y} = \mathbf{0}. \quad (\text{Orthogonality to the subspace spanned by } \mathbf{X}).
-		\end{align}
-		Because prediction vector $\hat{\mathbf{Y}} = \mathbf{X}\hat{\boldsymbol{\beta}}$ belongs to the column space of $\mathbf{X}$, the inner product between predictions and residuals is identically zero:
-		\begin{align}
-			\hat{\mathbf{Y}}^T \hat{\boldsymbol{\varepsilon}} = (\mathbf{X}\hat{\boldsymbol{\beta}})^T \hat{\boldsymbol{\varepsilon}} = \hat{\boldsymbol{\beta}}^T (\mathbf{X}^T \hat{\boldsymbol{\varepsilon}}) = \hat{\boldsymbol{\beta}}^T [\mathbf{0}] = 0. \quad (\text{Complete empirical orthogonality}).
-		\end{align}
-		
-		\item \textbf{Proof of unbiasedness and derivation of the matrix variance tensor:}
-		We express $\hat{\boldsymbol{\beta}}$ by substituting true population response $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$:
-		\begin{align}
-			\hat{\boldsymbol{\beta}} &= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T (\mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}) \\
-			&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{X} \boldsymbol{\beta} + (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon} = \boldsymbol{\beta} + (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon}.
-		\end{align}
-		Taking the unconditional matrix mathematical expectation under the non-randomness of $\mathbf{X}$:
-		\begin{align}
-			E[\hat{\boldsymbol{\beta}}] = E\left[ \boldsymbol{\beta} + (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon} \right] = \boldsymbol{\beta} + (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T E[\boldsymbol{\varepsilon}].
-		\end{align}
-		By the central Gauss-Markov probabilistic assumption ($E[\boldsymbol{\varepsilon}] = \mathbf{0}$):
-		\begin{align}
-			E[\hat{\boldsymbol{\beta}}] = \boldsymbol{\beta} + \mathbf{0} = \boldsymbol{\beta}. \quad (\text{Unbiased multivariable estimator}).
-		\end{align}
-		To derive the exact covariance matrix $\text{Var}(\hat{\boldsymbol{\beta}}) = E[(\hat{\boldsymbol{\beta}} - \boldsymbol{\beta})(\hat{\boldsymbol{\beta}} - \boldsymbol{\beta})^T]$, we note that deviation from the mean is $\hat{\boldsymbol{\beta}} - \boldsymbol{\beta} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon}$:
-		\begin{align}
-			\text{Var}(\hat{\boldsymbol{\beta}}) &= E\left[ \left( (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon} \right) \left( (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon} \right)^T \right] \\
-			&= E\left[ (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \boldsymbol{\varepsilon} \boldsymbol{\varepsilon}^T \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \right].
-		\end{align}
-		Extracting deterministic matrices outside the expectation operator and recognizing that under uncorrelated homoscedasticity $E[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^T] = \sigma^2 \mathbf{I}_n$:
-		\begin{align}
-			\text{Var}(\hat{\boldsymbol{\beta}}) &= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T E[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^T] \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \\
-			&= (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T (\sigma^2 \mathbf{I}_n) \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} = \sigma^2 (\mathbf{X}^T \mathbf{X})^{-1} \left[ \mathbf{X}^T \mathbf{X} \right] (\mathbf{X}^T \mathbf{X})^{-1}.
-		\end{align}
-		The product in the middle of the chain cancels the penultimate term, collapsing the tensor cleanly and decisively to:
-		\begin{align}
-			\text{Var}(\hat{\boldsymbol{\beta}}) = \sigma^2 (\mathbf{X}^T \mathbf{X})^{-1}. \quad (\text{Q.E.D.})
-		\end{align}
-	\end{enumerate}
-\end{solproblema}
-
-\begin{solproblema}
-	\begin{enumerate}
-		\item \textbf{Proof of the unbiasedness condition on perturbing matrix $\mathbf{D}$:}
-		Let alternative linear estimator be $\tilde{\boldsymbol{\beta}} = \mathbf{C}\mathbf{Y}$ where $\mathbf{C} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D}$.
-		Substituting population model $\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$:
-		\begin{align}
-			\tilde{\boldsymbol{\beta}} &= \left[ (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D} \right] (\mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}) \\
-			&= (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{X}\boldsymbol{\beta} + (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \boldsymbol{\varepsilon} + \mathbf{D}\mathbf{X}\boldsymbol{\beta} + \mathbf{D}\boldsymbol{\varepsilon} \\
-			&= \boldsymbol{\beta} + \mathbf{D}\mathbf{X}\boldsymbol{\beta} + \left[ (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D} \right] \boldsymbol{\varepsilon}.
-		\end{align}
-		Taking expectation and using $E[\boldsymbol{\varepsilon}] = \mathbf{0}$:
-		\begin{align}
-			E[\tilde{\boldsymbol{\beta}}] = \boldsymbol{\beta} + \mathbf{D}\mathbf{X}\boldsymbol{\beta} + \mathbf{0} = \left( \mathbf{I}_{p+1} + \mathbf{D}\mathbf{X} \right) \boldsymbol{\beta}.
-		\end{align}
-		For the estimator to be universally and strictly unbiased ($E[\tilde{\boldsymbol{\beta}}] = \boldsymbol{\beta}$ for any conceivable true parameter vector $\boldsymbol{\beta} \in \mathbb{R}^{p+1}$), the term multiplying $\boldsymbol{\beta}$ must equal the identity matrix exactly, imposing the mandatory design orthogonality condition:
-		\begin{align}
-			\mathbf{I}_{p+1} + \mathbf{D}\mathbf{X} = \mathbf{I}_{p+1} \iff \mathbf{D}\mathbf{X} = \mathbf{0}.
-		\end{align}
-		
-		\item \textbf{Algebraic proof of optimality and minimum variance (Gauss-Markov Theorem / BLUE):}
-		With condition $\mathbf{D}\mathbf{X} = \mathbf{0}$ guaranteed, the deviation of $\tilde{\boldsymbol{\beta}}$ from the population mean reduces to:
-		\begin{align}
-			\tilde{\boldsymbol{\beta}} - \boldsymbol{\beta} = \left[ (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D} \right] \boldsymbol{\varepsilon} = \mathbf{C}\boldsymbol{\varepsilon}.
-		\end{align}
-		The theoretical variance matrix of this general estimator is:
-		\begin{align}
-			\text{Var}(\tilde{\boldsymbol{\beta}}) &= E\left[ (\tilde{\boldsymbol{\beta}} - \boldsymbol{\beta})(\tilde{\boldsymbol{\beta}} - \boldsymbol{\beta})^T \right] = E\left[ \mathbf{C}\boldsymbol{\varepsilon} \boldsymbol{\varepsilon}^T \mathbf{C}^T \right] = \mathbf{C} E[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}^T] \mathbf{C}^T = \sigma^2 \mathbf{C}\mathbf{C}^T.
-		\end{align}
-		Substituting $\mathbf{C} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D}$ into the quadratic product:
-		\begin{align}
-			\text{Var}(\tilde{\boldsymbol{\beta}}) &= \sigma^2 \left[ (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T + \mathbf{D} \right] \left[ \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} + \mathbf{D}^T \right] \\
-			&= \sigma^2 \left[ (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} + (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \mathbf{D}^T + \mathbf{D}\mathbf{X}(\mathbf{X}^T \mathbf{X})^{-1} + \mathbf{D}\mathbf{D}^T \right].
-		\end{align}
-		Let us examine the cross-products: the third term contains product $\mathbf{D}\mathbf{X}$, which by part 1 we proved is the zero matrix ($\mathbf{D}\mathbf{X} = \mathbf{0}$). Its transpose in the second term vanishes identically ($\mathbf{X}^T \mathbf{D}^T = (\mathbf{D}\mathbf{X})^T = \mathbf{0}^T = \mathbf{0}$).
-		With cross-interferences canceling completely, the variance matrix of the competing estimator separates into pure additive form:
-		\begin{align}
-			\text{Var}(\tilde{\boldsymbol{\beta}}) = \sigma^2 (\mathbf{X}^T \mathbf{X})^{-1} + \sigma^2 \mathbf{D}\mathbf{D}^T = \text{Var}(\hat{\boldsymbol{\beta}}) + \sigma^2 \mathbf{D}\mathbf{D}^T.
-		\end{align}
-		For any real matrix $\mathbf{D}$, outer product $\mathbf{D}\mathbf{D}^T$ is always and under all circumstances a \textbf{positive semi-definite matrix ($\mathbf{D}\mathbf{D}^T \succeq \mathbf{0}$)}—meaning that for any non-zero vector $\mathbf{v} \in \mathbb{R}^{p+1}$, we have $\mathbf{v}^T (\mathbf{D}\mathbf{D}^T)\mathbf{v} = \|\mathbf{D}^T \mathbf{v}\|^2 \geq 0$.
-		In conclusion, the variance difference between any competing linear unbiased estimator and the OLS estimator is always positive semi-definite:
-		\begin{align}
-			\text{Var}(\tilde{\boldsymbol{\beta}}) - \text{Var}(\hat{\boldsymbol{\beta}}) = \sigma^2 \mathbf{D}\mathbf{D}^T \succeq \mathbf{0} \implies \text{Var}(\tilde{\beta}_j) \geq \text{Var}(\hat{\beta}_j) \quad \forall j.
-		\end{align}
-		This proves with elegance and absolute mathematical rigor the \textbf{Gauss-Markov Theorem}: the Ordinary Least Squares estimator ($\hat{\boldsymbol{\beta}}$) is the Best Linear Unbiased Estimator (\textbf{BLUE}).
-		
-		\item \textbf{Proof of analytical $R_{\text{adj}}^2$ penalization when adding superfluous predictors:}
-		Let $R_p^2$ be the nominal coefficient with $p$ regressors and $R_{p+1}^2$ the coefficient with $p+1$ regressors upon incorporating variable $X_{p+1}$.
-		By sum of squares increment theory ($\text{SSR}_{p+1} = \text{SSR}_p + \text{SSR}(X_{p+1} | X_1,\dots,X_p)$), since every orthogonal projection sum of squares is non-negative ($\text{SSR}_{\text{extra}} \geq 0$), nominal explained variance obeys a non-decreasing monotonicity law:
-		\begin{align}
-			R_{p+1}^2 \geq R_p^2.
-		\end{align}
-		Now let us relate adjusted coefficient $R_{\text{adj}, p}^2 = 1 - \dfrac{\text{MSE}_p}{\text{MST}}$ when adding a regressor: for the new model to outperform the previous one ($R_{\text{adj}, p+1}^2 > R_{\text{adj}, p}^2$), it is necessary and sufficient that the new Mean Squared Error be strictly smaller than the prior one ($\text{MSE}_{p+1} < \text{MSE}_p$).
-		The exact algebraic relationship linking the two sample residual variances after introducing variable $X_{p+1}$ with partial Student's $t$ statistic ($t_{p+1}$) follows from ANOVA partitioning:
-		\begin{align}
-			\text{SSD}_p = \text{SSD}_{p+1} + \frac{\text{SSD}_{p+1}}{n - p - 2} t_{p+1}^2 = \text{SSD}_{p+1} \left( 1 + \frac{t_{p+1}^2}{n - p - 2} \right).
-		\end{align}
-		Dividing both sides by their respective residual degrees of freedom ($\nu_p = n - p - 1$ and $\nu_{p+1} = n - p - 2$):
-		\begin{align}
-			(n - p - 1) \text{MSE}_p = (n - p - 2) \text{MSE}_{p+1} \left( 1 + \frac{t_{p+1}^2}{n - p - 2} \right).
-		\end{align}
-		Solving for the ratio of residual variances:
-		\begin{align}
-			\frac{\text{MSE}_p}{\text{MSE}_{p+1}} = \frac{n - p - 2 + t_{p+1}^2}{n - p - 1}.
-		\end{align}
-		For the new model to improve error variance ($\text{MSE}_{p+1} < \text{MSE}_p \iff \dfrac{\text{MSE}_p}{\text{MSE}_{p+1}} > 1$), we require that the numerator strictly exceed the denominator:
-		\begin{align}
-			n - p - 2 + t_{p+1}^2 > n - p - 1 \implies t_{p+1}^2 > 1 \iff |t_{p+1}| > 1.
-		\end{align}
-		\textbf{Fundamental Analytical Conclusion:} If we incorporate into a model a redundant or spurious predictor variable ($X_{p+1}$) whose empirical partial test statistic is smaller than unity in absolute value ($|t_{p+1}| < 1$, corresponding in large samples to a $p$-value greater than approximately $0.32$), the \textbf{Adjusted Coefficient of Determination ($R_{\text{adj}}^2$) will decrease inexorably} ($R_{\text{adj}, p+1}^2 < R_{\text{adj}, p}^2$). This built-in mathematical penalty acts as an objective, automated parsimony filter protecting regression specifications against overfitting and artificial variable bloat.
-	\end{enumerate}
+% Create
+\begin{solproblema}[prob:a6a21c3]
+$H_{0,1}:\beta_1=0$ versus $H_{a,1}:\beta_1\ne0$; $H_{0,2}:\beta_2=0$ versus $H_{a,2}:\beta_2\ne0$. The statistics are
+\begin{align}
+t_1=\frac{0.05}{0.02}=2.5,\qquad t_2=\frac{1.2}{0.15}=8.0.
+\end{align}
+Since $|t_1|=2.5>2.018$ and $|t_2|=8.0>2.018$, \textbf{reject both} null hypotheses: age and length of stay each contribute significantly to cost while controlling for the other. Holding length of stay fixed, each additional year of age increases cost by \$50; holding age fixed, each additional day increases cost by \$1,200. For a 65-year-old with a 5-day stay,
+\begin{align}
+\hat Y=2.0+0.05(65)+1.2(5)=11.25\text{ thousand dollars.}
+\end{align}
 \end{solproblema}

@@ -1,278 +1,126 @@
-\section{Solved Problems on Residual Diagnostics and Regression Assumptions}
+\section*{Problems}
 
-\subsection{Problem Statements}
+\subsection*{Problem Statements}
 
-\subsubsection*{1. Fundamental Level (Simple / Direct)}
-
+% Remember
 \begin{problema}
-	\label{prob:supreg_durbin_watson_basico}
-	A financial analyst fits a time-series regression model with $n = 10$ consecutive observations and obtains the following residuals in temporal order:
-	\begin{align}
-		e = \{2.1,\ 1.8,\ -0.5,\ -1.2,\ -2.0,\ -1.5,\ 0.8,\ 1.9,\ 2.2,\ 1.0\}.
-	\end{align}
-	Compute the Durbin-Watson statistic $DW = \dfrac{\sum_{i=2}^n (e_i - e_{i-1})^2}{\sum_{i=1}^n e_i^2}$ and determine whether the residuals exhibit positive autocorrelation, negative autocorrelation, or no autocorrelation.
+\label{prob:c7c2f12}
+A financial analyst fits a time-series regression with $n=10$ consecutive observations and obtains temporally ordered residuals
+\begin{align}
+e=\{2.1,\ 1.8,\ -0.5,\ -1.2,\ -2.0,\ -1.5,\ 0.8,\ 1.9,\ 2.2,\ 1.0\}.
+\end{align}
+Calculate Durbin--Watson $DW=\dfrac{\sum_{i=2}^n(e_i-e_{i-1})^2}{\sum_{i=1}^n e_i^2}$ and determine whether residuals show positive autocorrelation, negative autocorrelation, or no autocorrelation.
 \end{problema}
 
+% Understand
 \begin{problema}
-	\label{prob:supreg_shapiro_qq}
-	A multiple regression model with $n = 45$ observations produces residuals whose Q-Q plot shows a clear S-shaped curve (heavier tails than the normal distribution). The Shapiro-Wilk test on the residuals reports a statistic $W = 0.912$ with a $p$-value $= 0.003$.
-	\begin{enumerate}
-		\item At the significance level $\alpha = 0.05$, what is the formal conclusion regarding the normality assumption of the errors?
-		\item What practical consequence does this violation have on the validity of the model's confidence intervals and hypothesis tests, especially given that $n$ is relatively small?
-	\end{enumerate}
+\label{prob:90810fe}
+In a regression of sales ($Y$) on advertising expenditure ($X$), residuals are plotted against fitted values. For low fitted values ($\hat Y<50$), residuals range over $\pm2$; for intermediate values ($50\le\hat Y<150$), over $\pm8$; and for high values ($\hat Y\ge150$), over $\pm20$.
+\begin{enumerate}
+\item Identify the geometric pattern and the classical assumption it violates.
+\item Propose a corrective transformation and justify why it would be effective here.
+\end{enumerate}
 \end{problema}
 
+% Apply
 \begin{problema}
-	\label{prob:supreg_embudo_transformacion}
-	In a regression model of advertising spend ($X$) on sales ($Y$), residuals are plotted against fitted values and the following pattern emerges: for low fitted values ($\hat{Y} < 50$) the residuals oscillate within $\pm 2$; for intermediate fitted values ($50 \leq \hat{Y} < 150$) they oscillate within $\pm 8$; for high fitted values ($\hat{Y} \geq 150$) they oscillate within $\pm 20$.
-	\begin{enumerate}
-		\item Identify the geometric pattern described and the classical assumption it violates.
-		\item Propose a corrective transformation from the table of common transformations and justify why it would be effective in this scenario.
-	\end{enumerate}
+\label{prob:46ca545}
+A credit analyst builds a model with $p=3$ potentially correlated financial predictors. Regressing each predictor on the other two gives auxiliary coefficients of determination $R_1^2=0.85$, $R_2^2=0.55$, and $R_3^2=0.30$.
+\begin{enumerate}
+\item Calculate $\text{VIF}_j=1/(1-R_j^2)$ for each predictor.
+\item Using the conventional critical threshold $\text{VIF}>5$, determine which predictor(s) require intervention.
+\item Propose and justify a remedy (Ridge, Lasso, or variable removal) for the most problematic predictor.
+\end{enumerate}
 \end{problema}
 
-\subsubsection*{2. Operational Level (Intermediate / Developmental)}
-
+% Analyze
 \begin{problema}
-	\label{prob:supreg_breusch_pagan}
-	To formally test the homoscedasticity of a multiple regression model with $n = 60$ observations and $p = 3$ predictors, the Breusch-Pagan auxiliary model is fitted (regressing the squared residuals $\hat{\varepsilon}_i^2$ on the original predictors), yielding an auxiliary coefficient of determination $R_{\text{aux}}^2 = 0.15$.
-	\begin{enumerate}
-		\item Compute the Breusch-Pagan test statistic, $LM = n \cdot R_{\text{aux}}^2$, which under $H_0$ (homoscedasticity) follows a $\chi^2_p$ distribution.
-		\item At the level $\alpha = 0.05$ (critical quantile $\chi^2_{0.05, 3} = 7.815$), decide whether there is statistical evidence of heteroscedasticity.
-	\end{enumerate}
+\label{prob:269eee0}
+\textbf{Derivation of Cook's distance from its matrix definition:} starting from
+\begin{align}
+D_i=\frac{(\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)})^T(\mathbf X^T\mathbf X)(\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)})}{(p+1)\hat\sigma^2},
+\end{align}
+and using the Allen--PRESS theorem (which expresses $\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)}$ in terms of ordinary residual $e_i$, leverage $h_{ii}$, and row $\mathbf x_i$), derive the simplified computational formula
+\begin{align}
+D_i=\frac{r_i^2}{p+1}\cdot\frac{h_{ii}}{1-h_{ii}},
+\end{align}
+where $r_i$ is the internally studentized residual. Prove why observations with $h_{ii}\to1$ produce explosive Cook distances regardless of the ordinary residual magnitude.
 \end{problema}
 
+% Evaluate
 \begin{problema}
-	\label{prob:supreg_vif_credito}
-	A credit analyst builds a model with $p = 3$ potentially correlated financial predictors. Regressing each predictor against the other two yields the following auxiliary coefficients of determination: $R_1^2 = 0.85$, $R_2^2 = 0.55$, $R_3^2 = 0.30$.
-	\begin{enumerate}
-		\item Compute the Variance Inflation Factor $\text{VIF}_j = 1/(1-R_j^2)$ for each predictor.
-		\item Using the conventional critical threshold $\text{VIF} > 5$, determine which predictor(s) warrant intervention.
-		\item Propose which remedy from Section 09.02 (Ridge, Lasso, or variable elimination) applies to the most problematic predictor, and justify your choice.
-	\end{enumerate}
+\label{prob:dc2ca7b}
+In a model with $n=50$ observations and $p=4$ predictors (5 parameters including the intercept), three suspicious observations have leverage ($h_{ii}$) and internally studentized residual ($r_i$):
+\begin{align}
+\text{Obs. A: }h_{ii}=0.15,\ r_i=1.2;\qquad \text{Obs. B: }h_{ii}=0.45,\ r_i=0.8;\qquad \text{Obs. C: }h_{ii}=0.08,\ r_i=3.5.
+\end{align}
+\begin{enumerate}
+\item Calculate Cook's distance for each observation using $D_i=\dfrac{r_i^2}{p+1}\cdot\dfrac{h_{ii}}{1-h_{ii}}$.
+\item Using the conventional threshold $4/n$, determine which observations are influential.
+\item Evaluate the distinct mechanism by which B and C are influential (high leverage versus large residual), even though A is not despite moderate values of both quantities.
+\end{enumerate}
 \end{problema}
 
+% Create
 \begin{problema}
-	\label{prob:supreg_transformacion_conteo}
-	A model predicting the daily number of calls to a customer service center exhibits a growing funnel pattern in its scale-location plot: the dispersion of residuals grows proportionally to the mean of the fitted values ($\text{Var}(Y) \propto E(Y)$), a pattern characteristic of count data.
-	\begin{enumerate}
-		\item Propose the most appropriate transformation from the table of common transformations for this scenario.
-		\item Justify mathematically, using the delta method or a first-order expansion, why $\log(Y)$ approximately stabilizes the variance when $\text{Var}(Y) \propto E(Y)$.
-	\end{enumerate}
+\label{prob:f0b580a}
+Design an original heteroscedasticity-diagnostics problem (different from the advertising-sales case): an industrial-energy model uses plant size and $p=4$ other process variables, fitted to $n=80$ observations. An auxiliary Breusch--Pagan regression of squared residuals on the original predictors gives $R_{\text{aux}}^2=0.22$. Calculate $LM=nR_{\text{aux}}^2$, compare it with $\chi^2_{0.05,4}=9.488$, and decide whether there is evidence of heteroscedasticity at $\alpha=0.05$.
 \end{problema}
 
-\subsubsection*{3. Analytical Level (Advanced / Connective)}
+\subsection*{Detailed Solutions}
 
-\begin{problema}
-	\label{prob:supreg_cooks_distance_multiple}
-	In a model with $n = 50$ observations and $p = 4$ predictors (5 parameters including the intercept), three suspicious observations are identified with the following leverage ($h_{ii}$, the diagonal of the Hat Matrix from Section 09.02) and internally studentized residual ($r_i$):
-	\begin{align}
-		\text{Obs. A: } h_{ii}=0.15,\ r_i=1.2; \qquad \text{Obs. B: } h_{ii}=0.45,\ r_i=0.8; \qquad \text{Obs. C: } h_{ii}=0.08,\ r_i=3.5.
-	\end{align}
-	\begin{enumerate}
-		\item Compute Cook's Distance for each observation using the computational formula $D_i = \dfrac{r_i^2}{p+1}\cdot\dfrac{h_{ii}}{1-h_{ii}}$.
-		\item Using the conventional threshold $4/n$, determine which observations are influential.
-		\item Explain the distinct mechanism by which Observations B and C turn out to be influential (high leverage vs. large residual), even though Observation A is not despite having moderate values in both quantities.
-	\end{enumerate}
-\end{problema}
-
-\begin{problema}
-	\label{prob:supreg_vif_matriz_correlacion}
-	Prove that the Variance Inflation Factor of the $j$-th predictor can be written as the $j$-th diagonal element of the inverse correlation matrix of the standardized predictors, $\text{VIF}_j = (\mathbf{R}^{-1})_{jj}$, where $\mathbf{R}$ is the sample correlation matrix among the $p$ predictors. Explain the relationship between a high VIF and the proximity of $\mathbf{X}^T\mathbf{X}$ to singularity discussed in the Normal Equation of Section 09.02.
-\end{problema}
-
-\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
-
-\begin{problema}
-	\label{prob:supreg_dw_autocorrelacion_deduccion}
-	Prove that the Durbin-Watson statistic approximately satisfies the relationship
-	\begin{align}
-		DW \approx 2(1-\hat\rho),
-	\end{align}
-	where $\hat\rho = \dfrac{\sum_{i=2}^n e_i e_{i-1}}{\sum_{i=1}^n e_i^2}$ is the sample first-order autocorrelation coefficient of the residuals. From this identity, derive and justify the complete theoretical range $DW \in (0,4)$ and its interpretation in the three limiting cases $\hat\rho \to 1$, $\hat\rho = 0$, and $\hat\rho \to -1$.
-\end{problema}
-
-\begin{problema}
-	\label{prob:supreg_cooks_distance_deduccion}
-	\textbf{Derivation of Cook's Distance computational formula from its matrix definition:}
-	Starting from the general definition of Cook's Distance in terms of the change in the coefficient vector upon removing the $i$-th observation,
-	\begin{align}
-		D_i = \frac{(\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)})^T (\mathbf{X}^T\mathbf{X}) (\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)})}{(p+1)\hat\sigma^2},
-	\end{align}
-	and using the Allen-PRESS Theorem (which expresses $\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)}$ in terms of the ordinary residual $e_i$, the leverage $h_{ii}$, and the row $\mathbf{x}_i$ of the design matrix), derive the simplified computational formula
-	\begin{align}
-		D_i = \frac{r_i^2}{p+1}\cdot\frac{h_{ii}}{1-h_{ii}},
-	\end{align}
-	where $r_i$ is the internally studentized residual. Prove why observations with leverage $h_{ii}\to 1$ produce explosive Cook's Distances regardless of the magnitude of the ordinary residual $e_i$.
-\end{problema}
-
-
-\subsection{Detailed Solutions}
-
-\subsubsection*{1. Fundamental Level (Simple / Direct)}
-
-\begin{solproblema}
-	\textbf{Step 1: Numerator --- sum of squared successive differences.}
-	We compute the 9 differences $e_i - e_{i-1}$ and square them:
-	\begin{align}
-		(1.8-2.1)^2 + (-0.5-1.8)^2 + (-1.2-(-0.5))^2 + (-2.0-(-1.2))^2 + (-1.5-(-2.0))^2 \\
-		+ (0.8-(-1.5))^2 + (1.9-0.8)^2 + (2.2-1.9)^2 + (1.0-2.2)^2 = 14.79.
-	\end{align}
-
-	\textbf{Step 2: Denominator --- sum of squared residuals.}
-	\begin{align}
-		\sum_{i=1}^{10} e_i^2 = 2.1^2+1.8^2+(-0.5)^2+\cdots+1.0^2 = 25.68.
-	\end{align}
-
-	\textbf{Step 3: Durbin-Watson statistic.}
-	\begin{align}
-		DW = \frac{14.79}{25.68} \approx 0.576.
-	\end{align}
-
-	\textbf{Conclusion:} Since $DW \approx 0.576 \ll 2$, there is strong evidence of \textbf{positive autocorrelation} in the residuals: consecutive observations tend to share the same sign, violating the independence assumption. This is consistent with the smoothly oscillating nature of the observed residual sequence.
+% Remember
+\begin{solproblema}[prob:c7c2f12]
+The numerator is $\sum_{i=2}^{10}(e_i-e_{i-1})^2=14.79$. The denominator is $\sum_{i=1}^{10}e_i^2=25.68$. Therefore $DW=14.79/25.68\approx0.576$. Since $DW\ll2$, there is strong evidence of \textbf{positive autocorrelation}: consecutive residuals tend to have the same sign, violating independence.
 \end{solproblema}
 
-\begin{solproblema}
-	\textbf{Part 1: Formal decision.}
-	Since the $p$-value $= 0.003 < \alpha = 0.05$, \textbf{we reject $H_0$}: there is strong statistical evidence that the residuals do not follow a normal distribution. This is consistent with the S-shaped pattern observed in the Q-Q plot, indicating heavier tails than the theoretical normal.
-
-	\textbf{Part 2: Practical consequence.}
-	With $n=45$ (a moderate sample, not extremely large), the Central Limit Theorem offers only partial protection. Confidence intervals and $t$/$F$ tests on the coefficients may have actual coverage and significance levels that differ from the nominal ones, especially if the heavy tails reflect extreme outliers that might also be influential observations. It is recommended to transform $Y$ (e.g., $\log(Y)$ if the variable is positive and skewed) or resort to robust/bootstrap methods for inference.
+% Understand
+\begin{solproblema}[prob:90810fe]
+\begin{enumerate}
+\item Residual amplitude grows systematically with the fitted value ($\pm2\to\pm8\to\pm20$), producing the classic \textbf{funnel shape} in a residual-versus-fitted plot. This violates \textbf{homoscedasticity}: error variance is not constant but increases with response level.
+\item Heteroscedasticity with variance approximately proportional to the mean (or its square) is typically corrected by applying $\log(Y)$ to the response. The transformation compresses large absolute differences more than small ones and stabilizes relative residual spread.
+\end{enumerate}
 \end{solproblema}
 
-\begin{solproblema}
-	\textbf{Part 1: Pattern identification.}
-	The spread of the residuals grows systematically as the fitted value increases ($\pm2 \to \pm8 \to \pm20$), generating the classic \textbf{funnel shape} in the residuals-vs-fitted plot. This violates the \textbf{homoscedasticity} assumption: the error variance is not constant, but instead grows with the level of the response variable.
-
-	\textbf{Part 2: Corrective transformation.}
-	From the table of common transformations, heteroscedasticity with variance approximately proportional to the mean (or to its square) is typically corrected by applying $\log(Y)$ to the response variable. This transformation compresses absolute differences in the original scale proportionally more in the region of large values than in the region of small values, stabilizing the relative spread of residuals on the transformed scale.
+% Apply
+\begin{solproblema}[prob:46ca545]
+\begin{enumerate}
+\item $\text{VIF}_1=1/(1-0.85)\approx6.667$, $\text{VIF}_2=1/(1-0.55)\approx2.222$, and $\text{VIF}_3=1/(1-0.30)\approx1.429$.
+\item Only predictor 1 exceeds the threshold ($\text{VIF}_1\approx6.667>5$), indicating severe multicollinearity; predictors 2 and 3 are tolerable.
+\item Since predictor 1 may have theoretical relevance, \textbf{Ridge regression} is most appropriate: it continuously penalizes the $L_2$ norm and stabilizes $(\mathbf X^T\mathbf X+\lambda\mathbf I)^{-1}$ without discarding variables.
+\end{enumerate}
 \end{solproblema}
 
-\subsubsection*{2. Operational Level (Intermediate / Developmental)}
-
-\begin{solproblema}
-	\textbf{Part 1: Breusch-Pagan statistic.}
-	\begin{align}
-		LM = n \cdot R_{\text{aux}}^2 = 60 \times 0.15 = 9.0.
-	\end{align}
-
-	\textbf{Part 2: Decision.}
-	Since $LM = 9.0 > \chi^2_{0.05,3} = 7.815$, \textbf{we reject $H_0$}: there is significant statistical evidence of \textbf{heteroscedasticity} in the model's errors at the 5\% level. The OLS estimators remain unbiased but are no longer efficient, and the standard errors reported by software may be incorrect; robust standard errors (Huber-White) or a transformation of the response variable are recommended.
+% Analyze
+\begin{solproblema}[prob:269eee0]
+By the Allen--PRESS theorem, deleting observation $i$ changes the coefficient vector by
+\begin{align}
+\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)}=\frac{(\mathbf X^T\mathbf X)^{-1}\mathbf x_i e_i}{1-h_{ii}}.
+\end{align}
+Substitution into Cook's quadratic form gives
+\begin{align}
+D_i=\frac{e_i^2}{(p+1)\hat\sigma^2}\cdot\frac{h_{ii}}{(1-h_{ii})^2},
+\end{align}
+using $\mathbf x_i^T(\mathbf X^T\mathbf X)^{-1}\mathbf x_i=h_{ii}$. With internally studentized residual $r_i=e_i/(\hat\sigma\sqrt{1-h_{ii}})$, so $e_i^2/\hat\sigma^2=r_i^2(1-h_{ii})$,
+\begin{align}
+D_i=\frac{r_i^2}{p+1}\cdot\frac{h_{ii}}{1-h_{ii}}.
+\end{align}
+The factor $h_{ii}/(1-h_{ii})$ diverges as $h_{ii}\to1$, regardless of $r_i$: an observation at an extreme predictor position can almost determine the fitted line, and the same vanishing $(1-h_{ii})$ term masks the discrepancy until the point is removed.
 \end{solproblema}
 
-\begin{solproblema}
-	\textbf{Part 1: Computing the VIFs.}
-	\begin{align}
-		\text{VIF}_1 = \frac{1}{1-0.85} \approx 6.667, \qquad \text{VIF}_2 = \frac{1}{1-0.55} \approx 2.222, \qquad \text{VIF}_3 = \frac{1}{1-0.30} \approx 1.429.
-	\end{align}
-
-	\textbf{Part 2: Intervention decision.}
-	Only predictor 1 exceeds the critical threshold ($\text{VIF}_1 \approx 6.667 > 5$), indicating severe multicollinearity: its estimated variance is inflated by a factor of $\approx 6.67$ relative to the perfect-orthogonality case. Predictors 2 and 3 exhibit moderate to mild collinearity, tolerable without immediate intervention.
-
-	\textbf{Part 3: Recommended remedy.}
-	Since predictor 1 is the only one exceeding the threshold and it is not necessarily desirable to drop it from the model (it may have theoretical relevance), \textbf{Ridge regression} is the most suitable option: it continuously penalizes the $L_2$ norm of all coefficients, stabilizing $(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}$ without discarding variables. If a more parsimonious model were additionally desired, Lasso would induce automatic variable selection.
+% Evaluate
+\begin{solproblema}[prob:dc2ca7b]
+With $p+1=5$,
+\begin{align}
+D_A=\frac{1.44}{5}(0.1765)\approx0.0508,\qquad D_B=\frac{0.64}{5}(0.8182)\approx0.1047,\qquad D_C=\frac{12.25}{5}(0.0870)\approx0.2130.
+\end{align}
+The threshold is $4/50=0.08$: A is not influential, while B and C are influential. B is influential through \textbf{high leverage} ($h_{ii}=0.45$) despite a moderate residual; its unusual predictor position can pull the fitted line. C is influential through a \textbf{large residual} ($r_i=3.5$, a possible outlier) despite low leverage. A has neither mechanism at a severe level.
 \end{solproblema}
 
-\begin{solproblema}
-	\textbf{Part 1: Appropriate transformation.}
-	For count data with $\text{Var}(Y) \propto E(Y)$ (Poisson-like behavior), the table of common transformations recommends $\log(Y)$ or, alternatively, $\sqrt{Y}$.
-
-	\textbf{Part 2: Justification via first-order expansion (delta method).}
-	Let $g(Y) = \log(Y)$. Expanding around $\mu=E(Y)$:
-	\begin{align}
-		g(Y) \approx g(\mu) + g'(\mu)(Y-\mu) = \log(\mu) + \frac{1}{\mu}(Y-\mu).
-	\end{align}
-	Therefore:
-	\begin{align}
-		\text{Var}(g(Y)) \approx [g'(\mu)]^2 \text{Var}(Y) = \frac{1}{\mu^2}\text{Var}(Y).
-	\end{align}
-	If $\text{Var}(Y) = c\mu$ (proportional to the mean, as in count data), substituting:
-	\begin{align}
-		\text{Var}(\log Y) \approx \frac{c\mu}{\mu^2} = \frac{c}{\mu}.
-	\end{align}
-	Although not perfectly constant, the dependence of the variance on $\mu$ is reduced from linear ($c\mu$) to inversely proportional ($c/\mu$), a substantial improvement. The $\sqrt{Y}$ transformation produces an even more direct stabilization when $\text{Var}(Y)\propto E(Y)$ exactly (approximately constant variance equal to $c/4$).
-\end{solproblema}
-
-\subsubsection*{3. Analytical Level (Advanced / Connective)}
-
-\begin{solproblema}
-	\textbf{Part 1: Computing Cook's Distances.}
-	With $p+1=5$:
-	\begin{align}
-		D_A = \frac{(1.2)^2}{5}\cdot\frac{0.15}{1-0.15} = \frac{1.44}{5}(0.1765) \approx 0.0508,
-	\end{align}
-	\begin{align}
-		D_B = \frac{(0.8)^2}{5}\cdot\frac{0.45}{1-0.45} = \frac{0.64}{5}(0.8182) \approx 0.1047,
-	\end{align}
-	\begin{align}
-		D_C = \frac{(3.5)^2}{5}\cdot\frac{0.08}{1-0.08} = \frac{12.25}{5}(0.0870) \approx 0.2130.
-	\end{align}
-
-	\textbf{Part 2: Decision with threshold $4/n=4/50=0.08$.}
-	$D_A \approx 0.0508 < 0.08$ (not influential); $D_B \approx 0.1047 > 0.08$ (influential); $D_C \approx 0.2130 > 0.08$ (influential).
-
-	\textbf{Part 3: Distinct mechanisms of influence.}
-	Observation B is influential mainly due to its \textbf{high leverage} ($h_{ii}=0.45$, close to the extreme geometric center of mass of the design), despite having a moderate residual: its unusual position in predictor space gives it great power to "pull" the fitted line toward itself. Observation C, by contrast, is influential due to a \textbf{large residual} ($r_i=3.5$, a possible outlier), despite low leverage: although its position in $X$ is typical, its $Y$ value departs enormously from the general pattern. Observation A is not influential because it does not exhibit either mechanism to a severe degree.
-\end{solproblema}
-
-\begin{solproblema}
-	\textbf{Proof that $\text{VIF}_j = (\mathbf{R}^{-1})_{jj}$:}
-
-	Let $\mathbf{Z}$ be the matrix of standardized predictors (zero mean, unit variance), so that $\mathbf{R}=\mathbf{Z}^T\mathbf{Z}/(n-1)$ is the sample correlation matrix. Regressing the standardized predictor $Z_j$ against the remaining $p-1$ predictors, the coefficient of determination of that auxiliary model is $R_j^2 = 1 - \dfrac{1}{(\mathbf{R}^{-1})_{jj}}$ (a standard result from multiple regression theory applied recursively to the predictor set). Solving for the VIF:
-	\begin{align}
-		(\mathbf{R}^{-1})_{jj} = \frac{1}{1-R_j^2} = \text{VIF}_j.
-	\end{align}
-
-	\textbf{Relationship to the singularity of $\mathbf{X}^T\mathbf{X}$:} When predictors are highly correlated, the matrix $\mathbf{R}$ approaches singularity (its determinant tends to zero), causing the elements of its inverse $\mathbf{R}^{-1}$ --- and hence the VIFs --- to grow without bound. This is exactly the same numerical pathology discussed for $(\mathbf{X}^T\mathbf{X})^{-1}$ in the Normal Equation of Section 09.02: a high VIF is the single-predictor diagnostic manifestation of the same inversion instability that Ridge/Lasso regularization aims to remedy at the level of the entire system.
-\end{solproblema}
-
-\subsubsection*{4. Challenging Level (Experts / Deep Deduction)}
-
-\begin{solproblema}
-	\textbf{Derivation of $DW\approx2(1-\hat\rho)$:}
-
-	We expand the numerator of the Durbin-Watson statistic:
-	\begin{align}
-		\sum_{i=2}^n (e_i-e_{i-1})^2 = \sum_{i=2}^n e_i^2 - 2\sum_{i=2}^n e_i e_{i-1} + \sum_{i=2}^n e_{i-1}^2.
-	\end{align}
-	For moderately large $n$, the partial sums $\sum_{i=2}^n e_i^2$ and $\sum_{i=2}^n e_{i-1}^2$ differ from the complete sum $\sum_{i=1}^n e_i^2$ only by a boundary term ($e_1^2$ or $e_n^2$), a difference negligible relative to the total. Approximating both by $\sum_{i=1}^n e_i^2$:
-	\begin{align}
-		\sum_{i=2}^n (e_i-e_{i-1})^2 \approx 2\sum_{i=1}^n e_i^2 - 2\sum_{i=2}^n e_i e_{i-1}.
-	\end{align}
-	Dividing by $\sum_{i=1}^n e_i^2$ and using the definition $\hat\rho=\sum_{i=2}^n e_ie_{i-1}/\sum_{i=1}^n e_i^2$:
-	\begin{align}
-		DW \approx 2 - 2\hat\rho = 2(1-\hat\rho).
-	\end{align}
-
-	\textbf{Theoretical range and limiting cases:} Since $\hat\rho$ is a correlation coefficient, $\hat\rho\in[-1,1]$, which forces $DW\in[0,4]$ (excluding the exact endpoints in practice, hence $DW\in(0,4)$):
-	\begin{itemize}
-		\item If $\hat\rho\to1$ (perfect positive autocorrelation, consecutive residuals nearly identical): $DW\to0$.
-		\item If $\hat\rho=0$ (no autocorrelation): $DW=2$, the ideal reference value.
-		\item If $\hat\rho\to-1$ (perfect negative autocorrelation, consecutive residuals alternating in sign): $DW\to4$.
-	\end{itemize}
-\end{solproblema}
-
-\begin{solproblema}
-	\textbf{Derivation of Cook's Distance computational formula:}
-
-	By the Allen-PRESS Theorem (model validation section), the change in the coefficient vector upon removing the $i$-th observation is exactly expressed as:
-	\begin{align}
-		\hat{\boldsymbol\beta}-\hat{\boldsymbol\beta}_{(-i)} = \frac{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i \, e_i}{1-h_{ii}},
-	\end{align}
-	where $\mathbf{x}_i$ is the (transposed) row of the design matrix corresponding to observation $i$, $e_i$ is its ordinary OLS residual, and $h_{ii}=\mathbf{x}_i^T(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i$ is its leverage (diagonal element of the Hat Matrix).
-
-	Substituting this expression into the quadratic form of the general definition of $D_i$:
-	\begin{align}
-		D_i = \frac{1}{(p+1)\hat\sigma^2}\left[\frac{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i \, e_i}{1-h_{ii}}\right]^T (\mathbf{X}^T\mathbf{X}) \left[\frac{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i \, e_i}{1-h_{ii}}\right] = \frac{e_i^2}{(p+1)\hat\sigma^2(1-h_{ii})^2}\, \mathbf{x}_i^T(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i.
-	\end{align}
-	Recognizing that $\mathbf{x}_i^T(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{x}_i = h_{ii}$ by definition:
-	\begin{align}
-		D_i = \frac{e_i^2}{(p+1)\hat\sigma^2}\cdot\frac{h_{ii}}{(1-h_{ii})^2}.
-	\end{align}
-	Finally, using the definition of the internally studentized residual $r_i = e_i/(\hat\sigma\sqrt{1-h_{ii}})$, so that $e_i^2/\hat\sigma^2 = r_i^2(1-h_{ii})$, we substitute:
-	\begin{align}
-		D_i = \frac{r_i^2(1-h_{ii})}{p+1}\cdot\frac{h_{ii}}{(1-h_{ii})^2} = \frac{r_i^2}{p+1}\cdot\frac{h_{ii}}{1-h_{ii}}.
-	\end{align}
-
-	\textbf{Explosion as $h_{ii}\to1$:} The factor $h_{ii}/(1-h_{ii})$ diverges to infinity as $h_{ii}\to1$, regardless of the value of $r_i$ (even if $r_i$ is small). This occurs because an observation with leverage close to $1$ occupies such an extreme position in predictor space that the fitted line is forced to pass almost exactly through it (the term $(1-h_{ii})$ in the denominator of the studentized residual also vanishes, masking the true magnitude of the actual misfit that would be revealed upon removing that observation). For this reason, leverage alone --- independent of the observed residual --- is a warning sign that warrants audit.
+% Create
+\begin{solproblema}[prob:f0b580a]
+\begin{align}
+LM=nR_{\text{aux}}^2=80\times0.22=17.6.
+\end{align}
+Since $17.6>\chi^2_{0.05,4}=9.488$, \textbf{reject $H_0$}: there is significant evidence of \textbf{heteroscedasticity} in the industrial-energy model at the 5\% level. OLS estimators remain unbiased but are no longer efficient, and reported standard errors may be incorrect; use Huber--White robust errors or transform the response.
 \end{solproblema}
