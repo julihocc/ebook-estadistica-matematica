@@ -1,5 +1,5 @@
 """
-Computational Lab: Section 04.06 - Normal Distribution and Z-Score
+Computational Lab: Section 04.05 - Normal Distribution and Z-Score
 ====================================================================
 Validates the Normal PDF normalization, demonstrates Z-score standardization
 and the 68-95-99.7 empirical rule, computes interval probabilities and

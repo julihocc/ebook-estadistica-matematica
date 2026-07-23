@@ -1,5 +1,5 @@
 """
-Computational Lab: Section 04.05 - Exponential Distribution and Memoryless Processes
+Computational Lab: Section 04.06 - Exponential Distribution and Memoryless Processes
 ======================================================================================
 Validates the Exponential PDF, demonstrates the memoryless property numerically,
 computes the MLE lambda = 1/x_bar, derives the Erlang distribution as the sum of
