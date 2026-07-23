@@ -2,7 +2,15 @@
 
 **Fecha:** 2026-07-22
 **Estado global:** Cerrado el 2026-07-23 11:03:37 -06:00, tras completar los checkpoints 4J y 4K y la verificación final.
-**Alcance de este documento:** cerrar las tareas que quedaron vivas después de la reestructuración del temario MA1001B, sin modificar `presentaciones/` en esta fase.
+**Alcance de este documento:** cerrar las tareas que quedaron vivas después de la reestructuración del temario MA1001B. La reconciliación documental puede modificar `presentaciones/README.md`, `presentaciones/ROADMAP.md` y `presentaciones/ESPECIFICACIONES_Y_REQUERIMIENTOS.md`, pero no modifica mazos Beamer ni scripts Python.
+
+## Reconciliación documental de presentaciones verificada al 2026-07-23 11:17:26 -06:00
+
+- `presentaciones/README.md`, `presentaciones/ROADMAP.md` y `presentaciones/ESPECIFICACIONES_Y_REQUERIMIENTOS.md` ya describen la convención vigente de seis niveles Bloom, etiquetas `prob:<7-hex>` y soluciones enlazadas.
+- Los catálogos reflejan 54 mazos ES, 54 mazos EN, 54 PDF ES, 54 PDF EN y 53 scripts Python vivos.
+- Las referencias activas a 10 problemas `3-3-2-2`, a la antigua Unidad 8 y a bundles retirados fueron corregidas o marcadas como historial anterior al 2026-07-20.
+- Esta etapa no modificó `presentaciones/es/`, `presentaciones/en/` ni `presentaciones/code/`.
+- El backlog técnico que permanece abierto es: (1) solapamiento de captions en tablas ANOVA anchas y (2) diferencia de orden de la distribución exponencial entre el libro y las presentaciones.
 
 ## Cierre verificado el 2026-07-23 11:03:37 -06:00
 
@@ -81,13 +89,13 @@ En los cuatro aparecía `\label{exmp:5.1.1}`. No se encontró una referencia viv
 
 ### 1. Documento rector
 
-**Estado:** Cubierto en esta etapa.
+**Estado:** Cubierto antes del cierre del 2026-07-23 11:03:37 -06:00.
 
 Crear este documento como referencia canónica de las tareas abiertas, con línea base, etapas, criterios de aceptación y backlog explícito.
 
 ### 2. Corrección de etiquetas y documentación operativa
 
-**Estado:** Cubierto en esta etapa.
+**Estado:** Cubierto antes del cierre del 2026-07-23 11:03:37 -06:00.
 
 Se cambiaron las etiquetas duplicadas `exmp:5.1.1` por etiquetas semánticas compartidas entre ES y EN:
 
@@ -105,7 +113,7 @@ Se registró el checkpoint en `CHANGELOG.md`.
 
 ### 3. Reconstrucción del espejo teórico EN
 
-**Estado:** Cubierto parcialmente en esta etapa.
+**Estado:** Cubierto parcialmente en la línea base del 2026-07-22 17:04 -06:00; completado en el cierre del 2026-07-23 11:03:37 -06:00.
 
 Se usó el libro ES como fuente canónica para reconstruir el espejo teórico EN. Ahora existen 70 archivos de teoría ES y 70 contrapartes EN. El maestro EN quedó actualizado para usar los archivos de teoría divididos; conserva temporalmente los 29 cuadernos de problemas EN heredados hasta que la etapa 4 cree las 37 contrapartes faltantes.
 
@@ -130,9 +138,9 @@ El material traducido fiel se reutilizó por división mecánica. Las secciones 
 
 No agregar `_md_entornos` al maestro EN: `_en_entornos.tex` ya incorpora los alias necesarios (`problema`/`problem`, `solucion`/`solution`, `solproblema`/`solproblem`).
 
-### 4. Migración de problemas EN
+### 4. Registro histórico de la migración de problemas EN (completado el 2026-07-23 11:03:37 -06:00)
 
-**Estado:** En ejecución por checkpoints.
+**Estado:** Completado por checkpoints al 2026-07-23 11:03:37 -06:00.
 
 Checkpoint 4A cubierto: los 3 cuadernos EN del Capítulo 1 fueron reemplazados por espejos de 6 problemas Bloom/hash con las mismas etiquetas que sus fuentes ES:
 
@@ -242,7 +250,7 @@ En este checkpoint se retiró del maestro EN el bundle heredado `en_pruebas_hipo
 
 Después de este checkpoint, hay 47 contrapartes exactas EN ya normalizadas contra sus fuentes ES y quedan 13 secciones ES de problemas por cubrir en EN: 6 todavía no tienen contraparte exacta `en_*(p).tex`, y 7 ya tienen archivo EN exacto pero falta normalizarlo contra etiquetas/contenido del ES vigente. Los archivos EN con encabezados visibles heredados bajan de 11 a 9; los archivos EN con etiquetas numéricas o `prob:en:*` permanecen en 1.
 
-Crear una contraparte `en_*(p).tex` por cada uno de los 60 archivos ES de problemas.
+El requisito de cierre fue crear una contraparte `en_*(p).tex` por cada uno de los 60 archivos ES de problemas; quedó cumplido el 2026-07-23 11:03:37 -06:00.
 
 Cada par ES/EN debe cumplir:
 
@@ -255,7 +263,7 @@ Cada par ES/EN debe cumplir:
 
 Los problemas EN adicionales que no correspondan al par ES vigente deben quedar solo en el archivo histórico, no en el maestro vivo.
 
-### 5. Verificación final
+### 5. Verificación final (completada el 2026-07-23 11:03:37 -06:00)
 
 **Estado:** Completada el 2026-07-23 11:03:37 -06:00.
 
@@ -274,13 +282,13 @@ Verificaciones realizadas para cerrar la tarea:
 
 Los artefactos de build se actualizan si cambian por convención del repositorio. Los commits se hacen por chunks revisables cuando el usuario lo solicita; no se hace `git push` sin instrucción explícita.
 
-## Backlog separado
+## Backlog separado al 2026-07-23 11:17:26 -06:00
 
 Estas tareas quedan registradas, pero fuera del alcance de este cierre:
 
 - Solape de captions en tablas anchas con `tufte-book`.
 - Diferencia de orden de la distribución exponencial entre libro y presentaciones.
-- Inexactitudes en `presentaciones/ROADMAP.md` sobre frames y estado de avance.
+- Las inexactitudes de `presentaciones/ROADMAP.md` sobre frames y estado de avance quedaron corregidas en la reconciliación documental del 2026-07-23 11:17:26 -06:00.
 
 Antes de tocar `presentaciones/` en una tarea futura, leer obligatoriamente:
 
