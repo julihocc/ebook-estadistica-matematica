@@ -4,6 +4,16 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-23 14:47:30 -06:00 (cierre de compatibilidad del laboratorio Normal)
+
+### Añadido / Corregido
+- Sustituida la llamada string-based a `scipy.stats.kstest` en `04.05_normal_distribution.py` por una CDF normal explícita con media y escala nombradas; se conserva la misma prueba estadística.
+- Actualizados `presentaciones/README.md`, `presentaciones/ROADMAP.md` y `docs/proximos-pasos-2026-07-22.md`: captions ANOVA, orden Normal/Exponencial y compatibilidad Python quedan cerrados.
+
+### Verificación
+- `04.05_normal_distribution.py` y `04.06_exponential_distribution.py` terminaron con código `0`; el test KS Normal produjo `D=0.0014`, `p=0.7069`.
+- No se modificaron mazos Beamer, maestros LaTeX ni cuadernos Bloom/hash; no se hizo `git push`.
+
 ## 2026-07-23 12:16:14 -06:00 (reconciliación ANOVA y orden de distribuciones)
 
 ### Añadido / Corregido

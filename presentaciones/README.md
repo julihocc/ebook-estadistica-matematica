@@ -4,11 +4,11 @@ Este directorio (`presentaciones/`) contiene las presentaciones interactivas en 
 
 Esta guía constituye el **manual operativo estándar y 100% reproducible** para cualquier agente de inteligencia artificial (o colaborador humano) que trabaje en la creación, modificación, verificación o mantenimiento de las presentaciones y scripts de este proyecto.
 
-### Estado de reconciliación verificado al 2026-07-23 12:05:27 -06:00
+### Estado de reconciliación verificado al 2026-07-23 14:47:30 -06:00
 
 - El espejo de cuadernos del libro está cerrado desde el `2026-07-23 11:03:37 -06:00`: existen 60 archivos `(p).tex` ES y 60 contrapartes `en_*(p).tex`, con seis problemas Bloom, seis soluciones y etiquetas hash compartidas por par.
 - El árbol de presentaciones contiene 54 mazos ES y 54 mazos EN (`.tex` y `.pdf`), además de 53 scripts Python en inglés bajo `presentaciones/code/`.
-- Esta reconciliación corrige captions de tablas ANOVA y renumera los mazos/scripts de distribuciones continuas; no cambia la lógica matemática ni el código ejecutable de Python.
+- Esta reconciliación corrige captions de tablas ANOVA, renumera los mazos/scripts de distribuciones continuas y actualiza la compatibilidad del laboratorio Normal; no cambia la lógica matemática ni el contenido de los mazos.
 
 ---
 

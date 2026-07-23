@@ -85,7 +85,10 @@ def verify_clt_and_normal_approximation():
     print(f"Sum of {n_sum} i.i.d. U(0,1) ~ N({theo_mean}, {theo_var:.4f}):")
     print(f"  Empirical mean: {emp_mean:.4f} (theoretical: {theo_mean:.4f})")
     print(f"  Empirical var: {emp_var:.4f} (theoretical: {theo_var:.4f})")
-    ks_clt = stats.kstest(uniforms_sum, 'norm', args=(theo_mean, np.sqrt(theo_var)))
+    normal_cdf = lambda x: stats.norm.cdf(
+        x, loc=theo_mean, scale=np.sqrt(theo_var)
+    )
+    ks_clt = stats.kstest(uniforms_sum, normal_cdf)
     print(f"  KS test vs Normal({theo_mean}, {theo_var:.2f}): D={ks_clt.statistic:.4f}, p={ks_clt.pvalue:.4f}")
 
     # Binomial-Normal approximation with Yates correction

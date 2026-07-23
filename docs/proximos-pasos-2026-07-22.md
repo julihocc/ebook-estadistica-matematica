@@ -14,6 +14,13 @@
 - Pendiente técnico fechado: el script `presentaciones/code/04_variables_aleatorias_continuas/04.05_normal_distribution.py` falla en la llamada `scipy.stats.kstest` con la API instalada; corregir esa compatibilidad requiere una modificación de lógica Python y queda fuera de esta etapa.
 - Commits locales relacionados: `84f4718` (captions ANOVA) y `810bc25` (renumeración y catálogos). No se hizo `git push`.
 
+## Cierre de compatibilidad del laboratorio Normal verificado al 2026-07-23 14:47:30 -06:00
+
+- Se reemplazó la llamada string-based de `scipy.stats.kstest` por una CDF normal explícita con `loc=theo_mean` y `scale=\sqrt{theo_var}`; la prueba estadística y sus parámetros no cambiaron.
+- `04.05_normal_distribution.py` y `04.06_exponential_distribution.py` terminaron con código de salida `0`; el laboratorio Normal reportó `D=0.0014`, `p=0.7069`.
+- El estado activo de `presentaciones/README.md` y `presentaciones/ROADMAP.md` ya no declara pendientes ANOVA, de orden de distribuciones ni de compatibilidad Python.
+- No se modificaron mazos Beamer, maestros LaTeX ni cuadernos Bloom/hash.
+
 ## Reconciliación documental de presentaciones verificada al 2026-07-23 11:17:26 -06:00
 
 - `presentaciones/README.md`, `presentaciones/ROADMAP.md` y `presentaciones/ESPECIFICACIONES_Y_REQUERIMIENTOS.md` ya describen la convención vigente de seis niveles Bloom, etiquetas `prob:<7-hex>` y soluciones enlazadas.
@@ -292,13 +299,13 @@ Verificaciones realizadas para cerrar la tarea:
 
 Los artefactos de build se actualizan si cambian por convención del repositorio. Los commits se hacen por chunks revisables cuando el usuario lo solicita; no se hace `git push` sin instrucción explícita.
 
-## Backlog separado al 2026-07-23 11:17:26 -06:00
+## Backlog histórico separado al 2026-07-23 11:17:26 -06:00
 
-Estas tareas quedan registradas, pero fuera del alcance de este cierre:
+Estas tareas describían el estado previo y quedaron resueltas al 2026-07-23 14:47:30 -06:00:
 
 - Solape de captions en tablas anchas con `tufte-book`.
 - Diferencia de orden de la distribución exponencial entre libro y presentaciones.
-- Las inexactitudes de `presentaciones/ROADMAP.md` sobre frames y estado de avance quedaron corregidas en la reconciliación documental del 2026-07-23 11:17:26 -06:00.
+- Las inexactitudes de `presentaciones/ROADMAP.md` sobre frames y estado de avance quedaron corregidas en las reconciliaciones del 2026-07-23 12:16:14 y 14:47:30 -06:00.
 
 Antes de tocar `presentaciones/` en una tarea futura, leer obligatoriamente:
 

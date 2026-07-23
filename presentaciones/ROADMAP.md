@@ -18,17 +18,16 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 
 ---
 
-## 2. Estado vigente verificado al 2026-07-23 11:17:26 -06:00
+## 2. Estado vigente verificado al 2026-07-23 14:47:30 -06:00
 
 - El cierre del espejo EN del libro quedó confirmado el `2026-07-23 11:03:37 -06:00`: 60 archivos ES `(p).tex`, 60 archivos EN `en_*(p).tex`, seis problemas y seis soluciones por par, orden Bloom y etiquetas hash idénticas.
 - Los maestros ES y EN tienen 139 entradas `\input{}` sin objetivos faltantes; la secuencia paralela del contenido está verificada.
 - El árbol de presentaciones contiene 54 mazos ES y 54 mazos EN (`.tex` y `.pdf`) y 53 scripts Python en inglés.
-- Esta actualización solo reconcilia documentación. No modifica `presentaciones/es/`, `presentaciones/en/` ni `presentaciones/code/`.
+- Esta actualización corrige una incompatibilidad de API en el script Normal y reconcilia documentación; no modifica el contenido de `presentaciones/es/` ni `presentaciones/en/`.
 
-### Pendientes vigentes desde el 2026-07-23 11:17:26 -06:00
+### Pendientes vigentes al 2026-07-23 14:47:30 -06:00
 
-1. Resolver el solapamiento de captions en tablas ANOVA anchas con `tufte-book`.
-2. Resolver la diferencia de orden de la distribución exponencial entre el libro y las presentaciones.
+- No quedan pendientes técnicos de este cierre: captions ANOVA, orden Normal/Exponencial y compatibilidad `scipy.stats.kstest` están verificados.
 
 ## 3. Registro histórico del desarrollo hasta el 2026-07-23 11:03:37 -06:00
 
