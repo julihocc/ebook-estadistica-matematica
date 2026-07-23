@@ -4,6 +4,22 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-23 12:16:14 -06:00 (reconciliación ANOVA y orden de distribuciones)
+
+### Añadido / Corregido
+- Corregidas las cuatro tablas ANOVA ES/EN: floats `table*` con colocación `[htbp]`, captions y labels antes del `tabular`, sin modificar el preámbulo global. El cambio quedó en `84f4718` (`fix: repair ANOVA table captions`).
+- Renumerados los mazos y scripts de variables continuas para que la secuencia vigente sea `04.05 Normal → 04.06 Exponencial → 04.07 Gamma, Beta y Weibull`; el Exponencial se documenta como tratamiento pedagógico de la subsección incluida en Gamma del libro.
+- Actualizados títulos, agendas, listados Python, catálogos y roadmap ES/EN. El renombrado quedó registrado localmente en `810bc25` (`Reorders Chapter 04 section sequencing`); no se hizo `git push`.
+- Reparados tres errores sintácticos preexistentes que impedían compilar mazos ES del capítulo 04 (un `\checkmark` Unicode, dos argumentos de `frame/reflexion` con llaves incorrectas). No se alteró contenido matemático.
+
+### Verificación
+- Los maestros ES y EN compilaron dos pasadas en directorios temporales, con código de salida `0,0`, sin errores, referencias indefinidas ni etiquetas multiplicadas.
+- Los 14 mazos ES/EN `04.01`–`04.07` compilaron dos pasadas con código `0,0`; los únicos `Overfull \\vbox` quedaron en la portada (línea 16), no en diapositivas de contenido.
+- La inspección visual de las cuatro páginas ANOVA confirmó que ningún caption invade la fila de encabezado.
+- Los enlaces de catálogo y las rutas nuevas fueron auditados; no quedan rutas activas con los nombres anteriores.
+- El script Exponencial renombrado ejecuta correctamente. El script Normal conserva un fallo de compatibilidad preexistente de `scipy.stats.kstest` en la API instalada; corregirlo queda como pendiente técnico separado porque esta etapa no cambia lógica Python.
+- `git diff --check` queda requerido antes del commit documental; no se modifican problemas Bloom/hash ni el orden de los maestros.
+
 ## 2026-07-23 11:17:26 -06:00 (reconciliación documental de presentaciones)
 
 ### Añadido / Corregido

@@ -2,15 +2,25 @@
 
 **Fecha:** 2026-07-22
 **Estado global:** Cerrado el 2026-07-23 11:03:37 -06:00, tras completar los checkpoints 4J y 4K y la verificación final.
-**Alcance de este documento:** cerrar las tareas que quedaron vivas después de la reestructuración del temario MA1001B. La reconciliación documental puede modificar `presentaciones/README.md`, `presentaciones/ROADMAP.md` y `presentaciones/ESPECIFICACIONES_Y_REQUERIMIENTOS.md`, pero no modifica mazos Beamer ni scripts Python.
+**Alcance de este documento:** cerrar las tareas que quedaron vivas después de la reestructuración del temario MA1001B. La reconciliación puede modificar documentación operativa, captions de tablas ANOVA y nombres/rutas de mazos y scripts, pero no cambia contenido matemático ni lógica ejecutable de Python.
+
+## Reconciliación ANOVA y orden de distribuciones verificada al 2026-07-23 12:16:14 -06:00
+
+- Las tablas ANOVA anchas de `efectos_modelo_fijo` y `dbca_cuadrados_latinos`, en ES y EN, usan `table*` con `[htbp]`; captions y labels preceden al `tabular`. La inspección visual de las páginas 320/330 ES y 300/309 EN confirmó que no hay solapamiento con los encabezados.
+- El libro y sus maestros conservan la secuencia canónica `Uniforme → Normal → Gamma`, con Exponencial como subsección de Gamma.
+- Los mazos y scripts de variables continuas siguen ahora `04.05 Normal → 04.06 Exponencial → 04.07 Gamma`. El mazo 04.06 es una extracción pedagógica de la subsección Exponencial del libro; no implica una sección independiente en el maestro.
+- Se actualizaron `presentaciones/README.md`, `presentaciones/ROADMAP.md`, títulos, agendas y rutas `\lstinputlisting`; no se alteraron problemas Bloom/hash ni entradas `\input{}` de los maestros.
+- Los maestros compilaron dos pasadas (`ES=0,0`, `EN=0,0`) y los 14 mazos del capítulo 04 compilaron dos pasadas cada uno (`0,0`). Los únicos desbordamientos detectados están en portadas, no en contenido.
+- Pendiente técnico fechado: el script `presentaciones/code/04_variables_aleatorias_continuas/04.05_normal_distribution.py` falla en la llamada `scipy.stats.kstest` con la API instalada; corregir esa compatibilidad requiere una modificación de lógica Python y queda fuera de esta etapa.
+- Commits locales relacionados: `84f4718` (captions ANOVA) y `810bc25` (renumeración y catálogos). No se hizo `git push`.
 
 ## Reconciliación documental de presentaciones verificada al 2026-07-23 11:17:26 -06:00
 
 - `presentaciones/README.md`, `presentaciones/ROADMAP.md` y `presentaciones/ESPECIFICACIONES_Y_REQUERIMIENTOS.md` ya describen la convención vigente de seis niveles Bloom, etiquetas `prob:<7-hex>` y soluciones enlazadas.
 - Los catálogos reflejan 54 mazos ES, 54 mazos EN, 54 PDF ES, 54 PDF EN y 53 scripts Python vivos.
 - Las referencias activas a 10 problemas `3-3-2-2`, a la antigua Unidad 8 y a bundles retirados fueron corregidas o marcadas como historial anterior al 2026-07-20.
-- Esta etapa no modificó `presentaciones/es/`, `presentaciones/en/` ni `presentaciones/code/`.
-- El backlog técnico que permanece abierto es: (1) solapamiento de captions en tablas ANOVA anchas y (2) diferencia de orden de la distribución exponencial entre el libro y las presentaciones.
+- Esa etapa fue exclusivamente documental y no modificó `presentaciones/es/`, `presentaciones/en/` ni `presentaciones/code/`.
+- El backlog de esa fecha (solapamiento de captions y diferencia de orden de Exponencial) quedó resuelto el 2026-07-23 12:16:14 -06:00; permanece únicamente la incompatibilidad técnica de `scipy.stats.kstest` descrita arriba.
 
 ## Cierre verificado el 2026-07-23 11:03:37 -06:00
 
