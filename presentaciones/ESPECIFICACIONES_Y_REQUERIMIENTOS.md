@@ -15,7 +15,7 @@ Toda presentación curricular del libro debe estructurarse obligatoriamente de f
 
 1. **Bloque I: Identidad y Hoja de Ruta (Diapositivas 01–02)**
    - **Slide 01 (Portada):** Membrete institucional completo (`\titlepage`) dentro de un entorno limpio `\begin{frame}[plain] \vspace{-0.5cm} \titlepage \end{frame}` para compensar el espaciado vertical del tema Metropolis.
-   - **Slide 02 (Hoja de Ruta):** Ubicación curricular de la sección actual dentro de su capítulo (en rojo institucional `TecRojo`) y declaración explícita del **Objetivo Didáctico** particular de la sesión con revelado progresivo (`\pause`).
+   - **Slide 02 (Hoja de Ruta):** Ubicación curricular de la sección actual dentro de su capítulo (en rojo institucional `TecRojo`) y declaración explícita del **Objetivo Didáctico** particular de la clase con revelado progresivo (`\pause`).
 
 2. **Bloque II: Desarrollo Teórico Riguroso e Interactivo (Diapositivas 03–08)**
    - **Slide 03 (Motivación y Fenómeno Físico):** Comparación conceptual entre el enfoque intuitivo/empírico y la formalización matemática del tema.
@@ -35,7 +35,7 @@ Toda presentación curricular del libro debe estructurarse obligatoriamente de f
    - **Motivo del cambio:** con la reorganización de los cuadernos de problemas en archivos por sección (ver Regla de Oro 4 actualizada), el cuaderno de problemas queda como material de práctica autónoma del lector, separado del contenido demostrado en clase — los mazos ahora refuerzan la teoría con ejemplos ya demostrados en vez de plantear ejercicios sin resolver en pantalla.
 
 5. **Bloque V: Síntesis y Transición Curricular (Diapositivas 14–15)**
-   - **Slide 14 (Síntesis y Conclusiones):** Resumen ejecutivo de los pilares conceptuales aprendidos en la sesión.
+   - **Slide 14 (Síntesis y Conclusiones):** Resumen ejecutivo de los pilares conceptuales aprendidos en la clase.
    - **Slide 15 (Transición Curricular):** Conexión lógica hacia atrás (lo que ya dominamos) y hacia adelante (el reto o puente conceptual con la siguiente sección del plan de estudios).
 
 ---
@@ -68,7 +68,7 @@ Toda presentación curricular del libro debe estructurarse obligatoriamente de f
 - Las etiquetas `\label` de cada problema usan un **tag hasheado corto y determinista**, no un nombre numérico (`prob:X.Y.Z`) ni semántico (`prob:nombre-descriptivo`). Formato: `prob:<7 caracteres hexadecimales>`, calculados con `sha1sum` sobre una cadena semilla determinista (`"<archivo>-p-<índice>"`, ej. `"tecnicas_de_conteo-p-3"`), verificando contra el `.aux` compilado que el hash no colisiona con ninguna etiqueta `prob:` ya existente en el libro antes de usarlo. Motivo: los nombres numéricos generan expectativas de numeración de sección que casi nunca se cumplen (ver `docs/diagnostico-cuadernos-problemas-2026-07-20.md`, desfase de Fase D), y los nombres semánticos son propensos a colisión accidental entre archivos (caso real: `prob:3.9.1`-`.5` duplicados entre `distribuciones_especiales(p).tex` y `chi_cuadrada(p).tex`) además de costar esfuerzo de mantenimiento. Un hash corto es intrínsecamente único y no promete nada sobre numeración ni contenido.
 - Cada solución (`\begin{solproblema}`) debe pasar como **argumento opcional el tag del problema que resuelve** — `\begin{solproblema}[prob:<tag>]` — para que el número mostrado en el encabezado ("Solución al Problema X.Y.Z") sea una referencia real (`\ref`) al problema, no un contador independiente que solo coincide con el problema por estar en la misma posición. Motivo: el entorno `solproblema` lleva su propio contador (`solprob`), separado del contador de `problema`; sin el argumento, ambos avanzan en paralelo por convención manual y, ante cualquier reordenamiento, inserción o eliminación futura de un problema o solución, el número mostrado quedaría apuntando silenciosamente al problema equivocado sin generar ningún error de compilación.
 - El cuaderno de problemas queda como material de **práctica autónoma para el lector**, independiente del contenido que se presenta en clase (ver Regla de Oro 1, Bloque IV — los mazos ahora citan ejemplos resueltos de la teoría, no problemas de este cuaderno).
-- **Migración de archivos existentes**: esta convención (incluido el refinamiento del 2026-07-20) rige el trabajo nuevo hacia adelante. Los 19 archivos `(p).tex` de los capítulos 2-8 que aún usan la convención anterior (10 fijos, dificultad visible, etiquetas numéricas/semánticas) no se migran automáticamente — quedan pendientes de una tarea de reorganización aparte (ver `docs/diagnostico-cuadernos-problemas-2026-07-20.md`, sección de recomendaciones).
+- **Migración de archivos existentes**: la convención vigente se aplicó al cierre del espejo EN el `2026-07-23 11:03:37 -06:00`. El árbol vivo contiene 60 archivos ES `(p).tex` y 60 contrapartes EN `en_*(p).tex`; cada par tiene seis niveles Bloom, seis soluciones y la misma secuencia de etiquetas hash. Las referencias a 10 problemas `3-3-2-2` y a niveles visibles son históricas, no tareas pendientes.
 
 ---
 
@@ -108,8 +108,8 @@ Cualquier agente, subagente o ingeniero de software que intervenga en el reposit
 1. **Paso 1 --- Auditoría Teórica del Capítulo en LaTeX Maestro:**
    Inspeccionar `latex/<seccion>.tex` para alinear notación, fórmulas y teoremas con el texto del libro.
 
-2. **Paso 2 --- Verificación de Problemas 3-3-2-2 en `(p).tex`:**
-   Comprobar que `latex/<seccion>(p).tex` contenga exactamente 10 problemas bajo la taxonomía institucional y que el archivo maestro compile sin errores (`pdflatex "[Modelación Estadística].tex"`).
+2. **Paso 2 --- Verificación de Problemas Bloom en `(p).tex`:**
+   Comprobar que `latex/<seccion>(p).tex` cubra los seis niveles Bloom en orden Recordar → Comprender → Aplicar → Analizar → Evaluar → Crear, con comentarios invisibles, etiquetas hash de siete caracteres hexadecimales y soluciones enlazadas mediante `\begin{solproblema}[prob:<tag>]`. Confirmar que el archivo maestro compile sin errores (`pdflatex "[Modelación Estadística].tex"`).
 
 3. **Paso 3 --- Certificación del Laboratorio Python en Inglés:**
    Verificar o construir `presentaciones/code/<unidad>/<ID>_<nombre>.py`. Ejecutar por terminal (`python <script>.py`) para certificar que el código es autocontenido, no produce errores computacionales y genera salidas exactas por consola.
@@ -125,4 +125,4 @@ Cualquier agente, subagente o ingeniero de software que intervenga en el reposit
    Auditar el archivo `.log` resultante (o mediante herramientas de búsqueda algorítmica `grep_search` / `Select-String`) para certificar que no existan `Overfull \vbox` ni `Overfull \hbox`.
 
 6. **Paso 6 --- Actualización del Registro en el Mapa de Ruta (`ROADMAP.md`):**
-   Registrar la conclusión de la sección en `presentaciones/ROADMAP.md` detallando el cumplimiento de la estructura de 22 diapositivas, el cuaderno de problemas 3-3-2-2, el script de Python en inglés y la certificación de 0 desbordamientos.
+   Registrar la conclusión de la sección en `presentaciones/ROADMAP.md` con fecha y hora exactas, el cumplimiento de la estructura de 22 diapositivas, la cobertura Bloom del cuaderno de práctica, el script de Python en inglés y la certificación de 0 desbordamientos cuando exista una compilación reciente. No presentar la convención histórica 3-3-2-2 como requisito vigente.

@@ -4,6 +4,12 @@ Este directorio (`presentaciones/`) contiene las presentaciones interactivas en 
 
 Esta guía constituye el **manual operativo estándar y 100% reproducible** para cualquier agente de inteligencia artificial (o colaborador humano) que trabaje en la creación, modificación, verificación o mantenimiento de las presentaciones y scripts de este proyecto.
 
+### Estado documental verificado al 2026-07-23 11:17:26 -06:00
+
+- El espejo de cuadernos del libro está cerrado desde el `2026-07-23 11:03:37 -06:00`: existen 60 archivos `(p).tex` ES y 60 contrapartes `en_*(p).tex`, con seis problemas Bloom, seis soluciones y etiquetas hash compartidas por par.
+- El árbol de presentaciones contiene 54 mazos ES y 54 mazos EN (`.tex` y `.pdf`), además de 53 scripts Python en inglés bajo `presentaciones/code/`.
+- Esta reconciliación actualiza únicamente documentación; no modifica `presentaciones/es/`, `presentaciones/en/` ni `presentaciones/code/`.
+
 ---
 
 ## 1. Arquitectura y Estructura del Directorio
@@ -110,14 +116,12 @@ Plantilla en inglés:
 ```
 Los bloques institucionales en los preámbulos compartidos configuran la paleta oficial: **TecRojo (`#EC2661`)** y **TecAzul (`#1A2E51`)**.
 
-### Regla 4: Taxonomía de Problemas del Libro (*"3-3-2-2"*)
-Cuando se cree o actualice una presentación, se debe verificar y sincronizar con el cuaderno de ejercicios complementario del libro maestro (`latex/<seccion>(p).tex`).
-El estándar curricular exige que cada sección tenga **exactamente 10 problemas** divididos en 4 niveles (taxonomía *"3-3-2-2"*):
-1. `\subsubsection*{Nivel 1: Fundamental (Conceptos básicos y directos)}` $\to$ **3 problemas**.
-2. `\subsubsection*{Nivel 2: Operativo (Cálculo e implementación técnica)}` $\to$ **3 problemas**.
-3. `\subsubsection*{Nivel 3: Analítico (Demostraciones y modelación matemática)}` $\to$ **2 problemas**.
-4. `\subsubsection*{Nivel 4: Desafiante (Problemas avanzados o retos de ingeniería)}` $\to$ **2 problemas**.
-Las presentaciones Beamer sintetizan la resolución de estos problemas en 4 diapositivas al final del mazo (*Ejercicios Nivel 1* a *Nivel 4*).
+### Regla 4: Cuadernos de Problemas y Taxonomía de Bloom
+Cuando se cree o actualice una presentación, se debe verificar el cuaderno de ejercicios complementario correspondiente (`latex/<seccion>(p).tex`) sin convertirlo en material de ejercicios sin resolver dentro del mazo.
+El estándar vigente exige cobertura de los seis niveles de Bloom, en este orden: **Recordar → Comprender → Aplicar → Analizar → Evaluar → Crear**. Cada archivo vivo contiene como mínimo un problema por nivel (la convención actual normalmente produce seis problemas), comentarios LaTeX invisibles para documentar el nivel, y etiquetas `prob:<7-hex>` compartidas exactamente con su contraparte ES/EN.
+Las soluciones deben enlazar explícitamente su problema mediante `\begin{solproblema}[prob:<tag>]`. Los mazos Beamer reutilizan ejemplos `\ejemplo`/`\solucion` ya resueltos en la teoría; el cuaderno `(p).tex` queda como práctica autónoma.
+
+> **Referencia histórica no normativa.** La distribución de 10 problemas `3-3-2-2` con niveles visibles fue la convención anterior al 2026-07-20. No se debe aplicar a archivos nuevos ni usarla para evaluar el estado actual.
 
 ---
 
@@ -128,7 +132,7 @@ Cualquier agente que trabaje en una nueva sección del libro (p. ej. Capítulo 0
 - [ ] **Paso 1: Auditoría de Teoría en LaTeX Maestro**
   - Abrir y leer `latex/<seccion>.tex` (o el capítulo correspondiente) para entender las fórmulas, definiciones, teoremas y notación exacta utilizada en el texto principal.
 - [ ] **Paso 2: Cuaderno de Ejercicios (`(p).tex`) e Integración al Libro**
-  - Verificar la existencia de `latex/<seccion>(p).tex`. Si no existe o no sigue la taxonomía 3-3-2-2, redactar/completar los 10 problemas con sus soluciones detalladas en los entornos de color institucional (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`).
+  - Verificar la existencia de `latex/<seccion>(p).tex`. Si no existe o no cubre los seis niveles de Bloom, redactar/completar al menos un problema por nivel, con sus soluciones detalladas en los entornos institucionales (`\begin{problema}`, `\begin{sugerencia}`, `\begin{solucion}`), comentarios de nivel invisibles y etiquetas hash sin colisión.
   - Asegurar que `\input{<seccion>(p)}` esté declarado en `latex/[Modelación Estadística].tex`.
   - Compilar el libro principal en la terminal: `cd latex && pdflatex "[Modelación Estadística].tex" && pdflatex "[Modelación Estadística].tex"`.
 - [ ] **Paso 3: Desarrollo del Script de Simulación Python en Inglés**
@@ -136,7 +140,7 @@ Cualquier agente que trabaje en una nueva sección del libro (p. ej. Capítulo 0
   - Estructurar el script con bloques numerados (p. ej., `--- 1. Simulation A ---`, `--- 2. Convergence B ---`) y funciones claras de verificación que arrojen resultados numéricos por consola equivalentes a las demostraciones analíticas.
   - Ejecutar y probar el script en terminal para verificar sintaxis y precisión: `python <script>.py`.
 - [ ] **Paso 4: Redacción de Presentaciones Beamer (ES / EN)**
-  - Crear o actualizar el archivo en español `presentaciones/es/<unidad>/<seccion>.tex` (objetivo estándar: 20 diapositivas que incluyan portada, hoja de ruta, motivación, teoría, 4 diapositivas del laboratorio de Python importando el código externo, 4 diapositivas de ejercicios 3-3-2-2, síntesis y puente didáctico).
+  - Crear o actualizar el archivo en español `presentaciones/es/<unidad>/<seccion>.tex` siguiendo los cinco bloques y las 22 diapositivas de contenido definidos en las especificaciones; el Bloque IV debe reutilizar ejemplos resueltos de la teoría, no problemas `(p).tex` sin resolver.
   - Crear o actualizar la versión en inglés `presentaciones/en/<unidad>/<section>.tex` manteniendo simetría total y la misma importación al script `.py` en inglés.
 - [ ] **Paso 5: Compilación Doble y Verificación Cero Advertencias (*Zero Overfull Check*)**
   - Compilar ambas presentaciones dos veces desde sus respectivos directorios:
@@ -167,7 +171,7 @@ A continuación se presenta el estado finalizado y verificado de las 6 secciones
 
 ---
 
-## 5. Catálogo e Índice de Presentaciones --- Capítulo 03 (En Curso)
+## 5. Catálogo e Índice de Presentaciones --- Capítulo 03 (100% Completado)
 
 A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 2 / Capítulo 03: Variables Aleatorias Discretas**:
 
@@ -256,7 +260,7 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ## 5g. Catálogo e Índice de Presentaciones --- Capítulo 09 (100% Completado)
 
-A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 8 / Capítulo 09: Regresiones Lineales y Múltiples**. Nota: una versión anterior de este capítulo agrupó 7 archivos de teoría en una sola sección 09.01; se corrigió a la estructura 1:1 de 12 secciones que se muestra abajo (detalle completo en `ROADMAP.md`).
+A continuación se presenta el avance y estado verificado de las secciones correspondientes al **Tema complementario / Capítulo 09: Regresiones Lineales y Múltiples**. No constituye una Unidad 8 del programa oficial: las siete unidades oficiales corresponden a los capítulos 02–08. Una versión anterior de este capítulo agrupó 7 archivos de teoría en una sola sección 09.01; se corrigió a la estructura 1:1 de 12 secciones que se muestra abajo (detalle completo en `ROADMAP.md`).
 
 | Sección | Título en Español | Título en Inglés | Script Python (en `code/09_regresiones/`) | Estado |
 | :---: | :--- | :--- | :--- | :---: |
@@ -277,5 +281,5 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ## 6. Próximo Trabajo y Hoja de Ruta (`ROADMAP.md`)
 
-Los Capítulos 04 (Variables Aleatorias Continuas), 05 (Distribuciones de Muestreo), 06 (Estimación y su Relación con Ciencia de Datos), 07 (Docimasia --- Pruebas de Hipótesis), 08 (Elementos de Diseño de Experimentos --- ANOVA) y 09 (Regresiones Lineales y Múltiples) están 100% completos. El Capítulo 09 quedó estructurado en 12 secciones 1:1 con sus archivos de teoría fuente (09.01 Correlación hasta 09.12 Transformaciones No Lineales y Regresión Polinomial), tras corregir una discrepancia estructural detectada en una sesión anterior (ver nota en la Sección 5g arriba y el detalle completo en `ROADMAP.md`). Para conocer el estado detallado de cada sección y el trabajo pendiente en capítulos futuros, consulta el documento oficial de planificación:
+Los Capítulos 04 (Variables Aleatorias Continuas), 05 (Distribuciones de Muestreo), 06 (Estimación y su Relación con Ciencia de Datos), 07 (Docimasia --- Pruebas de Hipótesis), 08 (Elementos de Diseño de Experimentos --- ANOVA) y 09 (Regresiones Lineales y Múltiples) están 100% completos. El Capítulo 09 quedó estructurado en 12 secciones 1:1 con sus archivos de teoría fuente (09.01 Correlación hasta 09.12 Transformaciones No Lineales y Regresión Polinomial), tras corregir una discrepancia estructural documentada antes del 2026-07-23 (ver nota en la Sección 5g arriba y el detalle completo en `ROADMAP.md`). Para conocer el estado detallado de cada sección y el trabajo pendiente en capítulos futuros, consulta el documento oficial de planificación:
 👉 **[presentaciones/ROADMAP.md](ROADMAP.md)**.
