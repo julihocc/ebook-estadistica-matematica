@@ -1,0 +1,78 @@
+\section*{Problems}
+
+\subsection*{Problem Statements}
+
+% Remember
+\begin{problema}
+\label{prob:aa64893}
+State, without performing any calculation, the three ANOVA model assumptions that should be checked through residual analysis (homoscedasticity, normality, and independence), and name one formal test associated with each.
+\end{problema}
+
+% Understand
+\begin{problema}
+\label{prob:e34d9fb}
+When auditing a one-way ANOVA with $k=3$ equally sized groups ($n_1=n_2=n_3=6$), the sample variances are $S_1^2=1.2$, $S_2^2=1.5$, and $S_3^2=8.9$. An analyst proposes using standard ANOVA because ``ANOVA is robust to variance violations when group sizes are equal.'' Explain whether this claim is correct in this particular case and what quantitative verification should be performed before relying on that robustness.
+\end{problema}
+
+% Apply
+\begin{problema}
+\label{prob:57b555d}
+A data analyst audits homoscedasticity for $k=4$ configurations of a distributed-computing pipeline, each with $n_i=8$ runs. The sample variances are $S_1^2=4.0$, $S_2^2=4.5$, $S_3^2=5.2$, and $S_4^2=4.8$ (s$^2$). Calculate Bartlett's test statistic and compare it with $\chi^2_{0.05,3}=7.815$. Is there evidence to reject homoscedasticity?
+\end{problema}
+
+% Analyze
+\begin{problema}
+\label{prob:e2546e4}
+Prove formally that the mean-centered Levene test, applied to $Z_{ij}=|Y_{ij}-\bar Y_{i.}|$, is mathematically identical to applying an ordinary one-way ANOVA to the transformed variable $Z_{ij}$. That is, show that Levene's statistic $W=\frac{N-k}{k-1}\cdot\frac{\sum_i n_i(\bar Z_{i.}-\bar Z_{..})^2}{\sum_i\sum_j(Z_{ij}-\bar Z_{i.})^2}$ satisfies $W\equiv\text{MSTR}_Z/\text{MSE}_Z$.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+\label{prob:8dd2466}
+An engineer measures compilation time (seconds) for $k=3$ CI pipelines, with $n=5$ runs each: Pipeline A: $40,42,38,44,41$; Pipeline B: $50,55,48,52,60$; Pipeline C: $41,40,42,39,43$. Pipeline B has range 12 seconds versus 6 and 4 for the other two, visually suggesting greater dispersion. Apply the mean-centered Levene test ($\alpha=0.05$, $F_{0.05,2,12}=3.885$) and evaluate whether the visual impression is statistically confirmed.
+\end{problema}
+
+% Create
+\begin{problema}
+\label{prob:095357b}
+Design an original example (context, $k$ groups, and hypothetical sample variances) in which homoscedasticity should be checked before ANOVA, different from the computing-pipeline examples already seen in this section. Calculate the pooled variance $S_p^2$ for your data as the first step of Bartlett's test.
+\end{problema}
+
+\subsection*{Detailed Solutions}
+
+% Remember
+\begin{solproblema}[prob:aa64893]
+(1) Homoscedasticity ($\sigma_1^2=\cdots=\sigma_k^2$): Bartlett or Levene/Brown--Forsythe test. (2) Residual normality: Q--Q plot, Shapiro--Wilk, or Kolmogorov--Smirnov test. (3) Error independence ($\text{Cov}(\epsilon_{ij},\epsilon_{lm})=0$): ensured by randomization in the design, and not as easily tested post hoc with the same data.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:e34d9fb]
+The claim is \textbf{dangerously incomplete}. Balanced ANOVA is structurally robust to \textbf{mild to moderate} departures from homoscedasticity, but that robustness does \textbf{not} extend to extreme disparities. Here $S_3^2/S_1^2=8.9/1.2\approx7.4$, a ratio above 7 to 1 and far outside the range where balanced-ANOVA robustness is reliable. Before proceeding, apply a formal test (Levene or Bartlett) at $\alpha=0.05$; if homoscedasticity is rejected, use Welch's ANOVA (which weights inversely by the individual variances) or a variance-stabilizing transformation such as a logarithm for positive, skewed data.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:57b555d]
+$S_p^2=\dfrac{7(4.0+4.5+5.2+4.8)}{28}=\dfrac{7(18.5)}{28}=4.625$. Bartlett's statistic is $B\approx0.121$ (numerator $28\ln(4.625)-7\sum\ln(S_i^2)\approx0.125$, correction factor $\approx1.0595$). Since $B\approx0.121\ll\chi^2_{0.05,3}=7.815$, \textbf{do not reject} $H_0$: the four variances are compatible with homoscedasticity.
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:e2546e4]
+By construction, $Z_{ij}=|Y_{ij}-\bar Y_{i.}|$ is simply a new variable derived from the original data. Once defined, Levene's procedure introduces no new statistic: it applies one-way ANOVA directly to $Z_{ij}$ instead of $Y_{ij}$. With $\bar Z_{i.}$ the group mean of the absolute deviations and $\bar Z_{..}$ their grand mean, the same partition theorem gives $\text{SST}_Z=\text{SSTR}_Z+\text{SSE}_Z$, where $\text{SSTR}_Z=\sum_i n_i(\bar Z_{i.}-\bar Z_{..})^2$ and $\text{SSE}_Z=\sum_i\sum_j(Z_{ij}-\bar Z_{i.})^2$. Dividing by $k-1$ and $N-k$ and taking the ratio,
+\begin{align*}
+F_Z=\frac{\text{MSTR}_Z}{\text{MSE}_Z}=\frac{N-k}{k-1}\cdot\frac{\sum_i n_i(\bar Z_{i.}-\bar Z_{..})^2}{\sum_i\sum_j(Z_{ij}-\bar Z_{i.})^2}\equiv W,
+\end{align*}
+which is exactly Levene's formula. They are not two different procedures, but one procedure applied to a re-expressed variable.
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:8dd2466]
+Group means are $\bar Y_A=41$, $\bar Y_B=53$, and $\bar Y_C=41$. Absolute deviations are $Z_A=\{1,1,3,3,0\}$ ($\bar Z_A=1.6$), $Z_B=\{3,2,5,1,7\}$ ($\bar Z_B=3.6$), and $Z_C=\{0,1,1,2,2\}$ ($\bar Z_C=1.2$). $\bar Z_{..}\approx2.133$, $\text{SSTR}_Z\approx16.533$, and $\text{SSE}_Z=33.2$, so $W=\text{MSTR}_Z/\text{MSE}_Z=8.267/2.767\approx2.988$. Since $2.988<3.885$, \textbf{do not reject} $H_0$: the visual impression of greater dispersion in Pipeline B is not statistically confirmed. With $n=5$ per group, the sample is insufficient to declare significant heteroscedasticity; visual inspection does not replace a formal test.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:095357b]
+\textbf{Example:} a quality-control laboratory compares the precision of $k=3$ industrial scales, each with $n_i=10$ repeated measurements of the same reference weight: Scale 1 ($S_1^2=0.08$), Scale 2 ($S_2^2=0.11$), and Scale 3 ($S_3^2=0.09$) (g$^2$). With $n_i-1=9$ for each group and $N-k=27$,
+\begin{align*}
+S_p^2=\frac{9(0.08+0.11+0.09)}{27}=\frac{9(0.28)}{27}\approx0.0933.
+\end{align*}
+\end{solproblema}

@@ -1,0 +1,75 @@
+\section*{Problems}
+
+\subsection*{Problem Statements}
+
+% Remember
+\begin{problema}
+\label{prob:83dd109}
+State, without performing any calculation, the $F$ statistic for one-way ANOVA and its reference distribution under $H_0$, and list the columns of a standard ANOVA table (Source, SS, df, MS, $F$).
+\end{problema}
+
+% Understand
+\begin{problema}
+\label{prob:e959af7}
+After a global ANOVA is significant (rejecting $H_0:\tau_1=\cdots=\tau_k=0$), explain why it is \textbf{not} valid simply to look at sample means and decide which pairs of treatments ``look different'', and why a formal multiple-comparison procedure (such as Tukey, LSD, or Bonferroni) is needed instead.
+\end{problema}
+
+% Apply
+\begin{problema}
+\label{prob:acbf3f9}
+A data scientist compares the $F_1$ score of four classification algorithms with $n=5$ replicates each ($N=20$): Random Forest ($\bar Y_1=84.2\%$, $S_1=3.1\%$), SVM ($\bar Y_2=79.8\%$, $S_2=3.4\%$), XGBoost ($\bar Y_3=88.6\%$, $S_3=2.8\%$), and DNN ($\bar Y_4=86.4\%$, $S_4=3.5\%$). Build the complete ANOVA table at $\alpha=0.05$ (use $F_{0.05,3,16}=3.239$). Is there evidence that at least one algorithm differs?
+\end{problema}
+
+% Analyze
+\begin{problema}
+\label{prob:63c8eaa}
+Using the data and results from the previous problem ($\text{MSE}=10.315$, $\nu_E=16$, $k=4$, balanced $n=5$), apply Tukey's HSD procedure with $\alpha=0.05$ (use $q_{0.05,4,16}=4.046$) to determine which of the six algorithm pairs differ significantly.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+\label{prob:271e3ee}
+A cloud-engineering firm compares $k=5$ routing protocols ($\text{MSE}=18.0$ ms$^2$, $\nu_E=25$, $n=6$ replicates per protocol). Calculate Fisher's Least Significant Difference (LSD, $\alpha=0.05$) and the Bonferroni critical margin (controlling the same familywise $\alpha=0.05$ over $\binom{5}{2}=10$ comparisons). Quantitatively evaluate which method is more sensitive and which is more conservative, and state the practical implication.
+\end{problema}
+
+% Create
+\begin{problema}
+\label{prob:2ed3d37}
+Design an original example ($k\ge3$ treatments with hypothetical means and sample standard deviations) in which, after a significant ANOVA, Tukey's HSD procedure is used to identify differing treatment pairs, different from the classification-algorithm examples already seen in this section. Calculate the HSD for your data.
+\end{problema}
+
+\subsection*{Detailed Solutions}
+
+% Remember
+\begin{solproblema}[prob:83dd109]
+$F=\text{MSTR}/\text{MSE}\sim F_{k-1,N-k}$ under $H_0$; reject when $F>F_{\alpha,k-1,N-k}$. ANOVA columns are Source of Variation, SS, df ($\nu$), MS, and $F$ (rows: Treatments, Error, Total).
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:e959af7]
+Multiple informal comparisons (or unadjusted individual $t$ tests) inflate the familywise error rate: the more comparisons performed, the greater the chance of declaring at least one random difference ``significant'' (a cumulative Type I Error), even when the global ANOVA is correctly significant. Formal procedures such as Tukey, LSD, or Bonferroni adjust the significance threshold to control the joint error probability at the desired $\alpha$ instead of allowing it to accumulate comparison by comparison.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:acbf3f9]
+$\bar Y_{..}=84.75$. $\text{SSTR}=5[(-0.55)^2+(-4.95)^2+(3.85)^2+(1.65)^2]=211.75$. $\text{SSE}=4[3.1^2+3.4^2+2.8^2+3.5^2]=165.04$. With $\nu_{\text{TR}}=3$ and $\nu_E=16$, $\text{MSTR}\approx70.583$, $\text{MSE}=10.315$, and $F\approx6.843$. Since $6.843>3.239$, \textbf{reject} $H_0$: at least one algorithm differs significantly in $F_1$ score.
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:63c8eaa]
+$\text{HSD}=q_{0.05,4,16}\sqrt{\text{MSE}/n}=4.046\sqrt{10.315/5}\approx4.046(1.436)\approx5.811\%$. Comparing the six absolute mean differences with $5.811\%$: XGBoost ($88.6$) versus SVM ($79.8$), $8.80>5.811$, is \textbf{significant}; DNN ($86.4$) versus SVM ($79.8$), $6.60>5.811$, is \textbf{significant}; the other four pairs (XGBoost--Random Forest, XGBoost--DNN, DNN--Random Forest, and Random Forest--SVM) have differences at most $4.40<5.811$ and are not significant. Thus XGBoost and DNN outperform SVM, while no detectable difference exists between them or with Random Forest.
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:271e3ee]
+$\text{LSD}=t_{0.025,25}\sqrt{\text{MSE}(2/n)}=2.060\sqrt{18.0(2/6)}=2.060\sqrt6\approx5.046$ ms. For Bonferroni with $m=10$ comparisons, $\alpha^*=0.05/10=0.005$, $t_{0.0025,25}=3.078$, and $\text{CD}_{\text{Bonf}}=3.078\sqrt6\approx7.540$ ms. The Bonferroni threshold is nearly 50\% wider than the LSD threshold. Fisher's \textbf{LSD} is more sensitive (it detects smaller differences and has lower Type II Error) but, without adjustment for 10 comparisons, its actual FWER greatly exceeds the nominal 5\%. \textbf{Bonferroni} strictly controls FWER but sacrifices power: real differences between 5.0 and 7.5 ms may go undetected. The choice depends on whether the project prioritizes avoiding false positives or detecting subtle effects.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:2ed3d37]
+\textbf{Example:} a study compares the loading time (seconds) of $k=3$ web frameworks, with $n=6$ replicates each: Framework A ($\bar Y_1=2.1$), Framework B ($\bar Y_2=3.4$), and Framework C ($\bar Y_3=2.3$), with $\text{MSE}=0.25$ and $\nu_E=15$. With $q_{0.05,3,15}\approx3.67$,
+\begin{align*}
+\text{HSD}=3.67\sqrt{0.25/6}\approx3.67(0.204)\approx0.749\text{ s}.
+\end{align*}
+Comparisons give $|\bar Y_B-\bar Y_A|=1.3>0.749$ (significant), $|\bar Y_B-\bar Y_C|=1.1>0.749$ (significant), and $|\bar Y_A-\bar Y_C|=0.2\le0.749$ (not significant). Framework B is significantly slower than A and C.
+\end{solproblema}

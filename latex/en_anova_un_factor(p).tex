@@ -1,0 +1,86 @@
+\section*{Problems}
+
+\subsection*{Problem Statements}
+
+% Remember
+\begin{problema}
+\label{prob:04f6e1c}
+State, without performing any calculation, the parametric linear model $Y_{ij}=\mu+\tau_i+\epsilon_{ij}$ for one-way ANOVA (identifying each term), and the partition identity $\text{SST}=\text{SSTR}+\text{SSE}$.
+\end{problema}
+
+% Understand
+\begin{problema}
+\label{prob:e3fdc51}
+Explain, without using a formula, what type of variability $\text{SSTR}$ (Treatment Sum of Squares) measures and what type $\text{SSE}$ (Error Sum of Squares) measures, and why comparing these two sources of variability allows us to decide whether treatments have genuinely different effects.
+\end{problema}
+
+% Apply
+\begin{problema}
+\label{prob:2b1379c}
+In a quality-control audit of tensile strength (MPa) for a polymer in four formulations ($k=4$, balanced $N=30$), the recorded values are $\text{SST}=520.0$ and $\text{SSE}=180.0$.
+\begin{enumerate}
+\item Calculate $\text{SSTR}$ by additivity.
+\item Determine $\nu_{\text{TR}}$, $\nu_E$, and $\nu_T$.
+\item Calculate $\text{MSTR}$, $\text{MSE}$, and the $F$ statistic.
+\item At $\alpha=0.01$, decide whether the formulations differ (use $F_{0.01,3,26}=4.637$).
+\end{enumerate}
+\end{problema}
+
+% Analyze
+\begin{problema}
+\label{prob:614e799}
+Starting from $Y_{ij}-\bar Y_{..} = (\bar Y_{i.}-\bar Y_{..})+(Y_{ij}-\bar Y_{i.})$, prove algebraically that after squaring and summing over all $i,j$, the cross-product vanishes exactly ($\sum_i\sum_j(\bar Y_{i.}-\bar Y_{..})(Y_{ij}-\bar Y_{i.})\equiv0$), proving $\text{SST}=\text{SSTR}+\text{SSE}$.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+\label{prob:792b2ff}
+A student claims: ``the identity $\text{SST}=\text{SSTR}+\text{SSE}$ is valid only when the errors $\epsilon_{ij}$ are normal; if the data are non-normal, the sums-of-squares partition no longer holds.'' Evaluate this claim: does the algebraic identity depend on a distributional assumption? What part of ANOVA analysis does require normality?
+\end{problema}
+
+% Create
+\begin{problema}
+\label{prob:4e06b95}
+Design an original example (context, $k$ treatments, and sample sizes) where a one-way ANOVA model applies, different from the polymer or algorithm examples already seen in this section. State $H_0$ and $H_a$ using effect notation ($\tau_i$).
+\end{problema}
+
+\subsection*{Detailed Solutions}
+
+% Remember
+\begin{solproblema}[prob:04f6e1c]
+$Y_{ij}=\mu+\tau_i+\epsilon_{ij}$: $\mu$ is the grand mean, $\tau_i=\mu_i-\mu$ is the effect of treatment $i$ (with $\sum n_i\tau_i=0$), and $\epsilon_{ij}\sim N(0,\sigma^2)$ are i.i.d. random errors. The partition identity is $\text{SST}=\text{SSTR}+\text{SSE}$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:e3fdc51]
+$\text{SSTR}$ measures variability \textbf{between} treatments: how dispersed the group means are around the grand mean (variability explained by belonging to one treatment rather than another). $\text{SSE}$ measures variability \textbf{within} treatments: how dispersed individual observations are around their own group mean (random variability not explained by treatment). If $\text{SSTR}$ is large relative to $\text{SSE}$, between-group differences clearly exceed the random noise expected within groups, suggesting genuinely different treatment effects; this relative comparison is exactly what $F=\text{MSTR}/\text{MSE}$ formalizes.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:2b1379c]
+\begin{enumerate}
+\item $\text{SSTR}=\text{SST}-\text{SSE}=520.0-180.0=340.0$.
+\item $\nu_{\text{TR}}=k-1=3$, $\nu_E=N-k=26$, $\nu_T=N-1=29$.
+\item $\text{MSTR}=340.0/3\approx113.333$, $\text{MSE}=180.0/26\approx6.923$, $F=113.333/6.923\approx16.370$.
+\item Since $16.370\gg4.637$, \textbf{reject} $H_0$: the chemical formulation significantly changes tensile strength.
+\end{enumerate}
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:614e799]
+After squaring, $(Y_{ij}-\bar Y_{..})^2 = (\bar Y_{i.}-\bar Y_{..})^2+(Y_{ij}-\bar Y_{i.})^2+2(\bar Y_{i.}-\bar Y_{..})(Y_{ij}-\bar Y_{i.})$. Summing over $i,j$, the cross-term is
+\begin{align*}
+\sum_{i=1}^k(\bar Y_{i.}-\bar Y_{..})\sum_{j=1}^{n_i}(Y_{ij}-\bar Y_{i.}).
+\end{align*}
+The inner sum is $\sum_j(Y_{ij}-\bar Y_{i.})=n_i\bar Y_{i.}-n_i\bar Y_{i.}=0$ for each fixed $i$ (deviations from a group's own arithmetic mean always sum to zero). Thus the cross-term vanishes and $\text{SST}=\text{SSTR}+\text{SSE}$.
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:792b2ff]
+The claim is \textbf{incorrect}. The identity $\text{SST}=\text{SSTR}+\text{SSE}$ is a purely \textbf{algebraic} identity, valid for any numerical data set and independent of its distribution. Normality (together with homoscedasticity and independence) is needed for the \textbf{distributional} statements $\text{SSTR}/\sigma^2\sim\chi^2_{k-1}$ and $\text{SSE}/\sigma^2\sim\chi^2_{N-k}$ (independently), and therefore for $F=\text{MSTR}/\text{MSE}$ to have the exact $F_{k-1,N-k}$ reference distribution. Without normality the numerical partition remains valid, but the exact reference distribution for $p$-values is not guaranteed.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:4e06b95]
+\textbf{Example:} an agronomist compares crop yield (tons/hectare) for $k=3$ wheat varieties, with $n_1=8$, $n_2=10$, and $n_3=7$ experimental plots randomly assigned to each variety. $H_0:\tau_1=\tau_2=\tau_3=0$ (all three varieties have the same mean yield); $H_a:$ at least one $\tau_i\ne0$ (at least one variety has a different mean yield).
+\end{solproblema}

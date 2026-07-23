@@ -1,0 +1,71 @@
+\section*{Problems}
+
+\subsection*{Problem Statements}
+
+% Remember
+\begin{problema}
+\label{prob:8d16ad2}
+State, without performing any calculation, Fisher's Three Principles of Experimental Design (Replication, Randomization, and Local Control or Blocking), and briefly define what a ``treatment'' is in this context.
+\end{problema}
+
+% Understand
+\begin{problema}
+\label{prob:0b5e19a}
+Explain, without calculating any new numerical value, why performing individual $t$ tests for every possible pair among $k$ treatments, with no adjustment, makes the global probability of committing \textbf{at least one} Type I Error in the complete experiment much larger than the nominal $\alpha$ level used in each individual test.
+\end{problema}
+
+% Apply
+\begin{problema}
+\label{prob:433c810}
+A data-science team plans to compare $k=6$ machine-learning models using individual pairwise $t$ tests, each at level $\alpha=0.05$, with no adjustment. Calculate the number of pairwise comparisons $m=\binom{6}{2}$ and the global probability of at least one Type I Error, $\alpha_{\text{global}}=1-(1-\alpha)^m$.
+\end{problema}
+
+% Analyze
+\begin{problema}
+\label{prob:9bff013}
+A team plans a one-way ANOVA with $k=4$ backend languages, residual variance $\sigma^2=16\,\text{ms}^2$, and wants power $1-\beta=0.80$ at level $\alpha=0.05$ to detect a maximum difference of $\Delta=5$ ms between the fastest and slowest language. Calculate the minimum population treatment variance $\sigma_\tau^2=\Delta^2/(2k)$, Cohen's effect size $f=\sigma_\tau/\sigma$, and interpret its magnitude using Cohen's scale ($f=0.10$ small, $0.25$ medium, $0.40$ large).
+\end{problema}
+
+% Evaluate
+\begin{problema}
+\label{prob:257933a}
+A researcher compares three fertilizers by convenience, always assigning them in the same order to plots nearest the greenhouse entrance (Fertilizer A to the first plots, B to the next plots, and C to the last plots), without any random assignment mechanism. Evaluate this design: which of Fisher's Three Principles is violated, and what consequence does the violation have for the validity of the experimental conclusions (consider positional confounders such as sunlight or humidity)?
+\end{problema}
+
+% Create
+\begin{problema}
+\label{prob:fb4917f}
+Design an original experiment (different from the fertilizer, algorithm, and language examples already seen), and explicitly identify each element of experimental-design terminology: the experimental unit, the factor, factor levels, treatments, the response variable, and a possible source of experimental error.
+\end{problema}
+
+\subsection*{Detailed Solutions}
+
+% Remember
+\begin{solproblema}[prob:8d16ad2]
+\textbf{Replication:} repeat each treatment several times to estimate $\sigma^2$ and reduce the standard error. \textbf{Randomization:} assign treatments to experimental units at random so that the errors $\epsilon_{ij}$ are independent and the $F$ and $t$ tests are valid. \textbf{Local control or blocking:} group similar experimental units into blocks to isolate known sources of variability. A \textbf{treatment} is each level (or combination of levels) of the factor under study that is applied to an experimental unit.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:0b5e19a]
+Each individual $t$ test has, by design, probability $\alpha$ of incorrectly rejecting $H_0$ when it is true. When many tests are performed independently, the probability that \emph{none} makes that error by chance is $(1-\alpha)^m$ (the product of the ``no error'' probabilities under independence), which becomes smaller as $m$ grows. Therefore, the complementary probability that \emph{at least one} of the $m$ tests produces a false positive, $1-(1-\alpha)^m$, increases rapidly with the number of comparisons and can be far above the nominal $\alpha$ of each individual test.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:433c810]
+$m=\binom{6}{2}=15$. $\alpha_{\text{global}} = 1-(1-0.05)^{15} = 1-(0.95)^{15} \approx1-0.4633 = 0.5367$ (53.67\%). Although each individual test uses $\alpha=0.05$, the probability of at least one false positive across the comparison family exceeds $53\%$.
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:9bff013]
+$\sigma_\tau^2 = 5^2/(2\times4) = 25/8 = 3.125\,\text{ms}^2$. $f = \sqrt{3.125/16} = \sqrt{0.1953}\approx0.4419$. Under Cohen's scale, $f\approx0.44$ is a \textbf{large} effect (above the $0.40$ threshold): the target maximum difference ($5$ ms) is substantial relative to the system's residual variability ($\sigma=4$ ms), which should make detection feasible with a moderate sample size.
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:257933a]
+The design violates the principle of \textbf{Randomization}. Assigning fertilizers in the same positional order (A near the entrance, B in the middle, C at the back) perfectly \textbf{confounds} any systematic environmental gradient in the greenhouse (sunlight, humidity, temperature, or airflow) with the fertilizer effect: it becomes impossible to distinguish fertilizer differences from position differences. Without randomization, the errors $\epsilon_{ij}$ are no longer independent of the treatments, and any detected ``effect'' could be entirely spurious, invalidating causal conclusions even if the subsequent ANOVA is computed correctly.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:fb4917f]
+\textbf{Example:} a study evaluates the effect of baking temperature on cookie texture. \textbf{Experimental unit:} each individual batch of baked dough. \textbf{Factor:} oven temperature. \textbf{Factor levels:} $160^\circ$C, $180^\circ$C, and $200^\circ$C. \textbf{Treatments:} each of the three temperatures applied to a batch. \textbf{Response variable:} a texture score (sensory scale 1--10) assigned by a tasting panel. \textbf{Possible source of experimental error:} uncontrolled changes in ambient humidity on the baking day, which affect texture independently of the programmed temperature.
+\end{solproblema}

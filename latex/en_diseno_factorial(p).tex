@@ -1,0 +1,107 @@
+\section*{Problems}
+
+\subsection*{Problem Statements}
+
+% Remember
+\begin{problema}
+\label{prob:11b9df2}
+Write the parametric statistical model for a complete two-factor factorial design (with interaction), identifying every term, and list the degrees of freedom for the four sources in the sums-of-squares partition (Factor $A$, Factor $B$, Interaction $AB$, Error), for a design with $a$ levels of $A$, $b$ levels of $B$, and $n$ replicates per cell.
+\end{problema}
+
+% Understand
+\begin{problema}
+\label{prob:196fe5a}
+In a factorial design with $a=3$, $b=4$, and $n=5$ replicates per cell, suppose $\text{SS}_A=120$, $\text{SS}_B=200$, $\text{SS}_{AB}=45$, and $\text{SSE}=180$. Without evaluating significance yet, directly calculate $\text{MS}_A$, $\text{MS}_B$, $\text{MS}_{AB}$, and $\text{MSE}$ using the corresponding degrees of freedom.
+\end{problema}
+
+% Apply
+\begin{problema}
+\label{prob:414074b}
+A process engineer studies the effect of baking temperature (Factor $A$, $a=2$ levels) and catalyst type (Factor $B$, $b=3$ levels) on reaction yield (\%), with $n=4$ replicates per combination. The sums of squares are $\text{SS}_A=84.5$, $\text{SS}_B=162.3$, $\text{SS}_{AB}=25.0$, and $\text{SSE}=96.0$.
+\begin{enumerate}
+\item Complete the ANOVA table (degrees of freedom, mean squares, and $F$ statistics).
+\item Using the critical values $F_{1,18,\,0.05}\approx4.41$ (for $A$) and $F_{2,18,\,0.05}\approx3.55$ (for $B$ and the interaction), decide which effects are significant at $\alpha=0.05$.
+\end{enumerate}
+\end{problema}
+
+% Analyze
+\begin{problema}
+\label{prob:64cf64c}
+Returning to the solved theory example (training times for a machine-learning model under $2$ algorithms $\times$ $2$ batch sizes: $A_1B_1=42$, $A_1B_2=40$, $A_2B_1=38$, $A_2B_2=20$), suppose ANOVA confirms that the $AB$ interaction is statistically significant. Analyze whether it makes sense to report ``the average effect of batch size ($B$)'' as a single number applicable to both algorithms. Calculate the simple effect of $B$ ($B_1-B_2$) separately for each level of $A$, and use the two values to justify your answer.
+\end{problema}
+
+% Evaluate
+\begin{problema}
+\label{prob:5ffa1be}
+An analyst observes the following cell means from a $2\times2$ experiment (Factor $A$: teaching method; Factor $B$: student motivation level) on final grade: $A_1B_1=70$, $A_1B_2=90$, $A_2B_1=88$, $A_2B_2=68$. The analyst computes marginal means $\bar A_1=(70+90)/2=80$ and $\bar A_2=(88+68)/2=78$, then concludes that ``method $A_1$ is slightly better than $A_2$ on average, so $A_1$ should be recommended to all students.'' Evaluate this conclusion: is it appropriate given the complete data structure? Calculate the simple effects of $A$ within each level of $B$ and explain what the analyst's conclusion omits.
+\end{problema}
+
+% Create
+\begin{problema}
+\label{prob:fc779e7}
+Design an original $2\times2$ factorial experiment (define both factors and their two levels, in a context different from those already seen in the theory or this problem set) and propose hypothetical cell means showing clear evidence of interaction—that is, the effect of one factor changes substantially in magnitude or sign according to the level of the other factor. Present your table of means and explain qualitatively, without computing the complete ANOVA table, why the data suggest interaction.
+\end{problema}
+
+\subsection*{Detailed Solutions}
+
+% Remember
+\begin{solproblema}[prob:11b9df2]
+\begin{align}
+Y_{ijk}=\mu+\alpha_i+\beta_j+(\alpha\beta)_{ij}+\epsilon_{ijk},\quad i=1,\ldots,a,\ j=1,\ldots,b,\ k=1,\ldots,n,
+\end{align}
+where $\mu$ is the grand mean, $\alpha_i$ the main effect of $A$, $\beta_j$ the main effect of $B$, $(\alpha\beta)_{ij}$ the interaction effect, and $\epsilon_{ijk}$ the random error. Degrees of freedom are $\nu_A=a-1$, $\nu_B=b-1$, $\nu_{AB}=(a-1)(b-1)$, and $\nu_E=ab(n-1)$.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:196fe5a]
+With $\nu_A=2$, $\nu_B=3$, $\nu_{AB}=6$, and $\nu_E=3\times4\times4=48$,
+\begin{align}
+\text{MS}_A=\frac{120}{2}=60,\quad \text{MS}_B=\frac{200}{3}\approx66.67,\quad \text{MS}_{AB}=\frac{45}{6}=7.5,\quad \text{MSE}=\frac{180}{48}=3.75.
+\end{align}
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:414074b]
+With $\nu_A=1$, $\nu_B=2$, $\nu_{AB}=2$, and $\nu_E=2\times3\times3=18$,
+\begin{align}
+\text{MS}_A=\frac{84.5}{1}=84.5,\quad \text{MS}_B=\frac{162.3}{2}=81.15,\quad \text{MS}_{AB}=\frac{25.0}{2}=12.5,\quad \text{MSE}=\frac{96.0}{18}\approx5.333.
+\end{align}
+\begin{align}
+F_A=\frac{84.5}{5.333}\approx15.84,\qquad F_B=\frac{81.15}{5.333}\approx15.22,\qquad F_{AB}=\frac{12.5}{5.333}\approx2.34.
+\end{align}
+Comparison gives $F_A\approx15.84>4.41$ (significant), $F_B\approx15.22>3.55$ (significant), and $F_{AB}\approx2.34<3.55$ (\textbf{not} significant). Because the interaction is not significant, the main temperature and catalyst effects may be interpreted separately; both significantly affect yield.
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:64cf64c]
+Reporting one ``average effect of $B$'' is not meaningful. The simple effect of $B$ ($B_1-B_2$) is:
+\begin{itemize}
+\item For $A_1$: $42-40=2$ minutes (small).
+\item For $A_2$: $38-20=18$ minutes (large).
+\end{itemize}
+An ``average effect'' such as $(2+18)/2=10$ describes neither actual case: it greatly underestimates the batch-size effect under $A_2$ and overestimates it under $A_1$. This is exactly what a significant interaction means: the effect of $B$ depends on the level of $A$, so reporting the two simple effects separately is the only honest summary.
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:5ffa1be]
+The analyst's conclusion is \textbf{inappropriate}: this is a crossover interaction that the marginal means hide completely. Simple effects of $A$ within each $B$ level are:
+\begin{itemize}
+\item Within $B_1$ (low motivation): $A_1B_1=70$ versus $A_2B_1=88$—method $A_2$ is \textbf{better} by 18 points.
+\item Within $B_2$ (high motivation): $A_1B_2=90$ versus $A_2B_2=68$—method $A_1$ is \textbf{better} by 22 points.
+\end{itemize}
+The small marginal difference (80 versus 78) averages two substantial effects in \textbf{opposite} directions and nearly cancels them. Recommending $A_1$ ``for every student'' would be seriously wrong for low-motivation students ($B_1$), for whom $A_2$ is clearly superior. The correct recommendation depends on motivation level.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:fc779e7]
+\textbf{Example:} an agronomist studies the effect of fertilizer type (Factor $A$: organic versus synthetic) and irrigation method (Factor $B$: drip versus sprinkler) on crop yield (kg/m$^2$). Hypothetical cell means are:
+\begin{center}
+\begin{tabular}{lcc}
+\hline
+ & Drip irrigation ($B_1$) & Sprinkler irrigation ($B_2$) \\ \hline
+Organic ($A_1$) & $8.2$ & $8.0$ \\
+Synthetic ($A_2$) & $6.5$ & $9.8$ \\ \hline
+\end{tabular}
+\end{center}
+The simple irrigation effect is $8.0-8.2=-0.2$ kg/m$^2$ under organic fertilizer (nearly zero), but $9.8-6.5=3.3$ kg/m$^2$ under synthetic fertilizer (large and positive). Irrigation barely matters with organic fertilizer but is decisive with synthetic fertilizer—a substantial change in the magnitude of $B$'s effect across levels of $A$, indicating a relevant $AB$ interaction.
+\end{solproblema}

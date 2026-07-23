@@ -1,0 +1,115 @@
+\section*{Problems}
+
+\subsection*{Problem Statements}
+
+% Remember
+\begin{problema}
+\label{prob:e90018f}
+Define, without using a numerical example, a Latin square of order $n$ (the property treatments must satisfy with respect to rows and columns), and write the corresponding additive parametric statistical model, identifying each term.
+\end{problema}
+
+% Understand
+\begin{problema}
+\label{prob:8e9e6f8}
+Consider the following $4\times4$ arrangement with treatments $A$, $B$, $C$, and $D$:
+\begin{center}
+\begin{tabular}{c|cccc}
+ & Column 1 & Column 2 & Column 3 & Column 4 \\ \hline
+Row 1 & $A$ & $B$ & $C$ & $D$ \\
+Row 2 & $B$ & $A$ & $D$ & $C$ \\
+Row 3 & $C$ & $D$ & $A$ & $B$ \\
+Row 4 & $D$ & $C$ & $B$ & $A$ \\
+\end{tabular}
+\end{center}
+Check every row and column to determine whether this is a valid Latin square of order 4. Justify your answer explicitly.
+\end{problema}
+
+% Apply
+\begin{problema}
+\label{prob:f64d8dc}
+In a Latin-square experiment of order $n=5$ evaluating the effect of five fertilizer formulations (treatment) on crop yield, controlling for soil type (row) and irrigation method (column), the sums of squares are $\text{SS}_{\text{rows}}=42.0$, $\text{SS}_{\text{columns}}=18.5$, $\text{SSTR}=96.4$, and $\text{SSE}=25.1$.
+\begin{enumerate}
+\item Calculate $\text{SST}$ by summing the four components.
+\item Calculate $\text{MSTR}$ and $\text{MSE}$.
+\item Calculate $F_{\text{TR}}$ and, using $F_{4,12,\,0.05}\approx3.26$, decide whether to reject $H_{0,\text{TR}}$ (equal treatments) at $\alpha=0.05$.
+\end{enumerate}
+\end{problema}
+
+% Analyze
+\begin{problema}
+\label{prob:68ab492}
+For a Latin square of order $n=6$, the error degrees of freedom are $\nu_E=(n-1)(n-2)=20$. If, setting aside the existence problem for the moment, a Graeco-Latin square of the same order $n=6$ could be used, its error degrees of freedom would be $\nu_E=(n-1)(n-3)=15$.
+\begin{enumerate}
+\item Verify both degrees-of-freedom partitions, confirming that each sums to $n^2-1=35$ in total.
+\item Analyze whether the Graeco-Latin square has more or fewer error degrees of freedom than the equivalent Latin square. Since fewer error degrees of freedom imply a more demanding critical $F$ value for the same $\alpha$, while an additional real blocking factor also tends to reduce $\text{SSE}$, discuss why the net effect on the power of $F_{\text{TR}}$ is not automatic and depends on how much real variability the additional block explains.
+\end{enumerate}
+\end{problema}
+
+% Evaluate
+\begin{problema}
+\label{prob:19cbc65}
+An experimenter proposes a Graeco-Latin square of order $n=6$ to control three nuisance sources (shift, machine, and operator) in addition to the main treatment, arguing that ``because it works for $n=5$ and $n=7$, it must also work for $n=6$ by continuity.'' Evaluate this proposal: is it valid? Justify with the relevant theoretical result and suggest a practical alternative if the experimenter insists on exactly six levels for the blocking factors.
+\end{problema}
+
+% Create
+\begin{problema}
+\label{prob:c1de238}
+Construct explicitly a valid Latin square of order $n=5$ using five treatments ($P$, $Q$, $R$, $S$, $T$), so that each treatment appears exactly once in every row and column. Present the complete arrangement in a table and verify the property for at least one row and one column.
+\end{problema}
+
+\subsection*{Detailed Solutions}
+
+% Remember
+\begin{solproblema}[prob:e90018f]
+A Latin square of order $n$ is an $n\times n$ arrangement of $n$ treatments in which each treatment appears exactly once in every row and exactly once in every column. The parametric statistical model is
+\begin{align}
+Y_{ijk}=\mu+\rho_i+\gamma_j+\tau_k+\epsilon_{ijk},
+\end{align}
+where $\mu$ is the grand mean, $\rho_i$ is the effect of row $i$, $\gamma_j$ is the effect of column $j$, $\tau_k$ is the effect of treatment $k$, and $\epsilon_{ijk}$ is the random error.
+\end{solproblema}
+
+% Understand
+\begin{solproblema}[prob:8e9e6f8]
+Yes, it is a valid Latin square. Each row contains $\{A,B,C,D\}$ exactly once (respectively $A,B,C,D$; $B,A,D,C$; and so on). Column checks give Column 1 $=\{A,B,C,D\}$, Column 2 $=\{B,A,D,C\}$, Column 3 $=\{C,D,A,B\}$, and Column 4 $=\{D,C,B,A\}$; every column also contains each treatment exactly once. The defining property holds in both directions.
+\end{solproblema}
+
+% Apply
+\begin{solproblema}[prob:f64d8dc]
+\begin{enumerate}
+\item $\text{SST}=42.0+18.5+96.4+25.1=182.0$.
+\item With $n-1=4$ and $(n-1)(n-2)=12$,
+\begin{align}
+\text{MSTR}=\frac{96.4}{4}=24.1,\qquad \text{MSE}=\frac{25.1}{12}\approx2.092.
+\end{align}
+\item $F_{\text{TR}}=\text{MSTR}/\text{MSE}=24.1/2.092\approx11.52$. Since $11.52>3.26$, \textbf{reject} $H_{0,\text{TR}}$: at least one fertilizer formulation differs in its effect on yield.
+\end{enumerate}
+\end{solproblema}
+
+% Analyze
+\begin{solproblema}[prob:68ab492]
+\begin{enumerate}
+\item Latin square: $\nu_{\text{rows}}+\nu_{\text{columns}}+\nu_{\text{TR}}+\nu_E=5+5+5+20=35=6^2-1$. Hypothetical Graeco-Latin square: $5+5+5+5+15=35=6^2-1$. Both partitions are consistent.
+\item The Graeco-Latin square has \textbf{fewer} error degrees of freedom ($15<20$), because five extra degrees of freedom estimate the fourth blocking factor (the Greek factor). By itself this requires a higher critical $F$ value and tends to reduce power. However, if that additional factor captures real variability that would otherwise remain in the error, $\text{SSE}$ decreases and the smaller $\text{MSE}$ tends to increase $F_{\text{TR}}$. The net effect depends on which force dominates; there is no single answer without knowing the magnitude of the additional noise source.
+\end{enumerate}
+\end{solproblema}
+
+% Evaluate
+\begin{solproblema}[prob:19cbc65]
+The proposal is \textbf{invalid}. The existence of orthogonal Graeco-Latin squares is not a continuous property of $n$: it is an exact combinatorial result. It is known (conjectured by Euler in 1782 and proved in 1900) that no orthogonal Graeco-Latin square of order $n=6$ exists, although such squares exist for $n=5$, $n=7$, and in general for every $n\ge3$ except $n=6$. The ``continuity'' argument is a fallacy for a discrete combinatorial problem. A practical alternative is (a) an ordinary Latin square of order 6, controlling only two of the three noise sources, or (b) changing the blocking-factor levels to $n=5$ or $n=7$ if the experimental context permits.
+\end{solproblema}
+
+% Create
+\begin{solproblema}[prob:c1de238]
+A cyclic Latin square of order 5, where each row is a shift of the preceding row, is:
+\begin{center}
+\begin{tabular}{c|ccccc}
+ & Col. 1 & Col. 2 & Col. 3 & Col. 4 & Col. 5 \\ \hline
+Row 1 & $P$ & $Q$ & $R$ & $S$ & $T$ \\
+Row 2 & $Q$ & $R$ & $S$ & $T$ & $P$ \\
+Row 3 & $R$ & $S$ & $T$ & $P$ & $Q$ \\
+Row 4 & $S$ & $T$ & $P$ & $Q$ & $R$ \\
+Row 5 & $T$ & $P$ & $Q$ & $R$ & $S$ \\
+\end{tabular}
+\end{center}
+Verification: Row 1 contains $\{P,Q,R,S,T\}$ exactly once, and Column 1 contains $P,Q,R,S,T$ from top to bottom exactly once. By the cyclic construction, every row and column is a complete permutation of the five treatments.
+\end{solproblema}
