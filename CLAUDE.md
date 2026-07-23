@@ -52,7 +52,7 @@ archive/latex/                       ← retired content, not part of the live b
 - **`_` prefix files** are infrastructure loaded by the master preamble. Do not `\input{}` them from chapter files.
 - **Duplicate preamble files exist**: `_comandos_md.tex` = `_md_comandos.tex`, `_comandos_pe.tex` ≈ `_pe_comandos.tex`, `_comandos_trig.tex` = `_trig_comandos.tex`. Only the `_md_*` / `_pe_*` / `_trig_*` naming is loaded by the master — the `_comandos_*` variants are stale duplicates.
 - **Image paths in chapters**: referenced as `./images/...` or `./pe/...`; `images/` and `em/` dirs are near-identical.
-- **All ES prose is in Spanish** (babel: `spanish,mexico`); EN files under `latex/en_*.tex` are the parallel English content. The EN theory file set now mirrors ES, but EN problem companions are still pending the Bloom/hash migration — see "English mirror gap" below before touching any `en_*.tex` file.
+- **All ES prose is in Spanish** (babel: `spanish,mexico`); EN files under `latex/en_*.tex` are the parallel English content. The EN theory and problem files now mirror the live ES file set; each problem pair uses six Bloom-ordered problems and shared hash labels. Historical EN bundles remain under `archive/latex/en-pre-syllabus-2026-07-22/`.
 - **Code listings**: `\begin{lstlisting}[language=Python]` (styled in `_color-listings.tex`) or `\lstinputlisting[language=python]{../code/...}`.
 - **Custom environments** (`_entornos.tex`): `teorema`, `lema`, `proposicion`, `corolario`, `problema`, `ejemplo`, `definicion`, `axioma`, `propiedad`, `observacion`, `sugerencia`, `solucion` (TecRojo), `algoritmo` (TecAzulOscuro) — colores institucionales del Tec de Monterrey (`_paquetes.tex`). Additional from `_md_entornos.tex`: `conj`, `ax`, `tdv`, `claim`, `case`.
 - **Custom commands**: see `_comandos.tex`, `_md_comandos.tex`, `_pe_comandos.tex`. Notable: `\Var`, `\cov`, `\comb`, `\s` (sigma), `\corr` (rho), `\card`, `\particion`.
@@ -67,7 +67,7 @@ archive/latex/                       ← retired content, not part of the live b
 
 ## English mirror gap (read before editing `latex/en_*.tex`)
 
-The ES-only chapter renumbering above (2026-07-20) and both `(p).tex` convention migrations (2026-07-20, 2026-07-22) were explicitly scoped to Spanish only. The EN theory mirror has now been split to match the ES theory file set (70 ES theory files, 70 EN counterparts), and the old bundled EN theory/problem files were copied to `archive/latex/en-pre-syllabus-2026-07-22/`. The remaining active gap is the problem mirror: only 29 `en_*(p).tex` files exist for 60 ES `(p).tex` files, and the live EN problem files still use visible Fundamental/Operational/Analytical/Challenging tiers with mixed legacy labels. The EN master is therefore temporarily theory-parallel but still keeps legacy bundled EN problem companions until checkpoint 4 creates the missing one-to-one problem files. Full breakdown and phased plan: `docs/proximos-pasos-2026-07-22.md`.
+The ES-only chapter renumbering above (2026-07-20) and both `(p).tex` convention migrations (2026-07-20, 2026-07-22) were initially scoped to Spanish only. Checkpoints 4A--4K completed the English mirror on 2026-07-23: the live tree now contains 60 ES problem files and 60 one-to-one EN counterparts, all with six Bloom-ordered problems and shared hash labels. Superseded EN bundles were preserved under `archive/latex/en-pre-syllabus-2026-07-22/` and removed from the live master. The detailed migration record remains in `docs/proximos-pasos-2026-07-22.md`.
 
 ## Beamer Presentations & Python Labs (`presentaciones/`)
 
@@ -82,4 +82,4 @@ The ES-only chapter renumbering above (2026-07-20) and both `(p).tex` convention
 ## Non-obvious conventions worth knowing
 
 - `AGENTS.md` at the repo root duplicates most of the LaTeX-book conventions above; keep both in sync if one changes, or prefer consolidating into one file if asked.
-- The book's old problem-tier "3-3-2-2" standard (Nivel Fundamental/Operativo/Analítico/Desafiante) is historical for the live ES book. Current ES `(p).tex` files use exactly 6 Bloom-ordered problems with hash labels; the EN mirror is still pending migration.
+- The book's old problem-tier "3-3-2-2" standard (Nivel Fundamental/Operativo/Analítico/Desafiante) is historical for the live book. Current ES and EN `(p).tex` files use exactly 6 Bloom-ordered problems with shared hash labels.

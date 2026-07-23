@@ -1,8 +1,18 @@
 # Próximos pasos: cierre de reestructuración y espejo en inglés
 
 **Fecha:** 2026-07-22
-**Estado global:** Abierto, en ejecución por etapas.
+**Estado global:** Cerrado el 2026-07-23 11:03:37 -06:00, tras completar los checkpoints 4J y 4K y la verificación final.
 **Alcance de este documento:** cerrar las tareas que quedaron vivas después de la reestructuración del temario MA1001B, sin modificar `presentaciones/` en esta fase.
+
+## Cierre verificado el 2026-07-23 11:03:37 -06:00
+
+- Checkpoint 4J completado en `cd2abf4`: seis contrapartes EN de diseño experimental, maestro EN actualizado y bundle `en_diseno_experimentos_anova(p).tex` retirado del árbol vivo.
+- Checkpoint 4K completado en `534f156`: siete contrapartes EN de regresión normalizadas con seis problemas Bloom y etiquetas compartidas.
+- El bundle `en_distribuciones_especiales(p).tex` se retiró del maestro y del árbol vivo; su copia histórica ya existía en `archive/latex/en-pre-syllabus-2026-07-22/`.
+- Estado vivo: 60 archivos ES `(p).tex`, 60 archivos EN `en_*(p).tex`, 139 entradas `\input{}` en cada maestro y 0 objetivos faltantes.
+- La secuencia de etiquetas de los 60 pares coincide; cada archivo contiene 6 enunciados, 6 soluciones y los seis niveles Bloom.
+- El maestro EN compiló tres pasadas tras 4J y tres pasadas tras 4K, sin errores LaTeX, referencias indefinidas ni etiquetas multiplicadas.
+- `presentaciones/` no se modificó y no se hizo `git push`.
 
 ## Bitácora de progreso registrada el 2026-07-22 17:04 -06:00
 
@@ -21,7 +31,7 @@ Estado verificado al 2026-07-22 17:04 -06:00:
 - No se tocó `presentaciones/`.
 - No se hizo `git push`.
 
-Pendientes al 2026-07-22 17:04 -06:00:
+Pendientes identificados al 2026-07-22 17:04 -06:00 (resueltos al 2026-07-23 11:03:37 -06:00):
 
 1. **Checkpoint 4J — Capítulo 8 / Diseño experimental.** Crear las 6 contrapartes EN faltantes y conectarlas al maestro EN inmediatamente después de sus archivos teóricos:
    - `en_estrategias_experimentacion(p).tex`
@@ -42,11 +52,11 @@ Pendientes al 2026-07-22 17:04 -06:00:
 3. **Revisión puntual de bundle vivo restante.** Confirmar en el cierre final si `en_distribuciones_especiales(p).tex` debe conservarse como contraparte válida del archivo ES homónimo o archivarse/retirarse si queda fuera de la estructura paralela final.
 4. **Verificación final completa.** Cuando los 60 pares estén normalizados: comparar secuencias de `\input{}` ES/EN, confirmar unicidad de etiquetas, compilar ES y EN, ejecutar `git diff --check`, revisar que no haya `.log` agregados ni cambios ajenos, y actualizar la documentación de operación si el estado vivo ya no coincide con notas históricas.
 
-## Línea base verificada
+## Línea base histórica verificada al 2026-07-22 17:04 -06:00
 
 La reestructuración del libro en español ya está aplicada. Los archivos de problemas en español usan el estándar vigente de 6 problemas por sección, ordenados por nivel de Bloom, con etiquetas hash `prob:<7-hex>`.
 
-El espejo en inglés sigue abierto y es la deuda principal:
+En ese corte, el espejo en inglés seguía abierto y constituía la deuda principal:
 
 - Archivos de problemas ES: 60.
 - Archivos de problemas EN: 56 después del checkpoint 4I.
@@ -247,9 +257,9 @@ Los problemas EN adicionales que no correspondan al par ES vigente deben quedar 
 
 ### 5. Verificación final
 
-**Estado:** Pendiente.
+**Estado:** Completada el 2026-07-23 11:03:37 -06:00.
 
-Antes de cerrar la tarea:
+Verificaciones realizadas para cerrar la tarea:
 
 - Comparar secuencias normalizadas de `\input{}` entre maestros ES y EN.
 - Confirmar 60 archivos ES `(p).tex` y 60 archivos EN `en_*(p).tex`.

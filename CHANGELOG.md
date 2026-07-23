@@ -4,6 +4,20 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-23 11:03:37 -06:00 (cierre del espejo EN)
+
+### Añadido / Corregido
+- Completado el checkpoint 4J en `cd2abf4`: creadas las seis contrapartes EN de Diseño Experimental, conectadas al maestro `latex/[Statistical Modeling].tex`, y retirado del árbol vivo el bundle heredado `en_diseno_experimentos_anova(p).tex`.
+- Completado el checkpoint 4K en `534f156`: normalizados los siete compañeros EN de Regresiones Lineales y Múltiples con seis problemas Bloom y etiquetas hash compartidas con ES.
+- Retirado del maestro y del árbol vivo `en_distribuciones_especiales(p).tex`; su copia histórica coincide con `archive/latex/en-pre-syllabus-2026-07-22/en_distribuciones_especiales(p).tex`.
+- Actualizado `CLAUDE.md` para reflejar el estado actual de 60 pares ES/EN y dejar de describir la migración EN como pendiente.
+
+### Verificación
+- Confirmados 60 archivos ES `(p).tex` y 60 archivos EN `en_*(p).tex`, con seis problemas, seis soluciones, orden Bloom y etiquetas hash idénticas por par.
+- Confirmadas 139 entradas `\input{}` en cada maestro y cero objetivos faltantes.
+- El maestro EN compiló tres pasadas después de 4J y tres después de 4K, sin errores LaTeX, referencias indefinidas ni etiquetas multiplicadas.
+- `git diff --check` limpio; `presentaciones/` no fue modificado y no se hizo `git push`.
+
 ## 2026-07-22 (documentación de cierre y corrección de etiqueta duplicada)
 
 ### Añadido / Corregido
