@@ -40,8 +40,10 @@ donde:
 
 El DBCA permite evaluar dos hipótesis nulas independientes: la prueba primordial sobre la igualdad de tratamientos ($H_{0,\text{TR}}: \tau_i = 0$) y la prueba secundaria para verificar si el factor de bloqueo redujo efectivamente el ruido del experimento ($H_{0,\text{B}}: \beta_j = 0$). Los estadísticos y su síntesis computacional se presentan en la Tabla \ref{tab:anova_dbca}.
 
-\begin{table}[h!]
+\begin{table*}[htbp]
 	\centering
+	\caption{Tabla de Análisis de Varianza para un Diseño en Bloques Completos al Azar (DBCA).}
+	\label{tab:anova_dbca}
 	\begin{tabular}{lcccc}
 		\hline
 		\textbf{Fuente de Variación} & \textbf{SC} & \textbf{g.l. ($\nu$)} & \textbf{Cuadrado Medio (CM)} & \textbf{Estadístico $F$} \\ \hline
@@ -50,9 +52,7 @@ El DBCA permite evaluar dos hipótesis nulas independientes: la prueba primordia
 		Error residual & $\text{SCE} = \text{SCT} - \text{SCTR} - \text{SCB}$ & $(k-1)(b-1)$ & $\text{CME} = \frac{\text{SCE}}{(k-1)(b-1)}$ & \\ [1.5ex] \hline
 		\textbf{Total} & $\text{SCT} = \sum \sum (Y_{ij} - \bar{Y}_{..})^2$ & $kb - 1$ & & \\ \hline
 	\end{tabular}
-	\caption{Tabla de Análisis de Varianza para un Diseño en Bloques Completos al Azar (DBCA).}
-	\label{tab:anova_dbca}
-\end{table}
+\end{table*}
 
 \subsection{Cuadrados latinos}
 
@@ -129,4 +129,3 @@ con $\nu_{\text{filas}} = \nu_{\text{columnas}} = \nu_{\text{TR}} = \nu_{\text{g
 \begin{observacion}
 	Cada fuente de bloqueo adicional (fila, columna, factor griego) que efectivamente explica variabilidad real reduce el Cuadrado Medio del Error y, por lo tanto, aumenta la potencia de la prueba $F$ sobre los tratamientos —el mismo principio de bloqueo del DBCA, aplicado ahora a tres fuentes de ruido simultáneas en lugar de una sola.
 \end{observacion}
-
