@@ -12,6 +12,7 @@
 
 % Slide 1: Portada
 \begin{frame}[plain]
+  \vspace{-0.8cm}
   \titlepage
 \end{frame}
 
@@ -136,81 +137,6 @@ Parametric ANOVA: F=3.5514, p=0.0376
 Kruskal-Wallis:    H=11.9985, p=0.0025
     \end{verbatim}
   \end{block}
-\end{frame}
-
-% Slide 12A: Ejercicio Nivel 1 (Enunciado)
-
-% Slide 12B: Ejercicio Nivel 1 (Resolución)
-
-% Slide 13A: Ejercicio Nivel 2 (Enunciado)
-
-% Slide 13B: Ejercicio Nivel 2 (Resolución)
-
-% Slide 14A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema (Enunciado, Problema 8.6.7)}
-    Un ANOVA con $k=3$ configuraciones de caché, $n_i=6$ cada una, tiene $S_1^2=1.2$, $S_2^2=1.5$, $S_3^2=8.9$. Un analista alega que ``el ANOVA es robusto si los tamaños son iguales''. ¿Es correcto? ¿Qué procedimiento y alternativa proceden?
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Calcule el cociente de varianzas extremas y contraste formalmente con Levene.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Evaluamos la magnitud de la disparidad de varianzas: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    $$S_3^2/S_1^2 = 8.9/1.2 \approx 7.41$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    La afirmación es \textbf{incompleta}: la robustez del ANOVA no soporta disparidades extremas como $7.4:1$. La Prueba de Levene rechazará contundentemente $H_0$; el analista debe usar el \textbf{ANOVA de Welch} o una transformación logarítmica.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Levene como ANOVA (Enunciado, Problema 8.6.13)}
-    Demuestre que la Prueba de Levene centrada en la media es idéntica a aplicar el ANOVA de un factor de la Sección 08.01 a $Z_{ij}=|Y_{ij}-\bar Y_{i.}|$: muestre que $W\equiv\text{CMTR}_Z/\text{CME}_Z$.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Aplique el Teorema de partición de sumas de cuadrados de la Sección 08.01 directamente sobre $Z$ en lugar de $Y$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Reutilizamos íntegramente la maquinaria del ANOVA sobre la variable transformada: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$\text{SCT}_Z=\text{SCTR}_Z+\text{SCE}_Z \implies F_Z=\frac{\text{SCTR}_Z/(k-1)}{\text{SCE}_Z/(N-k)}=\frac{N-k}{k-1}\cdot\frac{\sum_i n_i(\bar Z_{i.}-\bar Z_{..})^2}{\sum_i\sum_j(Z_{ij}-\bar Z_{i.})^2}\equiv W$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    $W$ y $F_Z$ son algebraicamente idénticos: Levene no es una prueba nueva, sino el mismo ANOVA aplicado a una variable reexpresada. Auditar homoscedasticidad no exige herramientas adicionales a las ya construidas en 08.01.
-  \end{alertblock}
 \end{frame}
 
 % Slide 16: Cierre

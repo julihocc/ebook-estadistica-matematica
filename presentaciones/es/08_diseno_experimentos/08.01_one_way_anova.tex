@@ -12,6 +12,7 @@
 
 % Slide 1: Portada
 \begin{frame}[plain]
+  \vspace{-0.8cm}
   \titlepage
 \end{frame}
 
@@ -139,83 +140,6 @@ SST=437.67 = SSTR(52.67) + SSB(382.00) + SSE(3.00)
 F_TR=52.67 (p=0.000157), F_B=254.67 (p=0.000001), Relative Efficiency=70.18
     \end{verbatim}
   \end{block}
-\end{frame}
-
-% Slide 12A: Ejercicio Nivel 1 (Enunciado)
-
-% Slide 12B: Ejercicio Nivel 1 (Resolución)
-
-% Slide 13A: Ejercicio Nivel 2 (Enunciado)
-
-% Slide 13B: Ejercicio Nivel 2 (Resolución)
-
-% Slide 14A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Potencia y Tamaño de Muestra (Enunciado, Problema 8.6.8)}
-    Se planea un ANOVA de un factor para $k=4$ lenguajes de backend con $\sigma^2=16$ ms$^2$. Determine $n$ por lenguaje para lograr potencia $1-\beta=0.80$ al detectar una diferencia máxima $\Delta=5$ ms al nivel $\alpha=0.05$, usando el efecto estandarizado de Cohen $f$.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Aproxime $f\approx \Delta/(2\sigma)$ y consulte las tablas de potencia de Pearson-Hartley con $\nu_1=k-1$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Calculamos el tamaño de efecto y consultamos las curvas de potencia: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$f\approx\frac{5}{2(4)}=0.625 \implies \Phi=f\sqrt{n}$$
-    Iterando sobre las tablas de Pearson-Hartley con $\nu_1=3$, se requiere $\Phi\approx1.85$ para potencia $0.80$, lo que exige $n\approx9$ réplicas por lenguaje.
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Con $n=9$ (total $N=36$), el experimento detectará con $80\%$ de probabilidad una diferencia de al menos 5 ms entre el lenguaje más rápido y el más lento, si en verdad existe.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Teorema de Cochran (Enunciado, Problema 8.6.9)}
-    Demuestre que bajo $H_0:\tau_i=0\ \forall i$, las formas cuadráticas normalizadas $\text{SCTR}/\sigma^2$ y $\text{SCE}/\sigma^2$ son variables Chi-cuadrada \emph{independientes}, justificando por qué $F=\text{CMTR}/\text{CME}\sim F_{k-1,N-k}$.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Invoque el Teorema de Cochran sobre descomposición de la matriz identidad en proyecciones idempotentes ortogonales.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Aplicamos la descomposición espectral de las matrices de proyección: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $\text{SCTR}$ y $\text{SCE}$ son formas cuadráticas asociadas a matrices idempotentes $P_{TR}$ y $P_E$ con $P_{TR}+P_E=I_N$ y $P_{TR}P_E=0$ (ortogonalidad). Por el Teorema de Cochran, $\text{rango}(P_{TR})=k-1$ y $\text{rango}(P_E)=N-k$ determinan los grados de libertad, y la ortogonalidad de las proyecciones implica independencia estocástica de las dos formas cuadráticas.
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Como el cociente de dos Chi-cuadradas independientes divididas por sus grados de libertad sigue por definición una distribución $F$, queda rigurosamente justificado que $F=\text{CMTR}/\text{CME}\sim F_{k-1,N-k}$ bajo $H_0$.
-  \end{alertblock}
 \end{frame}
 
 % Slide 16: Cierre
