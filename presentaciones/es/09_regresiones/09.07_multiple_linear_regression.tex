@@ -12,6 +12,7 @@
 
 % Slide 1: Portada
 \begin{frame}[plain]
+  \vspace{-0.8cm}
   \titlepage
 \end{frame}
 
@@ -156,83 +157,6 @@ lambda=200:  zero coefficients=1/2 (x2 dropped)
 lambda=1000: zero coefficients=2/2 (only intercept survives)
     \end{verbatim}
   \end{block}
-\end{frame}
-
-% Slide 12A: Ejercicio Nivel 1 (Enunciado)
-
-% Slide 12B: Ejercicio Nivel 1 (Resolución)
-
-% Slide 13A: Ejercicio Nivel 2 (Enunciado)
-
-% Slide 13B: Ejercicio Nivel 2 (Resolución)
-
-% Slide 14A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Solución Matricial Exacta (Enunciado, Problema 9.10.7)}
-    Con $n=5$, $\mathbf{X}^T\mathbf{X}=\begin{pmatrix}5&10&20\\10&30&40\\20&40&90\end{pmatrix}$, $\mathbf{X}^T\mathbf{Y}=\begin{pmatrix}50\\120\\230\end{pmatrix}$, y $(\mathbf{X}^T\mathbf{X})^{-1}=\begin{pmatrix}2.2&-0.2&-0.4\\-0.2&0.1&0.0\\-0.4&0.0&0.1\end{pmatrix}$. Calcule $\hat{\boldsymbol\beta}$.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    $\hat{\boldsymbol\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$: multiplique la matriz inversa por el vector $\mathbf{X}^T\mathbf{Y}$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Multiplicamos fila por columna: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$\hat\beta_0=2.2(50)-0.2(120)-0.4(230)=110-24-92=-6.0$$
-    $$\hat\beta_1=-0.2(50)+0.1(120)+0.0(230)=-10+12+0=2.0$$
-    $$\hat\beta_2=-0.4(50)+0.0(120)+0.1(230)=-20+0+23=3.0$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    $\hat Y=-6.0+2.0X_1+3.0X_2$. Este cálculo exacto ilustra en miniatura ($n=5$) el mismo procedimiento matricial que resuelve modelos con cientos de predictores.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Deducción Matricial de MCO (Enunciado, Problema 9.10.9)}
-    Partiendo de $S(\boldsymbol\beta)=(\mathbf{Y}-\mathbf{X}\boldsymbol\beta)^T(\mathbf{Y}-\mathbf{X}\boldsymbol\beta)$, deduzca las ecuaciones normales $\mathbf{X}^T\mathbf{X}\hat{\boldsymbol\beta}=\mathbf{X}^T\mathbf{Y}$ y demuestre que $E[\hat{\boldsymbol\beta}]=\boldsymbol\beta$.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Expanda $S(\boldsymbol\beta)$, tome el gradiente vectorial $\nabla_{\boldsymbol\beta}S=\mathbf{0}$, y sustituya el modelo verdadero $\mathbf{Y}=\mathbf{X}\boldsymbol\beta+\boldsymbol\varepsilon$ en $\hat{\boldsymbol\beta}$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Expandimos la forma cuadrática y derivamos: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$S(\boldsymbol\beta)=\mathbf{Y}^T\mathbf{Y}-2\boldsymbol\beta^T\mathbf{X}^T\mathbf{Y}+\boldsymbol\beta^T\mathbf{X}^T\mathbf{X}\boldsymbol\beta \implies \nabla_{\boldsymbol\beta}S=-2\mathbf{X}^T\mathbf{Y}+2\mathbf{X}^T\mathbf{X}\boldsymbol\beta=\mathbf{0}$$
-    $$\hat{\boldsymbol\beta}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T(\mathbf{X}\boldsymbol\beta+\boldsymbol\varepsilon)=\boldsymbol\beta+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\boldsymbol\varepsilon$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    $E[\hat{\boldsymbol\beta}]=\boldsymbol\beta+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T E[\boldsymbol\varepsilon]=\boldsymbol\beta+\mathbf{0}=\boldsymbol\beta$: el estimador MCO matricial es insesgado para cualquier número de predictores $p$, generalizando exactamente el resultado escalar de la Sección 09.03.
-  \end{alertblock}
 \end{frame}
 
 % Slide 16: Cierre

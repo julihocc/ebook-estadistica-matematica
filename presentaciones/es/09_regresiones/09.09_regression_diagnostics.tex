@@ -12,6 +12,7 @@
 
 % Slide 1: Portada
 \begin{frame}[plain]
+  \vspace{-0.8cm}
   \titlepage
 \end{frame}
 
@@ -156,81 +157,6 @@ Obs 0: leverage=0.59, resid=-0.85, D=0.52 -> INFLUENTIAL (leverage-driven)
 Obs 1: leverage=0.04, resid=5.10,  D=0.54 -> INFLUENTIAL (residual-driven)
     \end{verbatim}
   \end{block}
-\end{frame}
-
-% Slide 12A: Ejercicio Nivel 1 (Enunciado)
-
-% Slide 12B: Ejercicio Nivel 1 (Resolución)
-
-% Slide 13A: Ejercicio Nivel 2 (Enunciado)
-
-% Slide 13B: Ejercicio Nivel 2 (Resolución)
-
-% Slide 14A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Distancia de Cook (Enunciado, Problema 9.14.7)}
-    Con $n=50$, $p=4$ ($p+1=5$): Obs. A ($h_{ii}=0.15,r_i=1.2$), Obs. B ($h_{ii}=0.45,r_i=0.8$), Obs. C ($h_{ii}=0.08,r_i=3.5$). Calcule $D_i$ para cada una y decida cuáles son influyentes ($4/n=0.08$).
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    $D_i=\dfrac{r_i^2}{p+1}\cdot\dfrac{h_{ii}}{1-h_{ii}}$ para cada observación.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Sustituimos en la fórmula computacional: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$D_A=\frac{1.44}{5}(0.1765)\approx0.051, \quad D_B=\frac{0.64}{5}(0.8182)\approx0.105, \quad D_C=\frac{12.25}{5}(0.0870)\approx0.213$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    $D_A<0.08$ (no influyente); $D_B,D_C>0.08$ (influyentes). B lo es por \textbf{alto apalancamiento} pese a residuo moderado; C lo es por \textbf{residuo grande} pese a apalancamiento bajo: dos mecanismos distintos de influencia.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Deducción de $DW\approx2(1-\hat\rho)$ (Enunciado, Problema 9.14.9)}
-    Demuestre que $DW\approx2(1-\hat\rho)$ donde $\hat\rho=\sum e_ie_{i-1}/\sum e_i^2$, y deduzca el rango teórico $DW\in(0,4)$ con sus tres casos límite.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Expanda $(e_i-e_{i-1})^2$ y aproxime las sumas parciales por la suma completa $\sum e_i^2$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Expandimos el numerador y sustituimos: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$\sum(e_i-e_{i-1})^2\approx2\sum e_i^2-2\sum e_ie_{i-1} \implies DW\approx2-2\hat\rho=2(1-\hat\rho)$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Como $\hat\rho\in[-1,1]$: $\hat\rho\to1\implies DW\to0$ (autocorrelación positiva perfecta); $\hat\rho=0\implies DW=2$ (ideal); $\hat\rho\to-1\implies DW\to4$ (autocorrelación negativa perfecta).
-  \end{alertblock}
 \end{frame}
 
 % Slide 16: Cierre

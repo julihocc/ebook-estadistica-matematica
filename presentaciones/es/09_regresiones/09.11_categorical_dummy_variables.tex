@@ -12,6 +12,7 @@
 
 % Slide 1: Portada
 \begin{frame}[plain]
+  \vspace{-0.8cm}
   \titlepage
 \end{frame}
 
@@ -139,78 +140,6 @@ Trap encoding (all 3 dummies): condition number = 2.92e+15
 Rank of trap matrix: 3 (columns: 4, rank-deficient: True)
     \end{verbatim}
   \end{block}
-\end{frame}
-
-% Slide 11A: Ejercicio Nivel 1 (Enunciado)
-
-% Slide 11B: Ejercicio Nivel 1 (Resolución)
-
-% Slide 12A: Ejercicio Nivel 2 (Enunciado)
-
-% Slide 12B: Ejercicio Nivel 2 (Resolución)
-
-% Slide 13A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Dummy = Diferencia de Medias (Enunciado, Problema 9.19.7)}
-    Para $Y_i=\beta_0+\beta_1D_i+\varepsilon_i$ con $D_i\in\{0,1\}$ y ningún otro predictor, demuestre que $\hat\beta_1=\bar Y_{D=1}-\bar Y_{D=0}$ y $\hat\beta_0=\bar Y_{D=0}$.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    Calcule $\mathbf{X}^T\mathbf{X}$ y $\mathbf{X}^T\mathbf{Y}$ explícitamente y resuelva el sistema de 2 ecuaciones.
-  \end{alertblock}
-\end{frame}
-
-% Slide 13B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel Analítico (2/2)}
-  \scriptsize
-  Resolvemos el sistema $2\times2$ de las ecuaciones normales: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$\mathbf{X}^T\mathbf{X}=\begin{pmatrix}n&n_1\\n_1&n_1\end{pmatrix}, \quad \mathbf{X}^T\mathbf{Y}=\begin{pmatrix}n_0\bar Y_{D=0}+n_1\bar Y_{D=1}\\n_1\bar Y_{D=1}\end{pmatrix} \implies \hat\beta_0=\bar Y_{D=0}, \quad \hat\beta_1=\bar Y_{D=1}-\bar Y_{D=0}$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    La regresión con una sola variable muda es exactamente equivalente a comparar dos medias muestrales --- el mismo problema resuelto con pruebas $t$ de dos muestras en el Capítulo 07.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Equivalencia ANOVA-Regresión (Enunciado, Problema 9.19.10)}
-    Para el ANOVA de un factor ($Y_{ij}=\mu+\tau_i+\epsilon_{ij}$, $k$ tratamientos) y su regresión equivalente con $(k-1)$ dummies, demuestre que $\beta_0=\mu_k$, $\beta_j=\mu_j-\mu_k$, y que la Prueba $F$ Parcial es idéntica a la Prueba $F$ del ANOVA.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    Iguale las esperanzas de ambos modelos para cada tratamiento por separado.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel Desafiante (2/2)}
-  \scriptsize
-  Igualamos las esperanzas condicionales tratamiento por tratamiento: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$\text{Tratamiento } k: E[Y]=\beta_0=\mu+\tau_k=\mu_k \qquad \text{Tratamiento } j: E[Y]=\beta_0+\beta_j=\mu_j \implies \beta_j=\mu_j-\mu_k$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    $H_0:\beta_1=\cdots=\beta_{k-1}=0 \iff H_0:\mu_1=\cdots=\mu_k$, exactamente la hipótesis del ANOVA. Las SCTR/SCE coinciden en ambas formulaciones: el ANOVA de un factor \textbf{es} un caso particular de regresión múltiple.
-  \end{alertblock}
 \end{frame}
 
 % Slide 15: Cierre

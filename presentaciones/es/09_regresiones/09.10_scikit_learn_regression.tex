@@ -12,6 +12,7 @@
 
 % Slide 1: Portada
 \begin{frame}[plain]
+  \vspace{-0.8cm}
   \titlepage
 \end{frame}
 
@@ -148,80 +149,6 @@ Support: TV=True, Radio=True, Newspaper=False
 Ranking: TV=1, Radio=1, Newspaper=2
     \end{verbatim}
   \end{block}
-\end{frame}
-
-% Slide 11A: Ejercicio Nivel 1 (Enunciado)
-
-% Slide 11B: Ejercicio Nivel 1 (Resolución)
-
-% Slide 12A: Ejercicio Nivel 2 (Enunciado)
-
-% Slide 12B: Ejercicio Nivel 2 (Resolución)
-
-% Slide 13A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- SVD vs. Ecuación Normal (Enunciado, Problema 9.17.7)}
-    Explique por qué la SVD y la inversión directa de $\mathbf{X}^T\mathbf{X}$ dan el mismo resultado cuando $\mathbf{X}$ tiene rango completo, y por qué la SVD es numéricamente superior ante multicolinealidad severa.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    Compare el número de condición de $\mathbf{X}$ contra el de $\mathbf{X}^T\mathbf{X}$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 13B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel Analítico (2/2)}
-  \scriptsize
-  El número de condición de $\mathbf{X}^T\mathbf{X}$ es el cuadrado del de $\mathbf{X}$: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$\kappa(\mathbf{X}^T\mathbf{X}) = \kappa(\mathbf{X})^2$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Invertir $\mathbf{X}^T\mathbf{X}$ directamente amplifica cuadráticamente los errores de redondeo cuando $\mathbf{X}$ ya está mal condicionada por multicolinealidad. La SVD opera sobre $\mathbf{X}$ directamente, evitando ese cuadrado y produciendo una solución mucho más estable.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Equivalencia SVD--Ecuación Normal (Enunciado, Problema 9.17.9)}
-    Con $\mathbf{X}=\mathbf{U}\boldsymbol\Sigma\mathbf{V}^T$, demuestre que $\hat{\boldsymbol\beta}=\mathbf{X}^+\mathbf{Y}=\mathbf{V}\boldsymbol\Sigma^{-1}\mathbf{U}^T\mathbf{Y}$ es idéntico a $(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{Y}$ cuando $\mathbf{X}$ tiene rango completo.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    Sustituya la SVD en $\mathbf{X}^T\mathbf{X}$ y en $\mathbf{X}^T\mathbf{Y}$ usando la ortogonalidad de $\mathbf{U},\mathbf{V}$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel Desafiante (2/2)}
-  \scriptsize
-  Sustituimos y simplificamos usando $\mathbf{U}^T\mathbf{U}=\mathbf{V}^T\mathbf{V}=\mathbf{I}$: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$\mathbf{X}^T\mathbf{X}=\mathbf{V}\boldsymbol\Sigma^2\mathbf{V}^T \implies (\mathbf{X}^T\mathbf{X})^{-1}=\mathbf{V}\boldsymbol\Sigma^{-2}\mathbf{V}^T$$
-    $$\hat{\boldsymbol\beta}=\mathbf{V}\boldsymbol\Sigma^{-2}\mathbf{V}^T(\mathbf{V}\boldsymbol\Sigma\mathbf{U}^T\mathbf{Y})=\mathbf{V}\boldsymbol\Sigma^{-1}\mathbf{U}^T\mathbf{Y}=\mathbf{X}^+\mathbf{Y}$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    Ambas expresiones son algebraicamente idénticas: la SVD no introduce matemática nueva, solo una ruta numéricamente más estable hacia la misma solución.
-  \end{alertblock}
 \end{frame}
 
 % Slide 15: Cierre
