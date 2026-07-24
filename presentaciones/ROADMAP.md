@@ -18,7 +18,7 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 
 ---
 
-## 2. Estado vigente verificado al 2026-07-24 16:59:09 -06:00
+## 2. Estado vigente verificado al 2026-07-24 17:34:27 -06:00
 
 - El cierre del espejo EN del libro quedó confirmado el `2026-07-23 11:03:37 -06:00`: 60 archivos ES `(p).tex`, 60 archivos EN `en_*(p).tex`, seis problemas y seis soluciones por par, orden Bloom y etiquetas hash idénticas.
 - Los maestros ES y EN tienen 139 entradas `\input{}` sin objetivos faltantes; la secuencia paralela del contenido está verificada.
@@ -106,6 +106,44 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   referencias indefinidas, etiquetas duplicadas ni `Overfull \\hbox`; los
   únicos avisos `vbox` pertenecen a portadas EN. La matriz registra 39 filas
   completas de cuatro vías y 33 parciales.
+
+### Segundo grupo del capítulo 3 sincronizado — 2026-07-24 17:13:35 -06:00
+
+- Las filas 13--15 y 17 quedaron en paridad ES/EN: multinomial (14 frames),
+  geométrica/binomial negativa (14), hipergeométrica (16) y distribuciones
+  discretas para ciencia de datos (15), con tres listings por par.
+- Se retiraron ocho frames de ejercicios heredados en cada mazo EN y se añadieron
+  los desarrollos faltantes frente a ES. No se modificaron notas, Python ni
+  archivos `(p)`.
+- Los ocho mazos pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas, etiquetas duplicadas ni `Overfull \\hbox`; los avisos
+  `vbox` restantes son de portadas EN. La matriz registra 43 filas completas
+  de cuatro vías y 29 parciales.
+
+### Capítulo 1 sincronizado — 2026-07-24 17:24:01 -06:00
+
+- Las filas 1--3 quedaron en paridad ES/EN: introducción (10 frames),
+  tendencia central (13) y dispersión (14), con 1, 2 y 2 listings por par.
+- Se retiraron seis frames de ejercicios heredados por mazo EN, se añadieron
+  declaraciones `documentclass` ausentes y se compactaron frames con avisos
+  verticales. No se modificaron notas, Python ni archivos `(p)`.
+- Los seis mazos pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas, etiquetas duplicadas ni `Overfull \\hbox`; los únicos
+  avisos `vbox` restantes son de portadas EN. La matriz registra 46 filas
+  completas de cuatro vías y 26 parciales.
+
+### Capítulo 4 sincronizado — 2026-07-24 17:34:27 -06:00
+
+- Las filas 18--22 quedaron en paridad ES/EN: PDF y soporte, esperanza y
+  varianza, uniforme, normal y gamma/beta/Weibull, cada una con 15 frames y 3
+  listings por par.
+- Se retiraron ocho frames de ejercicios heredados por mazo EN y se añadieron
+  los desarrollos teóricos faltantes frente a ES. No se modificaron notas,
+  Python ni archivos `(p)`.
+- Los diez mazos pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas, etiquetas duplicadas ni `Overfull \\hbox`; los únicos
+  avisos `vbox` restantes son de portadas EN. La matriz registra 51 filas
+  completas de cuatro vías y 21 parciales.
 
 ### Pendientes vigentes al 2026-07-23 14:47:30 -06:00
 

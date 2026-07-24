@@ -4,7 +4,7 @@ Este directorio (`presentaciones/`) contiene las presentaciones interactivas en 
 
 Esta guía constituye el **manual operativo estándar y 100% reproducible** para cualquier agente de inteligencia artificial (o colaborador humano) que trabaje en la creación, modificación, verificación o mantenimiento de las presentaciones y scripts de este proyecto.
 
-### Estado de reconciliación verificado al 2026-07-24 16:59:09 -06:00
+### Estado de reconciliación verificado al 2026-07-24 17:34:27 -06:00
 
 - El espejo de cuadernos del libro está cerrado desde el `2026-07-23 11:03:37 -06:00`: existen 60 archivos `(p).tex` ES y 60 contrapartes `en_*(p).tex`, con seis problemas Bloom, seis soluciones y etiquetas hash compartidas por par.
 - La matriz canónica de notas ES define el inventario objetivo de 72 secciones activas y un mazo ES por sección; las secciones de problemas quedan fuera de las presentaciones. El detalle está en `docs/matriz-notas-presentaciones-es.md`.
@@ -72,6 +72,25 @@ Esta guía constituye el **manual operativo estándar y 100% reproducible** para
    indefinidas, etiquetas duplicadas ni desbordamientos de contenido. Solo
    quedaron avisos `vbox` de portada EN; no se modificaron las notas, Python ni
    archivos `(p)`.
+ - El segundo grupo del capítulo 3 (filas 13--15 y 17) quedó sincronizado en
+   ES/EN: multinomial (14 frames), geométrica/binomial negativa (14),
+   hipergeométrica (16) y distribuciones discretas para ciencia de datos (15),
+   siempre con tres listings por par. Los ocho mazos compilaron dos veces sin
+   errores, referencias indefinidas, etiquetas duplicadas ni desbordamientos de
+   contenido; los avisos `vbox` se limitan a portadas EN. No se modificaron
+   notas, Python ni archivos `(p)`.
+ - El capítulo 1 (filas 1--3) quedó sincronizado en ES/EN: introducción (10
+   frames), tendencia central (13) y dispersión (14), con 1, 2 y 2 listings por
+   par. Se retiraron ejercicios heredados, se añadieron declaraciones de clase
+   ausentes y se compactaron frames EN; los seis mazos compilaron dos veces sin
+   errores ni desbordamientos de contenido. Solo quedan avisos `vbox` de
+   portada EN; no se modificaron notas, Python ni archivos `(p)`.
+ - El capítulo 4 (filas 18--22) quedó sincronizado en ES/EN: PDF y soporte,
+   esperanza y varianza, uniforme, normal y gamma/beta/Weibull, con 15 frames y
+   3 listings por par. Se retiraron ejercicios heredados y se añadieron los
+   desarrollos teóricos faltantes; los diez mazos compilaron dos veces sin
+   errores ni desbordamientos de contenido. Solo quedan avisos `vbox` de
+   portadas EN; no se modificaron notas, Python ni archivos `(p)`.
 
 ---
 

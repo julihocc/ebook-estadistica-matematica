@@ -1,5 +1,78 @@
 # Próximos pasos: cierre de reestructuración y espejo en inglés
 
+## Cierre de esta sesión — 2026-07-24 17:36:01 -06:00
+
+Durante esta sesión se completaron los siguientes bloques de presentaciones
+EN/ES, tomando las notas ES como fuente canónica:
+
+- Capítulo 1, filas 1--3: 10/10, 13/13 y 14/14 frames.
+- Capítulo 3, filas 11, 12 y 16: 14/14, 14/14 y 17/17 frames.
+- Capítulo 3, filas 13--15 y 17: 14/14, 14/14, 16/16 y 15/15 frames.
+- Capítulo 4, filas 18--22: cinco pares de 15/15 frames.
+
+Todos los pares cerrados conservan 1--3 listings idénticos por idioma, no tienen
+ejercicios heredados ni referencias a problemas sin resolver, y pasaron doble
+compilación sin errores, referencias indefinidas, etiquetas duplicadas ni
+desbordamientos de contenido. Los avisos `Overfull \\vbox` restantes se limitan a
+portadas EN. El corte operativo queda en **51 filas completas de cuatro vías y
+21 parciales**; no se inició otro capítulo.
+
+Pendientes al `2026-07-24 17:36:01 -06:00`: filas **4, 27--31, 34, 36, 39,
+41, 46, 49--50, 54, 57, 63, 65, 67, 69 y 71--72**. Corresponden a paridad de
+frames de mazos EN; no se deben crear mazos para las ocho rutas EN extra sin
+contraparte ES activa. No se modificaron notas, Python ni archivos `(p)` en este
+cierre.
+
+## Cierre del capítulo 4 — 2026-07-24 17:34:27 -06:00
+
+Se completaron las filas 18--22: PDF y soporte, esperanza y varianza, uniforme,
+normal y gamma/beta/Weibull. Cada par ES/EN quedó en 15 frames y 3 listings.
+
+Se retiraron ocho frames de ejercicios heredados por mazo EN y se añadieron los
+desarrollos faltantes frente a ES: CDF/LOTUS, varianza/linealidad, momentos e
+inversión uniforme, estandarización/regla empírica/TLC y casos especiales
+Gamma/Beta, junto con perspectivas modulares. Los diez mazos pasaron dos
+compilaciones con código 0, sin errores, referencias indefinidas, etiquetas
+duplicadas ni desbordamientos de contenido; los cinco avisos `Overfull \\vbox`
+corresponden a portadas EN. No se modificaron notas, Python ni archivos `(p)`.
+La matriz queda en 51 filas completas de cuatro vías y 21 parciales. No se creó
+commit ni se hizo `git push`.
+
+## Cierre del capítulo 1 — 2026-07-24 17:24:01 -06:00
+
+Se completaron las tres primeras filas de la matriz:
+
+- Introducción a la estadística descriptiva: 10/10 frames y 1/1 listing.
+- Medidas de tendencia central: 13/13 frames y 2/2 listings.
+- Medidas de dispersión: 14/14 frames y 2/2 listings.
+
+En cada mazo EN se retiraron seis frames de ejercicios heredados. También se
+añadieron las declaraciones `documentclass` ausentes y se compactaron frames que
+producían desbordamientos verticales. Los seis mazos pasaron dos compilaciones
+con código 0, sin errores, referencias indefinidas, etiquetas duplicadas ni
+desbordamientos de contenido; los tres avisos `Overfull \\vbox` corresponden a
+portadas EN. No se modificaron notas, Python ni archivos `(p)`. La matriz queda
+en 46 filas completas de cuatro vías y 26 parciales. No se creó commit ni se hizo
+`git push`.
+
+## Cierre del subbloque restante del capítulo 3 — 2026-07-24 17:13:35 -06:00
+
+Se completaron las filas 13--15 y 17 de variables aleatorias discretas:
+
+- Multinomial: 14/14 frames y 3/3 listings.
+- Geométrica/binomial negativa: 14/14 frames y 3/3 listings.
+- Hipergeométrica: 16/16 frames y 3/3 listings.
+- Distribuciones discretas para ciencia de datos: 15/15 frames y 3/3 listings.
+
+En cada mazo EN se retiraron ocho frames de ejercicios heredados. Se añadieron
+solo los desarrollos que faltaban frente a ES y se eliminó una referencia textual
+a un problema en la salida multinomial. Los ocho mazos pasaron dos compilaciones
+con código 0: cero errores, referencias indefinidas, etiquetas duplicadas y
+`Overfull \\hbox`; los avisos `Overfull \\vbox` corresponden exclusivamente a
+portadas EN. No se modificaron notas, Python ni archivos `(p)`. La matriz queda
+en 43 filas completas de cuatro vías y 29 parciales. No se creó commit ni se hizo
+`git push`.
+
 ## Primer grupo de mazos EN del capítulo 3 — 2026-07-24 16:59:09 -06:00
 
 Se cerró el primer bloque gradual de presentaciones de variables aleatorias

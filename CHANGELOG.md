@@ -4,6 +4,62 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-24 17:36:01 -06:00 (cierre de esta sesión)
+
+- Se documenta el progreso acumulado de los capítulos 1, 3 y 4: 23 filas nuevas
+  quedaron con paridad de frames ES/EN y listings compartidos; la matriz queda
+  en 51 filas completas de cuatro vías y 21 parciales.
+- Las dobles compilaciones de los pares cerrados reportan cero errores,
+  referencias indefinidas, etiquetas duplicadas y desbordamientos de contenido;
+  los avisos `Overfull \\vbox` se restringen a portadas EN.
+- Pendientes explícitos: filas 4, 27--31, 34, 36, 39, 41, 46, 49--50, 54, 57,
+  63, 65, 67, 69 y 71--72. No se iniciaron mazos nuevos fuera de estas filas,
+  ni se modificaron notas, Python o archivos `(p)`.
+
+## 2026-07-24 17:34:27 -06:00 (cierre del capítulo 4)
+
+- Se sincronizaron las filas 18--22: PDF y soporte, esperanza y varianza,
+  uniforme, normal y gamma/beta/Weibull, todos en 15/15 frames y 3/3 listings.
+- Se retiraron ocho frames de ejercicios heredados por mazo EN y se añadieron
+  los desarrollos faltantes frente a ES: CDF/LOTUS, varianza/linealidad,
+  momentos e inversión uniforme, estandarización/regla empírica/TLC y casos
+  especiales Gamma/Beta, además de perspectivas modulares. No se modificaron
+  notas, Python ni archivos `(p)`.
+- Los diez mazos pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas, etiquetas duplicadas ni desbordamientos de contenido;
+  los cinco avisos `Overfull \\vbox` restantes corresponden solo a portadas EN.
+- La matriz pasa a 51 filas completas de cuatro vías y 21 parciales. No se creó
+  commit ni se hizo `git push`.
+
+## 2026-07-24 17:24:01 -06:00 (cierre del capítulo 1)
+
+- Se sincronizaron las filas 1--3: introducción (10/10 frames), tendencia
+  central (13/13) y dispersión (14/14), con 1/1, 2/2 y 2/2 listings por par.
+- Se retiraron seis frames de ejercicios heredados de cada mazo EN, se añadieron
+  las declaraciones `documentclass` ausentes y se compactaron los frames que
+  desbordaban verticalmente. No se modificaron notas, Python ni archivos `(p)`.
+- Los seis mazos pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas, etiquetas duplicadas ni desbordamientos de contenido;
+  los tres avisos `Overfull \\vbox` restantes corresponden solo a portadas EN.
+- La matriz pasa a 46 filas completas de cuatro vías y 26 parciales. No se creó
+  commit ni se hizo `git push`.
+
+## 2026-07-24 17:13:35 -06:00 (cierre del subbloque restante del capítulo 3)
+
+- Se sincronizaron las filas 13--15 y 17: multinomial (14/14 frames),
+  geométrica/binomial negativa (14/14), hipergeométrica (16/16) y distribuciones
+  discretas para ciencia de datos (15/15), siempre con 3/3 listings compartidos.
+- Se retiraron ocho frames de ejercicios heredados de cada mazo EN. Se añadieron
+  únicamente desarrollos que faltaban frente a ES: salida y perspectiva en
+  hipergeométrica, definición formal y perspectiva en multinomial, y Wilks y
+  perspectiva modular en ciencia de datos. No se modificaron notas ni Python;
+  también se retiró una referencia textual a un problema en la salida multinomial.
+- Los ocho mazos pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas, etiquetas duplicadas ni `Overfull \\hbox`; los cuatro
+  avisos `Overfull \\vbox` restantes corresponden a portadas EN.
+- La matriz pasa a 43 filas completas de cuatro vías y 29 parciales. No se creó
+  commit ni se hizo `git push`.
+
 ## 2026-07-24 16:59:09 -06:00 (primer grupo de mazos EN del capítulo 3)
 
 - Se sincronizaron las filas 11, 12 y 16: PMF y soporte (14/14 frames),
