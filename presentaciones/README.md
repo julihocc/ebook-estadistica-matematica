@@ -4,7 +4,7 @@ Este directorio (`presentaciones/`) contiene las presentaciones interactivas en 
 
 Esta guía constituye el **manual operativo estándar y 100% reproducible** para cualquier agente de inteligencia artificial (o colaborador humano) que trabaje en la creación, modificación, verificación o mantenimiento de las presentaciones y scripts de este proyecto.
 
-### Estado de reconciliación verificado al 2026-07-23 17:32:50 -06:00
+### Estado de reconciliación verificado al 2026-07-24 14:20:02 -06:00
 
 - El espejo de cuadernos del libro está cerrado desde el `2026-07-23 11:03:37 -06:00`: existen 60 archivos `(p).tex` ES y 60 contrapartes `en_*(p).tex`, con seis problemas Bloom, seis soluciones y etiquetas hash compartidas por par.
 - La matriz canónica de notas ES define el inventario objetivo de 72 secciones activas y un mazo ES por sección; las secciones de problemas quedan fuera de las presentaciones. El detalle está en `docs/matriz-notas-presentaciones-es.md`.
@@ -12,7 +12,7 @@ Esta guía constituye el **manual operativo estándar y 100% reproducible** para
   exactamente 72 mazos ES vivos y 8 mazos legado archivados.
 - El capítulo 2 usa `02.00_introduccion_probabilidad` y `02.01`–`02.06`, incluyendo los temas promovidos de Fundamentos, Técnicas de conteo y Bayes.
 - Los mazos ES se basan en ejemplos y soluciones ya resueltos de teoría; no deben contener bloques `Ejercicio en Clase`, `Problema X.Y.Z`, etiquetas `prob:` ni referencias a `(p)`.
-- Esta etapa modifica exclusivamente notas ES, mazos ES y documentación; no modifica `presentaciones/en/` ni `presentaciones/code/`.
+- El piloto `02.03 Técnicas de conteo` queda desarrollado en ES/EN con 22 frames por mazo y doble compilación sin errores ni desbordamientos. No modifica las notas, los archivos `(p)` ni `presentaciones/code/`; sí añade la contraparte EN del piloto.
 
 ---
 
@@ -59,6 +59,7 @@ presentaciones/
         ├── 02.01_probability_introduction.tex (.pdf)
         ├── 02.02_sets_and_partitions.tex (.pdf)
         ├── 02.03_probability_foundations.tex (.pdf)
+        ├── 02.03_counting_techniques.tex (.pdf)
         ├── 02.04_conditional_probability.tex (.pdf)
         ├── 02.05_bayes_theorem.tex (.pdf)
         └── 02.06_random_sampling.tex (.pdf)
@@ -170,7 +171,7 @@ A continuación se presenta el estado finalizado y verificado de las 7 secciones
 | **02.00** | [Introducción a la probabilidad](es/02_teoria_probabilidad/02.00_introduccion_probabilidad.tex) ([PDF](es/02_teoria_probabilidad/02.00_introduccion_probabilidad.pdf)) | [Intro to Probability (legado EN)](en/02_probability_theory/02.01_probability_introduction.tex) | Sin script dedicado | Completado ES |
 | **02.01** | [Conjuntos y particiones](es/02_teoria_probabilidad/02.01_conjuntos_y_particiones.tex) ([PDF](es/02_teoria_probabilidad/02.01_conjuntos_y_particiones.pdf)) | [Sets and Partitions (legado EN)](en/02_probability_theory/02.02_sets_and_partitions.tex) | Sin script dedicado | Completado ES |
 | **02.02** | [Fundamentos de probabilidad](es/02_teoria_probabilidad/02.02_fundamentos_probabilidad.tex) ([PDF](es/02_teoria_probabilidad/02.02_fundamentos_probabilidad.pdf)) | [Probability Fundamentals (legado EN)](en/02_probability_theory/02.03_probability_foundations.tex) | Sin script dedicado | Completado ES |
-| **02.03** | [Técnicas de conteo](es/02_teoria_probabilidad/02.03_tecnicas_de_conteo.tex) ([PDF](es/02_teoria_probabilidad/02.03_tecnicas_de_conteo.pdf)) | Sin mazo EN equivalente | Sin script dedicado | Completado ES |
+| **02.03** | [Técnicas de conteo](es/02_teoria_probabilidad/02.03_tecnicas_de_conteo.tex) ([PDF](es/02_teoria_probabilidad/02.03_tecnicas_de_conteo.pdf)) | [Counting Techniques](en/02_probability_theory/02.03_counting_techniques.tex) ([PDF](en/02_probability_theory/02.03_counting_techniques.pdf)) | Sin script dedicado; usa aritmética exacta en las diapositivas | Completado ES/EN — 22 frames cada uno |
 | **02.04** | [Probabilidad condicional](es/02_teoria_probabilidad/02.04_probabilidad_condicional.tex) ([PDF](es/02_teoria_probabilidad/02.04_probabilidad_condicional.pdf)) | [Conditional Probability (legado EN)](en/02_probability_theory/02.04_conditional_probability.tex) | Sin script dedicado | Completado ES |
 | **02.05** | [Teorema de Bayes](es/02_teoria_probabilidad/02.05_teorema_bayes.tex) ([PDF](es/02_teoria_probabilidad/02.05_teorema_bayes.pdf)) | [Bayes Theorem (legado EN)](en/02_probability_theory/02.05_bayes_theorem.tex) | Sin script dedicado | Completado ES |
 | **02.06** | [Muestreo aleatorio](es/02_teoria_probabilidad/02.06_muestreo_aleatorio.tex) ([PDF](es/02_teoria_probabilidad/02.06_muestreo_aleatorio.pdf)) | [Random Sampling (legado EN)](en/02_probability_theory/02.06_random_sampling.tex) | Sin script dedicado | Completado ES |

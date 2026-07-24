@@ -1,5 +1,45 @@
 # Próximos pasos: cierre de reestructuración y espejo en inglés
 
+## Piloto 02.03 cerrado — 2026-07-24 14:20:02 -06:00
+
+Se completó la primera etapa del plan gradual de sincronización cuatro vías
+para **Técnicas de conteo**:
+
+- Las notas `latex/tecnicas_de_conteo.tex` y
+  `latex/en_tecnicas_de_conteo.tex`, incluidos sus archivos `(p)`, quedaron
+  sin cambios.
+- Los mazos ES y EN tienen 22 frames cada uno y usan los cuatro ejemplos ya
+  resueltos de la teoría. No contienen `Ejercicio en Clase`, `Problema`,
+  `prob:`, `(p)` ni `\lstinputlisting`.
+- No se creó script Python nuevo. La doble compilación de ambos mazos terminó
+  con código 0 y sin referencias indefinidas, etiquetas duplicadas ni
+  desbordamientos `Overfull`.
+- La matriz se actualizó de 5 a 6 filas completas de cuatro vías: quedan 66
+  parciales, 48 mazos ES desarrollados y 55 mazos EN físicos.
+
+No se creó commit ni se hizo `git push`. El siguiente bloque previsto es el
+capítulo 5; permanece cerrado hasta una nueva instrucción.
+
+## Auditoría de correspondencia ES–EN — 2026-07-24 13:19:46 -06:00
+
+La matriz `docs/matriz-notas-presentaciones-es.md` quedó convertida en un
+reporte de cuatro vías: sección activa ES, archivo de notas EN, mazo ES y mazo
+EN, con un estado de sincronización estructural para cada columna.
+
+- El maestro ES aporta 72 secciones activas en 70 archivos de teoría; `(p)` no
+  participa en el inventario.
+- Los 70 archivos EN equivalentes existen, pero 55 filas son estructuralmente
+  coincidentes y 17 son parciales por secciones adicionales, tipo de sección o
+  etiquetas divergentes.
+- Hay 72 mazos ES físicos: 47 desarrollados y 25 esqueletos de cuatro frames.
+- Hay 54 mazos EN físicos: 47 filas ES encuentran una ruta candidata (46
+  rutas únicas) y 8 rutas EN son extra/legado sin sección ES viva.
+- El criterio de mazos compara número de frames y `\\lstinputlisting`; no
+  sustituye una revisión semántica frase por frase.
+
+La etapa actualiza únicamente la matriz y la documentación. No modifica notas,
+mazos EN ni scripts Python.
+
 ## Verificación posterior a los commits — 2026-07-24 12:50:34 -06:00
 
 La rama quedó limpia después de registrar la implementación. `git log` confirmó

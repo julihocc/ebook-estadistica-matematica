@@ -4,6 +4,22 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-24 14:20:02 -06:00 (piloto de sincronización 02.03)
+
+- Se amplió el mazo ES de Técnicas de conteo y se creó su contraparte EN:
+  `presentaciones/es/02_teoria_probabilidad/02.03_tecnicas_de_conteo.tex` y
+  `presentaciones/en/02_probability_theory/02.03_counting_techniques.tex`.
+- Ambos mazos tienen 22 frames, cuatro ejemplos/soluciones procedentes de la
+  teoría (incluida la terminología corregida de mano del mismo palo) y cero
+  referencias a `(p)`, `prob:` o problemas sin resolver. No se añadió script
+  Python ni se modificaron las notas ES/EN o sus archivos `(p)`.
+- La doble compilación de cada mazo terminó con código 0, sin referencias
+  indefinidas, etiquetas duplicadas ni desbordamientos `Overfull`.
+- `docs/matriz-notas-presentaciones-es.md` queda actualizado: 6 filas completas
+  de cuatro vías, 66 parciales, 48 mazos ES desarrollados y 55 mazos EN físicos.
+- No se creó commit ni se hizo `git push`; el siguiente bloque (capítulo 5) no
+  comienza hasta cerrar esta verificación.
+
 ## 2026-07-24 13:19:46 -06:00 (auditoría de correspondencia ES–EN)
 
 - Se regeneró `docs/matriz-notas-presentaciones-es.md` como tabla de cuatro vías

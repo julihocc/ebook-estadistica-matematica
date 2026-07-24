@@ -2,60 +2,348 @@
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title[Técnicas de conteo]{Sección 2.3: Técnicas de conteo}
-\subtitle{Permutaciones, combinaciones y modelos equiprobables}
+\title[Técnicas de conteo]{Sección 02.03: Técnicas de conteo}
+\subtitle{Permutaciones, combinaciones y probabilidad clásica}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
-\date{}
+\date{\vspace{-1.2cm}}
 
 \begin{document}
 
+% 01 — Identidad
 \begin{frame}[plain]
   \vspace{-0.8cm}
   \titlepage
 \end{frame}
 
-\begin{frame}{Correspondencia con la nota de lectura}
-  \small
-  Esta presentación corresponde uno a uno con la sección de teoría
-  \emph{Técnicas de conteo}. Los problemas asociados se excluyen
-  deliberadamente de este mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/tecnicas\_de\_conteo.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Principios de conteo}
-  \small
-  \begin{itemize}
-    \item Regla de la suma para alternativas mutuamente excluyentes.
-    \item Regla del producto para etapas sucesivas.
-    \item El complemento permite contar resultados que no satisfacen una condición.
+% 02 — Hoja de ruta
+\begin{frame}{Hoja de ruta --- Capítulo 02: Teoría de probabilidad}
+  \scriptsize
+  \begin{itemize}\itemsep=0.04em
+    \item \textbf{02.01} Teoría de conjuntos y probabilidad.
+    \item \textbf{02.02} Fundamentos y axiomas de probabilidad.
+    \item \textbf{02.03} Técnicas de conteo \emph{(hoy)}.
+    \item \textbf{02.04} Probabilidad condicional y regla de Bayes.
+    \item \textbf{02.05} Teorema de Bayes.
+    \item \textbf{02.06} Muestreo aleatorio.
   \end{itemize}
-  \begin{block}{Idea operativa}
-    Describir primero el experimento y después identificar si el orden y la repetición importan.
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo didáctico}
+    Contar espacios muestrales finitos usando el principio de multiplicación,
+    permutaciones y combinaciones, y convertir esos conteos en probabilidades
+    clásicas cuando los resultados son equiprobables.
   \end{block}
 \end{frame}
 
-\begin{frame}{Permutaciones y combinaciones}
+% 03 — Motivación
+\begin{frame}{De enumerar resultados a contar sistemáticamente}
   \small
-  \begin{align*}
-    P(n,r)&=\frac{n!}{(n-r)!}, & {n\choose r}&=\frac{n!}{r!(n-r)!}.
-  \end{align*}
-  Las permutaciones cuentan arreglos ordenados; las combinaciones cuentan selecciones sin orden.
-  \begin{alertblock}{Criterio de selección}
-    Si cambiar el orden produce un resultado distinto, se usan permutaciones; si no, combinaciones.
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{El reto}
+        Un espacio muestral puede crecer demasiado rápido para listar cada
+        resultado. El conteo permite describirlo sin enumerarlo.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Probabilidad clásica}
+        Si todos los resultados son igualmente probables,
+        \[
+          P(A)=\frac{\lvert A\rvert}{\lvert\Omega\rvert}.
+        \]
+        Las técnicas de conteo calculan ambos cardinales.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 04 — Principio fundamental
+\begin{frame}{Principio fundamental de conteo}
+  \small
+  \begin{block}{Regla del producto}
+    Si una primera operación tiene $n_1$ opciones, una segunda tiene $n_2$
+    opciones para cada elección anterior, y así sucesivamente, entonces
+    \[
+      N=n_1n_2\cdots n_k.
+    \]
+  \end{block}
+  \pause
+  \begin{exampleblock}{Interpretación}
+    Cada resultado final es una ruta: se multiplica porque cada etapa se
+    combina con todas las opciones de las etapas posteriores.
+  \end{exampleblock}
+\end{frame}
+
+% 05 — Modelado del conteo
+\begin{frame}{Cómo modelar un conteo}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.12cm
+    \item Describir con precisión el resultado que se cuenta.
+    \item Separar el proceso en etapas sucesivas o elecciones.
+    \item Preguntar si el orden importa y si se permite repetir elementos.
+    \item Elegir multiplicación, permutación o combinación.
+  \end{enumerate}
+  \vspace{0.1cm}
+  \begin{alertblock}{Regla de control}
+    Dos resultados que cambian al intercambiar posiciones requieren un modelo
+    ordenado; si no cambian, se cuenta una selección sin orden.
   \end{alertblock}
 \end{frame}
 
-\begin{frame}{Síntesis}
+% 06 — Permutaciones
+\begin{frame}{Permutaciones: cuando el orden importa}
   \small
-  Las técnicas de conteo proporcionan el puente entre espacios muestrales finitos y probabilidades clásicas:
-  \begin{itemize}
-    \item definen el denominador de un modelo equiprobable;
-    \item permiten contar casos favorables sin enumerarlos;
-    \item preparan el análisis de probabilidad condicional y muestreo.
+  \begin{block}{Definición}
+    El número de arreglos ordenados de $r$ objetos distintos tomados de $n$,
+    sin repetición, es
+    \[
+      P(n,r)=\frac{n!}{(n-r)!}=n(n-1)\cdots(n-r+1).
+    \]
+  \end{block}
+  \begin{exampleblock}{Caso completo}
+    Si $r=n$, se obtiene $P(n,n)=n!$. El orden distingue cada arreglo.
+  \end{exampleblock}
+\end{frame}
+
+% 07 — Combinaciones
+\begin{frame}{Combinaciones: cuando el orden no importa}
+  \small
+  \begin{block}{Definición}
+    El número de subconjuntos de tamaño $r$ tomados de $n$ objetos es
+    \[
+      \binom{n}{r}=\frac{P(n,r)}{r!}=\frac{n!}{r!(n-r)!}.
+    \]
+  \end{block}
+  \begin{exampleblock}{Idea clave}
+    Cada selección sin orden produce $r!$ arreglos ordenados; dividir por
+    $r!$ elimina esa multiplicidad.
+  \end{exampleblock}
+\end{frame}
+
+% 08 — Propiedades y decisión
+\begin{frame}{Propiedades y decisión entre modelos}
+  \footnotesize
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Coeficiente binomial}
+        \[
+          \binom{n}{r}=\binom{n}{n-r},\qquad
+          \binom{n}{0}=\binom{n}{n}=1.
+        \]
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Pregunta diagnóstica}
+        \begin{itemize}\itemsep=0.05cm
+          \item ¿Cambiar el orden cambia el resultado? $\to P(n,r)$.
+          \item ¿Solo importa el conjunto elegido? $\to \binom{n}{r}$.
+          \item ¿Hay etapas sucesivas? $\to n_1\cdots n_k$.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 09 — Puente computacional 1/4
+\begin{frame}{Puente computacional 1/4: aritmética exacta}
+  \small
+  \begin{block}{Verificación reproducible}
+    Las expresiones del tema pueden verificarse con enteros, sin redondear:
+    \[
+      8!=40320,\qquad 5!=120,\qquad 10!=3628800.
+    \]
+  \end{block}
+  \begin{exampleblock}{Principio de control}
+    Primero se calcula el factorial; después se simplifica la razón. Así se
+    distingue un error de conteo de un error de aproximación numérica.
+  \end{exampleblock}
+\end{frame}
+
+% 10 — Puente computacional 2/4
+\begin{frame}{Puente computacional 2/4: permutaciones y combinaciones}
+  \footnotesize
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Permutación}
+        \[
+          P(8,3)=8\cdot7\cdot6=336.
+        \]
+        El orden de oro, plata y bronce produce resultados distintos.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Combinación}
+        \[
+          \binom{10}{4}=\frac{10!}{4!6!}=210.
+        \]
+        Intercambiar integrantes no crea un comité nuevo.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 11 — Puente computacional 3/4
+\begin{frame}{Puente computacional 3/4: espacio muestral}
+  \small
+  \begin{block}{Manos de cinco cartas}
+    Para una mano de $5$ cartas de una baraja de $52$, el espacio muestral es
+    \[
+      \lvert\Omega\rvert=\binom{52}{5}=2{,}598{,}960.
+    \]
+    El orden de recepción no cambia la mano final.
+  \end{block}
+  \pause
+  \begin{alertblock}{Casos favorables}
+    Un palo tiene $\binom{13}{5}$ manos y hay cuatro palos, de modo que
+    $\lvert A\rvert=4\binom{13}{5}=5{,}148$.
+  \end{alertblock}
+\end{frame}
+
+% 12 — Puente computacional 4/4
+\begin{frame}{Puente computacional 4/4: comprobaciones numéricas}
+  \scriptsize
+  \begin{center}
+    \begin{tabular}{lrr}
+      \hline
+      Conteo & Resultado exacto & Interpretación \\
+      \hline
+      $4\cdot6\cdot3$ & $72$ & menús \\
+      $P(8,3)$ & $336$ & medallas ordenadas \\
+      $\binom{10}{4}$ & $210$ & comité sin cargos \\
+      $4\binom{13}{5}$ & $5{,}148$ & manos del mismo palo \\
+      \hline
+    \end{tabular}
+  \end{center}
+  \vspace{0.1cm}
+  Cada valor se obtiene con las fórmulas de la sección y puede reproducirse
+  con aritmética entera independiente del idioma del mazo.
+\end{frame}
+
+% 13–14 — Ejemplo 1
+\begin{frame}{Ejemplo 1/4 --- enunciado: menú de restaurante}
+  \small
+  Un restaurante ofrece $4$ entradas, $6$ platos fuertes y $3$ postres.
+  Si se elige exactamente una opción de cada categoría, ¿cuántos menús
+  distintos pueden formarse?
+  \vfill
+  \begin{alertblock}{Modelo}
+    Tres etapas sucesivas; todas las opciones se combinan con las posteriores.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ejemplo 1/4 --- resolución}
+  \small
+  \begin{block}{Aplicación del principio de multiplicación}
+    \[
+      N=4\cdot6\cdot3=72.
+    \]
+  \end{block}
+  \begin{exampleblock}{Interpretación}
+    El conteo no enumera los menús: construye cada menú como una ruta de tres
+    decisiones y cuenta todas las rutas posibles.
+  \end{exampleblock}
+\end{frame}
+
+% 15–16 — Ejemplo 2
+\begin{frame}{Ejemplo 2/4 --- enunciado: medallas}
+  \small
+  En una carrera con $8$ corredores, ¿de cuántas formas pueden otorgarse las
+  medallas de oro, plata y bronce, sin empates?
+  \vfill
+  \begin{alertblock}{Diagnóstico}
+    Una asignación de medallas es ordenada: cambiar el puesto de dos
+    corredores produce una asignación diferente.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ejemplo 2/4 --- resolución}
+  \small
+  \begin{block}{Permutación de $8$ tomados de $3$}
+    \[
+      P(8,3)=\frac{8!}{(8-3)!}=8\cdot7\cdot6=336.
+    \]
+  \end{block}
+  \begin{exampleblock}{Decisión}
+    Se usa $P(n,r)$ porque oro, plata y bronce no son posiciones
+    intercambiables.
+  \end{exampleblock}
+\end{frame}
+
+% 17–18 — Ejemplo 3
+\begin{frame}{Ejemplo 3/4 --- enunciado: comité}
+  \small
+  Se forma un comité de $4$ personas a partir de $10$ candidatos. Todos los
+  puestos son equivalentes. ¿Cuántos comités distintos pueden formarse?
+  \vfill
+  \begin{alertblock}{Diagnóstico}
+    El comité es un subconjunto: el orden en que se eligen sus integrantes no
+    cambia el resultado.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ejemplo 3/4 --- resolución}
+  \small
+  \begin{block}{Combinación de $10$ tomados de $4$}
+    \[
+      \binom{10}{4}=\frac{10!}{4!6!}=210.
+    \]
+  \end{block}
+  \begin{exampleblock}{Interpretación}
+    Las $4!$ maneras de ordenar cada comité representan el mismo comité y se
+    eliminan mediante la fórmula de combinaciones.
+  \end{exampleblock}
+\end{frame}
+
+% 19–20 — Ejemplo 4
+\begin{frame}{Ejemplo 4/4 --- enunciado: mano del mismo palo}
+  \small
+  De una baraja estándar de $52$ cartas se extrae una mano de $5$. ¿Cuál es
+  la probabilidad de que las cinco cartas sean del mismo palo?
+  \vfill
+  \begin{alertblock}{Modelo}
+    El espacio muestral y los casos favorables son combinaciones, porque el
+    orden de recepción no importa.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ejemplo 4/4 --- resolución}
+  \footnotesize
+  \begin{block}{Probabilidad clásica}
+    \[
+      P(A)=\frac{4\binom{13}{5}}{\binom{52}{5}}
+      =\frac{5{,}148}{2{,}598{,}960}\approx0.00198.
+    \]
+  \end{block}
+  \begin{exampleblock}{Lectura del resultado}
+    Aproximadamente una de cada $505$ manos tiene las cinco cartas del mismo
+    palo; el denominador cuenta todas las manos y el numerador solo las
+    favorables.
+  \end{exampleblock}
+\end{frame}
+
+% 21 — Síntesis
+\begin{frame}{Síntesis de la sección}
+  \small
+  \begin{itemize}\itemsep=0.12cm
+    \item La regla del producto cuenta etapas sucesivas.
+    \item Las permutaciones modelan resultados ordenados.
+    \item Las combinaciones modelan selecciones sin orden.
+    \item La probabilidad clásica es el cociente entre casos favorables y
+      resultados equiprobables.
   \end{itemize}
+\end{frame}
+
+% 22 — Transición
+\begin{frame}{Transición: del conteo a la probabilidad condicional}
+  \small
+  \begin{block}{Lo que ya dominamos}
+    Podemos construir espacios muestrales finitos y medir eventos cuando todos
+    los resultados tienen la misma probabilidad.
+  \end{block}
+  \begin{alertblock}{Siguiente sección --- 02.04}
+    La probabilidad condicional restringe el espacio muestral a la información
+    disponible y prepara la regla de Bayes.
+  \end{alertblock}
 \end{frame}
 
 \end{document}

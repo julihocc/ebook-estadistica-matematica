@@ -1,0 +1,348 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Counting Techniques]{Section 02.03: Counting Techniques}
+\subtitle{Permutations, combinations, and classical probability}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+
+% 01 — Identity
+\begin{frame}[plain]
+  \vspace{-0.8cm}
+  \titlepage
+\end{frame}
+
+% 02 — Roadmap
+\begin{frame}{Roadmap --- Chapter 02: Probability Theory}
+  \scriptsize
+  \begin{itemize}\itemsep=0.04em
+    \item \textbf{02.01} Set theory and probability.
+    \item \textbf{02.02} Probability foundations and axioms.
+    \item \textbf{02.03} Counting techniques \emph{(today)}.
+    \item \textbf{02.04} Conditional probability and Bayes' rule.
+    \item \textbf{02.05} Bayes' theorem.
+    \item \textbf{02.06} Random sampling.
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Learning objective}
+    Count finite sample spaces with the multiplication principle, permutations,
+    and combinations, and turn those counts into classical probabilities when
+    outcomes are equiprobable.
+  \end{block}
+\end{frame}
+
+% 03 — Motivation
+\begin{frame}{From listing outcomes to systematic counting}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{The challenge}
+        A sample space can grow too quickly to list every outcome. Counting
+        describes it without enumerating it.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Classical probability}
+        If all outcomes are equally likely,
+        \[
+          P(A)=\frac{\lvert A\rvert}{\lvert\Omega\rvert}.
+        \]
+        Counting techniques compute both cardinalities.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 04 — Fundamental principle
+\begin{frame}{Fundamental counting principle}
+  \small
+  \begin{block}{Product rule}
+    If a first operation has $n_1$ options, a second has $n_2$ options for
+    every previous choice, and so on, then
+    \[
+      N=n_1n_2\cdots n_k.
+    \]
+  \end{block}
+  \pause
+  \begin{exampleblock}{Interpretation}
+    Each final outcome is a path: multiplication is used because every stage
+    combines with all options in later stages.
+  \end{exampleblock}
+\end{frame}
+
+% 05 — Counting model
+\begin{frame}{How to model a counting question}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.12cm
+    \item Describe precisely the outcome being counted.
+    \item Separate the process into successive stages or choices.
+    \item Ask whether order matters and whether repetition is allowed.
+    \item Choose multiplication, permutations, or combinations.
+  \end{enumerate}
+  \vspace{0.1cm}
+  \begin{alertblock}{Control rule}
+    If exchanging positions changes the outcome, use an ordered model; if it
+    does not, count an unordered selection.
+  \end{alertblock}
+\end{frame}
+
+% 06 — Permutations
+\begin{frame}{Permutations: when order matters}
+  \small
+  \begin{block}{Definition}
+    The number of ordered arrangements of $r$ distinct objects chosen from
+    $n$, without repetition, is
+    \[
+      P(n,r)=\frac{n!}{(n-r)!}=n(n-1)\cdots(n-r+1).
+    \]
+  \end{block}
+  \begin{exampleblock}{Complete case}
+    If $r=n$, then $P(n,n)=n!$. Order distinguishes every arrangement.
+  \end{exampleblock}
+\end{frame}
+
+% 07 — Combinations
+\begin{frame}{Combinations: when order does not matter}
+  \small
+  \begin{block}{Definition}
+    The number of subsets of size $r$ chosen from $n$ objects is
+    \[
+      \binom{n}{r}=\frac{P(n,r)}{r!}=\frac{n!}{r!(n-r)!}.
+    \]
+  \end{block}
+  \begin{exampleblock}{Key idea}
+    Each unordered selection produces $r!$ ordered arrangements; division by
+    $r!$ removes that multiplicity.
+  \end{exampleblock}
+\end{frame}
+
+% 08 — Properties and decision
+\begin{frame}{Properties and model selection}
+  \footnotesize
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Binomial coefficient}
+        \[
+          \binom{n}{r}=\binom{n}{n-r},\qquad
+          \binom{n}{0}=\binom{n}{n}=1.
+        \]
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Diagnostic question}
+        \begin{itemize}\itemsep=0.05cm
+          \item Does order change the outcome? $\to P(n,r)$.
+          \item Does only the chosen set matter? $\to \binom{n}{r}$.
+          \item Are there successive stages? $\to n_1\cdots n_k$.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 09 — Computational bridge 1/4
+\begin{frame}{Computational bridge 1/4: exact arithmetic}
+  \small
+  \begin{block}{Reproducible verification}
+    The formulas can be checked with integers, without rounding:
+    \[
+      8!=40320,\qquad 5!=120,\qquad 10!=3628800.
+    \]
+  \end{block}
+  \begin{exampleblock}{Control principle}
+    Compute factorials first and simplify ratios afterward. This separates a
+    counting error from a numerical-approximation error.
+  \end{exampleblock}
+\end{frame}
+
+% 10 — Computational bridge 2/4
+\begin{frame}{Computational bridge 2/4: permutations and combinations}
+  \footnotesize
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Permutation}
+        \[
+          P(8,3)=8\cdot7\cdot6=336.
+        \]
+        Gold, silver, and bronze produce distinct ordered outcomes.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Combination}
+        \[
+          \binom{10}{4}=\frac{10!}{4!6!}=210.
+        \]
+        Swapping members does not create a new committee.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 11 — Computational bridge 3/4
+\begin{frame}{Computational bridge 3/4: the sample space}
+  \small
+  \begin{block}{Five-card hands}
+    For a hand of $5$ cards from a $52$-card deck,
+    \[
+      \lvert\Omega\rvert=\binom{52}{5}=2{,}598{,}960.
+    \]
+    The order in which cards arrive does not change the final hand.
+  \end{block}
+  \pause
+  \begin{alertblock}{Favorable outcomes}
+    One suit has $\binom{13}{5}$ hands and there are four suits, so
+    $\lvert A\rvert=4\binom{13}{5}=5{,}148$.
+  \end{alertblock}
+\end{frame}
+
+% 12 — Computational bridge 4/4
+\begin{frame}{Computational bridge 4/4: numerical checks}
+  \scriptsize
+  \begin{center}
+    \begin{tabular}{lrr}
+      \hline
+      Count & Exact result & Interpretation \\
+      \hline
+      $4\cdot6\cdot3$ & $72$ & menus \\
+      $P(8,3)$ & $336$ & ordered medals \\
+      $\binom{10}{4}$ & $210$ & committee without offices \\
+      $4\binom{13}{5}$ & $5{,}148$ & same-suit hands \\
+      \hline
+    \end{tabular}
+  \end{center}
+  \vspace{0.1cm}
+  Every value follows from the section formulas and can be reproduced with
+  integer arithmetic independently of the deck language.
+\end{frame}
+
+% 13–14 — Example 1
+\begin{frame}{Example 1/4 --- statement: restaurant menu}
+  \small
+  A restaurant offers $4$ appetizers, $6$ main courses, and $3$ desserts.
+  If a diner chooses exactly one option from each category, how many different
+  menus can be formed?
+  \vfill
+  \begin{alertblock}{Model}
+    Three successive stages; every option combines with all later options.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Example 1/4 --- solution}
+  \small
+  \begin{block}{Apply the multiplication principle}
+    \[
+      N=4\cdot6\cdot3=72.
+    \]
+  \end{block}
+  \begin{exampleblock}{Interpretation}
+    We do not list menus: each menu is a path through three decisions, so we
+    count all possible paths.
+  \end{exampleblock}
+\end{frame}
+
+% 15–16 — Example 2
+\begin{frame}{Example 2/4 --- statement: medals}
+  \small
+  In a race with $8$ runners, in how many ways can gold, silver, and bronze be
+  awarded, assuming there are no ties?
+  \vfill
+  \begin{alertblock}{Diagnosis}
+    A medal assignment is ordered: exchanging two runners creates a different
+    assignment.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Example 2/4 --- solution}
+  \small
+  \begin{block}{Permutation of $8$ taken $3$ at a time}
+    \[
+      P(8,3)=\frac{8!}{(8-3)!}=8\cdot7\cdot6=336.
+    \]
+  \end{block}
+  \begin{exampleblock}{Decision}
+    Use $P(n,r)$ because gold, silver, and bronze are not interchangeable
+    positions.
+  \end{exampleblock}
+\end{frame}
+
+% 17–18 — Example 3
+\begin{frame}{Example 3/4 --- statement: committee}
+  \small
+  A committee of $4$ people is formed from $10$ candidates. All positions are
+  equivalent. How many different committees can be formed?
+  \vfill
+  \begin{alertblock}{Diagnosis}
+    The committee is a subset: the order in which its members are selected
+    does not change the outcome.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Example 3/4 --- solution}
+  \small
+  \begin{block}{Combination of $10$ taken $4$ at a time}
+    \[
+      \binom{10}{4}=\frac{10!}{4!6!}=210.
+    \]
+  \end{block}
+  \begin{exampleblock}{Interpretation}
+    The $4!$ orderings of each committee describe the same committee and are
+    removed by the combination formula.
+  \end{exampleblock}
+\end{frame}
+
+% 19–20 — Example 4
+\begin{frame}{Example 4/4 --- statement: same-suit hand}
+  \small
+  A five-card hand is drawn from a standard $52$-card deck. What is the
+  probability that all five cards have the same suit?
+  \vfill
+  \begin{alertblock}{Model}
+    Both the sample space and favorable outcomes use combinations because the
+    order in which cards arrive does not matter.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Example 4/4 --- solution}
+  \footnotesize
+  \begin{block}{Classical probability}
+    \[
+      P(A)=\frac{4\binom{13}{5}}{\binom{52}{5}}
+      =\frac{5{,}148}{2{,}598{,}960}\approx0.00198.
+    \]
+  \end{block}
+  \begin{exampleblock}{Reading the result}
+    About one in every $505$ hands has the same suit; the denominator counts
+    all hands and the numerator counts favorable hands.
+  \end{exampleblock}
+\end{frame}
+
+% 21 — Synthesis
+\begin{frame}{Section synthesis}
+  \small
+  \begin{itemize}\itemsep=0.12cm
+    \item The product rule counts successive stages.
+    \item Permutations model ordered outcomes.
+    \item Combinations model unordered selections.
+    \item Classical probability is the ratio of favorable outcomes to all
+      equiprobable outcomes.
+  \end{itemize}
+\end{frame}
+
+% 22 — Transition
+\begin{frame}{Transition: from counting to conditional probability}
+  \small
+  \begin{block}{What we now know}
+    We can construct finite sample spaces and measure events when all outcomes
+    are equally likely.
+  \end{block}
+  \begin{alertblock}{Next section --- 02.04}
+    Conditional probability restricts the sample space to the available
+    information and prepares Bayes' rule.
+  \end{alertblock}
+\end{frame}
+
+\end{document}

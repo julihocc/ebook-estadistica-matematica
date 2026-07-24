@@ -58,6 +58,24 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 - Las referencias a `3-3-2-2` y a diez problemas en el registro histórico de
   este archivo son solo antecedentes fechados, no requisitos activos.
 
+## Piloto cerrado: 02.03 Técnicas de conteo — 2026-07-24 14:20:02 -06:00
+
+- `presentaciones/es/02_teoria_probabilidad/02.03_tecnicas_de_conteo.tex` y
+  `presentaciones/en/02_probability_theory/02.03_counting_techniques.tex`
+  tienen la misma estructura de **22 frames**.
+- Los cuatro ejemplos usados provienen de la teoría (`exmp:conteo.1`–
+  `exmp:conteo.4`); no se incorporan problemas `(p)`, etiquetas `prob:` ni
+  ejercicios sin resolver.
+- No se añadió un script Python: el puente computacional usa aritmética exacta
+  y tablas calculadas dentro del mazo, por lo que `\lstinputlisting` permanece
+  en cero en ambos idiomas.
+- La doble compilación de ambos mazos terminó con código 0, cero referencias
+  indefinidas, cero etiquetas duplicadas y cero `Overfull \\hbox`/`\\vbox`.
+- La matriz pasa de 5 a 6 filas completas de cuatro vías; quedan 66 filas
+  parciales. El inventario físico pasa a 48 mazos ES desarrollados y 55 mazos
+  EN. El siguiente bloque queda pendiente: capítulo 5, sin iniciarlo en este
+  corte.
+
 ## 3. Registro histórico del desarrollo hasta el 2026-07-23 11:03:37 -06:00
 
 Las secciones siguientes conservan decisiones, conteos y protocolos de etapas anteriores. Sus referencias a la convención histórica de 10 problemas `3-3-2-2`, a estados intermedios y a archivos retirados son históricas y no constituyen instrucciones para trabajo nuevo.
