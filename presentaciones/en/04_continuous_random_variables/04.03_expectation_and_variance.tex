@@ -73,7 +73,23 @@
 	\end{columns}
 \end{frame}
 
-% SLIDE 03C: Linearity and Variance Properties
+% SLIDE 03C: Continuous Variance
+\begin{frame}{Continuous Variance and Second Moments}
+\scriptsize
+\begin{block}{Definition}
+The variance of a continuous variable is
+\[
+\Var(X)=\E[(X-\mu)^2]=\int (x-\mu)^2f_X(x)\,dx
+       =\E[X^2]-\mu^2.
+\]
+\end{block}
+\begin{alertblock}{Interpretation}
+Variance measures quadratic dispersion around $\mu=\E[X]$ and has squared units;
+the standard deviation $\sigma=\sqrt{\Var(X)}$ returns to the original scale.
+\end{alertblock}
+\end{frame}
+
+% SLIDE 03D: Linearity and Variance Properties
 \begin{frame}{Linearity of Expectation and Variance Properties}
 	\vspace{-0.15cm}
 	\begin{columns}[T]
@@ -93,6 +109,17 @@
 			\end{alertblock}
 		\end{column}
 	\end{columns}
+\end{frame}
+
+% SLIDE 03E: Linearity of Expectation
+\begin{frame}{Linearity of Continuous Expectation}
+\scriptsize
+For constants $a,b$ and integrable variables,
+\[
+\E[aX+b]=a\E[X]+b,\qquad \Var(aX+b)=a^2\Var(X).
+\]
+Linearity holds without independence; independence is needed only for simplifying
+variances of sums through covariance terms.
 \end{frame}
 
 % SLIDE 04: Central Moments and Law of Total Variance
@@ -181,141 +208,13 @@ Error propagation (sigma=0.1, true=5.0):
 	\end{block}
 \end{frame}
 
-% SLIDE 10: Exercise Level 1 (Statement)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.3.1 --- Expectation and Variance of Triangular PDF (Statement)}
-		Let $X$ have triangular PDF $f(x) = 2x$ for $0 \le x \le 1$. Calculate $\E[X] = \int_{0}^{1} 2x^{2}\,dx$, $\E[X^{2}] = \int_{0}^{1} 2x^{3}\,dx$, and verify $\Var(X) = \E[X^{2}] - (\E[X])^{2}$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Model Setup}
-		\begin{itemize}\itemsep=0.04cm
-			\item Support: $[0, 1]$ (bounded).
-			\item Expectation: $\E[X] = \int x f(x)\,dx = \int_{0}^{1} 2x^{2}\,dx$.
-			\item Variance by identity: $\Var(X) = \E[X^{2}] - (\E[X])^{2}$.
-		\end{itemize}
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 11: Exercise Level 1 (Solution)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Compute the integrals and verify: \pause
-	\begin{block}{Expectation and Second Moment}
-		\begin{align*}
-			\E[X] &= \int_{0}^{1} 2x^{2}\,dx = \left[ \dfrac{2x^{3}}{3} \right]_{0}^{1} = \dfrac{2}{3}. \\
-			\E[X^{2}] &= \int_{0}^{1} 2x^{3}\,dx = \left[ \dfrac{x^{4}}{2} \right]_{0}^{1} = \dfrac{1}{2}.
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Variance and Comparison with Median}
-		\scriptsize
-		$\Var(X) = \E[X^{2}] - (\E[X])^{2} = \dfrac{1}{2} - \dfrac{4}{9} = \dfrac{1}{18} \approx 0.0556$. The median is $m = 1/\sqrt{2} \approx 0.7071 > \E[X] \approx 0.6667$, difference due to asymmetry of the triangular PDF.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 12: Exercise Level 2 (Statement)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.3.5 --- Skewness and Kurtosis of Exponential (Statement)}
-		For $X \sim \text{Exp}(\lambda = 1)$, calculate the skewness $\gamma_{1} = \E[(X - \mu)^{3}]/\sigma^{3}$ and the kurtosis $\gamma_{2} = \E[(X - \mu)^{4}]/\sigma^{4} - 3$. Compare with the Normal ($\gamma_{1} = 0$, $\gamma_{2} = 0$).
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Application}
-		\scriptsize
-		Implement a Monte Carlo simulation with $N = 250{,}000$ to verify the theoretical values. The Exponential has a heavy right tail, so $\gamma_{1} > 0$ and $\gamma_{2} > 0$.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 13: Exercise Level 2 (Solution)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Compute the central moments and compare: \pause
-	\begin{block}{Central Moments of Exponential(1)}
-		\begin{align*}
-			\mu = 1, \quad \sigma = 1, \quad \E[(X-1)^{3}] = 2, \quad \E[(X-1)^{4}] = 9.
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Skewness and Kurtosis}
-		\scriptsize
-		\begin{align*}
-			\gamma_{1} = \dfrac{2}{1^{3}} = 2 \quad \text{(positive skew, right tail)}, \quad
-			\gamma_{2} = \dfrac{9}{1^{4}} - 3 = 6 \quad \text{(excess kurtosis)}.
-		\end{align*}
-		Compared with the Normal ($\gamma_{1} = 0$, $\gamma_{2} = 0$), the Exponential is \emph{more asymmetric} and has \emph{heavier tails}. Monte Carlo: $\hat{\gamma}_{1} \approx 1.99$, $\hat{\gamma}_{2} \approx 5.87$ (with $N = 250{,}000$).
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 14: Exercise Level 3 (Statement)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.3.7 --- Linearity of Expectation (Statement)}
-		Let $X$ be continuous with PDF $f(x)$ and $\E[X] = \mu$. Prove that $\E[aX + b] = a\mu + b$ and $\E[X + Y] = \E[X] + \E[Y]$ for constants $a, b$ and random variables $X, Y$.
-	\end{block}
-	\vspace{0.1cm}
-	\pause
-	\begin{alertblock}{Deduction Strategy}
-		\scriptsize
-		Use the linearity of integration and Fubini's theorem for the sum. Expectation is linear even for dependent variables (unlike variance).
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 15: Exercise Level 3 (Solution)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Demonstrate linearity via integration: \pause
-	\begin{block}{Proof}
-		\scriptsize
-		\begin{align*}
-			\E[aX + b] &= \int (ax + b) f(x)\,dx = a \int x f(x)\,dx + b \int f(x)\,dx = a\mu + b.
-		\end{align*}
-		For $\E[X + Y]$ with joint PDF $f_{X,Y}(x, y)$:
-		\begin{align*}
-			\E[X + Y] &= \int\int (x + y) f_{X,Y}(x, y)\,dx\,dy = \E[X] + \E[Y]
-		\end{align*}
-		by Fubini's theorem. Linearity holds \emph{even for dependent variables} (unlike $\Var(X+Y) = \Var(X) + \Var(Y) + 2\cov(X,Y)$). \quad \qedhere
-	\end{block}
-\end{frame}
 
-% SLIDE 16: Exercise Level 4 (Statement)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.3.9 --- Law of Total Variance (Statement)}
-		Let $X$ be continuous with PDF $f(x)$ and $Y$ another variable. Prove the variance decomposition identity:
-		$$\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$$
-		This identity is fundamental in ANOVA and hierarchical models.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Application}
-		\scriptsize
-		In one-way ANOVA, total variability decomposes into \emph{between-treatment} ($\Var(\E[X \mid Y])$) and \emph{within-treatment} ($\E[\Var(X \mid Y)]$) variability.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 17: Exercise Level 4 (Solution)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Prove via the law of total expectation: \pause
-	\begin{block}{Formal Proof}
-		\scriptsize
-		By the law of total expectation, $\E[X] = \E[\E[X \mid Y]]$. Expanding:
-		\begin{align*}
-			\Var(X) &= \E[(X - \E[X])^{2}] = \E[\E[(X - \E[X \mid Y] + \E[X \mid Y] - \E[X])^{2} \mid Y]] \\
-			&= \E[\Var(X \mid Y)] + \E[\Var(\E[X \mid Y] \mid Y)] + 2\E[\E[(X - \E[X \mid Y])(\E[X \mid Y] - \E[X]) \mid Y]].
-		\end{align*}
-		The third term is $0$ (tower property). The first two terms are $\E[\Var(X \mid Y)]$ and $\Var(\E[X \mid Y])$, respectively. Therefore: $\Var(X) = \E[\Var(X \mid Y)] + \Var(\E[X \mid Y])$. \quad \qedhere
-	\end{block}
-\end{frame}
 
 % SLIDE 18: Closing and Next Steps
 \begin{frame}{Closing Section and Modular Perspective}
@@ -334,6 +233,19 @@ Error propagation (sigma=0.1, true=5.0):
 			\item \textbf{Next Section:} \textcolor{TecRojo}{Continuous Uniform Distribution}.
 		\end{itemize}
 	\end{alertblock}
+\end{frame}
+
+% SLIDE 20: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+\scriptsize
+\begin{alertblock}{Next Session: Continuous Distributions}
+Moments summarize a distribution; the next sections apply them to Uniform,
+Normal, Gamma, and other continuous families used in engineering and data science.
+\end{alertblock}
+\begin{block}{Recommended Preparation}
+Review conditional expectation and the law of total variance before applying these
+identities to sampling distributions.
+\end{block}
 \end{frame}
 
 \end{document}

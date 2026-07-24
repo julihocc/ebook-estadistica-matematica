@@ -73,7 +73,20 @@
 	\end{columns}
 \end{frame}
 
-% SLIDE 04: Beta Distribution
+% SLIDE 04: Exponential and Chi-Squared Cases
+\begin{frame}{Special Cases of the Gamma Distribution}
+\scriptsize
+If $X\sim\Gamma(\alpha,\theta)$, then two important cases are
+\[
+\alpha=1\Rightarrow X\sim\operatorname{Exp}(1/\theta),
+\qquad
+\alpha=\nu/2,\ \theta=2\Rightarrow X\sim\chi^2_{\nu}.
+\]
+The exponential case models memoryless waiting times; the chi-squared case is
+central to variance inference and goodness-of-fit procedures.
+\end{frame}
+
+% SLIDE 05: Beta Distribution
 \begin{frame}{Beta Distribution: Definition and Bayesian Prior}
 	\vspace{-0.15cm}
 	\begin{columns}[T]
@@ -92,7 +105,20 @@
 	\end{columns}
 \end{frame}
 
-% SLIDE 05: Weibull Distribution
+% SLIDE 05B: Formal Beta Density
+\begin{frame}{Formal Definition of the Beta Distribution}
+\scriptsize
+For $0<x<1$ and $\alpha,\beta>0$,
+\[
+f_X(x)=\frac{x^{\alpha-1}(1-x)^{\beta-1}}{B(\alpha,\beta)},
+\qquad
+B(\alpha,\beta)=\int_0^1t^{\alpha-1}(1-t)^{\beta-1}\,dt.
+\]
+Its support is bounded, making the Beta family natural for proportions and
+probabilities.
+\end{frame}
+
+% SLIDE 06: Weibull Distribution
 \begin{frame}{Weibull Distribution: Definition and Hazard Function}
 	\vspace{-0.15cm}
 	\begin{columns}[T]
@@ -176,145 +202,13 @@ Hazard: Lot A (beta=1) h=0.100 constant; Lot B (beta=2) h(5)=0.100, h(15)=0.300
 	\end{block}
 \end{frame}
 
-% SLIDE 11: Exercise Level 1 (Statement)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.7.1 --- Gamma$(3,2)$ Distribution (Statement)}
-		Let $X \sim \text{Gamma}(\alpha=3, \beta=2)$. Write the PDF $f(x)$ and identify its parameters, compute the mean $\mu_{X}=\alpha\beta$ and variance $\sigma_{X}^{2}=\alpha\beta^{2}$, and verify $\int_{0}^{\infty} f(x)\,dx = 1$ using the definition of the gamma function.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Model Setup}
-		\begin{itemize}\itemsep=0.04cm
-			\item Shape parameter $\alpha=3$, scale parameter $\beta=2$.
-			\item $\Gamma(3) = 2! = 2$ (integer case of the gamma function).
-			\item Normalization is verified with the substitution $u=x/2$.
-		\end{itemize}
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 12: Exercise Level 1 (Solution)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Substitute the parameters and verify normalization: \pause
-	\begin{block}{Calculations}
-		\begin{itemize}\itemsep=0.05cm
-			\item $f(x) = \dfrac{x^{2}e^{-x/2}}{16}$, $x>0$, since $\Gamma(3)\cdot 2^{3} = 2\cdot 8 = 16$.
-			\item $\mu_{X} = 3\cdot 2 = 6$. $\sigma_{X}^{2} = 3\cdot 4 = 12$.
-			\item With $u=x/2$: $\int_{0}^{\infty} f(x)\,dx = \frac{1}{\Gamma(3)}\int_{0}^{\infty}u^{2}e^{-u}\,du = \Gamma(3)/\Gamma(3) = 1$.
-		\end{itemize}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		With integer $\alpha=3$, $X$ is equivalent to the sum of 3 independent Exponential variables with the same scale $\beta=2$ (a 3-stage Erlang), explaining why the mean is three times that of a single exponential.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 13: Exercise Level 2 (Statement)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.7.4 --- Beta$(3,5)$ Distribution (Statement)}
-		Let $X \sim \text{Beta}(\alpha=3, \beta=5)$. Write the PDF $f(x)$ using the beta function $B(\alpha,\beta)$, compute $B(3,5)$ using its relation to the gamma function, and compute $\E(X)$ and $\Var(X)$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Application}
-		\scriptsize
-		This kind of calculation is common when modeling the defective fraction of a production batch or a campaign's conversion rate, where $X$ is naturally bounded on $[0,1]$.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 14: Exercise Level 2 (Solution)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Use $\Gamma(3)=2$, $\Gamma(5)=24$, and $\Gamma(8)=5040$: \pause
-	\begin{block}{Calculations}
-		\begin{itemize}\itemsep=0.05cm
-			\item $f(x) = x^{2}(1-x)^{4}/B(3,5)$, $0<x<1$.
-			\item $B(3,5) = \dfrac{\Gamma(3)\Gamma(5)}{\Gamma(8)} = \dfrac{2\cdot 24}{5040} = \dfrac{1}{105} \approx 0.00952$.
-			\item $\E(X) = 3/8 = 0.375$. $\Var(X) = \dfrac{15}{64\cdot 9} = \dfrac{15}{576} \approx 0.0260$.
-		\end{itemize}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		With $\alpha < \beta$, probability mass concentrates toward low values of $x$: only 37.5\% of the modeled proportion is expected, consistent with $\alpha=3$ implicit "successes" against $\beta=5$ implicit "failures."
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 15: Exercise Level 3 (Statement)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.7.7 --- Weibull Reliability (Statement)}
-		The lifetime $T$ (in years) of a mechanical component follows $T \sim \text{Weibull}(\beta=1.5, \eta=4)$. Write the PDF and reliability function $R(t)$, compute $P(T>3)$, and determine whether the failure rate is increasing or decreasing.
-	\end{block}
-	\vspace{0.1cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Reliability has closed form $R(t) = \exp[-(t/\eta)^{\beta}]$; simply evaluate at $t=3$. The sign of $\beta - 1$ determines the monotonicity of the hazard function $h(t)$.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 16: Exercise Level 3 (Solution)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Evaluate the reliability function at $t=3$: \pause
-	\begin{block}{Proof and Calculation}
-		\scriptsize
-		\begin{align*}
-			R(t) = \exp\!\left[-\left(\dfrac{t}{4}\right)^{1.5}\right], \qquad
-			R(3) = \exp\!\left[-(0.75)^{1.5}\right] = e^{-0.6495} \approx 0.522.
-		\end{align*}
-		Since $\beta=1.5>1$, the failure rate $h(t)=\frac{1.5}{4}(t/4)^{0.5}$ is increasing. \quad \qedhere
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		There is a $52.2\%$ probability that the component is still functioning after 3 years. Since $h(t)$ grows with $t$, the component exhibits \emph{wear-out}: failure risk accelerates with age, suggesting preventive maintenance should be scheduled before that point.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 17: Exercise Level 4 (Statement)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.7.10 --- Gamma/Erlang Replacement Process (Statement)}
-		A system replaces a critical component as soon as it fails; inter-replacement times are i.i.d. $\text{Exp}(\lambda=0.5)$. Determine the distribution of the time $T$ until the fifth replacement, compute $\E(T)$ and $\Var(T)$, and compare with a $\text{Weibull}(\beta=1,\eta=2)$ model.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Use the additive property of the Gamma with the same scale $\beta=2=1/\lambda$, and recall that $\text{Weibull}(1,\eta)=\text{Exp}(1/\eta)$.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 18: Exercise Level 4 (Solution)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Apply the additive property of independent Gamma variables: \pause
-	\begin{block}{Calculation}
-		\scriptsize
-		Each $T_{i} \sim \text{Gamma}(1,2)$; by the additive property, $T=\sum_{i=1}^{5}T_{i} \sim \text{Gamma}(5,2)$ (a 5-stage Erlang).
-		\begin{align*}
-			\E(T) = 5\cdot 2 = 10 \text{ years}, \qquad \Var(T) = 5\cdot 4 = 20.
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Comparison with Weibull}
-		\scriptsize
-		$\text{Weibull}(1,2)=\text{Exp}(0.5)$ matches the distribution of \emph{each} individual $T_{i}$, not the cumulative time $T$: Weibull with $\beta=1$ models a single non-aging component, while Gamma/Erlang models the sum of several waiting times.
-	\end{alertblock}
-\end{frame}
 
 % SLIDE 19: Closing and Chapter Perspective
 \begin{frame}{Closing Section and Chapter Perspective}
@@ -333,6 +227,19 @@ Hazard: Lot A (beta=1) h=0.100 constant; Lot B (beta=2) h(5)=0.100, h(15)=0.300
 			\item \textbf{Chapter 04 complete.} \textbf{Next:} \textcolor{TecRojo}{Chapter 05 --- Sampling Distributions}.
 		\end{itemize}
 	\end{alertblock}
+\end{frame}
+
+% SLIDE 20: Modular Perspective
+\begin{frame}{Modular Perspective --- Chapter 04 Closure}
+\scriptsize
+\begin{alertblock}{Continuous Families Completed}
+Gamma, Beta, and Weibull extend the symmetric Normal and bounded Uniform models
+to waiting times, proportions, and reliability data.
+\end{alertblock}
+\begin{block}{Transition}
+The next chapter develops sampling distributions and the inferential behavior of
+statistics computed from random samples.
+\end{block}
 \end{frame}
 
 \end{document}

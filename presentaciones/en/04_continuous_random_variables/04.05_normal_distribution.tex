@@ -73,7 +73,18 @@
 	\end{columns}
 \end{frame}
 
-% SLIDE 04: MGF and CLT
+% SLIDE 04: Standardization
+\begin{frame}{Z-Score Standardization}
+\scriptsize
+For $X\sim N(\mu,\sigma^2)$, the standardized variable
+\[
+Z=\frac{X-\mu}{\sigma}\sim N(0,1),\qquad
+P(a<X<b)=P\!\left(\frac{a-\mu}{\sigma}<Z<\frac{b-\mu}{\sigma}\right).
+\]
+This transformation puts every Normal model on the same reference scale.
+\end{frame}
+
+% SLIDE 04B: MGF and CLT
 \begin{frame}{MGF, Sum-Closure, and Central Limit Theorem}
 	\vspace{-0.15cm}
 	\begin{columns}[T]
@@ -90,6 +101,32 @@
 			\end{alertblock}
 		\end{column}
 	\end{columns}
+\end{frame}
+
+% SLIDE 04C: Empirical Rule
+\begin{frame}{Empirical Rule: 68--95--99.7}
+\scriptsize
+For a Normal variable,
+\[
+P(|X-\mu|<\sigma)\approx0.68,\quad
+P(|X-\mu|<2\sigma)\approx0.95,\quad
+P(|X-\mu|<3\sigma)\approx0.997.
+\]
+These bands provide a fast diagnostic for unusual observations and process
+variation before a formal tail calculation.
+\end{frame}
+
+% SLIDE 04D: Central Limit Theorem
+\begin{frame}{Central Limit Theorem}
+\scriptsize
+If $X_1,\ldots,X_n$ are i.i.d. with finite mean $\mu$ and variance $\sigma^2$,
+then
+\[
+\frac{\bar X-\mu}{\sigma/\sqrt n}\xrightarrow{d}N(0,1)
+\qquad(n\to\infty).
+\]
+The limit explains why Normal approximations arise even when the original data
+are not Normal.
 \end{frame}
 
 % SLIDE 05: Applications
@@ -159,140 +196,13 @@ Binomial(400, 0.25) approx:
 	\end{block}
 \end{frame}
 
-% SLIDE 10: Exercise Level 1 (Statement)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.6.1 --- Normal Distribution $N(100, 15^{2})$ (Statement)}
-		Let $X \sim N(100, 15^{2})$. Write the PDF $f(x) = \frac{1}{15\sqrt{2\pi}} e^{-(x-100)^{2}/450}$, and calculate $P(85 \le X \le 115)$, $P(X > 130)$, and $P(X < 70)$ using the standardization $Z = (X - 100)/15$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Model Setup}
-		\begin{itemize}\itemsep=0.04cm
-			\item Mean $\mu = 100$ and standard deviation $\sigma = 15$.
-			\item Standardization: $Z = (X - 100)/15 \sim N(0, 1)$.
-			\item Probability: $P(a \le X \le b) = P((a-100)/15 \le Z \le (b-100)/15)$.
-		\end{itemize}
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 11: Exercise Level 1 (Solution)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Standardize and use the standard Normal CDF: \pause
-	\begin{block}{Probability Calculation}
-		\begin{itemize}\itemsep=0.05cm
-			\item $P(85 \le X \le 115) = P(-1 \le Z \le 1) = 2\Phi(1) - 1 \approx 0.6827$ (68.27\% of mass).
-			\item $P(X > 130) = P(Z > 2) = 1 - \Phi(2) \approx 0.0228$ (2.28\% right tail).
-			\item $P(X < 70) = P(Z < -2) = \Phi(-2) \approx 0.0228$ (2.28\% left tail).
-		\end{itemize}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		68.27\% of observations fall in $[85, 115]$ (one standard deviation around the mean). Only 4.56\% of the total mass lies outside $\pm 2\sigma$ (i.e., outside $[70, 130]$), confirming the 68-95-99.7 rule.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 12: Exercise Level 2 (Statement)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.6.4 --- Heights with Normal Distribution (Statement)}
-		Adult heights follow $N(170, 100)$ ($\mu = 170$ cm, $\sigma = 10$ cm). Calculate: (a) $P(X > 185)$, (b) $P(160 \le X \le 180)$, and (c) the expected number of people with height $< 155$ cm in a sample of 1000.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Application}
-		\scriptsize
-		This question is typical in anthropometric studies and design of spaces (doors, vehicles, seats). The standardization $Z = (X - 170)/10$ converts to $N(0, 1)$, allowing universal probability calculation.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 13: Exercise Level 2 (Solution)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Apply the standardization $Z = (X - 170)/10$: \pause
-	\begin{block}{Calculations}
-		\begin{itemize}\itemsep=0.05cm
-			\item $P(X > 185) = P(Z > 1.5) = 1 - \Phi(1.5) \approx 0.0668$. 6.68\% are taller than 185 cm.
-			\item $P(160 \le X \le 180) = P(-1 \le Z \le 1) = 2\Phi(1) - 1 \approx 0.6827$. 68.27\% are between 160 and 180 cm.
-			\item $P(X < 155) = P(Z < -1.5) \approx 0.0668$. Expected: $0.0668 \cdot 1000 \approx 67$ people.
-		\end{itemize}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Design Decision}
-		\scriptsize
-		If a door with height $h = 180$ cm is designed, only 84.13\% of the population can pass through without bending. For $h = 190$ cm, this rises to 97.7\%. Ergonomic design should consider high percentiles (e.g., 95th percentile = 186.4 cm) to accommodate the majority.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 14: Exercise Level 3 (Statement)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.6.7 --- Normal MGF Derivation (Statement)}
-		Prove that if $X \sim N(\mu, \sigma^{2})$, its moment generating function is $M_{X}(t) = e^{\mu t + \sigma^{2}t^{2}/2}$. Verify that $M'(0) = \mu$ and $M''(0) = \mu^{2} + \sigma^{2}$.
-	\end{block}
-	\vspace{0.1cm}
-	\pause
-	\begin{alertblock}{Deduction Strategy}
-		\scriptsize
-		Complete the square in the exponent of the integral: $tx - (x-\mu)^{2}/(2\sigma^{2}) = -(x - (\mu + \sigma^{2}t))^{2}/(2\sigma^{2}) + \mu t + \sigma^{2}t^{2}/2$. Factor the exponential and use the Gaussian integral.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 15: Exercise Level 3 (Solution)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Complete the square and differentiate: \pause
-	\begin{block}{Formal Proof}
-		\scriptsize
-		\begin{align*}
-			M_{X}(t) &= \int e^{tx} \cdot \dfrac{1}{\sigma\sqrt{2\pi}} e^{-(x-\mu)^{2}/(2\sigma^{2})}\,dx \\
-			&= e^{\mu t + \sigma^{2}t^{2}/2} \int \dfrac{1}{\sigma\sqrt{2\pi}} e^{-(x - (\mu + \sigma^{2}t))^{2}/(2\sigma^{2})}\,dx = e^{\mu t + \sigma^{2}t^{2}/2},
-		\end{align*}
-		where the integral is exactly 1 (Normal PDF with mean $\mu + \sigma^{2}t$ and variance $\sigma^{2}$). Differentiating: $M'(0) = \mu$, $M''(0) = \mu^{2} + \sigma^{2}$. \quad \qedhere
-	\end{block}
-\end{frame}
 
-% SLIDE 16: Exercise Level 4 (Statement)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 4.6.10 --- Binomial-Normal Approximation (Statement)}
-		For $X \sim \text{Bin}(400, 0.25)$ use the Normal approximation with Yates correction to calculate $P(X \ge 120)$, compare with the exact value, and determine $n$ required for $\text{SE}(\hat{p}) < 0.01$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Application}
-		\scriptsize
-		In a standardized exam with $n = 400$ multiple-choice questions with 4 options, the number of correct answers $X$ follows $\text{Bin}(400, 0.25)$. The Normal approximation avoids computing tail probabilities with 400 terms.
-	\end{alertblock}
-\end{frame}
 
-% SLIDE 17: Exercise Level 4 (Solution)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Apply the Normal approximation with Yates correction: \pause
-	\begin{block}{Numerical Calculation}
-		\scriptsize
-		With $\mu = np = 100$ and $\sigma = \sqrt{np(1-p)} = \sqrt{75} \approx 8.66$:
-		\begin{align*}
-			P(X \ge 120) \approx P(Y \ge 119.5) = 1 - \Phi\left(\dfrac{119.5 - 100}{8.66}\right) = 1 - \Phi(2.25) \approx 0.0122.
-		\end{align*}
-		The exact value is $P(X \ge 120) = 1 - \text{binom.cdf}(119, 400, 0.25) \approx 0.0133$, giving an absolute error of $0.0011$.
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Required Sample Size}
-		\scriptsize
-		For $\text{SE}(\hat{p}) = \sqrt{p(1-p)/n} < 0.01$: $n > 0.25 \cdot 0.75/0.0001 = 1875$. At least 1875 observations are needed for a standard error smaller than 1\%.
-	\end{alertblock}
-\end{frame}
 
 % SLIDE 18: Closing and Next Steps
 \begin{frame}{Closing Section and Modular Perspective}
@@ -311,6 +221,19 @@ Binomial(400, 0.25) approx:
 			\item \textbf{Next Section:} \textcolor{TecRojo}{Gamma, Beta, and Weibull Distributions}.
 		\end{itemize}
 	\end{alertblock}
+\end{frame}
+
+% SLIDE 20: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+\scriptsize
+\begin{alertblock}{Next Session: Gamma, Beta, and Weibull}
+The Normal family handles symmetric continuous variation. The next section adds
+skewed waiting-time, proportion, and reliability models through Gamma, Beta, and
+Weibull distributions.
+\end{alertblock}
+\begin{block}{Recommended Preparation}
+Review standardization, the empirical rule, and the Central Limit Theorem.
+\end{block}
 \end{frame}
 
 \end{document}
