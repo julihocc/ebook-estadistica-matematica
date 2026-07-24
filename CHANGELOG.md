@@ -4,6 +4,22 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-24 13:19:46 -06:00 (auditoría de correspondencia ES–EN)
+
+- Se regeneró `docs/matriz-notas-presentaciones-es.md` como tabla de cuatro vías
+  tomando el maestro ES como fuente de verdad y excluyendo todos los archivos
+  `(p)`.
+- El inventario contiene 72 secciones ES activas en 70 archivos de teoría. Sus
+  espejos EN existen físicamente en todos los casos, pero solo 55 filas cumplen
+  simultáneamente número/tipo de sección y etiquetas; 17 quedan parciales.
+- Existen 72 mazos ES; 47 están desarrollados y 25 conservan únicamente el
+  esqueleto de cuatro frames. En EN hay 54 mazos: 47 filas ES tienen candidato
+  EN (46 rutas únicas) y 8 mazos EN son extra o legado sin sección ES viva.
+- La sincronización de mazos se marca estructuralmente mediante conteos de
+  frames y `\\lstinputlisting`; la tabla no afirma equivalencia frase por frase.
+- Esta auditoría solo modificó la matriz y la documentación; no cambió notas,
+  mazos EN ni scripts Python.
+
 ## 2026-07-24 12:50:34 -06:00 (verificación posterior a los commits)
 
 - `git status --short --branch` confirmó un árbol de trabajo limpio; la rama
