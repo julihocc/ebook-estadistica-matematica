@@ -102,7 +102,7 @@
 		\begin{itemize}\itemsep=0.03cm
 			\item Under the model $\lambda_{i} \sim \text{Gamma}(r, p)$ with $X_{i} \mid \lambda_{i} \sim \text{Poisson}(\lambda_{i})$, marginally $X_{i} \sim \text{NegBin}(r, p)$.
 			\item Method-of-moments MLE: $\hat{r} = \bar{x}^{2}/(s^{2} - \bar{x})$ and $\hat{p} = \bar{x}/s^{2}$.
-			\item As $r \to \infty$, the Negative Binomial collapses to the Poisson (Problem 3.10.7).
+			\item As $r \to \infty$, the Negative Binomial collapses to the Poisson distribution.
 		\end{itemize}
 	\end{alertblock}
 \end{frame}
@@ -127,6 +127,26 @@
 			\end{alertblock}
 		\end{column}
 	\end{columns}
+\end{frame}
+
+% SLIDE 05B: Likelihood Ratio Test
+\begin{frame}{Likelihood Ratio Test (Wilks) and Overdispersion}
+\vspace{-0.15cm}
+\begin{block}{Nested-Model Comparison}
+\footnotesize
+For a restricted Poisson model nested in a Negative Binomial model,
+\[
+\Lambda=-2\{\ell_{\mathrm{Pois}}(\hat\theta_0)-\ell_{\mathrm{NegBin}}(\hat\theta_1)\}
+\xrightarrow{d}\chi^2_{1}.
+\]
+Large values of $\Lambda$ provide evidence that the extra dispersion parameter
+is needed.
+\end{block}
+\begin{alertblock}{Operational Decision}
+\scriptsize
+Use the likelihood-ratio p-value together with the dispersion index and AIC/BIC;
+do not rely on a single diagnostic when choosing the count model.
+\end{alertblock}
 \end{frame}
 
 % SLIDE 05: Confidence Intervals and Bootstrap
@@ -251,6 +271,21 @@ NegBin bootstrap (n=200 churn data):
 			\item \textbf{Next Chapter:} \textcolor{TecRojo}{Continuous Random Variables}.
 		\end{itemize}
 	\end{alertblock}
+\end{frame}
+
+% SLIDE 12: Modular Perspective
+\begin{frame}{Modular Perspective --- Toward Chapter 04}
+\scriptsize
+\begin{alertblock}{Next Chapter: Continuous Random Variables}
+Discrete distributions model counts, whereas failure times, measurement errors,
+and many engineering signals vary continuously. Chapter 04 introduces Uniform,
+Exponential, Normal, Gamma, Beta, and Weibull models.
+\end{alertblock}
+\vspace{0.08cm}
+\begin{block}{Recommended Preparation}
+Review the distinction between a PMF and a PDF, and the Poisson--Exponential
+connection for waiting times between events.
+\end{block}
 \end{frame}
 
 \end{document}

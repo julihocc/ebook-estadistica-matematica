@@ -1,3 +1,4 @@
+\documentclass[aspectratio=169,xcolor={dvipsnames,table}]{beamer}
 \input{../../_en_preambulo_beamer.tex}
 \input{../../_en_comandos_beamer.tex}
 
@@ -83,12 +84,14 @@
 
 % Slide 6: Population vs Sample Variance
 \begin{frame}{Variance and Bessel's Correction}
+  \scriptsize
+  \vspace{-0.15cm}
   To obtain a smooth, differentiable function that is analytically tractable, we square the deviations from the mean: \pause
   
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      {\large \color{TecAzulOscuro}\textbf{Population Variance ($\sigma^2$)}}
-      \vspace{0.2em}
+      {\small \color{TecAzulOscuro}\textbf{Population Variance ($\sigma^2$)}}
+      \vspace{-0.1em}
       \begin{align}
         \sigma^2 = \dfrac{1}{N} \sum_{i=1}^{N} (X_i - \mu)^2
       \end{align}
@@ -96,15 +99,15 @@
     \end{column}
     
     \begin{column}{0.48\textwidth}
-      {\large \color{TecRojo}\textbf{Sample Variance ($S^2$)}}
-      \vspace{0.2em}
+      {\small \color{TecRojo}\textbf{Sample Variance ($S^2$)}}
+      \vspace{-0.1em}
       \begin{align}
         S^2 = \dfrac{1}{n - 1} \sum_{i=1}^{n} (X_i - \bar{X})^2
       \end{align}
       \small Divided by $n-1$ (\textbf{Bessel's Correction}) to eliminate underestimation bias when estimating $\sigma^2$.
     \end{column}
   \end{columns}
-  \vspace{0.5em}
+  \vspace{-0.1em}
   \pause
   \begin{block}{Why $n-1$ degrees of freedom?}
     By replacing the true $\mu$ with the sample mean $\bar{X}$, data points lose 1 degree of freedom because the sum $\sum(X_i - \bar{X})$ is forced to equal 0. Dividing by $n-1$ compensates for $\bar{X}$ being closer to the sample data than to the true population parameter.
@@ -129,6 +132,8 @@
 
 % Slide 8: Robust Measure — The Interquartile Range (IQR)
 \begin{frame}{Robust Measures: The Interquartile Range ($IQR$)}
+  \scriptsize
+  \vspace{-0.15cm}
   Just as the arithmetic mean is vulnerable to extreme outliers, standard deviation $S$ squares any anomaly, magnifying its distortion dramatically. \pause
   \begin{itemize}
     \item \textbf{Quartiles ($Q_1, Q_2, Q_3$):} Divide the ordered sample into 4 equal segments of $25\%$ each ($Q_2$ is the Median). \pause
@@ -148,10 +153,11 @@
 
 % Slide 9A: Python Lab (Bessel Correction & Variance)
 \begin{frame}{Python Lab: Variance and Bessel's Correction}
+  \scriptsize
   Computational calculation demonstrating the difference between \texttt{ddof=0} (population) and \texttt{ddof=1} (sample).
   \\ Script: \texttt{\footnotesize presentations/code/01\_estadistica\_descriptiva/01.03\_range\_variance\_stdev.py}
   
-  \vspace{0.4em}
+  \vspace{-0.1em}
   {\lstset{basicstyle=\ttfamily\tiny, aboveskip=0.2em, belowskip=0.2em}
   \lstinputlisting[firstline=4,lastline=23]{../../code/01_estadistica_descriptiva/01.03_range_variance_stdev.py}
   }
@@ -159,10 +165,11 @@
 
 % Slide 9B: Python Lab (Outliers & IQR Code)
 \begin{frame}[fragile]{Python Lab: Robustness of IQR vs Deviation $S$}
+  \scriptsize
   Experiment injecting an extreme anomalous latency ($450 \text{ ms}$) into a stable sample.
   \\ Script: \texttt{\footnotesize presentations/code/01\_estadistica\_descriptiva/01.03\_range\_variance\_stdev.py}
   
-  \vspace{0.4em}
+  \vspace{-0.1em}
   {\lstset{basicstyle=\ttfamily\tiny, aboveskip=0.2em, belowskip=0.2em}
   \lstinputlisting[firstline=25,lastline=42]{../../code/01_estadistica_descriptiva/01.03_range_variance_stdev.py}
   }
@@ -193,53 +200,12 @@
 \end{frame}
 
 % Slide 10: Course Exercises - Level 1
-\begin{frame}{Course Exercises — Level 1: Fundamental}
-  \begin{block}{Problem 1.4.1 (Simple / Direct)}
-    Find the range and sample standard deviation ($S$, applying Bessel's correction) for the following ungrouped array of data:
-    \begin{align}
-      X = \{12, 6, 7, 3, 15, 10, 18, 5\}
-    \end{align}
-    \vspace{0.2em}
-    \emph{Step-by-step guide:} Compute the sample mean $\bar{X}$, find the squared differences $(X_i - \bar{X})^2$, sum them, and divide by $n-1 = 7$.
-  \end{block}
-\end{frame}
 
 % Slide 11: Course Exercises - Level 2
-\begin{frame}{Course Exercises — Level 2: Operational}
-  \begin{block}{Problem 1.4.9 (Intermediate / Analytical Development)}
-    Two student cohorts exhibit the following sample characteristics:
-    \begin{itemize}
-      \item \textbf{Group A:} $n_1 = 30$ students, $\bar{X}_1 = 75$ points, $S_1 = 8$ points.
-      \item \textbf{Group B:} $n_2 = 20$ students, $\bar{X}_2 = 75$ points, $S_2 = 12$ points.
-    \end{itemize}
-    \vspace{0.4em}
-    Calculate the exact pooled standard deviation across the combined group of $n_1 + n_2 = 50$ students using the pooled sum of squares relationship.
-  \end{block}
-\end{frame}
 
 % Slide 12: Course Exercises - Level 3
-\begin{frame}{Course Exercises — Level 3: Analytical}
-  \begin{block}{Problem 1.4.4 (Advanced / Theoretical Connection)}
-    Prove rigorously step-by-step via algebraic expansion that for any dataset, the short-cut computational formula for sample standard deviation equals:
-    \begin{align}
-      S = \sqrt{\dfrac{\sum X_i^2 - n\bar{X}^2}{n - 1}} = \sqrt{\dfrac{1}{n-1} \left[ \sum X_i^2 - \dfrac{\left(\sum X_i\right)^2}{n} \right]}
-    \end{align}
-    \emph{Note:} This formulation requires only a single pass over the data, crucial for streaming data processing algorithms.
-  \end{block}
-\end{frame}
 
 % Slide 13: Course Exercises - Level 4
-\begin{frame}{Course Exercises — Level 4: Challenging}
-  \vspace{-0.2em}
-  \small
-  \begin{block}{Problem 1.4.10 (Expert / Relative Comparison)}
-    The coefficient of variation is defined as $CV = \frac{S}{\bar{X}} \times 100\%$. Compare and interpret relative variability in the following two practical Data Science scenarios:
-    \begin{enumerate}
-      \item \textbf{Corporate payrolls:} Company A has $\bar{X}_A = \$45,000$ with $S_A = \$8,000$; Company B has $\bar{X}_B = \$38,000$ with $S_B = \$6,500$. Which company displays greater proportional salary disparity?
-      \item \textbf{Human biometrics:} Mean height $170 \text{ cm}$ with $S = 8 \text{ cm}$; mean weight $70 \text{ kg}$ with $S = 10 \text{ kg}$. Which physiological metric exhibits greater intrinsic heterogeneity?
-    \end{enumerate}
-  \end{block}
-\end{frame}
 
 % Slide 14: Section 1.3 Summary
 \begin{frame}{Section 1.3 Summary}
