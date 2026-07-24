@@ -98,6 +98,25 @@ Al terminar la unidad de formación el alumno:
 
 *Nota: el original numera dos subtemas como "3.2" y "3.3" duplicados (distribución uniforme/normal y normal/gamma); se han renumerado secuencialmente arriba (3.3–3.6) para evitar ambigüedad.*
 
+## Mapa pedagógico ampliado del proyecto (no oficial)
+
+La siguiente secuencia organiza el capítulo 2 en seis presentaciones y secciones
+pedagógicas. No sustituye la transcripción oficial anterior: desagrega los
+subtemas oficiales 1.1 y 1.3 para hacer explícitos sus fundamentos.
+
+| Proyecto | Tema pedagógico | Correspondencia oficial MA1001B |
+|---|---|---|
+| 1.1 | Teoría de conjuntos y probabilidad | 1.1 Teoría de conjuntos y su relación con cálculo de probabilidades |
+| 1.2 | Fundamentos de probabilidad | Desglose pedagógico de 1.1 |
+| 1.3 | Técnicas de conteo | 1.2 Técnicas de conteo |
+| 1.4 | Probabilidad condicional | Parte de 1.3 Probabilidad condicional y regla de Bayes |
+| 1.5 | Teorema de Bayes | Parte de 1.3 Probabilidad condicional y regla de Bayes |
+| 1.6 | Muestreo aleatorio | 1.4 Muestreo aleatorio |
+
+La numeración ampliada es una estructura del proyecto para coordinar notas y
+presentaciones; la fuente curricular oficial sigue siendo el analítico de
+MA1001B.
+
 ## Metodología de enseñanza y actividades de aprendizaje
 
 ### Actividades conducidas por un académico (aprendizaje supervisado)

@@ -4,6 +4,21 @@
 **Estado:** Ejecutado el 2026-07-20 (ver `CHANGELOG.md`, entradas 2026-07-20). La numeración 1:1 con el temario está completa y verificada para los caps. 2-8; los 5 bloques de contenido nuevo que este plan pedía (1.2, 6.2, 6.4, 7.5 ampliado, 7.6) ya fueron redactados en la continuación del 2026-07-20 y no quedan comentarios `% TODO(contenido-nuevo)` vivos en `latex/`. La mecánica del Cap. 7 se ejecutó de forma distinta a como la describe la tabla de este documento (fue necesario partir `pruebas_hipotesis_avanzadas.tex` en dos archivos para lograr la numeración 6.1-6.11 en el orden real del temario; ver detalle en el changelog) — el resto de las tablas de este plan se siguió tal cual. Este documento es histórico, no una lista de pendientes activa.
 **Alcance:** Capítulos 2 a 8 del libro maestro en español (`latex/*.tex`)
 
+## Implementación posterior: estructura pedagógica ampliada de la Unidad 1
+
+Al `2026-07-23 17:32:50 -06:00`, el proyecto promovió
+`fundamentos_de_probabilidad.tex` y `teorema_de_bayes.tex` a secciones propias
+de las notas ES. La secuencia de trabajo queda: **1.1 Teoría de conjuntos y
+probabilidad → 1.2 Fundamentos de probabilidad → 1.3 Técnicas de conteo →
+1.4 Probabilidad condicional → 1.5 Teorema de Bayes → 1.6 Muestreo aleatorio**.
+
+Esta secuencia es pedagógica y no reemplaza los cuatro subtemas oficiales del
+analítico MA1001B. El maestro conserva el orden de las entradas; las
+presentaciones ES usan `02.00` para la introducción y `02.01`–`02.06` para las
+seis secciones de trabajo. Las etiquetas históricas `2.3` de Fundamentos se
+actualizaron a `2.2`; no se modificaron contenidos matemáticos ni archivos de
+problemas.
+
 ---
 
 ## Contexto

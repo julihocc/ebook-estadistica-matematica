@@ -4,6 +4,27 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-23 17:32:50 -06:00 (promoción de fundamentos y Bayes a secciones ES)
+
+### Añadido / Corregido
+- Promovidos `latex/fundamentos_de_probabilidad.tex` y
+  `latex/teorema_de_bayes.tex` a secciones propias; sus encabezados internos
+  pasan a subsecciones y el orden del maestro permanece intacto.
+- Actualizadas las etiquetas heredadas `2.3` de Fundamentos a `2.2`, sin
+  modificar el contenido matemático ni ningún archivo de problemas.
+- Renombrados los mazos ES del capítulo 2 a `02.00`–`02.06` y añadido
+  `02.03_tecnicas_de_conteo.tex`, sin tocar `presentaciones/en/` ni Python.
+- Añadidos el mapa pedagógico no oficial de Unidad 1 y la matriz de 72
+  correspondencias en `docs/matriz-notas-presentaciones-es.md`.
+- Documentada la regla vigente: los mazos ES excluyen por completo las
+  secciones de problemas y reutilizan ejemplos/soluciones ya resueltos de teoría.
+
+### Verificación
+- Se confirmará la compilación doble del maestro ES, el inventario de 72
+  secciones activas, la ausencia de referencias a `(p)` en mazos ES y
+  `git diff --check` antes de cualquier commit.
+- No se hizo `git push`.
+
 ## 2026-07-23 14:47:30 -06:00 (cierre de compatibilidad del laboratorio Normal)
 
 ### Añadido / Corregido

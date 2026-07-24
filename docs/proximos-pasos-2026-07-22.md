@@ -1,5 +1,23 @@
 # Próximos pasos: cierre de reestructuración y espejo en inglés
 
+## Registro de implementación — 2026-07-23 17:32:50 -06:00
+
+Se promovieron Fundamentos de probabilidad y el Teorema de Bayes a secciones
+propias de las notas ES. La estructura pedagógica de la Unidad 1 queda
+1.1–1.6, mientras que la transcripción oficial MA1001B conserva sus cuatro
+subtemas. La matriz `docs/matriz-notas-presentaciones-es.md` registra 72
+secciones activas y su correspondencia prevista con mazos ES.
+
+Los mazos españoles del capítulo 2 usan `02.00`–`02.06`; se añadió el mazo de
+Técnicas de conteo. Los bloques de problemas no forman parte de los mazos:
+deben usarse únicamente ejemplos y soluciones ya resueltos en teoría. Esta
+etapa no modifica `presentaciones/en/` ni `presentaciones/code/`, y no cambia
+el contenido matemático ni los archivos `(p)`.
+
+Pendiente de verificación en este corte: completar la auditoría física de las
+72 rutas de mazos ES y compilar cada mazo dos veces; no se crea commit ni se
+hace `git push` hasta solicitarlo explícitamente.
+
 **Fecha:** 2026-07-22
 **Estado global:** Cerrado el 2026-07-23 11:03:37 -06:00, tras completar los checkpoints 4J y 4K y la verificación final.
 **Alcance de este documento:** cerrar las tareas que quedaron vivas después de la reestructuración del temario MA1001B. La reconciliación puede modificar documentación operativa, captions de tablas ANOVA y nombres/rutas de mazos y scripts, pero no cambia contenido matemático ni lógica ejecutable de Python.

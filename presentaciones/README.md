@@ -4,11 +4,13 @@ Este directorio (`presentaciones/`) contiene las presentaciones interactivas en 
 
 Esta guía constituye el **manual operativo estándar y 100% reproducible** para cualquier agente de inteligencia artificial (o colaborador humano) que trabaje en la creación, modificación, verificación o mantenimiento de las presentaciones y scripts de este proyecto.
 
-### Estado de reconciliación verificado al 2026-07-23 14:47:30 -06:00
+### Estado de reconciliación verificado al 2026-07-23 17:32:50 -06:00
 
 - El espejo de cuadernos del libro está cerrado desde el `2026-07-23 11:03:37 -06:00`: existen 60 archivos `(p).tex` ES y 60 contrapartes `en_*(p).tex`, con seis problemas Bloom, seis soluciones y etiquetas hash compartidas por par.
-- El árbol de presentaciones contiene 54 mazos ES y 54 mazos EN (`.tex` y `.pdf`), además de 53 scripts Python en inglés bajo `presentaciones/code/`.
-- Esta reconciliación corrige captions de tablas ANOVA, renumera los mazos/scripts de distribuciones continuas y actualiza la compatibilidad del laboratorio Normal; no cambia la lógica matemática ni el contenido de los mazos.
+- La matriz canónica de notas ES define el inventario objetivo de 72 secciones activas y un mazo ES por sección; las secciones de problemas quedan fuera de las presentaciones. El detalle está en `docs/matriz-notas-presentaciones-es.md`.
+- El capítulo 2 usa `02.00_introduccion_probabilidad` y `02.01`–`02.06`, incluyendo los temas promovidos de Fundamentos, Técnicas de conteo y Bayes.
+- Los mazos ES se basan en ejemplos y soluciones ya resueltos de teoría; no deben contener bloques `Ejercicio en Clase`, `Problema X.Y.Z`, etiquetas `prob:` ni referencias a `(p)`.
+- Esta etapa modifica exclusivamente notas ES, mazos ES y documentación; no modifica `presentaciones/en/` ni `presentaciones/code/`.
 
 ---
 
@@ -43,9 +45,10 @@ presentaciones/
 │   └── <proximas_unidades>/
 ├── es/                             ← Presentaciones en español (p. ej. es/02_teoria_probabilidad/)
 │   └── 02_teoria_probabilidad/
-│       ├── 02.01_introduccion_probabilidad.tex (.pdf)
-│       ├── 02.02_conjuntos_y_particiones.tex (.pdf)
-│       ├── 02.03_fundamentos_probabilidad.tex (.pdf)
+│       ├── 02.00_introduccion_probabilidad.tex (.pdf)
+│       ├── 02.01_conjuntos_y_particiones.tex (.pdf)
+│       ├── 02.02_fundamentos_probabilidad.tex (.pdf)
+│       ├── 02.03_tecnicas_de_conteo.tex (.pdf)
 │       ├── 02.04_probabilidad_condicional.tex (.pdf)
 │       ├── 02.05_teorema_bayes.tex (.pdf)
 │       └── 02.06_muestreo_aleatorio.tex (.pdf)

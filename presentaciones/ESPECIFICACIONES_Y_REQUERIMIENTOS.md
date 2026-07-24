@@ -6,6 +6,17 @@ Este documento establece el **Estándar de Oro Institucional (*Institutional Gol
 
 El objetivo primordial es garantizar una **excelencia académica, estética rigurosa y simetría pedagógica bilingüe**, asegurando que cada presentación sea un instrumento didáctico interactivo que enganche de manera activa al estudiante y que compile con precisión absoluta en cualquier entorno LaTeX moderno.
 
+### Addendum vigente — 2026-07-23 17:32:50 -06:00
+
+La matriz `docs/matriz-notas-presentaciones-es.md` es la autoridad para la
+correspondencia ES: 72 secciones activas de teoría, incluidas las secciones
+`section*`, y exactamente un mazo español por sección. Las secciones de
+problemas se excluyen por completo de los mazos. Por tanto, el Bloque IV debe
+reutilizar únicamente ejemplos y soluciones ya resueltos en la teoría; no debe
+crear frames `Ejercicio en Clase`, `Problema X.Y.Z`, `prob:` ni referencias a
+archivos `(p)`. La ampliación 1.1–1.6 de la Unidad 1 es pedagógica y no sustituye
+la transcripción oficial de MA1001B.
+
 ---
 
 ## 2. Las 5 Reglas de Oro Curriculares e Institucionales

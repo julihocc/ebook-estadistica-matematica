@@ -29,6 +29,23 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 
 - No quedan pendientes técnicos de este cierre: captions ANOVA, orden Normal/Exponencial y compatibilidad `scipy.stats.kstest` están verificados.
 
+### Reconciliación notas ES–mazos ES al 2026-07-23 17:32:50 -06:00
+
+- La fuente de verdad para el inventario es la nota de lectura ES: hay 72
+  `\section`/`\section*` activas y la matriz `docs/matriz-notas-presentaciones-es.md`
+  registra exactamente una correspondencia por sección.
+- La Unidad 1 usa la ampliación pedagógica 1.1–1.6. El analítico MA1001B sigue
+  conservando sus cuatro subtemas oficiales; la ampliación no es una nueva
+  transcripción curricular.
+- `02.00_introduccion_probabilidad` es la introducción sin numerar y
+  `02.01`–`02.06` son los seis temas de trabajo, incluidos Fundamentos,
+  Técnicas de conteo y Bayes como secciones propias.
+- Un mazo ES no incorpora problemas de las secciones `(p)`: se excluyen los
+  bloques `Ejercicio en Clase`, `Problema X.Y.Z`, etiquetas `prob:` y rutas
+  `(p)`. El contenido de clase usa ejemplos y soluciones ya resueltos en teoría.
+- Las referencias a `3-3-2-2` y a diez problemas en el registro histórico de
+  este archivo son solo antecedentes fechados, no requisitos activos.
+
 ## 3. Registro histórico del desarrollo hasta el 2026-07-23 11:03:37 -06:00
 
 Las secciones siguientes conservan decisiones, conteos y protocolos de etapas anteriores. Sus referencias a la convención histórica de 10 problemas `3-3-2-2`, a estados intermedios y a archivos retirados son históricas y no constituyen instrucciones para trabajo nuevo.
