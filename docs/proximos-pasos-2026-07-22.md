@@ -1,11 +1,38 @@
 # Próximos pasos: cierre de reestructuración y espejo en inglés
 
+## Verificación posterior a los commits — 2026-07-24 12:50:34 -06:00
+
+La rama quedó limpia después de registrar la implementación. `git log` confirmó
+los siguientes commits locales, todos del 2026-07-24 entre `12:42:34` y
+`12:43:32 -06:00`:
+
+- `73d5a71` (12:42:34): documentación operativa y especificaciones.
+- `c6db7bb` (12:42:44): PDF principal ES regenerado.
+- `6d86c54` (12:42:48): archivo de mazos ES legado.
+- `0195e36` (12:42:53): actualización del capítulo 1.
+- `147e779` (12:42:57): actualización del capítulo 2 y PDFs 02.00–02.03.
+- `f35341f` (12:43:02): actualización del capítulo 3 y retiro de stubs.
+- `7fd0981` (12:43:07): actualización del capítulo 4 y retiro de stubs.
+- `945635e` (12:43:11): actualización del capítulo 5.
+- `076c246` (12:43:17): actualización del capítulo 6 y retiro de stubs.
+- `11bad58` (12:43:21): actualización del capítulo 7.
+- `bf09a2b` (12:43:26): actualización del capítulo 8.
+- `a59cc86` (12:43:32): actualización del capítulo 9 y retiro del stub 09.12.
+
+La comparación desde `734388e` abarcó 164 rutas: 144 de `presentaciones/es/`
+y 8 documentales, sin cambios en `presentaciones/en/`,
+`presentaciones/code/` ni archivos `.log`. Las dos alternativas técnicas
+previstas ya estaban cerradas: captions ANOVA en `84f4718` y compatibilidad de
+`scipy.stats.kstest` en `e243847`. Por tanto, no se selecciona un nuevo
+pendiente técnico dentro de esta etapa; cualquier trabajo adicional requiere
+un nuevo alcance y fecha de inicio.
+
 ## Cierre final documentado — 2026-07-24 11:54:02 -06:00
 
 La verificación posterior a la actualización del catálogo mantuvo 72 mazos ES,
 72 filas de matriz y 8 mazos legado archivados. Los enlaces relativos de los
-documentos operativos actualizados pasan la comprobación; no se creó commit ni
-se hizo push.
+documentos operativos actualizados pasan la comprobación. En ese corte todavía
+no se había creado commit ni hecho push; el registro posterior aparece arriba.
 
 ## Verificación física ES completada — 2026-07-24 11:35:16 -06:00
 

@@ -4,12 +4,38 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-24 12:50:34 -06:00 (verificación posterior a los commits)
+
+- `git status --short --branch` confirmó un árbol de trabajo limpio; la rama
+  local no muestra divergencia respecto de su referencia `origin`.
+- La etapa quedó registrada en estos 12 commits, todos fechados el
+  2026-07-24 entre `12:42:34` y `12:43:32 -06:00`:
+  - `73d5a71` 12:42:34 — `docs: update planning, tracking, and specification documents`.
+  - `c6db7bb` 12:42:44 — `book: regenerate main Spanish PDF`.
+  - `6d86c54` 12:42:48 — `archive: move retired ES presentation stubs to archive`.
+  - `0195e36` 12:42:53 — `pres(es/ch01): update estadistica descriptiva slides`.
+  - `147e779` 12:42:57 — `pres(es/ch02): update teoria de probabilidad slides; add compiled PDFs for 02.00-02.03`.
+  - `f35341f` 12:43:02 — `pres(es/ch03): update discrete random variables slides; remove obsolete stubs (03.02, 03.03, 03.09)`.
+  - `7fd0981` 12:43:07 — `pres(es/ch04): update continuous random variables slides; add 04.06 MGF; remove obsolete 04.02/04.06_exponential stubs`.
+  - `945635e` 12:43:11 — `pres(es/ch05): update sampling distributions slides; add new sections 05.00-05.02, 05.08-05.09`.
+  - `076c246` 12:43:17 — `pres(es/ch06): update statistical estimation slides; add 06.02/06.04/06.05/06.07; remove MoM and MLE stubs`.
+  - `11bad58` 12:43:21 — `pres(es/ch07): update hypothesis testing slides; add 07.02-07.05/07.07-07.08/07.11-07.12`.
+  - `bf09a2b` 12:43:26 — `pres(es/ch08): update experimental design slides; add 08.01, 08.03-08.04, 08.06-08.07`.
+  - `a59cc86` 12:43:32 — `pres(es/ch09): update regression slides; add 09.02 and 09.11; remove 09.12 nonlinear stub`.
+- La auditoría desde `734388e` cubrió 164 rutas: 144 de mazos ES y 8
+  documentales, sin cambios en `presentaciones/en/`, `presentaciones/code/` ni
+  archivos `.log`.
+- No queda pendiente ninguna de las dos alternativas técnicas de esta etapa:
+  captions ANOVA se cerraron en `84f4718` y la compatibilidad de `kstest` en
+  `e243847`. La selección de un nuevo pendiente requiere una etapa distinta.
+
 ## 2026-07-24 11:54:02 -06:00 (cierre de la implementación ES)
 
 - La revisión posterior a la auditoría confirmó el inventario de 72 mazos ES,
   8 mazos legado archivados y cero diagnósticos prohibidos en sus logs.
 - Los documentos operativos y el catálogo README quedaron alineados con las
-  rutas físicas; no se creó commit ni se hizo push.
+  rutas físicas. En ese corte todavía no se había creado commit ni hecho push;
+  los commits del cierre se registran en la entrada del 2026-07-24 12:50:34.
 
 ## 2026-07-24 11:35:16 -06:00 (cierre de correspondencia notas ES–mazos ES)
 
