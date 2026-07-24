@@ -2,6 +2,14 @@
 
 **Fuente:** `MA1001B - Analítico.pdf` (Tecnológico de Monterrey, Planes de Estudio)
 
+## Mapa pedagógico ES verificado al 2026-07-24 11:35:16 -06:00
+
+La implementación mantiene intacta la transcripción oficial de cuatro
+subtemas y usa, solo para la organización del proyecto, la ampliación
+pedagógica 1.1–1.6. Las 72 secciones activas de las notas ES tienen una
+correspondencia uno a uno con los mazos ES; las secciones de problemas `(p)`
+no se presentan.
+
 ---
 
 ## Datos generales

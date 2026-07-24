@@ -1,5 +1,27 @@
 # Próximos pasos: cierre de reestructuración y espejo en inglés
 
+## Cierre final documentado — 2026-07-24 11:54:02 -06:00
+
+La verificación posterior a la actualización del catálogo mantuvo 72 mazos ES,
+72 filas de matriz y 8 mazos legado archivados. Los enlaces relativos de los
+documentos operativos actualizados pasan la comprobación; no se creó commit ni
+se hizo push.
+
+## Verificación física ES completada — 2026-07-24 11:35:16 -06:00
+
+- Se confirmaron 72 comandos `\section`/`\section*` activos de teoría en las
+  fuentes ES y 72 filas en la matriz.
+- Existen exactamente 72 mazos ES físicos, uno por fila de la matriz; no hay
+  duplicados ni mazos asociados a secciones `(p)`.
+- Se archivaron 8 mazos legado fuera del árbol vivo. Los 72 mazos compilaron
+  dos veces con código `0`; no hubo errores, referencias indefinidas,
+  etiquetas duplicadas ni desbordamientos en páginas de contenido.
+- Se eliminaron bloques de ejercicios y referencias a problemas de los mazos;
+  se conservan únicamente exposiciones teóricas y desarrollos ya resueltos.
+- Esta etapa modificó notas ES, mazos ES, matriz, PDFs generados y archivo
+  histórico; no modificó `presentaciones/en/` ni `presentaciones/code/`.
+- No se creó commit ni se hizo `git push`.
+
 ## Registro de implementación — 2026-07-23 17:32:50 -06:00
 
 Se promovieron Fundamentos de probabilidad y el Teorema de Bayes a secciones
@@ -14,9 +36,9 @@ deben usarse únicamente ejemplos y soluciones ya resueltos en teoría. Esta
 etapa no modifica `presentaciones/en/` ni `presentaciones/code/`, y no cambia
 el contenido matemático ni los archivos `(p)`.
 
-Pendiente de verificación en este corte: completar la auditoría física de las
-72 rutas de mazos ES y compilar cada mazo dos veces; no se crea commit ni se
-hace `git push` hasta solicitarlo explícitamente.
+La auditoría física y la compilación doble quedaron completadas el
+`2026-07-24 11:35:16 -06:00`; el párrafo conserva el registro del estado
+previo y ya no representa una tarea abierta.
 
 **Fecha:** 2026-07-22
 **Estado global:** Cerrado el 2026-07-23 11:03:37 -06:00, tras completar los checkpoints 4J y 4K y la verificación final.
@@ -42,7 +64,9 @@ hace `git push` hasta solicitarlo explícitamente.
 ## Reconciliación documental de presentaciones verificada al 2026-07-23 11:17:26 -06:00
 
 - `presentaciones/README.md`, `presentaciones/ROADMAP.md` y `presentaciones/ESPECIFICACIONES_Y_REQUERIMIENTOS.md` ya describen la convención vigente de seis niveles Bloom, etiquetas `prob:<7-hex>` y soluciones enlazadas.
-- Los catálogos reflejan 54 mazos ES, 54 mazos EN, 54 PDF ES, 54 PDF EN y 53 scripts Python vivos.
+- El catálogo ES actualizado refleja 72 mazos y 72 PDF; las cifras EN y de
+  scripts de ese corte se conservan como historial porque esta etapa no tocó
+  `presentaciones/en/` ni `presentaciones/code/`.
 - Las referencias activas a 10 problemas `3-3-2-2`, a la antigua Unidad 8 y a bundles retirados fueron corregidas o marcadas como historial anterior al 2026-07-20.
 - Esa etapa fue exclusivamente documental y no modificó `presentaciones/es/`, `presentaciones/en/` ni `presentaciones/code/`.
 - El backlog de esa fecha (solapamiento de captions y diferencia de orden de Exponencial) quedó resuelto el 2026-07-23 12:16:14 -06:00; permanece únicamente la incompatibilidad técnica de `scipy.stats.kstest` descrita arriba.

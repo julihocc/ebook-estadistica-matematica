@@ -8,6 +8,11 @@ El objetivo primordial es garantizar una **excelencia académica, estética rigu
 
 ### Addendum vigente — 2026-07-23 17:32:50 -06:00
 
+### Corte operativo — 2026-07-24 11:35:16 -06:00
+
+La auditoría física confirmó 72 mazos ES, uno por sección activa, sin
+referencias a bloques de ejercicios o problemas en los mazos vivos.
+
 La matriz `docs/matriz-notas-presentaciones-es.md` es la autoridad para la
 correspondencia ES: 72 secciones activas de teoría, incluidas las secciones
 `section*`, y exactamente un mazo español por sección. Las secciones de

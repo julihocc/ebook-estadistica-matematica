@@ -4,6 +4,33 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-24 11:54:02 -06:00 (cierre de la implementación ES)
+
+- La revisión posterior a la auditoría confirmó el inventario de 72 mazos ES,
+  8 mazos legado archivados y cero diagnósticos prohibidos en sus logs.
+- Los documentos operativos y el catálogo README quedaron alineados con las
+  rutas físicas; no se creó commit ni se hizo push.
+
+## 2026-07-24 11:35:16 -06:00 (cierre de correspondencia notas ES–mazos ES)
+
+### Añadido / Corregido
+- Se completó el inventario físico de 72 mazos ES: uno por cada sección
+  `\section`/`\section*` activa de teoría; las secciones `(p)` quedan
+  excluidas.
+- Se retiraron los bloques heredados de ejercicios y se archivaron 8 mazos
+  legado; los mazos vivos reutilizan únicamente teoría y desarrollos resueltos.
+- Se ajustaron las portadas para eliminar desbordamientos sin cambiar el
+  contenido matemático ni la lógica de Python.
+- Se actualizó la matriz de correspondencias con el corte
+  `2026-07-24 11:35:16 -06:00`.
+
+### Verificación
+- Los 72 mazos ES compilaron dos veces con código `0`, sin errores,
+  referencias indefinidas, etiquetas duplicadas ni desbordamientos en páginas
+  de contenido.
+- No cambiaron `presentaciones/en/` ni `presentaciones/code/`; no se hizo
+  `git push`.
+
 ## 2026-07-23 17:32:50 -06:00 (promoción de fundamentos y Bayes a secciones ES)
 
 ### Añadido / Corregido

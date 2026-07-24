@@ -18,11 +18,13 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 
 ---
 
-## 2. Estado vigente verificado al 2026-07-23 14:47:30 -06:00
+## 2. Estado vigente verificado al 2026-07-24 11:35:16 -06:00
 
 - El cierre del espejo EN del libro quedó confirmado el `2026-07-23 11:03:37 -06:00`: 60 archivos ES `(p).tex`, 60 archivos EN `en_*(p).tex`, seis problemas y seis soluciones por par, orden Bloom y etiquetas hash idénticas.
 - Los maestros ES y EN tienen 139 entradas `\input{}` sin objetivos faltantes; la secuencia paralela del contenido está verificada.
-- El árbol de presentaciones contiene 54 mazos ES y 54 mazos EN (`.tex` y `.pdf`) y 53 scripts Python en inglés.
+- El árbol de presentaciones contiene 72 mazos ES físicos, uno por cada sección
+  activa de teoría; el espejo EN y los 53 scripts Python no se modificaron en
+  esta etapa.
 - Esta actualización corrige una incompatibilidad de API en el script Normal y reconcilia documentación; no modifica el contenido de `presentaciones/es/` ni `presentaciones/en/`.
 
 ### Pendientes vigentes al 2026-07-23 14:47:30 -06:00
@@ -43,6 +45,16 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 - Un mazo ES no incorpora problemas de las secciones `(p)`: se excluyen los
   bloques `Ejercicio en Clase`, `Problema X.Y.Z`, etiquetas `prob:` y rutas
   `(p)`. El contenido de clase usa ejemplos y soluciones ya resueltos en teoría.
+
+### Cierre de la reconciliación física al 2026-07-24 11:35:16 -06:00
+
+- La auditoría de la matriz confirmó 72 filas, 72 rutas físicas y cero
+  duplicados.
+- Se archivaron 8 mazos legado y se eliminaron referencias a ejercicios o
+  problemas de los mazos vivos.
+- Los 72 mazos ES compilaron dos veces sin errores ni desbordamientos en
+  páginas de contenido. No se alteraron `presentaciones/en/` ni
+  `presentaciones/code/`.
 - Las referencias a `3-3-2-2` y a diez problemas en el registro histórico de
   este archivo son solo antecedentes fechados, no requisitos activos.
 
