@@ -165,147 +165,14 @@ Monte Carlo CI coverage (n=10): 0.9509 (nominal: 0.9500)
 \end{frame}
 
 % Slide 12A: Ejercicio Nivel 1 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
-  \footnotesize
-  \begin{block}{Problema 5.4.1 --- Varianza de la $t$ (Enunciado)}
-    Sea $T \sim t_{10}$. Calcule $\Var(T)$.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Planteamiento}
-    \begin{itemize}\itemsep=0.04cm
-      \item Use directamente $\Var(T)=\nu/(\nu-2)$.
-    \end{itemize}
-  \end{alertblock}
-\end{frame}
 
 % Slide 12B: Ejercicio Nivel 1 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
-  \scriptsize
-  Sustituimos $\nu=10$ directamente: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    $$\Var(T) = \frac{10}{10-2} = \frac{10}{8} = 1.25.$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Como $1.25 > 1 = \Var(Z)$, la $t$ con $\nu=10$ es más dispersa que la Normal estándar, reflejando la incertidumbre adicional de estimar $\sigma$ con $S$. Al aumentar $\nu$, $\Var(T)\to 1$.
-  \end{alertblock}
-\end{frame}
 
 % Slide 13A: Ejercicio Nivel 2 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
-  \footnotesize
-  \begin{block}{Problema 5.4.5 --- Prueba $t$ de Una Muestra (Enunciado)}
-    Se afirma que $\mu_0=100$. Una muestra de $n=25$ produce $\bar X=104.2$ y $S=12$. Calcule $t=(\bar X-\mu_0)/(S/\sqrt n)$ y decida si se rechaza $H_0:\mu=100$ a nivel $\alpha=0.05$, usando $t_{24,0.025}\approx 2.064$.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Compare $|t|$ contra el valor crítico $t_{24,0.025}$.
-  \end{alertblock}
-\end{frame}
 
 % Slide 13B: Ejercicio Nivel 2 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
-  \scriptsize
-  Calculamos el estadístico: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    $$t = \frac{104.2-100}{12/5} = \frac{4.2}{2.4} = 1.75$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Decisión}
-    \scriptsize
-    Como $|1.75| < 2.064$, \textbf{no se rechaza} $H_0:\mu=100$ a nivel $\alpha=0.05$: la muestra no proporciona evidencia suficiente de que la media difiera de $100$.
-  \end{alertblock}
-\end{frame}
 
 % Slide 14A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema 5.4.7 --- Derivación de $\Var(T)$ (Enunciado)}
-    Sabiendo que $E(1/\chi^2_\nu)=1/(\nu-2)$ para $\nu>2$, que $Z$ y $\chi^2_\nu$ son independientes, y que $E(Z^2)=1$, derive $\Var(T)=\nu/(\nu-2)$ para $T=Z/\sqrt{\chi^2_\nu/\nu}$.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Como $E(T)=0$, $\Var(T)=E(T^2)$. Escriba $T^2$ en términos de $Z^2$ y $\chi^2_\nu$, y use independencia para factorizar la esperanza.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Factorizamos usando independencia: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Derivación}
-    \scriptsize
-    \begin{align*}
-      T^2 = \frac{Z^2}{\chi^2_\nu/\nu} = \nu\frac{Z^2}{\chi^2_\nu} \implies
-      E(T^2) = \nu\, E(Z^2)\, E\!\left(\frac{1}{\chi^2_\nu}\right) = \nu\cdot 1\cdot\frac{1}{\nu-2} = \frac{\nu}{\nu-2}. \quad \qedhere
-    \end{align*}
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Como $E(T)=0$, $\Var(T)=E(T^2)=\nu/(\nu-2)$, confirmando la fórmula. La independencia de $Z$ y $\chi^2_\nu$ es esencial para poder factorizar la esperanza del producto.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema 5.4.9 --- Muestras Pareadas (Enunciado)}
-    En un estudio de dieta, $n=8$ sujetos se pesan antes y después. La diferencia promedio es $\bar d=-3.2$ kg con $S_d=2.1$ kg. Construya un IC del $95\%$ para la diferencia media, usando $t_{7,0.025}\approx 2.365$, y determine si hay evidencia de que la dieta reduce el peso.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Trate las diferencias $d_i$ como una sola muestra; si el intervalo excluye el cero, hay evidencia de un efecto real.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Calculamos el error estándar y el margen: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    \begin{align*}
-      \text{SE} = \frac{2.1}{\sqrt 8} \approx 0.7425, \qquad \text{margen} = 2.365\cdot 0.7425 \approx 1.756.
-    \end{align*}
-    \begin{align*}
-      \text{IC}_{95\%} = -3.2 \pm 1.756 = [-4.956,\ -1.444].
-    \end{align*}
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Como el intervalo completo es negativo (excluye el cero), hay evidencia estadística de que la dieta reduce el peso promedio en aproximadamente $1.44$ a $4.96$ kg, con $95\%$ de confianza.
-  \end{alertblock}
-\end{frame}
 
 % Slide 16: Cierre
 \begin{frame}{Cierre de Sección: la $t$ de Student}

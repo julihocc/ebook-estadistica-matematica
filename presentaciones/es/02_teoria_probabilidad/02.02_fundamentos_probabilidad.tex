@@ -1,7 +1,7 @@
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title[Fundamentos y Axiomas]{Sección 2.3: Fundamentos y Axiomas de Probabilidad}
+\title[Fundamentos y Axiomas]{Sección 2.2: Fundamentos y Axiomas de Probabilidad}
 \subtitle{La Formalización del Azar: Del Conteo Frecuencial a los Axiomas de Kolmogorov}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
@@ -26,7 +26,7 @@
     \item \textbf{02.06 Muestreo aleatorio}
   \end{itemize}
   \vspace{0.6em}
-  \begin{block}{Objetivo de la Sección 2.3}
+  \begin{block}{Objetivo de la Sección 2.2}
     Establecer los tres axiomas de Kolmogorov como cimiento riguroso para cuantificar la incertidumbre en experimentos discretos y continuos, deduciendo las propiedades fundamentales del cálculo de probabilidades.
   \end{block}
 \end{frame}
@@ -148,19 +148,19 @@
 
   \vspace{0.4em}
   \begin{itemize}
-    \item \textbf{Teorema 2.3.3 (Evento Imposible):} $P(\emptyset) = 0$. \pause
+    \item \textbf{Teorema 2.2.3 (Evento Imposible):} $P(\emptyset) = 0$. \pause
     \vspace{0.3em}
-    \item \textbf{Teorema 2.3.4 (Complemento):} Para todo evento $A$:
+    \item \textbf{Teorema 2.2.4 (Complemento):} Para todo evento $A$:
     $$P(A') = 1 - P(A)$$ \pause
     \vspace{0.3em}
-    \item \textbf{Teorema 2.3.7 (Ley de Probabilidad Total Binaria):} Para cualquier partición binaria de $B$ respecto a $A$:
+    \item \textbf{Teorema 2.2.7 (Ley de Probabilidad Total Binaria):} Para cualquier partición binaria de $B$ respecto a $A$:
     $$P(A) = P(A \cap B) + P(A \cap B')$$
   \end{itemize}
 \end{frame}
 
 % Slide 9B: Teoremas Fundamentales Deducidos (Parte 2)
 \begin{frame}{Teoremas Fundamentales Deducidos (2/2)}
-  \begin{block}{Teoremas 2.3.1 y 2.3.2 (Monotonía, Diferencia y Cota)}
+  \begin{block}{Teoremas 2.2.1 y 2.2.2 (Monotonía, Diferencia y Cota)}
     Si $A \subset B$, entonces la probabilidad de su diferencia es exacta:
     $$P(B \setminus A) = P(B) - P(A)$$
     Por monotonía, como $P(B \setminus A) \geq 0$, se sigue que:
@@ -171,7 +171,7 @@
 \end{frame}
 
 % Slide 10: Regla General de Adición (Inclusión-Exclusión)
-\begin{frame}{Teorema 2.3.6: Regla General de Adición}
+\begin{frame}{Teorema 2.2.6: Regla General de Adición}
   \small Cuando dos eventos $A$ y $B$ \emph{no} son mutuamente excluyentes ($A \cap B \neq \emptyset$), la suma simple duplicaría la intersección: \pause
 
   \vspace{0.2em}
@@ -234,74 +234,6 @@ P(Pica union Rey):0.3077 (16/52 via Inclusio-Exclusion)
 \end{frame}
 
 % Slide 12: Ejercicios del Libro — Nivel 1: Fundamental
-\begin{frame}{Ejercicios del Libro — Nivel 1: Fundamental}
-  \small
-  \begin{block}{Problema 2.3.1 (Espacio Muestral de Baraja Inglesa)}
-    Describe formalmente el espacio muestral $S$ de una baraja de $52$ cartas considerando tanto los palos ($\spadesuit, \heartsuit, \diamondsuit, \clubsuit$) como los rangos ($A, 2, \dots, 10, J, Q, K$).
-  \end{block}
-  
-  \vspace{0.2em}
-  \pause
-  \begin{alertblock}{Solución Formal}
-    El espacio muestral es el producto cartesiano de rangos por palos:
-    $$S = \{A, 2, \dots, K\} \times \{\spadesuit, \heartsuit, \diamondsuit, \clubsuit\}$$
-    Su cardinalidad es exactamente $\card{S} = 13 \times 4 = 52$ puntos muestrales elementales equiprobables ($P(e) = 1/52$).
-  \end{alertblock}
-\end{frame}
-
-% Slide 13: Ejercicios del Libro — Nivel 2: Operativo
-\begin{frame}{Ejercicios del Libro — Nivel 2: Operativo}
-  \small
-  \begin{block}{Problema 2.3.3 (Extracción de Ases con y sin Reemplazo)}
-    De una baraja de $52$ cartas se extraen $2$ cartas sucesivamente. Encuentra la probabilidad de que ambas sean ases ($A_1 \cap A_2$):
-  \end{block}
-  
-  \vspace{0.2em}
-  \pause
-  \begin{enumerate}
-    \item \textbf{Con Reemplazo:} La carta regresa antes del segundo intento:
-    $$P(A_1 \cap A_2) = \frac{4}{52} \times \frac{4}{52} = \frac{1}{13} \times \frac{1}{13} = \frac{1}{169} \approx 0.0059$$ \pause
-    \item \textbf{Sin Reemplazo:} La primera carta no se devuelve a la baraja:
-    $$P(A_1 \cap A_2) = \frac{4}{52} \times \frac{3}{51} = \frac{1}{13} \times \frac{1}{17} = \frac{1}{221} \approx 0.0045$$
-  \end{enumerate}
-\end{frame}
-
-% Slide 14: Ejercicios del Libro — Nivel 3: Analítico
-\begin{frame}{Ejercicios del Libro — Nivel 3: Analítico}
-  \small
-  \begin{block}{Problema 2.3.7 (Demostración Axiomática de la Regla de Adición)}
-    A partir exclusivamente de los tres axiomas de Kolmogorov, demuestra que para dos eventos arbitrarios $A, B \subset S$:
-    $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
-  \end{block}
-
-  \vspace{0.2em}
-  \pause
-  \begin{alertblock}{Demostración por Partición Disjunta}
-    Descomponemos $A \cup B$ y $B$ en uniones disjuntas:
-    \begin{align*}
-      A \cup B &= A \sqcup (B \setminus A) \implies P(A \cup B) = P(A) + P(B \setminus A) \\
-             B &= (A \cap B) \sqcup (B \setminus A) \implies P(B) = P(A \cap B) + P(B \setminus A)
-    \end{align*}
-    Despejando y sustituyendo se obtiene exactamente la fórmula buscada.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15: Ejercicios del Libro — Nivel 4: Desafiante
-\begin{frame}{Ejercicios del Libro — Nivel 4: Desafiante}
-  \small
-  \begin{block}{Problema 2.3.9 (Cotas de Boole y Bonferroni)}
-    Demuestra las dos desigualdades estructurales del cálculo de probabilidades:
-  \end{block}
-
-  \vspace{0.2em}
-  \pause
-  \begin{enumerate}
-    \item \textbf{Cota de Boole (Subaditividad General):} La probabilidad de la unión de $n$ eventos nunca supera la suma de sus probabilidades individuales:
-    $$P\left( \bigcup_{i=1}^{n} A_i \right) \leq \sum_{i=1}^{n} P(A_i)$$ \pause
-    \item \textbf{Cota de Bonferroni (Intersección):} Por leyes de De Morgan y subaditividad sobre complementos:
-    $$P(A \cap B) \geq P(A) + P(B) - 1$$
-  \end{enumerate}
-\end{frame}
 
 % Slide 16: Reflexión Cierre
 \begin{frame}{Cierre de Sección y Síntesis Axiomática}

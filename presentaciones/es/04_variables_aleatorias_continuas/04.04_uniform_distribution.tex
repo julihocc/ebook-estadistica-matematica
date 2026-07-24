@@ -240,155 +240,20 @@ KS test on exponential samples: D=0.3675, p=0.0 (reject)
 \end{frame}
 
 % Slide 13A: Ejercicio Nivel 1 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
-  \footnotesize
-  \begin{block}{Problema 4.4.1 --- PDF, CDF y Probabilidades de $U(2, 8)$ (Enunciado)}
-    Considere $X \sim U(2, 8)$ con PDF $f(x) = 1/6$ para $x \in [2, 8]$. Verifique $\int_{2}^{8} f(x)\,dx = 1$, calcule la CDF $F(x) = (x-2)/6$, y determine $P(3 \le X \le 6)$ y $P(X \ge 7)$.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Planteamiento del Modelo}
-    \begin{itemize}\itemsep=0.04cm
-      \item Soporte: $[2, 8]$, longitud $b - a = 6$.
-      \item PDF constante: $f(x) = 1/(b-a) = 1/6$.
-      \item Probabilidad de intervalo: $P(c \le X \le d) = (d - c)/(b - a)$ para $[c, d] \subseteq [a, b]$.
-    \end{itemize}
-  \end{alertblock}
-\end{frame}
 
 % Slide 13B: Ejercicio Nivel 1 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
-  \scriptsize
-  Verificamos la normalización y calculamos las probabilidades: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Normalización y CDF}
-    \begin{align*}
-      \int_{2}^{8} \frac{1}{6}\,dx = \frac{1}{6}(8 - 2) = 1. \quad \text{(Normalización verificada)} \\
-      F(x) = \int_{2}^{x} \frac{1}{6}\,dt = \frac{x - 2}{6}, \quad x \in [2, 8].
-    \end{align*}
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Probabilidades}
-    \scriptsize
-    \begin{itemize}\itemsep=0.04cm
-      \item $P(3 \le X \le 6) = F(6) - F(3) = \frac{4}{6} - \frac{1}{6} = \frac{3}{6} = 0.5$.
-      \item $P(X \ge 7) = 1 - F(7) = 1 - \frac{5}{6} = \frac{1}{6} \approx 0.167$.
-    \end{itemize}
-  \end{alertblock}
-\end{frame}
 
 % Slide 14A: Ejercicio Nivel 2 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
-  \footnotesize
-  \begin{block}{Problema 4.4.3 --- Tiempo de Espera del Autobús (Enunciado)}
-    El tiempo de espera del autobús (en minutos) es $X \sim U(0, 15)$. Calcule $P(X < 5)$, encuentre el cuantil $q_{0.75}$, y calcule la probabilidad condicional $P(X \ge 15 \mid X \ge 10)$ (que un pasajero que ya esperó 10 min tenga que esperar al menos 5 más).
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Planteamiento}
-    \scriptsize
-    La Uniforme NO tiene propiedad de falta de memoria. La probabilidad condicional refleja que si $X \ge 10$, la distribución de $X$ condicional es $U(10, 15)$, así que la probabilidad de $X \ge 15$ es 0 (el soporte termina en 15).
-  \end{alertblock}
-\end{frame}
 
 % Slide 14B: Ejercicio Nivel 2 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
-  \scriptsize
-  Aplicamos la CDF lineal $F(x) = x/15$: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculos}
-    \begin{itemize}\itemsep=0.05cm
-      \item $P(X < 5) = F(5) = 5/15 = 1/3 \approx 0.333$. \pause
-      \item $q_{0.75}$: $F(q_{0.75}) = q_{0.75}/15 = 0.75 \Rightarrow q_{0.75} = 11.25$ min. \pause
-      \item \textbf{Probabilidad condicional:} $P(X \ge 15 \mid X \ge 10) = P(X = 15 \mid X \ge 10) = 0$ (el soporte termina en 15). La uniforme NO es sin memoria: la probabilidad es 0, no $2/3$.
-    \end{itemize}
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Si un pasajero ha esperado 10 min, entonces el autobús llegará en los próximos 5 min con probabilidad 1 (¡con certeza, dentro del modelo!). En la realidad, hay un límite físico de 15 min, lo cual viola la suposición uniforme. La distribución uniforme es adecuada solo cuando no hay restricciones fuertes de tiempo.
-  \end{alertblock}
-\end{frame}
 
 % Slide 15A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema 4.4.7 --- Máxima Entropía de la Uniforme (Enunciado)}
-    Sea $X$ continua con soporte en $[a, b]$ acotado. Demuestre que la distribución uniforme $U(a, b)$ maximiza la entropía diferencial $h(X) = -\int f(x) \log f(x)\,dx$ entre todas las distribuciones con soporte en $[a, b]$.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia de Deducción}
-    \scriptsize
-    Use los multiplicadores de Lagrange: $\mathcal{L} = -\int f \log f - \lambda(\int f - 1)$. Derive funcionalmente para obtener $f(x) = e^{-(1+\lambda)}$ constante. La normalización fuerza $f(x) = 1/(b-a)$.
-  \end{alertblock}
-\end{frame}
 
 % Slide 15B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Aplicamos cálculo variacional con restricciones: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Demostración Formal}
-    \scriptsize
-    El Lagrangian es $\mathcal{L}[f] = -\int_{a}^{b} f \log f\,dx - \lambda \int_{a}^{b} f\,dx + \lambda$. Usando cálculo variacional (derivada funcional $\delta \mathcal{L}/\delta f = 0$):
-    \begin{align*}
-      -\log f(x) - 1 - \lambda = 0 \implies f(x) = e^{-(1+\lambda)} = \text{constante}.
-    \end{align*}
-    Por normalización, $f(x)(b - a) = 1$, así $f(x) = 1/(b-a)$ en $[a, b]$. Esto es exactamente la PDF uniforme. \quad \qedhere
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Implicación}
-    \scriptsize
-    La uniforme es la distribución \emph{más informativa} (menos sesgada) cuando solo conocemos los límites del soporte. Es el prior natural en inferencia bayesiana cuando no hay información adicional sobre el parámetro.
-  \end{alertblock}
-\end{frame}
 
 % Slide 16A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema 4.4.10 --- Prueba de Kolmogorov-Smirnov (Enunciado)}
-    Para $n = 50$ observaciones que se sospecha provienen de $U(0, 1)$ con $D_{50} = 0.18$, calcule el $p$-valor aproximado $p \approx 2 \sum_{k=1}^{\infty}(-1)^{k-1} e^{-2k^{2} n D_{n}^{2}}$ y concluya si los datos son consistentes con la uniforme a nivel $\alpha = 0.05$.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Planteamiento}
-    \scriptsize
-    Compare $D_{50}$ con el valor crítico $K_{0.95}/\sqrt{n} = 1.358/\sqrt{50} \approx 0.192$. El $p$-valor mide la probabilidad de observar un $D$ al menos tan extremo bajo $H_{0}$.
-  \end{alertblock}
-\end{frame}
 
 % Slide 16B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Calculamos el $p$-valor y comparamos con el valor crítico: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo del $p$-valor}
-    \scriptsize
-    Con $n = 50$ y $D_{50} = 0.18$: $nD_{n}^{2} = 50 \cdot 0.0324 = 1.62$. Para $k=1$: $2 e^{-3.24} \approx 0.0784$. Para $k=2$: $-2 e^{-12.96} \approx 0$. Por lo tanto $p \approx 0.078$.
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Decisión Final}
-    \scriptsize
-    El valor crítico es $K_{0.95}/\sqrt{50} \approx 0.192$. Como $D_{50} = 0.18 < 0.192$, no rechazamos $H_{0}$ a nivel $\alpha = 0.05$. El $p$-valor $0.078$ confirma: no hay evidencia significativa para rechazar la uniformidad. \quad \qedhere
-  \end{alertblock}
-\end{frame}
 
 % Slide 17: Cierre
 \begin{frame}{Cierre de Sección y Síntesis sobre la Distribución Uniforme}

@@ -159,66 +159,12 @@ Obs 1: leverage=0.04, resid=5.10,  D=0.54 -> INFLUENTIAL (residual-driven)
 \end{frame}
 
 % Slide 12A: Ejercicio Nivel 1 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
-  \footnotesize
-  \begin{block}{Problema (Enunciado, Problema 9.14.1)}
-    Con $n=10$ residuos ordenados temporalmente: $e=\{2.1,1.8,-0.5,-1.2,-2.0,-1.5,0.8,1.9,2.2,1.0\}$. Calcule el estadístico de Durbin-Watson y determine el tipo de autocorrelación presente.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Planteamiento}
-    $DW=\sum(e_i-e_{i-1})^2/\sum e_i^2$; compare contra el valor de referencia $DW=2$.
-  \end{alertblock}
-\end{frame}
 
 % Slide 12B: Ejercicio Nivel 1 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
-  \scriptsize
-  Calculamos numerador y denominador por separado: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    $$\sum(e_i-e_{i-1})^2=14.79, \qquad \sum e_i^2=25.68, \qquad DW=\frac{14.79}{25.68}\approx0.576$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    Como $DW\approx0.576\ll2$, existe evidencia fuerte de \textbf{autocorrelación positiva}: observaciones consecutivas tienden a compartir signo, violando la independencia de los errores.
-  \end{alertblock}
-\end{frame}
 
 % Slide 13A: Ejercicio Nivel 2 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- VIF (Enunciado, Problema 9.14.5)}
-    Con $p=3$ predictores financieros: $R_1^2=0.85$, $R_2^2=0.55$, $R_3^2=0.30$. Calcule el VIF de cada uno, decida cuáles superan el umbral $\text{VIF}>5$, y proponga un remedio de la Sección 09.07.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    $\text{VIF}_j=1/(1-R_j^2)$ para cada predictor.
-  \end{alertblock}
-\end{frame}
 
 % Slide 13B: Ejercicio Nivel 2 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
-  \scriptsize
-  Calculamos los tres VIF directamente: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    $$\text{VIF}_1=\frac{1}{1-0.85}\approx6.667, \quad \text{VIF}_2=\frac{1}{1-0.55}\approx2.222, \quad \text{VIF}_3=\frac{1}{1-0.30}\approx1.429$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    Solo el predictor 1 supera el umbral ($6.667>5$): multicolinealidad severa. Dado que no se desea eliminarlo, la \textbf{regresión Ridge} es el remedio más adecuado, pues estabiliza $(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}$ sin descartar la variable.
-  \end{alertblock}
-\end{frame}
 
 % Slide 14A: Ejercicio Nivel 3 (Enunciado)
 \begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}

@@ -162,146 +162,14 @@ Minimum n for bound<=0.10: n>=1000
 \end{frame}
 
 % Slide 12A: Ejercicio Nivel 1 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.1.1 --- Insesgadez de Combinaciones Lineales (Enunciado)}
-    Sean $X_1, X_2$ iid con $E(X_i)=\mu$. Considere $\hat\theta_w = 0.3X_1+0.7X_2$. Demuestre que $\hat\theta_w$ es insesgado para $\mu$, y generalice la condición sobre los pesos.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Planteamiento}
-    \begin{itemize}\itemsep=0.04cm
-      \item Use linealidad de la esperanza: $E(\hat\theta_w)=0.3E(X_1)+0.7E(X_2)$.
-    \end{itemize}
-  \end{alertblock}
-\end{frame}
 
 % Slide 12B: Ejercicio Nivel 1 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
-  \scriptsize
-  Aplicamos linealidad: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    $$E(\hat\theta_w) = 0.3\mu + 0.7\mu = (0.3+0.7)\mu = \mu$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Generalización}
-    \scriptsize
-    Para $\hat\theta=\sum_i w_i X_i$ con $E(X_i)=\mu$ para todo $i$: $E(\hat\theta)=\left(\sum_i w_i\right)\mu$. El estimador es insesgado si y solo si $\sum_i w_i = 1$ --- la media muestral ($w_i=1/n$) es solo un caso particular de esta familia.
-  \end{alertblock}
-\end{frame}
 
 % Slide 13A: Ejercicio Nivel 2 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.1.6 --- Consistencia vía Chebyshev (Enunciado)}
-    Un estimador insesgado $\hat\theta_n$ tiene $\Var(\hat\theta_n)=16/n$. Use Chebyshev para acotar $P(|\hat\theta_n-\theta|\ge 1)$ cuando $n=64$, y explique por qué esto confirma consistencia.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    $P(|\hat\theta_n-\theta|\ge\varepsilon) \le \Var(\hat\theta_n)/\varepsilon^2$.
-  \end{alertblock}
-\end{frame}
 
 % Slide 13B: Ejercicio Nivel 2 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
-  \scriptsize
-  Sustituimos en la cota de Chebyshev: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    $$P(|\hat\theta_{64}-\theta|\ge 1) \le \frac{16/64}{1^2} = 0.25$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Como $16/n \to 0$ cuando $n\to\infty$ para cualquier $\varepsilon$ fijo, la cota de Chebyshev tiende a $0$, confirmando que $\hat\theta_n \xrightarrow{P} \theta$: el estimador es consistente.
-  \end{alertblock}
-\end{frame}
 
 % Slide 14A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.1.7 --- CRLB para la Media Normal (Enunciado)}
-    Sea $X_1,\ldots,X_n \sim N(\mu,\sigma^2)$ con $\sigma^2$ conocida. Calcule $I(\mu)$, derive la CRLB para $\Var(\hat\mu)$, y demuestre que $\bar X$ la alcanza exactamente.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Derive $\ln f(x\mid\mu)$ dos veces respecto a $\mu$ para obtener $I(\mu)$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Calculamos la Información de Fisher: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Derivación}
-    \scriptsize
-    \begin{align*}
-      \frac{\partial}{\partial\mu}\ln f = \frac{x-\mu}{\sigma^2}, \qquad \frac{\partial^2}{\partial\mu^2}\ln f = -\frac{1}{\sigma^2} \implies I(\mu) = \frac{1}{\sigma^2}.
-    \end{align*}
-    \begin{align*}
-      \text{CRLB} = \frac{1}{nI(\mu)} = \frac{\sigma^2}{n} = \Var(\bar X). \quad \qedhere
-    \end{align*}
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Como $\bar X$ alcanza la CRLB exactamente, es el UMVUE para $\mu$: ningún estimador insesgado puede tener menor varianza.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.1.9 --- Estimador de Encogimiento Óptimo (Enunciado)}
-    Con $\Var(\hat\theta)=v=5$ y $\theta=3$, evalúe numéricamente el factor óptimo $c^*=\theta^2/(v+\theta^2)$ y compare $\text{ECM}(\hat\theta_{c^*})$ contra $\text{ECM}(\hat\theta)=v$ (caso insesgado).
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Sustituya $v=5$, $\theta=3$ en $c^*$ y luego en $\text{ECM}(c)=c^2v+(c-1)^2\theta^2$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Sustituimos numéricamente: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    \begin{align*}
-      c^* = \frac{9}{5+9} = \frac{9}{14} \approx 0.643, \qquad \text{ECM}(c^*) \approx 2.066+1.148 = 3.214.
-    \end{align*}
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Comparado con $\text{ECM}(c=1)=5$, el ECM se reduce aproximadamente un $35.7\%$ al aceptar un sesgo controlado: un ejemplo concreto de por qué la regularización (Ridge/Lasso) sacrifica insesgadez por menor error total.
-  \end{alertblock}
-\end{frame}
 
 % Slide 16: Cierre
 \begin{frame}{Cierre de Sección: Criterios de Calidad de Estimadores}

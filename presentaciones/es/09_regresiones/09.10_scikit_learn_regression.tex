@@ -151,69 +151,12 @@ Ranking: TV=1, Radio=1, Newspaper=2
 \end{frame}
 
 % Slide 11A: Ejercicio Nivel 1 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel Fundamental (1/2)}
-  \footnotesize
-  \begin{block}{Problema (Enunciado, Problema 9.17.2)}
-    Un modelo \texttt{LinearRegression} con predictores \texttt{TV} y \texttt{Radio} reporta \texttt{lm.intercept\_}$=2.92$, \texttt{lm.coef\_}$=[0.046, 0.188]$. Escriba la ecuación del modelo y calcule la venta predicha para \texttt{TV}$=100$, \texttt{Radio}$=20$.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    $\hat Y = \texttt{intercept\_} + \texttt{coef\_}[0]\cdot X_1 + \texttt{coef\_}[1]\cdot X_2$.
-  \end{alertblock}
-\end{frame}
 
 % Slide 11B: Ejercicio Nivel 1 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel Fundamental (2/2)}
-  \scriptsize
-  Sustituimos directamente en la ecuación del modelo: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    $$\hat{\texttt{Sales}}=2.92+0.046\,\texttt{TV}+0.188\,\texttt{Radio}$$
-    $$\hat{\texttt{Sales}}(100,20)=2.92+0.046(100)+0.188(20)=2.92+4.6+3.76=11.28$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    Idéntico procedimiento algebraico al usado con las fórmulas manuales de la Sección 09.03; \texttt{scikit-learn} solo almacena los coeficientes con otros nombres de atributo.
-  \end{alertblock}
-\end{frame}
 
 % Slide 12A: Ejercicio Nivel 2 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel Operativo (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- $R^2$ Manual vs. \texttt{score()} (Enunciado, Problema 9.17.4)}
-    Con $n=5$: $\hat Y=\{18.2,9.5,8.1,14.0,15.9\}$, $Y=\{17.9,10.4,7.8,14.2,15.6\}$. Calcule $R^2$ manualmente y explique por qué debe coincidir con \texttt{lm.score()}.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    $R^2=1-\text{SCE}/\text{SCT}$, con $\text{SCE}=\sum(Y_i-\hat Y_i)^2$ y $\text{SCT}=\sum(Y_i-\bar Y)^2$.
-  \end{alertblock}
-\end{frame}
 
 % Slide 12B: Ejercicio Nivel 2 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel Operativo (2/2)}
-  \scriptsize
-  Calculamos $\bar Y$ y las sumas de cuadrados: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$\bar Y=13.18, \qquad \text{SCT}\approx65.85, \qquad \text{SCE}=\sum(Y_i-\hat Y_i)^2=1.12$$
-    $$R^2=1-\frac{1.12}{65.85}\approx0.983$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \texttt{lm.score()} implementa exactamente esta misma fórmula internamente: no existe cálculo alternativo oculto.
-  \end{alertblock}
-\end{frame}
 
 % Slide 13A: Ejercicio Nivel 3 (Enunciado)
 \begin{frame}{Ejercicio en Clase --- Nivel Analítico (1/2)}

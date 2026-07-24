@@ -98,26 +98,6 @@
 \end{frame}
 
 % Slide 6: Binomial Negativa como Alternativa
-\begin{frame}{Binomial Negativa: La Alternativa Natural para Sobredispersión}
-  \footnotesize
-  La distribución Binomial Negativa introduce un parámetro adicional $r > 0$ para modelar la variabilidad extra: \pause
-
-  \vspace{0.1cm}
-  \begin{block}{PMF de la Binomial Negativa}
-    $$P(X = k) = \binom{k + r - 1}{k} p^{r} (1-p)^{k}, \quad k = 0, 1, 2, \dots$$
-    Media: $\E[X] = r(1-p)/p = \mu$. Varianza: $\Var(X) = \mu + \mu^{2}/r$, capturando la sobredispersión.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Interpretación Jerárquica}
-    \begin{itemize}\itemsep=0.05cm
-      \item Bajo el modelo $\lambda_{i} \sim \text{Gamma}(r, p)$ con $X_{i} \mid \lambda_{i} \sim \text{Poisson}(\lambda_{i})$, marginalmente $X_{i} \sim \text{NegBin}(r, p)$.
-      \item MLE por método de momentos: $\hat{r} = \bar{x}^{2}/(s^{2} - \bar{x})$ y $\hat{p} = \bar{x}/s^{2}$.
-      \item Cuando $r \to \infty$, la Binomial Negativa colapsa a la Poisson (Problema 3.10.7).
-    \end{itemize}
-  \end{alertblock}
-\end{frame}
 
 % Slide 7: Criterios de Información
 \begin{frame}{Criterios de Información: AIC y BIC para Selección de Modelos}
@@ -274,153 +254,12 @@ NegBin bootstrap (n=200 churn data):
 \end{frame}
 
 % Slide 13A: Ejercicio Nivel 1 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
-  \footnotesize
-  \begin{block}{Problema 3.10.1 --- Detección de Sobredispersión en Anuncios (Enunciado)}
-    Un equipo de analítica web monitorea el número de clics que reciben $n = 100$ anuncios publicitarios en una hora. Los datos observados tienen media muestral $\bar{x} = 4.2$ y varianza muestral $s^{2} = 8.7$. Calcule el MLE de Poisson $\hat{\lambda}$ y el cociente de dispersión $D = s^{2}/\bar{x}$, e interprete si los datos exhiben sobredispersión, sub-dispersión, o equidispersión.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Planteamiento del Modelo}
-    \begin{itemize}\itemsep=0.04cm
-      \item Bajo Poisson, la log-verosimilitud es $\ell(\lambda) = -n\lambda + (\sum x_{i})\log \lambda - \sum \log x_{i}!$.
-      \item Derivando e igualando a cero: $\hat{\lambda} = \bar{x} = 4.2$.
-      \item Diagnóstico: $D = s^{2}/\bar{x} = 8.7/4.2 \approx 2.07$.
-    \end{itemize}
-  \end{alertblock}
-\end{frame}
 
 % Slide 13B: Ejercicio Nivel 1 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
-  \scriptsize
-  El MLE de Poisson es la media muestral, y el cociente de dispersión detecta sobredispersión: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Estimación Puntual}
-    \begin{align*}
-      \hat{\lambda} = \bar{x} = 4.2 \quad \text{(MLE de Poisson)}
-    \end{align*}
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Cociente de Dispersión e Interpretación}
-    \scriptsize
-    $D = s^{2}/\bar{x} = 8.7/4.2 \approx 2.07 \gg 1$. Los datos exhiben \textbf{sobredispersión significativa}: la varianza empírica es más del doble de la media. Bajo Poisson, esperaríamos $D \approx 1$. La Poisson pura es estructuralmente inadecuada. Alternativas: Binomial Negativa, regresión de Poisson con varianza robusta, o modelo jerárquico con efectos aleatorios.
-  \end{alertblock}
-\end{frame}
 
 % Slide 14A: Ejercicio Nivel 2 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
-  \footnotesize
-  \begin{block}{Problema 3.10.5 --- Comparación Poisson vs. Binomial Negativa (Enunciado)}
-    Una plataforma de streaming analiza el número de visualizaciones por usuario en un día. Se toman 200 observaciones con $\bar{x} = 8.5$ y $s^{2} = 9.8$. Ajuste modelos Poisson y Binomial Negativa, calcule AIC y BIC, y decida cuál es preferible.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Métricas de Comparación}
-    \scriptsize
-    Use los criterios AIC $= 2k - 2\ell(\hat{\theta})$ y BIC $= k\log n - 2\ell(\hat{\theta})$. Recuerde que el modelo con menor AIC (o BIC) es preferible por parsimonia. Diferencias $\Delta\text{AIC} < 2$ son insignificantes; $\Delta\text{AIC} > 10$ son muy fuertes.
-  \end{alertblock}
-\end{frame}
 
 % Slide 14B: Ejercicio Nivel 2 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
-  \footnotesize
-  Calculamos los MLEs y los criterios de información: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{MLEs de los Modelos}
-    \scriptsize
-    Poisson: $\hat{\lambda} = 8.5$. Binomial Negativa (método de momentos):
-    $$\hat{r} = \dfrac{\bar{x}^{2}}{s^{2} - \bar{x}} = \dfrac{72.25}{1.3} \approx 55.58, \quad \hat{p} = \dfrac{\bar{x}}{s^{2}} \approx 0.867$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Decisión por Parsimonia}
-    \scriptsize
-    Con $\hat{r} = 55.58 \gg 1$, la Binomial Negativa colapsa prácticamente a la Poisson (Problema 3.10.7). El cociente de dispersión $s^{2}/\bar{x} = 1.15$ indica sobredispersión leve. La diferencia esperada en AIC es $< 2$, sugiriendo preferencia por el modelo Poisson por parsimonia. \emph{Conclusión:} con sobredispersión leve, el modelo más simple (Poisson) es preferible.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema 3.10.7 --- Colapso de Binomial Negativa a Poisson (Enunciado)}
-    Demuestre analíticamente que la Binomial Negativa $\text{NB}(r, p)$ colapsa a la distribución $\text{Pois}(\lambda)$ cuando $r \to \infty$ con $\lambda = r(1-p)/p$ fijo, y discuta las implicaciones para la selección de modelos en la práctica.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia de Deducción}
-    \scriptsize
-    Parta de la PMF de la Binomial Negativa, sustituya $p = r/(r + \lambda)$ y tome el límite $r \to \infty$ con $\lambda$ fijo. Use que para $r$ grande con $j$ fijo, $r(r+1)\cdots(r+j-1) \approx r^{j}$ y $(1 - \lambda/r)^{r} \to e^{-\lambda}$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Tomamos el límite $r \to \infty$ con $\lambda$ fijo: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Expansión Asintótica}
-    \scriptsize
-    Con $p = r/(r + \lambda) \approx 1 - \lambda/r$ y $1 - p = \lambda/(r + \lambda) \approx \lambda/r$ cuando $r \to \infty$:
-    \begin{align*}
-      P(X = k) &= \binom{k + r - 1}{k} p^{r} (1-p)^{k} \\
-      &\approx \dfrac{r^{k}}{k!} \cdot \left(1 - \dfrac{\lambda}{r}\right)^{r} \cdot \left(\dfrac{\lambda}{r}\right)^{k} \to \dfrac{1}{k!} \cdot e^{-\lambda} \cdot \lambda^{k} = \dfrac{e^{-\lambda}\lambda^{k}}{k!}
-    \end{align*}
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Implicación para Selección de Modelos}
-    \scriptsize
-    Si el MLE $\hat{r}$ es muy grande, los datos son consistentes con Poisson y no se gana mucho con la Binomial Negativa. El AIC/BIC penalizarán correctamente el parámetro extra. Regla práctica: si $\hat{r} > 100$, usar Poisson por parsimonia. \qedhere
-  \end{alertblock}
-\end{frame}
-
-% Slide 16A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema 3.10.10 --- Modelo Jerárquico Poisson-Gamma (Enunciado)}
-    Una empresa de seguros detecta que el número de reclamaciones por asegurado en un año tiene distribución empírica con $\bar{x} = 1.2$ y $s^{2} = 3.4$. La dirección sospecha heterogeneidad no observada: cada asegurado tiene su propia tasa $\lambda_{i} \sim \text{Gamma}(\alpha, \beta)$. Demuestre que marginalmente $X_{i} \sim \text{NB}(r, p)$ y estime los parámetros por método de momentos.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Aplicación}
-    \scriptsize
-    Calcule el estimador de razón de verosimilitud para comparar con la Poisson y concluya si la heterogeneidad no observada es estadísticamente significativa.
-  \end{alertblock}
-\end{frame}
-
-% Slide 16B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Integramos sobre la mezcla Poisson-Gamma para obtener la Binomial Negativa: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Derivación de la Marginal}
-    \scriptsize
-    $P(X = k) = \int_{0}^{\infty} \dfrac{e^{-\lambda}\lambda^{k}}{k!} \cdot \dfrac{\beta^{\alpha}}{\Gamma(\alpha)}\lambda^{\alpha-1}e^{-\beta\lambda}\,d\lambda = \binom{k + \alpha - 1}{k}\left(\dfrac{1}{\beta+1}\right)^{\alpha}\left(\dfrac{\beta}{\beta+1}\right)^{k}$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Estimación por Momentos}
-    \scriptsize
-    Con $r = \alpha$ y $p = 1/(\beta+1)$:
-    \begin{align*}
-      \hat{r} = \dfrac{\bar{x}^{2}}{s^{2} - \bar{x}} = \dfrac{1.44}{2.2} \approx 0.655, \quad \hat{p} = \dfrac{\bar{x}}{s^{2}} = \dfrac{1.2}{3.4} \approx 0.353.
-    \end{align*}
-    Con $s^{2}/\bar{x} = 3.4/1.2 \approx 2.83 \gg 1$, el test de Wilks da $\Lambda \gg 3.841$ ($p < 0.001$). \emph{Conclusión:} la heterogeneidad no observada es estadísticamente significativa; la Binomial Negativa es preferible a la Poisson. \qedhere
-  \end{alertblock}
-\end{frame}
 
 % Slide 17: Cierre
 \begin{frame}{Cierre del Capítulo 03 y Síntesis Final}

@@ -155,149 +155,14 @@ Delta-method Var(sigma) from Var(sigma^2): 0.0200
 \end{frame}
 
 % Slide 12A: Ejercicio Nivel 1 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.3.1 --- Score de la Exponencial (Enunciado)}
-    Sea $X\sim\text{Exp}(\lambda)$. Derive la función de score $U(\lambda;X)$, y verifique que $E_\lambda[U(\lambda;X)]=0$.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Planteamiento}
-    \begin{itemize}\itemsep=0.04cm
-      \item $\ln f(x\mid\lambda) = \ln\lambda - \lambda x$; derive respecto a $\lambda$.
-    \end{itemize}
-  \end{alertblock}
-\end{frame}
 
 % Slide 12B: Ejercicio Nivel 1 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
-  \scriptsize
-  Derivamos y tomamos esperanza: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    $$U(\lambda;X) = \frac{1}{\lambda}-X, \qquad E[U(\lambda;X)] = \frac{1}{\lambda}-E(X) = \frac{1}{\lambda}-\frac{1}{\lambda} = 0$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    El score mide cuánto ``empuja'' cada observación a $\hat\lambda$ hacia arriba o abajo; en promedio, evaluado en el $\lambda$ verdadero, este empuje se cancela exactamente.
-  \end{alertblock}
-\end{frame}
 
 % Slide 13A: Ejercicio Nivel 2 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.3.4 --- MLE de la Geométrica vía Score (Enunciado)}
-    Sea $X\sim\text{Geométrica}(p)$, $f(x\mid p)=p(1-p)^{x-1}$. Construya la ecuación de score y demuestre que $\hat p_{MLE}=1/\bar X$.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Escriba $\ell(p)$, derive respecto a $p$, sume sobre la muestra e iguale a cero.
-  \end{alertblock}
-\end{frame}
 
 % Slide 13B: Ejercicio Nivel 2 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
-  \scriptsize
-  Resolvemos la ecuación de score: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \begin{align*}
-      \frac{d}{dp}\ell(p) = \frac{n}{p} - \frac{\sum x_i-n}{1-p} = 0 \implies n = p\sum x_i \implies \hat p_{MLE} = \frac{1}{\bar X}. \quad \qedhere
-    \end{align*}
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Coincide exactamente con el MoM de la Sección 06.02: para modelos de un solo parámetro con una relación monótona simple entre el parámetro y la media, MLE y MoM frecuentemente coinciden.
-  \end{alertblock}
-\end{frame}
 
 % Slide 14A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.3.7 --- Identidad General de la Información (Enunciado)}
-    Demuestre que $-E_\theta\left[\dfrac{\partial^2}{\partial\theta^2}\ln f(X\mid\theta)\right] = \Var_\theta[U(\theta;X)]$, partiendo de $E_\theta[U(\theta;X)]=0$.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Derive la identidad $E[U]=0$ una vez más respecto a $\theta$, bajo el signo integral, usando la regla del producto.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Derivamos bajo el signo integral: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Demostración}
-    \scriptsize
-    \begin{align*}
-      0 = \frac{\partial}{\partial\theta}\int U f\,dx = \int\frac{\partial U}{\partial\theta}f\,dx + \int U^2 f\,dx = E\left[\frac{\partial U}{\partial\theta}\right]+E[U^2].
-    \end{align*}
-    Como $\partial U/\partial\theta = \partial^2\ln f/\partial\theta^2$ y $E[U^2]=\Var(U)$: $-E[\partial^2\ln f/\partial\theta^2] = \Var(U)$. \quad \qedhere
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Esta identidad explica por qué $I(\theta)$ tiene dos fórmulas equivalentes: como varianza del score, o como el negativo de la curvatura esperada de la log-verosimilitud.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.3.9 --- MLE de Rayleigh (Enunciado)}
-    Sea $X\sim\text{Rayleigh}(\sigma)$, $f(x\mid\sigma)=\frac{x}{\sigma^2}e^{-x^2/(2\sigma^2)}$, con $E(X^2)=2\sigma^2$. Derive el score, $\hat\sigma^2_{MLE}$, $I(\sigma)$, y la varianza asintótica de $\hat\sigma_{MLE}$.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Derive $\ln f$ respecto a $\sigma$ dos veces; use $E(X^2)=2\sigma^2$ para evaluar la esperanza.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Derivamos dos veces: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    \begin{align*}
-      \hat\sigma^2_{MLE} = \frac{1}{2n}\sum x_i^2, \qquad I(\sigma) = -E\left[\frac{2}{\sigma^2}-\frac{3X^2}{\sigma^4}\right] = \frac{4}{\sigma^2}.
-    \end{align*}
-    \begin{align*}
-      \Var(\hat\sigma_{MLE}) \approx \frac{1}{nI(\sigma)} = \frac{\sigma^2}{4n}. \quad \qedhere
-    \end{align*}
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    El mismo patrón se repite: la log-verosimilitud de Rayleigh es tratable analíticamente, permitiendo derivar tanto el MLE como su Información de Fisher en forma cerrada.
-  \end{alertblock}
-\end{frame}
 
 % Slide 16: Cierre
 \begin{frame}{Cierre de Sección: MLE y Score}

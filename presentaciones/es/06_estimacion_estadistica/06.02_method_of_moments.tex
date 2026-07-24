@@ -156,140 +156,14 @@ Relative efficiency Ef(MLE, MoM) = 1.143 (MLE is more efficient)
 \end{frame}
 
 % Slide 12A: Ejercicio Nivel 1 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.2.3 --- MoM para la Geométrica (Enunciado)}
-    Sea $X\sim\text{Geométrica}(p)$ con $E(X)=1/p$. Derive $\hat p_{MoM}$ en términos de $\bar X$, y evalúe numéricamente si $\bar X=4$.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Planteamiento}
-    \begin{itemize}\itemsep=0.04cm
-      \item Iguale $1/p = \bar X$ y despeje $p$.
-    \end{itemize}
-  \end{alertblock}
-\end{frame}
 
 % Slide 12B: Ejercicio Nivel 1 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 1: Fundamental (2/2)}
-  \scriptsize
-  Despejamos $p$: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    $$\hat p_{MoM} = \frac{1}{\bar X} = \frac{1}{4} = 0.25$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Si en promedio se requieren $4$ ensayos hasta el primer éxito, la probabilidad de éxito estimada es $0.25$ --- consistente con la intuición de que $E(X)=1/p$.
-  \end{alertblock}
-\end{frame}
 
 % Slide 13A: Ejercicio Nivel 2 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.2.4 --- MoM para la Uniforme $(a,b)$ (Enunciado)}
-    Sea $X\sim U(a,b)$ con $a<b$ desconocidos, $\mu_1=(a+b)/2$ y $\Var(X)=(b-a)^2/12$. Derive $\hat a_{MoM}$ y $\hat b_{MoM}$ en términos de $\bar X$ y $S^2$.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Iguale ambos momentos con $\bar X$ y $S^2$, obteniendo un sistema de 2 ecuaciones con 2 incógnitas.
-  \end{alertblock}
-\end{frame}
 
 % Slide 13B: Ejercicio Nivel 2 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 2: Operativo (2/2)}
-  \scriptsize
-  Resolvemos el sistema: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    De $(b-a)^2/12=S^2$: $b-a=2\sqrt{3}S$. Junto con $a+b=2\bar X$:
-    $$\hat a_{MoM} = \bar X - \sqrt{3}S, \qquad \hat b_{MoM} = \bar X + \sqrt{3}S$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Este es un ejemplo clásico de sistema de 2 momentos con 2 parámetros; nótese cómo ambas ecuaciones fueron necesarias para aislar $a$ y $b$ por separado.
-  \end{alertblock}
-\end{frame}
 
 % Slide 14A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.2.8 --- MoM sin Forma Cerrada: Weibull (Enunciado)}
-    Sea $X\sim\text{Weibull}(\beta,\eta)$ con $\mu_1=\eta\Gamma(1+1/\beta)$ y $\mu_2=\eta^2\Gamma(1+2/\beta)$. Demuestre que el sistema se reduce a resolver $\Gamma(1+2/\beta)/[\Gamma(1+1/\beta)]^2=\mu_2/\mu_1^2$ para $\beta$, y explique por qué no tiene solución cerrada.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Divida $\mu_2$ entre $\mu_1^2$ para cancelar el parámetro de escala $\eta$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Cancelamos $\eta$ dividiendo: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Derivación}
-    \begin{align*}
-      \frac{\mu_2}{\mu_1^2} = \frac{\eta^2\Gamma(1+2/\beta)}{\eta^2[\Gamma(1+1/\beta)]^2} = \frac{\Gamma(1+2/\beta)}{[\Gamma(1+1/\beta)]^2}. \quad \qedhere
-    \end{align*}
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{¿Por Qué No Hay Forma Cerrada?}
-    \scriptsize
-    La función gamma no se puede invertir algebraicamente; esta ecuación en $\beta$ debe resolverse por métodos numéricos iterativos, a diferencia del caso Gamma donde el álgebra se simplifica exactamente.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema 6.2.10 --- MoM vs. MLE para la Gamma (Enunciado)}
-    Una muestra Gamma produce $\bar X=10$, $S^2=25$. Calcule $\hat\alpha_{MoM}$, $\hat\beta_{MoM}$. Explique por qué el MLE requiere resolver $\psi(\alpha)-\ln\alpha=\ln\bar X-\overline{\ln X}$ numéricamente, y por qué se prefiere asintóticamente.
-  \end{block}
-
-  \vspace{0.15cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Use las fórmulas cerradas de MoM de la Sección 06.01, y recuerde la propiedad de eficiencia asintótica del MLE.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Aplicamos las fórmulas cerradas de MoM: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    $$\hat\alpha_{MoM} = \frac{100}{25} = 4, \qquad \hat\beta_{MoM} = \frac{25}{10} = 2.5$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{MLE vs. MoM}
-    \scriptsize
-    La derivada de $\ln\Gamma(\alpha)$ (función digamma $\psi$) no se invierte algebraicamente, forzando Newton-Raphson para el MLE. Aun así, el MLE se prefiere asintóticamente porque alcanza la eficiencia de Cramér-Rao, mientras que el MoM generalmente tiene mayor varianza (confirmado en el laboratorio: $\text{Ef}(\text{MLE},\text{MoM})\approx 1.14$).
-  \end{alertblock}
-\end{frame}
 
 % Slide 16: Cierre
 \begin{frame}{Cierre de Sección: Método de Momentos}
