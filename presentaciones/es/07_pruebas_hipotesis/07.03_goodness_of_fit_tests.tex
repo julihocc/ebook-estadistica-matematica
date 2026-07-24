@@ -12,6 +12,7 @@
 
 % Slide 1: Portada
 \begin{frame}[plain]
+  \vspace{-0.8cm}
   \titlepage
 \end{frame}
 
@@ -146,82 +147,6 @@ Cells with E_i<5: 2 of 4 (50%) -- Cochran's Rule violated? True
 Merged chi2 = 0.6890, df=2, p-value = 0.7086
     \end{verbatim}
   \end{block}
-\end{frame}
-
-% Slide 12A: Ejercicio Nivel 1 (Enunciado)
-
-% Slide 12B: Ejercicio Nivel 1 (Resolución)
-
-% Slide 13A: Ejercicio Nivel 2 (Enunciado)
-
-% Slide 13B: Ejercicio Nivel 2 (Resolución)
-
-% Slide 14A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Poisson con Parámetro Estimado (Enunciado, Sección 3.9)}
-    Un ingeniero registra interrupciones diarias en $n=100$ días: $\{36,40,18,6\}$ para $k=0,1,2,\ge3$. Estime $\hat\lambda$, calcule las frecuencias esperadas bajo Poisson, y determine $\nu$ correctamente.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    $\hat\lambda=\bar X$; los grados de libertad correctos son $\nu=k-1-m$ con $m=1$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Estimamos $\hat\lambda$ y calculamos el estadístico ajustado: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$\hat\lambda = \frac{0(36)+1(40)+2(18)+3(6)}{100} = 0.94, \qquad \chi^2 \approx 0.697, \qquad \nu = 4-1-1 = 2$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Como $\chi^2=0.697 \ll \chi^2_{0.05,2}=5.991$, \textbf{se acepta con alta fidelidad} que las interrupciones siguen un proceso de Poisson con $\lambda=0.94$. Ignorar el ajuste $m=1$ habría inflado artificialmente $\nu$ a 3.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Fundamentación de $\nu=k-1$ (Enunciado, Sección 3.9)}
-    Sea $\mathbf O=(O_1,\ldots,O_k)\sim\text{Multinomial}(N,\mathbf p)$. Justifique analíticamente por qué el estadístico de Pearson $Q=\sum Z_i^2$ se distribuye como $\chi^2_{k-1}$, y no $\chi^2_k$, explicando el rol de la ligadura $\sum(O_i-Np_i)=0$.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Observe que la suma fija $N$ impone una restricción lineal exacta sobre las $k$ desviaciones.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Identificamos la ligadura lineal y su consecuencia geométrica: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Argumento}
-    \scriptsize
-    $\sum_i O_i = N \implies \sum_i(O_i-Np_i)=0$: el vector de desviaciones $\mathbf Z$ vive en un hiperplano de dimensión $k-1$, no en $\mathbb R^k$ completo. La última celda queda determinada por las primeras $k-1$.
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Al proyectar sobre este hiperplano, el rango espectral efectivo de la forma cuadrática es $k-1$, no $k$. Por eso el estadístico de Pearson pierde exactamente un grado de libertad respecto a la intuición ingenua de sumar $k$ normales cuadráticas independientes.
-  \end{alertblock}
 \end{frame}
 
 % Slide 16: Cierre

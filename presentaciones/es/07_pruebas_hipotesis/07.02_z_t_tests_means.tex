@@ -12,6 +12,7 @@
 
 % Slide 1: Portada
 \begin{frame}[plain]
+  \vspace{-0.8cm}
   \titlepage
 \end{frame}
 
@@ -144,82 +145,6 @@ Heteroscedastic: Welch t=4.2026, df=16.60, p=0.0006
 t statistic = 6.3743, df=11, one-tailed p-value = 0.000026
     \end{verbatim}
   \end{block}
-\end{frame}
-
-% Slide 12A: Ejercicio Nivel 1 (Enunciado)
-
-% Slide 12B: Ejercicio Nivel 1 (Resolución)
-
-% Slide 13A: Ejercicio Nivel 2 (Enunciado)
-
-% Slide 13B: Ejercicio Nivel 2 (Resolución)
-
-% Slide 14A: Ejercicio Nivel 3 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Potencia y Tamaño de Muestra (Enunciado, Docimasia Avanzada)}
-    Para $H_0:\mu\le100$ vs. $H_a:\mu>100$ ms con $\sigma=15$ conocida, $n=25$, $\alpha=0.05$: calcule $\beta$ si $\mu_a=108$, y el $n$ necesario para potencia del $90\%$.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Este problema conecta directamente con la fórmula de tamaño de muestra de la Sección 07.01: $n=((Z_\alpha+Z_\beta)\sigma/(\mu_a-\mu_0))^2$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 14B: Ejercicio Nivel 3 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 3: Analítico (2/2)}
-  \scriptsize
-  Aplicamos las fórmulas de la Sección 07.01 al contexto de latencia de red: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$\beta \approx 0.153 \implies \text{Potencia}\approx0.847, \qquad n = \left(\frac{(1.645+1.282)(15)}{8}\right)^2 \approx 30.12 \to n=31$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Este ejercicio confirma que la maquinaria teórica de la Sección 07.01 (diseñada para una sola media con $\sigma$ conocida) se aplica sin cambios a cualquier contexto aplicado, aquí latencia de red en una fintech.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15A: Ejercicio Nivel 4 (Enunciado)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (1/2)}
-  \footnotesize
-  \begin{block}{Problema --- Razón de Verosimilitudes de Wilks (Enunciado, Docimasia Avanzada)}
-    Para $X_i\sim N(\mu_1,\sigma_1^2)$, $Y_i\sim N(\mu_2,\sigma_2^2)$ independientes, deduzca el estadístico LRT $-2\ln\Lambda$ para $H_0:\sigma_1^2=\sigma_2^2$ y justifique su convergencia a $\chi^2_1$ vía el Teorema de Wilks.
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Estrategia}
-    \scriptsize
-    Derive primero los EMV de $\sigma_1^2,\sigma_2^2$ sin restricción, luego el EMV combinado bajo la restricción $\sigma_1^2=\sigma_2^2$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 15B: Ejercicio Nivel 4 (Resolución)
-\begin{frame}{Ejercicio en Clase --- Nivel 4: Desafiante (2/2)}
-  \scriptsize
-  Construimos el estadístico de razón de verosimilitudes: \pause
-
-  \vspace{0.05cm}
-  \begin{block}{Cálculo}
-    \scriptsize
-    $$\hat\sigma_0^2 = \frac{n_1\hat\sigma_1^2+n_2\hat\sigma_2^2}{n_1+n_2}, \qquad -2\ln\Lambda = n_1\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_1^2}\right) + n_2\ln\left(\frac{\hat\sigma_0^2}{\hat\sigma_2^2}\right)$$
-  \end{block}
-
-  \vspace{0.05cm}
-  \pause
-  \begin{alertblock}{Interpretación}
-    \scriptsize
-    Por el Teorema de Wilks, $-2\ln\Lambda \to \chi^2_{\nu}$ donde $\nu$ es la diferencia de dimensión paramétrica entre $\Theta$ (2 parámetros de varianza libres) y $\Theta_0$ (1 parámetro combinado), es decir $\nu=1$. Este es un enfoque alternativo y asintóticamente equivalente a la prueba $F$ clásica.
-  \end{alertblock}
 \end{frame}
 
 % Slide 16: Cierre
