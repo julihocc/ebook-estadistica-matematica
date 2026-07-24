@@ -1,0 +1,213 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Proportion Intervals]{Section 6.5: Estimation of a Proportion and Difference Between Two Proportions}
+\subtitle{Wald, Wilson, and rate comparisons}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
+
+\begin{frame}{Roadmap --- Chapter 6}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{06.02} Mean intervals
+    \item \textbf{06.04} Standard errors
+    \item \textbf{06.05} Proportions and differences \emph{(today)}
+    \item \textbf{06.07} Sample size
+  \end{itemize}
+  \begin{block}{Learning objective}
+    Build intervals for one proportion and for the difference of two proportions,
+    distinguishing Wald from Wilson.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Motivation: categorical responses}
+  \footnotesize
+  Proportions describe Bernoulli successes: click-through rates, preferences,
+  and classification metrics.
+  \begin{alertblock}{Guiding question}
+    How do we quantify uncertainty in $\hat p=X/n$ and in a rate difference?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Wald interval}
+  \footnotesize
+  When large-sample conditions hold,
+  \[
+    \hat p\pm Z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}}.
+  \]
+  It uses a normal approximation to the sampling distribution of $\hat p$.
+\end{frame}
+
+\begin{frame}{Wald limitation}
+  \footnotesize
+  For small samples or proportions near $0$ or $1$, Wald may have poor actual
+  coverage and produce limits outside $[0,1]$.
+  \begin{block}{Reference conditions}
+    The reading uses $n\hat p\ge5$ and $n(1-\hat p)\ge5$ (or conservatively
+    $\ge10$).
+  \end{block}
+\end{frame}
+
+\begin{frame}{Wilson interval}
+  \footnotesize
+  Directly inverting the score test gives
+  \[
+  \frac{1}{1+Z^2/n}\left[\hat p+\frac{Z^2}{2n}\pm
+  Z\sqrt{\frac{\hat p(1-\hat p)}{n}+\frac{Z^2}{4n^2}}\right].
+  \]
+  The interval need not be centered at $\hat p$.
+\end{frame}
+
+\begin{frame}{Difference of two proportions}
+  \footnotesize
+  For sufficiently large independent samples,
+  \[
+    (\hat p_1-\hat p_2)\pm Z_{\alpha/2}
+    \sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+
+    \frac{\hat p_2(1-\hat p_2)}{n_2}}.
+  \]
+  The central estimator is a difference and the variance combines both groups.
+\end{frame}
+
+\begin{frame}{Conditions and method choice}
+  \footnotesize
+  Wald is a large-sample approximation; Wilson is preferable with small counts
+  or a proportion near a boundary.
+  \begin{alertblock}{Rule}
+    Check conditions first, then choose the formula.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Computational bridge 1/4: estimator}
+  \footnotesize
+  \[
+    \hat p=\frac{X}{n},\qquad
+    \operatorname{Var}(\hat p)\approx\frac{p(1-p)}{n}.
+  \]
+  Wald estimates the standard error by replacing $p$ with $\hat p$.
+\end{frame}
+
+\begin{frame}{Computational bridge 2/4: Wilson correction}
+  \footnotesize
+  Wilson keeps $p$ in the score denominator while inverting the inequality.
+  \begin{block}{Consequence}
+    Center and width adjust automatically near the boundaries.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Computational bridge 3/4: two groups}
+  \footnotesize
+  \[
+    \widehat{SE}(\hat p_1-\hat p_2)=
+    \sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+
+    \frac{\hat p_2(1-\hat p_2)}{n_2}}.
+  \]
+  Each sample contributes its own uncertainty.
+\end{frame}
+
+\begin{frame}{Computational bridge 4/4: boundaries}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Wald may exceed $[0,1]$.
+    \item Wilson maintains plausible limits.
+    \item A difference $p_1-p_2$ lies in $[-1,1]$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Reading application 1/4 --- Wald}
+  \footnotesize
+  The reading gives the normal CI for $p$ when large-sample conditions hold.
+  \begin{block}{Statement}
+    Identify $X$, $n$, $\hat p$, and the critical value.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 1/4 --- solution}
+  \footnotesize
+  \[
+    CI_W=\hat p\pm Z_{\alpha/2}
+    \sqrt{\frac{\hat p(1-\hat p)}{n}}.
+  \]
+  The approximation is reasonable when expected successes and failures are
+  sufficiently numerous.
+\end{frame}
+
+\begin{frame}{Reading application 2/4 --- Wilson}
+  \footnotesize
+  For a small sample or an extreme proportion, the reading recommends score
+  inversion rather than Wald.
+  \begin{block}{Statement}
+    Replace the symmetric formula with Wilson's expression.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 2/4 --- solution}
+  \footnotesize
+  The factor $1/(1+Z^2/n)$ and the term $Z^2/(4n^2)$ correct center and width.
+  \begin{alertblock}{Result}
+    Wilson keeps actual coverage closer to the nominal level.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Reading application 3/4 --- two proportions}
+  \footnotesize
+  Two independent populations have rates $p_1,p_2$ and sample sizes $n_1,n_2$.
+  \begin{block}{Statement}
+    Estimate $p_1-p_2$ with $\hat p_1-\hat p_2$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 3/4 --- solution}
+  \footnotesize
+  \[
+    CI=(\hat p_1-\hat p_2)\pm Z_{\alpha/2}\widehat{SE}.
+  \]
+  The interval includes zero when the observed difference is compatible with no
+  difference.
+\end{frame}
+
+\begin{frame}{Reading application 4/4 --- conditions}
+  \footnotesize
+  Normal approximation validity depends on expected counts
+  $n_i\hat p_i$ and $n_i(1-\hat p_i)$.
+  \begin{block}{Statement}
+    Check conditions before reporting an interval.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 4/4 --- decision}
+  \footnotesize
+  If conditions fail, prefer Wilson (or Agresti--Coull) for one proportion; for
+  two rates, choose an approximation appropriate to the design.
+  \begin{exampleblock}{Result}
+    The method is selected from the available information, not convenience.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Synthesis of the section}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Wald is simple and needs large-sample conditions.
+    \item Wilson corrects center, width, and coverage.
+    \item Two proportions combine two standard errors.
+    \item Expected counts determine the appropriate approximation.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Curricular transition}
+  \footnotesize
+  \begin{block}{Established}
+    Proportion intervals must respect the support $[0,1]$ and the assumptions of
+    the chosen approximation.
+  \end{block}
+  \begin{alertblock}{Next section}
+    \textbf{06.07 Sample Size}: choose $n$ before observing data while controlling
+    confidence and margin of error.
+  \end{alertblock}
+\end{frame}
+\end{document}

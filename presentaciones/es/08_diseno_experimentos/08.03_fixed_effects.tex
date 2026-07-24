@@ -1,44 +1,28 @@
 \documentclass[10pt,aspectratio=169]{beamer}
-\input{../../_preambulo_beamer}
-\input{../../_comandos_beamer}
-
-\title[Efectos de modelo fijo]{Sección 8.3: Efectos de modelo fijo}
-\subtitle{Correspondencia con la nota de lectura ES}
-\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute{Tecnológico de Monterrey}
-\date{}
-
+\input{../../_preambulo_beamer}\input{../../_comandos_beamer}
+\title[Efectos de modelo fijo]{Sección 08.03: Análisis de efectos de modelo fijo}\subtitle{Cuadrados medios y estadístico $F$}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/efectos\_modelo\_fijo.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
-\end{frame}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}\small\begin{enumerate}\item Cuadrados medios.\item Hipótesis y estadístico $F$.\item Tabla ANOVA e interpretación.\end{enumerate}\end{frame}
+\begin{frame}{Fuente y alcance}\small La sección analiza cómo los efectos de tratamiento cambian los cuadrados medios de un ANOVA de un factor.\begin{block}{Pregunta guía}¿Por qué el cociente entre cuadrados medios detecta efectos?\end{block}\end{frame}
+\begin{frame}{Cuadrados medios}\small\[\text{CMTR}=\frac{\text{SCTR}}{k-1},\qquad \text{CME}=\frac{\text{SCE}}{N-k}.\]Cada suma de cuadrados se divide por sus grados de libertad.\end{frame}
+\begin{frame}{Esperanzas bajo el modelo}\small\[E(\text{CME})=\sigma^2,\qquad E(\text{CMTR})=\sigma^2+\frac{\sum_i n_i\tau_i^2}{k-1}.\]\end{frame}
+\begin{frame}{Hipótesis omnibus}\small\[H_0:\tau_1=\cdots=\tau_k=0\quad\Longleftrightarrow\quad\mu_1=\cdots=\mu_k.\]\[H_a:\text{al menos un efecto no es cero}.\]\end{frame}
+\begin{frame}{Lógica del cociente}\small Bajo $H_0$, CMTR y CME estiman la misma varianza. Bajo $H_a$, CMTR incorpora un término positivo asociado a los tratamientos.\end{frame}
+\begin{frame}{Estadístico $F$}\small\[F=\frac{\text{CMTR}}{\text{CME}}=\frac{\text{SCTR}/(k-1)}{\text{SCE}/(N-k)}.\]\end{frame}
+\begin{frame}{Distribución nula}\small Bajo los supuestos del modelo y $H_0$,\[F\sim F_{k-1,N-k}.\]La distribución es central cuando todos los efectos son nulos.\end{frame}
+\begin{frame}{Regla de decisión}\small Rechazar $H_0$ al nivel $\alpha$ si\[F>F_{\alpha,k-1,N-k}\]o, equivalentemente, si el valor $p$ es menor que $\alpha$.\end{frame}
+\begin{frame}{Tabla ANOVA}\small\begin{itemize}\item Tratamientos: SCTR, $k-1$, CMTR.\item Error: SCE, $N-k$, CME.\item Total: SCT, $N-1$.\end{itemize}\end{frame}
+\begin{frame}{Procedimiento I}\small\begin{enumerate}\item Revisar aleatorización, independencia y normalidad de errores.\item Calcular medias y suma de cuadrados.\item Obtener CMTR y CME.\end{enumerate}\end{frame}
+\begin{frame}{Procedimiento II}\small\begin{enumerate}\setcounter{enumi}{3}\item Formar $F$.\item Comparar con el cuantil o calcular $p$.\item Reportar la conclusión global.\end{enumerate}\end{frame}
+\begin{frame}{Aplicación: tratamientos}\small Un experimento compara $k$ tratamientos con $n_i$ réplicas. Las diferencias entre medias alimentan SCTR; la variación interna alimenta SCE.\end{frame}
+\begin{frame}{Aplicación: medias}\small La media general $\bar Y_{..}$ y las medias de tratamiento $\bar Y_{i.}$ separan variación entre tratamientos de variación dentro de tratamientos.\end{frame}
+\begin{frame}{Aplicación: cociente}\small Si CMTR es mucho mayor que CME, el cociente $F$ crece y la evidencia contra la igualdad de medias aumenta.\end{frame}
+\begin{frame}{Aplicación: decisión}\small Un rechazo global afirma que al menos una media difiere; todavía no identifica qué pares son diferentes.\end{frame}
+\begin{frame}{Supuestos}\small La validez depende de errores independientes, varianza común y normalidad aproximada. La aleatorización sustenta la independencia.\end{frame}
+\begin{frame}{Interpretación}\small El resultado es una afirmación global sobre tratamientos. La magnitud práctica debe acompañarse con medias, diferencias e intervalos.\end{frame}
+\begin{frame}{Comunicación}\small Reporte SCTR, SCE, grados de libertad, cuadrados medios, $F$, valor $p$ y la conclusión contextual.\end{frame}
+\begin{frame}{Síntesis}\small\begin{itemize}\item CME estima el ruido.\item CMTR combina ruido y efectos.\item $F$ compara ambos.\item El contraste es global.\end{itemize}\end{frame}
+\begin{frame}{Conexión con el capítulo}\small Tras un $F$ significativo se requieren comparaciones múltiples; la siguiente sección presenta LSD, Tukey y Bonferroni.\end{frame}
 \end{document}

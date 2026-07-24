@@ -1,44 +1,28 @@
 \documentclass[10pt,aspectratio=169]{beamer}
-\input{../../_preambulo_beamer}
-\input{../../_comandos_beamer}
-
-\title[Pruebas de varias proporciones]{Sección 7.12: Pruebas de varias proporciones}
-\subtitle{Correspondencia con la nota de lectura ES}
-\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute{Tecnológico de Monterrey}
-\date{}
-
+\input{../../_preambulo_beamer}\input{../../_comandos_beamer}
+\title[Varias proporciones]{Sección 07.12: Pruebas de varias proporciones}\subtitle{Contraste global y comparaciones posteriores}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/pruebas\_homogeneidad\_varias\_proporciones.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
-\end{frame}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}\small\begin{enumerate}\item Contraste global.\item Estadística combinada.\item Procedimiento de Marascuilo.\end{enumerate}\end{frame}
+\begin{frame}{Fuente y alcance}\small Esta sección trata $k$ poblaciones independientes con una respuesta binaria: éxito o fracaso.\begin{block}{Pregunta guía}¿Son iguales todas las proporciones de éxito?\end{block}\end{frame}
+\begin{frame}{Hipótesis global}\small\[H_0:p_1=p_2=\cdots=p_k\qquad\text{frente a}\qquad H_a:\text{al menos dos difieren}.\]\end{frame}
+\begin{frame}{Datos}\small En la muestra $j$ se observan $X_j$ éxitos de $n_j$ ensayos y $\hat p_j=X_j/n_j$.\end{frame}
+\begin{frame}{Proporción global}\small Bajo $H_0$, la proporción común se estima con\[\bar p=\frac{\sum_jX_j}{\sum_jn_j}.\]\end{frame}
+\begin{frame}{Estadística global}\small\[\chi^2=\sum_{j=1}^{k}\frac{(X_j-n_j\bar p)^2}{n_j\bar p(1-\bar p)}.\]\end{frame}
+\begin{frame}{Grados de libertad}\small El contraste global se compara con $\chi^2_{k-1}$. Un rechazo solo indica que no todas las proporciones son iguales.\end{frame}
+\begin{frame}{Por qué se requieren comparaciones}\small La prueba global no identifica los pares que difieren. Comparar todos los pares sin ajuste inflaría el error tipo I.\end{frame}
+\begin{frame}{Procedimiento de Marascuilo}\small El método compara cada diferencia $|\hat p_i-\hat p_j|$ con un rango crítico $r_{ij}$ después de un rechazo global.\end{frame}
+\begin{frame}{Rango crítico}\small\[r_{ij}=\sqrt{\chi^2_{\alpha,k-1}}\sqrt{\frac{\hat p_i(1-\hat p_i)}{n_i}+\frac{\hat p_j(1-\hat p_j)}{n_j}}.\]\end{frame}
+\begin{frame}{Procedimiento I}\small\begin{enumerate}\item Calcular cada $\hat p_j$.\item Calcular $\bar p$.\item Evaluar $\chi^2$ global.\end{enumerate}\end{frame}
+\begin{frame}{Procedimiento II}\small\begin{enumerate}\setcounter{enumi}{3}\item Si el global no rechaza, detenerse.\item Si rechaza, calcular rangos $r_{ij}$.\item Reportar pares con diferencia mayor al rango.\end{enumerate}\end{frame}
+\begin{frame}{Condiciones}\small Las muestras deben ser independientes y las aproximaciones binomiales razonables. El diseño fija $n_j$ por población.\end{frame}
+\begin{frame}{Aplicación: datos}\small Para cada grupo registre $X_j$, $n_j$ y $\hat p_j$. Ordenar los grupos ayuda a leer las diferencias, pero no cambia el contraste.\end{frame}
+\begin{frame}{Aplicación: contraste global}\small Sustituya los conteos en la estadística y compare con $\chi^2_{k-1}$ o calcule el valor $p$.\end{frame}
+\begin{frame}{Aplicación: decisión global}\small Un valor $p$ pequeño indica heterogeneidad entre las proporciones, sin señalar todavía los pares responsables.\end{frame}
+\begin{frame}{Aplicación: pares}\small Para cada $i<j$, calcule la diferencia absoluta y el rango crítico de Marascuilo.\end{frame}
+\begin{frame}{Errores frecuentes}\small\begin{itemize}\item Hacer comparaciones por pares sin contraste global.\item Omitir el ajuste de Marascuilo.\item Confundir heterogeneidad global con todos los pares distintos.\end{itemize}\end{frame}
+\begin{frame}{Plantilla de reporte}\small\begin{block}{Reporte} ``El contraste global dio $\chi^2=\cdots$, $gl=k-1$, $p=\cdots$. Tras el ajuste, los pares con diferencia detectable son [lista].''\end{block}\end{frame}
+\begin{frame}{Síntesis}\small\begin{itemize}\item La proporción global define el contraste bajo igualdad.\item $\chi^2$ responde la pregunta global.\item Marascuilo localiza diferencias sin inflar el error.\end{itemize}\end{frame}
+\begin{frame}{Conexión con el capítulo}\small Esta sección extiende las pruebas de una y dos proporciones al escenario de $k$ grupos independientes.\end{frame}
 \end{document}

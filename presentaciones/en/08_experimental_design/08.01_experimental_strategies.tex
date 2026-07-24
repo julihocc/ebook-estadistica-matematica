@@ -1,0 +1,28 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}\input{../../_en_comandos_beamer}
+\title[Experimental strategies]{Section 08.01: Experimental Strategies}\subtitle{Design of Experiments and ANOVA}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
+\begin{document}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Roadmap}\small\begin{enumerate}\item Motivation and terminology.\item Fisher's principles.\item Planning and analysis.\end{enumerate}\end{frame}
+\begin{frame}{Source and scope}\small This deck follows the experimental-strategies section and bridges Design of Experiments (DoE) with ANOVA.\begin{block}{Guiding question}How can a design distinguish causal effects from noise?\end{block}\end{frame}
+\begin{frame}{Why experiment}\small An observational study can mix treatments with confounders. Controlled assignment compares scenarios under a reproducible protocol.\end{frame}
+\begin{frame}{Inflation from pairwise tests}\small Comparing $k$ groups pairwise creates many false-positive opportunities. For $m$ independent comparisons,\[\alpha_{\mathrm{global}}=1-(1-\alpha)^m.\]\end{frame}
+\begin{frame}{Essential terminology}\small\begin{itemize}\item Experimental unit: entity receiving a treatment.\item Factor: manipulated variable.\item Treatment: concrete combination of levels.\item Response: measured variable.\end{itemize}\end{frame}
+\begin{frame}{Replication}\small Repeating a treatment on independent units estimates error variance and reduces the standard error of a treatment mean. Without replication, effect and noise cannot be separated.\end{frame}
+\begin{frame}{Randomization}\small Randomly assigning treatments prevents systematic unit differences from being confused with factor effects and supports the probability model.\end{frame}
+\begin{frame}{Blocking}\small Grouping relatively homogeneous units before assignment controls a known variability source and leaves a smaller residual error.\end{frame}
+\begin{frame}{Experimental protocol}\small\begin{enumerate}\item Define question and response.\item Choose factors and levels.\item Set units, replication, and blocks.\item Randomize assignment.\end{enumerate}\end{frame}
+\begin{frame}{Bridge to ANOVA}\small A well-planned design produces comparable means and an internal error estimate. ANOVA tests several treatments in one model.\end{frame}
+\begin{frame}{Design matrix}\small Record each unit, factor levels, block when present, randomized order, and observed response. This provides traceability.\end{frame}
+\begin{frame}{Application: A/B/n test}\small Compare several algorithm configurations. Each configuration is a treatment; execution time is the response.\end{frame}
+\begin{frame}{Application: family-wise risk}\small With $k=5$ treatments there are $m=10$ pairs. If every comparison uses $\alpha=0.05$,\[1-(0.95)^{10}\approx0.4013.\]The global risk exceeds the nominal level.\end{frame}
+\begin{frame}{Application: replication}\small Run each configuration on several independent units to estimate time variability and distinguish stable differences from fluctuation.\end{frame}
+\begin{frame}{Application: randomization}\small Randomize execution order so warm-up, time of day, or server load cannot be confounded with treatment.\end{frame}
+\begin{frame}{Application: blocking}\small If servers belong to different generations, use generation as a block and assign configurations within each block.\end{frame}
+\begin{frame}{Application: analysis}\small The final plan combines treatment, replication, randomization, and blocking; then apply ANOVA and adjusted comparisons when appropriate.\end{frame}
+\begin{frame}{Interpretation}\small Causal inference depends on design as well as calculation. A $p$-value cannot repair biased assignment or a poorly defined response.\end{frame}
+\begin{frame}{Communication}\small Report units, factors, levels, replicates, blocks, randomization rule, and response so the analysis can be reproduced.\end{frame}
+\begin{frame}{Synthesis}\small\begin{itemize}\item Replication estimates error.\item Randomization protects against confounding.\item Blocking controls known heterogeneity.\item ANOVA compares treatments.\end{itemize}\end{frame}
+\begin{frame}{Chapter connection}\small The next sections develop one-factor ANOVA, fixed effects, blocked designs, and factorial designs.\end{frame}
+\end{document}

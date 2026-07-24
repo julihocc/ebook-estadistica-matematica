@@ -3,42 +3,232 @@
 \input{../../_comandos_beamer}
 
 \title[Estadísticos Z y t]{Sección 5.9: Estadísticos Z y t}
-\subtitle{Correspondencia con la nota de lectura ES}
+\subtitle{Estandarización con desviación conocida o desconocida}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
 \date{}
 
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
 
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/estadisticos\_z\_t.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
+\begin{frame}{Hoja de ruta --- capítulo 5}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{05.08} Conceptos fundamentales
+    \item \textbf{05.09} Estadísticos Z y t \emph{(hoy)}
+    \item \textbf{06--07} Intervalos y pruebas de hipótesis
   \end{itemize}
+  \begin{block}{Objetivo didáctico}
+    Construir $Z$ y $t$, distinguir cuándo se conoce $\sigma$ y leer cuantiles de
+    la distribución $t$ de Student.
+  \end{block}
 \end{frame}
 
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
+\begin{frame}{Configuración inferencial}
+  \footnotesize
+  La nota parte de un valor $A_0$ supuesto en la hipótesis nula y de una muestra
+  aleatoria de tamaño $n$.
+  \begin{block}{Cantidad observada}
+    La media o medida muestral se denota $A$ y se compara con $A_0$.
   \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
+\end{frame}
+
+\begin{frame}{Estadístico Z}
+  \footnotesize
+  \[
+    Z=\frac{A-A_0}{\sigma/\sqrt n}.
+  \]
+  Aquí $\sigma$ es la desviación estándar poblacional conocida.
+  \begin{alertblock}{Propósito}
+    Convertir una variable normalizada en una normal estándar para consultar
+    probabilidades y cuantiles tabulados.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Caso Z: $\sigma$ conocida}
+  \footnotesize
+  Si la desviación estándar se conoce por experiencia previa, el estadístico Z
+  usa directamente $\sigma/\sqrt n$.
+  \begin{exampleblock}{Contexto de la nota}
+    Los tiempos de entrega de una pizza ilustran una media cuya variabilidad
+    poblacional ya está documentada.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Caso t: $\sigma$ desconocida}
+  \footnotesize
+  Cuando no existe un registro fiable de $\sigma$ o la muestra es pequeña,
+  se sustituye por la desviación muestral $S$.
+  \[
+    t=\frac{A-A_0}{S/\sqrt n}.
+  \]
+  \begin{alertblock}{Diferencia}
+    La incertidumbre adicional se refleja en la distribución $t$ de Student.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Distribución de Student}
+  \footnotesize
+  La distribución $t$ fue descrita por William Sealy Gosset bajo el seudónimo
+  Student. Es simétrica alrededor de cero y sus colas dependen de los grados de
+  libertad.
+  \begin{block}{Uso}
+    Modela la estandarización cuando la desviación poblacional se estima con la
+    propia muestra.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Grados de libertad y varianza}
+  \footnotesize
+  El parámetro `df` se denota $\nu$. Para $X\sim t_\nu$:
+  \[
+    \mu_X=0,\qquad \sigma_X^2=\frac{\nu}{\nu-2}
+    \quad(\nu>2).
+  \]
+  Al crecer $\nu$, la distribución $t$ se aproxima a la normal estándar.
+\end{frame}
+
+\begin{frame}{Varianza muestral y estadístico t}
+  \footnotesize
+  La nota presenta
+  \[
+    S^2=\sum\frac{(A_i-A_0)^2}{n-1},
+    \qquad t=\frac{A-A_0}{S/\sqrt n}.
+  \]
+  \begin{alertblock}{Lectura}
+    El divisor $n-1$ y los grados de libertad conectan la estimación de $S$ con
+    la forma de la distribución $t$.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Puente computacional 1/4: elegir Z o t}
+  \footnotesize
+  \begin{tabular}{lll}
+    \hline
+    Información disponible & Estadístico & Distribución \\
+    \hline
+    $\sigma$ conocida & $Z=(A-A_0)/(\sigma/\sqrt n)$ & normal estándar \\
+    $\sigma$ desconocida & $t=(A-A_0)/(S/\sqrt n)$ & $t_\nu$ \\
+    \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Puente computacional 2/4: grados de libertad}
+  \footnotesize
+  Los grados de libertad determinan la cola de $t_\nu$. Con menos información
+  sobre la desviación, las colas son más pesadas.
+  \begin{block}{Límite}
+    $t_\nu\to N(0,1)$ cuando $\nu$ crece.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Puente computacional 3/4: áreas}
+  \footnotesize
+  Para un valor observado $t$, la probabilidad a la derecha es
+  \[
+    P(T_\nu>t)=1-F_{t_\nu}(t).
+  \]
+  La simetría permite obtener también cuantiles izquierdos cambiando el signo.
+\end{frame}
+
+\begin{frame}{Puente computacional 4/4: cuantiles}
+  \footnotesize
+  La función percentil (ppf) satisface
+  \[
+    F_{t_\nu}(t_p)=p.
+  \]
+  Para un área derecha de $0.05$, se consulta $p=0.95$ y se usa la simetría
+  para el valor negativo.
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 1/4 --- cuantiles con $\nu=9$}
+  \footnotesize
+  Consideremos una variable $t$ con $\nu=9$ grados de libertad. Se busca un
+  valor con área derecha $0.05$ y área central sin sombrear $0.90$.
+  \begin{block}{Planteamiento}
+    Encontrar los dos límites simétricos.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 1/4 --- solución}
+  \footnotesize
+  El área izquierda del límite positivo es $0.95$:
+  \[
+    t_{0.95,9}\approx1.833,
+    \qquad t_{0.05,9}\approx-1.833.
+  \]
+  \begin{alertblock}{Comprobación}
+    $P(-1.833<T<1.833)=0.95-0.05=0.90$.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 2/4 --- prueba Z}
+  \footnotesize
+  Un proceso de entrega tiene desviación poblacional conocida. La media
+  observada es $A$ y el valor de referencia es $A_0$.
+  \begin{block}{Planteamiento}
+    Estandarizar la diferencia con la fórmula Z de la sección.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 2/4 --- interpretación Z}
+  \footnotesize
+  \[
+    Z=\frac{A-A_0}{\sigma/\sqrt n}.
+  \]
+  Un valor positivo indica que $A$ está por encima de $A_0$; su magnitud se
+  interpreta en una normal estándar.
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 3/4 --- prueba t}
+  \footnotesize
+  Si $\sigma$ no está disponible, se calcula $S$ con la muestra y se usa
+  \[
+    t=\frac{A-A_0}{S/\sqrt n}.
+  \]
+  \begin{block}{Planteamiento}
+    La incertidumbre sobre $\sigma$ debe reflejarse en $t_\nu$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 3/4 --- interpretación t}
+  \footnotesize
+  El valor observado se compara con cuantiles de $t_\nu$, no con cuantiles
+  normales, especialmente cuando $n$ es pequeño.
+  \begin{alertblock}{Resultado}
+    Las colas más pesadas protegen contra la subestimación de la variabilidad.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 4/4 --- varianza muestral}
+  \footnotesize
+  La sección presenta $S^2$ con divisor $n-1$ y después forma el estadístico
+  t usando $S$.
+  \begin{block}{Planteamiento}
+    Identificar qué cantidad cambia cuando aumenta la muestra.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 4/4 --- conexión}
+  \footnotesize
+  Al crecer $n$, aumentan los grados de libertad, $S$ estima mejor a $\sigma$ y
+  $t_\nu$ se acerca a $N(0,1)$.
+  \begin{exampleblock}{Lectura integrada}
+    La fórmula, la varianza muestral y la distribución de referencia forman un
+    único procedimiento de estandarización.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Síntesis y transición}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Z usa $\sigma$ conocida y referencia normal.
+    \item t usa $S$, grados de libertad y colas de Student.
+    \item La simetría y la función percentil permiten leer áreas.
+  \end{itemize}
+  \begin{alertblock}{Siguiente paso}
+    Estas herramientas se aplican en las secciones de intervalos y pruebas de
+    hipótesis.
   \end{alertblock}
 \end{frame}
 \end{document}

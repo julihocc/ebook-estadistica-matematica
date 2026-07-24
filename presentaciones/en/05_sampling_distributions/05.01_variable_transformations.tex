@@ -1,0 +1,231 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Transformation of Variables]{Section 5.1: Transformation of Variables}
+\subtitle{Distributions of $Y=g(X)$}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
+
+\begin{frame}{Roadmap --- Chapter 5}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{05.00} Inferential introduction
+    \item \textbf{05.01} Transformation of variables \emph{(today)}
+    \item \textbf{05.02} Functions of random variables
+    \item \textbf{05.03--05.05} $\chi^2$, $t$, and $F$ distributions
+  \end{itemize}
+  \begin{block}{Learning objective}
+    Obtain the density of $Y=g(X)$ through affine maps, inverse functions, and
+    Jacobians, including the non-monotone case.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Motivation: changing scale}
+  \footnotesize
+  If $X$ has a known distribution and $Y=g(X)$, we need the distribution of $Y$
+  to analyze transformed data.
+  \begin{itemize}\itemsep=0.12cm
+    \item A transformation may normalize data.
+    \item It may stabilize variance or compress extreme values.
+    \item It must preserve total probability.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Affine transformation}
+  \footnotesize
+  If $Y=aX+b$, $a\neq0$, and $X$ has mean $\mu_X$ and variance $\sigma_X^2$,
+  \[
+    \mu_Y=a\mu_X+b,\qquad \sigma_Y^2=a^2\sigma_X^2.
+  \]
+  \begin{alertblock}{Normal case}
+    If $X\sim N(\mu,\sigma^2)$, then $Y\sim N(a\mu+b,a^2\sigma^2)$.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Monotone change of variable}
+  \footnotesize
+  For strictly monotone differentiable $g$ and $Y=g(X)$,
+  \[
+    f_Y(y)=f_X\!\left(g^{-1}(y)\right)
+    \left|\frac{d}{dy}g^{-1}(y)\right|.
+  \]
+  First write $F_Y(y)=F_X(g^{-1}(y))$, then differentiate by the chain rule.
+\end{frame}
+
+\begin{frame}{Inverse Jacobian}
+  \footnotesize
+  With $x=g^{-1}(y)$ and $J(y)=dx/dy$,
+  \[
+    f_Y(y)=f_X(x)|J(y)|.
+  \]
+  \begin{exampleblock}{Geometric reading}
+    The absolute Jacobian corrects the local scale change between $x$ and $y$.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Non-monotone case}
+  \footnotesize
+  If several $x$ values produce the same $y$, add every preimage:
+  \[
+    f_Y(y)=\sum_{x:g(x)=y}f_X(x)\left|\frac{dx}{dy}\right|.
+  \]
+  \begin{alertblock}{Key difference}
+    A single inverse branch is not enough when the function folds over itself.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Common transformations}
+  \footnotesize
+  The reading lists transformations useful for positive or skewed data:
+  \begin{itemize}\itemsep=0.11cm
+    \item $Y=\ln X$ compresses large values.
+    \item $Y=\sqrt X$ smooths count-data skewness.
+    \item $Y=X^{1/3}$ handles stronger skewness.
+    \item Box--Cox: $Y=(X^\lambda-1)/\lambda$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Exact application 1/4: normal transformation}
+  \footnotesize
+  For $X\sim N(\mu,\sigma^2)$ and $Y=aX+b$,
+  \[
+    Y\sim N(a\mu+b,a^2\sigma^2).
+  \]
+  An affine transformation shifts the mean and scales the variance while
+  preserving the normal family.
+\end{frame}
+
+\begin{frame}{Exact application 1/4: solution}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.13cm
+    \item identify $a$ and $b$;
+    \item transform the mean to $a\mu+b$;
+    \item transform the variance to $a^2\sigma^2$.
+  \end{enumerate}
+  This is the reading's example of normal reproducibility.
+\end{frame}
+
+\begin{frame}{Exact application 2/4: exponential to Pareto}
+  \footnotesize
+  Let $X\sim\operatorname{Exp}(1)$ and $Y=e^X$. Then $g^{-1}(y)=\ln y$ and
+  $d(\ln y)/dy=1/y$.
+  \[
+    f_Y(y)=e^{-\ln y}\frac1y=\frac1{y^2},\qquad y>1.
+  \]
+\end{frame}
+
+\begin{frame}{Exact application 2/4: solution}
+  \footnotesize
+  Since $X>0$ and the map is increasing, $Y>1$.
+  \begin{alertblock}{Result}
+    The density $1/y^2$ for $y>1$ is a Pareto distribution with $\alpha=1$.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Exact application 3/4: log-normal transformation}
+  \footnotesize
+  If $X\sim N(\mu,\sigma^2)$ and $Y=e^X$, then $y>0$ and
+  \[
+    f_Y(y)=\frac{1}{\sigma\sqrt{2\pi}}
+    \exp\!\left[-\frac{(\ln y-\mu)^2}{2\sigma^2}\right]\frac1y.
+  \]
+\end{frame}
+
+\begin{frame}{Exact application 3/4: solution}
+  \footnotesize
+  \begin{block}{Reading result}
+    $Y$ follows a log-normal distribution $LN(\mu,\sigma^2)$.
+  \end{block}
+  The factor $1/y$ is the inverse Jacobian and must not be omitted.
+\end{frame}
+
+\begin{frame}{Exact application 4/4: non-monotone sine}
+  \footnotesize
+  For $X\sim U(0,2\pi)$ and $Y=\sin X$, each $y\in(-1,1)$ has two preimages:
+  \[
+    x_1=\arcsin y,\qquad x_2=\pi-\arcsin y.
+  \]
+  Each branch contributes $1/(2\pi\sqrt{1-y^2})$.
+\end{frame}
+
+\begin{frame}{Exact application 4/4: solution}
+  \footnotesize
+  \[
+    f_Y(y)=\frac{1}{\pi\sqrt{1-y^2}},\qquad -1<y<1.
+  \]
+  \begin{alertblock}{Result}
+    This is the arcsine density; dropping one preimage would give only half the
+    correct probability.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Computational bridge 1/4: support}
+  \footnotesize
+  \begin{center}
+    $X>0\xrightarrow{e^x}Y>1$,\qquad
+    $X\in(0,2\pi)\xrightarrow{\sin}Y\in(-1,1)$.
+  \end{center}
+  The support is a quick check for a transformed density.
+\end{frame}
+
+\begin{frame}{Computational bridge 2/4: Jacobian}
+  \footnotesize
+  \[
+    J(y)=\frac{d}{dy}g^{-1}(y).
+  \]
+  \begin{itemize}\itemsep=0.12cm
+    \item $g^{-1}(y)=\ln y\Rightarrow |J(y)|=1/y$.
+    \item $g^{-1}(y)=\arcsin y\Rightarrow |J(y)|=1/\sqrt{1-y^2}$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Computational bridge 3/4: conservation}
+  \footnotesize
+  Each transformed density must integrate to one over its support.
+  \begin{block}{Consistency check}
+    The Jacobian redistributes mass; it does not create or remove probability.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Computational bridge 4/4: method choice}
+  \footnotesize
+  \begin{tabular}{ll}
+    \hline
+    Shape of $g$ & Action \\
+    \hline
+    Affine & transform mean and variance \\
+    Monotone & one inverse and one Jacobian \\
+    Non-monotone & add all branches \\
+    \hline
+  \end{tabular}
+  \begin{alertblock}{Practical rule}
+    The function's geometry determines the solution's form.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Synthesis of the section}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Affine transformations preserve normality.
+    \item Change of variable uses an inverse and its Jacobian.
+    \item Non-monotone maps require all preimages.
+    \item Support and total mass verify the result.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Curricular transition}
+  \footnotesize
+  \begin{block}{Established}
+    We can derive distributions for transformations of one random variable.
+  \end{block}
+  \begin{alertblock}{Next section}
+    \textbf{05.02 Probability distributions of functions of a random variable}:
+    extend the method to one or several variables and level surfaces.
+  \end{alertblock}
+\end{frame}
+\end{document}

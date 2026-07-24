@@ -2,43 +2,240 @@
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title[Conceptos fundamentales de estadística inferencial]{Sección 5.8: Conceptos fundamentales de estadística inferencial}
-\subtitle{Correspondencia con la nota de lectura ES}
+\title[Conceptos fundamentales]{Sección 5.8: Conceptos fundamentales de estadística inferencial}
+\subtitle{Estimadores, error estándar y límites muestrales}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
 \date{}
 
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
 
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/conceptos\_estadisticos.tex}
+\begin{frame}{Hoja de ruta --- capítulo 5}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{05.00} Introducción inferencial
+    \item \textbf{05.01--05.05} Distribuciones muestrales
+    \item \textbf{05.08} Conceptos fundamentales \emph{(hoy)}
+    \item \textbf{05.09} Estadísticos Z y t
+  \end{itemize}
+  \begin{block}{Objetivo didáctico}
+    Relacionar estimadores, distribuciones muestrales y error estándar con la
+    ley de los grandes números y el teorema del límite central.
   \end{block}
 \end{frame}
 
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
+\begin{frame}{Motivación: estimar un parámetro}
+  \footnotesize
+  Un estimador es un estadístico que se utiliza para aproximar un parámetro
+  poblacional desconocido. Se escribe $\hat\theta$ para el parámetro $\theta$.
+  \begin{alertblock}{Pregunta guía}
+    ¿El estimador está centrado en el valor verdadero y qué tan variable es?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Estimador insesgado}
+  \footnotesize
+  \begin{block}{Definición}
+    $\hat\theta$ es insesgado para $\theta$ si
+    \[
+      E(\hat\theta)=\theta.
+    \]
+  \end{block}
+  \begin{exampleblock}{Ejemplo de la nota}
+    La media muestral cumple $E(\bar X)=\mu$.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Distribución muestral}
+  \footnotesize
+  La distribución muestral de un estadístico es su distribución de probabilidad
+  al calcularlo sobre todas las muestras posibles de tamaño $n$.
+  \begin{block}{Objeto de estudio}
+    No describe una sola muestra: describe cómo cambia el estadístico al
+    repetir el muestreo.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Error estándar}
+  \footnotesize
+  El error estándar es la desviación estándar de la distribución muestral.
+  \[
+    SE(\bar X)=\frac{\sigma}{\sqrt n},
+    \qquad SE(\bar X)\approx\frac{s}{\sqrt n}\quad(\sigma\text{ desconocida}).
+  \]
+  \begin{alertblock}{Lectura}
+    Mide la precisión de la estimación, no la dispersión de las observaciones
+    individuales.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ley de los grandes números}
+  \footnotesize
+  Para variables iid con media $\mu$,
+  \[
+    \lim_{n\to\infty}P(|\bar X_n-\mu|<\varepsilon)=1.
+  \]
+  \begin{block}{Interpretación}
+    Con muestras grandes, la media muestral se acerca en probabilidad a la
+    media poblacional.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Teorema del límite central}
+  \footnotesize
+  Si $X_i$ son iid, tienen media $\mu$ y varianza finita $\sigma^2$, entonces
+  \[
+    \frac{\bar X-\mu}{\sigma/\sqrt n}\xrightarrow{d}N(0,1).
+  \]
+  En la práctica suele funcionar bien desde $n\ge30$, dependiendo de la forma
+  de la población.
+\end{frame}
+
+\begin{frame}{Importancia para la inferencia}
+  \footnotesize
+  El TLC permite:
+  \begin{itemize}\itemsep=0.1cm
+    \item usar la normal para medias aun con poblaciones no normales;
+    \item justificar pruebas Z y t;
+    \item construir intervalos de confianza;
+    \item comprender por qué aparecen formas aproximadamente normales.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
+\begin{frame}{Puente computacional 1/4: estimador}
+  \footnotesize
+  \[
+    \bar X=\frac1n\sum_{i=1}^nX_i,
+    \qquad E(\bar X)=\mu.
+  \]
+  \begin{block}{Verificación}
+    El valor esperado identifica el centro del estimador con el parámetro que
+    queremos estimar.
   \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
+\end{frame}
+
+\begin{frame}{Puente computacional 2/4: variabilidad}
+  \footnotesize
+  \[
+    \operatorname{Var}(\bar X)=\frac{\sigma^2}{n},
+    \qquad SE(\bar X)=\frac{\sigma}{\sqrt n}.
+  \]
+  Aumentar $n$ reduce la variabilidad de la media muestral.
+\end{frame}
+
+\begin{frame}{Puente computacional 3/4: estandarización}
+  \footnotesize
+  \[
+    Z_n=\frac{\bar X-\mu}{\sigma/\sqrt n}.
+  \]
+  \begin{alertblock}{Límite}
+    El TLC afirma que $Z_n$ se aproxima a una normal estándar, lo que permite
+    consultar probabilidades y cuantiles conocidos.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Puente computacional 4/4: tamaño de muestra}
+  \footnotesize
+  \begin{tabular}{lll}
+    \hline
+    Cambio & Efecto en $SE(\bar X)$ & Lectura \\
+    \hline
+    $n\to4n$ & se divide entre $2$ & mayor precisión \\
+    $n\to n/4$ & se multiplica por $2$ & menor precisión \\
+    \hline
+  \end{tabular}
+  \begin{block}{Conclusión}
+    La precisión mejora con $n$, aunque no elimina errores no muestrales.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 1/4 --- media insesgada}
+  \footnotesize
+  La nota considera $\bar X=(1/n)\sum X_i$ como estimador de $\mu$.
+  \begin{block}{Planteamiento}
+    Calcular $E(\bar X)$ usando linealidad de la esperanza.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 1/4 --- solución}
+  \footnotesize
+  \[
+    E(\bar X)=E\!\left(\frac1n\sum X_i\right)
+    =\frac1n\sum E(X_i)=\frac1n\,n\mu=\mu.
+  \]
+  \begin{alertblock}{Resultado}
+    La media muestral es un estimador insesgado de la media poblacional.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 2/4 --- distribución muestral}
+  \footnotesize
+  Para variables iid con media $\mu$ y varianza $\sigma^2$, la nota estudia la
+  distribución de $\bar X$.
+  \begin{block}{Planteamiento}
+    Determinar su media y su varianza.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 2/4 --- solución}
+  \footnotesize
+  \[
+    E(\bar X)=\mu,\qquad \operatorname{Var}(\bar X)=\frac{\sigma^2}{n}.
+  \]
+  \begin{exampleblock}{Interpretación}
+    La variabilidad de la media disminuye a medida que aumenta el tamaño de la
+    muestra.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 3/4 --- tiempos exponenciales}
+  \footnotesize
+  El tiempo de espera tiene distribución exponencial con media $\mu=5$ minutos.
+  Para $n=50$, la nota aplica el TLC a la media muestral.
+  \begin{block}{Planteamiento}
+    Encontrar la distribución aproximada de $\bar X$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 3/4 --- solución}
+  \footnotesize
+  \[
+    \bar X\approx N\!\left(5,\frac{5^2}{50}\right)=N(5,0.5).
+  \]
+  \begin{alertblock}{Interpretación}
+    Aunque la población es exponencial, la media de 50 observaciones se modela
+    aproximadamente con una normal.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 4/4 --- solución}
+  \footnotesize
+  \[
+    \text{muestra}\to\text{estadístico}\to\text{distribución muestral}
+    \to SE\to\text{aproximación normal}\to\text{inferencia}.
+  \]
+  Esta secuencia reproduce la estructura conceptual de la nota.
+\end{frame}
+
+\begin{frame}{Síntesis de la sección}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item La insesgadez centra el estimador.
+    \item El error estándar cuantifica su precisión.
+    \item La ley de los grandes números explica la convergencia.
+    \item El TLC permite trabajar con una normal límite.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Transición curricular}
+  \footnotesize
+  \begin{block}{Lo que queda establecido}
+    Ya podemos describir cómo se comporta un estimador al repetir el muestreo.
+  \end{block}
+  \begin{alertblock}{Siguiente sección}
+    \textbf{05.09 Estadísticos Z y t}: estandarización para pruebas sobre medias
+    con desviación conocida o desconocida.
   \end{alertblock}
 \end{frame}
 \end{document}

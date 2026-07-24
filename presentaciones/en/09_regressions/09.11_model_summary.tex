@@ -1,0 +1,27 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}\input{../../_en_comandos_beamer}
+\title[Model summary]{Section 09.11: Model Summary}\subtitle{Criteria for predictor selection}\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
+\begin{document}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Roadmap}\small\begin{enumerate}\item What makes a good model.\item Fit and complexity metrics.\item Responsible diagnosis and selection.\end{enumerate}\end{frame}
+\begin{frame}{Source and scope}\small The section summarizes criteria for a reliable linear model and guides predictor selection.\begin{block}{Guiding question}How can specifications be compared without rewarding unnecessary complexity?\end{block}\end{frame}
+\begin{frame}{General criterion}\small A good model combines fit, parsimony, stability, interpretability, and out-of-sample performance. No single metric decides alone.\end{frame}
+\begin{frame}{$R^2$}\small $R^2$ measures the sample fraction of variability explained. It never decreases when predictors are added, even when a new variable contributes little.\end{frame}
+\begin{frame}{Adjusted $R^2$}\small Adjusted $R^2$ penalizes the number of predictors. It can decrease when a new variable does not improve fit enough to justify its cost.\end{frame}
+\begin{frame}{Predictor $p$-value}\small A small coefficient $p$-value gives evidence against a null contribution under the model, but depends on assumptions and analysis scale.\end{frame}
+\begin{frame}{Overall $F$ statistic}\small The $F$ statistic jointly tests whether the model explains variation beyond the intercept. Its $p$-value assesses the specification globally.\end{frame}
+\begin{frame}{Residual standard error}\small RSE summarizes typical residual spread in response units. A smaller RSE means less in-sample error, not necessarily better generalization.\end{frame}
+\begin{frame}{Variance inflation factor}\small VIF measures how coefficient variance is inflated by collinearity. High values warn that partial effects are unstable.\end{frame}
+\begin{frame}{Complexity}\small Adding predictors can improve $R^2$, but consumes degrees of freedom, complicates interpretation, and increases overfitting risk.\end{frame}
+\begin{frame}{Variable selection}\small Start with the scientific question, data availability, and predictor plausibility; metrics compare candidates but do not replace judgment.\end{frame}
+\begin{frame}{Procedure I}\small\begin{enumerate}\item Define response and candidates.\item Fit a baseline model.\item Review $R^2$, RSE, and $F$.\end{enumerate}\end{frame}
+\begin{frame}{Procedure II}\small\begin{enumerate}\setcounter{enumi}{3}\item Compare adjusted $R^2$.\item Treat $p$-values cautiously.\item Diagnose VIF and residuals.\end{enumerate}\end{frame}
+\begin{frame}{Application: adding a predictor}\small Adding a variable automatically raises $R^2$. Check whether adjusted $R^2$ also improves, RSE falls, and the variable has substantive meaning.\end{frame}
+\begin{frame}{Application: global $F$}\small An increased $F$ and smaller $p$-value can indicate global improvement, but interpret them with degrees of freedom and validation.\end{frame}
+\begin{frame}{Application: collinearity}\small Nearly redundant predictors can yield high VIF even with excellent global fit. Consider removing, combining, or regularizing variables.\end{frame}
+\begin{frame}{Application: validation}\small Compare training and validation error. A slightly worse in-sample model can predict better out of sample when it is more stable.\end{frame}
+\begin{frame}{Interpretation}\small The criteria complement one another: fit ($R^2$), penalty (adjusted $R^2$), evidence ($p$, $F$), error scale (RSE), and stability (VIF).\end{frame}
+\begin{frame}{Reporting}\small Document candidate variables, specifications, metrics, diagnostics, selection rule, and limitations.\end{frame}
+\begin{frame}{Synthesis}\small\begin{itemize}\item Do not optimize one number.\item Penalize complexity.\item Check collinearity and residuals.\item Validate out of sample.\end{itemize}\end{frame}
+\begin{frame}{Chapter connection}\small This summary integrates regression, validation, categorical variables, and transformations into a reproducible modeling decision.\end{frame}
+\end{document}

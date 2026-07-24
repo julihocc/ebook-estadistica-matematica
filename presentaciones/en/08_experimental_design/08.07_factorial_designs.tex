@@ -1,0 +1,27 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}\input{../../_en_comandos_beamer}
+\title[Factorial designs]{Section 08.07: Introduction to Factorial Designs}\subtitle{Main effects and interaction}\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
+\begin{document}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Roadmap}\small\begin{enumerate}\item Complete design.\item Main effects and interaction.\item Model, ANOVA, and interpretation.\end{enumerate}\end{frame}
+\begin{frame}{Source and scope}\small This section extends one-factor designs to two or more treatment factors observed simultaneously.\begin{block}{Guiding question}How can we detect that one factor's effect depends on another?\end{block}\end{frame}
+\begin{frame}{Complete factorial design}\small With factors $A$ and $B$, a complete design observes all $a\times b$ combinations, with $n$ replicates per cell and $N=abn$.\end{frame}
+\begin{frame}{Advantage over OFAT}\small Varying one factor at a time cannot estimate interactions. A factorial design uses the same runs to study main and joint effects.\end{frame}
+\begin{frame}{Main effect}\small The main effect of $A$ is the average response change when its level changes, averaged over levels of $B$. Define $B$ analogously.\end{frame}
+\begin{frame}{Interaction}\small Interaction occurs when the effect of $A$ depends on the level of $B$. In a plot, response profiles are not parallel.\end{frame}
+\begin{frame}{Factorial model}\small\[Y_{ijk}=\mu+\alpha_i+\beta_j+(\alpha\beta)_{ij}+\epsilon_{ijk}.\]\end{frame}
+\begin{frame}{Constraints}\small Zero-sum constraints identify effects: $\sum_i\alpha_i=\sum_j\beta_j=0$, with row and column sums of interaction also zero.\end{frame}
+\begin{frame}{ANOVA partition}\small\[\mathrm{SCT}=\mathrm{SC}_A+\mathrm{SC}_B+\mathrm{SC}_{AB}+\mathrm{SCE}.\]Each source has a mean square and $F$ statistic.\end{frame}
+\begin{frame}{Interpretation order}\small Interpret from the inside outward: first $F_{AB}$; only when it is not significant interpret main effects directly.\end{frame}
+\begin{frame}{Procedure I}\small\begin{enumerate}\item Define factors, levels, and response.\item Observe every combination.\item Replicate and randomize cells.\end{enumerate}\end{frame}
+\begin{frame}{Procedure II}\small\begin{enumerate}\setcounter{enumi}{3}\item Fit the factorial model.\item Evaluate interaction and effects.\item Report cell means.\end{enumerate}\end{frame}
+\begin{frame}{Application: algorithms and batches}\small Factor $A$: algorithm ($A_1,A_2$). Factor $B$: batch size ($B_1=32,B_2=256$). Response: training time.\end{frame}
+\begin{frame}{Application: cell means}\small Observed means are $42,40$ for $A_1$ and $38,20$ for $A_2$ when moving from small to large batch.\end{frame}
+\begin{frame}{Application: simple effects}\small Under $A_1$, the change is $-2$ minutes; under $A_2$, it is $-18$ minutes. The batch effect depends on algorithm.\end{frame}
+\begin{frame}{Application: interaction}\small The difference between simple effects suggests substantial interaction. It is not correct to claim that a large batch reduces time for every algorithm.\end{frame}
+\begin{frame}{Application: contrast}\small Formally evaluate $F_{AB}$ with $(a-1)(b-1)$ numerator degrees of freedom and $ab(n-1)$ error degrees of freedom.\end{frame}
+\begin{frame}{Interpretation}\small With significant interaction, report specific combinations. Isolated main effects can hide opposite directions.\end{frame}
+\begin{frame}{Communication}\small Include cell means, sample sizes, interaction, main effects, and a profile plot when possible.\end{frame}
+\begin{frame}{Synthesis}\small\begin{itemize}\item Factorial designs cross all levels.\item Interaction expresses dependence between factors.\item Interpretation starts with $AB$.\end{itemize}\end{frame}
+\begin{frame}{Chapter connection}\small Factorial designs extend experimental control and prepare models with more factors and interactions.\end{frame}
+\end{document}

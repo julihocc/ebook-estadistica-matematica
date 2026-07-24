@@ -1,0 +1,28 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}\input{../../_en_comandos_beamer}
+\title[One-mean $t$ test]{Section 07.04: One-Mean $t$ Test}\subtitle{Unknown population variance}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
+\begin{document}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Roadmap}\small\begin{enumerate}\item From $Z$ to $t$.\item Statistic and distribution.\item One-mean application.\end{enumerate}\end{frame}
+\begin{frame}{Source and scope}\small This section studies one-mean tests when $\sigma$ is unknown and must be estimated by $S$.\begin{block}{Guiding question}How does the test change when the standard deviation is estimated?\end{block}\end{frame}
+\begin{frame}{Why $t$ appears}\small Replacing $\sigma$ with $S$ adds uncertainty. The statistic therefore follows Student's $t$ distribution rather than $N(0,1)$.\end{frame}
+\begin{frame}{Hypotheses}\small\[H_0:\mu=\mu_0\qquad\text{versus}\qquad H_a:\mu\neq\mu_0,\ \mu<\mu_0\ \text{or}\ \mu>\mu_0.\]\end{frame}
+\begin{frame}{Test statistic}\small\[T=\frac{\bar X-\mu_0}{S/\sqrt n}.\]\begin{block}{Null distribution} $T\sim t_{n-1}$ for a normal population.\end{block}\end{frame}
+\begin{frame}{Degrees of freedom}\small Estimating $S$ uses information, so the distribution has $n-1$ degrees of freedom.\end{frame}
+\begin{frame}{Rejection regions}\small\begin{itemize}\item Right tail: $T>t_{\alpha,n-1}$.\item Left tail: $T<-t_{\alpha,n-1}$.\item Two tails: $|T|>t_{\alpha/2,n-1}$.\end{itemize}\end{frame}
+\begin{frame}{Matching interval}\small The corresponding two-sided interval is\[\bar X\pm t_{\alpha/2,n-1}\frac{S}{\sqrt n}.\]\end{frame}
+\begin{frame}{Procedure I}\small\begin{enumerate}\item Check independence and approximate normality.\item State hypotheses.\item Set $\alpha$.\end{enumerate}\end{frame}
+\begin{frame}{Procedure II}\small\begin{enumerate}\setcounter{enumi}{3}\item Compute $T$.\item Use $t_{n-1}$ for a critical value or $p$-value.\item Write the conclusion.\end{enumerate}\end{frame}
+\begin{frame}{Assumptions}\small Use a random independent sample. Normality matters most for small samples; larger samples allow a central-limit approximation.\end{frame}
+\begin{frame}{Application: data}\small A manufacturer claims a mean lifetime of $500$ hours. A sample of $n=16$ batteries has $\bar x=485$ and $s=32$.\begin{block}{Alternative} We ask whether the true mean is lower.\end{block}\end{frame}
+\begin{frame}{Application: hypotheses}\small\[H_0:\mu=500,\qquad H_a:\mu<500.\]Use $\alpha=0.05$ and $15$ degrees of freedom.\end{frame}
+\begin{frame}{Application: statistic}\small\[T=\frac{485-500}{32/\sqrt{16}}=-1.875.\]\begin{block}{Reading} The negative sign agrees with a sample mean below the reference.\end{block}\end{frame}
+\begin{frame}{Application: decision}\small Compare $T$ with the lower $t_{15}$ critical value, or compute the left-tail $p$-value. The decision follows from the critical region.\end{frame}
+\begin{frame}{Application: interval}\small The two-sided interval uses $t_{0.025,15}$ and quantifies compatible means. If $500$ lies above the upper endpoint, evidence favors a lower mean.\end{frame}
+\begin{frame}{Interpretation}\small Rejecting $H_0$ means evidence of a mean lifetime below $500$ hours at the selected level; it does not mean every battery is shorter-lived.\end{frame}
+\begin{frame}{Relation to $Z$}\small As $n$ grows, $t_{n-1}$ approaches $N(0,1)$. For small samples, $t$ critical values are farther from zero and the test is more conservative.\end{frame}
+\begin{frame}{Reporting application}\small\begin{block}{Template} ``With $T=\cdots$, $df=\cdots$, and $p=\cdots$, at $\alpha=\cdots$ we [reject/do not reject] $H_0$; evidence [supports/does not support] $\mu<\mu_0$.''\end{block}\end{frame}
+\begin{frame}{Synthesis}\small\begin{itemize}\item Estimating $\sigma$ replaces $Z$ with $t$.\item The statistic uses $S/\sqrt n$.\item Degrees of freedom are $n-1$.\end{itemize}\end{frame}
+\begin{frame}{Chapter connection}\small The one-mean test is the base model for mean comparisons, proportions, and variance tests.\end{frame}
+\end{document}

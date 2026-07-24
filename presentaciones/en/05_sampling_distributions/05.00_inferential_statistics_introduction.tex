@@ -1,0 +1,278 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Introduction to Inferential Statistics]{Section 5.0: Introduction to Inferential Statistics}
+\subtitle{From a sample to population conclusions}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
+
+\begin{frame}{Roadmap --- Chapter 5}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{05.00} Introduction to inferential statistics \emph{(today)}
+    \item \textbf{05.01--05.02} Transformations and sampling distributions
+    \item \textbf{05.03--05.05} Chi-square, $t$, and $F$
+    \item \textbf{05.08--05.09} Fundamental concepts and Z/t statistics
+  \end{itemize}
+  \begin{block}{Learning objective}
+    Distinguish population, sample, parameter, and statistic; describe the
+    inference process and the role of sampling error and the CLT.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Why infer?}
+  \footnotesize
+  The full population is rarely observable. The reading identifies four
+  practical constraints:
+  \begin{itemize}\itemsep=0.1cm
+    \item cost of measuring everyone;
+    \item collection time;
+    \item limited accessibility;
+    \item destructive measurements, such as testing a lightbulb's lifetime.
+  \end{itemize}
+  \begin{alertblock}{Central idea}
+    A representative sample supports generalization, but uncertainty must be
+    quantified.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Population and sample}
+  \footnotesize
+  \begin{block}{Definitions from the section}
+    \textbf{Population:} complete set of individuals, objects, or events with a
+    common characteristic of interest.
+
+    \medskip
+    \textbf{Sample:} subset selected for the study.
+  \end{block}
+  \begin{exampleblock}{Operational reading}
+    The population sets the scope of the conclusion; the sample supplies the
+    observed data.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Parameter and statistic}
+  \footnotesize
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      \begin{block}{Population}
+        Fixed, usually unknown parameter: $\mu$, $\sigma$.
+      \end{block}
+    \column{0.48\textwidth}
+      \begin{block}{Sample}
+        Computable statistic: $\bar{x}$, $s$.
+      \end{block}
+  \end{columns}
+  \begin{alertblock}{Distinction}
+    A parameter describes the population; a statistic changes from sample to
+    sample and is used to estimate it.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Two forms of inference}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.18cm
+    \item \textbf{Estimation:} use statistics to approximate a parameter,
+      either pointwise or through a confidence interval.
+    \item \textbf{Hypothesis testing:} state a claim about a parameter and
+      decide whether sample evidence supports or contradicts it.
+  \end{enumerate}
+  \begin{exampleblock}{Guiding question}
+    Do we need a plausible value/range, or a decision about a specific claim?
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{General inference process}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.12cm
+    \item Define the population and characteristic of interest.
+    \item Select a representative sample.
+    \item Calculate sample statistics.
+    \item Apply estimation or testing with suitable distributions.
+    \item Interpret the result in context.
+  \end{enumerate}
+  \begin{block}{Logical sequence}
+    \centering population $\longrightarrow$ sample $\longrightarrow$ statistic
+    $\longrightarrow$ inference $\longrightarrow$ decision.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Sources of error}
+  \footnotesize
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      \begin{block}{Sampling error}
+        Random difference between statistic and parameter; it decreases as $n$
+        grows.
+      \end{block}
+    \column{0.48\textwidth}
+      \begin{block}{Non-sampling error}
+        Selection, measurement, or non-response bias; it does not vanish just
+        by increasing $n$.
+      \end{block}
+  \end{columns}
+  \begin{alertblock}{Warning}
+    Inference quantifies mainly sampling error; study design must control
+    systematic errors.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Sampling distribution}
+  \footnotesize
+  If many samples of size $n$ are taken and a statistic is calculated for each,
+  the results form its \emph{sampling distribution}.
+  \begin{block}{Conceptual example from the reading}
+    Each sample produces a mean $\bar X$. The distribution of all means measures
+    estimation variability, not individual-observation variability.
+  \end{block}
+  \begin{alertblock}{Bridge}
+    This distribution underlies confidence intervals and hypothesis tests.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Computational bridge 1/4: quantities}
+  \footnotesize
+  \begin{tabular}{lll}
+    \hline
+    Object & Symbol & Role in inference \\
+    \hline
+    Population & $\mu,\sigma$ & target values \\
+    Sample & $X_1,\ldots,X_n$ & observed data \\
+    Statistic & $\bar X,s$ & computable quantities \\
+    Inference & CI or test & uncertain conclusion \\
+    \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Computational bridge 2/4: sample mean}
+  \footnotesize
+  For a random sample with population mean $\mu$ and variance $\sigma^2$,
+  \[
+    \bar X=\frac{1}{n}\sum_{i=1}^{n}X_i.
+  \]
+  The sample mean connects observed data with the target parameter $\mu$.
+\end{frame}
+
+\begin{frame}{Computational bridge 3/4: variability}
+  \footnotesize
+  \[
+    E(\bar X)=\mu,\qquad \operatorname{Var}(\bar X)=\frac{\sigma^2}{n}.
+  \]
+  \begin{itemize}\itemsep=0.13cm
+    \item The mean is unbiased.
+    \item Its standard error is $\sigma/\sqrt n$.
+    \item Quadrupling $n$ halves the standard deviation of the mean.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Computational bridge 4/4: CLT}
+  \footnotesize
+  \[
+    \frac{\bar X-\mu}{\sigma/\sqrt n}\xrightarrow{d}N(0,1)
+    \qquad(n\text{ large}).
+  \]
+  The original population shape becomes less important for a sufficiently large
+  sample mean.
+\end{frame}
+
+\begin{frame}{Reading case 1/4 --- population and sample}
+  \footnotesize
+  A destructive measurement prevents studying every object in a population.
+  The reading proposes a representative sample.
+  \begin{alertblock}{Conceptual decision}
+    The sample does not replace the population definition; it provides the data
+    used to learn about it.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Reading case 1/4 --- interpretation}
+  \footnotesize
+  \begin{block}{Conceptual solution}
+    Set the target population, select the sample, and quantify the uncertainty
+    of generalizing from one to the other.
+  \end{block}
+  A larger sample can reduce sampling error, but not selection or measurement
+  bias by itself.
+\end{frame}
+
+\begin{frame}{Reading case 2/4 --- parameter and statistic}
+  \footnotesize
+  The population mean $\mu$ is fixed and unknown. The sample mean $\bar X$
+  changes when sampling is repeated.
+  \begin{block}{Question}
+    Which quantity can be calculated directly from the data?
+  \end{block}
+  The section's answer is the statistic $\bar X$, used to estimate $\mu$.
+\end{frame}
+
+\begin{frame}{Reading case 2/4 --- estimation}
+  \footnotesize
+  \[
+    \widehat{\mu}=\bar X.
+  \]
+  \begin{itemize}\itemsep=0.12cm
+    \item Point estimation gives one value.
+    \item Interval estimation adds a range and confidence level.
+    \item Both depend on the sampling distribution.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Reading case 3/4 --- inference process}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.13cm
+    \item Define the characteristic.
+    \item Select the sample.
+    \item Calculate the statistic.
+    \item Choose the inferential procedure.
+    \item Interpret in context.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Reading case 3/4 --- sources of error}
+  \footnotesize
+  \begin{block}{Conceptual solution}
+    Sampling error is modeled through the sampling distribution; non-sampling
+    errors require design, measurement, and follow-up.
+  \end{block}
+  \begin{alertblock}{Conclusion}
+    A valid inference addresses both types of error.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Reading case 4/4 --- role of the CLT}
+  \footnotesize
+  Under its conditions and for sufficiently large $n$, the CLT approximates the
+  sampling distribution of a mean by a normal distribution.
+  \begin{block}{Later use}
+    This approximation supports Z/t tests and confidence intervals developed in
+    the chapter.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Synthesis of the section}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Population and sample set the scope of the problem.
+    \item Parameters and statistics distinguish target from evidence.
+    \item Estimation and testing are the two inferential forms.
+    \item Sampling error and the CLT explain uncertainty.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Curricular transition}
+  \footnotesize
+  \begin{block}{Established}
+    Inference moves from sample statistics to population claims while recording
+    error and assumptions.
+  \end{block}
+  \begin{alertblock}{Next section}
+    \textbf{05.01 Transformation of Variables}: obtain the distribution of
+    $Y=g(X)$ and prepare the study of sampling distributions.
+  \end{alertblock}
+\end{frame}
+\end{document}

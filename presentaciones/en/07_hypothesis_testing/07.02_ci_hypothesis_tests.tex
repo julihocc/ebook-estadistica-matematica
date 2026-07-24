@@ -1,0 +1,49 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+\title[CI and hypothesis tests]{Section 07.02: Confidence Intervals and Hypothesis Tests}
+\subtitle{From estimation to decision}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+\begin{document}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Roadmap}\small This section links confidence intervals to two-sided tests.
+\begin{enumerate}\item $p$-value rule.\item Equivalence with an interval.\item Reading and interpretation.\end{enumerate}\end{frame}
+\begin{frame}{Source and scope}\small The canonical source is the theory section on the relationship between confidence intervals and hypothesis tests. This deck follows its order and keeps its mathematical labels.
+\begin{block}{Guiding question} When does an interval produce the same decision as a test?\end{block}\end{frame}
+\begin{frame}{Statistical decision}\small
+\begin{block}{$p$-value rule} Reject $H_0$ when $p\leq\alpha$ and do not reject $H_0$ when $p>\alpha$.\end{block}
+\begin{alertblock}{Caution} Failing to reject $H_0$ does not prove that $H_0$ is true.\end{alertblock}\end{frame}
+\begin{frame}{Two-sided hypotheses}\small\[H_0:\theta=\theta_0,\qquad H_a:\theta\neq\theta_0.\]
+The test places the total rejection probability $\alpha$ in two tails when $H_0$ is true.\end{frame}
+\begin{frame}{Confidence interval}\small An $(1-\alpha)100\%$ interval collects parameter values compatible with the data at the chosen level.
+\begin{block}{Reading} The interval describes a repeated-sampling procedure; it does not list posterior probabilities for parameter values.\end{block}\end{frame}
+\begin{frame}{Equivalence theorem}\small
+\begin{block}{Equivalence}
+For a two-sided level-$\alpha$ test and its corresponding confidence interval,
+\[\text{reject }H_0\Longleftrightarrow \theta_0\notin CI_{(1-\alpha)100\%}.\]
+\end{block}\end{frame}
+\begin{frame}{The same standardized distance}\small Both procedures compare
+\[\frac{\hat\theta-\theta_0}{SE(\hat\theta)}\]
+with the appropriate critical value, $z_{\alpha/2}$ or $t_{\alpha/2}$.\end{frame}
+\begin{frame}{One-mean case}\small If $\sigma$ is known,
+\[\bar X\pm z_{\alpha/2}\frac{\sigma}{\sqrt n}.\]
+Excluding $\mu_0$ is equivalent to $|\bar X-\mu_0|/(\sigma/\sqrt n)>z_{\alpha/2}$.\end{frame}
+\begin{frame}{Computational bridge I}\small\begin{itemize}\item Compute $\hat\theta$ and its standard error.\item Set $\alpha$.\item Obtain the interval and test statistic.\end{itemize}\end{frame}
+\begin{frame}{Operational criterion}\small\begin{enumerate}\item Identify the parameter and $\theta_0$.\item Choose $\alpha$.\item Build $CI_{1-\alpha}$.\item Check whether $\theta_0$ belongs.\end{enumerate}\end{frame}
+\begin{frame}{Reading a mean}\small\begin{block}{Theory-derived application} A mean interval has center $\bar x$ and margin $z_{\alpha/2}\sigma/\sqrt n$.\end{block}\[\mu_0\in CI\Rightarrow\text{do not reject};\qquad\mu_0\notin CI\Rightarrow\text{reject}.\]\end{frame}
+\begin{frame}{Interpreting a mean}\small State the conclusion in terms of evidence and the selected level: the hypothesized value is compatible or incompatible with the observed interval.
+\begin{alertblock}{Communication} Report interval endpoints, units, and confidence level.\end{alertblock}\end{frame}
+\begin{frame}{Reading with the $t$ distribution}\small When $\sigma$ is unknown, replace it with $S$ and use $t_{n-1}$ in both procedures.
+\[\bar X\pm t_{\alpha/2,n-1}\frac{S}{\sqrt n}.\]\end{frame}
+\begin{frame}{Interpreting the $t$ case}\small The logic is unchanged: $t$ quantiles reflect the extra uncertainty from estimating $\sigma$. For large samples, $t_{n-1}$ approaches the standard normal.\end{frame}
+\begin{frame}{Two-sided reading}\small\begin{block}{Symmetry} An alternative $H_a:\theta\neq\theta_0$ allocates $\alpha$ across two tails.\end{block} The two-sided interval is exactly the region of values not rejected.\end{frame}
+\begin{frame}{Comparative application}\small Suppose an $(1-\alpha)100\%$ mean interval is available. Compare $\mu_0$ with its lower and upper endpoints.
+\begin{block}{Decision} Comparing the hypothesized value with the endpoints replaces two tail calculations.\end{block}\end{frame}
+\begin{frame}{Comparative resolution}\small\begin{itemize}\item If $L\leq\mu_0\leq U$, the two-sided test does not reject.\item If $\mu_0<L$ or $\mu_0>U$, the test rejects.\end{itemize}\end{frame}
+\begin{frame}{Communication application}\small A useful conclusion includes parameter, interval, level, and decision. The phrase ``insufficient evidence'' is preferable to ``accept the null.''\end{frame}
+\begin{frame}{Communication resolution}\small\begin{block}{Template} ``The $100(1-\alpha)\%$ confidence interval for $\theta$ is $[L,U]$; because $\theta_0$ [belongs/does not belong], we [do not reject/reject] $H_0$.''\end{block}\end{frame}
+\begin{frame}{Synthesis}\small\begin{itemize}\item The two-sided test and matching interval share a critical value.\item Whether $\theta_0$ belongs determines the decision.\item The interval adds magnitude, precision, and direction.\end{itemize}\end{frame}
+\begin{frame}{Chapter connection}\small This equivalence moves from estimation to decision without duplicating calculations. Later sections apply the same principle to means, proportions, and variances.\end{frame}
+\end{document}

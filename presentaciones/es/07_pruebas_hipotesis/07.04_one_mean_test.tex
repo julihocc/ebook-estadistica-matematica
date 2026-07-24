@@ -1,44 +1,28 @@
 \documentclass[10pt,aspectratio=169]{beamer}
-\input{../../_preambulo_beamer}
-\input{../../_comandos_beamer}
-
-\title[Prueba de una media]{Sección 7.4: Prueba de una media}
-\subtitle{Correspondencia con la nota de lectura ES}
-\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute{Tecnológico de Monterrey}
-\date{}
-
+\input{../../_preambulo_beamer}\input{../../_comandos_beamer}
+\title[Prueba $t$ para una media]{Sección 07.04: Prueba $t$ para una media}\subtitle{Varianza poblacional desconocida}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/prueba\_media\_varianza\_desconocida.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
-\end{frame}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}\small\begin{enumerate}\item De $Z$ a $t$.\item Estadística y distribución.\item Aplicación a una media.\end{enumerate}\end{frame}
+\begin{frame}{Fuente y alcance}\small La sección estudia pruebas para una media cuando $\sigma$ es desconocida y debe estimarse mediante $S$.\begin{block}{Pregunta guía}¿Cómo cambia la prueba al estimar la desviación estándar?\end{block}\end{frame}
+\begin{frame}{Por qué aparece $t$}\small Sustituir $\sigma$ por $S$ introduce incertidumbre adicional. Por ello el estadístico ya no sigue $N(0,1)$, sino una distribución $t$ de Student.\end{frame}
+\begin{frame}{Hipótesis}\small\[H_0:\mu=\mu_0\qquad\text{frente a}\qquad H_a:\mu\neq\mu_0,\ \mu<\mu_0\ \text{o}\ \mu>\mu_0.\]\end{frame}
+\begin{frame}{Estadística de prueba}\small\[T=\frac{\bar X-\mu_0}{S/\sqrt n}.\]\begin{block}{Distribución bajo $H_0$} $T\sim t_{n-1}$ cuando la población es normal.\end{block}\end{frame}
+\begin{frame}{Grados de libertad}\small La estimación de $S$ consume una cantidad de información; por eso la distribución usa $n-1$ grados de libertad.\end{frame}
+\begin{frame}{Regiones de rechazo}\small\begin{itemize}\item Cola derecha: $T>t_{\alpha,n-1}$.\item Cola izquierda: $T<-t_{\alpha,n-1}$.\item Dos colas: $|T|>t_{\alpha/2,n-1}$.\end{itemize}\end{frame}
+\begin{frame}{Intervalo asociado}\small El intervalo bilateral correspondiente es\[\bar X\pm t_{\alpha/2,n-1}\frac{S}{\sqrt n}.\]\end{frame}
+\begin{frame}{Procedimiento I}\small\begin{enumerate}\item Verificar independencia y normalidad aproximada.\item Formular hipótesis.\item Fijar $\alpha$.\end{enumerate}\end{frame}
+\begin{frame}{Procedimiento II}\small\begin{enumerate}\setcounter{enumi}{3}\item Calcular $T$.\item Usar $t_{n-1}$ para valor crítico o valor $p$.\item Redactar la conclusión.\end{enumerate}\end{frame}
+\begin{frame}{Supuestos}\small La prueba requiere una muestra aleatoria e independiente. La normalidad es especialmente importante con tamaños pequeños; para tamaños grandes se admite una aproximación por el teorema central del límite.\end{frame}
+\begin{frame}{Aplicación: datos}\small Un fabricante afirma una duración media de $500$ horas. Una muestra de $n=16$ baterías tiene $\bar x=485$ y $s=32$.\begin{block}{Alternativa} Se desea saber si la media real es menor.\end{block}\end{frame}
+\begin{frame}{Aplicación: hipótesis}\small\[H_0:\mu=500,\qquad H_a:\mu<500.\]El nivel de significación es $\alpha=0.05$ y los grados de libertad son $15$.\end{frame}
+\begin{frame}{Aplicación: estadística}\small\[T=\frac{485-500}{32/\sqrt{16}}=-1.875.\]\begin{block}{Lectura} El signo negativo concuerda con una media muestral menor que la referencia.\end{block}\end{frame}
+\begin{frame}{Aplicación: decisión}\small Se compara $T$ con el cuantil inferior de $t_{15}$, o se calcula el valor $p$ de cola izquierda. La decisión depende de si el estadístico cae en la región crítica.\end{frame}
+\begin{frame}{Aplicación: intervalo}\small El intervalo bilateral utiliza $t_{0.025,15}$ y cuantifica qué medias son compatibles con los datos. Si $500$ queda por encima del extremo superior, la evidencia favorece una media menor.\end{frame}
+\begin{frame}{Interpretación}\small Rechazar $H_0$ significa evidencia de una duración media menor a $500$ horas al nivel elegido; no significa que cada batería dure menos.\end{frame}
+\begin{frame}{Relación con $Z$}\small Cuando $n$ crece, $t_{n-1}$ se aproxima a $N(0,1)$. En muestras pequeñas, los cuantiles $t$ son más alejados y la prueba es más conservadora.\end{frame}
+\begin{frame}{Aplicación de reporte}\small\begin{block}{Plantilla} ``Con $T=\cdots$, $gl=\cdots$ y $p=\cdots$, al nivel $\alpha=\cdots$ [rechazamos/no rechazamos] $H_0$; la evidencia [apoya/no apoya] $\mu<\mu_0$.''\end{block}\end{frame}
+\begin{frame}{Síntesis}\small\begin{itemize}\item Estimar $\sigma$ reemplaza $Z$ por $t$.\item La estadística usa $S/\sqrt n$.\item Los grados de libertad son $n-1$.\end{itemize}\end{frame}
+\begin{frame}{Conexión con el capítulo}\small La prueba para una media es el modelo base para comparar medias, proporciones y varianzas en las secciones siguientes.\end{frame}
 \end{document}

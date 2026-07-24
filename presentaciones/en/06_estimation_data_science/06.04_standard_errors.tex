@@ -1,0 +1,225 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Standard Errors]{Section 6.4: Standard Errors}
+\subtitle{Estimator precision and margin of error}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
+
+\begin{frame}{Roadmap --- Chapter 6}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{06.01--06.02} Point and interval estimation
+    \item \textbf{06.04} Standard errors \emph{(today)}
+    \item \textbf{06.05} Proportions and differences
+    \item \textbf{06.07} Sample size
+  \end{itemize}
+  \begin{block}{Learning objective}
+    Calculate theoretical standard errors and their sample estimates for means,
+    differences, and proportions.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Definition and purpose}
+  \footnotesize
+  For any point estimator $\hat\theta$,
+  \[
+    SE(\hat\theta)=\sqrt{\operatorname{Var}(\hat\theta)}.
+  \]
+  \begin{alertblock}{Interpretation}
+    Standard error is the standard deviation of the sampling distribution and
+    the basic building block of every margin of error.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{One-population mean}
+  \footnotesize
+  For $\hat\theta=\bar X$,
+  \[
+    SE(\bar X)=\frac{\sigma}{\sqrt n},
+    \qquad \widehat{SE}(\bar X)=\frac{s}{\sqrt n}.
+  \]
+  The second expression replaces the unknown population deviation with $s$.
+\end{frame}
+
+\begin{frame}{Independent means difference}
+  \footnotesize
+  For $\hat\theta=\bar X_1-\bar X_2$,
+  \[
+    SE=\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}},
+    \quad
+    \widehat{SE}=\sqrt{\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2}}.
+  \]
+  Under equal variances, the pooled form $S_p\sqrt{1/n_1+1/n_2}$ is available.
+\end{frame}
+
+\begin{frame}{Paired means difference}
+  \footnotesize
+  For paired differences $D_i$ and $\hat\theta=\bar D$,
+  \[
+    SE(\bar D)=\frac{\sigma_D}{\sqrt n},
+    \qquad \widehat{SE}(\bar D)=\frac{S_D}{\sqrt n}.
+  \]
+  The paired design becomes one sample of differences.
+\end{frame}
+
+\begin{frame}{Proportion and proportions difference}
+  \footnotesize
+  \[
+    \widehat{SE}(\hat p)=\sqrt{\frac{\hat p(1-\hat p)}{n}},
+  \]
+  \[
+    \widehat{SE}(\hat p_1-\hat p_2)=
+    \sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+
+    \frac{\hat p_2(1-\hat p_2)}{n_2}}.
+  \]
+\end{frame}
+
+\begin{frame}{Compact reference table}
+  \footnotesize
+  \begin{tabular}{lll}
+    \hline
+    Parameter & Estimator & Standard error \\
+    \hline
+    $\mu$ & $\bar X$ & $\sigma/\sqrt n$ \\
+    $\mu_1-\mu_2$ & $\bar X_1-\bar X_2$ & $\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}$ \\
+    $\mu_D$ & $\bar D$ & $\sigma_D/\sqrt n$ \\
+    $p$ & $\hat p$ & $\sqrt{p(1-p)/n}$ \\
+    \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Computational bridge 1/4: sample substitution}
+  \footnotesize
+  When $\sigma$, $\sigma_D$, or $p$ are unknown, use $s$, $s_D$, or $\hat p$.
+  \begin{block}{Principle}
+    The theoretical form identifies variability; the estimated form makes it
+    computable from data.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Computational bridge 2/4: effect of $n$}
+  \footnotesize
+  Means and proportions include $1/\sqrt n$.
+  \begin{itemize}\itemsep=0.12cm
+    \item quadrupling $n$ halves standard error;
+    \item larger samples improve precision with diminishing returns;
+    \item non-sampling error is not part of this formula.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Computational bridge 3/4: margin of error}
+  \footnotesize
+  \[
+    E=(\text{critical value})\times SE.
+  \]
+  Standard error supplies variability; the critical value supplies confidence
+  and the reference distribution.
+\end{frame}
+
+\begin{frame}{Computational bridge 4/4: formula choice}
+  \footnotesize
+  \begin{tabular}{ll}
+    \hline
+    Design & Basic estimator \\
+    \hline
+    One mean & $\bar X$ \\
+    Two independent groups & $\bar X_1-\bar X_2$ \\
+    Paired data & $\bar D$ \\
+    Binary response & $\hat p$ or $\hat p_1-\hat p_2$ \\
+    \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Derived application 1/4 --- one mean}
+  \footnotesize
+  The reading assigns $\bar X$ to $\mu$.
+  \begin{block}{Statement}
+    Obtain theoretical standard error and its estimate when $\sigma$ is unknown.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Derived application 1/4 --- solution}
+  \footnotesize
+  \[
+    SE=\frac{\sigma}{\sqrt n},\qquad \widehat{SE}=\frac{s}{\sqrt n}.
+  \]
+  The second value is used in a sample-based interval or test.
+\end{frame}
+
+\begin{frame}{Derived application 2/4 --- two means}
+  \footnotesize
+  For two independent samples, uncertainty in the difference combines both
+  variances.
+  \begin{block}{Statement}
+    Identify both sample sizes and both standard deviations.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Derived application 2/4 --- solution}
+  \footnotesize
+  \[
+    \widehat{SE}=\sqrt{\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2}}.
+  \]
+  Under equal variances, the reading permits the pooled form with $S_p$.
+\end{frame}
+
+\begin{frame}{Derived application 3/4 --- paired data}
+  \footnotesize
+  Each pair produces one difference variable $D$.
+  \begin{block}{Statement}
+    Apply the one-mean formula to the observed differences.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Derived application 3/4 --- solution}
+  \footnotesize
+  \[
+    \widehat{SE}(\bar D)=\frac{S_D}{\sqrt n}.
+  \]
+  Dependence within each pair is absorbed into $D_i$ before precision is
+  calculated.
+\end{frame}
+
+\begin{frame}{Derived application 4/4 --- proportions}
+  \footnotesize
+  For a Bernoulli response, the reading uses $\hat p=X/n$.
+  \begin{block}{Statement}
+    Estimate variability for one proportion and for the difference of two rates.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Derived application 4/4 --- solution}
+  \footnotesize
+  \[
+    \widehat{SE}(\hat p)=\sqrt{\frac{\hat p(1-\hat p)}{n}}.
+  \]
+  For two groups, add the two estimated variances inside the square root.
+\end{frame}
+
+\begin{frame}{Synthesis of the section}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Standard error is an estimator's standard deviation.
+    \item Its form depends on design and parameter.
+    \item Sample substitution makes it usable with data.
+    \item The margin adds a critical value.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Curricular transition}
+  \footnotesize
+  \begin{block}{Established}
+    Precision starts by identifying the estimator and its sampling distribution.
+  \end{block}
+  \begin{alertblock}{Next section}
+    \textbf{06.05 Proportions and Differences}: Wald, Wilson, and comparisons of
+    two rates.
+  \end{alertblock}
+\end{frame}
+\end{document}

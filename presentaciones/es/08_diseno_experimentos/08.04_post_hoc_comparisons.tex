@@ -1,44 +1,28 @@
 \documentclass[10pt,aspectratio=169]{beamer}
-\input{../../_preambulo_beamer}
-\input{../../_comandos_beamer}
-
-\title[Comparaciones múltiples y pruebas post-hoc]{Sección 8.4: Comparaciones múltiples y pruebas post-hoc}
-\subtitle{Correspondencia con la nota de lectura ES}
-\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute{Tecnológico de Monterrey}
-\date{}
-
+\input{../../_preambulo_beamer}\input{../../_comandos_beamer}
+\title[Comparaciones post-hoc]{Sección 08.04: Comparaciones múltiples y pruebas post-hoc}\subtitle{Después de un ANOVA significativo}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/efectos\_modelo\_fijo.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
-\end{frame}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}\small\begin{enumerate}\item Por qué comparar después de ANOVA.\item LSD, Tukey y Tukey--Kramer.\item Bonferroni y reporte.\end{enumerate}\end{frame}
+\begin{frame}{Fuente y alcance}\small La sección parte de un rechazo global de ANOVA y localiza las diferencias entre tratamientos sin ignorar el error familiar.\begin{block}{Pregunta guía}¿Qué pares de medias explican el rechazo global?\end{block}\end{frame}
+\begin{frame}{Límite del contraste global}\small ANOVA solo concluye que al menos una media difiere. Comparar todos los pares sin ajuste eleva la probabilidad de falsos positivos.\end{frame}
+\begin{frame}{Diferencia mínima de Fisher}\small Para dos medias, LSD usa el cuadrado medio del error del ANOVA:\[\mathrm{LSD}=t_{\alpha/2,N-k}\sqrt{\mathrm{CME}\left(\frac1{n_i}+\frac1{n_j}\right)}.\]\end{frame}
+\begin{frame}{Criterio LSD}\small Declarar diferencia cuando\[|\bar Y_{i.}-\bar Y_{j.}|>\mathrm{LSD}.\]Es potente, pero no controla por sí sola el error familiar con muchos tratamientos.\end{frame}
+\begin{frame}{LSD protegido}\small Una práctica prudente calcula LSD solo después de un $F$ global significativo. Aun así, con muchos grupos puede quedar inflación residual.\end{frame}
+\begin{frame}{Tukey HSD}\small Tukey compara todos los pares y controla el error familiar. Para tamaños iguales,\[\mathrm{HSD}=q_{\alpha,k,N-k}\sqrt{\frac{\mathrm{CME}}n}.\]\end{frame}
+\begin{frame}{Criterio Tukey}\small Para cada par, declarar diferencia si\[|\bar Y_{i.}-\bar Y_{j.}|>\mathrm{HSD}.\]El rango estudentizado incorpora el número de tratamientos.\end{frame}
+\begin{frame}{Tukey--Kramer}\small Con tamaños desiguales,\[\mathrm{HSD}_{ij}=\frac{q_{\alpha,k,N-k}}{\sqrt2}\sqrt{\mathrm{CME}\left(\frac1{n_i}+\frac1{n_j}\right)}.\]\end{frame}
+\begin{frame}{Corrección de Bonferroni}\small Si hay $m=\binom{k}{2}$ comparaciones, usar\[\alpha^*=\frac{\alpha}{m}.\]Es universal y conservadora.\end{frame}
+\begin{frame}{Procedimiento I}\small\begin{enumerate}\item Confirmar el $F$ global.\item Enumerar los pares.\item Elegir LSD, Tukey o Bonferroni según el objetivo.\end{enumerate}\end{frame}
+\begin{frame}{Procedimiento II}\small\begin{enumerate}\setcounter{enumi}{3}\item Calcular el umbral de cada par.\item Comparar diferencias absolutas.\item Ajustar el lenguaje al método.\end{enumerate}\end{frame}
+\begin{frame}{Aplicación: medias}\small Suponga $k$ tratamientos con medias $\bar Y_{i.}$, tamaños $n_i$ y CME del ANOVA. Las comparaciones usan la misma estimación global del error.\end{frame}
+\begin{frame}{Aplicación: LSD}\small Calcule cada LSD con $t_{\alpha/2,N-k}$. Una diferencia que excede el umbral se declara detectable bajo el procedimiento elegido.\end{frame}
+\begin{frame}{Aplicación: Tukey}\small Use el cuantil $q$ para controlar simultáneamente todos los pares. La conclusión es más conservadora que LSD.\end{frame}
+\begin{frame}{Aplicación: tamaños desiguales}\small Si $n_i\neq n_j$, sustituya HSD por Tukey--Kramer y conserve los grados de libertad del error.\end{frame}
+\begin{frame}{Aplicación: Bonferroni}\small Divida $\alpha$ entre el número de pares. El umbral aumenta, reduciendo falsos positivos y también potencia.\end{frame}
+\begin{frame}{Interpretación}\small Una comparación ajustada significativa identifica un par compatible con una diferencia; no convierte todas las diferencias numéricas en evidencia estadística.\end{frame}
+\begin{frame}{Reporte}\small Incluya el $F$ global, método post-hoc, umbrales, pares detectados, estimaciones de diferencia e intervalos cuando estén disponibles.\end{frame}
+\begin{frame}{Síntesis}\small\begin{itemize}\item ANOVA responde una pregunta global.\item LSD prioriza potencia.\item Tukey controla pares simultáneos.\item Bonferroni es simple y conservadora.\end{itemize}\end{frame}
+\begin{frame}{Conexión con el capítulo}\small Las decisiones post-hoc deben respetar el diseño, sus supuestos y la pregunta científica; no son una etapa automática separada del experimento.\end{frame}
 \end{document}

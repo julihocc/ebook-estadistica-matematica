@@ -18,7 +18,7 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
 
 ---
 
-## 2. Estado vigente verificado al 2026-07-24 11:35:16 -06:00
+## 2. Estado vigente verificado al 2026-07-24 16:59:09 -06:00
 
 - El cierre del espejo EN del libro quedó confirmado el `2026-07-23 11:03:37 -06:00`: 60 archivos ES `(p).tex`, 60 archivos EN `en_*(p).tex`, seis problemas y seis soluciones por par, orden Bloom y etiquetas hash idénticas.
 - Los maestros ES y EN tienen 139 entradas `\input{}` sin objetivos faltantes; la secuencia paralela del contenido está verificada.
@@ -26,6 +26,86 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   activa de teoría; el espejo EN y los 53 scripts Python no se modificaron en
   esta etapa.
 - Esta actualización corrige una incompatibilidad de API en el script Normal y reconcilia documentación; no modifica el contenido de `presentaciones/es/` ni `presentaciones/en/`.
+
+### Normalización de notas EN del capítulo 2 — 2026-07-24 16:05:21 -06:00
+
+- Las filas 4--6 de `docs/matriz-notas-presentaciones-es.md` ya tienen el mismo
+  tipo de sección y etiquetas que las notas ES: `section*`/`subsection*`, `2.1.*`
+  y `2.2.*`, respectivamente.
+- Los maestros ES y EN pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas ni etiquetas duplicadas.
+- Este subbloque solo modifica notas EN y documentación. La paridad de frames
+  de los mazos EN de las filas 5--6 queda como pendiente operativo posterior;
+  no se añadieron scripts ni se tocaron archivos `(p)`.
+
+### Normalización de notas EN del capítulo 3 — 2026-07-24 16:15:12 -06:00
+
+- Las notas EN de discretas y Poisson ya coinciden con sus fuentes ES en
+  jerarquía y etiquetas; Poisson conserva además los nueve listings y todos los
+  ejemplos y desarrollos de aproximación normal y problemas resueltos.
+- Los maestros ES y EN pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas ni etiquetas duplicadas.
+- La presentación EN de las filas 11 y 16 conserva una diferencia histórica de
+  frames y queda como el siguiente trabajo de sincronización de mazos; no se
+  modificaron Beamer, Python ni archivos `(p)`.
+
+### Normalización de notas EN de la fila 18 — 2026-07-24 16:18:42 -06:00
+
+- `en_variables_aleatorias_continuas.tex` coincide con ES en jerarquía y en sus
+  47 etiquetas.
+- Los maestros pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas ni etiquetas duplicadas.
+- La presentación EN de la fila 18 conserva una diferencia histórica de frames
+  y queda para la sincronización de mazos; no se modificaron Beamer ni Python.
+
+### Normalización de notas EN de la fila 36 — 2026-07-24 16:21:29 -06:00
+
+- `en_ic_media_diferencia_medias.tex` ya tiene una sola sección y las dos
+  etiquetas de su fuente ES.
+- Los maestros pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas ni etiquetas duplicadas. No se modificaron Beamer ni
+  Python.
+
+### Cierre de normalización de notas EN — 2026-07-24 16:26:30 -06:00
+
+- Las 72 filas de la matriz ya tienen correspondencia estructural y de etiquetas
+  entre las notas ES y EN.
+- Los maestros pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas ni etiquetas duplicadas.
+- El trabajo pendiente se limita a sincronizar frames de mazos EN; no quedan
+  notas EN parciales, y no se modificaron scripts ni archivos `(p)`.
+
+### Primer grupo de mazos EN sincronizado — 2026-07-24 16:37:24 -06:00
+
+- `02.02_sets_and_partitions` y `02.03_probability_foundations` coinciden con
+  ES en frames y listings (14/14 + 4/4; 16/16 + 3/3).
+- Se eliminaron los ejercicios heredados y se corrigieron declaraciones de
+  clase duplicadas o ausentes. Los cuatro mazos compilaron dos veces sin errores,
+  referencias indefinidas, etiquetas duplicadas ni `Overfull \\hbox`.
+- La matriz registra 33 filas completas de cuatro vías; el siguiente grupo se
+  seleccionará entre los mazos EN parciales restantes.
+
+### Segundo grupo de mazos EN sincronizado — 2026-07-24 16:45:10 -06:00
+
+- Condicional, Bayes y muestreo coinciden con ES en frames y listings
+  (16/16 + 4/4; 14/14 + 3/3; 14/14 + 3/3).
+- Se retiraron los ejercicios heredados y se verificaron seis dobles
+  compilaciones; no hay errores, referencias indefinidas, etiquetas duplicadas
+  ni `Overfull \\hbox`.
+- La matriz registra 36 filas completas de cuatro vías; quedan 36 filas
+  parciales para grupos posteriores.
+
+### Primer grupo del capítulo 3 sincronizado — 2026-07-24 16:59:09 -06:00
+
+- Las filas 11, 12 y 16 quedaron en paridad ES/EN: PMF y soporte (14 frames),
+  Bernoulli/binomial (14 frames) y Poisson (17 frames), con tres listings por
+  par.
+- Se retiraron únicamente ejercicios heredados y un comentario residual de
+  ejercicio; no se modificaron las notas, los archivos `(p)` ni Python.
+- Los seis mazos pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas, etiquetas duplicadas ni `Overfull \\hbox`; los
+  únicos avisos `vbox` pertenecen a portadas EN. La matriz registra 39 filas
+  completas de cuatro vías y 33 parciales.
 
 ### Pendientes vigentes al 2026-07-23 14:47:30 -06:00
 
@@ -172,7 +252,55 @@ Las secciones siguientes conservan decisiones, conteos y protocolos de etapas an
   - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/04_variables_aleatorias_continuas/04.07_gamma_beta_weibull.tex` (23 frames) y `presentaciones/en/04_continuous_random_variables/04.07_gamma_beta_weibull.tex` (19 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
   - *Libro Maestro:* Recompilado limpiamente a 622 páginas (`[Modelación Estadística].tex`).
 
-### Unidad 4 / Capítulo 05: Distribuciones de Muestreo (`Avance actual: 5 de 5 secciones completadas --- 100% FINALIZADO`)
+### Corrección final de correspondencia del capítulo 04 — 2026-07-24 15:58:15 -06:00
+
+La auditoría física encontró que la fila 23, **Función generadora de momentos**,
+conservaba un esqueleto ES de cuatro frames y no tenía contraparte EN porque el
+mazo EN `04.06_exponential_distribution` ya ocupaba ese número. Se corrigió sin
+modificar las notas ni añadir Python:
+
+- `presentaciones/es/04_variables_aleatorias_continuas/04.06_moment_generating_function.tex`
+  ahora tiene 22 frames.
+- Se creó `presentaciones/en/04_continuous_random_variables/04.08_moment_generating_function.tex`
+  con 22 frames; `04.08` evita la colisión numérica con Exponencial.
+- Ambos mazos se compilaron dos veces con código 0, sin errores, referencias
+  indefinidas, etiquetas duplicadas ni desbordamientos en contenido.
+- La matriz queda con 72 mazos ES desarrollados, 80 mazos EN físicos, 72 rutas
+  EN candidatas únicas y 31 filas completas de cuatro vías; los ocho mazos EN
+  restantes son históricos o no tienen contraparte ES activa.
+
+Se repitió la doble compilación a las `2026-07-24 15:58:15 -06:00` tras retirar
+referencias textuales ambiguas a `(p)` en las diapositivas; el resultado siguió
+siendo código 0 y sin desbordamientos en contenido.
+
+No se creó commit ni se hizo `git push`.
+
+### Reconciliación 1:1 del capítulo 05 — 2026-07-24 14:51:34 -06:00
+
+Se cerró el bloque gradual de las filas 24--26 y 32--33 de la matriz. La fuente
+de verdad fue la nota ES; las notas EN se normalizaron en tipo de sección y los
+mazos de problemas quedaron fuera.
+
+- Se desarrollaron cinco mazos ES y se crearon cinco contrapartes EN:
+  `05.00_inferential_statistics_introduction`,
+  `05.01_variable_transformations`,
+  `05.02_distributions_of_random_variable_functions`,
+  `05.08_fundamental_statistical_concepts` y
+  `05.09_z_and_t_statistics`.
+- Cada par tiene 22 frames, cero `\\lstinputlisting` y cero referencias a
+  `Ejercicio en Clase`, `Problema`, `prob:` o `(p)`. No se añadió script Python.
+- Los diez mazos se compilaron dos veces con código 0; todos los logs reportan
+  cero errores, referencias indefinidas, etiquetas duplicadas y
+  `Overfull \\hbox`/`\\vbox`. Los maestros ES y EN también compilaron dos veces
+  sin errores ni referencias indefinidas.
+- La matriz queda en 58 filas con notas EN estructuralmente coincidentes, 53
+  mazos ES desarrollados, 60 mazos EN físicos y 11 filas completas de cuatro
+  vías. El siguiente bloque (capítulo 6) permanece sin iniciar.
+
+La sección histórica siguiente conserva los mazos de laboratorio 05.01--05.05;
+no debe confundirse con las filas activas 24--26 y 32--33 de la matriz.
+
+### Unidad 4 / Capítulo 05: Distribuciones de Muestreo (`Avance histórico: 5 de 5 secciones completadas`)
 - $\checkmark$ **05.01 Muestreo Aleatorio Simple, Media y Varianza Muestral Insesgada:** 100% completado (**APERTURA DEL CAPÍTULO 05**).
   - *Teoría del Libro Maestro:* Se auditó el archivo histórico de teoría de distribuciones de muestreo (ES) y su espejo el archivo histórico EN de teoría de distribuciones de muestreo (EN) — la subsección "Distribuciones muestrales de medias" ya cubría $E(\bar X)=\mu$ y $\Var(\bar X)=\sigma^2/n$, pero no la insesgadez de la varianza muestral. Se agregó la subsección nueva "Estadísticos y Varianza Muestral Insesgada" con la definición formal de estadístico, la corrección de Bessel y su demostración completa.
   - *Cuaderno de Problemas:* Se creó el conjunto de cuadernos de distribuciones de muestreo vigentes con 10 problemas bajo la convención histórica 3-3-2-2 (Problemas 5.1.1 al 5.1.10): media/varianza muestral, distinción estadístico vs. parámetro, derivación de $\Var(\bar X)=\sigma^2/n$, comparación de estimadores sesgado/insesgado, demostración formal de $E(S^2)=\sigma^2$, consistencia de $\bar X$, fórmula abreviada de $S^2$, y corrección por población finita (FPC). El material histórico se conectó al libro maestro durante esa etapa.
@@ -205,7 +333,29 @@ Las secciones siguientes conservan decisiones, conteos y protocolos de etapas an
   - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/05_distribuciones_muestreo/05.05_fisher_f_distribution.tex` (17 frames) y `presentaciones/en/05_sampling_distributions/05.05_fisher_f_distribution.tex` (19 frames), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, 4 ejercicios interactivos en clase (Niveles 1-4) con Enunciado/Resolución, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
   - *Libro Maestro:* Recompilado limpiamente a 644 páginas (`[Modelación Estadística].tex`); también se recompiló `[Statistical Modeling].tex` (452 páginas) sin errores.
 
-### Unidad 5 / Capítulo 06: Estimación y su Relación con Ciencia de Datos (`Avance actual: 5 de 5 secciones completadas --- 100% FINALIZADO`)
+### Reconciliación 1:1 del capítulo 06 — 2026-07-24 15:07:32 -06:00
+
+Se cerró el bloque de las filas 35, 37, 38 y 40 de la matriz, tomando las
+secciones ES como fuente de verdad.
+
+- Se desarrollaron cuatro mazos ES y cuatro contrapartes EN:
+  `06.02_confidence_intervals`, `06.04_standard_errors`,
+  `06.05_confidence_intervals_proportions` y
+  `06.07_sample_size_estimation`.
+- Cada par tiene 22 frames, cero `\\lstinputlisting` y cero referencias a
+  problemas, `(p)` o ejercicios sin resolver. No se añadió Python.
+- La fila 38 dejó de apuntar al mazo EN compartido de varianzas y ahora tiene
+  una ruta propia de proporciones.
+- Los ocho mazos se compilaron dos veces con código 0; sus logs reportan cero
+  errores, referencias indefinidas, etiquetas duplicadas y `Overfull`.
+- La matriz queda en 57 mazos ES desarrollados, 64 mazos EN físicos y 15 filas
+  completas de cuatro vías. El siguiente bloque (capítulo 7) permanece sin
+  iniciar.
+
+La sección histórica siguiente conserva los laboratorios 06.01--06.05 y no
+debe confundirse con las filas activas cerradas en este corte.
+
+### Unidad 5 / Capítulo 06: Estimación y su Relación con Ciencia de Datos (`Avance histórico: 5 de 5 secciones completadas`)
 - $\checkmark$ **06.01 Estimación Puntual, Insesgadez, Eficiencia y Consistencia:** 100% completado (**APERTURA DEL CAPÍTULO 06**).
   - *Teoría del Libro Maestro:* `latex/estimacion_puntual.tex` (ES) y `latex/en_estimacion_puntual.tex` (EN) ya contenían un desarrollo extenso y avanzado de MLE y Método de Momentos, pero el texto introductorio hacía referencia a una "sección anterior" que definía los criterios de calidad de un estimador — contenido que en realidad nunca se había escrito. Se agregó la subsección faltante "Criterios de Calidad de un Estimador Puntual": definición formal de estimador, sesgo, ECM con demostración de la descomposición sesgo-varianza, eficiencia relativa, la Cota Inferior de Cramér-Rao, y consistencia (con la vía práctica vía Chebyshev).
   - *Cuaderno de Problemas:* 10 problemas nuevos bajo la convención histórica 3-3-2-2 (Problemas 6.1.1 al 6.1.10) agregados a `latex/estimacion_puntual(p).tex` (que ya contenía 10 problemas avanzados preexistentes sobre MLE/MoM/Cramér-Rao/Rao-Blackwell, dejados intactos): insesgadez de combinaciones lineales, cálculo numérico de sesgo y ECM, eficiencia relativa, insesgadez asintótica, consistencia vía Chebyshev, derivación de la CRLB para la media normal, y el estimador de encogimiento (\emph{shrinkage}) óptimo que minimiza el ECM.
@@ -237,7 +387,31 @@ Las secciones siguientes conservan decisiones, conteos y protocolos de etapas an
   - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/06_estimacion_estadistica/06.05_confidence_intervals_variances.tex` (17 frames) y `presentaciones/en/06_estimation_data_science/06.05_confidence_intervals_variances.tex` (20 frames), citando los problemas existentes `prob:ic_varianza`, `prob:dif_proporciones_ab`, `prob:ic_razon_varianzas` y `prob:ic-desaf-fisher`, con revelado progresivo `\pause`, puente numérico Python en 3 bloques, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
   - *Libro Maestro:* Recompilado limpiamente a 660 páginas (`[Modelación Estadística].tex`); también se recompiló `[Statistical Modeling].tex` (458 páginas) sin errores.
 
-### Unidad 6 / Capítulo 07: Docimasia (Pruebas de Hipótesis) (`Avance actual: 4 de 4 secciones completadas --- 100% FINALIZADO`)
+### Reconciliación 1:1 del capítulo 07 — 2026-07-24 15:24:57 -06:00
+
+Se cerró el bloque de las filas 42--45, 47--48 y 51--52 de la matriz, usando
+las notas ES como fuente canónica.
+
+- Se desarrollaron ocho mazos ES y se crearon ocho contrapartes EN:
+  `07.02_ci_hypothesis_tests`, `07.03_p_values_decisions`,
+  `07.04_one_mean_test`, `07.05_hypothesis_testing_guide`,
+  `07.07_proportion_tests`, `07.08_variance_tests`,
+  `07.11_homogeneity_tests` y `07.12_multiple_proportions`.
+- Cada par tiene 22 frames, cero `\\lstinputlisting` y cero referencias a
+  problemas sin resolver, `(p)` o `prob:`. No se añadió Python.
+- `latex/en_guia_prueba_hipotesis.tex` quedó alineado con la fuente ES usando
+  `\\section*` y `\\subsection*`.
+- Los 16 mazos se compilaron dos veces con código 0. Los únicos avisos
+  `Overfull \\vbox` pertenecen a la portada exenta; las páginas de contenido
+  no presentan desbordamientos, errores, referencias indefinidas ni etiquetas
+  duplicadas.
+- La matriz queda en 65 mazos ES desarrollados, 72 mazos EN físicos y 23 filas
+  completas de cuatro vías. El siguiente bloque es el capítulo 8.
+
+No se creó commit ni se hizo `git push`; el capítulo 8 no se inicia en este
+corte.
+
+### Unidad 6 / Capítulo 07: Docimasia (Pruebas de Hipótesis) (catálogo histórico)
 - $\checkmark$ **07.01 Fundamentos: $H_0$ vs. $H_1$, Errores Tipo I y II, y Potencia:** 100% completado (**APERTURA DEL CAPÍTULO 07**).
   - *Teoría del Libro Maestro:* `latex/pruebas_de_hipotesis.tex` (ES) y su espejo EN ya contenían un desarrollo completo (notación formal, tipos de prueba, errores Tipo I/II, nivel de significación, valor-$p$, regla de decisión, ejemplo íntegro), pero carecían de una fórmula formal para relacionar potencia con tamaño de muestra. Se agregó la subsección faltante "Potencia y Tamaño de Muestra": el teorema del tamaño de muestra $n=((Z_\alpha+Z_\beta)\sigma/(\mu_a-\mu_0))^2$ para una prueba $Z$ de una cola, con una observación sobre el *trade-off* triangular entre $\alpha$, $\beta$ y $n$.
   - *Cuaderno de Problemas:* **No existía un archivo `(p).tex` para esta sección** (a diferencia de `chi_cuadrada(p).tex` y `cuadernos de pruebas de hipótesis vigentes`, que sí existían). Se creó desde cero `latex/pruebas_de_hipotesis(p).tex` y su espejo `latex/en_pruebas_de_hipotesis(p).tex` con 10 problemas nuevos bajo la convención histórica 3-3-2-2 (Problemas 7.1.1 al 7.1.10): formulación de $H_0/H_a$, interpretación de errores Tipo I/II en contexto médico, prueba $Z$ completa, cálculo de $\beta$ y potencia, tamaño de muestra para potencia objetivo, deducción de la función de potencia general, tasa de error familiar (FWER) y corrección de Bonferroni, el Lema de Neyman-Pearson (optimalidad UMP del test $Z$), y la deducción rigurosa de la fórmula de tamaño de muestra desde las definiciones puras de $\alpha$ y $\beta$. Se conectó (`\input`) al libro maestro ES y EN justo después de `pruebas_de_hipotesis`.
@@ -263,7 +437,32 @@ Las secciones siguientes conservan decisiones, conteos y protocolos de etapas an
   - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/07_pruebas_hipotesis/07.04_contingency_tables.tex` (17 frames) y `presentaciones/en/07_hypothesis_testing/07.04_contingency_tables.tex` (17 frames), citando los problemas existentes 3.9.3, 3.9.5 y las secciones analítica/desafiante de contingencia $2\times2$, con revelado progresivo `\pause`, puente numérico Python en 3 bloques, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
   - *Libro Maestro:* Recompilado limpiamente (`[Modelación Estadística].tex` y `[Statistical Modeling].tex`), confirmando **0 errores y 0 referencias indefinidas** tras el cierre completo del Capítulo 07.
 
-### Unidad 7 / Capítulo 08: Elementos de Diseño de Experimentos (ANOVA) (`Avance actual: 2 de 2 secciones completadas --- 100% FINALIZADO`)
+### Reconciliación 1:1 del capítulo 08 — 2026-07-24 15:41:01 -06:00
+
+Se cerró el bloque de las filas 53, 55--56 y 58--59 de la matriz, tomando las
+notas ES como fuente canónica.
+
+- Se desarrollaron cinco mazos ES y se crearon cinco contrapartes EN:
+  `08.01_experimental_strategies`, `08.03_fixed_effects`,
+  `08.04_post_hoc_comparisons`, `08.06_randomized_blocks_latin_squares` y
+  `08.07_factorial_designs`.
+- Cada par tiene 22 frames, cero `\\lstinputlisting` y cero referencias a
+  problemas sin resolver, `(p)` o `prob:`. No se añadió Python.
+- `latex/en_efectos_modelo_fijo.tex` se alineó con la fuente ES en las marcas
+  `section*`/`subsection*` y etiquetas `eq:esperanza_cmtr`,
+  `tab:anova_un_factor` y `eq:tukey_hsd`. También se añadió
+  `eq:modelo_dbca` a `latex/en_dbca_cuadrados_latinos.tex`.
+- Los diez mazos se compilaron dos veces con código 0. Los únicos avisos
+  `Overfull \\vbox` pertenecen a las portadas exentas; las páginas de contenido
+  no presentan desbordamientos, errores, referencias indefinidas ni etiquetas
+  duplicadas.
+- La matriz queda en 70 mazos ES desarrollados, 77 mazos EN físicos y 28 filas
+  completas de cuatro vías. El siguiente bloque es el capítulo 9.
+
+No se creó commit ni se hizo `git push`; el capítulo 9 no se inicia en este
+corte.
+
+### Unidad 7 / Capítulo 08: Elementos de Diseño de Experimentos (ANOVA) (catálogo histórico)
 - $\checkmark$ **Corrección previa:** se detectó y corrigió una corrupción de codificación en `latex/diseno_experimentos_anova.tex` --- 33 instancias del macro `\textbf{` habían perdido el carácter `\` y quedado como un carácter tabulador literal seguido de `extbf{` (probablemente por una sustitución automática defectuosa en una etapa histórica anterior al 2026-07-23), lo cual no producía errores de compilación pero renderizaba texto literal "extbf{...}" en lugar de negritas en el PDF. Se corrigió programáticamente a nivel de bytes y se recompiló el libro maestro dos veces, confirmando **0 errores y 0 referencias indefinidas**.
 - $\checkmark$ **08.01 Análisis de Varianza de un Factor (One-Way ANOVA) y Prueba $F$:** 100% completado (**APERTURA DEL CAPÍTULO 08**).
   - *Teoría del Libro Maestro:* `latex/diseno_experimentos_anova.tex` (ES) y su espejo EN ya contenían un desarrollo íntegro y riguroso: fundamentos del DoE (los Tres Principios de Fisher), el modelo lineal paramétrico del ANOVA de un factor, el teorema de partición de sumas de cuadrados ($\text{SCT}=\text{SCTR}+\text{SCE}$), el estadístico $F$, los tres procedimientos post-hoc (LSD de Fisher, HSD de Tukey/Tukey-Kramer, Corrección de Bonferroni) y el Diseño en Bloques Completos al Azar (DBCA). No se requirió teoría nueva más allá de la corrección de codificación.
@@ -278,7 +477,28 @@ Las secciones siguientes conservan decisiones, conteos y protocolos de etapas an
   - *Mazos Beamer:* mazos pedagógicos ES/EN en `presentaciones/es/08_diseno_experimentos/08.02_anova_assumptions.tex` (17 frames) y `presentaciones/en/08_experimental_design/08.02_anova_assumptions.tex` (17 frames), citando los Problemas 8.6.11, 8.6.12, 8.6.7 y 8.6.13 (uno por nivel), con revelado progresivo `\pause`, puente numérico Python en 3 bloques, cero marcado informal y compilados con **0 `Overfull \vbox` y 0 `Overfull \hbox`** en contenido (portada exenta).
   - *Libro Maestro:* Recompilado limpiamente (`[Modelación Estadística].tex` y `[Statistical Modeling].tex`), confirmando **0 errores y 0 referencias indefinidas** tras el cierre completo del Capítulo 08.
 
-### Tema complementario / Capítulo 09: Regresiones Lineales y Múltiples (`Avance actual: 12 de 12 secciones completadas --- 100% FINALIZADO`)
+### Reconciliación 1:1 del capítulo 09 — 2026-07-24 15:49:29 -06:00
+
+Se cerró el bloque de las filas 62 y 70 de la matriz, usando las notas ES como
+fuente canónica.
+
+- Se desarrollaron dos mazos ES y se crearon dos contrapartes EN:
+  `09.02_regresiones_lineales_section` y `09.11_model_summary`.
+- Cada par tiene 22 frames, cero `\\lstinputlisting` y cero referencias a
+  problemas sin resolver, `(p)` o `prob:`. No se añadió Python.
+- Las notas ES/EN ya tenían secciones y etiquetas estructuralmente coincidentes;
+  no fue necesario modificar teoría.
+- Los cuatro mazos se compilaron dos veces con código 0. Los únicos avisos
+  `Overfull \\vbox` pertenecen a las portadas exentas; las páginas de contenido
+  no presentan desbordamientos, errores, referencias indefinidas ni etiquetas
+  duplicadas.
+- La matriz queda en 72 mazos ES desarrollados, 79 mazos EN físicos y 30 filas
+  completas de cuatro vías. Este bloque cierra la etapa gradual de desarrollo de
+  mazos prevista en el plan.
+
+No se creó commit ni se hizo `git push`.
+
+### Tema complementario / Capítulo 09: Regresiones Lineales y Múltiples (catálogo histórico)
 
 **Nota de corrección estructural (2026-07-16):** una versión anterior de este capítulo agrupó 7 archivos de teoría distintos en una sola "Sección 09.01" (17 frames), violando la regla estructural del proyecto de que cada archivo/sección de las notas debe tener su propio mazo Beamer 1:1. Se corrigió dividiendo esa sección en 6 mazos independientes (09.01-09.06) y renumerando las 2 secciones que ya eran 1:1 correctas: la antigua **09.02 (regresión múltiple) → 09.07**, y la antigua **09.03 (diagnóstico de regresión) → 09.09**. Los huérfanos `introduccion_regresiones_lineales.tex` (superado por `regresiones_lineales.tex`, mismo patrón que el precedente del Capítulo 05) y `resumen_modelo.tex` (28 líneas de puro resumen ya cubierto por 09.07/09.09) no reciben mazo propio, igual que sus análogos en capítulos anteriores.
 

@@ -1,0 +1,233 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Z and t Statistics]{Section 5.9: Z and t Statistics}
+\subtitle{Standardization with known or unknown standard deviation}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
+
+\begin{frame}{Roadmap --- Chapter 5}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{05.08} Fundamental concepts
+    \item \textbf{05.09} Z and t statistics \emph{(today)}
+    \item \textbf{06--07} Confidence intervals and hypothesis tests
+  \end{itemize}
+  \begin{block}{Learning objective}
+    Construct $Z$ and $t$, distinguish known from unknown $\sigma$, and read
+    quantiles of Student's $t$ distribution.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Inferential setup}
+  \footnotesize
+  The reading starts with a null-hypothesis value $A_0$ and a random sample of
+  size $n$.
+  \begin{block}{Observed quantity}
+    The sample mean or measure is denoted $A$ and compared with $A_0$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Z statistic}
+  \footnotesize
+  \[
+    Z=\frac{A-A_0}{\sigma/\sqrt n}.
+  \]
+  Here $\sigma$ is the known population standard deviation.
+  \begin{alertblock}{Purpose}
+    Convert a normal variable into a standard normal variable for probabilities
+    and tabulated quantiles.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Z case: known $\sigma$}
+  \footnotesize
+  If the standard deviation is known from previous experience, the Z statistic
+  uses $\sigma/\sqrt n$ directly.
+  \begin{exampleblock}{Reading context}
+    Pizza delivery times illustrate a mean whose population variability is
+    documented.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{t case: unknown $\sigma$}
+  \footnotesize
+  When no reliable record of $\sigma$ exists or the sample is small, replace it
+  with the sample standard deviation $S$:
+  \[
+    t=\frac{A-A_0}{S/\sqrt n}.
+  \]
+  \begin{alertblock}{Difference}
+    The extra uncertainty is represented by Student's $t$ distribution.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Student's distribution}
+  \footnotesize
+  Student's $t$ distribution was described by William Sealy Gosset under the
+  pseudonym Student. It is symmetric about zero and its tails depend on the
+  degrees of freedom.
+  \begin{block}{Use}
+    It models standardization when the population deviation is estimated from
+    the sample itself.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Degrees of freedom and variance}
+  \footnotesize
+  The parameter `df` is denoted $\nu$. For $X\sim t_\nu$,
+  \[
+    \mu_X=0,\qquad \sigma_X^2=\frac{\nu}{\nu-2}
+    \quad(\nu>2).
+  \]
+  As $\nu$ grows, $t_\nu$ approaches the standard normal distribution.
+\end{frame}
+
+\begin{frame}{Sample variance and t statistic}
+  \footnotesize
+  The reading presents
+  \[
+    S^2=\sum\frac{(A_i-A_0)^2}{n-1},
+    \qquad t=\frac{A-A_0}{S/\sqrt n}.
+  \]
+  \begin{alertblock}{Reading}
+    The divisor $n-1$ and the degrees of freedom connect estimation of $S$ with
+    the shape of Student's distribution.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Computational bridge 1/4: choose Z or t}
+  \footnotesize
+  \begin{tabular}{lll}
+    \hline
+    Available information & Statistic & Reference distribution \\
+    \hline
+    $\sigma$ known & $Z=(A-A_0)/(\sigma/\sqrt n)$ & standard normal \\
+    $\sigma$ unknown & $t=(A-A_0)/(S/\sqrt n)$ & $t_\nu$ \\
+    \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Computational bridge 2/4: degrees of freedom}
+  \footnotesize
+  Degrees of freedom determine the tails of $t_\nu$. With less information
+  about the standard deviation, the tails are heavier.
+  \begin{block}{Limit}
+    $t_\nu\to N(0,1)$ as $\nu$ grows.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Computational bridge 3/4: areas}
+  \footnotesize
+  For an observed value $t$, the right-tail probability is
+  \[
+    P(T_\nu>t)=1-F_{t_\nu}(t).
+  \]
+  Symmetry gives left-tail quantiles by changing the sign.
+\end{frame}
+
+\begin{frame}{Computational bridge 4/4: quantiles}
+  \footnotesize
+  The percent point function satisfies
+  \[
+    F_{t_\nu}(t_p)=p.
+  \]
+  A right-tail area of $0.05$ uses $p=0.95$ and symmetry for the negative limit.
+\end{frame}
+
+\begin{frame}{Solved example 1/4 --- $\nu=9$ quantiles}
+  \footnotesize
+  Consider a $t$ variable with $\nu=9$ degrees of freedom. Find values with a
+  right-tail area of $0.05$ and a central unshaded area of $0.90$.
+  \begin{block}{Statement}
+    Find the two symmetric limits.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Solved example 1/4 --- solution}
+  \footnotesize
+  The left area of the positive limit is $0.95$:
+  \[
+    t_{0.95,9}\approx1.833,
+    \qquad t_{0.05,9}\approx-1.833.
+  \]
+  \begin{alertblock}{Check}
+    $P(-1.833<T<1.833)=0.95-0.05=0.90$.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Reading application 2/4 --- Z test}
+  \footnotesize
+  A delivery process has a known population standard deviation. The observed
+  mean is $A$ and the reference value is $A_0$.
+  \begin{block}{Statement}
+    Standardize the difference using the section's Z formula.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 2/4 --- Z interpretation}
+  \footnotesize
+  \[
+    Z=\frac{A-A_0}{\sigma/\sqrt n}.
+  \]
+  A positive value means $A$ lies above $A_0$; its magnitude is read on a
+  standard normal distribution.
+\end{frame}
+
+\begin{frame}{Reading application 3/4 --- t test}
+  \footnotesize
+  If $\sigma$ is unavailable, compute $S$ from the sample and use
+  \[
+    t=\frac{A-A_0}{S/\sqrt n}.
+  \]
+  \begin{block}{Statement}
+    The uncertainty about $\sigma$ must be represented by $t_\nu$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 3/4 --- t interpretation}
+  \footnotesize
+  Compare the observed value with $t_\nu$ quantiles rather than normal
+  quantiles, especially for a small $n$.
+  \begin{alertblock}{Result}
+    Heavier tails protect against underestimating variability.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Reading application 4/4 --- sample variance}
+  \footnotesize
+  The section defines $S^2$ with divisor $n-1$ and then forms the t statistic
+  with $S$.
+  \begin{block}{Statement}
+    Identify which quantities change as the sample size grows.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 4/4 --- connection}
+  \footnotesize
+  As $n$ grows, degrees of freedom increase, $S$ estimates $\sigma$ more closely,
+  and $t_\nu$ approaches $N(0,1)$.
+  \begin{exampleblock}{Integrated reading}
+    Formula, sample variance, and reference distribution form one standardizing
+    procedure.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Synthesis and transition}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Z uses known $\sigma$ and a normal reference.
+    \item t uses $S$, degrees of freedom, and Student tails.
+    \item Symmetry and the percent point function provide area limits.
+  \end{itemize}
+  \begin{alertblock}{Next step}
+    These tools are applied in the confidence-interval and hypothesis-testing
+    sections.
+  \end{alertblock}
+\end{frame}
+\end{document}

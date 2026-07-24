@@ -1,0 +1,28 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}\input{../../_en_comandos_beamer}
+\title[Post-hoc comparisons]{Section 08.04: Multiple Comparisons and Post-Hoc Tests}\subtitle{After a significant ANOVA}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
+\begin{document}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Roadmap}\small\begin{enumerate}\item Why compare after ANOVA.\item LSD, Tukey, and Tukey--Kramer.\item Bonferroni and reporting.\end{enumerate}\end{frame}
+\begin{frame}{Source and scope}\small This section starts after a global ANOVA rejection and locates treatment differences while respecting family-wise error.\begin{block}{Guiding question}Which mean pairs explain the global rejection?\end{block}\end{frame}
+\begin{frame}{Limit of the global contrast}\small ANOVA only says that at least one mean differs. Unadjusted pairwise tests increase false-positive probability.\end{frame}
+\begin{frame}{Fisher's least significant difference}\small For two means, LSD uses the ANOVA error mean square:\[\mathrm{LSD}=t_{\alpha/2,N-k}\sqrt{\mathrm{CME}\left(\frac1{n_i}+\frac1{n_j}\right)}.\]\end{frame}
+\begin{frame}{LSD criterion}\small Declare a difference when\[|\bar Y_{i.}-\bar Y_{j.}|>\mathrm{LSD}.\]It is powerful but does not by itself control family-wise error with many treatments.\end{frame}
+\begin{frame}{Protected LSD}\small A cautious practice computes LSD only after a significant global $F$. With many groups, residual inflation can remain.\end{frame}
+\begin{frame}{Tukey HSD}\small Tukey compares every pair and controls family-wise error. For equal sizes,\[\mathrm{HSD}=q_{\alpha,k,N-k}\sqrt{\frac{\mathrm{CME}}n}.\]\end{frame}
+\begin{frame}{Tukey criterion}\small For each pair, declare a difference if\[|\bar Y_{i.}-\bar Y_{j.}|>\mathrm{HSD}.\]The studentized range accounts for the number of treatments.\end{frame}
+\begin{frame}{Tukey--Kramer}\small For unequal sizes,\[\mathrm{HSD}_{ij}=\frac{q_{\alpha,k,N-k}}{\sqrt2}\sqrt{\mathrm{CME}\left(\frac1{n_i}+\frac1{n_j}\right)}.\]\end{frame}
+\begin{frame}{Bonferroni correction}\small With $m=\binom{k}{2}$ comparisons, use\[\alpha^*=\frac{\alpha}{m}.\]It is universal and conservative.\end{frame}
+\begin{frame}{Procedure I}\small\begin{enumerate}\item Confirm the global $F$.\item Enumerate pairs.\item Choose LSD, Tukey, or Bonferroni for the goal.\end{enumerate}\end{frame}
+\begin{frame}{Procedure II}\small\begin{enumerate}\setcounter{enumi}{3}\item Compute each pair threshold.\item Compare absolute differences.\item Match wording to the method.\end{enumerate}\end{frame}
+\begin{frame}{Application: means}\small Given treatment means $\bar Y_{i.}$, sizes $n_i$, and ANOVA CME, all comparisons use the same global error estimate.\end{frame}
+\begin{frame}{Application: LSD}\small Compute each LSD with $t_{\alpha/2,N-k}$. A difference exceeding the threshold is detectable under the selected procedure.\end{frame}
+\begin{frame}{Application: Tukey}\small Use the $q$ quantile to control all pairs simultaneously. The conclusion is more conservative than LSD.\end{frame}
+\begin{frame}{Application: unequal sizes}\small When $n_i\neq n_j$, use Tukey--Kramer and retain the ANOVA error degrees of freedom.\end{frame}
+\begin{frame}{Application: Bonferroni}\small Divide $\alpha$ by the number of pairs. The threshold increases, reducing false positives and power.\end{frame}
+\begin{frame}{Interpretation}\small An adjusted significant comparison identifies a pair compatible with a difference; not every numerical difference is statistical evidence.\end{frame}
+\begin{frame}{Reporting}\small Include global $F$, post-hoc method, thresholds, detected pairs, estimated differences, and intervals when available.\end{frame}
+\begin{frame}{Synthesis}\small\begin{itemize}\item ANOVA answers a global question.\item LSD prioritizes power.\item Tukey controls simultaneous pairs.\item Bonferroni is simple and conservative.\end{itemize}\end{frame}
+\begin{frame}{Chapter connection}\small Post-hoc decisions must respect the design, assumptions, and scientific question; they are not an automatic stage detached from the experiment.\end{frame}
+\end{document}

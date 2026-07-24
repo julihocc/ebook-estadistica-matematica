@@ -2,43 +2,212 @@
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title[Tamaño de una muestra]{Sección 6.7: Tamaño de una muestra}
-\subtitle{Correspondencia con la nota de lectura ES}
+\title[Tamaño de una muestra]{Sección 6.7: Estimación del tamaño de una muestra}
+\subtitle{Confianza, margen de error y variabilidad previa}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
 \date{}
 
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
 
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/tamano\_muestra\_estimacion.tex}
+\begin{frame}{Hoja de ruta --- capítulo 6}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{06.02} Intervalos de confianza
+    \item \textbf{06.04--06.05} Errores estándar y proporciones
+    \item \textbf{06.07} Tamaño de muestra \emph{(hoy)}
+    \item \textbf{07} Pruebas de hipótesis y potencia
+  \end{itemize}
+  \begin{block}{Objetivo didáctico}
+    Determinar $n$ antes de recolectar datos fijando confianza, margen de error y
+    una estimación previa de la variabilidad.
   \end{block}
 \end{frame}
 
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
+\begin{frame}{Motivación: ¿cuántos datos?}
+  \footnotesize
+  Una muestra muy pequeña puede carecer de poder; una demasiado grande
+  desperdicia recursos financieros, tiempo e infraestructura.
+  \begin{alertblock}{Pregunta guía}
+    ¿Qué tamaño garantiza que el margen de error no exceda $E$?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Tres decisiones previas}
+  \footnotesize
+  Antes de recolectar datos se especifican:
+  \begin{enumerate}\itemsep=0.12cm
+    \item confianza nominal $(1-\alpha)$;
+    \item margen máximo tolerable $E$;
+    \item dispersión previa $\sigma$ o proporción esperada $p^*$.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Tamaño para una media}
+  \footnotesize
+  Como $E=Z_{\alpha/2}\sigma/\sqrt n$,
+  \[
+    n=\left(\frac{Z_{\alpha/2}\sigma}{E}\right)^2.
+  \]
+  Si $\sigma$ es desconocida, puede estimarse con un piloto o con la regla del
+  rango $\sigma\approx\text{rango}/4$.
+\end{frame}
+
+\begin{frame}{Tamaño para una proporción}
+  \footnotesize
+  Como $E=Z_{\alpha/2}\sqrt{p(1-p)/n}$,
+  \[
+    n=\left(\frac{Z_{\alpha/2}}{E}\right)^2p^*(1-p^*).
+  \]
+  El resultado se redondea siempre hacia arriba.
+\end{frame}
+
+\begin{frame}{Caso conservador y población finita}
+  \footnotesize
+  Sin información previa, $p^*=0.5$ maximiza $p(1-p)$:
+  \[
+    n_{\max}=\frac{Z_{\alpha/2}^2}{4E^2}.
+  \]
+  Si $n/N>0.05$, se ajusta por población finita:
+  \[
+    n_a=\frac{n}{1+(n-1)/N}.
+  \]
+\end{frame}
+
+\begin{frame}{Monotonicidad del tamaño requerido}
+  \footnotesize
+  El tamaño aumenta con $Z_{\alpha/2}$ y la variabilidad, y disminuye cuando se
+  tolera un margen $E$ mayor.
+  \begin{alertblock}{Lectura}
+    Las fórmulas hacen explícitos los intercambios entre precisión y recursos.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Puente computacional 1/4: efecto de confianza}
+  \footnotesize
+  Un nivel de confianza mayor aumenta $Z_{\alpha/2}$ y, por tanto, el tamaño
+  requerido.
+  \begin{block}{Regla}
+    Más confianza o menor $E$ implica más observaciones.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Puente computacional 2/4: efecto del margen}
+  \footnotesize
+  \[
+    n\propto\frac1{E^2}.
+  \]
+  Reducir el margen a la mitad cuadruplica aproximadamente el tamaño de muestra.
+\end{frame}
+
+\begin{frame}{Puente computacional 3/4: variabilidad}
+  \footnotesize
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      Media: $n\propto\sigma^2$.
+    \column{0.48\textwidth}
+      Proporción: $n\propto p^*(1-p^*)$.
+  \end{columns}
+  \vspace{0.2cm}
+  La información previa reduce el costo cuando es fiable.
+\end{frame}
+
+\begin{frame}{Puente computacional 4/4: redondeo y FPC}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.12cm
+    \item calcular la fórmula continua;
+    \item redondear hacia arriba;
+    \item aplicar FPC si la fracción muestral supera $5\%$.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 1/4 --- media}
+  \footnotesize
+  Se conoce una estimación previa $\sigma$, se fija $E$ y se selecciona un
+  nivel de confianza.
+  \begin{block}{Planteamiento}
+    Despejar $n$ del margen de error de la media.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 1/4 --- solución}
+  \footnotesize
+  \[
+    n=\left(\frac{Z_{\alpha/2}\sigma}{E}\right)^2,
+    \qquad n_{\text{final}}=\lceil n\rceil.
+  \]
+  El redondeo hacia arriba garantiza $E_{\text{final}}\le E$.
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 2/4 --- proporción con $p^*$}
+  \footnotesize
+  Un estudio de respuestas binarias dispone de una proporción esperada $p^*$.
+  \begin{block}{Planteamiento}
+    Usar la variabilidad anticipada para calcular el tamaño requerido.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 2/4 --- solución}
+  \footnotesize
+  \[
+    n=\left(\frac{Z_{\alpha/2}}{E}\right)^2p^*(1-p^*).
+  \]
+  Una proporción previa alejada de $0.5$ reduce la varianza esperada.
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 3/4 --- caso conservador}
+  \footnotesize
+  Si no existe información previa sobre $p$, debe protegerse el peor caso.
+  \begin{block}{Planteamiento}
+    Maximizar $p(1-p)$ en $[0,1]$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 3/4 --- solución}
+  \footnotesize
+  \[
+    p^*=0.5,\qquad p^*(1-p^*)=0.25,
+    \qquad n_{\max}=\frac{Z_{\alpha/2}^2}{4E^2}.
+  \]
+  Este tamaño no subestima la variabilidad posible de una proporción.
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 4/4 --- población finita}
+  \footnotesize
+  Una población de tamaño $N$ puede ser pequeña frente al tamaño calculado.
+  \begin{block}{Planteamiento}
+    Revisar si $n/N>0.05$ y ajustar el tamaño.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 4/4 --- solución}
+  \footnotesize
+  \[
+    n_a=\frac{n}{1+(n-1)/N}.
+  \]
+  El ajuste reduce observaciones sin sacrificar el margen de error estipulado.
+\end{frame}
+
+\begin{frame}{Síntesis de la sección}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Confianza, margen y variabilidad determinan $n$.
+    \item El margen entra al cuadrado en el denominador.
+    \item $p=0.5$ es el caso conservador para proporciones.
+    \item La FPC corrige poblaciones finitas.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
+\begin{frame}{Transición curricular}
+  \footnotesize
+  \begin{block}{Lo que queda establecido}
+    El tamaño muestral se decide antes de observar datos, con supuestos
+    explícitos y redondeo seguro.
   \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
+  \begin{alertblock}{Siguiente unidad}
+    Las pruebas de hipótesis usarán estos tamaños para controlar significación,
+    potencia y precisión.
   \end{alertblock}
 \end{frame}
 \end{document}

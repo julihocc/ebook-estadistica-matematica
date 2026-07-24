@@ -1,44 +1,27 @@
 \documentclass[10pt,aspectratio=169]{beamer}
-\input{../../_preambulo_beamer}
-\input{../../_comandos_beamer}
-
-\title[Bloques y cuadrados latinos]{Sección 8.6: Bloques y cuadrados latinos}
-\subtitle{Correspondencia con la nota de lectura ES}
-\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute{Tecnológico de Monterrey}
-\date{}
-
+\input{../../_preambulo_beamer}\input{../../_comandos_beamer}
+\title[Bloques y cuadrados latinos]{Sección 08.06: Bloques, cuadrados latinos y grecolatinos}\subtitle{Control de fuentes de variabilidad}\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/dbca\_cuadrados\_latinos.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
-\end{frame}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}\small\begin{enumerate}\item DBCA y modelo aditivo.\item Cuadrado latino.\item Cuadrado grecolatino.\end{enumerate}\end{frame}
+\begin{frame}{Fuente y alcance}\small La sección introduce diseños que controlan una, dos o tres fuentes conocidas de heterogeneidad además del tratamiento.\begin{block}{Pregunta guía}¿Cómo reducir ruido sin multiplicar innecesariamente las corridas?\end{block}\end{frame}
+\begin{frame}{Motivación del bloqueo}\small Si las unidades difieren de forma conocida, un diseño completamente aleatorizado mezcla esa variación con el error. Los bloques la separan.\end{frame}
+\begin{frame}{DBCA}\small En un Diseño en Bloques Completos al Azar hay $b$ bloques homogéneos y $k$ tratamientos; cada tratamiento aparece una vez por bloque, $N=kb$.\end{frame}
+\begin{frame}{Modelo aditivo DBCA}\small\[Y_{ij}=\mu+\tau_i+\beta_j+\epsilon_{ij}.\]\begin{itemize}\item $\tau_i$: tratamiento.\item $\beta_j$: bloque.\item $\epsilon_{ij}$: error.\end{itemize}\end{frame}
+\begin{frame}{Partición DBCA}\small\[\mathrm{SCT}=\mathrm{SCTR}+\mathrm{SCB}+\mathrm{SCE}.\]La variación del bloque se extrae antes de evaluar tratamientos.\end{frame}
+\begin{frame}{Cuadrado latino}\small Un cuadrado latino de orden $n$ es una matriz $n\times n$ donde cada tratamiento aparece exactamente una vez en cada fila y columna.\end{frame}
+\begin{frame}{Dos fuentes de bloqueo}\small Filas y columnas representan dos factores de control cruzados. El diseño usa $n^2$ corridas en lugar de las $n^3$ de un factorial completo de tres factores.\end{frame}
+\begin{frame}{Modelo latino}\small\[Y_{ijk}=\mu+\rho_i+\gamma_j+\tau_k+\epsilon_{ijk}.\]\end{frame}
+\begin{frame}{Partición latina}\small\[\mathrm{SCT}=\mathrm{SC}_{\mathrm{filas}}+\mathrm{SC}_{\mathrm{columnas}}+\mathrm{SCTR}+\mathrm{SCE}.\]\end{frame}
+\begin{frame}{Cuadrado grecolatino}\small Superpone dos cuadrados latinos ortogonales: el arreglo latino representa el tratamiento principal y las letras griegas una cuarta fuente controlada.\end{frame}
+\begin{frame}{Condición de existencia}\small No existen cuadrados grecolatinos ortogonales de orden $6$; para otros órdenes $n\geq3$ sí se dispone de construcciones.\end{frame}
+\begin{frame}{Modelo grecolatino}\small\[Y_{ijkl}=\mu+\rho_i+\gamma_j+\tau_k+\delta_l+\epsilon_{ijkl}.\]\end{frame}
+\begin{frame}{Partición grecolatina}\small\[\mathrm{SCT}=\mathrm{SC}_{\mathrm{filas}}+\mathrm{SC}_{\mathrm{columnas}}+\mathrm{SCTR}+\mathrm{SC}_{\mathrm{griego}}+\mathrm{SCE}.\]\end{frame}
+\begin{frame}{Aplicación: DBCA}\small Para comparar tratamientos en servidores de distintas generaciones, use cada generación como bloque y aleatorice los tratamientos dentro de ella.\end{frame}
+\begin{frame}{Aplicación: cuadrado latino}\small Si turno y máquina son dos fuentes de ruido cruzadas, filas y columnas pueden controlarlas mientras cada tratamiento aparece una vez en cada dirección.\end{frame}
+\begin{frame}{Aplicación: lectura de medias}\small Las medias de tratamiento se comparan después de sustraer las contribuciones sistemáticas de bloques, filas o columnas.\end{frame}
+\begin{frame}{Interpretación}\small Un bloque eficaz reduce CME y puede aumentar la potencia del estadístico $F$ para tratamientos.\end{frame}
+\begin{frame}{Comunicación}\small Reporte estructura, restricciones, sumas de cuadrados, grados de libertad y la hipótesis de tratamientos; los bloques son controles, no necesariamente objetivos.\end{frame}
+\begin{frame}{Síntesis}\small\begin{itemize}\item DBCA controla una fuente.\item Latino controla dos.\item Grecolatino controla tres.\item El objetivo es reducir el error residual.\end{itemize}\end{frame}
+\begin{frame}{Conexión con el capítulo}\small Estos diseños extienden ANOVA y preparan el análisis de diseños factoriales con más de un factor de tratamiento.\end{frame}
 \end{document}

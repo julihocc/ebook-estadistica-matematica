@@ -3,42 +3,209 @@
 \input{../../_comandos_beamer}
 
 \title[Estimación por intervalo]{Sección 6.2: Estimación por intervalo}
-\subtitle{Correspondencia con la nota de lectura ES}
+\subtitle{Intervalos de confianza, niveles y valores $p$}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
 \date{}
 
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
 
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/intervalos\_de\_confianza.tex}
+\begin{frame}{Hoja de ruta --- capítulo 6}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{06.01} Estimación puntual
+    \item \textbf{06.02} Estimación por intervalo \emph{(hoy)}
+    \item \textbf{06.04--06.07} Medias, proporciones, varianzas y tamaño muestral
+  \end{itemize}
+  \begin{block}{Objetivo didáctico}
+    Construir intervalos para una media, distinguir $Z$ de $t$ y relacionar
+    confianza, significación y valores $p$.
   \end{block}
 \end{frame}
 
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
+\begin{frame}{Motivación: un rango plausible}
+  \footnotesize
+  Un estimador puntual no muestra toda la incertidumbre. Un intervalo de
+  confianza proporciona un rango de valores compatibles con los datos.
+  \begin{alertblock}{Pregunta guía}
+    ¿Qué tan ancho debe ser el rango para alcanzar la confianza elegida?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Confianza y valor $p$}
+  \footnotesize
+  Para un nivel de confianza $p$, la nota define la significación como
+  \[
+    \beta=1-p.
+  \]
+  Un valor $p$ de un estadístico se expresa como
+  \[
+    p\text{-valor}=P(X>Z)\quad\text{o}\quad P(X>t).
+  \]
+\end{frame}
+
+\begin{frame}{Criterio y tipos de cola}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Si $p\text{-valor}>\beta$, no se rechaza la hipótesis nula.
+    \item Si $p\text{-valor}<\beta$, se favorece la alternativa.
+  \end{itemize}
+  La simetría de la normal permite pruebas de cola izquierda, derecha o dos
+  colas.
+\end{frame}
+
+\begin{frame}{Intervalo para $\mu$ con $\sigma$ conocida}
+  \footnotesize
+  \[
+    \bar X-Z_{\alpha/2}\frac{\sigma}{\sqrt n}
+    \le\mu\le
+    \bar X+Z_{\alpha/2}\frac{\sigma}{\sqrt n}.
+  \]
+  El cuantil pertenece a la normal estándar.
+\end{frame}
+
+\begin{frame}{Intervalo para $\mu$ con $\sigma$ desconocida}
+  \footnotesize
+  \[
+    \bar X-t_{\alpha/2,n-1}\frac{S}{\sqrt n}
+    \le\mu\le
+    \bar X+t_{\alpha/2,n-1}\frac{S}{\sqrt n}.
+  \]
+  Sustituir $\sigma$ por $S$ cambia la distribución de referencia a $t$.
+\end{frame}
+
+\begin{frame}{Estructura común}
+  \footnotesize
+  \[
+    \text{estimador puntual}\ \pm\ (\text{valor crítico})
+    (\text{error estándar}).
+  \]
+  Esta forma se repite para medias, proporciones y varianzas.
+\end{frame}
+
+\begin{frame}{Puente computacional 1/4: margen de error}
+  \footnotesize
+  \[
+    E=\text{valor crítico}\times SE.
+  \]
+  Aumentar el nivel de confianza aumenta el valor crítico y ensancha el
+  intervalo.
+\end{frame}
+
+\begin{frame}{Puente computacional 2/4: Z frente a t}
+  \footnotesize
+  \begin{tabular}{lll}
+    \hline
+    Caso & Error estándar & Referencia \\
+    \hline
+    $\sigma$ conocida & $\sigma/\sqrt n$ & $Z$ \\
+    $\sigma$ desconocida & $S/\sqrt n$ & $t_{n-1}$ \\
+    \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Puente computacional 3/4: colas}
+  \footnotesize
+  Una prueba bilateral reparte $\alpha$ entre las dos colas. Una prueba de una
+  cola concentra toda la región crítica en un extremo.
+  \begin{block}{Consecuencia}
+    El tipo de cola debe fijarse antes de interpretar el valor $p$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Puente computacional 4/4: interpretación}
+  \footnotesize
+  Un IC del $95\%$ se construye con $\alpha=0.05$ y cuantiles
+  $Z_{0.025}$ o $t_{0.025,n-1}$.
+  \begin{alertblock}{Cuidado}
+    El intervalo cuantifica el procedimiento repetido; no afirma que un
+    parámetro fijo sea aleatorio después de observar los datos.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 1/4 --- botellas y $Z$}
+  \footnotesize
+  Una muestra de $n=16$ botellas tiene $\bar X=500.4$ ml y se conoce
+  $\sigma=2$ ml. Construir el IC del $95\%$ para $\mu$.
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 1/4 --- solución}
+  \footnotesize
+  \[
+    SE=2/\sqrt{16}=0.5,\qquad
+    IC=500.4\pm1.96(0.5)=[499.42,501.38]\text{ ml}.
+  \]
+  Se emplea la normal porque $\sigma$ es conocida.
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 2/4 --- botellas y $t$}
+  \footnotesize
+  Con los mismos datos, suponga $\sigma$ desconocida y $S=2.3$ ml. Use
+  $t_{15,0.025}\approx2.131$ para el IC del $95\%$.
+\end{frame}
+
+\begin{frame}{Ejemplo resuelto 2/4 --- solución}
+  \footnotesize
+  \[
+    SE=2.3/\sqrt{16}=0.575,\qquad
+    IC=500.4\pm2.131(0.575)=[499.18,501.63]\text{ ml}.
+  \]
+  El intervalo $t$ es más ancho por la incertidumbre adicional.
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 3/4 --- cola derecha}
+  \footnotesize
+  Para una hipótesis de aumento, la región crítica se ubica en la cola derecha.
+  \begin{block}{Planteamiento}
+    Comparar el valor $p$ con $\beta$ usando la probabilidad a la derecha del
+    estadístico observado.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 3/4 --- decisión}
+  \footnotesize
+  Si el valor $p$ es menor que $\beta$, la evidencia cae en la región crítica y
+  se rechaza $H_0$; de lo contrario, no se rechaza.
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 4/4 --- dos colas}
+  \footnotesize
+  Para una diferencia en cualquier dirección, la prueba bilateral distribuye la
+  significación entre ambas colas.
+  \begin{block}{Planteamiento}
+    Interpretar el intervalo como el conjunto de valores no rechazados por la
+    prueba bilateral correspondiente.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 4/4 --- conexión}
+  \footnotesize
+  Un valor de $\mu_0$ fuera del IC bilateral produce un valor $p$ menor que
+  $\alpha$; si está dentro, el procedimiento no lo rechaza.
+  \begin{exampleblock}{Resultado}
+    IC y prueba bilateral son dos lecturas del mismo margen de error.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Síntesis de la sección}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item El nivel de confianza fija $\alpha$ y el valor crítico.
+    \item $Z$ se usa con $\sigma$ conocida; $t$ con $S$.
+    \item El tipo de cola define la región crítica.
+    \item IC y valor $p$ conectan estimación y decisión.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
+\begin{frame}{Transición curricular}
+  \footnotesize
+  \begin{block}{Lo que queda establecido}
+    Un intervalo combina estimador, distribución de referencia y error estándar.
   \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
+  \begin{alertblock}{Siguiente sección}
+    \textbf{06.04 Errores estándar}: comparar las fórmulas de precisión para
+    medias, diferencias y proporciones.
   \end{alertblock}
 \end{frame}
 \end{document}

@@ -1,44 +1,91 @@
 \documentclass[10pt,aspectratio=169]{beamer}
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
-
-\title[Relación entre intervalos de confianza y pruebas de hipótesis]{Sección 7.2: Relación entre intervalos de confianza y pruebas de hipótesis}
-\subtitle{Correspondencia con la nota de lectura ES}
+\title[IC y pruebas de hipótesis]{Sección 07.02: IC y pruebas de hipótesis}
+\subtitle{De la estimación a la decisión}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
 \date{}
-
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}
+\small Esta sección enlaza los intervalos de confianza con las pruebas de dos colas.
+\begin{enumerate}\item Regla basada en el valor $p$.\item Equivalencia con un intervalo.\item Lectura e interpretación.\end{enumerate}
 \end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/relacion\_ic\_pruebas\_hipotesis.tex}
-  \end{block}
+\begin{frame}{Fuente y alcance}
+\small La fuente canónica es la sección de teoría sobre la relación entre intervalos de confianza y pruebas de hipótesis. El mazo sigue su orden y conserva sus etiquetas matemáticas.
+\begin{block}{Pregunta guía} ¿Cuándo produce la misma decisión un intervalo y una prueba?\end{block}
 \end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
+\begin{frame}{Decisión estadística}\small
+\begin{block}{Regla del valor $p$} Rechazamos $H_0$ cuando $p\leq\alpha$ y no rechazamos $H_0$ cuando $p>\alpha$.\end{block}
+\begin{alertblock}{Cuidado} No rechazar $H_0$ no equivale a demostrar que $H_0$ es verdadera.\end{alertblock}
 \end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
+\begin{frame}{Hipótesis de dos colas}\small
+\[H_0:\theta=\theta_0,\qquad H_a:\theta\neq\theta_0.\]
+La prueba separa los resultados extremos en dos colas, con una probabilidad total $\alpha$ de rechazo cuando $H_0$ es cierta.
+\end{frame}
+\begin{frame}{Intervalo de confianza}\small
+Un intervalo $(1-\alpha)100\%$ reúne los valores del parámetro compatibles con los datos al nivel elegido.
+\begin{block}{Lectura} El intervalo no enumera valores probables del parámetro; describe el procedimiento que captura al parámetro en repeticiones de muestreo.\end{block}
+\end{frame}
+\begin{frame}{Teorema de equivalencia}\small
+\begin{block}{Equivalencia}
+Para una prueba bilateral al nivel $\alpha$ y su intervalo de confianza correspondiente,
+\[\text{rechazar }H_0\Longleftrightarrow \theta_0\notin IC_{(1-\alpha)100\%}.\]
+\end{block}
+\end{frame}
+\begin{frame}{La misma distancia estandarizada}\small
+Ambos procedimientos comparan
+\[\frac{\hat\theta-\theta_0}{SE(\hat\theta)}\]
+con el valor crítico apropiado, $z_{\alpha/2}$ o $t_{\alpha/2}$.
+\end{frame}
+\begin{frame}{Caso de una media}\small
+Si $\sigma$ es conocida, el intervalo es
+\[\bar X\pm z_{\alpha/2}\frac{\sigma}{\sqrt n}.\]
+Excluir a $\mu_0$ equivale a que $|\bar X-\mu_0|/(\sigma/\sqrt n)>z_{\alpha/2}$.
+\end{frame}
+\begin{frame}{Puente computacional I}\small
+\begin{itemize}\item Calcular $\hat\theta$ y su error estándar.\item Fijar $\alpha$.\item Obtener el intervalo y el estadístico de prueba.\end{itemize}
+\end{frame}
+\begin{frame}{Criterio operativo}\small
+\begin{enumerate}\item Identificar el parámetro y $\theta_0$.\item Elegir el nivel $\alpha$.\item Construir $IC_{1-\alpha}$.\item Verificar la pertenencia de $\theta_0$.\end{enumerate}
+\end{frame}
+\begin{frame}{Lectura de una media}\small
+\begin{block}{Aplicación derivada de la teoría} Un intervalo para una media tiene centro $\bar x$ y margen $z_{\alpha/2}\sigma/\sqrt n$.\end{block}
+\[\mu_0\in IC\Rightarrow\text{no rechazo};\qquad\mu_0\notin IC\Rightarrow\text{rechazo}.\]
+\end{frame}
+\begin{frame}{Interpretación de una media}\small
+La conclusión se expresa respecto de la evidencia y del nivel fijado: el valor hipotético es compatible o no es compatible con el intervalo observado.
+\begin{alertblock}{Comunicación} Reportar también extremos del intervalo, unidades y nivel de confianza.\end{alertblock}
+\end{frame}
+\begin{frame}{Lectura con distribución $t$}\small
+Cuando $\sigma$ es desconocida, se sustituye por $S$ y se usa $t_{n-1}$ tanto en el intervalo como en la prueba.
+\[\bar X\pm t_{\alpha/2,n-1}\frac{S}{\sqrt n}.\]
+\end{frame}
+\begin{frame}{Interpretación con $t$}\small
+La lógica no cambia: los cuantiles de $t$ reflejan la incertidumbre adicional de estimar $\sigma$. Para muestras grandes, $t_{n-1}$ se aproxima a la normal estándar.
+\end{frame}
+\begin{frame}{Lectura de dos colas}\small
+\begin{block}{Simetría} Una alternativa $H_a:\theta\neq\theta_0$ reparte $\alpha$ entre las dos colas.\end{block}
+El intervalo bilateral representa exactamente la región de valores no rechazados.
+\end{frame}
+\begin{frame}{Aplicación comparativa}\small
+Supóngase un intervalo $(1-\alpha)100\%$ para una media. Compare visualmente $\mu_0$ con sus extremos inferior y superior.
+\begin{block}{Decisión} La comparación del valor hipotético con los extremos sustituye a dos cálculos de cola.\end{block}
+\end{frame}
+\begin{frame}{Resolución comparativa}\small
+\begin{itemize}\item Si $L\leq\mu_0\leq U$, la prueba bilateral no rechaza.\item Si $\mu_0<L$ o $\mu_0>U$, la prueba rechaza.\end{itemize}
+\end{frame}
+\begin{frame}{Aplicación de comunicación}\small
+Una conclusión útil debe incluir parámetro, intervalo, nivel y decisión. La frase ``no hay evidencia suficiente'' es preferible a ``se acepta la nula''.
+\end{frame}
+\begin{frame}{Resolución de comunicación}\small
+\begin{block}{Plantilla} ``El intervalo de confianza del $100(1-\alpha)\%$ para $\theta$ es $[L,U]$; como $\theta_0$ [pertenece/no pertenece], [no rechazamos/rechazamos] $H_0$.''\end{block}
+\end{frame}
+\begin{frame}{Síntesis}\small
+\begin{itemize}\item La prueba bilateral y el intervalo correspondiente comparten valor crítico.\item La pertenencia de $\theta_0$ determina la decisión.\item El intervalo aporta magnitud, precisión y dirección.\end{itemize}
+\end{frame}
+\begin{frame}{Conexión con el capítulo}\small
+Esta equivalencia permite pasar de estimación a decisión sin duplicar cálculos. Las secciones siguientes aplican el mismo principio a medias, proporciones y varianzas.
 \end{frame}
 \end{document}

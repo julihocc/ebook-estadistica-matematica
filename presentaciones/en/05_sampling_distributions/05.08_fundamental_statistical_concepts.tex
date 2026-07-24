@@ -1,0 +1,234 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Fundamental Concepts]{Section 5.8: Fundamental Concepts of Inferential Statistics}
+\subtitle{Estimators, standard error, and sampling limits}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
+
+\begin{frame}{Roadmap --- Chapter 5}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{05.00} Inferential introduction
+    \item \textbf{05.01--05.05} Sampling distributions
+    \item \textbf{05.08} Fundamental concepts \emph{(today)}
+    \item \textbf{05.09} Z and t statistics
+  \end{itemize}
+  \begin{block}{Learning objective}
+    Connect estimators, sampling distributions, and standard error with the law
+    of large numbers and the central limit theorem.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Motivation: estimating a parameter}
+  \footnotesize
+  An estimator is a statistic used to approximate an unknown population
+  parameter. We write $\hat\theta$ for the parameter $\theta$.
+  \begin{alertblock}{Guiding question}
+    Is the estimator centered on the true value, and how variable is it?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Unbiased estimator}
+  \footnotesize
+  \begin{block}{Definition}
+    $\hat\theta$ is unbiased for $\theta$ if
+    \[
+      E(\hat\theta)=\theta.
+    \]
+  \end{block}
+  \begin{exampleblock}{Reading example}
+    The sample mean satisfies $E(\bar X)=\mu$.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Sampling distribution}
+  \footnotesize
+  The sampling distribution of a statistic is its probability distribution when
+  computed over all possible samples of size $n$.
+  \begin{block}{Object of study}
+    It describes how the statistic changes when sampling is repeated, not the
+    variation of observations inside one sample.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Standard error}
+  \footnotesize
+  Standard error is the standard deviation of a statistic's sampling
+  distribution:
+  \[
+    SE(\bar X)=\frac{\sigma}{\sqrt n},
+    \qquad SE(\bar X)\approx\frac{s}{\sqrt n}.
+  \]
+  \begin{alertblock}{Reading}
+    It measures estimation precision, not individual-observation spread.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Law of large numbers}
+  \footnotesize
+  For iid variables with mean $\mu$,
+  \[
+    \lim_{n\to\infty}P(|\bar X_n-\mu|<\varepsilon)=1.
+  \]
+  With large samples, the sample mean approaches the population mean in
+  probability.
+\end{frame}
+
+\begin{frame}{Central limit theorem}
+  \footnotesize
+  If the iid variables have mean $\mu$ and finite variance $\sigma^2$,
+  \[
+    \frac{\bar X-\mu}{\sigma/\sqrt n}\xrightarrow{d}N(0,1).
+  \]
+  In practice the CLT often works from $n\ge30$, depending on population shape.
+\end{frame}
+
+\begin{frame}{Importance for inference}
+  \footnotesize
+  The CLT allows us to:
+  \begin{itemize}\itemsep=0.1cm
+    \item use the normal distribution for means from non-normal populations;
+    \item justify Z and t tests;
+    \item construct confidence intervals;
+    \item understand approximately normal patterns in nature.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Computational bridge 1/4: estimator}
+  \footnotesize
+  \[
+    \bar X=\frac1n\sum_{i=1}^nX_i,
+    \qquad E(\bar X)=\mu.
+  \]
+  The expected value centers the estimator at the parameter of interest.
+\end{frame}
+
+\begin{frame}{Computational bridge 2/4: variability}
+  \footnotesize
+  \[
+    \operatorname{Var}(\bar X)=\frac{\sigma^2}{n},
+    \qquad SE(\bar X)=\frac{\sigma}{\sqrt n}.
+  \]
+  Increasing $n$ reduces the variability of the sample mean.
+\end{frame}
+
+\begin{frame}{Computational bridge 3/4: standardization}
+  \footnotesize
+  \[
+    Z_n=\frac{\bar X-\mu}{\sigma/\sqrt n}.
+  \]
+  \begin{alertblock}{Limit}
+    The CLT states that $Z_n$ approaches a standard normal distribution, making
+    known probabilities and quantiles available.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Computational bridge 4/4: sample size}
+  \footnotesize
+  \begin{tabular}{lll}
+    \hline
+    Change & Effect on $SE(\bar X)$ & Reading \\
+    \hline
+    $n\to4n$ & divided by $2$ & higher precision \\
+    $n\to n/4$ & multiplied by $2$ & lower precision \\
+    \hline
+  \end{tabular}
+  \begin{block}{Conclusion}
+    Precision improves with $n$, but non-sampling errors remain.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Solved example 1/4 --- unbiased mean}
+  \footnotesize
+  The reading considers $\bar X=(1/n)\sum X_i$ as an estimator of $\mu$.
+  \begin{block}{Statement}
+    Compute $E(\bar X)$ using linearity of expectation.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Solved example 1/4 --- solution}
+  \footnotesize
+  \[
+    E(\bar X)=E\!\left(\frac1n\sum X_i\right)
+    =\frac1n\sum E(X_i)=\frac1n\,n\mu=\mu.
+  \]
+  \begin{alertblock}{Result}
+    The sample mean is an unbiased estimator of the population mean.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Solved example 2/4 --- sampling distribution}
+  \footnotesize
+  For iid variables with mean $\mu$ and variance $\sigma^2$, the reading studies
+  the distribution of $\bar X$.
+  \begin{block}{Statement}
+    Determine its mean and variance.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Solved example 2/4 --- solution}
+  \footnotesize
+  \[
+    E(\bar X)=\mu,\qquad \operatorname{Var}(\bar X)=\frac{\sigma^2}{n}.
+  \]
+  \begin{exampleblock}{Interpretation}
+    The sample mean becomes less variable as the sample size grows.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Solved example 3/4 --- exponential waiting times}
+  \footnotesize
+  A waiting time is exponential with mean $\mu=5$ minutes. For $n=50$, the
+  reading applies the CLT to the sample mean.
+  \begin{block}{Statement}
+    Find the approximate distribution of $\bar X$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Solved example 3/4 --- solution}
+  \footnotesize
+  \[
+    \bar X\approx N\!\left(5,\frac{5^2}{50}\right)=N(5,0.5).
+  \]
+  \begin{alertblock}{Interpretation}
+    Although the population is exponential, the mean of 50 observations is
+    approximately normal.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Reading application 4/4 --- solution}
+  \footnotesize
+  \[
+    \text{sample}\to\text{statistic}\to\text{sampling distribution}
+    \to SE\to\text{normal approximation}\to\text{inference}.
+  \]
+  This sequence reproduces the conceptual structure of the reading.
+\end{frame}
+
+\begin{frame}{Synthesis of the section}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Unbiasedness centers the estimator.
+    \item Standard error quantifies precision.
+    \item The law of large numbers explains convergence.
+    \item The CLT supplies a normal limit.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Curricular transition}
+  \footnotesize
+  \begin{block}{Established}
+    We can describe how an estimator behaves when sampling is repeated.
+  \end{block}
+  \begin{alertblock}{Next section}
+    \textbf{05.09 Z and t Statistics}: standardization for tests about means
+    when the standard deviation is known or unknown.
+  \end{alertblock}
+\end{frame}
+\end{document}

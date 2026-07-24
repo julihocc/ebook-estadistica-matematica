@@ -1,0 +1,213 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Sample Size]{Section 6.7: Sample Size Estimation}
+\subtitle{Confidence, margin of error, and prior variability}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
+
+\begin{frame}{Roadmap --- Chapter 6}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{06.02} Confidence intervals
+    \item \textbf{06.04--06.05} Standard errors and proportions
+    \item \textbf{06.07} Sample size \emph{(today)}
+    \item \textbf{07} Hypothesis tests and power
+  \end{itemize}
+  \begin{block}{Learning objective}
+    Determine $n$ before collecting data by fixing confidence, margin of error,
+    and a prior variability estimate.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Motivation: how much data?}
+  \footnotesize
+  A sample that is too small may lack power; an excessively large sample wastes
+  money, time, and computational infrastructure.
+  \begin{alertblock}{Guiding question}
+    What size guarantees that the margin of error does not exceed $E$?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Three prior decisions}
+  \footnotesize
+  Before data collection specify:
+  \begin{enumerate}\itemsep=0.12cm
+    \item nominal confidence $(1-\alpha)$;
+    \item maximum tolerable margin $E$;
+    \item prior dispersion $\sigma$ or expected proportion $p^*$.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Sample size for a mean}
+  \footnotesize
+  Since $E=Z_{\alpha/2}\sigma/\sqrt n$,
+  \[
+    n=\left(\frac{Z_{\alpha/2}\sigma}{E}\right)^2.
+  \]
+  If $\sigma$ is unknown, estimate it from a pilot or the range rule
+  $\sigma\approx\text{range}/4$.
+\end{frame}
+
+\begin{frame}{Sample size for a proportion}
+  \footnotesize
+  Since $E=Z_{\alpha/2}\sqrt{p(1-p)/n}$,
+  \[
+    n=\left(\frac{Z_{\alpha/2}}{E}\right)^2p^*(1-p^*).
+  \]
+  Always round the result upward.
+\end{frame}
+
+\begin{frame}{Conservative case and finite population}
+  \footnotesize
+  Without prior information, $p^*=0.5$ maximizes $p(1-p)$:
+  \[
+    n_{\max}=\frac{Z_{\alpha/2}^2}{4E^2}.
+  \]
+  If $n/N>0.05$, adjust for a finite population:
+  \[
+    n_a=\frac{n}{1+(n-1)/N}.
+  \]
+\end{frame}
+
+\begin{frame}{Monotonicity of required size}
+  \footnotesize
+  Size increases with $Z_{\alpha/2}$ and variability, and decreases when a
+  larger margin $E$ is tolerated.
+  \begin{alertblock}{Reading}
+    The formulas make the trade-off between precision and resources explicit.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Computational bridge 1/4: confidence effect}
+  \footnotesize
+  A higher confidence level increases $Z_{\alpha/2}$ and therefore the required
+  sample size.
+  \begin{block}{Rule}
+    More confidence or a smaller $E$ requires more observations.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Computational bridge 2/4: margin effect}
+  \footnotesize
+  \[
+    n\propto\frac1{E^2}.
+  \]
+  Halving the margin approximately quadruples the sample size.
+\end{frame}
+
+\begin{frame}{Computational bridge 3/4: variability}
+  \footnotesize
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      Mean: $n\propto\sigma^2$.
+    \column{0.48\textwidth}
+      Proportion: $n\propto p^*(1-p^*)$.
+  \end{columns}
+  \vspace{0.2cm}
+  Reliable prior information reduces cost.
+\end{frame}
+
+\begin{frame}{Computational bridge 4/4: rounding and FPC}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.12cm
+    \item compute the continuous formula;
+    \item round upward;
+    \item apply FPC if the sampling fraction exceeds $5\%$.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Reading application 1/4 --- mean}
+  \footnotesize
+  A prior estimate $\sigma$ is available, and confidence and $E$ are fixed.
+  \begin{block}{Statement}
+    Solve the mean margin-of-error equation for $n$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 1/4 --- solution}
+  \footnotesize
+  \[
+    n=\left(\frac{Z_{\alpha/2}\sigma}{E}\right)^2,
+    \qquad n_{\text{final}}=\lceil n\rceil.
+  \]
+  Rounding upward guarantees $E_{\text{final}}\le E$.
+\end{frame}
+
+\begin{frame}{Reading application 2/4 --- proportion with $p^*$}
+  \footnotesize
+  A binary-response study has an expected proportion $p^*$.
+  \begin{block}{Statement}
+    Use anticipated variability to calculate the required size.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 2/4 --- solution}
+  \footnotesize
+  \[
+    n=\left(\frac{Z_{\alpha/2}}{E}\right)^2p^*(1-p^*).
+  \]
+  A prior proportion far from $0.5$ implies lower expected variance.
+\end{frame}
+
+\begin{frame}{Reading application 3/4 --- conservative case}
+  \footnotesize
+  If no prior information about $p$ exists, protect against the worst case.
+  \begin{block}{Statement}
+    Maximize $p(1-p)$ on $[0,1]$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 3/4 --- solution}
+  \footnotesize
+  \[
+    p^*=0.5,\qquad p^*(1-p^*)=0.25,
+    \qquad n_{\max}=\frac{Z_{\alpha/2}^2}{4E^2}.
+  \]
+  This size does not underestimate possible proportion variability.
+\end{frame}
+
+\begin{frame}{Reading application 4/4 --- finite population}
+  \footnotesize
+  A population of size $N$ may be small relative to the computed sample.
+  \begin{block}{Statement}
+    Check $n/N>0.05$ and adjust the size when needed.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 4/4 --- solution}
+  \footnotesize
+  \[
+    n_a=\frac{n}{1+(n-1)/N}.
+  \]
+  The adjustment reduces observations without sacrificing the stipulated margin
+  of error.
+\end{frame}
+
+\begin{frame}{Synthesis of the section}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Confidence, margin, and variability determine $n$.
+    \item The margin enters squared in the denominator.
+    \item $p=0.5$ is the conservative proportion case.
+    \item FPC corrects finite populations.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Curricular transition}
+  \footnotesize
+  \begin{block}{Established}
+    Sample size is decided before observing data, with explicit assumptions and
+    safe rounding.
+  \end{block}
+  \begin{alertblock}{Next unit}
+    Hypothesis tests use these sizes to control significance, power, and
+    precision.
+  \end{alertblock}
+\end{frame}
+\end{document}

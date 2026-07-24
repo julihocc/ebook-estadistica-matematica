@@ -2,43 +2,219 @@
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title[Estimación de proporciones]{Sección 6.5: Estimación de proporciones}
-\subtitle{Correspondencia con la nota de lectura ES}
+\title[Estimación de proporciones]{Sección 6.5: Estimación de una proporción y diferencia entre dos proporciones}
+\subtitle{Wald, Wilson y comparación de tasas}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
 \date{}
 
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
 
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/ic\_proporcion\_diferencia\_proporciones.tex}
+\begin{frame}{Hoja de ruta --- capítulo 6}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{06.02} Intervalos para medias
+    \item \textbf{06.04} Errores estándar
+    \item \textbf{06.05} Proporciones y diferencias \emph{(hoy)}
+    \item \textbf{06.07} Tamaño muestral
+  \end{itemize}
+  \begin{block}{Objetivo didáctico}
+    Construir intervalos para una proporción y para la diferencia de dos
+    proporciones, distinguiendo Wald de Wilson.
   \end{block}
 \end{frame}
 
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
+\begin{frame}{Motivación: respuestas categóricas}
+  \footnotesize
+  Las proporciones describen éxitos Bernoulli: tasas de clics, preferencias y
+  métricas de clasificación.
+  \begin{alertblock}{Pregunta guía}
+    ¿Cómo cuantificar la incertidumbre de $\hat p=X/n$ y de una diferencia de
+    tasas?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Intervalo de Wald}
+  \footnotesize
+  Si las condiciones de muestra grande se cumplen,
+  \[
+    \hat p\pm Z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}}.
+  \]
+  Se basa en la aproximación normal de la distribución muestral de $\hat p$.
+\end{frame}
+
+\begin{frame}{Limitación de Wald}
+  \footnotesize
+  Para muestras pequeñas o proporciones cercanas a $0$ o $1$, Wald puede tener
+  cobertura real inferior a la nominal y producir límites fuera de $[0,1]$.
+  \begin{block}{Condiciones de referencia}
+    La nota usa $n\hat p\ge5$ y $n(1-\hat p)\ge5$ (o, de forma conservadora,
+    $\ge10$).
+  \end{block}
+\end{frame}
+
+\begin{frame}{Intervalo de Wilson}
+  \footnotesize
+  Invirtiendo directamente la prueba de score se obtiene
+  \[
+  \frac{1}{1+Z^2/n}\left[\hat p+\frac{Z^2}{2n}\pm
+  Z\sqrt{\frac{\hat p(1-\hat p)}{n}+\frac{Z^2}{4n^2}}\right].
+  \]
+  El intervalo no se centra necesariamente en $\hat p$.
+\end{frame}
+
+\begin{frame}{Diferencia de dos proporciones}
+  \footnotesize
+  Para muestras independientes suficientemente grandes,
+  \[
+    (\hat p_1-\hat p_2)\pm Z_{\alpha/2}
+    \sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+
+    \frac{\hat p_2(1-\hat p_2)}{n_2}}.
+  \]
+  \begin{alertblock}{Lectura}
+    El estimador central es la diferencia y la varianza combina ambos grupos.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Condiciones y elección del método}
+  \footnotesize
+  Wald es una aproximación de muestra grande; Wilson es preferible cuando los
+  conteos son pequeños o la proporción está cerca de un extremo.
+  \begin{alertblock}{Regla}
+    Primero se revisan las condiciones; después se elige la fórmula.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Puente computacional 1/4: estimador}
+  \footnotesize
+  \[
+    \hat p=\frac{X}{n},\qquad
+    \operatorname{Var}(\hat p)\approx\frac{p(1-p)}{n}.
+  \]
+  La estimación reemplaza $p$ por $\hat p$ en el error estándar de Wald.
+\end{frame}
+
+\begin{frame}{Puente computacional 2/4: corrección Wilson}
+  \footnotesize
+  Wilson conserva $p$ en el denominador durante la inversión del score y
+  resuelve la desigualdad resultante.
+  \begin{block}{Consecuencia}
+    El centro y la amplitud se ajustan automáticamente cerca de los límites.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Puente computacional 3/4: dos grupos}
+  \footnotesize
+  \[
+    \widehat{SE}(\hat p_1-\hat p_2)=
+    \sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+
+    \frac{\hat p_2(1-\hat p_2)}{n_2}}.
+  \]
+  Cada muestra aporta su propia incertidumbre.
+\end{frame}
+
+\begin{frame}{Puente computacional 4/4: límites}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Wald puede exceder $[0,1]$.
+    \item Wilson mantiene límites plausibles.
+    \item La diferencia $p_1-p_2$ vive en $[-1,1]$.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
+\begin{frame}{Aplicación de lectura 1/4 --- Wald}
+  \footnotesize
+  La nota formula el IC normal para $p$ cuando se cumplen las condiciones de
+  muestra grande.
+  \begin{block}{Planteamiento}
+    Identificar $X$, $n$, $\hat p$ y el valor crítico.
   \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 1/4 --- solución}
+  \footnotesize
+  \[
+    IC_W=\hat p\pm Z_{\alpha/2}
+    \sqrt{\frac{\hat p(1-\hat p)}{n}}.
+  \]
+  La aproximación es razonable cuando éxitos y fracasos esperados son
+  suficientemente numerosos.
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 2/4 --- Wilson}
+  \footnotesize
+  Para una muestra pequeña o una proporción extrema, la nota recomienda
+  invertir el score en lugar de usar Wald.
+  \begin{block}{Planteamiento}
+    Sustituir la fórmula simétrica por la expresión de Wilson.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 2/4 --- solución}
+  \footnotesize
+  El factor $1/(1+Z^2/n)$ y el término $Z^2/(4n^2)$ corrigen el centro y la
+  amplitud.
+  \begin{alertblock}{Resultado}
+    Wilson mantiene una cobertura real más cercana al nivel nominal.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 3/4 --- dos proporciones}
+  \footnotesize
+  Dos poblaciones independientes tienen tasas $p_1$ y $p_2$ y tamaños $n_1$ y
+  $n_2$.
+  \begin{block}{Planteamiento}
+    Estimar $p_1-p_2$ mediante $\hat p_1-\hat p_2$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 3/4 --- solución}
+  \footnotesize
+  \[
+    IC=(\hat p_1-\hat p_2)\pm Z_{\alpha/2}\widehat{SE}.
+  \]
+  El intervalo incluye cero cuando la diferencia observada es compatible con
+  ausencia de diferencia.
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 4/4 --- condiciones}
+  \footnotesize
+  La validez de la aproximación normal depende de los conteos esperados
+  $n_i\hat p_i$ y $n_i(1-\hat p_i)$.
+  \begin{block}{Planteamiento}
+    Revisar las condiciones antes de reportar un intervalo.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación de lectura 4/4 --- decisión}
+  \footnotesize
+  Si las condiciones fallan, se prefiere Wilson (o Agresti--Coull) para una
+  proporción; para dos tasas se requiere una aproximación adecuada al diseño.
+  \begin{exampleblock}{Resultado}
+    El método se elige por la información disponible, no solo por conveniencia.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Síntesis de la sección}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Wald es simple y exige condiciones de muestra grande.
+    \item Wilson corrige centro, amplitud y cobertura.
+    \item Dos proporciones combinan dos errores estándar.
+    \item Los conteos esperados determinan la aproximación apropiada.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Transición curricular}
+  \footnotesize
+  \begin{block}{Lo que queda establecido}
+    Las proporciones requieren respetar el soporte $[0,1]$ y las condiciones de
+    la aproximación elegida.
+  \end{block}
+  \begin{alertblock}{Siguiente sección}
+    \textbf{06.07 Tamaño de una muestra}: elegir $n$ antes de observar los
+    datos, controlando confianza y margen de error.
   \end{alertblock}
 \end{frame}
 \end{document}

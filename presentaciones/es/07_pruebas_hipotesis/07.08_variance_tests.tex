@@ -1,44 +1,28 @@
 \documentclass[10pt,aspectratio=169]{beamer}
-\input{../../_preambulo_beamer}
-\input{../../_comandos_beamer}
-
-\title[Pruebas sobre varianzas]{Sección 7.8: Pruebas sobre varianzas}
-\subtitle{Correspondencia con la nota de lectura ES}
-\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute{Tecnológico de Monterrey}
-\date{}
-
+\input{../../_preambulo_beamer}\input{../../_comandos_beamer}
+\title[Pruebas de varianzas]{Sección 07.08: Pruebas relacionadas con varianzas}\subtitle{Dispersión y homoscedasticidad}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/prueba\_varianzas.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
-\end{frame}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}\small\begin{enumerate}\item Una varianza.\item Comparación de dos varianzas.\item Supuestos e interpretación.\end{enumerate}\end{frame}
+\begin{frame}{Fuente y alcance}\small La sección presenta pruebas de dispersión para evaluar uniformidad, riesgo y supuestos de homoscedasticidad.\begin{block}{Pregunta guía}¿La variabilidad observada coincide con la variabilidad hipotética?\end{block}\end{frame}
+\begin{frame}{Varianza poblacional}\small Para una muestra normal de tamaño $n$, la varianza muestral $S^2$ resume la dispersión alrededor de $\bar X$.\end{frame}
+\begin{frame}{Hipótesis de una varianza}\small\[H_0:\sigma^2=\sigma_0^2\qquad\text{frente a una alternativa sobre }\sigma^2.\]\end{frame}
+\begin{frame}{Estadística chi-cuadrada}\small\[\chi^2=\frac{(n-1)S^2}{\sigma_0^2}.\]\begin{block}{Distribución} Bajo $H_0$, $\chi^2\sim\chi^2_{n-1}$.\end{block}\end{frame}
+\begin{frame}{Regiones de rechazo}\small La alternativa determina si se usa una cola derecha, izquierda o ambas colas de la distribución chi-cuadrada.\end{frame}
+\begin{frame}{Dos varianzas}\small Para dos muestras normales independientes, se contrasta $H_0:\sigma_1^2=\sigma_2^2$ mediante el cociente de varianzas muestrales.\end{frame}
+\begin{frame}{Estadística $F$}\small\[F=\frac{S_1^2}{S_2^2}.\]\begin{block}{Distribución} Bajo igualdad, $F\sim F_{n_1-1,n_2-1}$.\end{block}\end{frame}
+\begin{frame}{Orden del cociente}\small Colocar la varianza mayor en el numerador facilita una prueba de cola derecha; los grados de libertad deben seguir el orden elegido.\end{frame}
+\begin{frame}{Procedimiento I}\small\begin{enumerate}\item Revisar normalidad e independencia.\item Formular hipótesis.\item Fijar $\alpha$.\end{enumerate}\end{frame}
+\begin{frame}{Procedimiento II}\small\begin{enumerate}\setcounter{enumi}{3}\item Calcular $S^2$ o $F$.\item Obtener cuantil o valor $p$.\item Concluir en contexto.\end{enumerate}\end{frame}
+\begin{frame}{Supuestos}\small Las pruebas $\chi^2$ y $F$ son sensibles a desviaciones de normalidad. La independencia y el diseño muestral son esenciales.\end{frame}
+\begin{frame}{Aplicación: una varianza}\small Suponga una referencia $\sigma_0^2$ y una muestra con $n$ y $S^2$. Calcule $\chi^2=(n-1)S^2/\sigma_0^2$.\end{frame}
+\begin{frame}{Aplicación: decisión}\small Compare el valor con los cuantiles de $\chi^2_{n-1}$ según la alternativa.\end{frame}
+\begin{frame}{Aplicación: dos varianzas}\small Dos procesos producen $S_1^2$ y $S_2^2$. La razón $F$ evalúa si sus dispersiones pueden considerarse iguales.\end{frame}
+\begin{frame}{Aplicación: interpretación}\small Rechazar igualdad de varianzas señala dispersión distinta; no identifica por sí sola la causa ni el mecanismo del proceso.\end{frame}
+\begin{frame}{Homoscedasticidad}\small En modelos paramétricos, la igualdad de varianzas sostiene errores comparables entre grupos. La prueba es una herramienta diagnóstica, no un sustituto del análisis gráfico.\end{frame}
+\begin{frame}{Errores frecuentes}\small\begin{itemize}\item Omitir la normalidad.\item Invertir grados de libertad al reordenar $F$.\item Interpretar dispersión como diferencia de medias.\end{itemize}\end{frame}
+\begin{frame}{Plantilla de reporte}\small\begin{block}{Reporte} ``Se obtuvo $\chi^2/F=\cdots$, con $gl=\cdots$ y $p=\cdots$. Al nivel $\alpha=\cdots$, [rechazamos/no rechazamos] la igualdad planteada.''\end{block}\end{frame}
+\begin{frame}{Síntesis}\small\begin{itemize}\item Una varianza usa $\chi^2$.\item Dos varianzas usan $F$.\item Los supuestos controlan la validez de la inferencia.\end{itemize}\end{frame}
+\begin{frame}{Conexión con el capítulo}\small Estas pruebas fundamentan la evaluación de homoscedasticidad en comparaciones de medias y modelos de regresión.\end{frame}
 \end{document}

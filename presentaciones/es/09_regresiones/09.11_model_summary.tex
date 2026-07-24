@@ -1,44 +1,27 @@
 \documentclass[10pt,aspectratio=169]{beamer}
-\input{../../_preambulo_beamer}
-\input{../../_comandos_beamer}
-
-\title[Resumen de modelos]{Sección 9.11: Resumen de modelos}
-\subtitle{Correspondencia con la nota de lectura ES}
-\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute{Tecnológico de Monterrey}
-\date{}
-
+\input{../../_preambulo_beamer}\input{../../_comandos_beamer}
+\title[Resumen de modelos]{Sección 09.11: Resumen de modelos}\subtitle{Criterios para seleccionar predictores}\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/resumen\_modelo.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
-\end{frame}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}\small\begin{enumerate}\item Qué significa un buen modelo.\item Métricas de ajuste y complejidad.\item Diagnóstico y selección responsable.\end{enumerate}\end{frame}
+\begin{frame}{Fuente y alcance}\small La sección resume criterios para construir un modelo lineal confiable y orienta la selección de variables predictoras.\begin{block}{Pregunta guía}¿Cómo comparar especificaciones sin premiar complejidad innecesaria?\end{block}\end{frame}
+\begin{frame}{Criterio general}\small Un buen modelo combina ajuste, parsimonia, estabilidad, interpretabilidad y desempeño fuera de muestra. Ninguna métrica aislada decide por sí sola.\end{frame}
+\begin{frame}{$R^2$}\small $R^2$ mide la fracción de variabilidad explicada en la muestra. Nunca disminuye al añadir predictores, incluso si la nueva variable aporta poco.\end{frame}
+\begin{frame}{$R^2$ ajustado}\small El $R^2$ ajustado penaliza el número de predictores. Puede disminuir cuando una variable nueva no mejora suficientemente el ajuste relativo a su costo.\end{frame}
+\begin{frame}{Valor $p$ de un predictor}\small Un valor $p$ pequeño para el coeficiente aporta evidencia contra una contribución nula bajo el modelo, pero depende de supuestos y de la escala de análisis.\end{frame}
+\begin{frame}{Estadístico $F$ global}\small El estadístico $F$ contrasta conjuntamente si el modelo explica variación más allá del intercepto. Su valor $p$ evalúa la especificación global.\end{frame}
+\begin{frame}{Error estándar residual}\small El RSE resume la dispersión típica de los residuos en unidades de la respuesta. Menor RSE indica menor error dentro de la muestra, no necesariamente mejor generalización.\end{frame}
+\begin{frame}{Factor de inflación de varianza}\small El VIF detecta cuánto se infla la varianza de un coeficiente por colinealidad. Valores altos advierten que los efectos parciales son inestables.\end{frame}
+\begin{frame}{Complejidad}\small Añadir predictores siempre puede mejorar $R^2$, pero aumenta grados de libertad consumidos, dificultad de interpretación y riesgo de sobreajuste.\end{frame}
+\begin{frame}{Selección de variables}\small La selección debe comenzar con la pregunta científica, disponibilidad de datos y plausibilidad de los predictores; las métricas ayudan a comparar, no sustituyen el criterio.\end{frame}
+\begin{frame}{Procedimiento I}\small\begin{enumerate}\item Definir respuesta y candidatos.\item Ajustar un modelo base.\item Revisar $R^2$, RSE y $F$.\end{enumerate}\end{frame}
+\begin{frame}{Procedimiento II}\small\begin{enumerate}\setcounter{enumi}{3}\item Comparar $R^2$ ajustado.\item Revisar valores $p$ con cautela.\item Diagnosticar VIF y residuos.\end{enumerate}\end{frame}
+\begin{frame}{Aplicación: añadir predictor}\small Al añadir una variable, $R^2$ sube automáticamente. La decisión exige comprobar si también mejora $R^2$ ajustado, reduce RSE y mantiene sentido sustantivo.\end{frame}
+\begin{frame}{Aplicación: $F$ global}\small Un aumento del estadístico $F$ y una disminución de su valor $p$ pueden indicar mejora global, pero deben interpretarse con los grados de libertad y la validación.\end{frame}
+\begin{frame}{Aplicación: colinealidad}\small Si dos predictores contienen información casi redundante, el VIF puede ser alto aunque el ajuste global sea excelente. Considerar eliminar, combinar o regularizar variables.\end{frame}
+\begin{frame}{Aplicación: validación}\small Comparar error de entrenamiento y de validación. Un modelo ligeramente peor en muestra puede predecir mejor fuera de muestra si es más estable.\end{frame}
+\begin{frame}{Interpretación}\small Los criterios son complementarios: ajuste ($R^2$), penalización ($R^2$ ajustado), evidencia ($p$, $F$), escala de error (RSE) y estabilidad (VIF).\end{frame}
+\begin{frame}{Reporte}\small Documente variables candidatas, especificaciones comparadas, métricas, diagnósticos, criterio de selección y limitaciones.\end{frame}
+\begin{frame}{Síntesis}\small\begin{itemize}\item No optimizar una sola cifra.\item Penalizar complejidad.\item Revisar colinealidad y residuos.\item Validar fuera de muestra.\end{itemize}\end{frame}
+\begin{frame}{Conexión con el capítulo}\small Este resumen integra regresión, validación, variables categóricas y transformaciones en una decisión reproducible de modelado.\end{frame}
 \end{document}

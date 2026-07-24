@@ -4,7 +4,7 @@ Este directorio (`presentaciones/`) contiene las presentaciones interactivas en 
 
 Esta guía constituye el **manual operativo estándar y 100% reproducible** para cualquier agente de inteligencia artificial (o colaborador humano) que trabaje en la creación, modificación, verificación o mantenimiento de las presentaciones y scripts de este proyecto.
 
-### Estado de reconciliación verificado al 2026-07-24 14:20:02 -06:00
+### Estado de reconciliación verificado al 2026-07-24 16:59:09 -06:00
 
 - El espejo de cuadernos del libro está cerrado desde el `2026-07-23 11:03:37 -06:00`: existen 60 archivos `(p).tex` ES y 60 contrapartes `en_*(p).tex`, con seis problemas Bloom, seis soluciones y etiquetas hash compartidas por par.
 - La matriz canónica de notas ES define el inventario objetivo de 72 secciones activas y un mazo ES por sección; las secciones de problemas quedan fuera de las presentaciones. El detalle está en `docs/matriz-notas-presentaciones-es.md`.
@@ -13,6 +13,65 @@ Esta guía constituye el **manual operativo estándar y 100% reproducible** para
 - El capítulo 2 usa `02.00_introduccion_probabilidad` y `02.01`–`02.06`, incluyendo los temas promovidos de Fundamentos, Técnicas de conteo y Bayes.
 - Los mazos ES se basan en ejemplos y soluciones ya resueltos de teoría; no deben contener bloques `Ejercicio en Clase`, `Problema X.Y.Z`, etiquetas `prob:` ni referencias a `(p)`.
 - El piloto `02.03 Técnicas de conteo` queda desarrollado en ES/EN con 22 frames por mazo y doble compilación sin errores ni desbordamientos. No modifica las notas, los archivos `(p)` ni `presentaciones/code/`; sí añade la contraparte EN del piloto.
+- El bloque del capítulo 5 (filas 24--26 y 32--33 de la matriz) queda
+  desarrollado en ES/EN: cinco pares de mazos, 22 frames por idioma y cero
+  listings. Las notas EN de las secciones `section*` correspondientes quedaron
+  normalizadas; no se modificaron los archivos `(p)` ni se añadió Python.
+- El bloque del capítulo 6 (filas 35, 37, 38 y 40) queda desarrollado en ES/EN:
+  cuatro pares de 22 frames, sin listings ni scripts nuevos. La fila 38 ahora
+  tiene un mazo EN propio de proporciones; deja de depender del mazo compartido
+  de varianzas.
+- El bloque del capítulo 7 (filas 42--45, 47--48 y 51--52) queda desarrollado
+  en ES/EN: ocho pares de 22 frames, sin listings ni scripts nuevos. La guía EN
+  de la fila 45 quedó normalizada a `section*`/`subsection*` para igualar la
+  fuente ES. Los logs de contenido no reportan errores, referencias indefinidas,
+  etiquetas duplicadas ni desbordamientos; la advertencia de `vbox` restante
+  corresponde únicamente a la portada exenta.
+- El bloque del capítulo 8 (filas 53, 55--56 y 58--59) queda desarrollado en
+  ES/EN: cinco pares de 22 frames, sin listings ni scripts nuevos. Se alinearon
+  las secciones y etiquetas EN de efectos de modelo fijo y de bloques; los logs
+  de contenido no reportan errores, referencias indefinidas, etiquetas duplicadas
+  ni desbordamientos; la advertencia de `vbox` restante corresponde únicamente
+  a la portada exenta.
+- El bloque del capítulo 9 (filas 62 y 70) queda desarrollado en ES/EN: dos
+  pares de 22 frames, sin listings ni scripts nuevos. No se modificaron las
+  notas porque ya coincidían estructuralmente; los logs de contenido no reportan
+  errores, referencias indefinidas, etiquetas duplicadas ni desbordamientos; la
+  advertencia de `vbox` restante corresponde únicamente a la portada exenta.
+- La auditoría final encontró y corrigió la única excepción restante: la fila 23
+  (Función generadora de momentos) tenía un esqueleto ES y no tenía ruta EN. Ahora
+  tiene dos mazos de 22 frames; la ruta EN es `04.08_moment_generating_function`
+  para no colisionar con el mazo EN `04.06_exponential_distribution`.
+- Las filas 4--6 de las notas EN quedaron normalizadas: introducción con
+  `section*`/`subsection*`, conjuntos con etiquetas `2.1.*` y fundamentos con
+  etiquetas `2.2.*`. La presentación EN de esas filas conserva su pendiente de
+  paridad de frames; no se modificaron mazos ni scripts en este corte.
+ - Las filas 11, 12 y 16 de las notas EN y sus mazos ya están sincronizadas; las
+   diferencias restantes pertenecen a otros mazos EN parciales.
+- La fila 18 de las notas EN quedó normalizada con la jerarquía y las 47
+  etiquetas de ES. La paridad de frames del mazo EN queda pendiente; este
+  corte no modifica `presentaciones/` ni `presentaciones/code/`.
+- La fila 36 de las notas EN ya tiene una sola sección y las dos etiquetas de
+  ES. La presentación correspondiente conserva la diferencia histórica de
+  frames; este corte solo documenta la nota y no modifica mazos ni scripts.
+- La normalización de notas EN queda cerrada en **72/72 filas**: no quedan
+  diferencias de jerarquía o etiquetas frente a ES. Las diferencias pendientes
+  son exclusivamente la paridad de frames de algunos mazos EN.
+- El primer grupo de mazos EN sincronizado comprende conjuntos y fundamentos:
+  ambos pares tienen ahora la misma cantidad de frames y listings que ES y no
+  contienen ejercicios heredados. Los cuatro mazos compilaron dos veces sin
+  errores ni `Overfull \\hbox`; los avisos de `vbox` se limitan a portadas EN.
+ - El segundo grupo del capítulo 2 (condicional, Bayes y muestreo) también quedó
+   en paridad exacta de frames y listings con ES. Se retiraron los ejercicios
+   heredados; los seis mazos compilaron dos veces sin errores ni `Overfull
+   \\hbox`.
+ - El primer grupo del capítulo 3 (filas 11, 12 y 16) quedó sincronizado en
+   ES/EN: PMF y soporte (14 frames), Bernoulli/binomial (14 frames) y Poisson
+   (17 frames), con tres listings compartidos por par. Se retiraron ejercicios
+   heredados; los seis mazos compilaron dos veces sin errores, referencias
+   indefinidas, etiquetas duplicadas ni desbordamientos de contenido. Solo
+   quedaron avisos `vbox` de portada EN; no se modificaron las notas, Python ni
+   archivos `(p)`.
 
 ---
 
@@ -197,7 +256,15 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
-## 5b. Catálogo e Índice de Presentaciones --- Capítulo 04 (100% Completado)
+## 5b. Catálogo e Índice de Presentaciones --- Capítulo 04 (catálogo histórico)
+
+### Correspondencia activa corregida — corte 2026-07-24 15:58:15 -06:00
+
+| Fila | Sección ES | Mazo EN | Estado |
+| :---: | :--- | :--- | :---: |
+| 23 | [04.06 Función generadora de momentos](es/04_variables_aleatorias_continuas/04.06_moment_generating_function.tex) ([PDF](es/04_variables_aleatorias_continuas/04.06_moment_generating_function.pdf)) | [04.08 Moment-generating function](en/04_continuous_random_variables/04.08_moment_generating_function.tex) ([PDF](en/04_continuous_random_variables/04.08_moment_generating_function.pdf)) | ES/EN completos, 22 frames cada uno |
+
+### Catálogo histórico del capítulo 04
 
 A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 3 / Capítulo 04: Variables Aleatorias Continuas**:
 
@@ -213,9 +280,23 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
-## 5c. Catálogo e Índice de Presentaciones --- Capítulo 05 (100% Completado)
+## 5c. Catálogo e Índice de Presentaciones --- Capítulo 05 (registro histórico y bloque 1:1)
 
 A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 4 / Capítulo 05: Distribuciones de Muestreo**:
+
+### Correspondencias activas de las notas ES — corte 2026-07-24 14:51:34 -06:00
+
+Estas cinco filas son las secciones activas reconciliadas en el bloque gradual;
+el catálogo histórico de laboratorios 05.01--05.05 que sigue se conserva sin
+renumerarlo.
+
+| Fila | Sección ES | Mazo EN | Estado |
+| :---: | :--- | :--- | :---: |
+| 24 | [05.00 Introducción inferencial](es/05_distribuciones_muestreo/05.00_introduccion_inferencial.tex) ([PDF](es/05_distribuciones_muestreo/05.00_introduccion_inferencial.pdf)) | [05.00 Inferential Statistics Introduction](en/05_sampling_distributions/05.00_inferential_statistics_introduction.tex) ([PDF](en/05_sampling_distributions/05.00_inferential_statistics_introduction.pdf)) | ES/EN completos, 22 frames cada uno |
+| 25 | [05.01 Transformación de variables](es/05_distribuciones_muestreo/05.01_transformacion_variables.tex) ([PDF](es/05_distribuciones_muestreo/05.01_transformacion_variables.pdf)) | [05.01 Variable Transformations](en/05_sampling_distributions/05.01_variable_transformations.tex) ([PDF](en/05_sampling_distributions/05.01_variable_transformations.pdf)) | ES/EN completos, 22 frames cada uno |
+| 26 | [05.02 Funciones de variable aleatoria](es/05_distribuciones_muestreo/05.02_distribuciones_funciones.tex) ([PDF](es/05_distribuciones_muestreo/05.02_distribuciones_funciones.pdf)) | [05.02 Distributions of Random-Variable Functions](en/05_sampling_distributions/05.02_distributions_of_random_variable_functions.tex) ([PDF](en/05_sampling_distributions/05.02_distributions_of_random_variable_functions.pdf)) | ES/EN completos, 22 frames cada uno |
+| 32 | [05.08 Conceptos fundamentales](es/05_distribuciones_muestreo/05.08_conceptos_estadisticos.tex) ([PDF](es/05_distribuciones_muestreo/05.08_conceptos_estadisticos.pdf)) | [05.08 Fundamental Statistical Concepts](en/05_sampling_distributions/05.08_fundamental_statistical_concepts.tex) ([PDF](en/05_sampling_distributions/05.08_fundamental_statistical_concepts.pdf)) | ES/EN completos, 22 frames cada uno |
+| 33 | [05.09 Estadísticos Z y t](es/05_distribuciones_muestreo/05.09_estadisticos_z_t.tex) ([PDF](es/05_distribuciones_muestreo/05.09_estadisticos_z_t.pdf)) | [05.09 Z and t Statistics](en/05_sampling_distributions/05.09_z_and_t_statistics.tex) ([PDF](en/05_sampling_distributions/05.09_z_and_t_statistics.pdf)) | ES/EN completos, 22 frames cada uno |
 
 | Sección | Título en Español | Título en Inglés | Script Python (en `code/05_distribuciones_muestreo/`) | Estado |
 | :---: | :--- | :--- | :--- | :---: |
@@ -227,9 +308,21 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
-## 5d. Catálogo e Índice de Presentaciones --- Capítulo 06 (100% Completado)
+## 5d. Catálogo e Índice de Presentaciones --- Capítulo 06 (registro histórico y bloque 1:1)
 
 A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 5 / Capítulo 06: Estimación y su Relación con Ciencia de Datos**:
+
+### Correspondencias activas de las notas ES — corte 2026-07-24 15:07:32 -06:00
+
+| Fila | Sección ES | Mazo EN | Estado |
+| :---: | :--- | :--- | :---: |
+| 35 | [06.02 Estimación por intervalo](es/06_estimacion_estadistica/06.02_confidence_intervals.tex) ([PDF](es/06_estimacion_estadistica/06.02_confidence_intervals.pdf)) | [06.02 Confidence Intervals](en/06_estimation_data_science/06.02_confidence_intervals.tex) ([PDF](en/06_estimation_data_science/06.02_confidence_intervals.pdf)) | ES/EN completos, 22 frames cada uno |
+| 37 | [06.04 Errores estándar](es/06_estimacion_estadistica/06.04_standard_errors.tex) ([PDF](es/06_estimacion_estadistica/06.04_standard_errors.pdf)) | [06.04 Standard Errors](en/06_estimation_data_science/06.04_standard_errors.tex) ([PDF](en/06_estimation_data_science/06.04_standard_errors.pdf)) | ES/EN completos, 22 frames cada uno |
+| 38 | [06.05 Estimación de proporciones](es/06_estimacion_estadistica/06.05_confidence_intervals_proportions.tex) ([PDF](es/06_estimacion_estadistica/06.05_confidence_intervals_proportions.pdf)) | [06.05 Proportion Confidence Intervals](en/06_estimation_data_science/06.05_confidence_intervals_proportions.tex) ([PDF](en/06_estimation_data_science/06.05_confidence_intervals_proportions.pdf)) | ES/EN completos, 22 frames cada uno |
+| 40 | [06.07 Tamaño de una muestra](es/06_estimacion_estadistica/06.07_sample_size_estimation.tex) ([PDF](es/06_estimacion_estadistica/06.07_sample_size_estimation.pdf)) | [06.07 Sample Size Estimation](en/06_estimation_data_science/06.07_sample_size_estimation.tex) ([PDF](en/06_estimation_data_science/06.07_sample_size_estimation.pdf)) | ES/EN completos, 22 frames cada uno |
+
+El catálogo histórico que sigue conserva laboratorios y mazos previos del
+capítulo; la matriz es la autoridad para distinguir las secciones activas.
 
 | Sección | Título en Español | Título en Inglés | Script Python (en `code/06_estimacion_estadistica/`) | Estado |
 | :---: | :--- | :--- | :--- | :---: |
@@ -241,7 +334,27 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
-## 5e. Catálogo e Índice de Presentaciones --- Capítulo 07 (100% Completado)
+## 5e. Catálogo e Índice de Presentaciones --- Capítulo 07 (catálogo histórico)
+
+### Correspondencias activas de las notas ES — corte 2026-07-24 15:24:57 -06:00
+
+El bloque activo de esta etapa cubre las filas 42--45, 47--48 y 51--52 de la
+matriz. Cada par ES/EN tiene 22 frames, cero listings y doble compilación
+exitosa; el catálogo histórico de 07.01--07.04 que sigue se conserva sin
+renumerarlo.
+
+| Fila | Sección ES | Mazo EN | Estado |
+| :---: | :--- | :--- | :---: |
+| 42 | [07.02 IC y pruebas](es/07_pruebas_hipotesis/07.02_ci_hypothesis_tests.tex) ([PDF](es/07_pruebas_hipotesis/07.02_ci_hypothesis_tests.pdf)) | [07.02 CI and hypothesis tests](en/07_hypothesis_testing/07.02_ci_hypothesis_tests.tex) ([PDF](en/07_hypothesis_testing/07.02_ci_hypothesis_tests.pdf)) | ES/EN completos, 22 frames cada uno |
+| 43 | [07.03 Valores p](es/07_pruebas_hipotesis/07.03_p_values_decisions.tex) ([PDF](es/07_pruebas_hipotesis/07.03_p_values_decisions.pdf)) | [07.03 p-values and decisions](en/07_hypothesis_testing/07.03_p_values_decisions.tex) ([PDF](en/07_hypothesis_testing/07.03_p_values_decisions.pdf)) | ES/EN completos, 22 frames cada uno |
+| 44 | [07.04 Prueba t para una media](es/07_pruebas_hipotesis/07.04_one_mean_test.tex) ([PDF](es/07_pruebas_hipotesis/07.04_one_mean_test.pdf)) | [07.04 One-mean t test](en/07_hypothesis_testing/07.04_one_mean_test.tex) ([PDF](en/07_hypothesis_testing/07.04_one_mean_test.pdf)) | ES/EN completos, 22 frames cada uno |
+| 45 | [07.05 Guía de pruebas](es/07_pruebas_hipotesis/07.05_hypothesis_testing_guide.tex) ([PDF](es/07_pruebas_hipotesis/07.05_hypothesis_testing_guide.pdf)) | [07.05 Hypothesis testing guide](en/07_hypothesis_testing/07.05_hypothesis_testing_guide.tex) ([PDF](en/07_hypothesis_testing/07.05_hypothesis_testing_guide.pdf)) | ES/EN completos, 22 frames cada uno |
+| 47 | [07.07 Pruebas de proporciones](es/07_pruebas_hipotesis/07.07_proportion_tests.tex) ([PDF](es/07_pruebas_hipotesis/07.07_proportion_tests.pdf)) | [07.07 Proportion tests](en/07_hypothesis_testing/07.07_proportion_tests.tex) ([PDF](en/07_hypothesis_testing/07.07_proportion_tests.pdf)) | ES/EN completos, 22 frames cada uno |
+| 48 | [07.08 Pruebas de varianzas](es/07_pruebas_hipotesis/07.08_variance_tests.tex) ([PDF](es/07_pruebas_hipotesis/07.08_variance_tests.pdf)) | [07.08 Variance tests](en/07_hypothesis_testing/07.08_variance_tests.tex) ([PDF](en/07_hypothesis_testing/07.08_variance_tests.pdf)) | ES/EN completos, 22 frames cada uno |
+| 51 | [07.11 Pruebas de homogeneidad](es/07_pruebas_hipotesis/07.11_homogeneity_tests.tex) ([PDF](es/07_pruebas_hipotesis/07.11_homogeneity_tests.pdf)) | [07.11 Homogeneity tests](en/07_hypothesis_testing/07.11_homogeneity_tests.tex) ([PDF](en/07_hypothesis_testing/07.11_homogeneity_tests.pdf)) | ES/EN completos, 22 frames cada uno |
+| 52 | [07.12 Pruebas de varias proporciones](es/07_pruebas_hipotesis/07.12_multiple_proportions.tex) ([PDF](es/07_pruebas_hipotesis/07.12_multiple_proportions.pdf)) | [07.12 Multiple-proportion tests](en/07_hypothesis_testing/07.12_multiple_proportions.tex) ([PDF](en/07_hypothesis_testing/07.12_multiple_proportions.pdf)) | ES/EN completos, 22 frames cada uno |
+
+### Catálogo histórico del capítulo 07
 
 A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 6 / Capítulo 07: Docimasia (Pruebas de Hipótesis)**:
 
@@ -254,7 +367,23 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
-## 5f. Catálogo e Índice de Presentaciones --- Capítulo 08 (100% Completado)
+## 5f. Catálogo e Índice de Presentaciones --- Capítulo 08 (catálogo histórico)
+
+### Correspondencias activas de las notas ES — corte 2026-07-24 15:41:01 -06:00
+
+El bloque activo cubre las filas 53, 55--56 y 58--59 de la matriz. Cada par
+ES/EN tiene 22 frames, cero listings y doble compilación exitosa; el catálogo
+histórico de 08.01--08.02 que sigue se conserva sin renumerarlo.
+
+| Fila | Sección ES | Mazo EN | Estado |
+| :---: | :--- | :--- | :---: |
+| 53 | [08.01 Estrategias de experimentación](es/08_diseno_experimentos/08.01_experimental_strategies.tex) ([PDF](es/08_diseno_experimentos/08.01_experimental_strategies.pdf)) | [08.01 Experimental strategies](en/08_experimental_design/08.01_experimental_strategies.tex) ([PDF](en/08_experimental_design/08.01_experimental_strategies.pdf)) | ES/EN completos, 22 frames cada uno |
+| 55 | [08.03 Efectos de modelo fijo](es/08_diseno_experimentos/08.03_fixed_effects.tex) ([PDF](es/08_diseno_experimentos/08.03_fixed_effects.pdf)) | [08.03 Fixed-effect effects](en/08_experimental_design/08.03_fixed_effects.tex) ([PDF](en/08_experimental_design/08.03_fixed_effects.pdf)) | ES/EN completos, 22 frames cada uno |
+| 56 | [08.04 Comparaciones post-hoc](es/08_diseno_experimentos/08.04_post_hoc_comparisons.tex) ([PDF](es/08_diseno_experimentos/08.04_post_hoc_comparisons.pdf)) | [08.04 Post-hoc comparisons](en/08_experimental_design/08.04_post_hoc_comparisons.tex) ([PDF](en/08_experimental_design/08.04_post_hoc_comparisons.pdf)) | ES/EN completos, 22 frames cada uno |
+| 58 | [08.06 Bloques y cuadrados latinos](es/08_diseno_experimentos/08.06_randomized_blocks_latin_squares.tex) ([PDF](es/08_diseno_experimentos/08.06_randomized_blocks_latin_squares.pdf)) | [08.06 Blocks and Latin squares](en/08_experimental_design/08.06_randomized_blocks_latin_squares.tex) ([PDF](en/08_experimental_design/08.06_randomized_blocks_latin_squares.pdf)) | ES/EN completos, 22 frames cada uno |
+| 59 | [08.07 Diseños factoriales](es/08_diseno_experimentos/08.07_factorial_designs.tex) ([PDF](es/08_diseno_experimentos/08.07_factorial_designs.pdf)) | [08.07 Factorial designs](en/08_experimental_design/08.07_factorial_designs.tex) ([PDF](en/08_experimental_design/08.07_factorial_designs.pdf)) | ES/EN completos, 22 frames cada uno |
+
+### Catálogo histórico del capítulo 08
 
 A continuación se presenta el avance y estado verificado de las secciones correspondientes a la **Unidad 7 / Capítulo 08: Elementos de Diseño de Experimentos (ANOVA)**:
 
@@ -265,7 +394,20 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ---
 
-## 5g. Catálogo e Índice de Presentaciones --- Capítulo 09 (100% Completado)
+## 5g. Catálogo e Índice de Presentaciones --- Capítulo 09 (catálogo histórico)
+
+### Correspondencias activas de las notas ES — corte 2026-07-24 15:49:29 -06:00
+
+El bloque activo cubre las filas 62 y 70 de la matriz. Cada par ES/EN tiene
+22 frames, cero listings y doble compilación exitosa; el catálogo histórico de
+las demás secciones 09.01--09.11 que sigue se conserva sin renumerarlo.
+
+| Fila | Sección ES | Mazo EN | Estado |
+| :---: | :--- | :--- | :---: |
+| 62 | [09.02 Introducción a la regresión](es/09_regresiones/09.02_regresiones_lineales_section.tex) ([PDF](es/09_regresiones/09.02_regresiones_lineales_section.pdf)) | [09.02 Introduction to linear regression](en/09_regressions/09.02_regresiones_lineales_section.tex) ([PDF](en/09_regressions/09.02_regresiones_lineales_section.pdf)) | ES/EN completos, 22 frames cada uno |
+| 70 | [09.11 Resumen de modelos](es/09_regresiones/09.11_model_summary.tex) ([PDF](es/09_regresiones/09.11_model_summary.pdf)) | [09.11 Model summary](en/09_regressions/09.11_model_summary.tex) ([PDF](en/09_regressions/09.11_model_summary.pdf)) | ES/EN completos, 22 frames cada uno |
+
+### Catálogo histórico del capítulo 09
 
 A continuación se presenta el avance y estado verificado de las secciones correspondientes al **Tema complementario / Capítulo 09: Regresiones Lineales y Múltiples**. No constituye una Unidad 8 del programa oficial: las siete unidades oficiales corresponden a los capítulos 02–08. Una versión anterior de este capítulo agrupó 7 archivos de teoría en una sola sección 09.01; se corrigió a la estructura 1:1 de 12 secciones que se muestra abajo (detalle completo en `ROADMAP.md`).
 

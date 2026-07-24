@@ -2,43 +2,237 @@
 \input{../../_preambulo_beamer}
 \input{../../_comandos_beamer}
 
-\title[Distribuciones de funciones de variable aleatoria]{Sección 5.2: Distribuciones de funciones de variable aleatoria}
-\subtitle{Correspondencia con la nota de lectura ES}
+\title[Distribuciones de funciones]{Sección 5.2: Distribuciones de probabilidad de funciones de variable aleatoria}
+\subtitle{Preimágenes, superficies de nivel y sumas}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
 \date{}
 
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
 
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/distribuciones\_funciones\_variable\_aleatoria.tex}
+\begin{frame}{Hoja de ruta --- capítulo 5}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{05.00} Introducción inferencial
+    \item \textbf{05.01} Transformación de variables
+    \item \textbf{05.02} Funciones de variables aleatorias \emph{(hoy)}
+    \item \textbf{05.03--05.05} Distribuciones muestrales clásicas
+  \end{itemize}
+  \begin{block}{Objetivo didáctico}
+    Generalizar el cambio de variable a funciones no monótonas y a varias
+    variables, y reconocer la distribución Erlang de una suma de exponenciales.
   \end{block}
 \end{frame}
 
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
+\begin{frame}{Motivación: una función cambia la variable}
+  \footnotesize
+  Cuando $Y=g(X)$, la densidad de $Y$ debe reunir toda la probabilidad de los
+  valores de $X$ que producen el mismo resultado.
+  \begin{alertblock}{Pregunta guía}
+    ¿Cuántas preimágenes tiene cada $y$ y cómo cambia la escala local?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Una variable: fórmula general}
+  \footnotesize
+  Para una función diferenciable con preimágenes regulares:
+  \[
+    f_Y(y)=\sum_{x:g(x)=y}f_X(x)\left|\frac{dx}{dy}\right|
+    =\sum_{x:g(x)=y}\frac{f_X(x)}{|g'(x)|}.
+  \]
+  La suma recorre todas las soluciones de $g(x)=y$.
+\end{frame}
+
+\begin{frame}{Condición de regularidad}
+  \footnotesize
+  \begin{block}{Hipótesis local}
+    La condición $|g'(x)|\neq0$ en cada preimagen garantiza que la función es
+    localmente invertible en ese punto.
+  \end{block}
+  \begin{exampleblock}{Consecuencia}
+    Si la derivada se anula, la fórmula requiere tratar con cuidado el punto
+    crítico y el soporte resultante.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Varias variables: superficie de nivel}
+  \footnotesize
+  Si $Y=g(X_1,\ldots,X_n)$ tiene densidad conjunta,
+  \[
+    f_Y(y)=\int_{g(x_1,\ldots,x_n)=y}
+    f_{X_1,\ldots,X_n}(x_1,\ldots,x_n)\frac{dS}{|\nabla g|}.
+  \]
+  \begin{block}{Geometría}
+    La integral recorre la superficie de nivel que reúne todas las
+    configuraciones con el mismo valor de $Y$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Independencia y sumas}
+  \footnotesize
+  Para $Y=X_1+X_2$, la superficie de nivel es la recta
+  $x_1+x_2=y$. Si $X_1,X_2$ son independientes, la densidad conjunta es el
+  producto de sus densidades.
+  \begin{alertblock}{Puente}
+    La integración sobre esa recta produce la densidad de la suma.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Lectura de la sección}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Una variable: suma sobre preimágenes.
+    \item Varias variables: integral sobre una superficie de nivel.
+    \item El gradiente $\nabla g$ mide el cambio local de escala.
+    \item La independencia simplifica la densidad conjunta.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
+\begin{frame}{Aplicación derivada 1/4: localizar preimágenes}
+  \footnotesize
+  Para cada $y$, se resuelve $g(x)=y$ antes de evaluar la fórmula.
+  \begin{block}{Procedimiento}
+    \begin{enumerate}\itemsep=0.1cm
+      \item hallar todas las soluciones $x$;
+      \item verificar $g'(x)\neq0$;
+      \item sumar las contribuciones.
+    \end{enumerate}
   \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
+\end{frame}
+
+\begin{frame}{Aplicación derivada 1/4: interpretación}
+  \footnotesize
+  \[
+    \frac{f_X(x)}{|g'(x)|}
+  \]
+  es la contribución de una sola rama. La densidad de $Y$ es la suma de todas
+  las ramas que llegan al mismo valor.
+\end{frame}
+
+\begin{frame}{Aplicación derivada 2/4: puntos críticos}
+  \footnotesize
+  Si $g'(x)=0$, el factor $1/|g'(x)|$ no puede evaluarse directamente.
+  \begin{alertblock}{Diagnóstico}
+    Los puntos críticos suelen marcar extremos del soporte o singularidades de
+    la densidad; deben analizarse con el límite y la integral total.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Aplicación derivada 2/4: interpretación}
+  \footnotesize
+  La condición de regularidad no es un detalle formal: evita contar una
+  transformación como si fuera invertible donde no lo es.
+  \begin{exampleblock}{Regla de lectura}
+    Primero se identifica la geometría de $g$; después se aplica la fórmula.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Aplicación resuelta 3/4: suma exponencial}
+  \footnotesize
+  Sean $X_1,X_2\sim\operatorname{Exp}(1)$ independientes y $Y=X_1+X_2$.
+  Para $y>0$, la recta de nivel tiene $0<x_1<y$ y $x_2=y-x_1$.
+  \[
+    f_{X_1,X_2}(x_1,x_2)=e^{-(x_1+x_2)}.
+  \]
+\end{frame}
+
+\begin{frame}{Aplicación resuelta 3/4: integración}
+  \footnotesize
+  \[
+    f_Y(y)=\int_0^y e^{-(x_1+y-x_1)}\,dx_1
+    =\int_0^y e^{-y}\,dx_1=ye^{-y},\quad y>0.
+  \]
+  \begin{alertblock}{Resultado}
+    La suma tiene densidad Erlang de forma $2$, equivalente a
+    $\operatorname{Gamma}(2,1)$.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Aplicación resuelta 4/4: generalización}
+  \footnotesize
+  La sección concluye que la suma de $n$ exponenciales iid tiene distribución
+  \[
+    \operatorname{Gamma}(n,1).
+  \]
+  \begin{block}{Lectura}
+    El caso de dos variables muestra cómo una integral sobre una superficie de
+    nivel produce una familia conocida.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación resuelta 4/4: soporte}
+  \footnotesize
+  Para la suma exponencial, $X_1>0$ y $X_2>0$ implican $Y>0$.
+  \begin{exampleblock}{Comprobación}
+    La densidad $ye^{-y}$ se interpreta únicamente para $y>0$ y su integral en
+    ese soporte es uno.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Puente computacional 1/4: mapa geométrico}
+  \footnotesize
+  \begin{tabular}{ll}
+    \hline
+    Transformación & Conjunto que se integra \\
+    \hline
+    $Y=g(X)$ & preimágenes $g^{-1}(y)$ \\
+    $Y=g(X_1,X_2)$ & curva $g(x_1,x_2)=y$ \\
+    $Y=g(X_1,\ldots,X_n)$ & superficie de nivel \\
+    \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Puente computacional 2/4: densidad conjunta}
+  \footnotesize
+  Para variables independientes,
+  \[
+    f_{X_1,X_2}(x_1,x_2)=f_{X_1}(x_1)f_{X_2}(x_2).
+  \]
+  Esta factorización es la entrada de la integral sobre la superficie de nivel.
+\end{frame}
+
+\begin{frame}{Puente computacional 3/4: gradiente}
+  \footnotesize
+  El término $|\nabla g|$ ajusta el elemento de superficie:
+  \[
+    dS/|\nabla g|.
+  \]
+  \begin{block}{Interpretación}
+    El jacobiano generalizado convierte una medida geométrica en masa de
+    probabilidad.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Puente computacional 4/4: lista de verificación}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.12cm
+    \item fijar el soporte de $Y$;
+    \item describir todas las preimágenes o niveles;
+    \item introducir la densidad conjunta;
+    \item integrar y comprobar la normalización.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Síntesis de la sección}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Las preimágenes se suman en una dimensión.
+    \item Las superficies de nivel se integran en varias dimensiones.
+    \item El gradiente controla el cambio de escala.
+    \item Sumas de exponenciales producen una familia Gamma/Erlang.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Transición curricular}
+  \footnotesize
+  \begin{block}{Lo que queda establecido}
+    La distribución de una función se obtiene reuniendo todos los puntos de la
+    muestra que generan el mismo valor transformado.
+  \end{block}
+  \begin{alertblock}{Siguiente sección}
+    \textbf{05.03 Distribución chi-cuadrada}: una distribución muestral clásica
+    construida a partir de cuadrados de variables normales.
   \end{alertblock}
 \end{frame}
 \end{document}

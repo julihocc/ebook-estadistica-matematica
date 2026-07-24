@@ -4,6 +4,196 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-24 16:59:09 -06:00 (primer grupo de mazos EN del capítulo 3)
+
+- Se sincronizaron las filas 11, 12 y 16: PMF y soporte (14/14 frames),
+  Bernoulli/binomial (14/14) y Poisson (17/17), con tres listings compartidos
+  por par ES/EN.
+- Se retiraron ejercicios heredados y un comentario residual de ejercicio; no
+  se modificaron las notas EN ya normalizadas, Python ni archivos `(p)`.
+- Los seis mazos pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas, etiquetas duplicadas ni `Overfull \\hbox`; los
+  avisos `Overfull \\vbox` restantes pertenecen a portadas EN.
+- La matriz pasa a 39 filas completas de cuatro vías y 33 parciales. No se
+  creó commit ni se hizo `git push`.
+
+## 2026-07-24 16:45:10 -06:00 (cierre de mazos restantes del capítulo 2)
+
+- Se sincronizaron las parejas de Probabilidad condicional, Teorema de Bayes y
+  Muestreo aleatorio: 16/16, 14/14 y 14/14 frames, con listings 4/4, 3/3 y
+  3/3, respectivamente.
+- Se retiraron los bloques de ejercicios heredados y se corrigió la declaración
+  de clase ausente/duplicada donde correspondía. No se modificaron notas,
+  Python ni archivos `(p)`.
+- Los seis mazos pasaron dos compilaciones: cero errores, referencias
+  indefinidas, etiquetas duplicadas y `Overfull \\hbox`; solo queda un aviso
+  `Overfull \\vbox` de la portada EN condicional.
+- La matriz pasa a 36 filas completas de cuatro vías y 36 parciales. No se
+  creó commit ni se hizo `git push`.
+
+## 2026-07-24 16:37:24 -06:00 (sincronización de mazos EN del capítulo 2)
+
+- Los mazos `02.02_sets_and_partitions` y `02.03_probability_foundations`
+  quedaron alineados con sus pares ES: 14/14 y 16/16 frames, respectivamente,
+  con 4/4 y 3/3 listings compartidos.
+- Se retiraron únicamente los cuatro frames de ejercicios heredados de cada
+  mazo EN, se añadió el `documentclass` faltante y se eliminaron declaraciones
+  duplicadas al final de los mazos ES. No se modificó Python ni el contenido de
+  las notas o archivos `(p)`.
+- Los cuatro mazos se compilaron dos veces: cero errores, referencias
+  indefinidas, etiquetas duplicadas y `Overfull \\hbox`; los dos avisos
+  `Overfull \\vbox` son de portada EN y quedan exentos por la política vigente.
+- La matriz pasa a 33 filas completas de cuatro vías y 39 parciales. No se creó
+  commit ni se hizo `git push`.
+
+## 2026-07-24 16:26:30 -06:00 (cierre de normalización de etiquetas EN)
+
+- Se alinearon las últimas tres notas EN parciales: `eq:tam_muestra_potencia`
+  en pruebas de hipótesis, `sec:independencia` en independencia y
+  `eq:modelo_anova1`/`eq:particion_suma_cuadrados` en ANOVA.
+- Los maestros ES y EN pasaron dos compilaciones con código 0, sin errores,
+  referencias indefinidas ni etiquetas duplicadas. La matriz queda en **72/72**
+  filas de notas EN estructurales; las diferencias restantes son únicamente de
+  mazos EN. No se modificaron scripts ni archivos `(p)`; tampoco se creó commit
+  ni se hizo `git push`.
+
+## 2026-07-24 16:21:29 -06:00 (normalización de notas EN de la fila 36)
+
+- Se retiró el encabezado `section` heredado de
+  `en_ic_media_diferencia_medias.tex`; ahora conserva una sola sección y las
+  dos etiquetas de la fuente ES.
+- Los maestros ES y EN se compilaron dos veces con código 0, sin errores,
+  referencias indefinidas ni etiquetas duplicadas. No se modificaron mazos,
+  scripts ni archivos `(p)`; tampoco se creó commit ni se hizo `git push`.
+- La matriz pasa a 69 filas de notas EN estructurales y 3 parciales.
+
+## 2026-07-24 16:18:42 -06:00 (normalización de notas EN de la fila 18)
+
+- `en_variables_aleatorias_continuas.tex` ahora conserva la jerarquía de ES:
+  una `section`, dos `subsection` y dos `subsubsection`, con 47 etiquetas
+  idénticas.
+- Los maestros ES y EN se compilaron dos veces con código 0, sin errores,
+  referencias indefinidas ni etiquetas duplicadas. No se modificaron mazos,
+  scripts ni archivos `(p)`; tampoco se creó commit ni se hizo `git push`.
+- La matriz pasa a 68 filas de notas EN estructurales y 4 parciales; la
+  presentación EN de la fila 18 todavía requiere paridad de frames.
+
+## 2026-07-24 16:15:12 -06:00 (normalización de notas EN del capítulo 3)
+
+- Se normalizó `en_variables_aleatorias_discretas.tex` para que conserve la
+  jerarquía de secciones de ES y se comprobó la paridad de sus 18 etiquetas.
+- Se completó `en_distribucion_poisson.tex` con las tres subsecciones, tres
+  subsubsecciones, 18 etiquetas y nueve listings presentes en ES; el contenido
+  matemático se conservó y solo se tradujo al inglés.
+- Los maestros ES y EN se compilaron dos veces con código 0, sin errores,
+  referencias indefinidas ni etiquetas duplicadas. No se modificaron mazos,
+  scripts ni archivos `(p)`; tampoco se creó commit ni se hizo `git push`.
+- La matriz pasa a 67 filas de notas EN estructurales y 5 parciales; la
+  presentación EN de las filas 11 y 16 sigue pendiente de paridad de frames.
+
+## 2026-07-24 16:05:21 -06:00 (normalización de notas EN del capítulo 2)
+
+- Se normalizaron las filas 4--6 de la matriz: `en_introduccion_probabilidad.tex`
+  usa `\\section*`/`\\subsection*`, `en_conjuntos.tex` usa etiquetas `2.1.*` y
+  `en_fundamentos_de_probabilidad.tex` usa etiquetas `2.2.*`, alineadas con las
+  notas ES y sus referencias internas.
+- Los maestros ES y EN se compilaron dos veces con código 0; no hubo errores,
+  referencias indefinidas ni etiquetas duplicadas. Las advertencias de
+  `Overfull` existentes pertenecen al contenido histórico del libro, no a esta
+  normalización.
+- No se modificaron mazos Beamer, scripts Python ni archivos `(p)`; tampoco se
+  creó commit ni se hizo `git push`.
+
+## 2026-07-24 15:58:15 -06:00 (verificación final de la fila 23)
+
+- Se amplió el mazo ES de Función generadora de momentos a 22 frames y se creó
+  `presentaciones/en/04_continuous_random_variables/04.08_moment_generating_function.tex`
+  con 22 frames. La ruta `04.08` evita la colisión con el mazo EN 04.06 de
+  Exponencial.
+- Ambos mazos pasaron dos compilaciones con código 0; no contienen listings,
+  problemas, `(p)` ni scripts nuevos. No se modificaron las notas.
+- La matriz queda en 72 mazos ES desarrollados, 80 mazos EN físicos, 72 rutas EN
+  candidatas únicas y 31 filas completas de cuatro vías.
+- Se repitió la doble compilación tras retirar coincidencias textuales ambiguas
+  con la convención `(p)`; ambos logs siguen sin errores ni desbordamientos de
+  contenido.
+- No se creó commit ni se hizo `git push`.
+
+## 2026-07-24 15:49:29 -06:00 (bloque capítulo 9 de sincronización cuatro vías)
+
+- Se desarrollaron dos mazos ES y dos contrapartes EN para las filas 62 y 70;
+  cada par tiene 22 frames y cero `\\lstinputlisting`.
+- Las notas ES/EN ya tenían secciones y etiquetas estructuralmente coincidentes;
+  no fue necesario modificar teoría. No se añadieron scripts ni se modificaron
+  archivos `(p)`.
+- Los cuatro mazos pasaron dos compilaciones con código 0; las páginas de
+  contenido quedaron sin errores, referencias indefinidas, etiquetas duplicadas
+  ni desbordamientos. La advertencia `vbox` restante se limita a las portadas.
+- La matriz queda en 72 mazos ES desarrollados, 79 mazos EN físicos y 30 filas
+  completas de cuatro vías. Este bloque cierra la etapa gradual de desarrollo de
+  mazos prevista en el plan.
+- No se creó commit ni se hizo `git push`.
+
+## 2026-07-24 15:41:01 -06:00 (bloque capítulo 8 de sincronización cuatro vías)
+
+- Se desarrollaron cinco mazos ES y cinco contrapartes EN para las filas 53,
+  55--56 y 58--59. Cada par tiene 22 frames y cero `\\lstinputlisting`.
+- Se normalizaron las secciones y etiquetas de las notas EN de efectos de modelo
+  fijo y bloques: `eq:esperanza_cmtr`, `tab:anova_un_factor`, `eq:tukey_hsd` y
+  `eq:modelo_dbca` ahora coinciden con ES. No se añadieron scripts ni se
+  modificaron archivos `(p)`.
+- Los diez mazos pasaron dos compilaciones con código 0; las páginas de contenido
+  quedaron sin errores, referencias indefinidas, etiquetas duplicadas ni
+  desbordamientos. La advertencia `vbox` restante se limita a las portadas.
+- La matriz queda en 70 mazos ES desarrollados, 77 mazos EN físicos y 28 filas
+  completas de cuatro vías. El siguiente bloque independiente es el capítulo 9.
+- No se creó commit ni se hizo `git push`.
+
+## 2026-07-24 15:24:57 -06:00 (bloque capítulo 7 de sincronización cuatro vías)
+
+- Se desarrollaron ocho mazos ES y ocho contrapartes EN para las filas 42--45,
+  47--48 y 51--52. Cada par tiene 22 frames y cero `\\lstinputlisting`.
+- La nota EN de la guía de pruebas quedó normalizada a `\\section*` y
+  `\\subsection*` para coincidir con la fuente ES. No se añadieron scripts ni
+  se modificaron archivos `(p)`.
+- Los 16 mazos pasaron dos compilaciones con código 0; las páginas de contenido
+  no presentan errores, referencias indefinidas, etiquetas duplicadas ni
+  desbordamientos. La advertencia `vbox` restante se limita a las portadas.
+- La matriz queda en 65 mazos ES desarrollados, 72 mazos EN físicos y 23 filas
+  completas de cuatro vías. El siguiente bloque independiente es el capítulo 8.
+- No se creó commit ni se hizo `git push`.
+
+## 2026-07-24 15:07:32 -06:00 (bloque capítulo 6 de sincronización cuatro vías)
+
+- Se desarrollaron cuatro mazos ES y cuatro contrapartes EN para las filas 35,
+  37, 38 y 40. Cada par tiene 22 frames y cero `\\lstinputlisting`, usando la
+  teoría fuente y sus fórmulas ya resueltas.
+- La fila 38 dejó de reutilizar `06.05_confidence_intervals_variances.tex`:
+  ahora tiene `06.05_confidence_intervals_proportions.tex` propio en EN.
+- Los ocho mazos se compilaron dos veces sin errores, referencias indefinidas,
+  etiquetas duplicadas ni desbordamientos. No se añadió script Python ni se
+  modificaron archivos `(p)`.
+- La matriz queda en 57 mazos ES desarrollados, 64 mazos EN físicos y 15 filas
+  completas de cuatro vías.
+- No se creó commit ni se hizo `git push`; el capítulo 7 queda pendiente.
+
+## 2026-07-24 14:51:34 -06:00 (bloque capítulo 5 de sincronización cuatro vías)
+
+- Se desarrollaron los cinco mazos ES de las filas 24--26 y 32--33 de la
+  matriz y se crearon sus contrapartes EN. Cada par tiene 22 frames y cero
+  `\\lstinputlisting`, usando únicamente la teoría y sus desarrollos ya
+  resueltos.
+- Se normalizaron a `\\section*` y `\\subsection*` las notas EN de Introducción
+  inferencial, Conceptos fundamentales y Estadísticos Z/t para coincidir con
+  las secciones no numeradas de ES. No se modificaron los archivos `(p)` ni se
+  añadió lógica o script Python.
+- Los diez mazos se compilaron dos veces sin errores, referencias indefinidas,
+  etiquetas duplicadas ni desbordamientos. Los maestros ES y EN también se
+  recompilaron dos veces sin errores ni referencias indefinidas.
+- La matriz queda en 58 notas EN estructuralmente coincidentes, 53 mazos ES
+  desarrollados, 60 mazos EN físicos y 11 filas completas de cuatro vías.
+- No se creó commit ni se hizo `git push`; el capítulo 6 queda pendiente.
+
 ## 2026-07-24 14:20:02 -06:00 (piloto de sincronización 02.03)
 
 - Se amplió el mazo ES de Técnicas de conteo y se creó su contraparte EN:

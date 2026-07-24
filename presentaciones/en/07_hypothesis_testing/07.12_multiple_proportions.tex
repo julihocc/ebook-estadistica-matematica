@@ -1,0 +1,28 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}\input{../../_en_comandos_beamer}
+\title[Multiple proportions]{Section 07.12: Multiple-Proportion Tests}\subtitle{Global contrast and follow-up comparisons}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
+\begin{document}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Roadmap}\small\begin{enumerate}\item Global contrast.\item Pooled statistic.\item Marascuilo procedure.\end{enumerate}\end{frame}
+\begin{frame}{Source and scope}\small This section treats $k$ independent populations with a binary response.\begin{block}{Guiding question}Are all success proportions equal?\end{block}\end{frame}
+\begin{frame}{Global hypotheses}\small\[H_0:p_1=p_2=\cdots=p_k\qquad\text{versus}\qquad H_a:\text{at least two differ}.\]\end{frame}
+\begin{frame}{Data}\small In sample $j$, observe $X_j$ successes among $n_j$ trials and $\hat p_j=X_j/n_j$.\end{frame}
+\begin{frame}{Global proportion}\small Under $H_0$, estimate the common proportion by\[\bar p=\frac{\sum_jX_j}{\sum_jn_j}.\]\end{frame}
+\begin{frame}{Global statistic}\small\[\chi^2=\sum_{j=1}^{k}\frac{(X_j-n_j\bar p)^2}{n_j\bar p(1-\bar p)}.\]\end{frame}
+\begin{frame}{Degrees of freedom}\small Compare the global contrast with $\chi^2_{k-1}$. A rejection only says that not all proportions are equal.\end{frame}
+\begin{frame}{Why follow-up comparisons}\small The global test does not identify differing pairs. Unadjusted pairwise checks inflate the Type I error.\end{frame}
+\begin{frame}{Marascuilo procedure}\small After a global rejection, compare each $|\hat p_i-\hat p_j|$ with a critical range $r_{ij}$.\end{frame}
+\begin{frame}{Critical range}\small\[r_{ij}=\sqrt{\chi^2_{\alpha,k-1}}\sqrt{\frac{\hat p_i(1-\hat p_i)}{n_i}+\frac{\hat p_j(1-\hat p_j)}{n_j}}.\]\end{frame}
+\begin{frame}{Procedure I}\small\begin{enumerate}\item Compute each $\hat p_j$.\item Compute $\bar p$.\item Evaluate the global $\chi^2$.\end{enumerate}\end{frame}
+\begin{frame}{Procedure II}\small\begin{enumerate}\setcounter{enumi}{3}\item Stop if the global test does not reject.\item If it rejects, compute $r_{ij}$.\item Report pairs whose difference exceeds the range.\end{enumerate}\end{frame}
+\begin{frame}{Conditions}\small Samples must be independent and binomial approximations reasonable. The design fixes $n_j$ by population.\end{frame}
+\begin{frame}{Application: data}\small For each group record $X_j$, $n_j$, and $\hat p_j$. Ordering groups helps reading but does not change the test.\end{frame}
+\begin{frame}{Application: global contrast}\small Substitute counts into the statistic and compare with $\chi^2_{k-1}$ or compute the $p$-value.\end{frame}
+\begin{frame}{Application: global decision}\small A small $p$-value indicates heterogeneity among proportions, without identifying responsible pairs.\end{frame}
+\begin{frame}{Application: pairs}\small For each $i<j$, compute the absolute difference and Marascuilo critical range.\end{frame}
+\begin{frame}{Common errors}\small\begin{itemize}\item Run pairwise checks without a global test.\item Omit Marascuilo adjustment.\item Treat global heterogeneity as every pair differing.\end{itemize}\end{frame}
+\begin{frame}{Reporting template}\small\begin{block}{Report} ``The global contrast gave $\chi^2=\cdots$, $df=k-1$, $p=\cdots$. After adjustment, detectable pairs are [list].''\end{block}\end{frame}
+\begin{frame}{Synthesis}\small\begin{itemize}\item The pooled proportion defines the equal-proportion contrast.\item $\chi^2$ answers the global question.\item Marascuilo locates differences while controlling error.\end{itemize}\end{frame}
+\begin{frame}{Chapter connection}\small This section extends one- and two-proportion tests to $k$ independent groups.\end{frame}
+\end{document}

@@ -1,44 +1,27 @@
 \documentclass[10pt,aspectratio=169]{beamer}
-\input{../../_preambulo_beamer}
-\input{../../_comandos_beamer}
-
-\title[Diseños factoriales]{Sección 8.7: Diseños factoriales}
-\subtitle{Correspondencia con la nota de lectura ES}
-\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute{Tecnológico de Monterrey}
-\date{}
-
+\input{../../_preambulo_beamer}\input{../../_comandos_beamer}
+\title[Diseños factoriales]{Sección 08.07: Introducción a diseños factoriales}\subtitle{Efectos principales e interacción}\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/diseno\_factorial.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
-\end{frame}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}\small\begin{enumerate}\item Diseño completo.\item Efectos principales e interacción.\item Modelo, ANOVA e interpretación.\end{enumerate}\end{frame}
+\begin{frame}{Fuente y alcance}\small La sección extiende los diseños de un factor a dos o más factores de tratamiento observados simultáneamente.\begin{block}{Pregunta guía}¿Cómo detectar que el efecto de un factor depende de otro?\end{block}\end{frame}
+\begin{frame}{Diseño factorial completo}\small Con factores $A$ y $B$, un diseño completo observa todas las $a\times b$ combinaciones, con $n$ réplicas por celda y $N=abn$.\end{frame}
+\begin{frame}{Ventaja frente a OFAT}\small Variar un factor a la vez no permite estimar interacciones. El diseño factorial usa las mismas corridas para estudiar efectos principales y conjuntos.\end{frame}
+\begin{frame}{Efecto principal}\small El efecto principal de $A$ es el cambio promedio de la respuesta al cambiar su nivel, promediando sobre los niveles de $B$. Análogamente se define el efecto de $B$.\end{frame}
+\begin{frame}{Interacción}\small Hay interacción cuando el efecto de $A$ depende del nivel de $B$. En una gráfica, las curvas de respuesta no son paralelas.\end{frame}
+\begin{frame}{Modelo factorial}\small\[Y_{ijk}=\mu+\alpha_i+\beta_j+(\alpha\beta)_{ij}+\epsilon_{ijk}.\]\end{frame}
+\begin{frame}{Restricciones}\small Las restricciones de suma cero identifican los efectos: $\sum_i\alpha_i=\sum_j\beta_j=0$ y las sumas de interacción por filas y columnas también son cero.\end{frame}
+\begin{frame}{Partición de ANOVA}\small\[\mathrm{SCT}=\mathrm{SC}_A+\mathrm{SC}_B+\mathrm{SC}_{AB}+\mathrm{SCE}.\]Cada fuente tiene su cuadrado medio y estadístico $F$.\end{frame}
+\begin{frame}{Orden de interpretación}\small Interpretar de adentro hacia afuera: primero la interacción $F_{AB}$; solo si no es significativa se interpretan directamente los efectos principales.\end{frame}
+\begin{frame}{Procedimiento I}\small\begin{enumerate}\item Definir factores, niveles y respuesta.\item Observar todas las combinaciones.\item Replicar y aleatorizar celdas.\end{enumerate}\end{frame}
+\begin{frame}{Procedimiento II}\small\begin{enumerate}\setcounter{enumi}{3}\item Ajustar el modelo factorial.\item Evaluar interacción y efectos.\item Reportar medias por combinación.\end{enumerate}\end{frame}
+\begin{frame}{Aplicación: algoritmos y lotes}\small Factor $A$: algoritmo ($A_1,A_2$). Factor $B$: tamaño de lote ($B_1=32,B_2=256$). Respuesta: tiempo de entrenamiento.\end{frame}
+\begin{frame}{Aplicación: medias celulares}\small Las medias observadas son $42,40$ para $A_1$ y $38,20$ para $A_2$, al cambiar de lote pequeño a grande.\end{frame}
+\begin{frame}{Aplicación: efectos simples}\small Bajo $A_1$, el cambio es $-2$ minutos; bajo $A_2$, es $-18$ minutos. El efecto del lote depende del algoritmo.\end{frame}
+\begin{frame}{Aplicación: interacción}\small La diferencia entre efectos simples indica interacción sustancial. No es correcto afirmar que el lote grande reduce el tiempo en todos los algoritmos.\end{frame}
+\begin{frame}{Aplicación: contraste}\small Para confirmar formalmente, evaluar $F_{AB}$ con $(a-1)(b-1)$ grados de libertad del numerador y $ab(n-1)$ del error.\end{frame}
+\begin{frame}{Interpretación}\small Con interacción significativa, reportar combinaciones específicas. Los efectos principales aislados pueden ocultar direcciones opuestas.\end{frame}
+\begin{frame}{Comunicación}\small Incluir tabla de medias por celda, tamaños, interacción, efectos principales y una gráfica de perfiles cuando sea posible.\end{frame}
+\begin{frame}{Síntesis}\small\begin{itemize}\item El factorial cruza todos los niveles.\item La interacción expresa dependencia entre factores.\item El orden de interpretación empieza por $AB$.\end{itemize}\end{frame}
+\begin{frame}{Conexión con el capítulo}\small Los diseños factoriales amplían el control experimental y preparan modelos con más factores e interacciones.\end{frame}
 \end{document}

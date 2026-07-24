@@ -1,0 +1,27 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}\input{../../_en_comandos_beamer}
+\title[Moment-generating function]{Section 04.06: Moment-Generating Function}\subtitle{Moments, uniqueness, and independent sums}\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
+\begin{document}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Roadmap}\small\begin{enumerate}\item Definition and existence.\item Moments, uniqueness, and sums.\item Examples and reference table.\end{enumerate}\end{frame}
+\begin{frame}{Source and scope}\small The moment-generating function (MGF) encodes a distribution in one function and links moment calculations to independent sums.\begin{block}{Guiding question}What distributional information is stored in $M_X(t)$?\end{block}\end{frame}
+\begin{frame}{Definition}\small\[M_X(t)=E[e^{tX}].\]The MGF transforms a random variable into a function of $t$.\end{frame}
+\begin{frame}{Discrete and continuous cases}\small\begin{itemize}\item Discrete: $M_X(t)=\sum_x e^{tx}f(x)$.\item Continuous: $M_X(t)=\int_{-\infty}^{\infty}e^{tx}f(x)\,dx$.\end{itemize}\end{frame}
+\begin{frame}{Existence}\small The MGF exists when the sum or integral converges on an open interval around $t=0$. Not every distribution has an MGF there.\end{frame}
+\begin{frame}{Moments from derivatives}\small If the MGF exists,\[E[X^n]=M_X^{(n)}(0)=\left.\frac{d^nM_X(t)}{dt^n}\right|_{t=0}.\]\end{frame}
+\begin{frame}{First moments}\small\[E[X]=M_X'(0),\qquad E[X^2]=M_X''(0),\qquad\operatorname{Var}(X)=M_X''(0)-[M_X'(0)]^2.\]\end{frame}
+\begin{frame}{Proof idea}\small Under regularity conditions, exchange differentiation and expectation:\[M_X^{(n)}(t)=E[X^ne^{tX}].\]At $t=0$ the exponential factor is one.\end{frame}
+\begin{frame}{Uniqueness property}\small If two random variables have the same MGF on an interval around zero, they have the same distribution. The MGF can identify a law when it exists.\end{frame}
+\begin{frame}{Additive property}\small For independent $X$ and $Y$,\[M_{X+Y}(t)=M_X(t)M_Y(t).\]Independence turns the MGF of a sum into a product.\end{frame}
+\begin{frame}{Proof idea for sums}\small\[E[e^{t(X+Y)}]=E[e^{tX}e^{tY}]=E[e^{tX}]E[e^{tY}].\]The second equality uses independence.\end{frame}
+\begin{frame}{Bernoulli example: setup}\small If $X$ is Bernoulli with success probability $p$, it takes only $0$ and $1$. Hence\[M_X(t)=(1-p)+pe^t.\]\end{frame}
+\begin{frame}{Bernoulli example: moments}\small\[M_X'(0)=p,\qquad M_X''(0)=p,\qquad\operatorname{Var}(X)=p(1-p).\]The MGF recovers the familiar moments.\end{frame}
+\begin{frame}{Normal example: setup}\small For $Z\sim N(0,1)$, completing the square in the integral produces a quadratic exponential.\end{frame}
+\begin{frame}{Normal example: result}\small If $X\sim N(\mu,\sigma^2)$,\[M_X(t)=\exp\!\left(\mu t+\frac{\sigma^2t^2}{2}\right).\]\end{frame}
+\begin{frame}{Exponential example: setup}\small If $X\sim\operatorname{Exp}(\lambda)$, the integral converges for $t<\lambda$ and\[M_X(t)=\lambda\int_0^\infty e^{-(\lambda-t)x}\,dx.\]\end{frame}
+\begin{frame}{Exponential example: result}\small\[M_X(t)=\frac{\lambda}{\lambda-t}=\left(1-\frac t\lambda\right)^{-1}.\]Also, $E[X^n]=n!/\lambda^n$.\end{frame}
+\begin{frame}{Reference table}\small\begin{itemize}\item Bernoulli: $(1-p)+pe^t$.\item Binomial: $(1-p+pe^t)^n$.\item Poisson: $\exp(\lambda(e^t-1))$.\item Normal: $\exp(\mu t+\sigma^2t^2/2)$.\end{itemize}\end{frame}
+\begin{frame}{Sum application}\small If $X_1,\ldots,X_n$ are independent Bernoulli trials with success probability $p$,\[M_{\sum X_i}(t)=(1-p+pe^t)^n,\]which identifies the binomial distribution.\end{frame}
+\begin{frame}{Interpretation}\small Derivatives turn one compact function into moments; multiplication turns independence into a tool for constructing sum distributions.\end{frame}
+\begin{frame}{Synthesis and connection}\small The MGF provides a definition, moments, uniqueness, and a sum rule. These properties link discrete, continuous, and compound models.\end{frame}
+\end{document}

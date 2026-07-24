@@ -3,42 +3,248 @@
 \input{../../_comandos_beamer}
 
 \title[Transformación de variables]{Sección 5.1: Transformación de variables}
-\subtitle{Correspondencia con la nota de lectura ES}
+\subtitle{Distribuciones de $Y=g(X)$}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
 \date{}
 
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
 
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/transformacion\_variables.tex}
+\begin{frame}{Hoja de ruta --- capítulo 5}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{05.00} Introducción inferencial
+    \item \textbf{05.01} Transformación de variables \emph{(hoy)}
+    \item \textbf{05.02} Distribuciones de funciones de variables aleatorias
+    \item \textbf{05.03--05.05} Distribuciones $\chi^2$, $t$ y $F$
+  \end{itemize}
+  \begin{block}{Objetivo didáctico}
+    Obtener la densidad de $Y=g(X)$ mediante transformaciones lineales,
+    inversas y jacobianos, incluyendo el caso no monótono.
   \end{block}
 \end{frame}
 
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
+\begin{frame}{Motivación: cambiar la escala}
+  \footnotesize
+  Si $X$ tiene una distribución conocida y $Y=g(X)$, necesitamos describir la
+  distribución de $Y$ para poder analizar datos transformados.
+  \begin{itemize}\itemsep=0.12cm
+    \item Una transformación puede normalizar datos.
+    \item También puede estabilizar varianzas o comprimir valores extremos.
+    \item La transformación debe conservar la probabilidad total.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
+\begin{frame}{Transformación afín}
+  \footnotesize
+  Si $Y=aX+b$, $a\neq0$, y $X$ tiene media $\mu_X$ y varianza $\sigma_X^2$,
+  \[
+    \mu_Y=a\mu_X+b,\qquad \sigma_Y^2=a^2\sigma_X^2.
+  \]
+  \begin{alertblock}{Caso normal}
+    Si $X\sim N(\mu,\sigma^2)$, entonces
+    $Y\sim N(a\mu+b,a^2\sigma^2)$.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Cambio de variable monótono}
+  \footnotesize
+  Para $Y=g(X)$ con $g$ estrictamente monótona y diferenciable:
+  \[
+    f_Y(y)=f_X\!\left(g^{-1}(y)\right)
+    \left|\frac{d}{dy}g^{-1}(y)\right|.
+  \]
+  \begin{block}{Idea de la derivación}
+    Se expresa primero $F_Y(y)=F_X(g^{-1}(y))$ y después se deriva usando la
+    regla de la cadena.
   \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
+\end{frame}
+
+\begin{frame}{Jacobiano de la inversa}
+  \footnotesize
+  Si $x=g^{-1}(y)$ y $J(y)=dx/dy$, la fórmula se escribe
+  \[
+    f_Y(y)=f_X(x)|J(y)|.
+  \]
+  \begin{exampleblock}{Lectura geométrica}
+    El valor absoluto del jacobiano corrige el cambio de escala entre los
+    intervalos de $x$ y de $y$.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Caso no monótono}
+  \footnotesize
+  Si varios valores de $x$ producen el mismo $y$, se suman todas las
+  preimágenes:
+  \[
+    f_Y(y)=\sum_{x:g(x)=y}f_X(x)\left|\frac{dx}{dy}\right|.
+  \]
+  \begin{alertblock}{Diferencia clave}
+    No basta con escoger una sola inversa: cada rama aporta probabilidad.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Transformaciones comunes}
+  \footnotesize
+  La nota enumera transformaciones útiles para datos positivos o sesgados:
+  \begin{itemize}\itemsep=0.11cm
+    \item $Y=\ln X$: comprime valores grandes.
+    \item $Y=\sqrt X$: suaviza la asimetría de conteos.
+    \item $Y=X^{1/3}$: alternativa para asimetría pronunciada.
+    \item Box--Cox: $Y=(X^\lambda-1)/\lambda$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Aplicación exacta 1/4: transformación normal}
+  \footnotesize
+  Para $X\sim N(\mu,\sigma^2)$ y $Y=aX+b$:
+  \[
+    Y\sim N(a\mu+b,a^2\sigma^2).
+  \]
+  \begin{block}{Interpretación}
+    Una transformación lineal desplaza la media y escala la varianza, pero
+    conserva la familia normal.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación exacta 1/4: resolución}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.13cm
+    \item Identificar $a$ y $b$.
+    \item Transformar la media: $a\mu+b$.
+    \item Transformar la varianza: $a^2\sigma^2$.
+  \end{enumerate}
+  Este es el ejemplo de reproductividad de la distribución normal de la nota.
+\end{frame}
+
+\begin{frame}{Aplicación exacta 2/4: exponencial a Pareto}
+  \footnotesize
+  Sea $X\sim\operatorname{Exp}(1)$ y $Y=e^X$. Entonces $g^{-1}(y)=\ln y$ y
+  $d(\ln y)/dy=1/y$.
+  \[
+    f_Y(y)=e^{-\ln y}\frac1y=\frac1{y^2},\qquad y>1.
+  \]
+\end{frame}
+
+\begin{frame}{Aplicación exacta 2/4: resolución}
+  \footnotesize
+  \begin{block}{Soporte}
+    Como $X>0$, la transformación creciente produce $Y>1$.
+  \end{block}
+  \begin{alertblock}{Resultado}
+    La densidad $1/y^2$ para $y>1$ es una distribución de Pareto con
+    parámetro $\alpha=1$.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Aplicación exacta 3/4: transformación log-normal}
+  \footnotesize
+  Si $X\sim N(\mu,\sigma^2)$ y $Y=e^X$, la inversa es $\ln y$ y $y>0$.
+  \[
+    f_Y(y)=\frac{1}{\sigma\sqrt{2\pi}}
+    \exp\!\left[-\frac{(\ln y-\mu)^2}{2\sigma^2}\right]\frac1y.
+  \]
+\end{frame}
+
+\begin{frame}{Aplicación exacta 3/4: resolución}
+  \footnotesize
+  \begin{block}{Resultado de la nota}
+    $Y$ sigue una distribución log-normal $LN(\mu,\sigma^2)$.
+  \end{block}
+  \begin{exampleblock}{Lectura}
+    El factor $1/y$ es el jacobiano de la transformación inversa y evita
+    confundir la densidad de $X$ con la de $Y$.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Aplicación exacta 4/4: seno no monótono}
+  \footnotesize
+  Para $X\sim U(0,2\pi)$ y $Y=\sin X$, cada $y\in(-1,1)$ tiene dos preimágenes.
+  \[
+    x_1=\arcsin y,\qquad x_2=\pi-\arcsin y.
+  \]
+  \begin{block}{Suma de ramas}
+    Cada rama contribuye $1/(2\pi\sqrt{1-y^2})$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación exacta 4/4: resolución}
+  \footnotesize
+  \[
+    f_Y(y)=\frac{1}{\pi\sqrt{1-y^2}},\qquad -1<y<1.
+  \]
+  \begin{alertblock}{Resultado}
+    Se obtiene la densidad del arcoseno: ignorar una de las dos preimágenes
+    produciría la mitad de la probabilidad correcta.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Puente computacional 1/4: soporte}
+  \footnotesize
+  La transformación debe llevar también el soporte:
+  \begin{center}
+    $X>0\xrightarrow{e^x}Y>1$,\qquad
+    $X\in(0,2\pi)\xrightarrow{\sin}Y\in(-1,1)$.
+  \end{center}
+  El soporte es una comprobación rápida de cualquier densidad transformada.
+\end{frame}
+
+\begin{frame}{Puente computacional 2/4: jacobiano}
+  \footnotesize
+  \[
+    J(y)=\frac{d}{dy}g^{-1}(y).
+  \]
+  \begin{itemize}\itemsep=0.12cm
+    \item $g^{-1}(y)=\ln y\Rightarrow |J(y)|=1/y$.
+    \item $g^{-1}(y)=\arcsin y\Rightarrow |J(y)|=1/\sqrt{1-y^2}$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Puente computacional 3/4: conservación}
+  \footnotesize
+  En cada caso, la densidad transformada debe integrar uno sobre su soporte.
+  \begin{block}{Chequeo de consistencia}
+    El jacobiano redistribuye masa; no crea ni elimina probabilidad.
+  \end{block}
+  Las dos ramas del seno explican el factor $2$ de la densidad del arcoseno.
+\end{frame}
+
+\begin{frame}{Puente computacional 4/4: decisión de método}
+  \footnotesize
+  \begin{tabular}{ll}
+    \hline
+    Forma de $g$ & Acción \\
+    \hline
+    Afín & transformar media y varianza \\
+    Monótona & una inversa y un jacobiano \\
+    No monótona & sumar todas las ramas \\
+    \hline
+  \end{tabular}
+  \begin{alertblock}{Regla práctica}
+    La forma de la función determina la forma de la solución.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Síntesis de la sección}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Las transformaciones afines preservan la normalidad.
+    \item El cambio de variable usa la inversa y su jacobiano.
+    \item Las funciones no monótonas requieren sumar preimágenes.
+    \item El soporte y la integral total verifican el resultado.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Transición curricular}
+  \footnotesize
+  \begin{block}{Lo que queda establecido}
+    Ya podemos obtener distribuciones de transformaciones de una variable.
+  \end{block}
+  \begin{alertblock}{Siguiente sección}
+    \textbf{05.02 Distribuciones de probabilidad de funciones de variable
+    aleatoria}: extensión a funciones de una o varias variables y superficies
+    de nivel.
   \end{alertblock}
 \end{frame}
 \end{document}

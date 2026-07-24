@@ -1,44 +1,28 @@
 \documentclass[10pt,aspectratio=169]{beamer}
-\input{../../_preambulo_beamer}
-\input{../../_comandos_beamer}
-
-\title[Estrategias de experimentación]{Sección 8.1: Estrategias de experimentación}
-\subtitle{Correspondencia con la nota de lectura ES}
-\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute{Tecnológico de Monterrey}
-\date{}
-
+\input{../../_preambulo_beamer}\input{../../_comandos_beamer}
+\title[Estrategias de experimentación]{Sección 08.01: Estrategias de experimentación}\subtitle{Diseño de Experimentos y ANOVA}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/estrategias\_experimentacion.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
-\end{frame}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}\small\begin{enumerate}\item Motivación y terminología.\item Principios de Fisher.\item Planificación y análisis.\end{enumerate}\end{frame}
+\begin{frame}{Fuente y alcance}\small Esta presentación sigue la sección de estrategias de experimentación y presenta el puente entre diseño de Experimentos (DoE) y ANOVA.\begin{block}{Pregunta guía}¿Cómo diseñar datos que permitan distinguir efectos causales de ruido?\end{block}\end{frame}
+\begin{frame}{Por qué experimentar}\small Un estudio observacional puede mezclar tratamientos con variables de confusión. La asignación controlada permite comparar escenarios bajo un protocolo reproducible.\end{frame}
+\begin{frame}{Inflación por comparaciones}\small Comparar $k$ grupos con pruebas por pares multiplica oportunidades de falso positivo. Para $m$ comparaciones independientes,\[\alpha_{\mathrm{global}}=1-(1-\alpha)^m.\]\end{frame}
+\begin{frame}{Terminología esencial}\small\begin{itemize}\item Unidad experimental: entidad que recibe un tratamiento.\item Factor: variable manipulada.\item Tratamiento: combinación concreta de niveles.\item Respuesta: variable medida.\end{itemize}\end{frame}
+\begin{frame}{Replicación}\small Repetir un tratamiento en unidades independientes estima la varianza del error y reduce el error estándar de la media. Sin replicación no se puede separar efecto y ruido.\end{frame}
+\begin{frame}{Aleatorización}\small Asignar tratamientos al azar evita que diferencias sistemáticas de las unidades se confundan con efectos del factor. También justifica la referencia probabilística del análisis.\end{frame}
+\begin{frame}{Bloqueo}\small Agrupar unidades relativamente homogéneas antes de asignar tratamientos controla una fuente conocida de variabilidad y deja un error residual más pequeño.\end{frame}
+\begin{frame}{Protocolo experimental}\small\begin{enumerate}\item Definir pregunta y respuesta.\item Elegir factores y niveles.\item Fijar unidades, replicación y bloques.\item Aleatorizar la asignación.\end{enumerate}\end{frame}
+\begin{frame}{Puente hacia ANOVA}\small Un diseño bien planificado produce medias comparables y una estimación interna del error. ANOVA contrasta varios tratamientos en un único modelo.\end{frame}
+\begin{frame}{Matriz de diseño}\small La matriz registra cada unidad, sus niveles de factor, el bloque si existe, el orden aleatorio y la respuesta observada. Es la base de la trazabilidad.\end{frame}
+\begin{frame}{Aplicación: prueba A/B/n}\small Se desean comparar varias configuraciones de un algoritmo. Cada configuración es un tratamiento; el tiempo de ejecución es la respuesta.\end{frame}
+\begin{frame}{Aplicación: riesgo familiar}\small Con $k=5$ tratamientos hay $m=10$ pares. Si cada comparación usa $\alpha=0.05$,\[1-(0.95)^{10}\approx0.4013.\]El riesgo global supera al nivel nominal.\end{frame}
+\begin{frame}{Aplicación: replicación}\small Ejecutar cada configuración en varias unidades independientes permite estimar la variabilidad del tiempo y distinguir una diferencia estable de una fluctuación.\end{frame}
+\begin{frame}{Aplicación: aleatorización}\small Alternar aleatoriamente el orden de ejecución evita que calentamiento, hora o carga del servidor se confundan con el tratamiento.\end{frame}
+\begin{frame}{Aplicación: bloqueo}\small Si los servidores pertenecen a generaciones distintas, cada generación puede ser un bloque y las configuraciones se asignan dentro de cada bloque.\end{frame}
+\begin{frame}{Aplicación: análisis}\small El plan final combina tratamiento, replicación, aleatorización y bloqueo; después se aplica ANOVA y, si procede, comparaciones ajustadas.\end{frame}
+\begin{frame}{Interpretación}\small La inferencia causal depende tanto del diseño como del cálculo. Un valor $p$ no repara una asignación sesgada ni una respuesta mal definida.\end{frame}
+\begin{frame}{Comunicación}\small Reporte unidades, factores, niveles, número de réplicas, bloques, regla de aleatorización y respuesta. Así el análisis puede reproducirse.\end{frame}
+\begin{frame}{Síntesis}\small\begin{itemize}\item Replicar estima error.\item Aleatorizar protege contra confusión.\item Bloquear controla heterogeneidad conocida.\item ANOVA compara varios tratamientos.\end{itemize}\end{frame}
+\begin{frame}{Conexión con el capítulo}\small Las secciones siguientes desarrollan ANOVA de un factor, efectos fijos, diseños bloqueados y diseños factoriales.\end{frame}
 \end{document}

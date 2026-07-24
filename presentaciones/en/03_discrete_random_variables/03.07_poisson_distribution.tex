@@ -66,26 +66,37 @@
 	\end{columns}
 \end{frame}
 
-% SLIDE 04: Formal Definition and Equidispersion
-\begin{frame}{Formal Definition and Equidispersion Property}
-	\vspace{-0.2cm}
+% SLIDE 04: Formal Definition of the PMF
+\begin{frame}{Formal Definition of the Poisson Distribution}
+	\vspace{-0.15cm}
 	\begin{block}{Probability Mass Function (PMF)}
 		\scriptsize
-		A discrete random variable $X$ follows a Poisson distribution with rate $\lambda > 0$ if its PMF is:
-		$$P(X = k) = \dfrac{e^{-\lambda} \lambda^{k}}{k!}, \quad k \in \set{0, 1, 2, \dots}$$
+		A discrete random variable $X$ follows a Poisson distribution with rate $\lambda > 0$ if
+		$$P(X=k)=\dfrac{e^{-\lambda}\lambda^k}{k!},\quad k\in\set{0,1,2,\dots}.$$
 	\end{block}
+	\vspace{-0.1cm}
+	\begin{alertblock}{Interpretation and Python Parameterization}
+		\scriptsize
+		The factor $e^{-\lambda}$ normalizes the series, while $\lambda^k/k!$ determines its tail. In SciPy use \texttt{poisson.pmf(k, mu=lambda)} and \texttt{poisson.cdf(k, mu=lambda)}.
+	\end{alertblock}
+\end{frame}
+
+% SLIDE 05: Equidispersion
+\begin{frame}{Equidispersion: $\mu = \sigma^{2} = \lambda$}
 	\vspace{-0.15cm}
 	\begin{columns}[T]
 		\begin{column}{0.48\textwidth}
-			\begin{exampleblock}{Normalization (Taylor Series)}
+			\begin{block}{Expected Value}
 				\scriptsize
-				$\sum_{k=0}^{\infty} P(X=k) = e^{-\lambda} \sum_{k=0}^{\infty} \dfrac{\lambda^{k}}{k!} = e^{-\lambda} \cdot e^{\lambda} = 1$.
-			\end{exampleblock}
+				$$\E[X]=\sum_{k=0}^{\infty}k\,\dfrac{e^{-\lambda}\lambda^k}{k!}=\lambda.$$
+				This follows by differentiating $e^\lambda=\sum_{k=0}^{\infty}\lambda^k/k!$ and multiplying by $\lambda$.
+			\end{block}
 		\end{column}
 		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Equidispersion Theorem}
+			\begin{alertblock}{Variance}
 				\scriptsize
-				$\E[X] = \lambda$ and $\Var(X) = \lambda$ (both equal to the rate parameter). Derived from the MGF $M_{X}(t) = e^{\lambda(e^{t}-1)}$.
+				$$\Var(X)=\E[X^2]-(\E[X])^2=(\lambda^2+\lambda)-\lambda^2=\lambda.$$
+				Thus the mean and variance coincide exactly.
 			\end{alertblock}
 		\end{column}
 	\end{columns}
@@ -146,27 +157,43 @@
 	\end{columns}
 \end{frame}
 
-% SLIDE 06: Additivity and Conditional Binomial
-\begin{frame}{Additivity and Conditional Binomial Properties}
+% SLIDE 06: Additivity
+\begin{frame}{Additivity: Sum of Independent Poisson Variables}
 	\vspace{-0.15cm}
 	\begin{columns}[T]
 		\begin{column}{0.48\textwidth}
-			\begin{block}{Additivity (Reproductive Property)}
-				\scriptsize
-				If $X \sim \text{Pois}(\lambda_{1})$ and $Y \sim \text{Pois}(\lambda_{2})$ are independent, then:
-				$$Z = X + Y \sim \text{Pois}(\lambda_{1} + \lambda_{2})$$
-				Proved via discrete convolution and the Binomial Theorem.
+			\begin{block}{Convolution Proof}
+				\tiny
+				If $X\sim\text{Pois}(\lambda_1)$ and $Y\sim\text{Pois}(\lambda_2)$ are independent, then
+				\begin{align*}
+				P(X+Y=m)&=\sum_{k=0}^{m}P(X=k)P(Y=m-k)\\[-0.15em]
+				&=\dfrac{e^{-(\lambda_1+\lambda_2)}(\lambda_1+\lambda_2)^m}{m!}.
+				\end{align*}
 			\end{block}
 		\end{column}
 		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Conditional Binomial Theorem}
+			\begin{alertblock}{Reproductive Property}
 				\scriptsize
-				Conditionally on $X + Y = n$:
-				$$P(X = k \mid X + Y = n) = \binom{n}{k} p^{k}(1-p)^{n-k}$$
-				$$p = \dfrac{\lambda_{1}}{\lambda_{1} + \lambda_{2}}$$
+				The sum of independent Poisson variables is Poisson with rate $\lambda_1+\lambda_2$. This aggregates event streams without changing their distributional form.
 			\end{alertblock}
 		\end{column}
 	\end{columns}
+\end{frame}
+
+% SLIDE 06B: Conditional Binomial
+\begin{frame}{Conditional Property: Binomial Distribution under a Fixed Sum}
+	\vspace{-0.15cm}
+	\begin{block}{Conditional Binomial Distribution}
+		\scriptsize
+		If $X\sim\text{Pois}(\lambda_1)$ and $Y\sim\text{Pois}(\lambda_2)$ are independent, then
+		$$P(X=k\mid X+Y=n)=\binom{n}{k}
+		\left(\dfrac{\lambda_1}{\lambda_1+\lambda_2}\right)^k
+		\left(\dfrac{\lambda_2}{\lambda_1+\lambda_2}\right)^{n-k}.$$
+	\end{block}
+	\begin{alertblock}{Queueing Interpretation}
+		\scriptsize
+		Given $n$ total customers served by two Poisson servers, the number served by server 1 is binomial with success probability $\lambda_1/(\lambda_1+\lambda_2)$.
+	\end{alertblock}
 \end{frame}
 
 % SLIDE 07: Applications
@@ -238,136 +265,6 @@ Conditional X | (X+Y=8) with p_cond = 0.3750:
 \end{frame}
 
 % SLIDE 12: Exercise Level 1 (Statement)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 3.7.1 --- Calls to a Call Center (Statement)}
-		A call center receives calls independently at an average rate of $\lambda = 3$ calls per minute. Let $X$ be the random variable that counts the number of calls received in a fixed one-minute interval. Calculate $P(X = 0)$, $P(X = 1)$, $P(X = 2)$, and $P(X \ge 4)$.
-	\end{block}
-	\vspace{0.15cm}
-	\begin{alertblock}{Model Setup}
-		\scriptsize
-		$X \sim \text{Pois}(\lambda = 3)$ with PMF $P(X = k) = e^{-3} \cdot 3^{k} / k!$ for $k \in \set{0, 1, 2, \dots}$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 13: Exercise Level 1 (Solution)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Direct evaluation with $\lambda = 3$ and complement for the right tail: \pause
-	\begin{itemize}\itemsep=0.04cm
-		\item \textbf{Zero calls ($X=0$):} $P(X=0) = e^{-3} \cdot 3^{0}/0! = e^{-3} \approx 0.04979$ \pause
-		\item \textbf{One call ($X=1$):} $P(X=1) = e^{-3} \cdot 3^{1}/1! = 3e^{-3} \approx 0.14936$ \pause
-		\item \textbf{Two calls ($X=2$):} $P(X=2) = e^{-3} \cdot 3^{2}/2! = (9/2) e^{-3} \approx 0.22404$
-	\end{itemize}
-	\vspace{0.1cm}
-	\pause
-	\begin{alertblock}{Right Tail by Complement}
-		\scriptsize
-		$P(X \ge 4) = 1 - P(X \le 3) = 1 - 13 e^{-3} \approx 1 - 0.6472 = \mathbf{0.3528}$ (35.28\% probability).
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 14: Exercise Level 2 (Statement)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 3.7.4 --- Law of Rare Events in a Clinical Trial (Statement)}
-		A Phase III clinical trial monitors $n = 2000$ patients over one year to detect an extremely rare adverse reaction with true probability $p = 0.001$ per patient-year (so $\lambda = np = 2$).
-	\end{block}
-	\vspace{0.15cm}
-	\begin{alertblock}{Binomial vs. Poisson Comparison}
-		\scriptsize
-		Compare the exact probability of observing exactly $k = 2$ adverse reactions under the Binomial model $Y \sim \text{Bin}(2000, 0.001)$ with the Poisson approximation $P(X = 2) = e^{-2} \cdot 2^{2}/2!$. Justify theoretically why the approximation is excellent.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 15: Exercise Level 2 (Solution)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
-	\vspace{-0.05cm}
-	\begin{block}{Exact Binomial Calculation}
-		\scriptsize
-		$P(Y=2) = \binom{2000}{2} (0.001)^{2} (0.999)^{1998} \approx 1\,999\,000 \cdot 10^{-6} \cdot 0.13534 \approx \mathbf{0.27056}$
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{block}{Poisson Approximation with $\lambda = 2$}
-		\scriptsize
-		$P(X=2) = e^{-2} \cdot 2^{2}/2! = 2 e^{-2} \approx 2 \cdot 0.13534 \approx \mathbf{0.27067}$
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Theoretical Justification}
-		\scriptsize
-		Absolute error: $\abs{0.27056 - 0.27067} \approx 0.00011 < 5 \times 10^{-4}$. The approximation is excellent because the operational rule $n = 2000 \ge 50$, $p = 0.001 \le 0.05$ and $np = 2 \le 5$ is satisfied.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 16: Exercise Level 3 (Statement)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 3.7.7 --- Analytical Derivation of Moments (Statement)}
-		Let $X \sim \text{Pois}(\lambda)$ with $\lambda > 0$. Prove analytically that $\E[X] = \lambda$ and $\E[X^{2}] = \lambda^{2} + \lambda$ from the exponential series identity $e^{\lambda} = \sum_{k=0}^{\infty} \lambda^{k}/k!$ and term-by-term differentiation.
-	\end{block}
-	\vspace{0.1cm}
-	\pause
-	\begin{alertblock}{Deduction Strategy}
-		\scriptsize
-		Differentiating $e^{\lambda} = \sum \lambda^{k}/k!$ once and multiplying by $\lambda e^{-\lambda}$ yields $\E[X] = \lambda$. The second derivative gives $\E[X(X-1)] = \lambda^{2}$, hence $\E[X^{2}] = \lambda^{2} + \lambda$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 17: Exercise Level 3 (Solution)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Differentiate the exponential series twice to obtain the moments: \pause
-	\begin{block}{First Derivative: Expectation}
-		\scriptsize
-		From $e^{\lambda} = \sum_{k=0}^{\infty} \lambda^{k}/k!$, differentiate: $e^{\lambda} = \sum_{k=1}^{\infty} k \lambda^{k-1}/k!$. Multiply by $\lambda e^{-\lambda}$:
-		$$\E[X] = \sum_{k=0}^{\infty} k \cdot \dfrac{e^{-\lambda} \lambda^{k}}{k!} = \lambda e^{-\lambda} \cdot e^{\lambda} = \lambda$$
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Equidispersion Conclusion}
-		\scriptsize
-		Analogously, $\E[X(X-1)] = \lambda^{2}$, so $\E[X^{2}] = \lambda^{2} + \lambda$. By Konig-Huygens, $\Var(X) = (\lambda^{2}+\lambda) - \lambda^{2} = \lambda \quad \blacksquare$
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 18: Exercise Level 4 (Statement)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 3.7.9 --- Conditional Binomial Distribution (Statement)}
-		Let $X \sim \text{Pois}(\lambda_{1})$ and $Y \sim \text{Pois}(\lambda_{2})$ be independent random variables counting events served by two web servers in the same interval. Prove analytically that the conditional distribution of $X$ given $(X+Y=n)$ is $\text{Bin}(n, p)$ with $p = \lambda_{1}/(\lambda_{1}+\lambda_{2})$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Numerical Application}
-		\scriptsize
-		With $\lambda_{1} = 3$ and $\lambda_{2} = 5$, if a total of $n = 8$ requests were served in one hour, calculate the probability that server $1$ served exactly $k = 3$ of them.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 19: Exercise Level 4 (Solution)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	By conditional probability, independence, and the additivity result (Problem 3.7.8): \pause
-	\begin{block}{Ratio Calculation}
-		\scriptsize
-		$P(X=k \mid X+Y=n) = \dfrac{P(X=k) P(Y=n-k)}{P(X+Y=n)} = \binom{n}{k} p^{k}(1-p)^{n-k}$ with $p = \lambda_{1}/(\lambda_{1}+\lambda_{2})$.
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Numerical Application}
-		\scriptsize
-		With $p = 3/8 = 0.375$, $n = 8$, $k = 3$:
-		$$P(X=3 \mid X+Y=8) = \binom{8}{3} \left(\dfrac{3}{8}\right)^{3} \left(\dfrac{5}{8}\right)^{5} = 56 \cdot \dfrac{27}{512} \cdot \dfrac{3125}{32768} \approx \mathbf{0.2815}$$
-		Given that $8$ requests were served in total, the probability that server $1$ served exactly $3$ is $\approx 28.15\%$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 20: Closing and Next Steps
 \begin{frame}{Closing Section and Modular Perspective}
 	\vspace{-0.15cm}
 	\begin{block}{Synthesis on the Law of Rare Events}
@@ -384,6 +281,24 @@ Conditional X | (X+Y=8) with p_cond = 0.3750:
 			\item \textbf{Next Session:} \textcolor{TecRojo}{Multinomial Distribution}.
 		\end{itemize}
 	\end{alertblock}
+\end{frame}
+
+% SLIDE 18: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+	\begin{columns}[T]
+		\begin{column}{0.48\textwidth}
+			\begin{block}{Beyond Fixed Event Counts}
+				\scriptsize
+				Poisson counts events in a time or space interval at a fixed rate $\lambda$. The next challenge is to model waiting times between events rather than counts.
+			\end{block}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{alertblock}{Section 03.08}
+				\scriptsize
+				We will study the Multinomial Distribution and its applications to several-category experiments.
+			\end{alertblock}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \end{document}

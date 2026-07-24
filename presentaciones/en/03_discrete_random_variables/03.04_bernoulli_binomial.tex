@@ -232,153 +232,6 @@
 	\end{columns}
 \end{frame}
 
-% SLIDE 11A: Classroom Exercise --- Tier 1: Fundamental (Statement)
-\begin{frame}{Classroom Exercise --- Tier 1: Fundamental (1/2)}
-	\begin{block}{Problem 3.4.2 --- Quality Control of Sensors}
-		\footnotesize
-		In an automated quality control process, $n = 8$ temperature sensors manufactured under identical, independent conditions are inspected. The probability that an individual sensor meets precision standards is $p = 0.90$. Let $X$ be the total number of sensors meeting standards among the $8$ inspected.
-		\begin{enumerate}\itemsep=0.12cm
-			\item Identify the exact distribution of $X$ along with its parameters and compute the probability that exactly $7$ sensors meet standards ($P(X=7)$).
-			\item Compute the probability that at most $1$ sensor fails to meet standards in the inspected sample ($X \ge 7$).
-		\end{enumerate}
-	\end{block}
-	\vspace{-0.05cm}
-	\pause
-	\begin{alertblock}{Suggested Methodology}
-		\footnotesize
-		Set up the combinatorial coefficient $\comb{8}{7}$ and recognize that "at most 1 non-compliant" is equivalent to having $7$ or $8$ compliant sensors ($P(X=7) + P(X=8)$).
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 11B: Classroom Exercise --- Tier 1: Fundamental (Solution)
-\begin{frame}{Classroom Exercise --- Tier 1: Fundamental (2/2)}
-	\fontsize{7.5pt}{9pt}\selectfont
-	We identify the exact model: $X \sim \text{Bin}(n=8, \, p=0.90)$ with $q = 0.10$. \pause
-
-	\vspace{-0.05cm}
-	\begin{block}{1. Exact Probability of 7 Compliant Sensors ($x=7$)}
-		\fontsize{7.5pt}{9pt}\selectfont
-		We evaluate the binomial probability mass function:
-		$$P(X = 7) = \comb{8}{7} (0.90)^7 (0.10)^1 = 8 \cdot (0.4782969) \cdot (0.10) \approx \mathbf{0.382637}$$
-	\end{block}
-
-	\vspace{-0.1cm}
-	\pause
-	\begin{alertblock}{2. Probability of At Most 1 Defective Sensor ($X \ge 7$)}
-		\fontsize{7.5pt}{9pt}\selectfont
-		If the number of defectives is $D = 8 - X \le 1$, then $X \in \{7, 8\}$:
-		$$P(X = 8) = \comb{8}{8} (0.90)^8 (0.10)^0 = 1 \cdot (0.4304672) \cdot 1 \approx 0.430467$$
-		$$P(D \le 1) = P(X \ge 7) = P(X=7) + P(X=8) = 0.382637 + 0.430467 = \mathbf{0.813104}$$
-		\textbf{Conclusion:} There is an $81.31\%$ probability that the batch passes the high-stringency inspection.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 12A: Classroom Exercise --- Tier 2: Operational (Statement)
-\begin{frame}{Classroom Exercise --- Tier 2: Operational (1/2)}
-	\begin{block}{Problem 3.4.6 --- Operational Cost and Quadratic Loss Function}
-		\footnotesize
-		An aerospace component manufacturer supplies batches of $n = 20$ hydraulic valves. The probability that a defective valve escapes internal control is $p = 0.05$. The contract establishes a warranty operating cost modeled by the nonlinear loss function:
-		$$C(X) = 500 X^2 + 150 X + 1000 \quad \text{(in dollars)},$$
-		where $X$ represents the number of defective valves in the delivered batch.
-		\begin{enumerate}\itemsep=0.1cm
-			\item Determine the mathematical expectation of the warranty cost $\mathbb{E}[C(X)]$ using the properties of binomial moments.
-			\item Compute the standard deviation of the number of defects $\sigma_X$ and discuss the impact of the quadratic term $X^2$ on the overall expected cost.
-		\end{enumerate}
-	\end{block}
-\end{frame}
-
-% SLIDE 12B: Classroom Exercise --- Tier 2: Operational (Solution)
-\begin{frame}{Classroom Exercise --- Tier 2: Operational (2/2)}
-	\fontsize{7.5pt}{9pt}\selectfont
-	For $X \sim \text{Bin}(20, 0.05)$, we compute the first two central moments:
-	$$\mu_X = \mathbb{E}[X] = np = 20(0.05) = 1.0, \qquad \sigma_X^2 = \text{Var}(X) = np(1-p) = 20(0.05)(0.95) = 0.95$$ \pause
-
-	\vspace{-0.1cm}
-	\begin{block}{1. Second Raw Moment and Expected Cost $\mathbb{E}[C(X)]$}
-		\fontsize{7.5pt}{9pt}\selectfont
-		By the fundamental variance identity, $\mathbb{E}[X^2] = \text{Var}(X) + (\mathbb{E}[X])^2 = 0.95 + 1.0^2 = \mathbf{1.95}$.
-		Applying linearity to the expectation operator:
-		$$\mathbb{E}[C(X)] = 500 \mathbb{E}[X^2] + 150 \mathbb{E}[X] + 1000 = 500(1.95) + 150(1.0) + 1000 = 975 + 150 + 1000 = \mathbf{\$2,125\text{ USD}}$$
-	\end{block}
-
-	\vspace{-0.1cm}
-	\pause
-	\begin{alertblock}{2. Discussion of the Quadratic Term's Impact}
-		\fontsize{7.5pt}{9pt}\selectfont
-		The standard deviation is $\sigma_X = \sqrt{0.95} \approx 0.9747$ defects. If the loss were linear ($C_{\text{lin}} = 150X + 1000$), the expected cost would be only $\$1,150$. The term $500X^2$ adds $\$975$ extra due to the cost of variability ($\text{Var}(X)$), aggressively penalizing extreme fluctuations in the process.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 13A: Classroom Exercise --- Tier 3: Analytical (Statement)
-\begin{frame}{Classroom Exercise --- Tier 3: Analytical (1/2)}
-	\begin{block}{Problem 3.4.7 --- Binomial Theorem and Derivation of the First Moment}
-		\footnotesize
-		Let $X \sim \text{Bin}(n, p)$ with $q = 1-p$.
-		\begin{enumerate}\itemsep=0.15cm
-			\item Rigorously prove, using Newton's Binomial Theorem, the absolute normalization identity:
-			$$\sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = 1.$$
-			\item Applying the differential operator $\dfrac{\partial}{\partial p}$ to the analytical identity $(p+q)^n = \sum_{k=0}^n \comb{n}{k} p^k q^{n-k}$ before substituting $q=1-p$, analytically prove that $\mathbb{E}[X] = np$.
-		\end{enumerate}
-	\end{block}
-\end{frame}
-
-% SLIDE 13B: Classroom Exercise --- Tier 3: Analytical (Solution)
-\begin{frame}{Classroom Exercise --- Tier 3: Analytical (2/2)}
-	\fontsize{6.2pt}{7.4pt}\selectfont
-	\begin{block}{1. Normalization via the Binomial Theorem}
-		\fontsize{6.2pt}{7.4pt}\selectfont
-		The Binomial Theorem establishes that $(a+b)^n = \sum_{k=0}^n \comb{n}{k} a^k b^{n-k}$. Taking $a=p$ and $b=q$:
-		$$\sum_{k=0}^n \comb{n}{k} p^k q^{n-k} = (p+q)^n = (p + 1 - p)^n = 1^n = 1. \quad \checkmark$$
-	\end{block}
-
-	\vspace{-0.25cm}
-	\pause
-	\begin{alertblock}{2. Parametric Derivation of the Expected Value $\mathbb{E}[X]$}
-		\fontsize{6.2pt}{7.4pt}\selectfont
-		We differentiate both sides of the identity $(p+q)^n = \sum_{k=0}^n \comb{n}{k} p^k q^{n-k}$ with respect to the parameter $p$:
-		$$n(p+q)^{n-1} = \sum_{k=0}^n k \comb{n}{k} p^{k-1} q^{n-k}$$
-		Multiplying the entire equation by $p$, we obtain $np(p+q)^{n-1} = \sum_{k=0}^n k \comb{n}{k} p^k q^{n-k} = \mathbb{E}[X]$.
-		Finally, we impose the condition $q = 1-p \implies p+q = 1$:
-		$$\mathbb{E}[X] = np(1)^{n-1} = \mathbf{np}. \quad \blacksquare$$
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 14A: Classroom Exercise --- Tier 4: Challenging (Statement)
-\begin{frame}{Classroom Exercise --- Tier 4: Challenging (1/2)}
-	\begin{block}{Problem 3.4.9 --- Mode of the Binomial Distribution}
-		\footnotesize
-		Let $X \sim \text{Bin}(n, p)$ be a binomial variable with success probability $0 < p < 1$. The mode of the distribution is defined as the value or values $k^* \in \{0, 1, \dots, n\}$ that maximize the probability $P(X = k^*)$.
-		\begin{enumerate}\itemsep=0.12cm
-			\item Analyze the ratio of adjacent probabilities $R(k) = \dfrac{P(X = k)}{P(X = k-1)}$ for all $k \in \{1, 2, \dots, n\}$.
-			\item Analytically prove that the mode satisfies $k^* = \lfloor (n+1)p \rfloor$ when $(n+1)p$ is not an integer.
-			\item Determine what happens to the distribution when $(n+1)p = m \in \mathbb{Z}^+$ (bimodal case).
-		\end{enumerate}
-	\end{block}
-\end{frame}
-
-% SLIDE 14B: Classroom Exercise --- Tier 4: Challenging (Solution)
-\begin{frame}{Classroom Exercise --- Tier 4: Challenging (2/2)}
-	\fontsize{7pt}{8.5pt}\selectfont
-	We form the adjacent ratio to see where the probability is increasing ($R(k) \ge 1$):
-	$$R(k) = \dfrac{\comb{n}{k} p^k q^{n-k}}{\comb{n}{k-1} p^{k-1} q^{n-k+1}} = \dfrac{\frac{n!}{k!(n-k)!} p}{\frac{n!}{(k-1)!(n-k+1)!} q} = \dfrac{n-k+1}{k} \dfrac{p}{1-p}$$ \pause
-
-	\vspace{-0.1cm}
-	\begin{block}{1. Growth Condition and Unimodality}
-		\fontsize{7pt}{8.5pt}\selectfont
-		We impose $R(k) \ge 1 \iff (n-k+1)p \ge k(1-p) \iff np - kp + p \ge k - kp \iff \mathbf{k \le (n+1)p}$.
-		Therefore, $P(X=k)$ strictly increases while $k < (n+1)p$ and decreases when $k > (n+1)p$. If $(n+1)p$ is not an integer, the unique maximum point occurs at the integer part:
-		$$\mathbf{k^* = \lfloor (n+1)p \rfloor}$$
-	\end{block}
-
-	\vspace{-0.1cm}
-	\pause
-	\begin{alertblock}{2. Special Bimodal Case ($m = (n+1)p \in \mathbb{Z}^+$)}
-		\fontsize{7pt}{8.5pt}\selectfont
-		If the product $(n+1)p$ is exactly an integer $m$, then at the point $k = m$ the ratio equals unity ($R(m) = 1 \implies P(X=m) = P(X=m-1)$). The distribution has exactly \textbf{two adjacent modes} with identical maximum mass:
-		$$k_1^* = m - 1 = (n+1)p - 1 \quad \text{and} \quad k_2^* = m = (n+1)p$$
-	\end{alertblock}
-\end{frame}
-
 % SLIDE 17: Python Lab --- Vectorized PMF and CDF Validation
 \begin{frame}[fragile]{Python Lab --- Vectorized PMF and CDF Validation (`numpy`)}
 	\vspace{-0.15cm}
@@ -398,6 +251,26 @@
 \begin{frame}[fragile]{Python Lab --- Mode and Skewness Analysis (`scipy.stats`)}
 	\begin{block}{Computational Verification of Peak and Asymmetry}
 		\lstinputlisting[language=Python, firstline=61, lastline=75, basicstyle=\fontsize{6.3pt}{7.5pt}\ttfamily]{../../code/03_variables_aleatorias_discretas/03.04_bernoulli_binomial.py}
+	\end{block}
+\end{frame}
+
+
+% SLIDE 20: Python Lab --- Verified Console Output
+\begin{frame}[fragile]{Python Lab --- Verified Console Output}
+	\begin{block}{Execution console (\texttt{python 03.04\_bernoulli\_binomial.py})}
+		\fontsize{6pt}{7pt}\selectfont\ttfamily
+=== Section 03.04: Bernoulli and Binomial Lab ===\\[0.08cm]
+{[1]} Vectorized PMF and CDF validation (n=15, p=0.2):\\
+\ \ \ Total support mass P(X<=n): 1.000000 (target: 1.0)\\
+\ \ \ Maximum PMF error versus SciPy: 6.66e-16\\
+\ \ \ Maximum CDF error versus SciPy: 2.78e-15\\[0.08cm]
+{[2]} Monte Carlo LLN simulation (N=100,000):\\
+\ \ \ Empirical mean: 2.9970 (target: 3.0000, error: 0.003020)\\
+\ \ \ Empirical variance: 2.3827 (target: 2.4000, error: 0.017289)\\[0.08cm]
+{[3]} Mode and skewness analysis:\\
+\ \ \ Computational mode: 3 (theoretical floor((n+1)p): 3)\\
+\ \ \ Exact skewness: 0.387298 (SciPy target: 0.387298)\\[0.08cm]
+=== All numerical checks passed exact tolerances. ===
 	\end{block}
 \end{frame}
 

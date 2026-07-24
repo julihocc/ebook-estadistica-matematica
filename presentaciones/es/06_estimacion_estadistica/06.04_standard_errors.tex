@@ -3,42 +3,228 @@
 \input{../../_comandos_beamer}
 
 \title[Errores estándar]{Sección 6.4: Errores estándar}
-\subtitle{Correspondencia con la nota de lectura ES}
+\subtitle{Precisión de estimadores y margen de error}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
 \date{}
 
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
 
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/errores\_estandar.tex}
+\begin{frame}{Hoja de ruta --- capítulo 6}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{06.01--06.02} Estimación puntual y por intervalo
+    \item \textbf{06.04} Errores estándar \emph{(hoy)}
+    \item \textbf{06.05} Proporciones y diferencias
+    \item \textbf{06.07} Tamaño de muestra
+  \end{itemize}
+  \begin{block}{Objetivo didáctico}
+    Calcular el error estándar teórico y su estimación muestral para medias,
+    diferencias y proporciones.
   \end{block}
 \end{frame}
 
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
+\begin{frame}{Definición y propósito}
+  \footnotesize
+  Para cualquier estimador puntual $\hat\theta$,
+  \[
+    SE(\hat\theta)=\sqrt{\operatorname{Var}(\hat\theta)}.
+  \]
+  \begin{alertblock}{Interpretación}
+    El error estándar es la desviación de la distribución muestral y constituye
+    el bloque básico del margen de error.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Media de una población}
+  \footnotesize
+  Para $\hat\theta=\bar X$:
+  \[
+    SE(\bar X)=\frac{\sigma}{\sqrt n},
+    \qquad \widehat{SE}(\bar X)=\frac{s}{\sqrt n}.
+  \]
+  La segunda expresión sustituye la desviación poblacional desconocida por $s$.
+\end{frame}
+
+\begin{frame}{Diferencia de medias independientes}
+  \footnotesize
+  Para $\hat\theta=\bar X_1-\bar X_2$:
+  \[
+    SE=\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}},
+    \quad
+    \widehat{SE}=\sqrt{\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2}}.
+  \]
+  Si se supone varianza común, puede usarse $S_p\sqrt{1/n_1+1/n_2}$.
+\end{frame}
+
+\begin{frame}{Diferencia de medias pareadas}
+  \footnotesize
+  Para las diferencias $D_i$ y $\hat\theta=\bar D$:
+  \[
+    SE(\bar D)=\frac{\sigma_D}{\sqrt n},
+    \qquad \widehat{SE}(\bar D)=\frac{S_D}{\sqrt n}.
+  \]
+  La pareja se reduce a una sola muestra de diferencias.
+\end{frame}
+
+\begin{frame}{Proporción y diferencia de proporciones}
+  \footnotesize
+  \[
+    \widehat{SE}(\hat p)=\sqrt{\frac{\hat p(1-\hat p)}{n}},
+  \]
+  \[
+    \widehat{SE}(\hat p_1-\hat p_2)=
+    \sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+
+    \frac{\hat p_2(1-\hat p_2)}{n_2}}.
+  \]
+\end{frame}
+
+\begin{frame}{Tabla de referencia compacta}
+  \footnotesize
+  \begin{tabular}{lll}
+    \hline
+    Parámetro & Estimador & Error estándar \\
+    \hline
+    $\mu$ & $\bar X$ & $\sigma/\sqrt n$ \\
+    $\mu_1-\mu_2$ & $\bar X_1-\bar X_2$ & $\sqrt{\sigma_1^2/n_1+\sigma_2^2/n_2}$ \\
+    $\mu_D$ & $\bar D$ & $\sigma_D/\sqrt n$ \\
+    $p$ & $\hat p$ & $\sqrt{p(1-p)/n}$ \\
+    \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Puente computacional 1/4: sustitución muestral}
+  \footnotesize
+  Cuando $\sigma$, $\sigma_D$ o $p$ son desconocidos, se reemplazan por $s$,
+  $s_D$ o $\hat p$.
+  \begin{block}{Principio}
+    La forma teórica identifica la variabilidad; la forma estimada permite
+    calcularla con datos.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Puente computacional 2/4: efecto de $n$}
+  \footnotesize
+  En medias y proporciones aparece $1/\sqrt n$.
+  \begin{itemize}\itemsep=0.12cm
+    \item cuadruplicar $n$ reduce el error estándar a la mitad;
+    \item aumentar $n$ mejora precisión con rendimientos decrecientes;
+    \item el error no muestral no entra en esta fórmula.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
+\begin{frame}{Puente computacional 3/4: margen de error}
+  \footnotesize
+  \[
+    E=(\text{valor crítico})\times SE.
+  \]
+  El error estándar es la parte de variabilidad; el valor crítico incorpora el
+  nivel de confianza y la distribución de referencia.
+\end{frame}
+
+\begin{frame}{Puente computacional 4/4: elección de fórmula}
+  \footnotesize
+  \begin{tabular}{ll}
+    \hline
+    Diseño & Estimador base \\
+    \hline
+    Una media & $\bar X$ \\
+    Dos grupos independientes & $\bar X_1-\bar X_2$ \\
+    Datos pareados & $\bar D$ \\
+    Respuesta binaria & $\hat p$ o $\hat p_1-\hat p_2$ \\
+    \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Aplicación derivada 1/4 --- una media}
+  \footnotesize
+  La tabla de la nota asigna $\bar X$ a $\mu$.
+  \begin{block}{Planteamiento}
+    Obtener el error estándar teórico y su estimación cuando $\sigma$ es
+    desconocida.
   \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
+\end{frame}
+
+\begin{frame}{Aplicación derivada 1/4 --- solución}
+  \footnotesize
+  \[
+    SE=\frac{\sigma}{\sqrt n},\qquad \widehat{SE}=\frac{s}{\sqrt n}.
+  \]
+  El segundo valor se usa en un intervalo o prueba basada en la muestra.
+\end{frame}
+
+\begin{frame}{Aplicación derivada 2/4 --- dos medias}
+  \footnotesize
+  Para dos muestras independientes, la incertidumbre de la diferencia combina
+  las dos varianzas.
+  \begin{block}{Planteamiento}
+    Identificar los dos tamaños muestrales y las dos desviaciones.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación derivada 2/4 --- solución}
+  \footnotesize
+  \[
+    \widehat{SE}=\sqrt{\frac{S_1^2}{n_1}+\frac{S_2^2}{n_2}}.
+  \]
+  Si la hipótesis de varianzas iguales es razonable, la nota permite sustituir
+  por la forma agrupada con $S_p$.
+\end{frame}
+
+\begin{frame}{Aplicación derivada 3/4 --- datos pareados}
+  \footnotesize
+  La diferencia entre cada pareja produce una sola variable $D$.
+  \begin{block}{Planteamiento}
+    Aplicar la fórmula de una media a las diferencias observadas.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación derivada 3/4 --- solución}
+  \footnotesize
+  \[
+    \widehat{SE}(\bar D)=\frac{S_D}{\sqrt n}.
+  \]
+  La dependencia dentro de cada pareja se absorbe en $D_i$ antes de calcular la
+  precisión.
+\end{frame}
+
+\begin{frame}{Aplicación derivada 4/4 --- proporciones}
+  \footnotesize
+  Para una respuesta Bernoulli, la nota usa $\hat p=X/n$.
+  \begin{block}{Planteamiento}
+    Estimar la variabilidad de una proporción y de la diferencia entre dos
+    proporciones.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Aplicación derivada 4/4 --- solución}
+  \footnotesize
+  \[
+    \widehat{SE}(\hat p)=\sqrt{\frac{\hat p(1-\hat p)}{n}}.
+  \]
+  Para dos grupos se suman las dos varianzas estimadas dentro de la raíz.
+\end{frame}
+
+\begin{frame}{Síntesis de la sección}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item El error estándar es la desviación de un estimador.
+    \item Su forma depende del diseño y del parámetro.
+    \item La sustitución muestral permite calcularlo en la práctica.
+    \item El margen de error agrega el valor crítico.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Transición curricular}
+  \footnotesize
+  \begin{block}{Lo que queda establecido}
+    Toda estimación de precisión comienza identificando el estimador y su
+    distribución muestral.
+  \end{block}
+  \begin{alertblock}{Siguiente sección}
+    \textbf{06.05 Proporciones y diferencias}: intervalos Wald, Wilson y
+    comparaciones entre dos tasas.
   \end{alertblock}
 \end{frame}
 \end{document}

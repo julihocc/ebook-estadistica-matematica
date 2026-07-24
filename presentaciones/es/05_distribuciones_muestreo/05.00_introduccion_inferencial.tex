@@ -3,42 +3,297 @@
 \input{../../_comandos_beamer}
 
 \title[Introducción a la estadística inferencial]{Sección 5.0: Introducción a la estadística inferencial}
-\subtitle{Correspondencia con la nota de lectura ES}
+\subtitle{De la muestra a las conclusiones sobre una población}
 \author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
 \institute{Tecnológico de Monterrey}
 \date{}
 
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
 
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/introduccion\_estadistica\_inferencial.tex}
+\begin{frame}{Hoja de ruta --- capítulo 5}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{05.00} Introducción a la estadística inferencial \emph{(hoy)}
+    \item \textbf{05.01--05.02} Transformaciones y distribuciones muestrales
+    \item \textbf{05.03--05.05} Chi-cuadrada, $t$ y $F$
+    \item \textbf{05.08--05.09} Conceptos fundamentales y estadísticos Z/t
+  \end{itemize}
+  \begin{block}{Objetivo didáctico}
+    Distinguir población, muestra, parámetro y estadístico; describir el proceso
+    de inferencia y reconocer el papel del error muestral y del TLC.
   \end{block}
 \end{frame}
 
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
+\begin{frame}{¿Por qué inferir?}
+  \footnotesize
+  La población completa rara vez puede observarse. La nota identifica cuatro
+  restricciones prácticas:
+  \begin{itemize}\itemsep=0.1cm
+    \item costo de medir a todos;
+    \item tiempo de recolección;
+    \item accesibilidad limitada;
+    \item mediciones destructivas, como probar la vida útil de una bombilla.
+  \end{itemize}
+  \pause
+  \begin{alertblock}{Idea central}
+    Una muestra representativa permite generalizar, pero siempre introduce
+    incertidumbre que debe cuantificarse.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Población y muestra}
+  \footnotesize
+  \begin{block}{Definiciones de la sección}
+    \textbf{Población:} conjunto completo de individuos, objetos o eventos con
+    una característica común de interés.
+
+    \medskip
+    \textbf{Muestra:} subconjunto seleccionado para realizar el estudio.
+  \end{block}
+  \pause
+  \begin{exampleblock}{Lectura operacional}
+    La población define el alcance de la conclusión; la muestra aporta los
+    datos concretos con los que se calcula.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Parámetro y estadístico}
+  \footnotesize
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      \begin{block}{Población}
+        Parámetro fijo, generalmente desconocido: $\mu$, $\sigma$.
+      \end{block}
+    \column{0.48\textwidth}
+      \begin{block}{Muestra}
+        Estadístico calculable: $\bar{x}$, $s$.
+      \end{block}
+  \end{columns}
+  \vspace{0.15cm}
+  \begin{alertblock}{Distinción}
+    El parámetro describe la población; el estadístico es una variable aleatoria
+    que cambia de muestra en muestra y se usa para estimarlo.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Dos formas de inferencia}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.18cm
+    \item \textbf{Estimación:} usar estadísticos para aproximar un parámetro.
+      Puede ser puntual o mediante un intervalo de confianza.
+    \item \textbf{Prueba de hipótesis:} formular una afirmación sobre un
+      parámetro y decidir si la evidencia muestral la respalda o contradice.
+  \end{enumerate}
+  \pause
+  \begin{exampleblock}{Pregunta guía}
+    ¿Queremos producir un valor o rango plausible, o tomar una decisión sobre
+    una afirmación específica?
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Proceso general de inferencia}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.12cm
+    \item Definir la población y la característica de interés.
+    \item Seleccionar una muestra representativa.
+    \item Calcular estadísticos muestrales.
+    \item Aplicar estimación o pruebas con distribuciones apropiadas.
+    \item Interpretar el resultado en el contexto original.
+  \end{enumerate}
+  \begin{block}{Secuencia lógica}
+    \centering población $\longrightarrow$ muestra $\longrightarrow$
+    estadístico $\longrightarrow$ inferencia $\longrightarrow$ decisión.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Fuentes de error}
+  \footnotesize
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      \begin{block}{Error de muestreo}
+        Diferencia aleatoria entre estadístico y parámetro. Disminuye al
+        aumentar el tamaño de muestra.
+      \end{block}
+    \column{0.48\textwidth}
+      \begin{block}{Error no muestral}
+        Sesgo de selección, medición o no respuesta. No desaparece solo por
+        aumentar $n$.
+      \end{block}
+  \end{columns}
+  \begin{alertblock}{Advertencia}
+    La inferencia cuantifica principalmente el error de muestreo; el diseño del
+    estudio debe controlar los errores sistemáticos.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Distribución muestral}
+  \footnotesize
+  Si se toman muchas muestras de tamaño $n$ y se calcula un estadístico en cada
+  una, los resultados forman su \emph{distribución muestral}.
+  \begin{block}{Ejemplo conceptual de la sección}
+    Para cada muestra se obtiene una media $\bar X$. La distribución de todas
+    esas medias describe la variabilidad de la estimación, no la variabilidad
+    de las observaciones individuales.
+  \end{block}
+  \pause
+  \begin{alertblock}{Puente}
+    Esta distribución será la base de intervalos de confianza y pruebas de
+    hipótesis en las secciones siguientes.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Puente computacional 1/4: mapa de cantidades}
+  \footnotesize
+  \begin{tabular}{lll}
+    \hline
+    Objeto & Símbolo & Papel en la inferencia \\
+    \hline
+    Población & $\mu,\sigma$ & valores objetivo \\
+    Muestra & $X_1,\ldots,X_n$ & datos observados \\
+    Estadístico & $\bar X,s$ & calculables \\
+    Inferencia & IC o prueba & conclusión con incertidumbre \\
+    \hline
+  \end{tabular}
+  \vspace{0.15cm}
+  La tabla resume las definiciones de la nota sin introducir un procedimiento
+  externo.
+\end{frame}
+
+\begin{frame}{Puente computacional 2/4: media muestral}
+  \footnotesize
+  Para una muestra aleatoria con media poblacional $\mu$ y varianza $\sigma^2$,
+  la cantidad que se repite entre muestras es
+  \[
+    \bar X=\frac{1}{n}\sum_{i=1}^{n}X_i.
+  \]
+  \begin{block}{Lectura de la sección}
+    La media muestral es el estadístico elemental que conecta los datos con el
+    parámetro $\mu$.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Puente computacional 3/4: variabilidad de la media}
+  \footnotesize
+  \[
+    E(\bar X)=\mu,\qquad \operatorname{Var}(\bar X)=\frac{\sigma^2}{n}.
+  \]
+  \begin{itemize}\itemsep=0.13cm
+    \item La media es insesgada: su centro coincide con $\mu$.
+    \item Su error estándar es $\sigma/\sqrt n$.
+    \item Cuadruplicar $n$ reduce a la mitad la desviación estándar de la media.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
+\begin{frame}{Puente computacional 4/4: TLC}
+  \footnotesize
+  \[
+    \frac{\bar X-\mu}{\sigma/\sqrt n}\xrightarrow{d}N(0,1)
+    \qquad (n\text{ grande}).
+  \]
+  \begin{block}{Consecuencia}
+    La forma de la población original deja de dominar la distribución de la
+    media cuando el tamaño de muestra es suficientemente grande.
   \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
+\end{frame}
+
+\begin{frame}{Caso de lectura 1/4 --- población y muestra}
+  \footnotesize
+  Una medición destructiva impide estudiar todos los objetos de una población.
+  La nota propone seleccionar una muestra representativa.
+  \begin{alertblock}{Decisión conceptual}
+    La muestra no reemplaza la definición de la población: delimita qué datos
+    se observan para aprender sobre ella.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Caso de lectura 1/4 --- interpretación}
+  \footnotesize
+  \begin{block}{Resolución conceptual}
+    Primero se fija la población objetivo; después se elige la muestra; por
+    último se cuantifica la incertidumbre de generalizar.
+  \end{block}
+  \begin{exampleblock}{Resultado}
+    Una muestra grande puede reducir el error muestral, pero no corrige por sí
+    sola un sesgo de selección o de medición.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Caso de lectura 2/4 --- parámetro y estadístico}
+  \footnotesize
+  La media poblacional $\mu$ es fija y desconocida. La media muestral $\bar X$
+  cambia cuando se repite el muestreo.
+  \begin{block}{Pregunta}
+    ¿Qué cantidad puede calcularse directamente con los datos?
+  \end{block}
+  La respuesta de la sección es el estadístico $\bar X$, que sirve para estimar
+  $\mu$.
+\end{frame}
+
+\begin{frame}{Caso de lectura 2/4 --- estimación}
+  \footnotesize
+  \[
+    \widehat{\mu}=\bar X.
+  \]
+  \begin{itemize}\itemsep=0.12cm
+    \item La estimación puntual entrega un valor.
+    \item La estimación por intervalo añade un rango y un nivel de confianza.
+    \item Ambos procedimientos dependen de la distribución muestral.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Caso de lectura 3/4 --- proceso de inferencia}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.13cm
+    \item Definir la característica.
+    \item Seleccionar la muestra.
+    \item Calcular el estadístico.
+    \item Elegir el procedimiento inferencial.
+    \item Interpretar en el contexto.
+  \end{enumerate}
+  Estos pasos son la traducción operativa de la lista de la nota de lectura.
+\end{frame}
+
+\begin{frame}{Caso de lectura 3/4 --- fuentes de error}
+  \footnotesize
+  \begin{block}{Resolución conceptual}
+    El error de muestreo se modela mediante la distribución muestral; los
+    errores no muestrales se reducen con diseño, medición y seguimiento.
+  \end{block}
+  \begin{alertblock}{Conclusión}
+    Una inferencia válida requiere atender ambos tipos de error.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Caso de lectura 4/4 --- papel del TLC}
+  \footnotesize
+  El TLC permite aproximar por una normal la distribución de una media muestral
+  cuando se cumplen sus condiciones y $n$ es suficientemente grande.
+  \begin{block}{Uso posterior}
+    Esa aproximación sostiene pruebas Z/t e intervalos de confianza que se
+    desarrollan en el capítulo.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Síntesis de la sección}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Población y muestra delimitan el problema.
+    \item Parámetros y estadísticos distinguen objetivo y evidencia.
+    \item Estimación y pruebas son las dos formas de inferencia.
+    \item El error muestral y el TLC explican la incertidumbre.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Transición curricular}
+  \footnotesize
+  \begin{block}{Lo que queda establecido}
+    Inferir significa pasar de estadísticos muestrales a afirmaciones sobre una
+    población, registrando el error y las condiciones del procedimiento.
+  \end{block}
+  \begin{alertblock}{Siguiente sección}
+    \textbf{05.01 Transformación de variables}: herramientas para obtener la
+    distribución de $Y=g(X)$ y preparar el estudio de distribuciones muestrales.
   \end{alertblock}
 \end{frame}
 \end{document}

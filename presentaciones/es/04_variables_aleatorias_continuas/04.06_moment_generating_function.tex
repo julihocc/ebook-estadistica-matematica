@@ -1,44 +1,27 @@
 \documentclass[10pt,aspectratio=169]{beamer}
-\input{../../_preambulo_beamer}
-\input{../../_comandos_beamer}
-
-\title[Función generadora de momentos]{Sección 4.6: Función generadora de momentos}
-\subtitle{Correspondencia con la nota de lectura ES}
-\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute{Tecnológico de Monterrey}
-\date{}
-
+\input{../../_preambulo_beamer}\input{../../_comandos_beamer}
+\title[Función generadora de momentos]{Sección 04.06: Función generadora de momentos}\subtitle{Momentos, unicidad y sumas independientes}\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/funcion\_generadora\_momentos.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
-\end{frame}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}\small\begin{enumerate}\item Definición y existencia.\item Momentos, unicidad y suma.\item Ejemplos y tabla de referencia.\end{enumerate}\end{frame}
+\begin{frame}{Fuente y alcance}\small La función generadora de momentos (FGM) codifica una distribución en una sola función y conecta cálculos de momentos con propiedades de sumas independientes.\begin{block}{Pregunta guía}¿Qué información de una distribución queda almacenada en $M_X(t)$?\end{block}\end{frame}
+\begin{frame}{Definición}\small\[M_X(t)=E[e^{tX}].\]La FGM transforma la variable aleatoria en una función del parámetro $t$.\end{frame}
+\begin{frame}{Caso discreto y continuo}\small\begin{itemize}\item Discreto: $M_X(t)=\sum_x e^{tx}f(x)$.\item Continuo: $M_X(t)=\int_{-\infty}^{\infty}e^{tx}f(x)\,dx$.\end{itemize}\end{frame}
+\begin{frame}{Existencia}\small La FGM existe cuando la suma o integral converge en un intervalo abierto alrededor de $t=0$. No toda distribución tiene FGM en un entorno de cero.\end{frame}
+\begin{frame}{Momentos mediante derivadas}\small Si existe la FGM,\[E[X^n]=M_X^{(n)}(0)=\left.\frac{d^nM_X(t)}{dt^n}\right|_{t=0}.\]\end{frame}
+\begin{frame}{Primeros momentos}\small\[E[X]=M_X'(0),\qquad E[X^2]=M_X''(0),\qquad \operatorname{Var}(X)=M_X''(0)-[M_X'(0)]^2.\]\end{frame}
+\begin{frame}{Idea de la demostración}\small Bajo condiciones de regularidad, se intercambian derivación y esperanza:\[M_X^{(n)}(t)=E[X^ne^{tX}].\]Evaluar en $t=0$ elimina el factor exponencial.\end{frame}
+\begin{frame}{Propiedad de unicidad}\small Si dos variables tienen la misma FGM en un intervalo alrededor de cero, tienen la misma distribución. La FGM puede identificar la ley cuando existe.\end{frame}
+\begin{frame}{Propiedad de suma}\small Para variables independientes $X$ y $Y$,\[M_{X+Y}(t)=M_X(t)M_Y(t).\]La independencia convierte la FGM de una suma en un producto.\end{frame}
+\begin{frame}{Idea de la demostración de suma}\small\[E[e^{t(X+Y)}]=E[e^{tX}e^{tY}]=E[e^{tX}]E[e^{tY}].\]El segundo paso usa independencia.\end{frame}
+\begin{frame}{Ejemplo Bernoulli: planteamiento}\small Si $X$ es Bernoulli con probabilidad de éxito $p$, solo toma $0$ y $1$. Por tanto,\[M_X(t)=(1-p)+pe^t.\]\end{frame}
+\begin{frame}{Ejemplo Bernoulli: momentos}\small\[M_X'(0)=p,\qquad M_X''(0)=p,\qquad\operatorname{Var}(X)=p(1-p).\]La FGM recupera los momentos conocidos.\end{frame}
+\begin{frame}{Ejemplo normal: planteamiento}\small Para $Z\sim N(0,1)$, completar el cuadrado en la integral produce una exponencial cuadrática.\end{frame}
+\begin{frame}{Ejemplo normal: resultado}\small Si $X\sim N(\mu,\sigma^2)$,\[M_X(t)=\exp\!\left(\mu t+\frac{\sigma^2t^2}{2}\right).\]\end{frame}
+\begin{frame}{Ejemplo exponencial: planteamiento}\small Si $X\sim\operatorname{Exp}(\lambda)$, la integral converge para $t<\lambda$ y\[M_X(t)=\lambda\int_0^\infty e^{-(\lambda-t)x}\,dx.\]\end{frame}
+\begin{frame}{Ejemplo exponencial: resultado}\small\[M_X(t)=\frac{\lambda}{\lambda-t}=\left(1-\frac t\lambda\right)^{-1}.\]Además, $E[X^n]=n!/\lambda^n$.\end{frame}
+\begin{frame}{Tabla de referencia}\small\begin{itemize}\item Bernoulli: $(1-p)+pe^t$.\item Binomial: $(1-p+pe^t)^n$.\item Poisson: $\exp(\lambda(e^t-1))$.\item Normal: $\exp(\mu t+\sigma^2t^2/2)$.\end{itemize}\end{frame}
+\begin{frame}{Aplicación de la suma}\small Si $X_1,\ldots,X_n$ son ensayos Bernoulli independientes con probabilidad $p$,\[M_{\sum X_i}(t)=(1-p+pe^t)^n,\]que identifica la distribución binomial.\end{frame}
+\begin{frame}{Interpretación}\small Las derivadas convierten una función compacta en momentos; la multiplicación convierte independencia en una herramienta para construir distribuciones de sumas.\end{frame}
+\begin{frame}{Síntesis y conexión}\small La FGM ofrece definición, cálculo de momentos, unicidad y suma. Estas propiedades enlazan distribuciones discretas, continuas y modelos compuestos.\end{frame}
 \end{document}

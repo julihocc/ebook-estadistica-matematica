@@ -1,3 +1,4 @@
+\documentclass[10pt,aspectratio=169]{beamer}
 \input{../../_en_preambulo_beamer}
 \input{../../_en_comandos_beamer}
 
@@ -205,74 +206,6 @@ x0 (|E' & F'| - Neither language):        25 attendees
 Verified partition total:                 100 attendees
     \end{verbatim}
   \end{block}
-\end{frame}
-
-% Slide 10: Textbook Exercises (Tiered 3-3-2-2) - Fundamental
-\begin{frame}{Textbook Exercises — Level 1: Fundamental}
-  \begin{block}{Problem 2.1.2 (International Conference)}
-    Out of $100$ attendees at a conference, $60$ speak English ($I$), $45$ speak French ($F$), and $30$ speak both languages ($I \cap F$). Find:
-    \begin{enumerate}
-      \item $\card{I \cup F}$, the number who speak at least one of the two languages. \pause
-      \item $\card{I \setminus F}$, attendees who speak strictly English only. \pause
-      \item $\card{(I \cup F)'}$, the number of attendees who speak neither English nor French.
-    \end{enumerate}
-  \end{block}
-  
-  \vspace{0.3em}
-  \pause
-  \begin{alertblock}{Immediate Solution via Partitions}
-    With $x_3=30$, $x_2=30$, $x_1=15$, and $x_0=25$:
-    1) $\card{I \cup F} = 75$; \quad 2) $\card{I \setminus F} = 30$; \quad 3) $\card{(I \cup F)'} = 25$.
-  \end{alertblock}
-\end{frame}
-
-% Slide 11: Textbook Exercises (Tiered 3-3-2-2) - Operational
-\begin{frame}{Textbook Exercises — Level 2: Operational}
-  \begin{block}{Problem 2.1.4 (Extension to Three Subsets)}
-    Extend the partition construction to three subsets $A, B, C \subset S$. How many elements does the partition $\particion(A,B,C)$ contain, and what algebraic property guarantees no overlaps?
-  \end{block}
-  
-  \vspace{0.4em}
-  \pause
-  \begin{itemize}
-    \item \textbf{Number of Elements:} Each set doubles the previous regions ($2^3 = 8$ elementary disjoint regions $E_0, E_1, \dots, E_7$). \pause
-    \item \textbf{Disjointness Guarantee:} For any $i \neq j$, their binary representations differ in at least one bit (e.g., belonging to $A$ vs. belonging to $A'$), whose intersection is by definition empty ($\emptyset$).
-  \end{itemize}
-\end{frame}
-
-% Slide 12: Textbook Exercises (Tiered 3-3-2-2) - Analytical
-\begin{frame}{Textbook Exercises — Level 3: Analytical}
-  \small
-  \begin{block}{Problem 2.1.8 (Inclusion-Exclusion for 3 Sets)}
-    Prove the cardinality identity for the union of three sets:
-    \begin{align*}
-      \card{A \cup B \cup C} = \card{A} + \card{B} + \card{C} - \card{A \cap B} - \card{A \cap C} \\
-      - \card{B \cap C} + \card{A \cap B \cap C}
-    \end{align*}
-  \end{block}
-  
-  \pause
-  \footnotesize \textbf{Proof via Partitions ($x_k = \card{E_k}$):}
-  \begin{itemize}
-    \item $\card{A} + \card{B} + \card{C}$ counts pairwise intersections $2$ times and the triple intersection $3$ times. \pause
-    \item Subtracting the pairwise terms balances double counting but eliminates $x_7$ completely ($3 - 3 = 0$). \pause
-    \item Therefore, we add $+ \card{A \cap B \cap C} = +x_7$ back at the end for exact, overlap-free coverage.
-  \end{itemize}
-\end{frame}
-
-% Slide 13: Textbook Exercises (Tiered 3-3-2-2) - Challenging
-\begin{frame}{Textbook Exercises — Level 4: Challenging}
-  \small
-  \begin{block}{Problem 2.1.10 (Census Absurdities in Epidemiology)}
-    For $500$ patients, a report states: $\card{S_1}=300, \card{S_2}=250, \card{S_3}=200$; $\card{S_1 \cap S_2}=180, \card{S_1 \cap S_3}=150, \card{S_2 \cap S_3}=130$; $\card{S_1 \cap S_2 \cap S_3}=30$. Why is this mathematically false?
-  \end{block}
-  
-  \pause
-  \begin{alertblock}{Analysis of the Complement Region ($x_0$)}
-    Simple pairwise intersections: $\card{S_1 \cap S_2 \cap S_3'} = 150$, $\card{S_1 \cap S_3 \cap S_2'} = 120$, $\card{S_2 \cap S_3 \cap S_1'} = 100$.
-    \pause
-    Elementary sum: $150+120+100+30 + \text{simple regions} > 500$. Thus $x_0 < 0$, which contradicts non-negativity.
-  \end{alertblock}
 \end{frame}
 
 % Slide 14: Synthesis and Next Step

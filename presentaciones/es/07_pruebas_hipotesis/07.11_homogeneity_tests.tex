@@ -1,44 +1,28 @@
 \documentclass[10pt,aspectratio=169]{beamer}
-\input{../../_preambulo_beamer}
-\input{../../_comandos_beamer}
-
-\title[Pruebas de homogeneidad]{Sección 7.11: Pruebas de homogeneidad}
-\subtitle{Correspondencia con la nota de lectura ES}
-\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
-\institute{Tecnológico de Monterrey}
-\date{}
-
+\input{../../_preambulo_beamer}\input{../../_comandos_beamer}
+\title[Pruebas de homogeneidad]{Sección 07.11: Pruebas de homogeneidad}\subtitle{Una variable categórica en varios grupos}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}\institute{Tecnológico de Monterrey}\date{}
 \begin{document}
-\begin{frame}[plain]
-  \vspace{-0.8cm}
-  \titlepage
-\end{frame}
-
-\begin{frame}{Fuente y propósito}
-  \small
-  Esta presentación corresponde exclusivamente a la sección de teoría
-  indicada. Las secciones de problemas se mantienen fuera del mazo.
-  \begin{block}{Fuente canónica}
-    \texttt{latex/pruebas\_homogeneidad\_varias\_proporciones.tex}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Conceptos centrales}
-  \small
-  \begin{itemize}
-    \item La sección se estudia siguiendo las definiciones, propiedades y ejemplos de la nota.
-    \item Las demostraciones y cálculos se presentan en el orden de la fuente canónica.
-    \item Las aplicaciones se interpretan dentro del modelo estadístico correspondiente.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Síntesis y conexión}
-  \small
-  \begin{block}{Idea principal}
-    La sección aporta una pieza independiente del capítulo y se conecta con las secciones adyacentes sin duplicar sus problemas.
-  \end{block}
-  \begin{alertblock}{Lectura recomendada}
-    Revisar la sección fuente completa antes de consultar el material complementario.
-  \end{alertblock}
-\end{frame}
+\begin{frame}[plain]\titlepage\end{frame}
+\begin{frame}{Hoja de ruta}\small\begin{enumerate}\item Diseño y concepto.\item Tabla de frecuencias.\item Estadística y decisión.\end{enumerate}\end{frame}
+\begin{frame}{Fuente y alcance}\small La prueba compara la distribución de una única variable categórica entre varios subgrupos independientes.\begin{block}{Pregunta guía}¿Comparten los grupos la misma distribución categórica?\end{block}\end{frame}
+\begin{frame}{Homogeneidad e independencia}\small La fórmula chi-cuadrada coincide con la de independencia, pero el diseño cambia: aquí se fijan muestras por población y se compara una variable.\end{frame}
+\begin{frame}{Diseño muestral}\small Se extraen $c$ muestras independientes de tamaños $n_1,\ldots,n_c$ y se observan $r$ categorías en cada muestra.\end{frame}
+\begin{frame}{Hipótesis}\small\[H_0:\text{las }c\text{ poblaciones tienen la misma distribución};\qquad H_a:\text{alguna difiere}.\]\end{frame}
+\begin{frame}{Frecuencias esperadas}\small Para una tabla $r\times c$,\[E_{ij}=\frac{(\text{total fila }i)(\text{total columna }j)}{\text{total general}}.\]\end{frame}
+\begin{frame}{Estadística chi-cuadrada}\small\[\chi^2=\sum_{i=1}^{r}\sum_{j=1}^{c}\frac{(O_{ij}-E_{ij})^2}{E_{ij}}.\]\end{frame}
+\begin{frame}{Grados de libertad}\small La estadística se compara con $\chi^2_{(r-1)(c-1)}$. Las restricciones de los totales reducen la información libre.\end{frame}
+\begin{frame}{Condiciones}\small Las observaciones deben ser independientes y las frecuencias esperadas suficientemente grandes para justificar la aproximación chi-cuadrada.\end{frame}
+\begin{frame}{Procedimiento I}\small\begin{enumerate}\item Definir grupos y categorías.\item Construir la tabla observada.\item Calcular frecuencias esperadas.\end{enumerate}\end{frame}
+\begin{frame}{Procedimiento II}\small\begin{enumerate}\setcounter{enumi}{3}\item Calcular $\chi^2$.\item Obtener valor crítico o $p$-value.\item Interpretar la distribución, no solo una celda.\end{enumerate}\end{frame}
+\begin{frame}{Lectura de la estadística}\small Celdas con $O_{ij}$ muy distinto de $E_{ij}$ aportan más a $\chi^2$. La suma agrega discrepancias de toda la tabla.\end{frame}
+\begin{frame}{Aplicación: tabla}\small Organice las frecuencias de una variable categórica en filas y los grupos independientes en columnas. Los totales de columna reflejan el diseño.\end{frame}
+\begin{frame}{Aplicación: esperadas}\small Calcule cada $E_{ij}$ con los totales marginales. Compruebe que las esperadas respeten los totales de filas y columnas.\end{frame}
+\begin{frame}{Aplicación: contraste}\small Evalúe $\chi^2$ con $gl=(r-1)(c-1)$ y nivel $\alpha$.\end{frame}
+\begin{frame}{Aplicación: decisión}\small Si el valor $p$ es pequeño, hay evidencia de que no todas las distribuciones son iguales.\end{frame}
+\begin{frame}{Qué no identifica la prueba}\small Un rechazo global no indica qué grupos o categorías explican la diferencia. Se requieren comparaciones posteriores y una lectura sustantiva.\end{frame}
+\begin{frame}{Errores frecuentes}\small\begin{itemize}\item Llamar independencia al diseño de homogeneidad.\item Ignorar esperadas pequeñas.\item Confundir rechazo global con diagnóstico de una celda.\end{itemize}\end{frame}
+\begin{frame}{Plantilla de reporte}\small\begin{block}{Reporte} ``La tabla $r\times c$ produjo $\chi^2=\cdots$, $gl=\cdots$, $p=\cdots$. Al nivel $\alpha=\cdots$, [rechazamos/no rechazamos] la homogeneidad.''\end{block}\end{frame}
+\begin{frame}{Síntesis}\small\begin{itemize}\item Homogeneidad compara poblaciones mediante una variable categórica.\item La estadística usa observadas y esperadas.\item El rechazo global requiere análisis posterior.\end{itemize}\end{frame}
+\begin{frame}{Conexión con el capítulo}\small La prueba es el marco general para el contraste de varias proporciones que sigue.\end{frame}
 \end{document}

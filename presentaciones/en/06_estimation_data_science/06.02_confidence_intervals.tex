@@ -1,0 +1,209 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Confidence Intervals]{Section 6.2: Confidence Intervals}
+\subtitle{Confidence levels, tails, and $p$-values}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
+
+\begin{frame}{Roadmap --- Chapter 6}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{06.01} Point estimation
+    \item \textbf{06.02} Confidence intervals \emph{(today)}
+    \item \textbf{06.04--06.07} Means, proportions, variances, and sample size
+  \end{itemize}
+  \begin{block}{Learning objective}
+    Build intervals for a mean, distinguish $Z$ from $t$, and connect confidence,
+    significance, and $p$-values.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Motivation: a plausible range}
+  \footnotesize
+  A point estimator does not display all uncertainty. A confidence interval gives
+  a range of values compatible with the data.
+  \begin{alertblock}{Guiding question}
+    How wide must the range be for the chosen confidence level?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Confidence and $p$-value}
+  \footnotesize
+  For confidence level $p$, the reading defines significance as
+  \[
+    \beta=1-p.
+  \]
+  A statistic's $p$-value is written as
+  \[
+    p\text{-value}=P(X>Z)\quad\text{or}\quad P(X>t).
+  \]
+\end{frame}
+
+\begin{frame}{Criterion and tails}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item If $p\text{-value}>\beta$, do not reject the null hypothesis.
+    \item If $p\text{-value}<\beta$, favor the alternative.
+  \end{itemize}
+  Normal symmetry gives left-tailed, right-tailed, and two-tailed tests.
+\end{frame}
+
+\begin{frame}{Interval for $\mu$ with known $\sigma$}
+  \footnotesize
+  \[
+    \bar X-Z_{\alpha/2}\frac{\sigma}{\sqrt n}
+    \le\mu\le
+    \bar X+Z_{\alpha/2}\frac{\sigma}{\sqrt n}.
+  \]
+  The critical value comes from the standard normal distribution.
+\end{frame}
+
+\begin{frame}{Interval for $\mu$ with unknown $\sigma$}
+  \footnotesize
+  \[
+    \bar X-t_{\alpha/2,n-1}\frac{S}{\sqrt n}
+    \le\mu\le
+    \bar X+t_{\alpha/2,n-1}\frac{S}{\sqrt n}.
+  \]
+  Replacing $\sigma$ by $S$ changes the reference distribution to $t$.
+\end{frame}
+
+\begin{frame}{Common structure}
+  \footnotesize
+  \[
+    \text{point estimator}\ \pm\ (\text{critical value})
+    (\text{standard error}).
+  \]
+  The same form recurs for means, proportions, and variances.
+\end{frame}
+
+\begin{frame}{Computational bridge 1/4: margin of error}
+  \footnotesize
+  \[
+    E=(\text{critical value})\times SE.
+  \]
+  Increasing confidence increases the critical value and widens the interval.
+\end{frame}
+
+\begin{frame}{Computational bridge 2/4: Z versus t}
+  \footnotesize
+  \begin{tabular}{lll}
+    \hline
+    Case & Standard error & Reference \\
+    \hline
+    $\sigma$ known & $\sigma/\sqrt n$ & $Z$ \\
+    $\sigma$ unknown & $S/\sqrt n$ & $t_{n-1}$ \\
+    \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Computational bridge 3/4: tails}
+  \footnotesize
+  A two-sided test splits $\alpha$ between both tails. A one-sided test places
+  the full critical region at one end.
+  \begin{block}{Consequence}
+    The tail type must be fixed before interpreting the $p$-value.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Computational bridge 4/4: interpretation}
+  \footnotesize
+  A 95\% CI uses $\alpha=0.05$ and $Z_{0.025}$ or $t_{0.025,n-1}$.
+  \begin{alertblock}{Careful wording}
+    The interval describes a repeated procedure; it does not make a fixed
+    parameter random after the data are observed.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Solved example 1/4 --- bottles and $Z$}
+  \footnotesize
+  A sample of $n=16$ bottles has $\bar X=500.4$ ml and known $\sigma=2$ ml.
+  Construct the 95\% CI for $\mu$.
+\end{frame}
+
+\begin{frame}{Solved example 1/4 --- solution}
+  \footnotesize
+  \[
+    SE=2/\sqrt{16}=0.5,\qquad
+    CI=500.4\pm1.96(0.5)=[499.42,501.38]\text{ ml}.
+  \]
+  The normal reference is used because $\sigma$ is known.
+\end{frame}
+
+\begin{frame}{Solved example 2/4 --- bottles and $t$}
+  \footnotesize
+  With the same data, suppose $\sigma$ is unknown and $S=2.3$ ml. Use
+  $t_{15,0.025}\approx2.131$ for the 95\% CI.
+\end{frame}
+
+\begin{frame}{Solved example 2/4 --- solution}
+  \footnotesize
+  \[
+    SE=2.3/\sqrt{16}=0.575,\qquad
+    CI=500.4\pm2.131(0.575)=[499.18,501.63]\text{ ml}.
+  \]
+  The $t$ interval is wider because $\sigma$ was estimated.
+\end{frame}
+
+\begin{frame}{Reading application 3/4 --- right tail}
+  \footnotesize
+  For a claim of increase, the critical region lies in the right tail.
+  \begin{block}{Statement}
+    Compare the $p$-value with $\beta$ using the right-tail probability of the
+    observed statistic.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 3/4 --- decision}
+  \footnotesize
+  If the $p$-value is below $\beta$, the evidence is in the critical region and
+  $H_0$ is rejected; otherwise it is not rejected.
+\end{frame}
+
+\begin{frame}{Reading application 4/4 --- two tails}
+  \footnotesize
+  For a difference in either direction, a two-sided test allocates significance
+  to both tails.
+  \begin{block}{Statement}
+    Read the interval as the set of values not rejected by the matching
+    two-sided test.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reading application 4/4 --- connection}
+  \footnotesize
+  A value $\mu_0$ outside the two-sided CI gives a $p$-value below $\alpha$;
+  a value inside is not rejected by the procedure.
+  \begin{exampleblock}{Result}
+    A CI and a two-sided test are two readings of the same margin of error.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Synthesis of the section}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Confidence fixes $\alpha$ and the critical value.
+    \item $Z$ uses known $\sigma$; $t$ uses $S$.
+    \item Tail type sets the critical region.
+    \item CI and $p$-value connect estimation and decisions.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Curricular transition}
+  \footnotesize
+  \begin{block}{Established}
+    An interval combines an estimator, reference distribution, and standard
+    error.
+  \end{block}
+  \begin{alertblock}{Next section}
+    \textbf{06.04 Standard Errors}: compare precision formulas for means,
+    differences, and proportions.
+  \end{alertblock}
+\end{frame}
+\end{document}

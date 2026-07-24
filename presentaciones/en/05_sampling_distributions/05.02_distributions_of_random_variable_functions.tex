@@ -1,0 +1,231 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+\input{../../_en_preambulo_beamer}
+\input{../../_en_comandos_beamer}
+
+\title[Distributions of Functions]{Section 5.2: Probability Distributions of Functions of a Random Variable}
+\subtitle{Preimages, level surfaces, and sums}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{}
+
+\begin{document}
+\begin{frame}[plain]\vspace{-0.8cm}\titlepage\end{frame}
+
+\begin{frame}{Roadmap --- Chapter 5}
+  \footnotesize
+  \begin{itemize}\itemsep=0.08cm
+    \item \textbf{05.00} Inferential introduction
+    \item \textbf{05.01} Transformation of variables
+    \item \textbf{05.02} Functions of random variables \emph{(today)}
+    \item \textbf{05.03--05.05} Classical sampling distributions
+  \end{itemize}
+  \begin{block}{Learning objective}
+    Extend change of variable to non-monotone and multivariate functions, and
+    recognize the Erlang distribution of a sum of exponentials.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Motivation: one function, one variable}
+  \footnotesize
+  When $Y=g(X)$, the density of $Y$ must gather every $X$ value producing the
+  same result.
+  \begin{alertblock}{Guiding question}
+    How many preimages does each $y$ have, and how does the local scale change?
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{One variable: general formula}
+  \footnotesize
+  For a differentiable function with regular preimages,
+  \[
+    f_Y(y)=\sum_{x:g(x)=y}f_X(x)\left|\frac{dx}{dy}\right|
+    =\sum_{x:g(x)=y}\frac{f_X(x)}{|g'(x)|}.
+  \]
+  The sum runs over every solution of $g(x)=y$.
+\end{frame}
+
+\begin{frame}{Regularity condition}
+  \footnotesize
+  \begin{block}{Local hypothesis}
+    $|g'(x)|\neq0$ at every preimage guarantees local invertibility there.
+  \end{block}
+  \begin{exampleblock}{Consequence}
+    If the derivative vanishes, the critical point and resulting support need
+    separate analysis.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Several variables: level surface}
+  \footnotesize
+  If $Y=g(X_1,\ldots,X_n)$ has a joint density,
+  \[
+    f_Y(y)=\int_{g(x_1,\ldots,x_n)=y}
+    f_{X_1,\ldots,X_n}(x_1,\ldots,x_n)\frac{dS}{|\nabla g|}.
+  \]
+  The integral follows the level surface containing all configurations with the
+  same value of $Y$.
+\end{frame}
+
+\begin{frame}{Independence and sums}
+  \footnotesize
+  For $Y=X_1+X_2$, the level surface is the line $x_1+x_2=y$. If the variables
+  are independent, their joint density is the product of the marginal densities.
+  \begin{alertblock}{Bridge}
+    Integrating along that line produces the density of the sum.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Reading of the section}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item One variable: sum over preimages.
+    \item Several variables: integrate over a level surface.
+    \item The gradient $\nabla g$ measures local scale.
+    \item Independence simplifies the joint density.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Derived application 1/4: find preimages}
+  \footnotesize
+  For each $y$, solve $g(x)=y$ before evaluating the formula.
+  \begin{block}{Procedure}
+    \begin{enumerate}\itemsep=0.1cm
+      \item find all solutions $x$;
+      \item check $g'(x)\neq0$;
+      \item add the contributions.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Derived application 1/4: interpretation}
+  \footnotesize
+  \[
+    \frac{f_X(x)}{|g'(x)|}
+  \]
+  is the contribution of one branch. The density of $Y$ is the sum of all
+  branches reaching that value.
+\end{frame}
+
+\begin{frame}{Derived application 2/4: critical points}
+  \footnotesize
+  If $g'(x)=0$, the factor $1/|g'(x)|$ cannot be evaluated directly.
+  \begin{alertblock}{Diagnostic}
+    Critical points often mark support endpoints or density singularities and
+    require a limit and total-mass check.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Derived application 2/4: interpretation}
+  \footnotesize
+  The regularity condition is not merely formal: it prevents treating a map as
+  invertible where it is not.
+  \begin{exampleblock}{Reading rule}
+    Identify the geometry of $g$ first; apply the formula second.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Solved application 3/4: exponential sum}
+  \footnotesize
+  Let $X_1,X_2\sim\operatorname{Exp}(1)$ be independent and let
+  $Y=X_1+X_2$. For $y>0$, the level line has $0<x_1<y$ and $x_2=y-x_1$.
+  \[
+    f_{X_1,X_2}(x_1,x_2)=e^{-(x_1+x_2)}.
+  \]
+\end{frame}
+
+\begin{frame}{Solved application 3/4: integration}
+  \footnotesize
+  \[
+    f_Y(y)=\int_0^y e^{-(x_1+y-x_1)}\,dx_1
+    =\int_0^y e^{-y}\,dx_1=ye^{-y},\quad y>0.
+  \]
+  \begin{alertblock}{Result}
+    The sum has an Erlang density with shape $2$, equivalently
+    $\operatorname{Gamma}(2,1)$.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Solved application 4/4: generalization}
+  \footnotesize
+  The section concludes that the sum of $n$ iid exponential variables has
+  \[
+    \operatorname{Gamma}(n,1).
+  \]
+  The two-variable calculation exhibits how a level-surface integral produces a
+  known family.
+\end{frame}
+
+\begin{frame}{Solved application 4/4: support}
+  \footnotesize
+  For the exponential sum, $X_1>0$ and $X_2>0$ imply $Y>0$.
+  \begin{exampleblock}{Check}
+    The density $ye^{-y}$ is interpreted for $y>0$ and integrates to one on
+    that support.
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Computational bridge 1/4: geometry}
+  \footnotesize
+  \begin{tabular}{ll}
+    \hline
+    Transformation & Set being integrated \\
+    \hline
+    $Y=g(X)$ & preimages $g^{-1}(y)$ \\
+    $Y=g(X_1,X_2)$ & curve $g(x_1,x_2)=y$ \\
+    $Y=g(X_1,\ldots,X_n)$ & level surface \\
+    \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Computational bridge 2/4: joint density}
+  \footnotesize
+  For independent variables,
+  \[
+    f_{X_1,X_2}(x_1,x_2)=f_{X_1}(x_1)f_{X_2}(x_2).
+  \]
+  This factorization enters the integral over the level surface.
+\end{frame}
+
+\begin{frame}{Computational bridge 3/4: gradient}
+  \footnotesize
+  The term $|\nabla g|$ adjusts the surface element:
+  \[
+    dS/|\nabla g|.
+  \]
+  \begin{block}{Interpretation}
+    The generalized Jacobian turns a geometric measure into probability mass.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Computational bridge 4/4: checklist}
+  \footnotesize
+  \begin{enumerate}\itemsep=0.12cm
+    \item fix the support of $Y$;
+    \item describe all preimages or level sets;
+    \item write the joint density;
+    \item integrate and check normalization.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Synthesis of the section}
+  \footnotesize
+  \begin{itemize}\itemsep=0.12cm
+    \item Preimages are added in one dimension.
+    \item Level surfaces are integrated in several dimensions.
+    \item The gradient controls scale.
+    \item Sums of exponentials produce the Gamma/Erlang family.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Curricular transition}
+  \footnotesize
+  \begin{block}{Established}
+    A function's distribution is obtained by gathering every sample point that
+    produces the same transformed value.
+  \end{block}
+  \begin{alertblock}{Next section}
+    \textbf{05.03 Chi-square distribution}: a classical sampling distribution
+    built from squares of normal variables.
+  \end{alertblock}
+\end{frame}
+\end{document}
