@@ -1,0 +1,288 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[CDF Continua y Cuantiles]{Sección 04.02: CDF Continua y Cuantiles}
+\subtitle{Función de Distribución Acumulada, Inversión y Método de Monte Carlo}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 04: Variables Aleatorias Continuas}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{04.01} Función de Densidad (PDF) y Soporte Continuo \pause
+    \item \textbf{04.02} Función de Distribución Acumulada (CDF) Continua y Cuantiles \emph{(Hoy)} \pause
+    \item \textbf{04.03} Esperanza Matemática, Varianza y LOTUS Continuo \pause
+    \item \textbf{04.04} Distribución Uniforme Continua \pause
+    \item \textbf{04.05} Distribución Normal y Puntaje $Z$ \pause
+    \item \textbf{04.06} Distribución Exponencial y Procesos sin Memoria \pause
+    \item \textbf{04.07} Distribuciones Gamma, Beta y Weibull
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Construir la Función de Distribución Acumulada continua $F(x) = P(X \le x)$ a partir de la PDF, dominar sus propiedades axiomáticas, calcular probabilidades por diferencias de CDF, definir cuantiles como inversa $F^{-1}(p)$, y aplicar el método de inversión para generar variables aleatorias.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{De la PDF a la CDF: Integración como Operación Inversa}
+  \footnotesize
+  \begin{motivacion}[¿Por qué la CDF además de la PDF?]
+    La PDF codifica la densidad local de probabilidad, pero las preguntas prácticas suelen referirse a umbrales acumulados: ``¿cuál es la probabilidad de que el tiempo de espera supere los 5 minutos?'' o ``¿cuál es el percentil 95 del consumo eléctrico?'' La CDF responde estas preguntas de manera directa vía integración, y su inversa $F^{-1}$ define los \emph{cuantiles} de la distribución.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Probabilidades acumuladas:} $F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\,dt$. \pause
+    \item \textbf{Cuantiles:} $q_{p} = F^{-1}(p)$ es el valor bajo el cual ocurre la probabilidad $p$. \pause
+    \item \textbf{Generación Monte Carlo:} $X = F^{-1}(U)$ con $U \sim U(0, 1)$ produce muestras exactas de $X$.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición Formal de CDF
+\begin{frame}{Definición Formal de la CDF Continua}
+  \footnotesize
+  La CDF de una variable aleatoria continua $X$ con PDF $f(x)$ se define como: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{CDF Continua}
+    $$F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\,dt, \quad x \in \mathbb{R}$$
+    Por el Teorema Fundamental del Cálculo, $f(x) = F'(x)$ donde $F$ sea diferenciable. La CDF resume toda la información distribucional.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Propiedades Axiomáticas}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Acotada:} $0 \le F(x) \le 1$ para todo $x$.
+      \item \textbf{Límites:} $\lim_{x \to -\infty} F(x) = 0$ y $\lim_{x \to +\infty} F(x) = 1$.
+      \item \textbf{Monótona no decreciente:} $a < b \implies F(a) \le F(b)$.
+      \item \textbf{Continua por la derecha:} $\lim_{h \to 0^{+}} F(x + h) = F(x)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Cálculo de Probabilidades
+\begin{frame}{Cálculo de Probabilidades por Diferencias de CDF}
+  \footnotesize
+  Para una variable continua, las probabilidades de intervalos se calculan como diferencias de la CDF: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Probabilidad de un Intervalo}
+    $$P(a \le X \le b) = F(b) - F(a) = \int_{a}^{b} f(t)\,dt$$
+    Como $P(X = a) = P(X = b) = 0$ para variables continuas, los símbolos $<$ y $\le$ son intercambiables: $P(a \le X \le b) = P(a < X < b) = P(a \le X < b) = P(a < X \le b)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Cola Derecha y Cola Izquierda}
+    \begin{itemize}\itemsep=0.05cm
+      \item $P(X > a) = 1 - F(a)$ (cola derecha o complemento).
+      \item $P(X \le b) = F(b)$ (cola izquierda directa).
+      \item Para colas combinadas: $P(a \le X \le b) = F(b) - F(a^{-})$ donde $F(a^{-}) = \lim_{x \to a^{-}} F(x)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Cuantiles
+\begin{frame}{Cuantiles: Inversa de la CDF $q_{p} = F^{-1}(p)$}
+  \footnotesize
+  El \emph{cuantil} de orden $p$ es el valor $q_{p}$ tal que $F(q_{p}) = p$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Función Cuantil}
+    $$q_{p} = F^{-1}(p) = \inf\{x \in \mathbb{R} : F(x) \ge p\}, \quad p \in (0, 1)$$
+    La función $F^{-1}$ es la inversa generalizada de $F$. Si $F$ es estrictamente monótona, la inversa clásica está bien definida.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Cuantiles de Uso Común}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Mediana:} $m = q_{0.5}$, divide la distribución en dos mitades de probabilidad 50\%.
+      \item \textbf{Percentiles:} $q_{p}$ para $p \in \{0.01, 0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95, 0.99\}$.
+      \item \textbf{Mediana de Exponencial($\lambda$):} $m = (\ln 2)/\lambda$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Método de Inversión
+\begin{frame}{Método de Inversión: Generación de Muestras Exactas}
+  \footnotesize
+  El \emph{método de inversión} permite generar muestras de cualquier distribución continua a partir de uniformes $U \sim U(0, 1)$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Teorema de Inversión}
+    Si $U \sim U(0, 1)$ y $F$ es una CDF continua y estrictamente monótona, entonces $X = F^{-1}(U)$ tiene CDF $F$.
+    \begin{proof}
+      $P(X \le x) = P(F^{-1}(U) \le x) = P(U \le F(x)) = F(x)$ por la monotonía de $F^{-1}$ y la uniformidad de $U$.
+    \end{proof}
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Ejemplos de Inversión}
+    \begin{itemize}\itemsep=0.05cm
+      \item Exponential($\lambda$): $X = -\ln(1-U)/\lambda \approx -\ln U/\lambda$.
+      \item Uniforme($a, b$): $X = a + (b-a)U$.
+      \item Cauchy: $X = \tan(\pi(U - 1/2))$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Prueba de Kolmogorov-Smirnov
+\begin{frame}{Prueba de Kolmogorov-Smirnov: Bondad de Ajuste No Paramétrica}
+  \footnotesize
+  La prueba de \emph{Kolmogorov-Smirnov} compara la CDF empírica $F_{n}$ con una CDF teórica $F_{0}$ usando el supremo de la diferencia: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Estadístico KS}
+    $$D_{n} = \sup_{x \in \mathbb{R}} |F_{n}(x) - F_{0}(x)|$$
+    Bajo $H_{0}$ (los datos siguen $F_{0}$), $\sqrt{n} D_{n} \xrightarrow{d} K$ donde $K$ es la distribución de Kolmogorov con función de distribución:
+    $$P(K \le x) = 1 - 2\sum_{k=1}^{\infty}(-1)^{k-1}e^{-2k^{2}x^{2}}, \quad x > 0.$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Aplicaciones}
+    \begin{itemize}\itemsep=0.05cm
+      \item Verificación de normalidad de residuos en regresión.
+      \item Validación de simulaciones de Monte Carlo vs. distribuciones teóricas.
+      \item Comparación de dos muestras vía la prueba KS de dos colas.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Aplicaciones
+\begin{frame}{Aplicaciones en Inferencia y Simulación}
+  \footnotesize
+  La CDF continua y los cuantiles son herramientas fundamentales en análisis cuantitativo: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Intervalos de Confianza:} $\text{IC}_{95\%} = [\hat{\theta} \pm z_{0.025} \cdot \text{SE}(\hat{\theta})]$ usa $q_{0.025} = -1.96$ y $q_{0.975} = 1.96$. \pause
+    \item \textbf{Simulación Monte Carlo:} Generación de variables aleatorias vía inversión para propagación de incertidumbre. \pause
+    \item \textbf{Pruebas de Hipótesis No Paramétricas:} Kolmogorov-Smirnov y Anderson-Darling para verificar ajuste de modelos. \pause
+    \item \textbf{Análisis de Riesgo:} Value-at-Risk (VaR) y Conditional VaR definidos como cuantiles de la distribución de pérdidas.
+  \end{itemize}
+\end{frame}
+
+% Slide 12A-1: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Validación de CDF y Cuantiles}
+  \scriptsize
+  Verificación de propiedades axiomáticas de la CDF y cálculo de cuantiles vía inversión numérica (\texttt{04.02\_continuous\_cdf.py}):
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=18, lastline=43]{../../code/04_variables_aleatorias_continuas/04.02_continuous_cdf.py}}
+\end{frame}
+
+% Slide 12A-2: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Método de Inversión}
+  \scriptsize
+  Implementación de $X = F^{-1}(U)$ para Exponential y Uniform con `scipy.stats.kstest`:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=50, lastline=75]{../../code/04_variables_aleatorias_continuas/04.02_continuous_cdf.py}}
+\end{frame}
+
+% Slide 12B: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Test KS y Cuantiles Empíricos}
+  \scriptsize
+  Aplicación de Kolmogorov-Smirnov y comparación de cuantiles empíricos vs. teóricos:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=85, lastline=110]{../../code/04_variables_aleatorias_continuas/04.02_continuous_cdf.py}}
+\end{frame}
+
+% Slide 12C: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: CDF Validation & Quantile Inversion ===
+CDF boundary properties:
+  Uniform(0,1): F(-inf)=0 | F(+inf)=1.000000
+  Exponential(2.0): F(-inf)=0 | F(+inf)=1.000000
+  Normal(0,1): F(-inf)=0 | F(+inf)=1.000000
+Monotonicity: all True
+Quantile inversion: all match=True
+
+=== Block 2: Inverse Transform Sampling ===
+Exponential(lambda=2):
+  Empirical mean: 0.4980 (theoretical: 0.5000)
+  Empirical var:  0.2465 (theoretical: 0.2500)
+  KS test: stat=0.001974, p-value=0.8299
+Uniform(0, 5):
+  Empirical mean: 2.5067 (theoretical: 2.5000)
+  KS test: stat=0.002729, p-value=0.4450
+
+=== Block 3: Quantile-Based Statistics & KS Test ===
+KS statistic for n=50 Uniform(0,1) samples: D=0.1420
+  Critical value (alpha=0.05): 0.1921
+  SciPy KS p-value: 0.2417
+  Decision: Fail to reject H0
+95% CI for median: [0.4231, 0.6110]
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 1 (Enunciado)
+
+% Slide 13B: Ejercicio Nivel 1 (Resolución)
+
+% Slide 14A: Ejercicio Nivel 2 (Enunciado)
+
+% Slide 14B: Ejercicio Nivel 2 (Resolución)
+
+% Slide 15A: Ejercicio Nivel 3 (Enunciado)
+
+% Slide 17: Cierre
+\begin{frame}{Cierre de Sección y Síntesis sobre CDF y Cuantiles}
+  \begin{reflexion}[La CDF como Herramienta de Inferencia]
+    La CDF continua $F(x) = P(X \le x)$ codifica toda la información distribucional y es la herramienta central para calcular probabilidades acumuladas y definir cuantiles. Su inversa $F^{-1}$ es la base de la inferencia basada en percentiles y del método de inversión para generación Monte Carlo.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave de la CDF Continua}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{CDF vs. PDF:} $F$ es acumulativa; $f$ es local. $f = F'$ y $F = \int f$.
+      \item \textbf{Cuantiles:} $q_{p} = F^{-1}(p)$ es la base de intervalos de confianza y pruebas no paramétricas.
+      \item \textbf{Método de inversión:} $X = F^{-1}(U)$ con $U \sim U(0, 1)$ genera muestras exactas de cualquier distribución continua.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 18: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}[Para la próxima sesión: Esperanza, Varianza y LOTUS Continuo]
+    Con la PDF y la CDF en mano, podemos ahora calcular momentos de variables continuas. La esperanza continua $\E[X] = \int x f(x)\,dx$ y la varianza $\Var(X) = \int (x - \mu)^{2} f(x)\,dx$ generalizan los conceptos discretos. El Teorema LOTUS permite calcular $\E[g(X)]$ sin derivar la distribución de $g(X)$.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa la técnica de integración por partes y la manipulación de integrales impropias.
+      \item Reflexiona sobre cómo calcular la esperanza de $g(X) = X^{2}$ o $g(X) = e^{X}$ sin conocer la PDF de $g(X)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
+% Archivo legado archivado: CDF continua pertenece a la sección de densidad.

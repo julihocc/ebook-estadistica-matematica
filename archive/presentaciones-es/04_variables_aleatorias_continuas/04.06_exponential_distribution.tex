@@ -1,0 +1,282 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[Distribución Exponencial]{Sección 04.06: Distribución Exponencial}
+\subtitle{Procesos sin Memoria, MLE, Distribución Erlang y Sistemas de Colas}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 04: Variables Aleatorias Continuas}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{04.01} Función de Densidad (PDF) y Soporte Continuo \pause
+    \item \textbf{04.02} Función de Distribución Acumulada (CDF) Continua y Cuantiles \pause
+    \item \textbf{04.03} Esperanza, Varianza y LOTUS Continuo \pause
+    \item \textbf{04.04} Distribución Uniforme Continua $U(a, b)$ \pause
+    \item \textbf{04.05} Distribución Normal y Puntaje $Z$ \pause
+    \item \textbf{04.06} Distribución Exponencial y Procesos sin Memoria \emph{(Hoy)} \pause
+    \item \textbf{04.07} Distribuciones Gamma, Beta y Weibull
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Introducir la distribución Exponencial como modelo del tiempo entre eventos Poisson, demostrar la propiedad de falta de memoria, calcular el MLE del parámetro $\lambda$, y aplicar la distribución Erlang (suma de exponenciales) a sistemas de confiabilidad y teoría de colas.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{Tiempo entre Eventos: La Exponencial como Modelo Natural}
+  \footnotesize
+  \begin{motivacion}[¿Por qué la distribución exponencial?]
+    En el Capítulo 03 modelamos el \emph{número} de eventos en un intervalo (Poisson). Ahora modelamos el \emph{tiempo entre eventos}: si los eventos siguen un proceso de Poisson($\lambda$), los tiempos entre eventos consecutivos son i.i.d. $\text{Exp}(\lambda)$. La Exponencial es la distribución continua de mayor aplicación en ingeniería de confiabilidad, teoría de colas, y física de procesos estocásticos.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Tiempo entre eventos:} Modela tiempos de espera hasta la primera ocurrencia de un evento Poisson. \pause
+    \item \textbf{Falta de memoria:} $P(X > s + t \mid X > s) = P(X > t)$ es la propiedad definitoria. \pause
+    \item \textbf{Base de la Erlang y Gamma:} Suma de $n$ exponenciales i.i.d. es Erlang$(n, \lambda)$, base de sistemas en serie.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Definición Formal
+\begin{frame}{Definición Formal de la Distribución Exponencial}
+  \footnotesize
+  Una variable aleatoria continua $X$ tiene distribución \emph{exponencial} con parámetro de tasa $\lambda > 0$ si su PDF es: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Función de Densidad Exponencial}
+    $$f(x) = \begin{cases} \lambda e^{-\lambda x} & x \ge 0 \\ 0 & x < 0 \end{cases}$$
+    Por normalización: $\int_{0}^{\infty} \lambda e^{-\lambda x}\,dx = \lambda \cdot \frac{1}{\lambda} = 1$. En este caso escribimos $X \sim \text{Exp}(\lambda)$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{CDF y Propiedades}
+    \begin{itemize}\itemsep=0.05cm
+      \item $F(x) = 1 - e^{-\lambda x}$ para $x \ge 0$; $F(0) = 0$ y $\lim_{x \to \infty} F(x) = 1$.
+      \item \textbf{Cola:} $P(X > x) = e^{-\lambda x}$, forma funcional idéntica a la distribución continua de Poisson.
+      \item \textbf{Media:} $\E[X] = 1/\lambda$ (interpretación: tiempo medio entre eventos).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Esperanza y Varianza
+\begin{frame}{Esperanza y Varianza: $\E[X] = 1/\lambda$, $\Var(X) = 1/\lambda^{2}$}
+  \footnotesize
+  Los momentos de la Exponencial tienen formas cerradas particularmente simples: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Momentos por Integración}
+    \begin{align*}
+      \E[X] &= \int_{0}^{\infty} x \lambda e^{-\lambda x}\,dx = \frac{1}{\lambda} \quad \text{(integración por partes)}, \\
+      \E[X^{2}] &= \int_{0}^{\infty} x^{2} \lambda e^{-\lambda x}\,dx = \frac{2}{\lambda^{2}}, \\
+      \Var(X) &= \E[X^{2}] - (\E[X])^{2} = \frac{2}{\lambda^{2}} - \frac{1}{\lambda^{2}} = \frac{1}{\lambda^{2}}.
+    \end{align*}
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{MGF y Función Característica}
+    \begin{itemize}\itemsep=0.05cm
+      \item $M_{X}(t) = \E[e^{tX}] = \dfrac{\lambda}{\lambda - t}$ para $t < \lambda$.
+      \item \textbf{Cociente de dispersión:} $\E[X] = \sigma$ (media igual a desviación estándar).
+      \item \textbf{Asimetría:} $\gamma_{1} = 2$ (cola derecha pesada, hacia valores grandes).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Propiedad de Falta de Memoria
+\begin{frame}{Propiedad de Falta de Memoria: $P(X > s + t \mid X > s) = P(X > t)$}
+  \footnotesize
+  La Exponencial es la \emph{única} distribución continua con soporte en $[0, \infty)$ que satisface la propiedad de falta de memoria: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Demostración de la Propiedad}
+    \begin{align*}
+      P(X > s + t \mid X > s) = \dfrac{P(X > s + t \cap X > s)}{P(X > s)} = \dfrac{P(X > s + t)}{P(X > s)} = \dfrac{e^{-\lambda(s+t)}}{e^{-\lambda s}} = e^{-\lambda t} = P(X > t).
+    \end{align*}
+    El cálculo explícito de la cola exponencial cancela el factor $e^{-\lambda s}$, dejando solo $e^{-\lambda t}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Unicidad e Implicaciones}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Unicidad:} Si $g(s+t) = g(s) g(t)$ con $g$ medible, entonces $g(t) = e^{-ct}$.
+      \item \textbf{Aplicación:} ``El sistema no envejece'': la probabilidad de fallo futuro no depende del tiempo pasado.
+      \item \textbf{Contraste:} La Uniforme NO tiene esta propiedad (probabilidad condicional depende del soporte restante).
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Distribución Erlang
+\begin{frame}{Distribución Erlang: Suma de $n$ Exponenciales i.i.d.}
+  \footnotesize
+  La suma de $n$ variables $\text{Exp}(\lambda)$ independientes sigue la distribución \emph{Erlang}($n$, $\lambda$): \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Definición y Propiedades de Erlang}
+    Si $X_{1}, \dots, X_{n} \sim \text{Exp}(\lambda)$ i.i.d., entonces $S_{n} = \sum_{i=1}^{n} X_{i} \sim \text{Erlang}(n, \lambda)$ con:
+    $$f_{S_{n}}(x) = \dfrac{\lambda^{n} x^{n-1} e^{-\lambda x}}{(n-1)!}, \quad x \ge 0.$$
+    Momentos: $\E[S_{n}] = n/\lambda$ y $\Var(S_{n}) = n/\lambda^{2}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Aplicación: Sistemas en Serie}
+    \begin{itemize}\itemsep=0.05cm
+      \item En un sistema de $n$ componentes en serie, el tiempo hasta la falla del sistema es $T = \min(X_{1}, \dots, X_{n}) \sim \text{Exp}(n\lambda)$.
+      \item En un sistema paralelo, el tiempo hasta la $k$-ésima falla es Erlang$(k, \lambda)$.
+      \item Aproximación Normal: para $n \ge 30$, $S_{n} \approx N(n/\lambda, n/\lambda^{2})$ por TLC.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 8: Estimación por MLE
+\begin{frame}{Estimación por MLE: $\hat{\lambda} = 1/\bar{X}$}
+  \footnotesize
+  El estimador de máxima verosimilitud para el parámetro de tasa $\lambda$ tiene una forma cerrada simple: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Derivación del MLE}
+    Para $n$ muestras i.i.d. de $\text{Exp}(\lambda)$, la log-verosimilitud es:
+    $$\ell(\lambda) = n \log \lambda - \lambda \sum_{i=1}^{n} x_i$$
+    Derivando: $\ell'(\lambda) = n/\lambda - \sum x_i = 0$, dando $\hat{\lambda} = \dfrac{n}{\sum x_i} = \dfrac{1}{\bar{X}}$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Propiedades Asintóticas del MLE}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Sesgo:} $\E[\hat{\lambda}] = n\lambda/(n-1)$, así $\hat{\lambda}$ es sesgado pero consistente.
+      \item \textbf{Varianza asintótica:} $\Var(\hat{\lambda}) \to \lambda^{2}/n$ vía información de Fisher $I(\lambda) = 1/\lambda^{2}$.
+      \item \textbf{Normalidad asintótica:} $\sqrt{n}(\hat{\lambda} - \lambda)/\lambda \xrightarrow{d} N(0, 1)$ cuando $n \to \infty$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 9: Aplicaciones
+\begin{frame}{Aplicaciones en Ingeniería, Ciencias y Teoría de Colas}
+  \footnotesize
+  La Exponencial es la piedra angular de múltiples áreas aplicadas: \pause
+
+  \vspace{0.15cm}
+  \begin{itemize}\itemsep=0.12cm
+    \item \textbf{Confiabilidad Industrial:} Tiempo hasta la falla de componentes electrónicos y mecánicos bajo la propiedad de no-envejecimiento. \pause
+    \item \textbf{Teoría de Colas M/M/1:} Sistema con llegadas Poisson($\lambda$) y servicios Exp($\mu$); estable si $\rho = \lambda/\mu < 1$. \pause
+    \item \textbf{Física de Procesos:} Tiempo de decaimiento radiactivo, vida media de partículas subatómicas. \pause
+    \item \textbf{Ciencia de Datos:} Modelado de tiempos entre eventos en logs de sistemas, mantenimiento predictivo, y análisis de supervivencia.
+  \end{itemize}
+\end{frame}
+
+% Slide 12A-1: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: PDF y Falta de Memoria}
+  \scriptsize
+  Validación de $\int f = 1$ y demostración numérica de la propiedad de falta de memoria (\texttt{04.06\_exponential\_distribution.py}):
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=15, lastline=40]{../../code/04_variables_aleatorias_continuas/04.06_exponential_distribution.py}}
+\end{frame}
+
+% Slide 12A-2: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: MLE y Bootstrap}
+  \scriptsize
+  Estimación de $\hat{\lambda} = 1/\bar{X}$, intervalos de confianza bootstrap y convergencia del MLE:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4pt}{5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=45, lastline=75]{../../code/04_variables_aleatorias_continuas/04.06_exponential_distribution.py}}
+\end{frame}
+
+% Slide 12B: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: Erlang y Sistemas de Colas}
+  \scriptsize
+  Verificación de la distribución Erlang y aplicación a sistemas M/M/1 de teoría de colas:
+  \vspace{0.02cm}
+  {\lstset{basicstyle=\fontsize{4.5pt}{5.5pt}\selectfont\ttfamily}
+  \lstinputlisting[firstline=85, lastline=110]{../../code/04_variables_aleatorias_continuas/04.06_exponential_distribution.py}}
+\end{frame}
+
+% Slide 12C: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: PDF & Memoryless Property ===
+Exp(2.0) PDF integral: 1.00000000
+Memoryless: P(X>s+t|X>s) = P(X=t) (diff < 1e-15)
+Moments: E[X]=0.5 | E[X^2]=0.5 | Var=0.25
+
+=== Block 2: MLE & Quantile Estimation ===
+True lambda=2.0, MLE=2.3642, Bootstrap SE=0.3699
+95% CI: [1.8213, 3.2714] (contains true value)
+Convergence: n=5000: |error|=0.0052
+
+=== Block 3: Erlang & Reliability ===
+Sum of 5 Exp(1) = Erlang(5,1): mean=5.006 | KS D=0.003
+Reliability 10 components: MTTF=100h, P(T>100)=0.367
+M/M/1 queue: rho=0.833, P(busy)=83.3%, L=5.0
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 13A: Ejercicio Nivel 1 (Enunciado)
+
+% Slide 13B: Ejercicio Nivel 1 (Resolución)
+
+% Slide 14A: Ejercicio Nivel 2 (Enunciado)
+
+% Slide 14B: Ejercicio Nivel 2 (Resolución)
+
+% Slide 15A: Ejercicio Nivel 3 (Enunciado)
+
+% Slide 17: Cierre
+\begin{frame}{Cierre de Sección y Síntesis sobre la Distribución Exponencial}
+  \begin{reflexion}[La Exponencial como Distribución sin Memoria]
+    La distribución Exponencial es la única distribución continua con soporte en $[0, \infty)$ que satisface la propiedad de falta de memoria. Esta propiedad, derivada del proceso de Poisson subyacente, la hace única en confiabilidad, teoría de colas, y análisis de supervivencia. Su MLE tiene forma cerrada ($\hat{\lambda} = 1/\bar{X}$), y la suma de $n$ exponenciales i.i.d. produce la distribución Erlang.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave de la Distribución Exponencial}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{PDF:} $f(x) = \lambda e^{-\lambda x}$ modela tiempos de espera continuos.
+      \item \textbf{Falta de memoria:} $P(X > s + t \mid X > s) = P(X > t)$ es la propiedad definitoria (y única).
+      \item \textbf{Erlang:} La suma de $n$ exponenciales i.i.d. es Erlang$(n, \lambda)$, base de sistemas en serie.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 18: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}[Para la próxima sesión: Distribución Normal y Puntaje $Z$]
+    La Exponencial modela tiempos de espera. Ahora estudiaremos la distribución más importante de toda la estadística: la \emph{Normal} $N(\mu, \sigma^{2})$, cuya PDF en forma de campana modela errores de medición, ruido gaussiano, y muchos fenómenos naturales. La estandarización al puntaje $Z = (X - \mu)/\sigma$ permite calcular probabilidades usando tablas universales.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa el Teorema del Límite Central y la convergencia de sumas de variables i.i.d. a la Normal.
+      \item Reflexiona sobre por qué la Normal aparece en tantos fenómenos naturales a pesar de la rareza de sus colas.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
+% Archivo legado archivado: Exponencial es subsección de Gamma en las notas.

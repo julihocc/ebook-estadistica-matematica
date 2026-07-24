@@ -1,0 +1,202 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\input{../../_preambulo_beamer}
+\input{../../_comandos_beamer}
+
+\title[MLE y Score]{Sección 06.03: Estimación por Máxima Verosimilitud (MLE) y Score}
+\subtitle{La Función de Score y la Normalidad Asintótica del MLE}
+\author[J. Castillo Colmenares]{Juliho Castillo Colmenares}
+\institute{Tecnológico de Monterrey}
+\date{\vspace{-1.2cm}}
+
+\begin{document}
+
+% Slide 1: Portada
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% Slide 2: Hoja de Ruta
+\begin{frame}{Hoja de Ruta --- Capítulo 06: Estimación y su Relación con Ciencia de Datos}
+  \footnotesize
+  ¿Dónde nos encontramos en el desarrollo modular del capítulo? \pause
+  \begin{itemize}\itemsep=0.08em
+    \item \textbf{06.01} Estimación Puntual, Insesgadez, Eficiencia y Consistencia \pause
+    \item \textbf{06.02} Método de Momentos (MoM) \pause
+    \item \textbf{06.03} Estimación por Máxima Verosimilitud (MLE) y Score \emph{(Hoy)} \pause
+    \item \textbf{06.04} Intervalos de Confianza para Medias Poblacionales ($Z$ y $t$) \pause
+    \item \textbf{06.05} Intervalos de Confianza para Varianzas ($\chi^2$) y Proporciones
+  \end{itemize}
+  \vspace{-0.05cm}
+  \begin{block}{Objetivo de la Sesión}
+    Formalizar la función de score y sus propiedades (media cero, identidad de la información), establecer la normalidad asintótica del MLE, y conectar este resultado con la Cota de Cramér-Rao de la Sección 06.01.
+  \end{block}
+\end{frame}
+
+% Slide 3: Motivación
+\begin{frame}{Del Método de Momentos al Estimador Óptimo}
+  \footnotesize
+  \begin{motivacion}
+    En la Sección 06.02 vimos que el MoM es simple pero generalmente subóptimo. El MLE, en cambio, alcanza la eficiencia asintótica óptima. Hoy formalizamos \emph{por qué}: a través de la función de score y su varianza, la Información de Fisher.
+  \end{motivacion}
+
+  \vspace{0.15cm}
+  \pause
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Score:} la derivada de la log-verosimilitud; su raíz define al MLE. \pause
+    \item \textbf{Identidad de la información:} conecta la varianza del score con la curvatura de la log-verosimilitud. \pause
+    \item \textbf{Normalidad asintótica:} el MLE se distribuye aproximadamente Normal para $n$ grande, con varianza igual a la Cota de Cramér-Rao.
+  \end{itemize}
+\end{frame}
+
+% Slide 4: Función de Score
+\begin{frame}{La Función de Score}
+  \footnotesize
+  \begin{block}{Definición}
+    $$U(\theta;X) = \frac{\partial}{\partial\theta}\ln f(X\mid\theta), \qquad U_n(\theta) = \sum_{i=1}^n U(\theta;X_i) = \frac{d}{d\theta}\ell(\theta)$$
+    El MLE resuelve la \emph{ecuación de score}: $U_n(\hat\theta_{MLE})=0$.
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Propiedades Fundamentales}
+    \begin{itemize}\itemsep=0.05cm
+      \item \textbf{Media cero:} $E_\theta[U(\theta;X)]=0$.
+      \item \textbf{Identidad de la información:} $\Var_\theta[U(\theta;X)] = I(\theta)$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+% Slide 5: Normalidad Asintótica
+\begin{frame}{Normalidad Asintótica del MLE}
+  \footnotesize
+  \begin{block}{Teorema}
+    $$\sqrt{n}(\hat\theta_{MLE}-\theta) \xrightarrow{d} N\!\left(0,\, \frac{1}{I(\theta)}\right) \implies \hat\theta_{MLE} \overset{\text{aprox.}}{\sim} N\!\left(\theta,\, \frac{1}{nI(\theta)}\right)$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Conexión con Cramér-Rao}
+    La varianza asintótica del MLE coincide exactamente con la Cota Inferior de Cramér-Rao (Sección 06.01): el MLE es \textbf{asintóticamente óptimo}, aunque no sea insesgado ni óptimo para $n$ finito (recuerde $\hat\sigma^2_{MLE}$, sesgado por un factor $(n-1)/n$).
+  \end{alertblock}
+\end{frame}
+
+% Slide 6: Aplicación Práctica
+\begin{frame}{Aplicación: Intervalos de Confianza Aproximados}
+  \footnotesize
+  La normalidad asintótica permite construir intervalos de confianza sin conocer la distribución exacta de $\hat\theta_{MLE}$: \pause
+
+  \vspace{0.1cm}
+  \begin{block}{Fórmula General}
+    $$\hat\theta_{MLE} \pm z_{\alpha/2}\sqrt{\dfrac{1}{n I(\hat\theta_{MLE})}}$$
+  \end{block}
+
+  \vspace{0.1cm}
+  \pause
+  \begin{alertblock}{Ejemplo: Poisson}
+    Con $I(\lambda)=1/\lambda$: para $n=100$, $\hat\lambda_{MLE}=3.5$, el IC del $95\%$ es $3.5 \pm 1.96\sqrt{3.5/100} \approx [3.13, 3.87]$.
+  \end{alertblock}
+\end{frame}
+
+% Slide 7: Aplicaciones en Ciencia de Datos
+\begin{frame}{Aplicaciones en Ciencia de Datos}
+  \footnotesize
+  \begin{itemize}\itemsep=0.1cm
+    \item \textbf{Regresión logística y redes neuronales:} el entrenamiento vía descenso de gradiente maximiza directamente $\ell(\theta)$; el gradiente \emph{es} el score. \pause
+    \item \textbf{Errores estándar de modelos:} el inverso de la matriz de información de Fisher da los errores estándar reportados por software estadístico (\texttt{statsmodels}, \texttt{R}). \pause
+    \item \textbf{Pruebas de score (LM):} pruebas de hipótesis basadas únicamente en $U_n(\theta_0)$, sin necesidad de ajustar el modelo alternativo completo. \pause
+    \item \textbf{Método delta:} propaga la varianza asintótica del MLE a transformaciones no lineales de los parámetros.
+  \end{itemize}
+\end{frame}
+
+% Slide 8: Lab Python (Bloque 1)
+\begin{frame}[fragile]{Laboratorio en Python: Propiedades del Score}
+  \scriptsize
+  Verificación de $E[U]=0$ y la identidad de la información para la Exponencial (\texttt{06.03\_maximum\_likelihood\_estimation.py}):
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=17, lastline=29]{../../code/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.py}}
+\end{frame}
+
+% Slide 9: Lab Python (Bloque 2)
+\begin{frame}[fragile]{Laboratorio en Python: Normalidad Asintótica}
+  \scriptsize
+  Verificación Monte Carlo de la normalidad asintótica del MLE de Poisson y construcción de un IC aproximado:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=32, lastline=55]{../../code/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.py}}
+\end{frame}
+
+% Slide 10: Lab Python (Bloque 3)
+\begin{frame}[fragile]{Laboratorio en Python: MLE de Rayleigh y Método Delta}
+  \scriptsize
+  Derivación del MLE de Rayleigh y verificación del método delta para $\hat\sigma_{MLE}$:
+  {\lstset{basicstyle=\fontsize{4pt}{4.8pt}\selectfont\ttfamily,aboveskip=0.1em,belowskip=0.1em}
+  \lstinputlisting[firstline=58, lastline=85]{../../code/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.py}}
+\end{frame}
+
+% Slide 11: Salida Terminal
+\begin{frame}[fragile]{Laboratorio en Python: Salida en Terminal}
+  \scriptsize
+  Salida estándar generada al ejecutar el script del laboratorio en Python:
+  \vspace{0.02cm}
+  \begin{block}{Salida Estándar en Consola}
+    \fontsize{4pt}{5pt}\selectfont
+    \begin{verbatim}
+=== Block 1: Score Function Properties (Exponential) ===
+E[U]=0.00094 (theo 0) | Var[U]=0.249 (theo I(lambda)=0.25)
+
+=== Block 2: Asymptotic Normality (Poisson) ===
+Var[lambda_MLE]=0.0350 (theo 1/(nI)=0.0350)
+Approx. 95% CI (n=100, lambda_hat=3.5): [3.133, 3.867]
+
+=== Block 3: Rayleigh MLE and Delta Method ===
+Var(sigma_MLE)=0.0200 (theo sigma^2/(4n)=0.0200)
+Delta-method Var(sigma) from Var(sigma^2): 0.0200
+    \end{verbatim}
+  \end{block}
+\end{frame}
+
+% Slide 12A: Ejercicio Nivel 1 (Enunciado)
+
+% Slide 12B: Ejercicio Nivel 1 (Resolución)
+
+% Slide 13A: Ejercicio Nivel 2 (Enunciado)
+
+% Slide 13B: Ejercicio Nivel 2 (Resolución)
+
+% Slide 14A: Ejercicio Nivel 3 (Enunciado)
+
+% Slide 16: Cierre
+\begin{frame}{Cierre de Sección: MLE y Score}
+  \begin{reflexion}
+    La función de score es el hilo conductor que conecta la construcción del MLE (ecuación de score), la Información de Fisher (varianza del score), y la Cota de Cramér-Rao (Sección 06.01). Juntas, estas ideas explican por qué el MLE es, en el límite, el mejor estimador posible.
+  \end{reflexion}
+
+  \vspace{0.2cm}
+  \pause
+  \begin{block}{Lecciones Clave}
+    \begin{itemize}\itemsep=0.08cm
+      \item \textbf{Score:} $U(\theta;X)=\partial\ln f/\partial\theta$; media cero, varianza $I(\theta)$.
+      \item \textbf{Normalidad asintótica:} $\hat\theta_{MLE} \overset{\text{aprox.}}{\sim} N(\theta, 1/(nI(\theta)))$ --- la varianza óptima de Cramér-Rao.
+      \item \textbf{Aplicación:} intervalos de confianza aproximados y el método delta para transformaciones.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% Slide 17: Perspectiva Modular
+\begin{frame}{Perspectiva Modular --- El Próximo Reto}
+  \scriptsize
+  \begin{retoclase}
+    Con MoM y MLE dominados, la Sección 06.04 aplicará esta maquinaria a un problema muy concreto: construir intervalos de confianza para la media poblacional $\mu$, usando $Z$ cuando $\sigma$ es conocida y $t$ cuando no lo es --- retomando directamente la distribución $t$ de Student del Capítulo 05.
+  \end{retoclase}
+
+  \vspace{0.08cm}
+  \pause
+  \begin{alertblock}{Preparación Recomendada}
+    \begin{itemize}\itemsep=0.06cm
+      \item Repasa el intervalo de confianza $t$ de la Sección 05.04.
+      \item Reflexiona sobre cómo la normalidad asintótica del MLE generaliza esa construcción a \emph{cualquier} parámetro, no solo a $\mu$.
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+
+\end{document}
+% Archivo legado archivado: máxima verosimilitud es subsección de estimación puntual.
