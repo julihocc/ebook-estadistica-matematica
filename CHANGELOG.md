@@ -4,6 +4,22 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-07-26 14:24:55 -06:00 (cierre del espejo EN)
+
+- Se cerraron las 21 filas parciales de presentaciones EN: la introducción de
+  probabilidad quedó normalizada como 02.00 y los mazos de los capítulos 5--9
+  recuperaron paridad de frames y listings con sus pares ES.
+- Los 21 mazos EN modificados pasaron doble compilación con código 0, sin
+  errores, referencias indefinidas, etiquetas duplicadas ni desbordamientos de
+  contenido. El estado de la matriz queda en 72/72 filas completas.
+- Se documenta `scikit-learn` como única excepción de dependencias, limitada al
+  laboratorio 09.10; no se añadieron scripts ni se promovieron las ocho rutas
+  EN históricas sin contraparte ES viva.
+- La verificación de cierre ejecutó los 53 scripts Python (`53/53` sin fallos) y
+  compiló dos veces cada maestro LaTeX (`4/4` ejecuciones con código 0); los
+  logs no contienen referencias indefinidas, etiquetas múltiples ni
+  desbordamientos.
+
 ## 2026-07-24 17:36:01 -06:00 (cierre de esta sesión)
 
 - Se documenta el progreso acumulado de los capítulos 1, 3 y 4: 23 filas nuevas

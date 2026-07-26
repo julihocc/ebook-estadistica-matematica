@@ -1,5 +1,35 @@
 # Próximos pasos: cierre de reestructuración y espejo en inglés
 
+## Cierre final de sincronización EN — 2026-07-26 14:24:55 -06:00
+
+Se cerraron las 21 filas parciales de presentaciones EN:
+
+- fila 4: introducción 02.00, roadmap y objetivo normalizados;
+- filas 27--31, 34, 36, 39, 41, 46, 49--50, 54, 57, 63, 65, 67, 69 y 71--72:
+  eliminación de bloques de ejercicios heredados y paridad de frames/listings con ES;
+- los 21 mazos EN afectados pasaron doble compilación con código 0, cero errores,
+  referencias indefinidas, etiquetas duplicadas y desbordamientos en contenido;
+- el estado final es 72/72 filas completas; los ocho mazos EN extra permanecen
+  históricos y no se promovieron.
+
+### Estado de verificación del corte
+
+- Auditoría estructural ejecutada: `0` filas `Parcial`, `72` filas `Completa` y
+  una sola nota operativa sobre las ocho rutas EN históricas.
+- Los 21 mazos EN afectados no conservan bloques `In-Class Exercise` ni
+  `Problem`; los únicos residuos están en esas ocho rutas excluidas.
+- La recompilación final de los 21 mazos EN activos pasó `21/21` en doble corrida;
+  los logs reportan 0 `Overfull \\vbox`, 0 `Overfull \\hbox`, 0 referencias
+  indefinidas y 0 etiquetas múltiples.
+- El escaneo de imports confirma `numpy`, `scipy` y biblioteca estándar, con la
+  única excepción prevista de `scikit-learn` en 09.10.
+- Los 53 scripts Python se ejecutaron en un entorno temporal con las
+  dependencias declaradas: `53/53` terminaron sin fallos.
+- Los maestros ES y EN se compilaron dos veces cada uno en `C:\tmp`; las cuatro
+  ejecuciones terminaron con código 0, sin referencias indefinidas, etiquetas
+  múltiples, errores de emergencia ni desbordamientos `Overfull \\vbox`/`\\hbox`.
+- No se hizo `git commit` ni `git push`.
+
 ## Cierre de esta sesión — 2026-07-24 17:36:01 -06:00
 
 Durante esta sesión se completaron los siguientes bloques de presentaciones

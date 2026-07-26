@@ -4,12 +4,16 @@ Este directorio (`presentaciones/`) contiene las presentaciones interactivas en 
 
 Esta guía constituye el **manual operativo estándar y 100% reproducible** para cualquier agente de inteligencia artificial (o colaborador humano) que trabaje en la creación, modificación, verificación o mantenimiento de las presentaciones y scripts de este proyecto.
 
-### Estado de reconciliación verificado al 2026-07-24 17:34:27 -06:00
+### Estado de reconciliación verificado al 2026-07-26 14:24:55 -06:00
 
 - El espejo de cuadernos del libro está cerrado desde el `2026-07-23 11:03:37 -06:00`: existen 60 archivos `(p).tex` ES y 60 contrapartes `en_*(p).tex`, con seis problemas Bloom, seis soluciones y etiquetas hash compartidas por par.
 - La matriz canónica de notas ES define el inventario objetivo de 72 secciones activas y un mazo ES por sección; las secciones de problemas quedan fuera de las presentaciones. El detalle está en `docs/matriz-notas-presentaciones-es.md`.
 - Verificación física completada el `2026-07-24 11:35:16 -06:00`: hay
   exactamente 72 mazos ES vivos y 8 mazos legado archivados.
+- La sincronización de los 21 mazos EN que quedaban parciales quedó cerrada en
+  este corte: las 72 filas activas tienen paridad estructural de frames y
+  `\lstinputlisting` con su mazo ES. Los 21 mazos EN modificados pasaron doble
+  compilación sin errores, referencias indefinidas ni desbordamientos.
 - El capítulo 2 usa `02.00_introduccion_probabilidad` y `02.01`–`02.06`, incluyendo los temas promovidos de Fundamentos, Técnicas de conteo y Bayes.
 - Los mazos ES se basan en ejemplos y soluciones ya resueltos de teoría; no deben contener bloques `Ejercicio en Clase`, `Problema X.Y.Z`, etiquetas `prob:` ni referencias a `(p)`.
 - El piloto `02.03 Técnicas de conteo` queda desarrollado en ES/EN con 22 frames por mazo y doble compilación sin errores ni desbordamientos. No modifica las notas, los archivos `(p)` ni `presentaciones/code/`; sí añade la contraparte EN del piloto.
@@ -42,21 +46,17 @@ Esta guía constituye el **manual operativo estándar y 100% reproducible** para
   (Función generadora de momentos) tenía un esqueleto ES y no tenía ruta EN. Ahora
   tiene dos mazos de 22 frames; la ruta EN es `04.08_moment_generating_function`
   para no colisionar con el mazo EN `04.06_exponential_distribution`.
-- Las filas 4--6 de las notas EN quedaron normalizadas: introducción con
-  `section*`/`subsection*`, conjuntos con etiquetas `2.1.*` y fundamentos con
-  etiquetas `2.2.*`. La presentación EN de esas filas conserva su pendiente de
-  paridad de frames; no se modificaron mazos ni scripts en este corte.
+- Las filas 4--6 de las notas EN y sus presentaciones quedaron normalizadas:
+  la introducción usa `02.00` sin numerar, conjuntos usa etiquetas `2.1.*` y
+  fundamentos usa etiquetas `2.2.*`.
  - Las filas 11, 12 y 16 de las notas EN y sus mazos ya están sincronizadas; las
    diferencias restantes pertenecen a otros mazos EN parciales.
-- La fila 18 de las notas EN quedó normalizada con la jerarquía y las 47
-  etiquetas de ES. La paridad de frames del mazo EN queda pendiente; este
-  corte no modifica `presentaciones/` ni `presentaciones/code/`.
-- La fila 36 de las notas EN ya tiene una sola sección y las dos etiquetas de
-  ES. La presentación correspondiente conserva la diferencia histórica de
-  frames; este corte solo documenta la nota y no modifica mazos ni scripts.
-- La normalización de notas EN queda cerrada en **72/72 filas**: no quedan
-  diferencias de jerarquía o etiquetas frente a ES. Las diferencias pendientes
-  son exclusivamente la paridad de frames de algunos mazos EN.
+- La fila 18 de las notas EN y su presentación EN conservan la jerarquía y las
+  47 etiquetas de ES, con paridad de frames verificada.
+- La fila 36 de las notas EN tiene una sola sección y las dos etiquetas de ES;
+  su presentación EN quedó en paridad de frames.
+- La normalización de notas y presentaciones EN queda cerrada en **72/72
+  filas**: no quedan diferencias estructurales frente a ES.
 - El primer grupo de mazos EN sincronizado comprende conjuntos y fundamentos:
   ambos pares tienen ahora la misma cantidad de frames y listings que ES y no
   contienen ejercicios heredados. Los cuatro mazos compilaron dos veces sin
@@ -150,7 +150,7 @@ presentaciones/
 ### Regla 1: Código de Python Unificado en Inglés (Una Sola Fuente de la Verdad)
 - **Prohibido duplicar código:** No se permite crear archivos de simulación independientes en español o por idioma (`*.es.py`, scripts separados en carpetas de idioma, etc.).
 - Todo script computacional del proyecto **debe estar redactado exclusivamente en inglés** (comentarios, variables, salidas por consola y docstrings en inglés) y debe ubicarse en `presentaciones/code/<unidad>/<ID>_<nombre_en_ingles>.py`.
-- **Librerías permitidas:** Única y exclusivamente `python` estándar y `numpy` / `scipy` (sin dependencias que requieran entornos virtuales complejos o interfaces gráficas como `matplotlib` que bloqueen compilación o terminal).
+- **Librerías permitidas:** Python estándar y `numpy` / `scipy`; la única excepción es `scikit-learn` en el laboratorio 09.10, dedicado a esa biblioteca. No se permiten dependencias gráficas como `matplotlib` ni otras librerías que bloqueen la compilación o la ejecución en terminal.
 - **Importación en Beamer:** Tanto la presentación en **español** como la presentación en **inglés** referencian exactamente el mismo script mediante `\lstinputlisting`:
   ```latex
   \lstinputlisting[language=Python, firstline=10, lastline=28, basicstyle=\fontsize{5.2pt}{6.1pt}\ttfamily]{../../code/02_teoria_probabilidad/02.06_random_sampling.py}
@@ -246,13 +246,13 @@ A continuación se presenta el estado finalizado y verificado de las 7 secciones
 
 | Sección | Título en Español | Título en Inglés | Script Python (en `code/02_teoria_probabilidad/`) | Estado |
 | :---: | :--- | :--- | :--- | :---: |
-| **02.00** | [Introducción a la probabilidad](es/02_teoria_probabilidad/02.00_introduccion_probabilidad.tex) ([PDF](es/02_teoria_probabilidad/02.00_introduccion_probabilidad.pdf)) | [Intro to Probability (legado EN)](en/02_probability_theory/02.01_probability_introduction.tex) | Sin script dedicado | Completado ES |
-| **02.01** | [Conjuntos y particiones](es/02_teoria_probabilidad/02.01_conjuntos_y_particiones.tex) ([PDF](es/02_teoria_probabilidad/02.01_conjuntos_y_particiones.pdf)) | [Sets and Partitions (legado EN)](en/02_probability_theory/02.02_sets_and_partitions.tex) | Sin script dedicado | Completado ES |
-| **02.02** | [Fundamentos de probabilidad](es/02_teoria_probabilidad/02.02_fundamentos_probabilidad.tex) ([PDF](es/02_teoria_probabilidad/02.02_fundamentos_probabilidad.pdf)) | [Probability Fundamentals (legado EN)](en/02_probability_theory/02.03_probability_foundations.tex) | Sin script dedicado | Completado ES |
+| **02.00** | [Introducción a la probabilidad](es/02_teoria_probabilidad/02.00_introduccion_probabilidad.tex) ([PDF](es/02_teoria_probabilidad/02.00_introduccion_probabilidad.pdf)) | [Intro to Probability](en/02_probability_theory/02.01_probability_introduction.tex) ([PDF](en/02_probability_theory/02.01_probability_introduction.pdf)) | Sin script dedicado | Completado ES/EN — 9 frames cada uno |
+| **02.01** | [Conjuntos y particiones](es/02_teoria_probabilidad/02.01_conjuntos_y_particiones.tex) ([PDF](es/02_teoria_probabilidad/02.01_conjuntos_y_particiones.pdf)) | [Sets and Partitions](en/02_probability_theory/02.02_sets_and_partitions.tex) ([PDF](en/02_probability_theory/02.02_sets_and_partitions.pdf)) | Sin script dedicado | Completado ES/EN — 14 frames, 4 listings |
+| **02.02** | [Fundamentos de probabilidad](es/02_teoria_probabilidad/02.02_fundamentos_probabilidad.tex) ([PDF](es/02_teoria_probabilidad/02.02_fundamentos_probabilidad.pdf)) | [Probability Fundamentals](en/02_probability_theory/02.03_probability_foundations.tex) ([PDF](en/02_probability_theory/02.03_probability_foundations.pdf)) | Sin script dedicado | Completado ES/EN — 16 frames, 3 listings |
 | **02.03** | [Técnicas de conteo](es/02_teoria_probabilidad/02.03_tecnicas_de_conteo.tex) ([PDF](es/02_teoria_probabilidad/02.03_tecnicas_de_conteo.pdf)) | [Counting Techniques](en/02_probability_theory/02.03_counting_techniques.tex) ([PDF](en/02_probability_theory/02.03_counting_techniques.pdf)) | Sin script dedicado; usa aritmética exacta en las diapositivas | Completado ES/EN — 22 frames cada uno |
-| **02.04** | [Probabilidad condicional](es/02_teoria_probabilidad/02.04_probabilidad_condicional.tex) ([PDF](es/02_teoria_probabilidad/02.04_probabilidad_condicional.pdf)) | [Conditional Probability (legado EN)](en/02_probability_theory/02.04_conditional_probability.tex) | Sin script dedicado | Completado ES |
-| **02.05** | [Teorema de Bayes](es/02_teoria_probabilidad/02.05_teorema_bayes.tex) ([PDF](es/02_teoria_probabilidad/02.05_teorema_bayes.pdf)) | [Bayes Theorem (legado EN)](en/02_probability_theory/02.05_bayes_theorem.tex) | Sin script dedicado | Completado ES |
-| **02.06** | [Muestreo aleatorio](es/02_teoria_probabilidad/02.06_muestreo_aleatorio.tex) ([PDF](es/02_teoria_probabilidad/02.06_muestreo_aleatorio.pdf)) | [Random Sampling (legado EN)](en/02_probability_theory/02.06_random_sampling.tex) | Sin script dedicado | Completado ES |
+| **02.04** | [Probabilidad condicional](es/02_teoria_probabilidad/02.04_probabilidad_condicional.tex) ([PDF](es/02_teoria_probabilidad/02.04_probabilidad_condicional.pdf)) | [Conditional Probability](en/02_probability_theory/02.04_conditional_probability.tex) ([PDF](en/02_probability_theory/02.04_conditional_probability.pdf)) | Sin script dedicado | Completado ES/EN — 16 frames, 4 listings |
+| **02.05** | [Teorema de Bayes](es/02_teoria_probabilidad/02.05_teorema_bayes.tex) ([PDF](es/02_teoria_probabilidad/02.05_teorema_bayes.pdf)) | [Bayes Theorem](en/02_probability_theory/02.05_bayes_theorem.tex) ([PDF](en/02_probability_theory/02.05_bayes_theorem.pdf)) | Sin script dedicado | Completado ES/EN — 14 frames, 3 listings |
+| **02.06** | [Muestreo aleatorio](es/02_teoria_probabilidad/02.06_muestreo_aleatorio.tex) ([PDF](es/02_teoria_probabilidad/02.06_muestreo_aleatorio.pdf)) | [Random Sampling](en/02_probability_theory/02.06_random_sampling.tex) ([PDF](en/02_probability_theory/02.06_random_sampling.pdf)) | Sin script dedicado | Completado ES/EN — 14 frames, 3 listings |
 
 ---
 
@@ -305,9 +305,9 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 ### Correspondencias activas de las notas ES — corte 2026-07-24 14:51:34 -06:00
 
-Estas cinco filas son las secciones activas reconciliadas en el bloque gradual;
-el catálogo histórico de laboratorios 05.01--05.05 que sigue se conserva sin
-renumerarlo.
+Las filas activas y el catálogo histórico que siguen se conservan con su
+numeración editorial; la matriz fechada es la autoridad para los conteos
+actuales y confirma la paridad de todos los pares.
 
 | Fila | Sección ES | Mazo EN | Estado |
 | :---: | :--- | :--- | :---: |
@@ -319,11 +319,11 @@ renumerarlo.
 
 | Sección | Título en Español | Título en Inglés | Script Python (en `code/05_distribuciones_muestreo/`) | Estado |
 | :---: | :--- | :--- | :--- | :---: |
-| **05.01** | [05.01 Estadísticos y Varianza Insesgada](es/05_distribuciones_muestreo/05.01_sample_statistics.tex) ([PDF](es/05_distribuciones_muestreo/05.01_sample_statistics.pdf)) | [05.01 Sample Statistics and Unbiased Variance](en/05_sampling_distributions/05.01_sample_statistics.tex) ([PDF](en/05_sampling_distributions/05.01_sample_statistics.pdf)) | `05.01_sample_statistics.py` | $\checkmark$ **Completado (18 diapositivas ES / 19 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 05** |
-| **05.02** | [05.02 TLC Asintótico](es/05_distribuciones_muestreo/05.02_central_limit_theorem.tex) ([PDF](es/05_distribuciones_muestreo/05.02_central_limit_theorem.pdf)) | [05.02 Asymptotic Central Limit Theorem](en/05_sampling_distributions/05.02_central_limit_theorem.tex) ([PDF](en/05_sampling_distributions/05.02_central_limit_theorem.pdf)) | `05.02_central_limit_theorem.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
-| **05.03** | [05.03 Chi-Cuadrada y Varianza Muestral](es/05_distribuciones_muestreo/05.03_chi_squared_distribution.tex) ([PDF](es/05_distribuciones_muestreo/05.03_chi_squared_distribution.pdf)) | [05.03 Chi-Squared Distribution and Sample Variance](en/05_sampling_distributions/05.03_chi_squared_distribution.tex) ([PDF](en/05_sampling_distributions/05.03_chi_squared_distribution.pdf)) | `05.03_chi_squared_distribution.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
-| **05.04** | [05.04 $t$ de Student](es/05_distribuciones_muestreo/05.04_student_t_distribution.tex) ([PDF](es/05_distribuciones_muestreo/05.04_student_t_distribution.pdf)) | [05.04 Student's t-Distribution](en/05_sampling_distributions/05.04_student_t_distribution.tex) ([PDF](en/05_sampling_distributions/05.04_student_t_distribution.pdf)) | `05.04_student_t_distribution.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
-| **05.05** | [05.05 $F$ de Fisher-Snedecor](es/05_distribuciones_muestreo/05.05_fisher_f_distribution.tex) ([PDF](es/05_distribuciones_muestreo/05.05_fisher_f_distribution.pdf)) | [05.05 Fisher-Snedecor F-Distribution](en/05_sampling_distributions/05.05_fisher_f_distribution.tex) ([PDF](en/05_sampling_distributions/05.05_fisher_f_distribution.pdf)) | `05.05_fisher_f_distribution.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings) --- CIERRE DEL CAPÍTULO 05** |
+| **05.01** | [05.01 Estadísticos y Varianza Insesgada](es/05_distribuciones_muestreo/05.01_sample_statistics.tex) ([PDF](es/05_distribuciones_muestreo/05.01_sample_statistics.pdf)) | [05.01 Sample Statistics and Unbiased Variance](en/05_sampling_distributions/05.01_sample_statistics.tex) ([PDF](en/05_sampling_distributions/05.01_sample_statistics.pdf)) | `05.01_sample_statistics.py` | $\checkmark$ **Completado (14 frames ES/EN, 3 listings, 0 warnings)** |
+| **05.02** | [05.02 TLC Asintótico](es/05_distribuciones_muestreo/05.02_central_limit_theorem.tex) ([PDF](es/05_distribuciones_muestreo/05.02_central_limit_theorem.pdf)) | [05.02 Asymptotic Central Limit Theorem](en/05_sampling_distributions/05.02_central_limit_theorem.tex) ([PDF](en/05_sampling_distributions/05.02_central_limit_theorem.pdf)) | `05.02_central_limit_theorem.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
+| **05.03** | [05.03 Chi-Cuadrada y Varianza Muestral](es/05_distribuciones_muestreo/05.03_chi_squared_distribution.tex) ([PDF](es/05_distribuciones_muestreo/05.03_chi_squared_distribution.pdf)) | [05.03 Chi-Squared Distribution and Sample Variance](en/05_sampling_distributions/05.03_chi_squared_distribution.tex) ([PDF](en/05_sampling_distributions/05.03_chi_squared_distribution.pdf)) | `05.03_chi_squared_distribution.py` | $\checkmark$ **Completado (11 frames ES/EN, 3 listings, 0 warnings)** |
+| **05.04** | [05.04 $t$ de Student](es/05_distribuciones_muestreo/05.04_student_t_distribution.tex) ([PDF](es/05_distribuciones_muestreo/05.04_student_t_distribution.pdf)) | [05.04 Student's t-Distribution](en/05_sampling_distributions/05.04_student_t_distribution.tex) ([PDF](en/05_sampling_distributions/05.04_student_t_distribution.pdf)) | `05.04_student_t_distribution.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
+| **05.05** | [05.05 $F$ de Fisher-Snedecor](es/05_distribuciones_muestreo/05.05_fisher_f_distribution.tex) ([PDF](es/05_distribuciones_muestreo/05.05_fisher_f_distribution.pdf)) | [05.05 Fisher-Snedecor F-Distribution](en/05_sampling_distributions/05.05_fisher_f_distribution.tex) ([PDF](en/05_sampling_distributions/05.05_fisher_f_distribution.pdf)) | `05.05_fisher_f_distribution.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
 
 ---
 
@@ -345,11 +345,11 @@ capítulo; la matriz es la autoridad para distinguir las secciones activas.
 
 | Sección | Título en Español | Título en Inglés | Script Python (en `code/06_estimacion_estadistica/`) | Estado |
 | :---: | :--- | :--- | :--- | :---: |
-| **06.01** | [06.01 Calidad de Estimadores](es/06_estimacion_estadistica/06.01_point_estimation_quality.tex) ([PDF](es/06_estimacion_estadistica/06.01_point_estimation_quality.pdf)) | [06.01 Point Estimation Quality](en/06_estimation_data_science/06.01_point_estimation_quality.tex) ([PDF](en/06_estimation_data_science/06.01_point_estimation_quality.pdf)) | `06.01_point_estimation_quality.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 06** |
+| **06.01** | [06.01 Calidad de Estimadores](es/06_estimacion_estadistica/06.01_point_estimation_quality.tex) ([PDF](es/06_estimacion_estadistica/06.01_point_estimation_quality.pdf)) | [06.01 Point Estimation Quality](en/06_estimation_data_science/06.01_point_estimation_quality.tex) ([PDF](en/06_estimation_data_science/06.01_point_estimation_quality.pdf)) | `06.01_point_estimation_quality.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
 | **06.02** | [Mazo ES archivado](../archive/presentaciones-es/06_estimacion_estadistica/06.02_method_of_moments.tex) | [06.02 Method of Moments (legado EN)](en/06_estimation_data_science/06.02_method_of_moments.tex) | 06.02_method_of_moments.py | **Archivado: no es sección activa de las notas ES** |
 | **06.03** | [Mazo ES archivado](../archive/presentaciones-es/06_estimacion_estadistica/06.03_maximum_likelihood_estimation.tex) | [06.03 MLE and Score (legado EN)](en/06_estimation_data_science/06.03_maximum_likelihood_estimation.tex) | 06.03_maximum_likelihood_estimation.py | **Archivado: no es sección activa de las notas ES** |
-| **06.04** | [06.04 IC para Medias](es/06_estimacion_estadistica/06.04_confidence_intervals_means.tex) ([PDF](es/06_estimacion_estadistica/06.04_confidence_intervals_means.pdf)) | [06.04 Confidence Intervals for Means](en/06_estimation_data_science/06.04_confidence_intervals_means.tex) ([PDF](en/06_estimation_data_science/06.04_confidence_intervals_means.pdf)) | `06.04_confidence_intervals_means.py` | $\checkmark$ **Completado (17 diapositivas ES / 19 EN, 0 warnings)** |
-| **06.05** | [06.05 IC para Varianzas y Proporciones](es/06_estimacion_estadistica/06.05_confidence_intervals_variances.tex) ([PDF](es/06_estimacion_estadistica/06.05_confidence_intervals_variances.pdf)) | [06.05 Confidence Intervals for Variances and Proportions](en/06_estimation_data_science/06.05_confidence_intervals_variances.tex) ([PDF](en/06_estimation_data_science/06.05_confidence_intervals_variances.pdf)) | `06.05_confidence_intervals_variances.py` | $\checkmark$ **Completado (17 diapositivas ES / 20 EN, 0 warnings) --- CIERRE DEL CAPÍTULO 06** |
+| **06.04** | [06.04 IC para Medias](es/06_estimacion_estadistica/06.04_confidence_intervals_means.tex) ([PDF](es/06_estimacion_estadistica/06.04_confidence_intervals_means.pdf)) | [06.04 Confidence Intervals for Means](en/06_estimation_data_science/06.04_confidence_intervals_means.tex) ([PDF](en/06_estimation_data_science/06.04_confidence_intervals_means.pdf)) | `06.04_confidence_intervals_means.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
+| **06.05** | [06.05 IC para Varianzas y Proporciones](es/06_estimacion_estadistica/06.05_confidence_intervals_variances.tex) ([PDF](es/06_estimacion_estadistica/06.05_confidence_intervals_variances.pdf)) | [06.05 Confidence Intervals for Variances and Proportions](en/06_estimation_data_science/06.05_confidence_intervals_variances.tex) ([PDF](en/06_estimation_data_science/06.05_confidence_intervals_variances.pdf)) | `06.05_confidence_intervals_variances.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
 
 ---
 
@@ -379,10 +379,10 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 | Sección | Título en Español | Título en Inglés | Script Python (en `code/07_pruebas_hipotesis/`) | Estado |
 | :---: | :--- | :--- | :--- | :---: |
-| **07.01** | [07.01 Fundamentos de Docimasia](es/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.tex) ([PDF](es/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.pdf)) | [07.01 Hypothesis Testing Foundations](en/07_hypothesis_testing/07.01_hypothesis_testing_basics.tex) ([PDF](en/07_hypothesis_testing/07.01_hypothesis_testing_basics.pdf)) | `07.01_hypothesis_testing_basics.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 07** |
-| **07.02** | [07.02 Pruebas $Z$/$t$ para Medias](es/07_pruebas_hipotesis/07.02_z_t_tests_means.tex) ([PDF](es/07_pruebas_hipotesis/07.02_z_t_tests_means.pdf)) | [07.02 Z/t Tests for Means](en/07_hypothesis_testing/07.02_z_t_tests_means.tex) ([PDF](en/07_hypothesis_testing/07.02_z_t_tests_means.pdf)) | `07.02_z_t_tests_means.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings)** |
-| **07.03** | [07.03 Bondad de Ajuste $\chi^2$](es/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.tex) ([PDF](es/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.pdf)) | [07.03 Chi-Squared Goodness-of-Fit](en/07_hypothesis_testing/07.03_goodness_of_fit_tests.tex) ([PDF](en/07_hypothesis_testing/07.03_goodness_of_fit_tests.pdf)) | `07.03_goodness_of_fit_tests.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings)** |
-| **07.04** | [07.04 Contingencia e Independencia](es/07_pruebas_hipotesis/07.04_contingency_tables.tex) ([PDF](es/07_pruebas_hipotesis/07.04_contingency_tables.pdf)) | [07.04 Contingency Tables and Independence](en/07_hypothesis_testing/07.04_contingency_tables.tex) ([PDF](en/07_hypothesis_testing/07.04_contingency_tables.pdf)) | `07.04_contingency_tables.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings) --- CIERRE DEL CAPÍTULO 07** |
+| **07.01** | [07.01 Fundamentos de Docimasia](es/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.tex) ([PDF](es/07_pruebas_hipotesis/07.01_hypothesis_testing_basics.pdf)) | [07.01 Hypothesis Testing Foundations](en/07_hypothesis_testing/07.01_hypothesis_testing_basics.tex) ([PDF](en/07_hypothesis_testing/07.01_hypothesis_testing_basics.pdf)) | `07.01_hypothesis_testing_basics.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
+| **07.02** | [07.02 Pruebas $Z$/$t$ para Medias](es/07_pruebas_hipotesis/07.02_z_t_tests_means.tex) ([PDF](es/07_pruebas_hipotesis/07.02_z_t_tests_means.pdf)) | [07.02 Z/t Tests for Means](en/07_hypothesis_testing/07.02_z_t_tests_means.tex) ([PDF](en/07_hypothesis_testing/07.02_z_t_tests_means.pdf)) | `07.02_z_t_tests_means.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
+| **07.03** | [07.03 Bondad de Ajuste $\chi^2$](es/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.tex) ([PDF](es/07_pruebas_hipotesis/07.03_goodness_of_fit_tests.pdf)) | [07.03 Chi-Squared Goodness-of-Fit](en/07_hypothesis_testing/07.03_goodness_of_fit_tests.tex) ([PDF](en/07_hypothesis_testing/07.03_goodness_of_fit_tests.pdf)) | `07.03_goodness_of_fit_tests.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
+| **07.04** | [07.04 Contingencia e Independencia](es/07_pruebas_hipotesis/07.04_contingency_tables.tex) ([PDF](es/07_pruebas_hipotesis/07.04_contingency_tables.pdf)) | [07.04 Contingency Tables and Independence](en/07_hypothesis_testing/07.04_contingency_tables.tex) ([PDF](en/07_hypothesis_testing/07.04_contingency_tables.pdf)) | `07.04_contingency_tables.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
 
 ---
 
@@ -408,8 +408,8 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 
 | Sección | Título en Español | Título en Inglés | Script Python (en `code/08_diseno_experimentos/`) | Estado |
 | :---: | :--- | :--- | :--- | :---: |
-| **08.01** | [08.01 ANOVA de un Factor](es/08_diseno_experimentos/08.01_one_way_anova.tex) ([PDF](es/08_diseno_experimentos/08.01_one_way_anova.pdf)) | [08.01 One-Way ANOVA](en/08_experimental_design/08.01_one_way_anova.tex) ([PDF](en/08_experimental_design/08.01_one_way_anova.pdf)) | `08.01_one_way_anova.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 08** |
-| **08.02** | [08.02 Supuestos del ANOVA](es/08_diseno_experimentos/08.02_anova_assumptions.tex) ([PDF](es/08_diseno_experimentos/08.02_anova_assumptions.pdf)) | [08.02 ANOVA Assumptions](en/08_experimental_design/08.02_anova_assumptions.tex) ([PDF](en/08_experimental_design/08.02_anova_assumptions.pdf)) | `08.02_anova_assumptions.py` | $\checkmark$ **Completado (17 diapositivas ES / 17 EN, 0 warnings) --- CIERRE DEL CAPÍTULO 08** |
+| **08.01** | [08.01 ANOVA de un Factor](es/08_diseno_experimentos/08.01_one_way_anova.tex) ([PDF](es/08_diseno_experimentos/08.01_one_way_anova.pdf)) | [08.01 One-Way ANOVA](en/08_experimental_design/08.01_one_way_anova.tex) ([PDF](en/08_experimental_design/08.01_one_way_anova.pdf)) | `08.01_one_way_anova.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
+| **08.02** | [08.02 Supuestos del ANOVA](es/08_diseno_experimentos/08.02_anova_assumptions.tex) ([PDF](es/08_diseno_experimentos/08.02_anova_assumptions.pdf)) | [08.02 ANOVA Assumptions](en/08_experimental_design/08.02_anova_assumptions.tex) ([PDF](en/08_experimental_design/08.02_anova_assumptions.pdf)) | `08.02_anova_assumptions.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
 
 ---
 
@@ -434,15 +434,15 @@ A continuación se presenta el avance y estado verificado de las secciones corre
 | :---: | :--- | :--- | :--- | :---: |
 | **09.01** | [09.01 Correlación](es/09_regresiones/09.01_correlation.tex) ([PDF](es/09_regresiones/09.01_correlation.pdf)) | [09.01 Correlation](en/09_regressions/09.01_correlation.tex) ([PDF](en/09_regressions/09.01_correlation.pdf)) | `09.01_correlation.py` | $\checkmark$ **Completado (15 diapositivas ES / 15 EN, 0 warnings) --- APERTURA DEL CAPÍTULO 09** |
 | **09.02** | [09.02 Introducción a la Regresión](es/09_regresiones/09.02_introduction_to_regression.tex) ([PDF](es/09_regresiones/09.02_introduction_to_regression.pdf)) | [09.02 Introduction to Regression](en/09_regressions/09.02_introduction_to_regression.tex) ([PDF](en/09_regressions/09.02_introduction_to_regression.pdf)) | `09.02_introduction_to_regression.py` | $\checkmark$ **Completado (15 diapositivas ES / 15 EN, 0 warnings)** |
-| **09.03** | [09.03 Matemáticas de la Regresión](es/09_regresiones/09.03_mathematics_of_regression.tex) ([PDF](es/09_regresiones/09.03_mathematics_of_regression.pdf)) | [09.03 Mathematics of Regression](en/09_regressions/09.03_mathematics_of_regression.tex) ([PDF](en/09_regressions/09.03_mathematics_of_regression.pdf)) | `09.03_mathematics_of_regression.py` | $\checkmark$ **Completado (19 diapositivas ES / 19 EN, 0 warnings)** |
+| **09.03** | [09.03 Matemáticas de la Regresión](es/09_regresiones/09.03_mathematics_of_regression.tex) ([PDF](es/09_regresiones/09.03_mathematics_of_regression.pdf)) | [09.03 Mathematics of Regression](en/09_regressions/09.03_mathematics_of_regression.tex) ([PDF](en/09_regressions/09.03_mathematics_of_regression.pdf)) | `09.03_mathematics_of_regression.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
 | **09.04** | [09.04 Regresión sobre Datos Simulados](es/09_regresiones/09.04_regression_on_simulated_data.tex) ([PDF](es/09_regresiones/09.04_regression_on_simulated_data.pdf)) | [09.04 Regression on Simulated Data](en/09_regressions/09.04_regression_on_simulated_data.tex) ([PDF](en/09_regressions/09.04_regression_on_simulated_data.pdf)) | `09.04_regression_on_simulated_data.py` | $\checkmark$ **Completado (13 diapositivas ES / 13 EN, 0 warnings)** |
-| **09.05** | [09.05 Coeficientes Óptimos](es/09_regresiones/09.05_optimal_coefficients_and_tests.tex) ([PDF](es/09_regresiones/09.05_optimal_coefficients_and_tests.pdf)) | [09.05 Optimal Coefficients](en/09_regressions/09.05_optimal_coefficients_and_tests.tex) ([PDF](en/09_regressions/09.05_optimal_coefficients_and_tests.pdf)) | `09.05_optimal_coefficients_and_tests.py` | $\checkmark$ **Completado (16 diapositivas ES / 16 EN, 0 warnings)** |
+| **09.05** | [09.05 Coeficientes Óptimos](es/09_regresiones/09.05_optimal_coefficients_and_tests.tex) ([PDF](es/09_regresiones/09.05_optimal_coefficients_and_tests.pdf)) | [09.05 Optimal Coefficients](en/09_regressions/09.05_optimal_coefficients_and_tests.tex) ([PDF](en/09_regressions/09.05_optimal_coefficients_and_tests.pdf)) | `09.05_optimal_coefficients_and_tests.py` | $\checkmark$ **Completado (12 frames ES/EN, 3 listings, 0 warnings)** |
 | **09.06** | [09.06 Implementación con statsmodels](es/09_regresiones/09.06_implementation_with_statsmodels.tex) ([PDF](es/09_regresiones/09.06_implementation_with_statsmodels.pdf)) | [09.06 Implementation with statsmodels](en/09_regressions/09.06_implementation_with_statsmodels.tex) ([PDF](en/09_regressions/09.06_implementation_with_statsmodels.pdf)) | `09.06_statsmodels_style_summary.py` | $\checkmark$ **Completado (13 diapositivas ES / 13 EN, 0 warnings)** |
-| **09.07** | [09.07 Regresión Lineal Múltiple](es/09_regresiones/09.07_multiple_linear_regression.tex) ([PDF](es/09_regresiones/09.07_multiple_linear_regression.pdf)) | [09.07 Multiple Linear Regression](en/09_regressions/09.07_multiple_linear_regression.tex) ([PDF](en/09_regressions/09.07_multiple_linear_regression.pdf)) | `09.07_multiple_linear_regression.py` | $\checkmark$ **Completado (21 diapositivas ES / 21 EN, 0 warnings)** |
+| **09.07** | [09.07 Regresión Lineal Múltiple](es/09_regresiones/09.07_multiple_linear_regression.tex) ([PDF](es/09_regresiones/09.07_multiple_linear_regression.pdf)) | [09.07 Multiple Linear Regression](en/09_regressions/09.07_multiple_linear_regression.tex) ([PDF](en/09_regressions/09.07_multiple_linear_regression.pdf)) | `09.07_multiple_linear_regression.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
 | **09.08** | [09.08 Validación de Modelos](es/09_regresiones/09.08_model_validation.tex) ([PDF](es/09_regresiones/09.08_model_validation.pdf)) | [09.08 Model Validation](en/09_regressions/09.08_model_validation.tex) ([PDF](en/09_regressions/09.08_model_validation.pdf)) | `09.08_model_validation.py` | $\checkmark$ **Completado (13 diapositivas ES / 13 EN, 0 warnings)** |
-| **09.09** | [09.09 Diagnóstico de Regresión](es/09_regresiones/09.09_regression_diagnostics.tex) ([PDF](es/09_regresiones/09.09_regression_diagnostics.pdf)) | [09.09 Regression Diagnostics](en/09_regressions/09.09_regression_diagnostics.tex) ([PDF](en/09_regressions/09.09_regression_diagnostics.pdf)) | `09.09_regression_diagnostics.py` | $\checkmark$ **Completado (21 diapositivas ES / 21 EN, 0 warnings)** |
-| **09.10** | [09.10 Regresión con scikit-learn](es/09_regresiones/09.10_scikit_learn_regression.tex) ([PDF](es/09_regresiones/09.10_scikit_learn_regression.pdf)) | [09.10 Regression with scikit-learn](en/09_regressions/09.10_scikit_learn_regression.tex) ([PDF](en/09_regressions/09.10_scikit_learn_regression.pdf)) | `09.10_scikit_learn_regression.py` | $\checkmark$ **Completado (20 diapositivas ES / 20 EN, 0 warnings)** |
-| **09.11** | [09.11 Variables Categóricas y Muda](es/09_regresiones/09.11_categorical_dummy_variables.tex) ([PDF](es/09_regresiones/09.11_categorical_dummy_variables.pdf)) | [09.11 Categorical and Dummy Variables](en/09_regressions/09.11_categorical_dummy_variables.tex) ([PDF](en/09_regressions/09.11_categorical_dummy_variables.pdf)) | `09.11_categorical_dummy_variables.py` | $\checkmark$ **Completado (20 diapositivas ES / 20 EN, 0 warnings)** |
+| **09.09** | [09.09 Diagnóstico de Regresión](es/09_regresiones/09.09_regression_diagnostics.tex) ([PDF](es/09_regresiones/09.09_regression_diagnostics.pdf)) | [09.09 Regression Diagnostics](en/09_regressions/09.09_regression_diagnostics.tex) ([PDF](en/09_regressions/09.09_regression_diagnostics.pdf)) | `09.09_regression_diagnostics.py` | $\checkmark$ **Completado (13 frames ES/EN, 3 listings, 0 warnings)** |
+| **09.10** | [09.10 Regresión con scikit-learn](es/09_regresiones/09.10_scikit_learn_regression.tex) ([PDF](es/09_regresiones/09.10_scikit_learn_regression.pdf)) | [09.10 Regression with scikit-learn](en/09_regressions/09.10_scikit_learn_regression.tex) ([PDF](en/09_regressions/09.10_scikit_learn_regression.pdf)) | `09.10_scikit_learn_regression.py` | $\checkmark$ **Completado (12 frames ES/EN, 3 listings, 0 warnings; excepción de dependencia documentada)** |
+| **09.11** | [09.11 Variables Categóricas y Muda](es/09_regresiones/09.11_categorical_dummy_variables.tex) ([PDF](es/09_regresiones/09.11_categorical_dummy_variables.pdf)) | [09.11 Categorical and Dummy Variables](en/09_regressions/09.11_categorical_dummy_variables.tex) ([PDF](en/09_regressions/09.11_categorical_dummy_variables.pdf)) | `09.11_categorical_dummy_variables.py` | $\checkmark$ **Completado (12 frames ES/EN, 3 listings, 0 warnings)** |
 | **09.12** | [Mazo ES archivado](../archive/presentaciones-es/09_regresiones/09.12_nonlinear_polynomial_regression.tex) | [09.12 Nonlinear Transformations (legado EN)](en/09_regressions/09.12_nonlinear_polynomial_regression.tex) | 09.12_nonlinear_polynomial_regression.py | **Archivado: no es sección activa de las notas ES** |
 
 ---

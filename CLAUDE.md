@@ -23,7 +23,7 @@ cd presentaciones/en/<unidad>/ && pdflatex -interaction=nonstopmode <archivo>.te
 ```
 After compiling, grep the `.log` for `Overfull \vbox`/`Overfull \hbox` — content slides (page 2+) must have zero of these (see Beamer rules below).
 
-Python labs are standalone scripts, stdlib/numpy/scipy only, no venv:
+Python labs are standalone scripts, stdlib/numpy/scipy only, with the documented scikit-learn exception for section 09.10, and no venv:
 ```bash
 python presentaciones/code/<unidad>/<archivo>.py
 ```
@@ -73,7 +73,7 @@ The ES-only chapter renumbering above (2026-07-20) and both `(p).tex` convention
 
 **Before touching anything under `presentaciones/`, read `presentaciones/README.md`, `presentaciones/ROADMAP.md`, and `presentaciones/ESPECIFICACIONES_Y_REQUERIMIENTOS.md` first** — they are the authoritative operational manual for this subtree (written explicitly for AI agents) and take precedence over general repo conventions. `ESPECIFICACIONES_Y_REQUERIMIENTOS.md` is the most detailed and most current of the three (it is not cross-linked from the other two): it defines the mandatory 5-block, ~22-slide deck structure (identity/roadmap → theory → 4-slide Python lab bridge → worked-example reinforcement → synthesis/transition) and documents the 2026-07-18 shift away from citing unsolved `(p).tex` problems in Block IV toward reusing already-solved `\ejemplo`/`\solucion` pairs from the theory section. `ROADMAP.md` still describes the older 10-problem "3-3-2-2" taxonomy as the live standard in places — defer to the CHANGELOG 2026-07-18 entry (flexible 3-6 problems per section) over ROADMAP.md where they conflict. Other highlights:
 
-1. **Single source of truth in English for code**: Python labs live only in `presentaciones/code/<unit>/<ID>_<name_in_english>.py`, strictly English comments/variables/output, `numpy`/`scipy` only (no `matplotlib`, no GUI deps). Never create per-language `.py` duplicates — both the ES and EN Beamer decks `\lstinputlisting` the exact same script.
+1. **Single source of truth in English for code**: Python labs live only in `presentaciones/code/<unit>/<ID>_<name_in_english>.py`, strictly English comments/variables/output, `numpy`/`scipy` only except for the documented `scikit-learn` lab 09.10 (no `matplotlib`, no GUI deps). Never create per-language `.py` duplicates — both the ES and EN Beamer decks `\lstinputlisting` the exact same script.
 2. **Zero Overfull Warning Policy**: compiled decks must have zero `Overfull \vbox`/`\hbox` on content slides (page 2+). Achieve via `\small`/`\footnotesize`/`\scriptsize`, tight `\vspace{-0.1cm}` to `-0.2cm`, `\begin{columns}[T]`, and splitting long code across multiple slides.
 3. **Institutional identity**: every deck header uses the shared preamble (`_preambulo_beamer.tex` / `_en_preambulo_beamer.tex`), author `Juliho Castillo Colmenares` (`julihocc@tec.mx`), `Tecnológico de Monterrey`, palette TecRojo `#EC2661` / TecAzul `#1A2E51`.
 4. **6-step checklist** for adding/updating a section (full detail in `presentaciones/README.md` §3): theory audit in `latex/<seccion>.tex` → problem file sync → English Python lab → ES/EN Beamer decks (same script import) → double `pdflatex` compile with zero-warning verification on both → update `CHANGELOG.md` + the catalog table in `presentaciones/README.md`/`ROADMAP.md`. Do not `git commit`/`git push` as part of this checklist — leave changes staged for the author to review.
