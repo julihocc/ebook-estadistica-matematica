@@ -14,18 +14,19 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
    Cada `latex/<seccion>(p).tex` vivo debe cubrir los seis niveles de Bloom en orden **Recordar → Comprender → Aplicar → Analizar → Evaluar → Crear**, con comentarios de nivel invisibles, etiquetas `prob:<7-hex>` y soluciones enlazadas mediante `\begin{solproblema}[prob:<tag>]`. El cuaderno es práctica autónoma; el Bloque IV de los mazos reutiliza ejemplos `\ejemplo`/`\solucion` ya resueltos en la teoría.
    - La convención anterior de 10 problemas `3-3-2-2` y niveles visibles se conserva solo como referencia histórica anterior al 2026-07-20.
 4. **Única Fuente de Verdad Computacional (*Single Source of Truth*):**
-   Todo el código Python reside exclusivamente en `presentaciones/code/<unidad>/<ID>_<name_in_english>.py` usando solo bibliotecas base (`numpy`, `scipy`) e **inglés estricto en variables y comentarios**. Ambos mazos Beamer (ES y EN) importan exactamente estas líneas con `\lstinputlisting[language=Python, ...]` dentro de entornos `[fragile]`.
+   Todo el código Python reside exclusivamente en `presentaciones/code/<unidad>/<ID>_<name_in_english>.py` usando Python estándar, `numpy` y `scipy`; la única excepción documentada es `scikit-learn` en el laboratorio 09.10, cuyo objetivo es mostrar esa biblioteca. Se mantiene el **inglés estricto en variables y comentarios**. Ambos mazos Beamer (ES y EN) importan exactamente estas líneas con `\lstinputlisting[language=Python, ...]` dentro de entornos `[fragile]`.
 
 ---
 
-## 2. Estado vigente verificado al 2026-07-24 17:34:27 -06:00
+## 2. Estado vigente verificado al 2026-07-26 14:24:55 -06:00
 
 - El cierre del espejo EN del libro quedó confirmado el `2026-07-23 11:03:37 -06:00`: 60 archivos ES `(p).tex`, 60 archivos EN `en_*(p).tex`, seis problemas y seis soluciones por par, orden Bloom y etiquetas hash idénticas.
 - Los maestros ES y EN tienen 139 entradas `\input{}` sin objetivos faltantes; la secuencia paralela del contenido está verificada.
-- El árbol de presentaciones contiene 72 mazos ES físicos, uno por cada sección
-  activa de teoría; el espejo EN y los 53 scripts Python no se modificaron en
-  esta etapa.
-- Esta actualización corrige una incompatibilidad de API en el script Normal y reconcilia documentación; no modifica el contenido de `presentaciones/es/` ni `presentaciones/en/`.
+- El árbol de presentaciones contiene 72 mazos ES y 80 mazos EN físicos; 72
+  rutas EN corresponden a secciones ES activas y 8 permanecen como legado.
+- Las 72 filas activas tienen ahora paridad estructural de cuatro vías. Los 21
+  mazos EN que quedaban parciales fueron sincronizados con ES, sin modificar
+  notas, cuadernos `(p)` ni scripts Python.
 
 ### Normalización de notas EN del capítulo 2 — 2026-07-24 16:05:21 -06:00
 
@@ -34,9 +35,8 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   y `2.2.*`, respectivamente.
 - Los maestros ES y EN pasaron dos compilaciones con código 0, sin errores,
   referencias indefinidas ni etiquetas duplicadas.
-- Este subbloque solo modifica notas EN y documentación. La paridad de frames
-  de los mazos EN de las filas 5--6 queda como pendiente operativo posterior;
-  no se añadieron scripts ni se tocaron archivos `(p)`.
+- Este subbloque conserva la paridad de frames de los mazos EN de las filas
+  4--6; no se añadieron scripts ni se tocaron archivos `(p)`.
 
 ### Normalización de notas EN del capítulo 3 — 2026-07-24 16:15:12 -06:00
 
@@ -45,9 +45,8 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   ejemplos y desarrollos de aproximación normal y problemas resueltos.
 - Los maestros ES y EN pasaron dos compilaciones con código 0, sin errores,
   referencias indefinidas ni etiquetas duplicadas.
-- La presentación EN de las filas 11 y 16 conserva una diferencia histórica de
-  frames y queda como el siguiente trabajo de sincronización de mazos; no se
-  modificaron Beamer, Python ni archivos `(p)`.
+- Las presentaciones EN de las filas 11, 12 y 16 están sincronizadas con ES;
+  no se modificaron Python ni archivos `(p)`.
 
 ### Normalización de notas EN de la fila 18 — 2026-07-24 16:18:42 -06:00
 
@@ -55,8 +54,8 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   47 etiquetas.
 - Los maestros pasaron dos compilaciones con código 0, sin errores,
   referencias indefinidas ni etiquetas duplicadas.
-- La presentación EN de la fila 18 conserva una diferencia histórica de frames
-  y queda para la sincronización de mazos; no se modificaron Beamer ni Python.
+- La presentación EN de la fila 18 quedó sincronizada con su fuente ES; no se
+  modificaron Python ni archivos `(p)`.
 
 ### Normalización de notas EN de la fila 36 — 2026-07-24 16:21:29 -06:00
 
@@ -72,8 +71,8 @@ Este subproyecto tiene como objetivo construir **presentaciones didácticas de a
   entre las notas ES y EN.
 - Los maestros pasaron dos compilaciones con código 0, sin errores,
   referencias indefinidas ni etiquetas duplicadas.
-- El trabajo pendiente se limita a sincronizar frames de mazos EN; no quedan
-  notas EN parciales, y no se modificaron scripts ni archivos `(p)`.
+- La normalización de notas y la sincronización de frames EN quedaron
+  cerradas en 72/72 filas; no se modificaron scripts ni archivos `(p)`.
 
 ### Primer grupo de mazos EN sincronizado — 2026-07-24 16:37:24 -06:00
 

@@ -69,7 +69,7 @@ Toda presentación curricular del libro debe estructurarse obligatoriamente de f
 ### Regla de Oro 3: Única Fuente de la Verdad en Inglés para Código (`Single Source of Truth`)
 - **Centralización en Inglés:** Todo código de simulación y cálculo numérico debe residir **única y exclusivamente** en el directorio `presentaciones/code/<unidad>/<ID>_<nombre_en_ingles>.py`.
 - **Estándar de Redacción de Código:** Los scripts `.py` deben estar escritos 100% en inglés (variables, docstrings, comentarios y mensajes por consola `print(...)`). Esto garantiza la portabilidad internacional del código y su alineación con el estado del arte en ciencia de datos.
-- **Librerías Permitidas:** Se limitan estrictamente a Python estándar, `numpy` y `scipy`. No se permiten dependencias gráficas (`matplotlib`, `seaborn`) ni librerías pesadas que impidan la ejecución instantánea en terminal o en servidores de CI.
+- **Librerías Permitidas:** Se limitan a Python estándar, `numpy` y `scipy`; la única excepción documentada es `scikit-learn` en la sección 09.10, cuyo objeto didáctico es precisamente su API. No se permiten dependencias gráficas (`matplotlib`, `seaborn`) ni otras librerías pesadas que impidan la ejecución instantánea en terminal o en servidores de CI.
 - **Importación Bilingüe Simétrica:** Tanto el mazo en español (`es/`) como el mazo en inglés (`en/`) importan exactamente las mismas líneas del mismo archivo `.py` en inglés mediante `\lstinputlisting`. Queda prohibido crear scripts duplicados en español (`*.es.py`).
 
 ---
