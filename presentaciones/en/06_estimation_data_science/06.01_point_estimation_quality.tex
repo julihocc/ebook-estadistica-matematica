@@ -161,135 +161,6 @@ Minimum n for bound<=0.10: n>=1000
 	\end{block}
 \end{frame}
 
-% SLIDE 11: Exercise Level 1 (Statement)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 6.1.1 --- Unbiasedness of Linear Combinations (Statement)}
-		Let $X_1, X_2$ be iid with $E(X_i)=\mu$. Consider $\hat\theta_w = 0.3X_1+0.7X_2$. Prove that $\hat\theta_w$ is unbiased for $\mu$, and generalize the condition on the weights.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Model Setup}
-		\begin{itemize}\itemsep=0.04cm
-			\item Use linearity of expectation: $E(\hat\theta_w)=0.3E(X_1)+0.7E(X_2)$.
-		\end{itemize}
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 12: Exercise Level 1 (Solution)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Apply linearity: \pause
-	\begin{block}{Calculation}
-		$$E(\hat\theta_w) = 0.3\mu + 0.7\mu = (0.3+0.7)\mu = \mu$$
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Generalization}
-		\scriptsize
-		For $\hat\theta=\sum_i w_i X_i$ with $E(X_i)=\mu$ for all $i$: $E(\hat\theta)=\left(\sum_i w_i\right)\mu$. The estimator is unbiased if and only if $\sum_i w_i = 1$ --- the sample mean ($w_i=1/n$) is just one particular case of this family.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 13: Exercise Level 2 (Statement)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 6.1.6 --- Consistency via Chebyshev (Statement)}
-		An unbiased estimator $\hat\theta_n$ has $\Var(\hat\theta_n)=16/n$. Use Chebyshev to bound $P(|\hat\theta_n-\theta|\ge 1)$ for $n=64$, and explain why this confirms consistency.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		$P(|\hat\theta_n-\theta|\ge\varepsilon) \le \Var(\hat\theta_n)/\varepsilon^2$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 14: Exercise Level 2 (Solution)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Substitute into the Chebyshev bound: \pause
-	\begin{block}{Calculation}
-		$$P(|\hat\theta_{64}-\theta|\ge 1) \le \frac{16/64}{1^2} = 0.25$$
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		Since $16/n \to 0$ as $n\to\infty$ for any fixed $\varepsilon$, the Chebyshev bound tends to $0$, confirming that $\hat\theta_n \xrightarrow{P} \theta$: the estimator is consistent.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 15: Exercise Level 3 (Statement)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 6.1.7 --- CRLB for the Normal Mean (Statement)}
-		Let $X_1,\ldots,X_n \sim N(\mu,\sigma^2)$ with known $\sigma^2$. Compute $I(\mu)$, derive the CRLB for $\Var(\hat\mu)$, and show that $\bar X$ attains it exactly.
-	\end{block}
-	\vspace{0.1cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Differentiate $\ln f(x\mid\mu)$ twice with respect to $\mu$ to obtain $I(\mu)$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 16: Exercise Level 3 (Solution)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Compute the Fisher information: \pause
-	\begin{block}{Derivation}
-		\scriptsize
-		\begin{align*}
-			\frac{\partial}{\partial\mu}\ln f = \frac{x-\mu}{\sigma^2}, \qquad \frac{\partial^2}{\partial\mu^2}\ln f = -\frac{1}{\sigma^2} \implies I(\mu) = \frac{1}{\sigma^2}.
-		\end{align*}
-		\begin{align*}
-			\text{CRLB} = \frac{1}{nI(\mu)} = \frac{\sigma^2}{n} = \Var(\bar X). \quad \qedhere
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		Since $\bar X$ attains the CRLB exactly, it is the UMVUE for $\mu$: no unbiased estimator can have lower variance.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 17: Exercise Level 4 (Statement)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 6.1.9 --- Optimal Shrinkage Estimator (Statement)}
-		With $\Var(\hat\theta)=v=5$ and $\theta=3$, numerically evaluate the optimal factor $c^*=\theta^2/(v+\theta^2)$ and compare $\text{MSE}(\hat\theta_{c^*})$ against $\text{MSE}(\hat\theta)=v$ (unbiased case).
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Substitute $v=5$, $\theta=3$ into $c^*$ and then into $\text{MSE}(c)=c^2v+(c-1)^2\theta^2$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 18: Exercise Level 4 (Solution)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Substitute numerically: \pause
-	\begin{block}{Calculation}
-		\scriptsize
-		\begin{align*}
-			c^* = \frac{9}{5+9} = \frac{9}{14} \approx 0.643, \qquad \text{MSE}(c^*) \approx 2.066+1.148 = 3.214.
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		Compared to $\text{MSE}(c=1)=5$, the MSE decreases by roughly $35.7\%$ by accepting a controlled bias: a concrete example of why regularization (Ridge/Lasso) sacrifices unbiasedness for lower total error.
-	\end{alertblock}
-\end{frame}
 
 % SLIDE 19: Closing and Chapter Perspective
 \begin{frame}{Closing Section and Chapter Perspective}
@@ -310,4 +181,14 @@ Minimum n for bound<=0.10: n>=1000
 	\end{alertblock}
 \end{frame}
 
-\end{document}
+% SLIDE 20: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \small
+  \begin{block}{What We Have Built}
+    Estimator quality is assessed through bias, variance, mean squared error, efficiency, and consistency.
+  \end{block}
+  \pause
+  \begin{alertblock}{Next Step}
+    The next sections construct confidence intervals from these principles.
+  \end{alertblock}
+\end{frame}\end{document}

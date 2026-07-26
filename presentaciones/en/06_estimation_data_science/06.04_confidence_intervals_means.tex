@@ -160,129 +160,6 @@ Empirical coverage: 0.9496 (nominal: 0.95)
 	\end{block}
 \end{frame}
 
-% SLIDE 11: Exercise Level 1 (Statement)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem (Statement)}
-		A sample of $n=36$ students yields $\bar X=78$ points; known $\sigma=12$. Construct 95\% and 99\% CIs for $\mu$, and compare their widths.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Model Setup}
-		\begin{itemize}\itemsep=0.04cm
-			\item $\text{SE}=12/\sqrt{36}=2$. Use $Z_{0.025}=1.96$ and $Z_{0.005}=2.576$.
-		\end{itemize}
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 12: Exercise Level 1 (Solution)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Compute both intervals: \pause
-	\begin{block}{Calculation}
-		$$\text{95\% CI} = 78\pm1.96(2) = [74.08,\,81.92], \qquad \text{99\% CI} = 78\pm2.576(2) = [72.85,\,83.15]$$
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		The 99\% CI is wider ($10.30$ vs. $7.84$ points): with fixed $n$, increasing confidence requires sacrificing precision, capturing a larger fraction of the area under the Normal.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 13: Exercise Level 2 (Statement)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem (Statement)}
-		A manufacturer claims battery cells last more than 500 cycles. A sample of $n=25$ gives $\bar X=490$, $S=30$ cycles. Construct the 95\% CI for $\mu$ and determine whether it contains the advertised threshold of 500.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Use $t_{24,0.025}=2.064$; relate the result to a two-sided hypothesis test.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 14: Exercise Level 2 (Solution)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Construct the interval: \pause
-	\begin{block}{Calculation}
-		$$\text{95\% CI} = 490\pm2.064(6) = [477.62,\,502.38] \text{ cycles}$$
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		Since $500\in[477.62, 502.38]$, the observed discrepancy is admissible as sampling fluctuation: by the CI--hypothesis-test duality, we would not reject $H_0:\mu=500$ at $\alpha=0.05$. The advertising claim cannot be conclusively refuted.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 15: Exercise Level 3 (Statement)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem --- Pooled Variance (Statement)}
-		Two catalysts: A ($n_1=10$, $\bar X_1=85.0\%$, $S_1=4.0\%$), B ($n_2=12$, $\bar X_2=81.0\%$, $S_2=5.0\%$), assumed equal variances. Compute $S_p^2$ and the 95\% CI for $\mu_A-\mu_B$.
-	\end{block}
-	\vspace{0.1cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		$S_p^2 = \dfrac{(n_1-1)S_1^2+(n_2-1)S_2^2}{n_1+n_2-2}$; use $t_{20,0.025}=2.086$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 16: Exercise Level 3 (Solution)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Compute the pooled variance: \pause
-	\begin{block}{Calculation}
-		\scriptsize
-		$$S_p^2 = \frac{9(16)+11(25)}{20} = \frac{419}{20} = 20.95, \qquad \text{SE}_p = \sqrt{20.95(1/10+1/12)} \approx 1.96$$
-		$$\text{95\% CI}(\mu_A-\mu_B) = 4.0 \pm 2.086(1.96) \approx [-0.09,\ 8.09]\%$$
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		Although A nominally exceeds B by $4\%$, the interval contains zero: with these small samples, A cannot be declared statistically superior to B at 95\% confidence.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 17: Exercise Level 4 (Statement)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem --- Epistemological Foundation (Statement)}
-		For the CI $[74.08, 81.92]$ from Level 1, explain why it is epistemologically wrong to state ``$P(74.08\le\mu\le81.92)=0.95$'', and contrast the frequentist interpretation with the Bayesian credible interval.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Distinguish ex-ante probability (before observing data, about the procedure) from ex-post (after, about a fixed numeric interval).
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 18: Exercise Level 4 (Solution)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Distinguish ex-ante from ex-post: \pause
-	\begin{block}{Argument}
-		\scriptsize
-		Ex-ante, $\bar X$ is random and $P(L(X)\le\mu\le U(X))=0.95$ is valid. Once data are observed, $[74.08,81.92]$ is a fixed set of numbers: $\mu$ either belongs to it (probability 1) or not (probability 0) --- there is no middle ground with 95\% uncertainty.
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Frequentist vs. Bayesian}
-		\scriptsize
-		``95\% confidence'' describes the success rate of the \emph{procedure} under infinite repeated sampling. Only the Bayesian credible interval, $P(A\le\theta\le B\mid X=x)=0.95$, allows a direct probabilistic statement about the parameter given the observed data.
-	\end{alertblock}
-\end{frame}
 
 % SLIDE 19: Closing and Chapter Perspective
 \begin{frame}{Closing Section and Chapter Perspective}
@@ -303,4 +180,14 @@ Empirical coverage: 0.9496 (nominal: 0.95)
 	\end{alertblock}
 \end{frame}
 
-\end{document}
+% SLIDE 20: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \small
+  \begin{block}{What We Have Built}
+    Confidence intervals quantify uncertainty for means and differences between means.
+  \end{block}
+  \pause
+  \begin{alertblock}{Next Step}
+    The next sections extend the same logic to proportions, variances, and sample size.
+  \end{alertblock}
+\end{frame}\end{document}
