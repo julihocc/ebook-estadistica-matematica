@@ -167,147 +167,6 @@ Proportion: SD(phat)=0.0324, Z=1.543, P(phat>0.35)=0.0614 (MC: 0.0541)
 	\end{block}
 \end{frame}
 
-% SLIDE 11: Exercise Level 1 (Statement)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.2.1 --- Direct CLT Application (Statement)}
-		A population has mean $\mu=200$ and standard deviation $\sigma=50$. A simple random sample of $n=100$ is drawn. Use the CLT to approximate $P(180 < \bar{X} < 210)$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Model Setup}
-		\begin{itemize}\itemsep=0.04cm
-			\item $\text{SD}(\bar{X}) = \sigma/\sqrt{n} = 50/10 = 5$.
-			\item Standardize both endpoints of the interval.
-		\end{itemize}
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 12: Exercise Level 1 (Solution)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Standardize both endpoints: \pause
-	\begin{block}{Calculation}
-		\begin{align*}
-			P(180 < \bar{X} < 210) \approx P\left(\dfrac{180-200}{5} < Z < \dfrac{210-200}{5}\right) = P(-4<Z<2) = \Phi(2)-\Phi(-4) \approx 0.9772.
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		Since $\Phi(-4)\approx 0$, virtually all the relevant probability comes from the upper tail: there is about a $97.7\%$ probability that the sample mean falls in the given range.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 13: Exercise Level 2 (Statement)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.2.4 --- CLT for a Sum (Statement)}
-		An insurer receives $n=100$ independent claims, each with mean $\mu=\$800$ and standard deviation $\sigma=\$300$. Use the CLT to approximate the probability that the total amount $T=\sum X_i$ exceeds $\$85{,}000$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		For a sum (not an average), use $E(T)=n\mu$ and $\Var(T)=n\sigma^2$ (do not divide by $n$).
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 14: Exercise Level 2 (Solution)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Compute the mean and standard deviation of the sum: \pause
-	\begin{block}{Calculation}
-		\begin{align*}
-			E(T) = 100\cdot 800 = 80{,}000, \qquad \text{SD}(T)=\sqrt{100}\cdot 300 = 3000.
-		\end{align*}
-		\begin{align*}
-			P(T>85{,}000) \approx P\left(Z>\dfrac{85{,}000-80{,}000}{3000}\right) = P(Z>1.667) \approx 0.0478.
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		There is roughly a $4.78\%$ probability that total claims exceed the $\$85{,}000$ budget; the insurer can use this to size capital reserves.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 15: Exercise Level 3 (Statement)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.2.7 --- CLT for the Exponential via MGF (Statement)}
-		Verify the MGF proof of the CLT specifically for $X_i \sim \text{Exp}(\lambda)$ (with $\mu=1/\lambda$, $\sigma=1/\lambda$), using $M_{X_1}(t)=(1-t/\lambda)^{-1}$.
-	\end{block}
-	\vspace{0.1cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Substitute $\mu=\sigma=1/\lambda$ into the general formula for $M_{Z_n}(t)$; note that $\lambda\sigma=1$ simplifies the expression considerably.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 16: Exercise Level 3 (Solution)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Substitute and simplify using $\lambda\sigma=1$: \pause
-	\begin{block}{Proof}
-		\scriptsize
-		\begin{align*}
-			M_{Z_n}(t) = e^{-t\sqrt{n}}\left(1-\dfrac{t}{\sqrt{n}}\right)^{-n}.
-		\end{align*}
-		With $-\log(1-t/\sqrt n) = t/\sqrt n + t^2/(2n)+O(n^{-3/2})$:
-		\begin{align*}
-			\log M_{Z_n}(t) = -t\sqrt{n} + n\left[\dfrac{t}{\sqrt{n}}+\dfrac{t^2}{2n}+O(n^{-3/2})\right] = \dfrac{t^2}{2}+O(n^{-1/2}) \to \dfrac{t^2}{2}. \quad \qedhere
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		Even though the Exponential is strongly skewed, the CLT still converges: the general proof does not require symmetry, only finite mean and variance.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 17: Exercise Level 4 (Statement)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.2.10 --- CLT with the Finite Population Correction (Statement)}
-		A finite population of $N=500$ accounts has $\sigma=\$80$. A sample of $n=50$ accounts is drawn \emph{without replacement}. Combine the CLT with the FPC (Section 05.01) to approximate $P(\bar{X} > \mu + 15)$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		First compute $\Var(\bar X)$ with the FPC, then apply the CLT using that adjusted variance instead of $\sigma^2/n$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 18: Exercise Level 4 (Solution)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Combine the FPC (05.01) with today's CLT: \pause
-	\begin{block}{Calculation}
-		\scriptsize
-		\begin{align*}
-			\Var(\bar{X}) = \dfrac{80^2}{50}\cdot\dfrac{450}{499} = 128\cdot 0.9018 \approx 115.43, \qquad \text{SD}(\bar{X})\approx 10.744.
-		\end{align*}
-		\begin{align*}
-			P(\bar{X}>\mu+15) \approx P\left(Z>\dfrac{15}{10.744}\right) = P(Z>1.396) \approx 0.0814.
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		This problem connects two sections: the FPC adjusts the variance for sampling without replacement from a finite population, and the CLT lets us use the Normal distribution to compute the final probability, even without knowing the exact distribution of the accounts.
-	\end{alertblock}
-\end{frame}
 
 % SLIDE 19: Closing and Chapter Perspective
 \begin{frame}{Closing Section and Chapter Perspective}
@@ -328,4 +187,14 @@ Proportion: SD(phat)=0.0324, Z=1.543, P(phat>0.35)=0.0614 (MC: 0.0541)
 	\end{alertblock}
 \end{frame}
 
-\end{document}
+% SLIDE 20: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \small
+  \begin{block}{What We Have Built}
+    The central limit theorem explains why Normal approximations work for aggregated data.
+  \end{block}
+  \pause
+  \begin{alertblock}{Next Step}
+    The next chapter turns sampling distributions into estimators and uncertainty measures.
+  \end{alertblock}
+\end{frame}\end{document}

@@ -162,136 +162,6 @@ Monte Carlo CI coverage (n=10): 0.9509 (nominal: 0.9500)
 	\end{block}
 \end{frame}
 
-% SLIDE 11: Exercise Level 1 (Statement)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.4.1 --- Variance of the $t$ (Statement)}
-		Let $T \sim t_{10}$. Compute $\Var(T)$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Model Setup}
-		\begin{itemize}\itemsep=0.04cm
-			\item Use directly $\Var(T)=\nu/(\nu-2)$.
-		\end{itemize}
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 12: Exercise Level 1 (Solution)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Substitute $\nu=10$ directly: \pause
-	\begin{block}{Calculation}
-		$$\Var(T) = \frac{10}{10-2} = \frac{10}{8} = 1.25.$$
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		Since $1.25 > 1 = \Var(Z)$, $t$ with $\nu=10$ is more dispersed than the standard Normal, reflecting the additional uncertainty of estimating $\sigma$ with $S$. As $\nu$ grows, $\Var(T)\to 1$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 13: Exercise Level 2 (Statement)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.4.5 --- One-Sample $t$-Test (Statement)}
-		It is claimed that $\mu_0=100$. A sample of $n=25$ yields $\bar X=104.2$ and $S=12$. Compute $t=(\bar X-\mu_0)/(S/\sqrt n)$ and decide whether to reject $H_0:\mu=100$ at $\alpha=0.05$, using $t_{24,0.025}\approx 2.064$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Compare $|t|$ against the critical value $t_{24,0.025}$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 14: Exercise Level 2 (Solution)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Compute the statistic: \pause
-	\begin{block}{Calculation}
-		$$t = \frac{104.2-100}{12/5} = \frac{4.2}{2.4} = 1.75$$
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Decision}
-		\scriptsize
-		Since $|1.75| < 2.064$, we \textbf{fail to reject} $H_0:\mu=100$ at $\alpha=0.05$: the sample does not provide sufficient evidence that the mean differs from $100$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 15: Exercise Level 3 (Statement)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.4.7 --- Deriving $\Var(T)$ (Statement)}
-		Given that $E(1/\chi^2_\nu)=1/(\nu-2)$ for $\nu>2$, that $Z$ and $\chi^2_\nu$ are independent, and that $E(Z^2)=1$, derive $\Var(T)=\nu/(\nu-2)$ for $T=Z/\sqrt{\chi^2_\nu/\nu}$.
-	\end{block}
-	\vspace{0.1cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Since $E(T)=0$, $\Var(T)=E(T^2)$. Write $T^2$ in terms of $Z^2$ and $\chi^2_\nu$, then use independence to factor the expectation.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 16: Exercise Level 3 (Solution)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Factor using independence: \pause
-	\begin{block}{Derivation}
-		\scriptsize
-		\begin{align*}
-			T^2 = \frac{Z^2}{\chi^2_\nu/\nu} = \nu\frac{Z^2}{\chi^2_\nu} \implies
-			E(T^2) = \nu\, E(Z^2)\, E\!\left(\frac{1}{\chi^2_\nu}\right) = \nu\cdot 1\cdot\frac{1}{\nu-2} = \frac{\nu}{\nu-2}. \quad \qedhere
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		Since $E(T)=0$, $\Var(T)=E(T^2)=\nu/(\nu-2)$, confirming the formula. The independence of $Z$ and $\chi^2_\nu$ is essential to factor the expectation of the product.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 17: Exercise Level 4 (Statement)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.4.9 --- Paired Samples (Statement)}
-		In a diet study, $n=8$ subjects are weighed before and after. The mean difference is $\bar d=-3.2$ kg with $S_d=2.1$ kg. Construct a $95\%$ CI for the mean difference using $t_{7,0.025}\approx 2.365$, and determine whether there is evidence the diet reduces weight.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Treat the differences $d_i$ as a single sample; if the interval excludes zero, there is evidence of a real effect.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 18: Exercise Level 4 (Solution)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Compute the standard error and margin: \pause
-	\begin{block}{Calculation}
-		\scriptsize
-		\begin{align*}
-			\text{SE} = \frac{2.1}{\sqrt 8} \approx 0.7425, \qquad \text{margin} = 2.365\cdot 0.7425 \approx 1.756.
-		\end{align*}
-		\begin{align*}
-			\text{95\% CI} = -3.2 \pm 1.756 = [-4.956,\ -1.444].
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		Since the entire interval is negative (excludes zero), there is statistical evidence that the diet reduces average weight by roughly $1.44$ to $4.96$ kg, with $95\%$ confidence.
-	\end{alertblock}
-\end{frame}
 
 % SLIDE 19: Closing and Chapter Perspective
 \begin{frame}{Closing Section and Chapter Perspective}
@@ -312,4 +182,14 @@ Monte Carlo CI coverage (n=10): 0.9509 (nominal: 0.9500)
 	\end{alertblock}
 \end{frame}
 
-\end{document}
+% SLIDE 20: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \small
+  \begin{block}{What We Have Built}
+    Student's t completes inference when the population standard deviation is unknown.
+  \end{block}
+  \pause
+  \begin{alertblock}{Next Step}
+    The next step is Fisher's F distribution and comparisons of variances.
+  \end{alertblock}
+\end{frame}\end{document}

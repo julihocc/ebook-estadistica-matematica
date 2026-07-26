@@ -90,25 +90,29 @@
 	\end{columns}
 \end{frame}
 
-% SLIDE 05: Proof and FPC
-\begin{frame}{Proof Sketch and the Finite Population Correction}
-	\vspace{-0.15cm}
-	\begin{columns}[T]
-		\begin{column}{0.48\textwidth}
-			\begin{block}{Proof of $E(S^2)=\sigma^2$}
-				\footnotesize
-				$\sum(X_i-\bar X)^2 = \sum(X_i-\mu)^2 - n(\bar X-\mu)^2$. Taking expectations: $E[\cdot] = n\sigma^2 - \sigma^2 = (n-1)\sigma^2 \Rightarrow E(S^2)=\sigma^2$.
-			\end{block}
-		\end{column}
-		\begin{column}{0.48\textwidth}
-			\begin{alertblock}{Sampling Without Replacement (FPC)}
-				\footnotesize
-				$\Var(\bar{X}) = \frac{\sigma^2}{n}\cdot\frac{N-n}{N-1}$. The FPC factor is $<1$ for $n>1$, and $\to 1$ as $N\to\infty$.
-			\end{alertblock}
-		\end{column}
-	\end{columns}
+% SLIDE 05: Proof of Unbiasedness
+\begin{frame}{Proof of $E(S^2)=\sigma^2$}
+  \footnotesize
+  \begin{block}{Key Identity}
+    $\sum(X_i-\bar X)^2 = \sum(X_i-\mu)^2 - n(\bar X-\mu)^2$.
+  \end{block}
+  \pause
+  \begin{alertblock}{Taking Expectations}
+    $E[\sum(X_i-\bar X)^2] = n\sigma^2 - n(\sigma^2/n) = (n-1)\sigma^2$, hence $E(S^2)=\sigma^2$.
+  \end{alertblock}
 \end{frame}
 
+% SLIDE 06: Finite Population Correction
+\begin{frame}{Sampling Without Replacement: The FPC}
+  \footnotesize
+  \begin{block}{Finite Population Correction}
+    $\Var(\bar X) = \dfrac{\sigma^2}{n}\dfrac{N-n}{N-1}$.
+  \end{block}
+  \pause
+  \begin{alertblock}{Interpretation}
+    The factor is below one for finite populations and approaches one as $N\to\infty$; it matters when the sampling fraction is not negligible.
+  \end{alertblock}
+\end{frame}
 % SLIDE 06: Applications
 \begin{frame}{Applications in Inference and Data Science}
 	\vspace{-0.1cm}
@@ -169,141 +173,6 @@ Empirical Var(Xbar) [without replacement]: 31.61
 	\end{block}
 \end{frame}
 
-% SLIDE 11: Exercise Level 1 (Statement)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.1.1 --- Sample Mean and Variance (Statement)}
-		A simple random sample of size $n=5$ yields the observations $\{8, 12, 10, 14, 6\}$. Compute the sample mean $\bar{X}$ and the unbiased sample variance $S^2$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Model Setup}
-		\begin{itemize}\itemsep=0.04cm
-			\item $\bar{X} = \frac{1}{n}\sum X_i$.
-			\item $S^2 = \frac{1}{n-1}\sum(X_i-\bar{X})^2$, divisor $n-1=4$.
-		\end{itemize}
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 12: Exercise Level 1 (Solution)
-\begin{frame}{In-Class Exercise --- Level 1: Fundamental (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Compute the mean and squared deviations: \pause
-	\begin{block}{Calculations}
-		\begin{itemize}\itemsep=0.05cm
-			\item $\bar{X} = (8+12+10+14+6)/5 = 50/5 = 10$.
-			\item Squared deviations: $4, 4, 0, 16, 16$; sum $= 40$.
-			\item $S^2 = 40/(5-1) = 10$.
-		\end{itemize}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		$S^2=10$ is our best unbiased estimate of the population variance $\sigma^2$ from this single sample of 5 observations.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 13: Exercise Level 2 (Statement)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.1.4 --- Deriving $\Var(\bar{X})=\sigma^2/n$ (Statement)}
-		Let $X_1, \ldots, X_n$ be independent with common variance $\sigma^2$. Starting from $\Var(\sum_i X_i) = \sum_i \Var(X_i)$ for independent variables, derive $\Var(\bar{X}) = \sigma^2/n$.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Write $\bar{X}=\frac{1}{n}\sum X_i$ and use $\Var(aY)=a^2\Var(Y)$ together with additivity of variance under independence.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 14: Exercise Level 2 (Solution)
-\begin{frame}{In-Class Exercise --- Level 2: Operational (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Apply linearity and additivity: \pause
-	\begin{block}{Derivation}
-		\begin{align*}
-			\Var(\bar{X}) = \Var\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2}\Var\left(\sum_{i=1}^n X_i\right) = \frac{1}{n^2}\sum_{i=1}^n \Var(X_i) = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}. \quad \qedhere
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		The $1/n^2$ factor (from pulling the constant out of the square in $\Var(aY)$) is what makes the variance of the mean \emph{shrink} with $n$, unlike the variance of the sum, which grows with $n$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 15: Exercise Level 3 (Statement)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.1.7 --- Unbiasedness of $S^2$ (Statement)}
-		Prove that $E(S^2) = \sigma^2$ for $X_1, \ldots, X_n$ iid with mean $\mu$ and variance $\sigma^2$. Explicitly justify why $\sum_{i=1}^n(X_i-\mu) = n(\bar{X}-\mu)$.
-	\end{block}
-	\vspace{0.1cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Write $(X_i-\bar{X}) = (X_i-\mu)-(\bar{X}-\mu)$, expand the square, sum over $i$, and cancel the cross term using the given identity.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 16: Exercise Level 3 (Solution)
-\begin{frame}{In-Class Exercise --- Level 3: Analytical (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Expand and take expectations: \pause
-	\begin{block}{Proof}
-		\scriptsize
-		\begin{align*}
-			\sum_{i=1}^n(X_i-\bar X)^2 &= \sum_{i=1}^n(X_i-\mu)^2 - n(\bar X-\mu)^2 \\
-			E\left[\sum_{i=1}^n(X_i-\bar X)^2\right] &= n\sigma^2 - n\cdot\frac{\sigma^2}{n} = (n-1)\sigma^2 \implies E(S^2)=\sigma^2. \quad \qedhere
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Interpretation}
-		\scriptsize
-		The identity $\sum(X_i-\mu)=n(\bar X-\mu)$ follows directly from the definition $\bar X = \frac{1}{n}\sum X_i$: it is the key step that cancels the cross term and isolates the $(n-1)$ factor.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 17: Exercise Level 4 (Statement)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (1/2)}
-	\vspace{-0.1cm}
-	\begin{block}{Problem 5.1.10 --- Finite Population Correction (Statement)}
-		A finite population of $N=200$ accounts has variance $\sigma^2=900$. A sample of $n=20$ accounts is drawn \emph{without replacement}. Compute $\Var(\bar{X})$ using the naive formula and with the FPC, and explain why the FPC always reduces the variance.
-	\end{block}
-	\vspace{0.15cm}
-	\pause
-	\begin{alertblock}{Strategy}
-		\scriptsize
-		Compare $\sigma^2/n$ against $(\sigma^2/n)\cdot(N-n)/(N-1)$, and analyze the sign of $(N-n)/(N-1) - 1$.
-	\end{alertblock}
-\end{frame}
-
-% SLIDE 18: Exercise Level 4 (Solution)
-\begin{frame}{In-Class Exercise --- Level 4: Challenging (2/2)}
-	\vspace{-0.05cm}
-	\scriptsize
-	Compare both formulas: \pause
-	\begin{block}{Calculation}
-		\scriptsize
-		\begin{align*}
-			\Var(\bar{X})_{\text{naive}} = \frac{900}{20} = 45, \qquad
-			\Var(\bar{X})_{\text{FPC}} = 45\cdot\frac{180}{199} \approx 40.70.
-		\end{align*}
-	\end{block}
-	\vspace{0.05cm}
-	\pause
-	\begin{alertblock}{Why Does the FPC Always Reduce the Variance?}
-		\scriptsize
-		The factor $(N-n)/(N-1)$ is strictly less than 1 whenever $n>1$ and $N$ is finite (since $N-n<N-1$). As $N\to\infty$, the factor approaches 1 and both formulas coincide: the correction only matters when sampling a non-negligible fraction of a finite population.
-	\end{alertblock}
-\end{frame}
 
 % SLIDE 19: Closing and Chapter Perspective
 \begin{frame}{Closing Section and Chapter Perspective}
@@ -324,4 +193,14 @@ Empirical Var(Xbar) [without replacement]: 31.61
 	\end{alertblock}
 \end{frame}
 
-\end{document}
+% SLIDE 20: Modular Perspective
+\begin{frame}{Modular Perspective --- The Next Challenge}
+  \small
+  \begin{block}{What We Have Built}
+    Sampling distributions connect descriptive summaries to uncertainty quantification.
+  \end{block}
+  \pause
+  \begin{alertblock}{Next Step}
+    The next step is to study asymptotic convergence and the central limit theorem.
+  \end{alertblock}
+\end{frame}\end{document}
