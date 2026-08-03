@@ -4,7 +4,23 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
-## 2026-07-26 14:24:55 -06:00 (cierre del espejo EN)
+## 2026-08-02 (auditoría del repositorio y limpieza de artefactos huérfanos)
+
+### Corregido
+- Auditoría integral del repositorio: paridad ES/EN perfecta (70/70 teoría, 60/60 problemas), maestros LaTeX con 139 `\input{}` sin objetivos faltantes y matriz de presentaciones 72/72 filas completas.
+- Retirados los 11 PDFs huérfanos de `presentaciones/es/` (compilados sin `.tex` vivo): 8 se movieron junto a sus fuentes en `archive/presentaciones-es/` (03.02, 03.03, 03.09, 04.02, 04.06, 06.02, 06.03, 09.12) y 3 se eliminaron por corresponder a mazos renombrados sin `.tex` archivado (02.01, 02.02, 02.03 del capítulo 02).
+- `code/chi-cuadrada/statsChi2.py`: eliminada la dependencia no estándar `seaborn`; la paleta husl se sustituyó por el ciclo de color por defecto de matplotlib. Verificado con ejecución con código `0`.
+- `code/regresion/statsModelExample.py`: creado el dataset que faltaba en `code/regresion/dataBases/Advertising.csv` (200 filas sintéticas deterministas con columnas `TV,Radio,Newspaper,Sales`, coeficientes consistentes con el capítulo 9), de modo que el script es ejecutable. La dependencia `pandas` queda documentada en `AGENTS.md` como excepción explícita del capítulo 9 (análoga a la excepción `scikit-learn` de la sección 09.10).
+- Eliminado el duplicado accidental `code/medida-tendencia-central/ejemplo-2-2/ejemplo-2-2.py` (el libro referencia `ejemplo_2_2.py`, con datos `[8,3,5,12,10]`).
+- Movido `latex/psheader.txt` (sin referencia en ningún `.tex`) a `archive/latex/`.
+
+### Verificación
+- `git status` confirma únicamente los cambios previstos; no se modificaron maestros LaTeX, presentaciones, ni archivos `(p)`.
+- La asimetría de preámbulo detectada (`_md_entornos.tex` solo en el maestro ES) se verificó como inocua: los entornos `conj`, `ax`, `tdv`, `claim`, `case` no se usan en ningún archivo ES ni EN.
+- La diferencia de opciones `\documentclass` entre maestros (ES comentadas vs. EN `xcolor={dvipsnames},justified`) se deja como decisión editorial por no modificar el formato del PDF ES commiteado.
+- No se creó commit ni se hizo `git push`.
+
+
 
 - Se cerraron las 21 filas parciales de presentaciones EN: la introducción de
   probabilidad quedó normalizada como 02.00 y los mazos de los capítulos 5--9
