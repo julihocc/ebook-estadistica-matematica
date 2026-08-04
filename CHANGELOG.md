@@ -4,6 +4,28 @@ Este changelog resume la evolución del repositorio a partir del historial de Gi
 Como el proyecto no usa versiones ni tags de lanzamiento, los cambios se agrupan
 por fechas e hitos editoriales.
 
+## 2026-08-04 (auditoría de fuentes ES-EN: correcciones y sincronización de contenido)
+
+### Corregido
+- `latex/pruebas_independencia.tex`: la conclusión del ejemplo de independencia (tabla 2×3, género vs. materia) usaba grados de libertad incorrectos (ν=5, crítico 11.07, valor-p 0.416991040312) en vez de ν=(2-1)(3-1)=2 (crítico 5.991, valor-p 0.0825); ahora coincide con la versión en inglés, que ya tenía el cálculo correcto.
+- `latex/variables_aleatorias_continuas.tex` (ecuación `eq:2.7.20`): la densidad marginal de $Y$ aparecía como $f_Y(x)$ en vez de $f_Y(y)$; corregido para que coincida con la integral (que integra sobre $u$) y con la versión en inglés.
+
+### Enriquecido (ES incompleto respecto a EN)
+- `latex/estrategias_experimentacion.tex`: se añadió al teorema de los Tres Principios de Fisher el punto de grados de libertad $\nu_E=0$ sin replicación, el formalismo i.i.d. de los errores aleatorios, y el modelo de efecto de bloqueo $\beta_j$, presentes en la versión en inglés pero ausentes en español.
+- `latex/anova_un_factor.tex`: se añadió la subsección "Supuestos estadísticos del ANOVA" (normalidad, homoscedasticidad, independencia de los errores, con las pruebas de Shapiro-Wilk, Levene/Brown-Forsythe y Bartlett, y las alternativas ANOVA de Welch y Kruskal-Wallis), traducida usando la terminología ya establecida en `presentaciones/es/08_diseno_experimentos/08.02_anova_assumptions.tex`; y una nota introductoria sobre la inflación de la tasa de error familiar (sin repetir el cálculo completo, ya presente en `estrategias_experimentacion.tex`).
+- `latex/valores_p_decisiones.tex`: se añadió la subsección "Regla de decisión" ($p\text{-valor}\leq\alpha$ / $>\alpha$), presente en inglés y ausente en español.
+- `latex/pruebas_homogeneidad_varias_proporciones.tex`: la definición de la prueba de homogeneidad se amplió a una comparación explícita (independencia vs. homogeneidad) con el diseño muestral y la hipótesis de cada una, en vez de solo remitir por referencia a la sección de independencia.
+- `latex/en_variables_aleatorias_continuas.tex`: se descubrió que la aparente falta de contenido (2 subsubsecciones menos que en ES) era en realidad un desajuste de nivel de encabezado — el contenido ya existía como `\subsection`; se ajustó a `\subsubsection` para igualar el anidamiento de la versión en español.
+- `latex/en_distribuciones_tipo_gamma.tex`: la sección de la distribución exponencial (con la definición de `eq:2.8.8`) estaba al final del archivo, después de referenciar esa ecuación sin definirla previamente (`eq:2.8.8` se citaba antes de su definición). Se reubicó justo después de las propiedades de la distribución gamma, en la misma posición que ocupa en la versión en español.
+- `latex/en_transformacion_variables.tex`: se aplanó la estructura (1 subsección + 3 subsubsecciones) a 3 subsecciones planas, igualando la organización de la versión en español.
+- `latex/efectos_modelo_fijo.tex` y `latex/en_efectos_modelo_fijo.tex`: se unificó la notación a $E[\cdot]$ y $\nu_E=N-k$ (definido explícitamente) en ambos idiomas; se añadieron a la versión en español las hipótesis $H_0$/$H_a$ explícitas y la mención de la distribución $F$ no central con parámetro de no-centralidad $\lambda$, presentes en inglés y ausentes en español.
+- `presentaciones/es/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.tex`: se fusionaron los frames separados de MLE de Poisson y detección de sobredispersión en un solo frame de dos columnas (como en la versión en inglés), liberando un espacio que se usó para agregar el frame de Binomial Negativa (modelo jerárquico, estimadores por método de momentos) que solo existía como marcador de posición vacío. El número total de frames no cambió (15), preservando la paridad con la versión en inglés.
+
+### Verificación
+- Los dos maestros LaTeX (`[Modelación Estadística].tex` y `[Statistical Modeling].tex`) compilaron dos veces cada uno con código de salida 0, sin referencias indefinidas ni etiquetas múltiplemente definidas.
+- El mazo `presentaciones/es/03_variables_aleatorias_discretas/03.10_discrete_distributions_data_science.tex` compiló dos veces con código de salida 0 y cero `Overfull \vbox`/`\hbox` en páginas de contenido.
+- No se creó commit ni se hizo `git push`; los cambios quedan en el árbol de trabajo para revisión del autor.
+
 ## 2026-08-02 (auditoría del repositorio y limpieza de artefactos huérfanos)
 
 ### Corregido
