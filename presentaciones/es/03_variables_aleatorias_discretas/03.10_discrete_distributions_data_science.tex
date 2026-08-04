@@ -54,53 +54,54 @@
   \end{itemize}
 \end{frame}
 
-% Slide 4: MLE para Poisson
-\begin{frame}{Estimación por Máxima Verosimilitud (MLE) para Poisson}
-  \footnotesize
-  Para datos de conteo $x_{1}, \dots, x_{n}$ asumiendo $X_{i} \sim \text{Pois}(\lambda)$ independientes, la función de verosimilitud es: \pause
+% Slide 4: MLE y Sobredispersión
+\begin{frame}{Estimación por MLE y Detección de Sobredispersión}
+  \vspace{-0.15cm}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{MLE de Poisson}
+        \footnotesize
+        Para datos de conteo $x_{1}, \dots, x_{n}$ con $X_{i} \sim \text{Pois}(\lambda)$:
+        $$L(\lambda) = \prod_{i=1}^{n} \dfrac{e^{-\lambda}\lambda^{x_{i}}}{x_{i}!}$$
+        $\ell'(\lambda) = -n + \sum x_{i}/\lambda = 0 \implies \hat{\lambda} = \bar{x}$.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{Índice de Dispersión $D = s^{2}/\bar{x}$}
+        \footnotesize
+        \begin{itemize}\itemsep=0.04cm
+          \item $D \approx 1$: equidispersión; Poisson adecuada.
+          \item $D > 1.5$: sobredispersión fuerte; usar Binomial Negativa.
+          \item $D < 0.8$: sub-dispersión; usar Conway-Maxwell-Poisson.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
 
-  \vspace{0.1cm}
-  \begin{block}{Función de Verosimilitud Poisson}
-    $$L(\lambda) = \prod_{i=1}^{n} \dfrac{e^{-\lambda}\lambda^{x_{i}}}{x_{i}!} = \dfrac{e^{-n\lambda}\lambda^{\sum x_{i}}}{\prod x_{i}!}$$
-    La log-verosimilitud es $\ell(\lambda) = -n\lambda + (\sum x_{i})\log \lambda - \sum \log x_{i}!$.
+% Slide 5: Binomial Negativa como Alternativa
+\begin{frame}{Binomial Negativa: la Alternativa Natural ante Sobredispersión}
+  \vspace{-0.15cm}
+  \begin{block}{PMF de la Binomial Negativa}
+    \footnotesize
+    La distribución Binomial Negativa introduce un parámetro adicional $r > 0$ para modelar variabilidad extra:
+    $$P(X = k) = \binom{k + r - 1}{k} p^{r} (1-p)^{k}, \quad k = 0, 1, 2, \dots$$
+    Media: $\E[X] = r(1-p)/p = \mu$. Varianza: $\Var(X) = \mu + \mu^{2}/r$, capturando la sobredispersión.
   \end{block}
 
   \vspace{0.1cm}
   \pause
-  \begin{alertblock}{Derivación del MLE}
-    \begin{itemize}\itemsep=0.05cm
-      \item Derivando: $\ell'(\lambda) = -n + \dfrac{\sum x_{i}}{\lambda} = 0 \implies \hat{\lambda} = \bar{x}$.
-      \item El MLE de Poisson es simplemente la media muestral: la estimación más natural para un parámetro de tasa.
-      \item Por el TCL, $\hat{\lambda} \pm z_{0.025}\sqrt{\hat{\lambda}/n}$ es un intervalo de confianza al $95\%$ asintótico.
+  \begin{alertblock}{Interpretación Jerárquica}
+    \footnotesize
+    \begin{itemize}\itemsep=0.03cm
+      \item Bajo el modelo $\lambda_{i} \sim \text{Gamma}(r, p)$ con $X_{i} \mid \lambda_{i} \sim \text{Poisson}(\lambda_{i})$, marginalmente $X_{i} \sim \text{NegBin}(r, p)$.
+      \item MLE por método de momentos: $\hat{r} = \bar{x}^{2}/(s^{2} - \bar{x})$ y $\hat{p} = \bar{x}/s^{2}$.
+      \item Cuando $r \to \infty$, la Binomial Negativa colapsa a la distribución Poisson.
     \end{itemize}
   \end{alertblock}
 \end{frame}
 
-% Slide 5: Detección de Sobredispersión
-\begin{frame}{Detección de Sobredispersión: Índice de Dispersión $D = s^{2}/\bar{x}$}
-  \footnotesize
-  La \emph{sobredispersión} ocurre cuando la varianza muestral excede la media muestral, violando el supuesto de equidispersión de Poisson. El diagnóstico estándar es el \emph{índice de dispersión}: \pause
-
-  \vspace{0.1cm}
-  \begin{block}{Estadístico de Diagnóstico}
-    $$D = \dfrac{s^{2}}{\bar{x}}, \quad \text{con } s^{2} = \dfrac{1}{n-1}\sum_{i=1}^{n}(x_{i} - \bar{x})^{2}$$
-    Bajo $H_{0}$: Poisson (equidispersión), $D \approx 1$. La regla práctica:
-  \end{block}
-
-  \vspace{0.1cm}
-  \pause
-  \begin{alertblock}{Interpretación del Cociente de Dispersión}
-    \begin{itemize}\itemsep=0.05cm
-      \item $D \approx 1$: equidispersión; Poisson es adecuada.
-      \item $D > 1.5$: sobredispersión fuerte; se recomienda Binomial Negativa o regresión de Poisson con varianza robusta.
-      \item $D < 0.8$: sub-dispersión; considerar distribución de Conway-Maxwell-Poisson.
-    \end{itemize}
-  \end{alertblock}
-\end{frame}
-
-% Slide 6: Binomial Negativa como Alternativa
-
-% Slide 7: Criterios de Información
+% Slide 6: Criterios de Información
 \begin{frame}{Criterios de Información: AIC y BIC para Selección de Modelos}
   \footnotesize
   Para comparar modelos con diferente número de parámetros, los criterios de información penalizan la complejidad: \pause
