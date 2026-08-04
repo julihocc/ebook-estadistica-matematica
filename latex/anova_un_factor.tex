@@ -1,6 +1,6 @@
 \section{Experimentos con un factor: análisis de varianza}
 
-El \textbf{Análisis de Varianza de un factor} (o ANOVA completamente aleatorizado) se utiliza cuando deseamos comparar las medias poblacionales de $k$ tratamientos (o niveles de un único factor) habiendo asignado al azar $N$ unidades experimentales de forma que cada tratamiento $i$ cuenta con $n_i$ réplicas ($N = \sum_{i=1}^k n_i$).
+El \textbf{Análisis de Varianza de un factor} (o ANOVA completamente aleatorizado) se utiliza cuando deseamos comparar las medias poblacionales de $k$ tratamientos (o niveles de un único factor) habiendo asignado al azar $N$ unidades experimentales de forma que cada tratamiento $i$ cuenta con $n_i$ réplicas ($N = \sum_{i=1}^k n_i$). Como se explicó en la sección anterior, comparar $k>2$ medias mediante $\binom{k}{2}$ pruebas $t$ por pares infla severamente la tasa de error Tipo I global; el ANOVA evita esta inflación ejecutando una única prueba global (\emph{omnibus}) que particiona la varianza total observada en componentes ortogonales, manteniendo la tasa de error Tipo I exacta en $\alpha$.
 
 \subsection{Modelo estadístico lineal paramétrico}
 
@@ -24,6 +24,16 @@ Bajo esta formulación, el objetivo fundamental del ANOVA de un factor es contra
 	H_0&: \tau_1 = \tau_2 = \ldots = \tau_k = 0 \quad \Longleftrightarrow \quad \mu_1 = \mu_2 = \ldots = \mu_k, \\
 	H_a&: \tau_i \neq 0 \text{ para al menos un tratamiento } i \quad (\text{al menos una media poblacional difiere}).
 \end{align}
+
+\subsection{Supuestos estadísticos del ANOVA}
+
+Para que el estadístico $F$ paramétrico siga exactamente la distribución teórica $F$ de Snedecor, los datos observados deben satisfacer estrictamente tres supuestos distribucionales:
+\begin{enumerate}
+	\item \textbf{Normalidad:} los residuos $\epsilon_{ij} = Y_{ij} - \bar{Y}_{i.}$ se distribuyen normalmente dentro de cada grupo de tratamiento en la población ($Y_{ij} \sim N(\mu_i, \sigma^2)$). Este supuesto se evalúa formalmente mediante gráficos de probabilidad normal (Q-Q) sobre los residuos, la \textbf{Prueba de Shapiro-Wilk} o la prueba de Kolmogorov-Smirnov. Por el Teorema del Límite Central, el ANOVA es robusto ante desviaciones moderadas de la normalidad cuando los tamaños de muestra son grandes y balanceados.
+	\item \textbf{Homoscedasticidad (homogeneidad de varianza):} las $k$ poblaciones de tratamiento poseen varianza de error intrínseca idéntica ($\sigma_1^2 = \sigma_2^2 = \ldots = \sigma_k^2 = \sigma^2$). Es el supuesto más crítico; una heteroscedasticidad severa combinada con tamaños de muestra desbalanceados distorsiona fuertemente la tasa de error Tipo I. Se contrasta formalmente mediante la \textbf{Prueba de Levene}, la prueba de Brown-Forsythe (robusta ante la no-normalidad) o la \textbf{Prueba de Bartlett} (muy sensible a violaciones de normalidad). Si se viola, deben emplearse el \textbf{ANOVA de Welch} o transformaciones estabilizadoras de varianza (como $\ln Y$ o $\sqrt{Y}$).
+	\item \textbf{Independencia de los errores:} los términos de error aleatorio $\epsilon_{ij}$ son mutuamente independientes ($\text{Cov}(\epsilon_{ij}, \epsilon_{i'j'}) = 0$ para todo $(i,j) \neq (i',j')$). Este supuesto se garantiza metodológicamente mediante una aleatorización adecuada durante la ejecución del experimento. Su violación (por ejemplo, autocorrelación temporal o agrupamiento espacial) subestima severamente la varianza del error residual ($\text{CME}$), produciendo rechazos falsos positivos espurios.
+\end{enumerate}
+Cuando la normalidad se viola de forma severa (asimetría extrema, datos atípicos), la alternativa no paramétrica basada en rangos es la \textbf{Prueba de Kruskal-Wallis}.
 
 \subsection{Descomposición fundamental de la suma de cuadrados}
 

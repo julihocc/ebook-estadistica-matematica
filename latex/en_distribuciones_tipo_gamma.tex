@@ -43,11 +43,43 @@ We write $X \sim \text{Gamma}(\alpha, \beta)$.
  \s_X^2 &= \alpha\beta^2.
 \end{align}
 
-\subsubsection{Special Case: Exponential Distribution (Revisited)}
+\subsection{Exponential Distribution}
 
-As defined earlier in this chapter, the exponential distribution with parameter
-$\lambda$ (see \eqref{eq:2.8.8}) corresponds exactly to the special case
-$\text{Gamma}(1, \beta)$ of the gamma family, with $\lambda = 1/\beta$. This
+The exponential distribution models the waiting time until the occurrence of an event
+when events occur continuously and independently at a constant rate (for example, the
+time between calls arriving at a call center, or the lifetime of an electronic component
+until its first failure).
+
+\begin{definicion}[Exponential Distribution]
+A continuous random variable $X$ has an \emph{exponential distribution} with rate
+parameter $\lambda > 0$ if its density function is
+\begin{align}
+ \label{eq:2.8.8}
+ f(x) =
+ \begin{cases}
+  \lambda\,e^{-\lambda x}, & x \geq 0, \\
+  0, & \text{otherwise.}
+ \end{cases}
+\end{align}
+We write $X \sim \text{Exp}(\lambda)$.
+\end{definicion}
+
+{Properties of the exponential distribution} If $X \sim \text{Exp}(\lambda)$, then
+\begin{align}
+ \mu_X &= \frac{1}{\lambda}, \\
+ \s_X^2 &= \frac{1}{\lambda^2}.
+\end{align}
+
+\begin{observacion}[Memoryless Property]
+The exponential distribution satisfies the \emph{memoryless property}: for $s, t \geq 0$,
+\begin{align}
+ P(X > s + t \mid X > s) = P(X > t).
+\end{align}
+It is the only continuous distribution (along with the geometric distribution in the discrete case) possessing this property.
+\end{observacion}
+
+The exponential distribution with parameter $\lambda$ corresponds exactly to the special
+case $\text{Gamma}(1, \beta)$ of the gamma family, with $\lambda = 1/\beta$. This
 identification explains, among other things, why the sum of $n$ independent
 exponentials with the same rate follows a Gamma distribution, as shown below.
 
@@ -252,45 +284,3 @@ Since $\beta = 2 > 1$, the failure rate $h(t) = \frac{2}{5}\left(\frac{t}{5}\rig
 as it ages.
 \end{solucion}
 
-\subsection{Exponential Distribution}
-
-The exponential distribution models the waiting time until the occurrence of an event
-when events occur continuously and independently at a constant rate (for example, the
-time between calls arriving at a call center, or the lifetime of an electronic component
-until its first failure).
-
-\begin{definicion}[Exponential Distribution]
-A continuous random variable $X$ has an \emph{exponential distribution} with rate
-parameter $\lambda > 0$ if its density function is
-\begin{align}
- \label{eq:2.8.8}
- f(x) =
- \begin{cases}
-  \lambda\,e^{-\lambda x}, & x \geq 0, \\
-  0, & \text{otherwise.}
- \end{cases}
-\end{align}
-We write $X \sim \text{Exp}(\lambda)$.
-\end{definicion}
-
-{Properties of the exponential distribution} If $X \sim \text{Exp}(\lambda)$, then
-\begin{align}
- \mu_X &= \frac{1}{\lambda}, \\
- \s_X^2 &= \frac{1}{\lambda^2}.
-\end{align}
-
-\begin{observacion}[Memoryless Property]
-The exponential distribution satisfies the \emph{memoryless property}: for $s, t \geq 0$,
-\begin{align}
- P(X > s + t \mid X > s) = P(X > t).
-\end{align}
-It is the only continuous distribution (along with the geometric distribution in the discrete case) possessing this property.
-\end{observacion}
-
-\begin{observacion}
-Later in this chapter, when we study the gamma-type distributions, we will see that the
-exponential distribution is exactly the special case $\alpha=1$ of the
-$\text{Gamma}(\alpha,\beta)$ distribution, with $\lambda = 1/\beta$ — a relationship
-that lets us generalize several of its properties (for instance, the sum of $n$
-independent exponentials with the same rate follows a Gamma/Erlang distribution).
-\end{observacion}
