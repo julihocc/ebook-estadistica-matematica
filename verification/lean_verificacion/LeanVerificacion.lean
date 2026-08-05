@@ -1,3 +1,7 @@
 import LeanVerificacion.Calibracion
 import LeanVerificacion.FundamentosProbabilidad
 import LeanVerificacion.FundamentosProbabilidadProblemas
+import LeanVerificacion.TecnicasDeConteo
+import LeanVerificacion.TecnicasDeConteoProblemas
+import LeanVerificacion.ProbabilidadCondicional
+import LeanVerificacion.ProbabilidadCondicionalProblemas

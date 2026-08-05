@@ -3,6 +3,7 @@
 **Herramienta:** Lean 4.32.2 / Mathlib (pin `v4.32.2`), proyecto en `verification/lean_verificacion/`, cross-checks numéricos en `verification/scipy/`.
 **Alcance de esta entrada:** Piloto — `latex/fundamentos_de_probabilidad.tex` + `latex/fundamentos_de_probabilidad(p).tex` (ES). No se verifica EN de forma independiente: los archivos `en_*` son traducciones verbatim (mismas etiquetas hex, mismos números), así que se comparan por diff textual en vez de re-probarse.
 **Metodología:** cada lema transcribe la afirmación del libro con sus propios números/pasos tal como están escritos — no se demuestra "la versión correcta" y se compara a ojo. Un `norm_num`/`ring`/`decide` que no cierra *es* el hallazgo. Ver `C:\Users\julih\.claude\plans\we-re-going-to-work-vivid-quail.md` para el plan completo.
+**Regla de encadenamiento (obligatoria desde el capítulo `probabilidad_condicional`):** toda cantidad **derivada** de otras (no un dato original del problema) se liga con `let` en el enunciado del lema y se **reutiliza** en los pasos posteriores — nunca se re-escribe su valor numérico literal. Un valor que el libro **da explícitamente** (no lo deriva) obtiene su propio conjunto de verificación aunque sea matemáticamente equivalente a algo derivable (p.ej. si el libro dice "$P(A')=3/8$" en vez de solo "$1-5/8$", se verifica `PAc = 3/8` como conjunto separado). Sin esto, un lema puede "cerrar" simplemente porque se re-escribieron a mano los mismos números correctos en cada paso, sin que Lean haya comprobado realmente que un paso se sigue del anterior — verificado empíricamente: `example : let x := (1:ℚ)/3; let y := x + x; y = 2/3 ∧ y = 1 := by norm_num` falla en el segundo conjunto tal como se espera, confirmando que `norm_num` sí atraviesa los `let` en vez de ignorarlos.
 
 ---
 
@@ -74,12 +75,91 @@ Ningún error matemático encontrado en las 6 soluciones de este archivo.
 
 Ejecutado para este piloto (no solo asumido por la política general): comparación de **todas** las etiquetas `\label{<prefijo>:...}` (`thm:`, `prob:`, `eq:`, etc. — patrón `label\{[a-z]+:[^}]*\}`, no solo `thm:`/`prob:`) y de literales numéricos (`grep`+`diff`) entre `latex/fundamentos_de_probabilidad.tex` ↔ `latex/en_fundamentos_de_probabilidad.tex`, y entre `latex/fundamentos_de_probabilidad(p).tex` ↔ `latex/en_fundamentos_de_probabilidad(p).tex`. Resultado: **todas las etiquetas (incluyendo las `eq:*` de las 15 ecuaciones numeradas del capítulo y las 2 del archivo de problemas) coinciden exactamente y los literales numéricos coinciden exactamente** en ambos pares de archivos — sin divergencias. No se requiere corrección EN para este capítulo. Usar el patrón `label\{[a-z]+:[^}]*\}` (no solo `thm:`/`prob:`) en las siguientes entradas — una etiqueta `eq:` renumerada o eliminada en el lado EN es una clase de divergencia real que un patrón más estrecho no vería.
 
-## Estado del build
+---
 
-`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3001/3001 jobs, sin `sorry`, sin errores.** Solo advertencias de estilo (linter de Mathlib sobre encabezados de copyright / `import Mathlib.Tactic` amplio — no aplican a un proyecto downstream y se dejan como están). 24 teoremas en total: 4 en `Calibracion.lean`, 11 en `FundamentosProbabilidad.lean`, 9 en `FundamentosProbabilidadProblemas.lean`.
+## Capítulo: `tecnicas_de_conteo` (teoría)
 
-Nota técnica para las siguientes entradas: el primer intento con `import Mathlib` (todo el paquete) falló en Windows por una limitación de longitud de ruta del sistema de archivos al construir ~12 archivos de Mathlib no relacionados (CategoryTheory/AlgebraicTopology, rutas de compilación muy largas). Solución: importar solo los módulos de Mathlib realmente necesarios (`Mathlib.Tactic`, `Mathlib.Data.Set.Lattice`, `Mathlib.Data.Real.Basic`, etc.) en vez de `import Mathlib`. Esto también reduce el tiempo de build de forma drástica (no compila los ~8600 archivos de Mathlib, solo los ~3000 de los que depende transitivamente lo que se importa). Usar este patrón de aquí en adelante.
+1 `teorema` (principio de multiplicación), 2 `definicion`es (permutación `eq:conteo.2`, combinación `eq:conteo.3`) con propiedades asociadas, y 4 ejemplos numéricos resueltos (`exmp:conteo.1`–`.4`). Formalizado en `verification/lean_verificacion/LeanVerificacion/TecnicasDeConteo.lean` vía `Fintype.card_prod`, `Nat.descFactorial` y `Nat.choose` de Mathlib — todo aritmética exacta de naturales/racionales, sin necesidad de análisis real.
+
+| Label | Afirmación | Tier | Estado |
+|---|---|---|---|
+| Principio de multiplicación (teorema) | $\lvert\alpha\times\beta\rvert = \lvert\alpha\rvert\cdot\lvert\beta\rvert$ (instancia general) | B | ✅ Cierra (`Fintype.card_prod`) |
+| `exmp:conteo.1` | $4\times 6\times 3=72$ menús | A | ✅ Cierra |
+| `eq:conteo.2`/`exmp:conteo.2` | $P(8,3)=8\times7\times6=336$, vía `descFactorial` y vía $8!/(8-3)!$ | A | ✅ Cierra, ambas formas coinciden |
+| `eq:conteo.3` (definición general) | $\binom{n}{r}=\frac{n!}{r!(n-r)!}$ | B | ✅ Cierra (`Nat.choose_mul_factorial_mul_factorial`) |
+| Simetría, casos extremos | $\binom{n}{r}=\binom{n}{n-r}$; $\binom{n}{0}=\binom{n}{n}=1$ | B | ✅ Cierran |
+| `exmp:conteo.3` | $\binom{10}{4}=210$ | A | ✅ Cierra |
+| `exmp:conteo.4` | Flor en póker: $\binom{52}{5}=2{,}598{,}960$, $\binom{13}{5}=1{,}287$, $4\times1{,}287=5{,}148$, $P\approx0.00198$ | A | ✅ Cierra (tolerancia $10^{-5}$ porque el libro usa $\approx$) |
+
+**No formalizado (Tier D, prosa/no cuantitativo):** "teorema del binomio" mencionado como propiedad del coeficiente binomial (coeficiente de $x^r y^{n-r}$ en $(x+y)^n$) — es una afirmación cualitativa correcta y bien conocida (`add_pow` en Mathlib), no se formalizó por no ser el foco de una demostración o cálculo específico del capítulo.
+
+Ningún error matemático encontrado.
+
+## Capítulo: `tecnicas_de_conteo` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/TecnicasDeConteoProblemas.lean`.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:6369f2a` (Recordar) | Enunciar fórmulas en prosa | — | No formalizable más allá de lo ya cubierto en la teoría |
+| `prob:4f6f981` (Comprender) | $5\times4\times2=40$ menús | A | ✅ Cierra |
+| `prob:490657c` (Aplicar) | $P(10,3)=720$, $\binom{10}{3}=120$, $P(10,3)=3!\times\binom{10}{3}$ | A | ✅ Cierra |
+| `prob:d8ce0cf` (Analizar) | $\binom{5}{2}\times\binom{5}{2}=100$ comités | A | ✅ Cierra |
+| `prob:3007304` (Evaluar) | El estudiante confunde $\binom{8}{3}=56$ con $P(8,3)=336$; en efecto $336=6\times56\neq56$ | A | ✅ Cierra — confirma que el razonamiento del estudiante (evaluado como incorrecto por el libro) es efectivamente incorrecto |
+| `prob:b53268b` (Crear) | Dos pares en póker: $\binom{13}{2}\times\binom{4}{2}^2\times\binom{11}{1}\times\binom{4}{1}=123{,}552$, $P\approx0.0475$ | A | ✅ Cierra (tolerancia $10^{-4}$) |
+
+Ningún error matemático encontrado en las 6 soluciones de este archivo.
+
+### Verificación EN por diff
+
+Etiquetas (`grep`+`diff` sobre `label\{[a-z]+:[^}]*\}`): coinciden exactamente en teoría y en problemas. Literales numéricos: coinciden exactamente en el archivo de problemas; en el archivo de teoría hay **una divergencia aparente** (ES tiene un "3" de más) que se investigó y resultó ser un **falso positivo de traducción, no un error matemático**: la línea 50 dice en ES *"tomados de $3$ en $3$"* (repite el numeral, fraseo idiomático) mientras que EN dice *"taken $3$ at a time"* (lo menciona una sola vez) — mismo valor $P(8,3)$ en ambos, solo difiere el estilo de la frase. Se documenta aquí para que futuras entradas no se alarmen ante el mismo patrón de "3 aparece dos veces en ES, una vez en EN" en frases tipo "de $r$ en $r$".
+
+---
+
+## Capítulo: `probabilidad_condicional` (teoría)
+
+2 `teorema`s activos (`thm:2.4.1` regla de la cadena de 3 eventos, `thm:2.4.2` probabilidad total), 1 `definicion` (probabilidad condicional), y un ejemplo numérico (canicas). Formalizado en `verification/lean_verificacion/LeanVerificacion/ProbabilidadCondicional.lean`, reutilizando la estructura `Axiomas` y los teoremas de `FundamentosProbabilidad`.
+
+**Observación de contenido (no es un error matemático):** el archivo del libro incluye un bloque `\begin{teorema}[Teorema de Bayes] ... \end{teorema}` **comentado** (líneas 105-112, inactivo, no se compila) a pesar de que la sección se titula *"Probabilidad condicional y regla de Bayes"*. El teorema de Bayes en sí vive en el siguiente capítulo del libro, `teorema_de_bayes.tex`. Esto es consistente y no requiere corrección, pero se documenta aquí por si el título de la sección genera expectativas de contenido que en realidad está diferido.
+
+| Label | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `definicion` (prob. condicional) | $P(B\mid A)=P(A\cap B)/P(A)$ y $P(A\cap B)=P(A)P(B\mid A)$ | B | ✅ Cierra (`condicional`, `cond_mul_eq_inter` — la segunda igualdad se probó **incondicionalmente**, incluso cuando $P(A)=0$, vía monotonía+no-negatividad) |
+| `thm:2.4.1` | $P(A_1\cap A_2\cap A_3)=P(A_1)P(A_2\mid A_1)P(A_3\mid A_1\cap A_2)$ | B | ✅ Cierra (dos aplicaciones de `cond_mul_eq_inter`) |
+| `thm:2.4.2` | $P(A)=\sum_i P(A_i)P(A\mid A_i)$ para partición $S=\bigsqcup A_i$ | B | ✅ Cierra (reutiliza `thm_2_2_8` de `FundamentosProbabilidad`) |
+| Ejemplo canicas (sin label) | $P(E_1\cap E_2')=\frac{3}{5}\times\frac{2}{4}=\frac{6}{20}$, $P(E_2'\mid E_1)=\frac12$ | A | ✅ Cierra |
+
+Ningún error matemático encontrado.
+
+## Capítulo: `probabilidad_condicional` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/ProbabilidadCondicionalProblemas.lean`. Todos tratados como aritmética directa de números dados (mismo estilo que usa el libro — no se construyó un espacio muestral discreto completo para Monty Hall ni para el problema médico, se trabajó directamente con las probabilidades condicionales como datos, igual que el libro).
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:8794f31` (Recordar) | $P(A\mid B)=0.60$, $P(B\mid A)=0.50$, $P(A\cap B')=0.30$, $P(A\mid B')=0.60$ | A | ✅ Cierra |
+| `prob:cf929e4` (Comprender) | Urna 5R/3A sin reemplazo: $P(A')=3/8$ (dato del libro, verificado por separado); $P(B)=(4/7)(5/8)+(5/7)(3/8)=5/8=P(A)$ | A | ✅ Cierra |
+| `prob:52e63a3` (Aplicar) | $P(D)=0.065$; $P(A\mid D)=7/13$ exacto, $\approx0.5385$ | A | ✅ Cierra (igualdad exacta + tolerancia $10^{-4}$) |
+| `prob:8a7282b` (Analizar), parte 2 | 4 cartas de palos distintos: $1\times\frac{39}{51}\times\frac{26}{50}\times\frac{13}{49}\approx0.1055$ | A | ✅ Cierra (tolerancia $10^{-4}$) |
+| `prob:c840e8f` (Evaluar) | Monty Hall: $P(A_3)=1/2$ (encadenado, no re-escrito); $P(C_1\mid A_3)=1/3$ (mantener); $P(C_2\mid A_3)=2/3$ (cambiar) | A | ✅ Cierra |
+| `prob:4241cab` (Crear) | Falacia de tasa base: $P(D')=0.99$ (dato del libro, verificado por separado); $P(+)=0.1085$; $P(D\mid+)\approx0.0876$ | A | ✅ Cierra (tolerancia $10^{-4}$) |
+
+**No formalizado (Tier B, no intentado):** `prob:8a7282b` parte 1 pide la inducción general de la regla de la cadena para $n$ eventos arbitrarios. El caso $n=3$ ya está cubierto por `thm_2_4_1`, y el caso concreto $n=4$ usado en la parte 2 es una instancia directa (dos aplicaciones más de `cond_mul_eq_inter`), pero la inducción simbólica general sobre $n$ no se formalizó — factible pero de mayor esfuerzo, no crítico dado que ambos casos concretos que el libro realmente usa ya están verificados.
+
+Ningún error matemático encontrado en las 6 soluciones de este archivo.
+
+### Verificación EN por diff
+
+Etiquetas y literales numéricos (`grep`+`diff`, ambos patrones) coinciden exactamente entre ES y EN, tanto en teoría como en problemas — sin divergencias, ni siquiera falsos positivos de traducción esta vez.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3005/3005 jobs, sin `sorry`, sin errores ni advertencias de linter propias del proyecto** (solo las de estilo genéricas de Mathlib que no aplican aquí). 47 teoremas en total: 4 en `Calibracion.lean`, 11 en `FundamentosProbabilidad.lean`, 9 en `FundamentosProbabilidadProblemas.lean`, 8 en `TecnicasDeConteo.lean`, 5 en `TecnicasDeConteoProblemas.lean`, 4 en `ProbabilidadCondicional.lean`, 6 en `ProbabilidadCondicionalProblemas.lean`.
+
+Nota técnica acumulada: (1) nunca usar `import Mathlib` completo en Windows — falla por longitud de ruta en ~12 archivos no relacionados y compila ~8600 archivos innecesarios; importar solo los módulos específicos necesarios. (2) la notación postfix `!` de `Nat.factorial` causa errores de parseo poco claros combinada con `*`/`/`; usar `Nat.factorial n` explícito. (3) para afirmaciones "≈" del libro, probar una cota de tolerancia explícita (`|x - valor_libro| < ε`) en vez de intentar igualdad exacta.
 
 ## Próximos pasos
 
-Sujeto a tu aprobación: continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere tu aprobación explícita por hallazgo.
+**Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
+
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `teorema_de_bayes` (0 teoremas formales detectados en el escaneo inicial por `grep`, pero el conteo de entornos no es señal suficiente — el archivo se leerá completo porque probablemente contiene el Teorema de Bayes real que `probabilidad_condicional.tex` dejó comentado, posiblemente como `definicion` o `align` sin entorno formal) y su par `(p)`. Después, retomar los 5 capítulos saltados arriba. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo.
