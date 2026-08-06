@@ -9,4 +9,3 @@ import LeanVerificacion.TeoremaDeBayes
 import LeanVerificacion.TeoremaDeBayesProblemas
 import LeanVerificacion.MuestreoAleatorio
 import LeanVerificacion.MuestreoAleatorioProblemas
-import LeanVerificacion.VariablesAleatorias
