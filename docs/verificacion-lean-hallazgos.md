@@ -390,8 +390,54 @@ Nota técnica nueva de este capítulo: (1) `Nat.multinomial s f` (definido como 
 
 ---
 
+## Capítulo: `distribucion_geometrica_binomial_negativa` (teoría)
+
+Sin entornos `teorema`, pero contiene las afirmaciones generales más analíticamente sustanciales de todo el proyecto hasta ahora: series geométricas **infinitas** (`tsum`), no sumas finitas. Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionGeometricaBinomialNegativa.lean`, vía la maquinaria de series geométricas de Mathlib (`hasSum_geometric_of_norm_lt_one`, `hasSum_coe_mul_geometric_of_norm_lt_one`, `hasSum_choose_mul_geometric_of_norm_lt_one`).
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:2.10.13` — vendedor $p=0.2$: $P(X=5)=0.08192$; $\mu=1/p=5$ | A | ✅ Cierra |
+| `exmp:2.10.15` — examen $r=3,p=0.3$: $P(X=4)=\binom62(0.3)^3(0.7)^4\approx0.0972$ | A | ✅ Cierra |
+| Cola geométrica $P(X>m)=(1-p)^m$ | B | ✅ Cierra (`cola_geometrica`, serie geométrica desplazada, sin lema de reindexado aparte) |
+| **Pérdida de memoria** $P(X>m+n\mid X>m)=P(X>n)$ | B | ✅ Cierra (`perdida_memoria`, cociente de colas) |
+| $\mu_X=1/p$ (geométrica) | B | ✅ Cierra (`esperanza_geometrica`, vía `hasSum_coe_mul_geometric_of_norm_lt_one` + `hasSum_geometric_of_norm_lt_one`) |
+| Normalización de la binomial negativa ($\sum$ PMF $=1$) | B | ✅ Cierra (`suma_normalizada_binomial_negativa`, vía `hasSum_choose_mul_geometric_of_norm_lt_one` con $k:=r-1$ — coincide exactamente con el patrón de `eq:2.10.10`) |
+
+**No formalizado — Tier D:** $\sigma^2_X=(1-p)/p^2$ (geométrica) y $\mu_X=r(1-p)/p$, $\sigma^2_X=r(1-p)/p^2$ (binomial negativa). Requerirían un segundo momento de la serie geométrica ($\sum k^2q^k$ o $\sum k\binom{k+m}{m}q^k$), que Mathlib no empaqueta directamente y que necesitaría además reindexar `tsum` con un desplazamiento de 2 (extendiendo con ceros los primeros términos) — factible, de esfuerzo notablemente mayor al resto del capítulo. La media de la geométrica (caso base $r=1$) ya está verificada.
+
+Ningún error matemático encontrado en las afirmaciones formalizadas.
+
+## Capítulo: `distribucion_geometrica_binomial_negativa` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionGeometricaBinomialNegativaProblemas.lean`.
+
+**Observación de convención (no es un error matemático):** `prob:6ccfa13` usa $X$ = número de *ensayos* hasta el $r$-ésimo éxito (soporte $\{r,r+1,\dots\}$), mientras que `eq:2.10.10` de la teoría usa $X$ = número de *fracasos* antes del $r$-ésimo éxito (soporte $\{0,1,2,\dots\}$) — las dos parametrizaciones estándar de la binomial negativa (difieren por $X_\text{ensayos}=X_\text{fracasos}+r$), cada una internamente consistente donde se usa, pero el libro nunca señala el cambio de convención entre teoría y este problema. `prob:4c2c37d` también usa la convención de "ensayos" ($E[X]=r/p$).
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:287fdc5` (Recordar) | Recordar la PMF geométrica | — | No formalizado por separado, ya cubierto en la teoría |
+| `prob:0ebda90` (Comprender) | $P(X>8\mid X>5)=P(X>3)$ ($m=5,n=3$) | B | ✅ Cierra — instancia directa de `perdida_memoria`, no una nueva verificación |
+| `prob:6ccfa13` (Aplicar) | Auditoría $r=3,p=0.10$: $P(X=20)=\binom{19}{2}(0.10)^3(0.90)^{17}\approx0.0285$ | A | ✅ Cierra |
+| `prob:a4a72f3` (Analizar) | FGM de la geométrica y binomial negativa | D | ⚠️ No formalizado — otra serie geométrica infinita (en $e^t$, con condición de convergencia adicional $t<-\ln q$) más la noción de FGM como objeto formal, que el proyecto no ha construido |
+| `prob:ca5c4c8` (Evaluar) | Índice de dispersión $s^2/\bar x=4.2$; $\hat p\approx0.2381$, $\hat r\approx1$ | A | ✅ Cierra |
+| `prob:4c2c37d` (Crear) | $r=4,p=0.15$ (convención "ensayos"): $E[X]\approx26.67$, $\mathrm{Var}(X)\approx151.11$, $\sigma\approx12.29$ | A | ✅ Cierra — $\sigma$ verificado con una cota exacta de raíz cuadrada (`Real.lt_sqrt`/`Real.sqrt_lt'`, mismo patrón que `distribucion_binomial`), no Tier C |
+
+Ningún error matemático encontrado en las partes formalizables de las 6 soluciones de este archivo.
+
+### Verificación EN por diff
+
+Etiquetas y literales numéricos coinciden exactamente entre ES y EN, tanto en teoría como en problemas — sin divergencias.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3021/3021 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionGeometricaBinomialNegativa.lean` (6 teoremas) y `DistribucionGeometricaBinomialNegativaProblemas.lean` (4 teoremas) además de los 17 archivos previos.
+
+Nota técnica nueva de este capítulo (primero con series infinitas, `tsum`/`HasSum`, en vez de `Finset.sum`): (1) `hasSum_geometric_of_norm_lt_one` y variantes piden `‖·‖<1`; en ℝ, una hipótesis probada como `|x|<1` **no** unifica automáticamente con `‖x‖<1` para `rw`/aplicación directa (error "Application type mismatch") — hay que declarar la hipótesis ya en la forma `‖x‖<1` desde el inicio (`rw [Real.norm_eq_abs, abs_lt]` al probarla), no convertir después. (2) para combinar/transformar sumas infinitas, encadenar combinadores `HasSum.add`/`HasSum.mul_left`/`HasSum.mul_right` y cerrar el reordenamiento de cada término con un `have heq : (fun k => ...) = (fun k => ...) := by funext k; ring` explícito es mucho más robusto que `simp_rw [tsum_mul_left, tsum_mul_right]` o `convert ... using 1` — estos últimos fallan silenciosamente o dejan metas de `AddCommMonoid`/`Finset.sum` mal formadas cuando el término tiene más de dos factores o el orden de multiplicación no coincide exactamente con el lema. (3) al mezclar restas de `ℕ` en exponentes (`r-1+1`) con `field_simp`, preferir reescribir el exponente a su forma reducida (`rw [hr1]` con `hr1 : r-1+1=r`) **antes** de `field_simp`, no después — de lo contrario `field_simp` puede normalizar de una forma que deja una meta de igualdad de exponentes de `ℕ` sin cerrar.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_geometrica_binomial_negativa`. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo. **Dos hallazgos nuevos de este capítulo pendientes de decisión del usuario sobre corrección:** la fórmula sin factorial de `eq:2.10.8`, y el valor numérico incorrecto de `prob:33bf5d2` ($4.32\times10^{-18}$ debería ser $\approx0.0047908$).
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_hipergeometrica`. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados, aún no resueltos):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico incorrecto de `prob:33bf5d2` (capítulo `distribucion_multinomial`).
