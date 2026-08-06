@@ -347,8 +347,51 @@ Nota técnica nueva de este capítulo: (1) `Finset.sum_range_succ'` (que pela el
 
 ---
 
+## Capítulo: `distribucion_multinomial` (teoría)
+
+Capítulo corto: una fórmula (`eq:2.10.8`) y un ejemplo resuelto. Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionMultinomial.lean`.
+
+**🔴 Hallazgo confirmado — error de fórmula, idéntico en ES y EN (no es divergencia de traducción, es la misma fuente compartida):** `eq:2.10.8` afirma $f(x_1,\dots,x_k)=\dfrac{x_1+\cdots+x_k}{x_1!\cdots x_k!}p_1^{x_1}\cdots p_k^{x_k}$ — al numerador **le falta el signo de factorial**; la PMF multinomial correcta es $\dfrac{(x_1+\cdots+x_k)!}{x_1!\cdots x_k!}p_1^{x_1}\cdots p_k^{x_k}$. Confirmado por el propio libro: `exmp:2.10.6`, inmediatamente después, usa $12!$ (no $12$) en el numerador, y la solución de `prob:2499194` en el archivo de problemas da la fórmula correcta con factorial. Es decir, el libro **usa** la fórmula correcta en la práctica pero la **escribe** mal en `eq:2.10.8`. No corregido en este pase (regla del proyecto).
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:2.10.6` — dado lanzado 12 veces, cada cara exactamente dos veces: $P=\frac{12!}{(2!)^6}(1/6)^{12}\approx0.00344$ | A | ✅ Cierra (usa la fórmula *correcta*, con factorial) |
+| Normalización general de la PMF multinomial ($\sum$ sobre composiciones $=1$ cuando $\sum p_i=1$) | B | ✅ Cierra (`suma_normalizada_multinomial`, vía el teorema multinomial de Mathlib `Finset.sum_pow_eq_sum_piAntidiag`, instanciado en $1^n=1$) — generaliza la fórmula corregida a $k$ categorías arbitrarias |
+
+## Capítulo: `distribucion_multinomial` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionMultinomialProblemas.lean`.
+
+**🔴 Hallazgo confirmado — error numérico grande, verificado independientemente antes de escribir la prueba (con `Python`/`fractions.Fraction`, luego confirmado por Lean/`norm_num`):** `prob:33bf5d2` afirma $P(X_1{=}50,X_2{=}30,X_3{=}20)\approx4.32\times10^{-18}$ para $\bm X\sim\mathrm{Mult}(100;0.45,0.35,0.20)$. **El valor correcto es $P\approx0.0047908$ — el libro está equivocado por un factor de $\sim10^{42}$.** Dato curioso que sugiere la causa: $p_1^{50}=(0.45)^{50}\approx4.58\times10^{-18}$, muy cercano al valor (incorrecto) que da el libro — consistente con que la solución haya calculado solo esa potencia aislada y omitido el coeficiente multinomial (que es enorme, $\approx4.75\times10^{42}$) y los otros dos factores de probabilidad.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:2499194` (Recordar) | Recordar la fórmula de la PMF (con factorial, correcta) | — | No formalizado por separado, ya cubierto por `suma_normalizada_multinomial` |
+| `prob:97df06e` (Comprender) | Explicación en prosa de por qué $\mathrm{Cov}(X_i,X_j)<0$ | — | No formalizable (argumento verbal) |
+| `prob:33bf5d2` (Aplicar) | $P(X_1{=}50,X_2{=}30,X_3{=}20)\approx4.32\times10^{-18}$ | A | 🔴 **Refutado** (`prob_33bf5d2_libro_incorrecto`) y valor correcto confirmado por separado (`prob_33bf5d2_valor_correcto`, $P\approx0.0047908$) — mismo patrón que la calibración del método |
+| `prob:277341a` (Analizar) | $\mathrm{Cov}(X_i,X_j)=-np_ip_j$ vía indicadoras | D | ⚠️ No formalizado — requiere covarianza entre *dos componentes distintas* de un vector aleatorio, no solo la varianza de una variable escalar vía su PMF; ni siquiera la capa `VariablesAleatorias.lean` lo cubre (esa modela solo muestras i.i.d. independientes) |
+| `prob:81748ff` (Evaluar) | Evaluación conceptual que depende de `prob:277341a` | D | No formalizable (depende del resultado Tier D anterior + prosa) |
+| `prob:858a3a8` (Crear) | Call center $k=4$, $n=50$, $p_1=0.4$: $E[X_1]=20$, $\mathrm{Var}(X_1)=12$ | A | ✅ Cierra — reutiliza directamente `esperanza_binomial`/`varianza_binomial` de `DistribucionBinomial.lean` (la marginal de una multinomial es binomial), validación cruzada entre capítulos |
+
+### Infeasibles / Tier D (no formalizados en este capítulo)
+
+- `prob:277341a`/`prob:81748ff` — covarianza entre componentes de un vector multinomial: requiere modelar variables indicadoras correlacionadas y su covarianza, infraestructura que el proyecto no ha construido (distinta de la capa de esperanza de muestras i.i.d. en `VariablesAleatorias.lean`).
+- `prob:bae56b2` (capítulo anterior, `distribucion_binomial`) sigue pendiente por la misma clase de razón — ver arriba.
+
+### Verificación EN por diff
+
+Etiquetas y literales numéricos coinciden exactamente entre ES y EN — incluyendo que **ambos idiomas comparten el mismo `4.32e-18` incorrecto** en `prob:33bf5d2` y la misma fórmula sin factorial en `eq:2.10.8`, confirmando que son errores de la fuente compartida, no introducidos en la traducción.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3019/3019 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionMultinomial.lean` (2 teoremas) y `DistribucionMultinomialProblemas.lean` (1 def + 3 teoremas) además de los 15 archivos previos. Construido íntegramente en este worktree.
+
+Nota técnica nueva de este capítulo: (1) `Nat.multinomial s f` (definido como `(∑ f)! / ∏ (f i)!`, división de ℕ) sobre un `Finset` pequeño no se reduce a un literal con `norm_num [Nat.multinomial, Nat.factorial]` — el cociente queda simbólico. Para coeficientes multinomiales concretos, escribir los factoriales explícitos directamente (`Nat.factorial 100 / (Nat.factorial 50 * ...)`, sin pasar por `Nat.multinomial`/`Finset`) sí se reduce limpiamente, incluso para números tan grandes como $100!$ (~15s de cómputo, nada prohibitivo). (2) al aislar qué conjunto de una conjunción es falso, `refine ⟨?_,?_,...⟩ <;> norm_num` deja ver el número exacto del `case refine_N` que falla — esta vez sí era un error real del libro, no una cota mal calibrada (contraste con `prob:c3d2032` del capítulo anterior). (3) verificar independientemente con Python (`fractions.Fraction` para aritmética exacta) *antes* de escribir la prueba de Lean, cuando un resultado de `norm_num` da `⊢ False` inesperado — más rápido que iterar a ciegas en Lean, y da la cifra correcta a la que apuntar con la tolerancia.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo.
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_geometrica_binomial_negativa`. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo. **Dos hallazgos nuevos de este capítulo pendientes de decisión del usuario sobre corrección:** la fórmula sin factorial de `eq:2.10.8`, y el valor numérico incorrecto de `prob:33bf5d2` ($4.32\times10^{-18}$ debería ser $\approx0.0047908$).
