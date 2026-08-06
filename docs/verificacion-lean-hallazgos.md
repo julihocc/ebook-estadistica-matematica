@@ -255,12 +255,54 @@ Esto **retroactivamente resuelve a Tier B** las fórmulas generales $E(\bar X)=\
 2. Relocalizar este worktree a una ruta más corta (p. ej. `git worktree move` a algo como `C:\w\ad26`) — sin cambios de código ni de `lakefile.toml`, pero desplaza el checkout activo de esta sesión.
 3. Verificar si el repo principal sin el sufijo `.worktrees\<rama>` (p. ej. tras el merge a `main`) queda lo bastante corto (~221 caracteres calculados hasta el mismo archivo, sin verificar empíricamente) para que este problema no reaparezca ahí.
 
-**Hallazgo de higiene de repo, separado de lo anterior:** el commit `2027a28` ("Adds random-variable inference foundation", HEAD de esta rama) quedó con `lakefile.toml` conteniendo `packagesDir = "C:/lake_pkgs"` (ruta absoluta específica de esta máquina, de un intento de solución descartado) y con el import roto — un clon nuevo de este commit no compila. La corrección ya está en el árbol de trabajo (sin commitear); pendiente de aprobación del usuario para commitear.
+**Hallazgo de higiene de repo, separado de lo anterior — corregido y commiteado:** el commit `2027a28` ("Adds random-variable inference foundation") había quedado con `lakefile.toml` conteniendo `packagesDir = "C:/lake_pkgs"` (ruta absoluta específica de esta máquina) y un import roto — un clon nuevo de ese commit no compilaba. Corregido en el commit `8c59360` ("Fix broken Lean verification build at HEAD"); la capa de esperanza/varianza probada quedó en el commit `3e8cf83` ("Prove the random-variable expectation/variance layer"). HEAD compila de nuevo desde un clon limpio.
+
+---
+
+## Capítulo: `variables_aleatorias_discretas` (teoría)
+
+Sin entornos `teorema`. Formalizado en `verification/lean_verificacion/LeanVerificacion/VariablesAleatoriasDiscretas.lean`. Construido enteramente en este worktree (sin necesidad del worktree temporal de ruta corta) porque ninguna afirmación de este capítulo requiere `MeasureTheory`/`ProbabilityTheory.variance` — todas las variables aleatorias tienen soporte finito explícito, así que esperanza/varianza son sumas finitas ponderadas por `Finset.sum`, no medidas.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:2.6.2` — dos lanzamientos de moneda: $P(X=0)=1/4$, $P(X=1)=1/2$, $P(X=2)=1/4$ | A | ✅ Cierra (cardinalidades por `decide` sobre `Bool × Bool`, no citadas a mano) |
+| `exmp:2.6.3` — suma de dos dados: las 11 cardinalidades de la tabla ($x=2,\dots,12$: $1,2,3,4,5,6,5,4,3,2,1$) | A | ✅ Cierra (`decide` sobre `Fin 6 × Fin 6`, 36 resultados) |
+| `exmp:2.6.4` — niños en familia de 3: cardinalidades $1,3,3,1$ (coinciden con $\binom{3}{0..3}$, confirma binomial $N=3,p=1/2$) | A | ✅ Cierra (`decide` sobre `Bool×Bool×Bool`) |
+| `eq:varianza_formula_corta` — identidad de König-Huygens $\mathrm{Var}(X)=E[X^2]-\mu^2$, forma general para soporte finito ponderado | B | ✅ Cierra (`konig_huygens`, álgebra pura de `Finset.sum`, sin `MeasureTheory`) |
+
+**No formalizado (prosa/gráficas, sin fórmula explícita en el texto):** `exmp:2.6.5`–`2.6.7` (funciones de distribución acumulada, solo descritas por figuras) y la observación sobre monotonía/continuidad por la derecha de la CDF — no hay una afirmación numérica concreta que verificar.
+
+Ningún error matemático encontrado.
+
+## Capítulo: `variables_aleatorias_discretas` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/VariablesAleatoriasDiscretasProblemas.lean`.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:2c27c8e` (Recordar) | $f(x)=cx^2$ en $\{1,2,3,4\}$: $c=1/30$; $P(X\ge3)=5/6$; $P(X\text{ par}\mid X\ge2)=20/29$ | A | ✅ Cierra |
+| `prob:9efeaae` (Comprender) | PMF $(0.40,0.30,0.20,0.10)$: $F(1)=0.70$; $P(\text{rechazo})=1-F(1)=0.30$ | A | ✅ Cierra |
+| `prob:c324c4f` (Aplicar) | PMF $(0.35,0.30,0.20,0.10,0.05)$: $\mu=1.20$, $E[X^2]=2.80$, $\mathrm{Var}(X)=1.36$ | A | ✅ Cierra |
+| `prob:cb2247c` (Analizar) | $c_N=(N+1)/N$ vía fracciones parciales/suma telescópica, $N$ arbitraria | B | ✅ Cierra — `telescoping_parcial` probado por inducción sobre `Finset.range`, no citado de memoria; `prob_cb2247c` lo reutiliza para $N\ge1$ |
+| `prob:d332420` (Evaluar) | $E[R]=42$, $\mathrm{Var}(R)=3216$; $\sigma_R\approx56.71$; $U=E[R]-1.25\sigma_R<0$ (rechazar licitación) | A/B | ✅ $E[R]$, $\mathrm{Var}(R)$ exactos (König-Huygens). $\sigma_R=\sqrt{3216}$ irracional — en vez de Tier C (`scipy`), se probó la cota exacta $56.70<\sigma_R<56.71$ en Lean (`Real.lt_sqrt`/`Real.sqrt_lt'`), suficiente para concluir $U<0$ formalmente sin salir de Lean |
+| `prob:e538b1b` (Crear) | Ejemplo del libro (tickets soporte técnico): PMF $(0.10,0.25,0.30,0.25,0.10)$; CDF $(0.10,0.35,0.65,0.90,1.00)$; $q_{0.75}=3$ | A | ✅ Cierra — se verificó la condición que define el cuantil ($F(2)<0.75\le F(3)$), no solo el resultado citado |
+
+Ningún error matemático encontrado en las 6 soluciones de este archivo.
+
+### Verificación EN por diff
+
+Etiquetas (`label\{[a-z]+:[^}]*\}`) y literales numéricos coinciden exactamente entre ES y EN, tanto en teoría como en problemas — sin divergencias.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3011/3011 jobs, sin `sorry`, sin errores.** Incluye ahora `VariablesAleatoriasDiscretas.lean` (4 teoremas) y `VariablesAleatoriasDiscretasProblemas.lean` (7 teoremas) además de los 11 archivos previos. Construido íntegramente en este worktree (sin necesidad del worktree temporal de ruta corta), a diferencia de `VariablesAleatorias.lean` (capa de esperanza sobre `MeasureTheory`, ver sección arriba) que sigue excluido del import por defecto por el límite de longitud de ruta.
+
+Nota técnica nueva de este capítulo: para identidades generales sobre `Finset.range` con recurrencia (aquí, la suma telescópica), inducción directa con `Finset.sum_range_succ` es más simple y robusta que buscar un lema de telescoping ya empaquetado en Mathlib — mismo principio que otros capítulos: preferir un paso de cómputo verificable a una cita no confirmada.
+
+---
 
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-**Decisión pendiente del usuario:** la capa de esperanza/varianza ya está construida y probada (ver sección arriba) — la decisión pendiente ahora es de **flujo de trabajo** (cómo compilarla en este worktree de ruta larga going forward), no de si construirla.
-
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `variables_aleatorias_discretas` (inicio del capítulo 3 del libro, distribuciones). Después, retomar los 5 capítulos saltados arriba. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo.
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo.
