@@ -11,3 +11,5 @@ import LeanVerificacion.MuestreoAleatorio
 import LeanVerificacion.MuestreoAleatorioProblemas
 import LeanVerificacion.VariablesAleatoriasDiscretas
 import LeanVerificacion.VariablesAleatoriasDiscretasProblemas
+import LeanVerificacion.DistribucionBinomial
+import LeanVerificacion.DistribucionBinomialProblemas

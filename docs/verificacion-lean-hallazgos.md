@@ -301,6 +301,52 @@ Nota técnica nueva de este capítulo: para identidades generales sobre `Finset.
 
 ---
 
+## Capítulo: `distribucion_binomial` (teoría)
+
+Sin entornos `teorema`, pero `eq:2.10.2`/`eq:2.10.3` ($\mu=Np$, $\sigma^2=Npq$) son las afirmaciones generales más sustanciales formalizadas hasta ahora fuera de la capa de esperanza — Tier B, probadas **desde la definición** $f(x)=\binom Nxp^xq^{N-x}$, sin citar un lema de media/varianza binomial ya empaquetado (Mathlib no tiene uno para `PMF.binomial`). Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionBinomial.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:2.10.1` — $\binom62(1/2)^2(1/2)^4=15/64$ | A | ✅ Cierra |
+| `exmp:2.10.2` — $P(X\ge4)=15/64+6/64+1/64=11/32\approx0.344$ para $\mathrm{Bin}(6,1/2)$ | A | ✅ Cierra |
+| `eq:2.10.2` — $E(X)=Np$ para $\mathrm{Bin}(N,p)$, $N$ arbitraria | B | ✅ Cierra (`esperanza_binomial`) — se elimina el término $x=0$, se reindexa y se aplica la identidad de absorción `absorcion_binomial` ($(i+1)\binom{M+1}{i+1}=(M+1)\binom Mi$, derivada de `Nat.add_one_mul_choose_eq` de Mathlib) más el teorema del binomio |
+| `eq:2.10.3` — $\mathrm{Var}(X)=Npq$ | B | ✅ Cierra (`varianza_binomial`), vía el segundo momento factorial $E[X(X-1)]=N(N-1)p^2$ (`momento_factorial_binomial`, absorción aplicada dos veces) y $\mathrm{Var}(X)=E[X(X-1)]+E[X]-E[X]^2$ |
+
+**No formalizado:** `exmp:2.10.3` (desarrollar $(p+q)^4$) solo referencia un script Python sin dar la expansión explícita en el texto del libro — nada que verificar ahí.
+
+Ningún error matemático encontrado.
+
+## Capítulo: `distribucion_binomial` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionBinomialProblemas.lean`.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:71ce5a0` (Recordar) | Recordar fórmulas de memoria (Bernoulli, $E(X)$, $\mathrm{Var}(X)$) | — | No formalizable más allá de la teoría (puro recordatorio, sin cálculo nuevo) |
+| `prob:1149be6` (Comprender) | Justificación en prosa de por qué el conteo da $\binom nk$ | — | No formalizable (argumento verbal, sin cálculo) |
+| `prob:c3d2032` (Aplicar) | $X\sim\mathrm{Bin}(12,0.15)$: $P(X\le2)\approx0.7358$; $P(X\ge4\mid X\ge1)\approx0.1075$ | A | ✅ Cierra — los 5 valores intermedios que el libro cita ($P(X{=}0..3)$, $P(X\le3)$) se verifican por separado, no solo el resultado final; $p=3/20$, $q=17/20$ son racionales exactos |
+| `prob:bae56b2` (Analizar) | Identidad de Vandermonde $\sum_j\binom{n_1}j\binom{n_2}{m-j}=\binom{n_1+n_2}m$; aditividad de $E$/$\mathrm{Var}$ bajo $Z=X+Y$ | B | ✅ Núcleo combinatorio cerrado (`vandermonde_binomial`, reindexado de `Nat.add_choose_eq` de Mathlib vía `Finset.Nat.sum_antidiagonal_eq_sum_range_succ`); aditividad de momentos cerrada (`prob_bae56b2_aditividad`, álgebra trivial). ⚠️ No formalizada la derivación completa PMF-convolución-es-binomial (requiere aritmética de exponentes con resta de ℕ solo en los términos no nulos de la suma) — ver "Infeasibles" abajo |
+| `prob:19f50da` (Evaluar) | Regla operativa $np\ge5$, $n(1-p)\ge5$ para $n=500,p=0.04$ ($np=20$, $n(1-p)=480$) | A | ✅ Cierra la parte cuantitativa. El resto (validez de la corrección de continuidad de Yates) es evaluación cualitativa en prosa, no formalizable |
+| `prob:3c14103` (Crear) | $X\sim\mathrm{Bin}(15,0.7)$: $E(X)=10.5$, $\mathrm{Var}(X)=3.15$ | A | ✅ Cierra |
+
+Ningún error matemático encontrado en las partes formalizables de las 6 soluciones de este archivo.
+
+### Infeasibles / Tier D (no formalizados en este capítulo)
+
+- `prob:bae56b2`, derivación completa de que la convolución de dos PMFs binomiales es la PMF binomial $\mathrm{Bin}(n_1+n_2,p)$: además del núcleo combinatorio (Vandermonde, sí verificado), requiere $p^jq^{n_1-j}\cdot p^{m-j}q^{n_2-(m-j)}=p^mq^{n_1+n_2-m}$ válido solo para los términos no nulos ($j\le n_1$, $m-j\le n_2$) — aritmética de exponentes con resta de ℕ condicionada, factible pero de esfuerzo notablemente mayor al resto del capítulo. El núcleo combinatorio y la aditividad de momentos (lo que el libro realmente usa para concluir) ya están verificados.
+
+### Verificación EN por diff
+
+Etiquetas y literales numéricos coinciden exactamente entre ES y EN, tanto en teoría como en problemas — sin divergencias.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3013/3013 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionBinomial.lean` (6 teoremas, incluye el helper `absorcion_binomial`/`suma_normalizada`) y `DistribucionBinomialProblemas.lean` (5 teoremas) además de los 13 archivos previos. Construido íntegramente en este worktree (sin necesidad del worktree temporal de ruta corta) — como `variables_aleatorias_discretas`, no toca `MeasureTheory.Moments.Variance`.
+
+Nota técnica nueva de este capítulo: (1) `Finset.sum_range_succ'` (que pela el término $x=0$, no el último) reindexa la suma restante como `f(x+1)`, cuyo cast `↑(x+1)` es sintácticamente distinto de `↑x+1` aunque sean iguales — hacer `push_cast` **antes** de escribir la hipótesis auxiliar que se usará con `Finset.sum_congr`/`rw`, y escribir esa hipótesis ya en la forma post-`push_cast`, o el `rw` falla por "did not find pattern" aunque la igualdad sea trivialmente cierta. (2) al pelar dos términos (`Finset.sum_range_succ'` dos veces, necesario para $E[X(X-1)]$), evitar `ring_nf` para limpiar los residuos numéricos — normaliza también el *interior* de la suma que se quiere dejar intacta; usar `simp only` con lemas específicos (`sub_self, zero_mul, mul_zero, add_zero`) tras `push_cast`. (3) para sumas con orden de multiplicación distinto al de un lema de Mathlib (aquí, `add_pow` da `x^m*y^{n-m}*n.choose m`, el libro usa `\binom Nx p^xq^{N-x}`), no forzar `rw` con el lema en un orden — probar la igualdad de sumas reordenadas término a término con `Finset.sum_congr rfl (fun i _ => by ring)`, más robusto que intentar que `rw` unifique multiplicaciones conmutadas.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
