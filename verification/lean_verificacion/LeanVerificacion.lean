@@ -5,3 +5,5 @@ import LeanVerificacion.TecnicasDeConteo
 import LeanVerificacion.TecnicasDeConteoProblemas
 import LeanVerificacion.ProbabilidadCondicional
 import LeanVerificacion.ProbabilidadCondicionalProblemas
+import LeanVerificacion.TeoremaDeBayes
+import LeanVerificacion.TeoremaDeBayesProblemas

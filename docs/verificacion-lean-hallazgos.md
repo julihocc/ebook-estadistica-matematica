@@ -152,14 +152,50 @@ Ningún error matemático encontrado en las 6 soluciones de este archivo.
 
 Etiquetas y literales numéricos (`grep`+`diff`, ambos patrones) coinciden exactamente entre ES y EN, tanto en teoría como en problemas — sin divergencias, ni siquiera falsos positivos de traducción esta vez.
 
+---
+
+## Capítulo: `teorema_de_bayes` (teoría)
+
+**Confirmación de la nota de "Próximos pasos" anterior:** el conteo de entornos `grep` reportó 0 `teorema` en este archivo, pero contiene el Teorema de Bayes real y sus dos generalizaciones, presentados íntegramente en prosa/`align` sin ningún `\begin{teorema}` explícito — se leyó el archivo completo en vez de confiar en el conteo, tal como se planeó. Formalizado en `verification/lean_verificacion/LeanVerificacion/TeoremaDeBayes.lean`, reutilizando `condicional`, `cond_mul_eq_inter` y `thm_2_4_2` de `ProbabilidadCondicional` — la reutilización directa confirma que el marco axiomático del piloto sí escala a capítulos posteriores.
+
+**Observación de terminología (no es un error matemático):** el libro llama "regla de la cadena" tanto a la fórmula multiplicativa de intersecciones (`thm:2.4.1` en `probabilidad_condicional.tex`) como, aquí, a la suma de probabilidad total $P(B)=\sum P(B|E_i)P(E_i)$ (línea 47) — dos resultados distintos que comparten nombre entre capítulos. Documentado para evitar confusión en referencias cruzadas futuras.
+
+| Afirmación (sin `teorema` explícito en el libro) | Tier | Estado |
+|---|---|---|
+| Bayes básico: $P(A\mid B)=P(A)P(B\mid A)/P(B)$ (líneas 3-16) | B | ✅ Cierra (`bayes_basico`) |
+| Generalización 2 eventos: $P(A\mid B)=\dfrac{P(A)P(B\mid A)}{P(B\mid A)P(A)+P(B\mid A')P(A')}$ (líneas 18-36) | B | ✅ Cierra (`bayes_dos_eventos` — orden del denominador verificado idéntico al del libro) |
+| Generalización partición de $k$ eventos: $P(E_j\mid B)=\dfrac{P(B\mid E_j)P(E_j)}{\sum_i P(B\mid E_i)P(E_i)}$ (líneas 38-57) | B | ✅ Cierra (`bayes_particion`, vía `thm_2_4_2`) |
+| Ejemplo 3 máquinas: $P(M_2\mid D)\approx0.3642$ | A | ✅ Cierra (tolerancia $10^{-4}$, numerador/denominador encadenados con `let`) |
+
+Ningún error matemático encontrado.
+
+## Capítulo: `teorema_de_bayes` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/TeoremaDeBayesProblemas.lean`.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:054ed26` (Recordar) | Dado 6 caras: $P(A)=0.5$; $P(A\mid I)=2/3$ | A | ✅ Cierra — cardinalidades contadas por `decide` sobre `Finset (Fin 6)`, no escritas a mano (única forma de detectar un conteo erróneo del libro) |
+| `prob:bde7784` (Comprender) | $P(Z)=0.12$; $P(M\mid Z)=0.50$ | A | ✅ Cierra |
+| `prob:e14faa0` (Aplicar) | $P(A)=0.72$; $P(E\mid A)=0.875$; $P(A')=0.28$; $P(E'\mid A')=0.75$ | A | ✅ Cierra |
+| `prob:a7e87e4` (Analizar) | Teorema de Bayes para partición finita general | B | ✅ **Citado, no re-demostrado** — es literalmente `TeoremaDeBayes.bayes_particion`; `prob_a7e87e4` es una referencia directa a ese teorema, no una segunda verificación independiente |
+| `prob:898898e` (Evaluar) | Falacia del Fiscal (momios): momios posteriores $=0.20$; $P(I\mid E)=1/6\approx0.1667$ | A | ✅ Cierra |
+| `prob:3bf9f42` (Crear) | Riesgo crediticio: $P(D)=0.0755$; vector posterior $\approx(0.1325,0.3709,0.4967)$ | A | ✅ Cierra (tolerancia $10^{-4}$ cada uno, $P(D)$ encadenado como denominador común) |
+
+Ningún error matemático encontrado en las 6 soluciones de este archivo.
+
+### Verificación EN por diff
+
+Etiquetas y literales numéricos coinciden exactamente entre ES y EN, tanto en teoría como en problemas — sin divergencias.
+
 ## Estado del build (acumulado)
 
-`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3005/3005 jobs, sin `sorry`, sin errores ni advertencias de linter propias del proyecto** (solo las de estilo genéricas de Mathlib que no aplican aquí). 47 teoremas en total: 4 en `Calibracion.lean`, 11 en `FundamentosProbabilidad.lean`, 9 en `FundamentosProbabilidadProblemas.lean`, 8 en `TecnicasDeConteo.lean`, 5 en `TecnicasDeConteoProblemas.lean`, 4 en `ProbabilidadCondicional.lean`, 6 en `ProbabilidadCondicionalProblemas.lean`.
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3007/3007 jobs, sin `sorry`, sin errores.** 57 teoremas en total: 4 en `Calibracion.lean`, 11 en `FundamentosProbabilidad.lean`, 9 en `FundamentosProbabilidadProblemas.lean`, 8 en `TecnicasDeConteo.lean`, 5 en `TecnicasDeConteoProblemas.lean`, 4 en `ProbabilidadCondicional.lean`, 7 en `ProbabilidadCondicionalProblemas.lean`, 4 en `TeoremaDeBayes.lean`, 6 en `TeoremaDeBayesProblemas.lean`.
 
-Nota técnica acumulada: (1) nunca usar `import Mathlib` completo en Windows — falla por longitud de ruta en ~12 archivos no relacionados y compila ~8600 archivos innecesarios; importar solo los módulos específicos necesarios. (2) la notación postfix `!` de `Nat.factorial` causa errores de parseo poco claros combinada con `*`/`/`; usar `Nat.factorial n` explícito. (3) para afirmaciones "≈" del libro, probar una cota de tolerancia explícita (`|x - valor_libro| < ε`) en vez de intentar igualdad exacta.
+Nota técnica acumulada: (1) nunca usar `import Mathlib` completo en Windows — falla por longitud de ruta y compila ~8600 archivos innecesarios; importar solo los módulos específicos. (2) evitar la notación postfix `!` de `Nat.factorial` combinada con `*`/`/`; usar `Nat.factorial n` explícito. (3) para afirmaciones "≈", probar una cota de tolerancia explícita. (4) **regla de encadenamiento** (ver arriba) — obligatoria en todo capítulo con derivaciones de varios pasos. (5) nuevo en este capítulo: encadenar rewrites con `rw [a, b, c]` donde una reescritura anterior (p.ej. `mul_comm`) puede destruir el patrón que una reescritura posterior necesita — si un `rw` de una hipótesis previamente probada falla con "did not find pattern" después de otros rewrites, probar aplicándolo primero o solo, no al final de la cadena.
 
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `teorema_de_bayes` (0 teoremas formales detectados en el escaneo inicial por `grep`, pero el conteo de entornos no es señal suficiente — el archivo se leerá completo porque probablemente contiene el Teorema de Bayes real que `probabilidad_condicional.tex` dejó comentado, posiblemente como `definicion` o `align` sin entorno formal) y su par `(p)`. Después, retomar los 5 capítulos saltados arriba. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo.
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `muestreo_aleatorio` (1 `teorema` detectado) y su par `(p)`. Después, retomar los 5 capítulos saltados arriba. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo.
