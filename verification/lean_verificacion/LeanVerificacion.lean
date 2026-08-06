@@ -7,3 +7,5 @@ import LeanVerificacion.ProbabilidadCondicional
 import LeanVerificacion.ProbabilidadCondicionalProblemas
 import LeanVerificacion.TeoremaDeBayes
 import LeanVerificacion.TeoremaDeBayesProblemas
+import LeanVerificacion.MuestreoAleatorio
+import LeanVerificacion.MuestreoAleatorioProblemas

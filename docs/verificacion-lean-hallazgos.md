@@ -194,8 +194,52 @@ Etiquetas y literales numéricos coinciden exactamente entre ES y EN, tanto en t
 
 Nota técnica acumulada: (1) nunca usar `import Mathlib` completo en Windows — falla por longitud de ruta y compila ~8600 archivos innecesarios; importar solo los módulos específicos. (2) evitar la notación postfix `!` de `Nat.factorial` combinada con `*`/`/`; usar `Nat.factorial n` explícito. (3) para afirmaciones "≈", probar una cota de tolerancia explícita. (4) **regla de encadenamiento** (ver arriba) — obligatoria en todo capítulo con derivaciones de varios pasos. (5) nuevo en este capítulo: encadenar rewrites con `rw [a, b, c]` donde una reescritura anterior (p.ej. `mul_comm`) puede destruir el patrón que una reescritura posterior necesita — si un `rw` de una hipótesis previamente probada falla con "did not find pattern" después de otros rewrites, probar aplicándolo primero o solo, no al final de la cadena.
 
+---
+
+## Capítulo: `muestreo_aleatorio` (teoría)
+
+**Primer capítulo donde predomina Tier D — capacidad faltante identificada, decisión pendiente del usuario.** El único `teorema` del archivo es el Teorema del Límite Central (TLC) mismo: convergencia en distribución, un resultado analítico sustancial (teoría de la medida / funciones características / convergencia débil) que el libro tampoco demuestra (solo lo enuncia) y que está muy por encima del esfuerzo razonable de este proyecto — **Tier D, no formalizado**. Las fórmulas generales $E(\bar X)=\mu$, $\mathrm{Var}(\bar X)=\sigma^2/n$ también quedan Tier D por la misma razón estructural: **el marco `Axiomas : Set Ω → ℝ` construido en el piloto modela probabilidades de *eventos*, no variables aleatorias reales con un operador de esperanza** — no hay manera de expresar "$E(\bar X)$" en el marco actual sin extenderlo. Esta misma carencia bloqueará `prob:0c980d4` y `prob:293fd20` de este capítulo, y previsiblemente la mayoría de los capítulos de estimación/inferencia que siguen (estimación puntual, errores estándar, intervalos de confianza, pruebas de hipótesis) construyen sobre esperanza/varianza de estadísticos. **Decisión pendiente:** construir una capa de variables aleatorias reales + esperanza sobre `MeasureTheory` de Mathlib (esfuerzo considerable, una vez, beneficia a todos los capítulos siguientes) vs. aceptar Tier D para esta clase de resultados en el resto del libro y limitar Lean a las partes puramente aritméticas/combinatorias de cada capítulo (como se ha hecho hasta ahora). No se tomó esta decisión unilateralmente; se documenta aquí para que el usuario la resuelva.
+
+Lo que sí se formalizó del ejemplo numérico del dado (Tier A, aritmética exacta de racionales):
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| $\mu=(1+2+\dots+6)/6=3.5$ | A | ✅ Cierra |
+| $\sigma^2=\frac{\sum(i-3.5)^2}{6}=35/12\approx2.917$ | A | ✅ Cierra (suma exacta de los 6 términos, no solo el resultado citado) |
+| $\mathrm{Var}(\bar X)=\sigma^2/36=35/432\approx0.081$ (para $n=36$) | A | ✅ Cierra |
+| Puntajes $Z=\mp1.76$ y $P(3.0<\bar X<4.0)\approx0.921$ | C | ✅ Confirmado numéricamente, `verification/scipy/muestreo_aleatorio/tlc_dado.py` (Mathlib no tiene CDF normal computable) |
+
+Ningún error matemático encontrado.
+
+## Capítulo: `muestreo_aleatorio` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/MuestreoAleatorioProblemas.lean`.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:c0cebb4` (Recordar) | $\sigma_{\bar X}=12/\sqrt n$ para $n=9,36,144,576$: $4.00,2.00,1.00,0.50$ | A | ✅ Cierra — se usó `Real.sqrt n` literalmente (no $3,6,12,24$ ya calculados a mano), para que un $n$ incorrecto en el libro pudiera detectarse |
+| `prob:116017b` (Comprender) | $6^3=216$ (con reemplazo); $\binom{6}{3}=20$ (sin reemplazo) | A | ✅ Cierra. Parte 3 (límite $N\to\infty$): prosa/argumento asintótico, Tier D, no formalizado |
+| `prob:2da8cc3` (Aplicar) | $n=(1.96\times8/1.5)^2\approx109.27$; $n_{\text{mín}}=110$ | A | ✅ Cierra (tolerancia $10^{-2}$ + comparación exacta $109<n\le110$) |
+| `prob:0c980d4` (Analizar) | $\sum(X_i-\bar X)^2=\sum(X_i-\mu)^2-n(\bar X-\mu)^2$ (identidad algebraica previa a aplicar $E[\cdot]$) | B | ✅ **Sí se formalizó** (`descomposicion_varianza`, pura álgebra de `Finset.sum`) — el paso final de aplicar $E[\cdot]$ para concluir $E(S^2)=\sigma^2$ queda Tier D (ver nota de capacidad faltante arriba) |
+| `prob:293fd20` (Evaluar) | Cauchy: $E(X)$ no existe; $\bar X_n\sim\text{Cauchy}(0,1)$ para todo $n$ (función característica) | D | ⚠️ No formalizado — requiere integración de Lebesgue / funciones características, fuera de alcance |
+| `prob:b7567ec` (Crear) | Tornillos: $\sigma_{\bar X}=0.5/\sqrt{64}=0.0625$; $z_1=-1.6,z_2=1.6$; $P\approx0.8904$ | A/C | ✅ Cierra la parte A (`Real.sqrt 64` literal, no el $8$ ya calculado); parte C confirmada numéricamente en `verification/scipy/muestreo_aleatorio/tornillos.py` |
+
+Ningún error matemático encontrado en las partes formalizables de las 6 soluciones de este archivo.
+
+### Verificación EN por diff
+
+Etiquetas coinciden exactamente. Literales numéricos: **una divergencia aparente, investigada y confirmada como falso positivo de formato, no error matemático** — ES escribe "1000" (individuos) sin separador de miles, EN escribe "1,000" (convención tipográfica del inglés). Mismo valor. Documentado para no repetir la investigación si reaparece el mismo patrón en otro capítulo.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3009/3009 jobs, sin `sorry`, sin errores.** 65 teoremas en total: 4 en `Calibracion.lean`, 11 en `FundamentosProbabilidad.lean`, 9 en `FundamentosProbabilidadProblemas.lean`, 8 en `TecnicasDeConteo.lean`, 5 en `TecnicasDeConteoProblemas.lean`, 4 en `ProbabilidadCondicional.lean`, 7 en `ProbabilidadCondicionalProblemas.lean`, 4 en `TeoremaDeBayes.lean`, 6 en `TeoremaDeBayesProblemas.lean`, 2 en `MuestreoAleatorio.lean`, 6 en `MuestreoAleatorioProblemas.lean` (incluye `descomposicion_varianza`, reutilizable en capítulos de estimación futuros: varianza muestral, ANOVA, etc.).
+
+Nota técnica acumulada: (1) nunca usar `import Mathlib` completo en Windows. (2) evitar la notación postfix `!` de `Nat.factorial`. (3) para afirmaciones "≈", probar una cota de tolerancia explícita. (4) **regla de encadenamiento** — obligatoria en toda derivación de varios pasos. (5) cuidado con el orden de `rw` en cadena. (6) nuevo en este capítulo: para valores $\sigma/\sqrt n$ con $n$ cuadrado perfecto, usar `Real.sqrt n` literal (vía `Real.sqrt_sq` tras reescribir $n$ como un cuadrado) en vez de escribir a mano la raíz ya calculada — mismo principio de encadenamiento aplicado a raíces cuadradas.
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `muestreo_aleatorio` (1 `teorema` detectado) y su par `(p)`. Después, retomar los 5 capítulos saltados arriba. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo.
+**Decisión pendiente del usuario (ver arriba):** ¿construir una capa de variables aleatorias/esperanza sobre `MeasureTheory`, o aceptar Tier D para resultados de esperanza/varianza de estadísticos en el resto del libro?
+
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `variables_aleatorias_discretas` (inicio del capítulo 3 del libro, distribuciones). Después, retomar los 5 capítulos saltados arriba. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo.
