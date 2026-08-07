@@ -946,8 +946,42 @@ Etiquetas: sin divergencias. Literales numéricos: diff bruto ruidoso por subín
 
 ---
 
+## Capítulo: `distribucion_muestral_t` (teoría)
+
+Definición de $t_\nu$, propiedades, IC con $\sigma$ desconocida. La definición/densidad/`eq:5.4.1` son Tier D (dependen de `distribucion_muestral_chi_cuadrada`, ya Tier D). Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionMuestralT.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:5.4.1` — $\bar X=48.5,S=3.2,n=9$: $\mathrm{SE}=3.2/3$, margen $t$ $\approx2.46$, margen $z$ $\approx2.09$, IC $[46.04,50.96]$ vs. $[46.41,50.59]$ | A/C | ✅ Cierra (`exmp_5_4_1`); cuantiles $t_{8,0.025}\approx2.306$, $z_{0.025}=1.96$ confirmados, `verification/scipy/distribucion_muestral_t/numeric_checks.py` |
+
+Ningún error matemático encontrado en la teoría.
+
+## Capítulo: `distribucion_muestral_t` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionMuestralTProblemas.lean`. `prob:3de3320` (Recordar) y `prob:03aebae` (Comprender) son conceptuales.
+
+**🔴 Un hallazgo confirmado:**
+- `prob:c34507c`: la solución afirma que la suma de desviaciones al cuadrado de $\{8.2,7.9,8.5,8.1,7.8,8.3\}$ es "aproximadamente $0.3033$", pero el valor **exacto** es $1/3\approx0.3333$ — verificado con `fractions.Fraction` en Python antes de escribir la prueba de Lean. El error (~$0.03$) se propaga a $S^2$ ($1/15\approx0.0667$, no $\approx0.0607$), $S$ ($\approx0.2582$, no $\approx0.246$), el error estándar ($\approx0.1054$, no $\approx0.1004$), el margen ($\approx0.271$, no $\approx0.258$) y el intervalo de confianza final: **$[7.862,8.404]$ correcto, vs. $[7.875,8.391]$ del libro**. Presente idéntico en `en_distribucion_muestral_t(p).tex` (mismo $S\approx0.246$, mismo IC $[7.875,8.391]$) — confirma fuente compartida, no error de traducción.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:e378132` (Aplicar) | $\{23,25,21,27,24\}$: $\bar X=24$, $S^2=5$, $\mathrm{SE}=1$ exacto, IC $=[21.224,26.776]$ | A | ✅ Cierra (`prob_e378132`); cuantil $t_{4,0.025}\approx2.776$ confirmado, mismo script |
+| `prob:7943b46` (Analizar) | $\Var(T)=\nu\cdot1\cdot1/(\nu-2)=\nu/(\nu-2)$, general (dado como hipótesis $E(Z^2)=1$, $E(1/\chi^2_\nu)=1/(\nu-2)$) | A | ✅ Cierra (`prob_7943b46`) |
+| `prob:bbda1fa` (Evaluar) | Error relativo $(2.093-1.96)/1.96\approx6.8\%$ | A | ✅ Cierra (`prob_bbda1fa`) |
+| `prob:c34507c` (Crear) | Suma de desviaciones al cuadrado | A | 🔴 Ver hallazgo arriba (`prob_c34507c_hallazgo`) |
+
+### Verificación EN por diff
+
+Etiquetas: sin divergencias. Confirmado manualmente (spot-check dirigido, sin diff automático por ruido de notación $t_{\nu,\alpha}$) que `exmp:5.4.1` y `prob:e378132` coinciden exactamente entre ES y EN; `prob:c34507c` comparte el mismo error en ambos idiomas (ver hallazgo).
+
+## Estado del build (acumulado)
+
+`lake build`: **✅ éxito, 3456/3456 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionMuestralT.lean` (1 teorema) y `DistribucionMuestralTProblemas.lean` (4 teoremas) además de los 45 archivos previos, más `verification/scipy/distribucion_muestral_t/numeric_checks.py`.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_muestral_t`. Commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos diez capítulos procesados desde entonces (`variables_discretas_ciencia_datos` hasta `distribucion_muestral_chi_cuadrada`) añadió hallazgos nuevos.
+Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_muestral_f`. Commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica); y el de `distribucion_muestral_t` (`prob:c34507c`, suma de cuadrados $0.3033$ vs. $0.3333$, con la cascada de valores derivados incorrectos que implica). Ninguno de los demás nueve capítulos procesados desde `variables_discretas_ciencia_datos` añadió hallazgos nuevos.
