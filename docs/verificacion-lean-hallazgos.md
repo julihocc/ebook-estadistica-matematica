@@ -782,8 +782,33 @@ Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos 
 
 ---
 
+## Capítulo: `funcion_generadora_momentos` (teoría + problemas)
+
+Cierra la Unidad 3 del temario. Definición de FGM, teorema de momentos-vía-derivadas, teorema de unicidad, teorema de suma, y ejemplos (Bernoulli, Normal, Exponencial). **Tier D, no formalizados:** el teorema de intercambio derivada/esperanza (general), el teorema de unicidad (resultado profundo del problema de momentos), y el teorema de suma para independientes (misma maquinaria `IndepFun` bloqueada por MAX_PATH desde `esperanza_matematica`). El ejemplo de la Normal reutiliza `DistribucionNormal.mgf_exponente` sin repetirlo. Formalizado en `verification/lean_verificacion/LeanVerificacion/FuncionGeneradoraMomentos.lean` (teoría) y `FuncionGeneradoraMomentosProblemas.lean` (problemas, sin teoremas propios — todo lo formalizable ya está cubierto por la teoría o es puramente conceptual).
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:2.8.4` — FGM Bernoulli$(p)$: $M_X'(t)=pe^t$, general | B | ✅ Cierra (`exmp_2_8_4_derivada`, vía `HasDerivAt`) |
+| `exmp:2.8.4` — $E[X]=p$, $E[X^2]=p$, $\mathrm{Var}(X)=p(1-p)$ | A | ✅ Cierra (`exmp_2_8_4_momentos`) |
+| `exmp:2.8.6` — FGM $\mathrm{Exp}(\lambda)$: $M_X(t)=\lambda/(\lambda-t)$, $t<\lambda$, general | B | ✅ Cierra (`exmp_2_8_6_mgf`, vía `integral_exp_mul_Ioi` de Mathlib) |
+| `prob:cf5e60c` — $M_{aX+b}(t)=e^{bt}M_X(at)$, general para cualquier densidad | B | ✅ Cierra (`prob_cf5e60c_general`) |
+| `prob:a48cc99` — FGM $U(0,1)$: $M_X(t)=(e^t-1)/t$, $t\ne0$, general | B | ✅ Cierra (`prob_a48cc99_mgf`, vía FTC) |
+| `prob:2c4cd93` — FGM Poisson: $M_X(t)=e^{\lambda(e^t-1)}$, $E[X]=\lambda$ | C/D | 🟡 No reproducido (misma técnica `tsum` de `distribucion_poisson`, resultado estándar no cuestionado) |
+
+Ningún error matemático encontrado.
+
+### Verificación EN por diff
+
+Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos los literales numéricos entre ES y EN da vacío en ambos.
+
+## Estado del build (acumulado)
+
+`lake build`: **✅ éxito, 3446/3446 jobs, sin `sorry`, sin errores.** Incluye ahora `FuncionGeneradoraMomentos.lean` (5 teoremas) y `FuncionGeneradoraMomentosProblemas.lean` (0 teoremas, documentación de alcance) además de los 35 archivos previos.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `funcion_generadora_momentos`. Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos cuatro capítulos (`variables_discretas_ciencia_datos`, `variables_aleatorias_continuas`, `distribucion_uniforme_continua`, `distribucion_normal`, `distribuciones_tipo_gamma`) añadió hallazgos nuevos.
+`funcion_generadora_momentos` cierra la Unidad 3 (Variables Aleatorias Continuas); próximo: `introduccion_estadistica_inferencial`, apertura de la Unidad 4 (Distribuciones de Muestreo). Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos cinco capítulos (`variables_discretas_ciencia_datos`, `variables_aleatorias_continuas`, `distribucion_uniforme_continua`, `distribucion_normal`, `distribuciones_tipo_gamma`, `funcion_generadora_momentos`) añadió hallazgos nuevos.

@@ -33,3 +33,5 @@ import LeanVerificacion.DistribucionNormal
 import LeanVerificacion.DistribucionNormalProblemas
 import LeanVerificacion.DistribucionesTipoGamma
 import LeanVerificacion.DistribucionesTipoGammaProblemas
+import LeanVerificacion.FuncionGeneradoraMomentos
+import LeanVerificacion.FuncionGeneradoraMomentosProblemas
