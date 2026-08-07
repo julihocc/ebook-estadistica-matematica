@@ -807,8 +807,51 @@ Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos 
 
 ---
 
+## Capítulo: `introduccion_estadistica_inferencial` (sin `(p)`)
+
+Abre la Unidad 4 del temario. Archivo puramente de prosa introductoria (definiciones de población/muestra/parámetro/estadístico, tipos de inferencia, fuentes de error) — **sin ninguna fórmula, número o entorno `teorema`/`ejemplo`/`definicion` formal que dé una afirmación matemática verificable.** No hay `(p)` asociado. No se creó ningún archivo Lean — no hay nada que formalizar. (Nota: `docs/revision-notas-2026-07-13.md` ya documentó que la sección "Estructura del capítulo" de este archivo promete 6 temas que en realidad pertenecen a 4 capítulos distintos — un problema de prosa/organización ya conocido, no un hallazgo nuevo de este pase.)
+
+## Capítulo: `transformacion_variables` (teoría)
+
+Teorema de transformación afín, teorema de cambio de variable (caso monótono), tres ejemplos (Pareto vía exponencial, log-normal, arcoseno). Formalizado en `verification/lean_verificacion/LeanVerificacion/TransformacionVariables.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `eq:3.2.1`/`eq:3.2.2` — $\mu_Y=a\mu_X+b$, $\sigma_Y^2=a^2\sigma_X^2$ | B | Instancias directas de `EsperanzaMatematica.linealidad`/`var_escalar`, no reproducidas |
+| `eq:3.2.1` (CDF) — equivalencia de orden $ax+b\le y\iff x\le(y-b)/a$, $a>0$ | A | ✅ Cierra (`transformacion_afin_orden`) |
+| `eq:3.2.3` — cambio de variable monótono (regla de la cadena), general | B | ✅ Cierra (`cambio_variable_monotono`, vía `HasDerivAt.comp`) |
+| `exmp:3.2.2` — $Y=e^X$, $X\sim\mathrm{Exp}(1)$: $f_Y(y)=e^{-\ln y}/y=1/y^2$ | B | ✅ Cierra (`exmp_3_2_2_pareto`) |
+| `exmp:3.2.4` — arcoseno: suma de dos contribuciones simétricas $=1/(\pi\sqrt{1-y^2})$ | A | ✅ Cierra (`exmp_3_2_4_arcoseno`, álgebra; el hecho $d/dy\arcsin y=1/\sqrt{1-y^2}$ en sí es estándar de Mathlib) |
+
+Ningún error matemático encontrado.
+
+## Capítulo: `transformacion_variables` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/TransformacionVariablesProblemas.lean`. `prob:d3727e9` (Recordar) y `prob:fbf2d01` (Comprender) son conceptuales, sin cálculo.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:d795060` (Aplicar) | $N(5,4)$, $Y=3X-2$: $\mu_Y=13$, $\sigma_Y^2=36$ | A | ✅ Cierra (`prob_d795060`) |
+| `prob:182603c` (Analizar) | $\mathrm{Exp}(\lambda)$, $Y=\sqrt X$: $f_Y(y)=2\lambda y\,e^{-\lambda y^2}$ (Weibull) | A | ✅ Cierra (`prob_182603c`) |
+| `prob:5ce800e` (Evaluar) | Corrección caso no monótono $Y=X^2$: $f_Y(y)=1/(2\sqrt y)$, el doble del resultado incompleto | A | ✅ Cierra (`prob_5ce800e`) |
+| `prob:12a4921` (Crear) | $U(0,1)$, $Y=-\ln X$: $f_Y(y)=e^{-y}$ ($\mathrm{Exp}(1)$) | A | ✅ Cierra (`prob_12a4921`) |
+
+Ningún error matemático encontrado — todos los valores/fórmulas del capítulo coinciden con el libro.
+
+### Verificación EN por diff
+
+Sin divergencias en ninguno de los archivos (`introduccion_estadistica_inferencial`, `transformacion_variables` teoría y problemas): `diff` de etiquetas y de todos los literales numéricos entre ES y EN da vacío en todos.
+
+## Estado del build (acumulado)
+
+`lake build`: **✅ éxito, 3448/3448 jobs, sin `sorry`, sin errores.** Incluye ahora `TransformacionVariables.lean` (5 teoremas) y `TransformacionVariablesProblemas.lean` (4 teoremas) además de los 37 archivos previos.
+
+**Nota técnica:** `HasDerivAt.comp` vive en `Mathlib.Analysis.Calculus.Deriv.Comp`, un archivo **distinto** de `Mathlib.Analysis.Calculus.Deriv.Basic` (que solo tiene la API base de `HasDerivAt`, no la regla de la cadena) — importar solo `Deriv.Basic` y llamar `.comp` produce un error de elaboración confuso ("Type mismatch... `(HasDerivAt ∘ ?m)`", como si `.comp` se interpretara como composición de funciones en vez de proyección de campo) en vez de un claro "unknown identifier". Además, `x` es un argumento **explícito** (no implícito) en `HasDerivAt.comp (x) (hh₂) (hh)` — hay que darlo posicionalmente antes de las dos hipótesis de derivada.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-`funcion_generadora_momentos` cierra la Unidad 3 (Variables Aleatorias Continuas); próximo: `introduccion_estadistica_inferencial`, apertura de la Unidad 4 (Distribuciones de Muestreo). Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos cinco capítulos (`variables_discretas_ciencia_datos`, `variables_aleatorias_continuas`, `distribucion_uniforme_continua`, `distribucion_normal`, `distribuciones_tipo_gamma`, `funcion_generadora_momentos`) añadió hallazgos nuevos.
+Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribuciones_funciones_variable_aleatoria`. Commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos siete capítulos procesados desde entonces (`variables_discretas_ciencia_datos` hasta `transformacion_variables`) añadió hallazgos nuevos.

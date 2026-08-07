@@ -35,3 +35,5 @@ import LeanVerificacion.DistribucionesTipoGamma
 import LeanVerificacion.DistribucionesTipoGammaProblemas
 import LeanVerificacion.FuncionGeneradoraMomentos
 import LeanVerificacion.FuncionGeneradoraMomentosProblemas
+import LeanVerificacion.TransformacionVariables
+import LeanVerificacion.TransformacionVariablesProblemas
