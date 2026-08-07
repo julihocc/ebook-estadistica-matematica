@@ -746,8 +746,44 @@ Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos 
 
 ---
 
+## Capítulo: `distribuciones_tipo_gamma` (teoría)
+
+Capítulo muy amplio: función gamma, distribución Gamma, Exponencial como caso particular, chi-cuadrada, teorema de suma de gammas, Beta, Weibull. Mucho contenido definicional/enumerativo y varios resultados analíticos genuinamente pesados (función gamma, momentos de Gamma/Weibull vía integrales impropias, convolución para la suma de gammas) — **Tier D, no formalizados**, razones documentadas en el doc-comment del archivo Lean (Mathlib sí tiene `Real.Gamma` y lemas asociados, pero dado el patrón de esta sesión de paquetes bloqueados por MAX_PATH, no se priorizó encadenar el paquete completo frente a los valores numéricos concretos). Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionesTipoGamma.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:2.8.3` — Erlang(3, tasa 3): suma interior $1+4.5+20.25/2=15.625$ | A | ✅ Cierra (`exmp_2_8_3_suma`) |
+| `exmp:2.8.3`, decimal | $P(T>1.5)=e^{-4.5}\cdot15.625\approx0.174$ | C | ✅ Confirmado, `verification/scipy/distribuciones_tipo_gamma/numeric_checks.py` |
+| `exmp:2.8.7` — $\mathrm{Beta}(2,8)$: $E(X)=0.2$, $\mathrm{Var}(X)=16/1100\approx0.0145$ | A | ✅ Cierra (`exmp_2_8_7`) |
+| `exmp:2.8.8` — Weibull(2,5): exponente $(3/5)^2=0.36$ exacto | A | ✅ Cierra (`exmp_2_8_8_exponente`) |
+| `exmp:2.8.8`, decimal | $F(3)=1-e^{-0.36}\approx0.3023$ | C | ✅ Confirmado, mismo script |
+
+Ningún error matemático encontrado.
+
+## Capítulo: `distribuciones_tipo_gamma` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionesTipoGammaProblemas.lean`. `prob:f00c4b6` (Recordar) y `prob:de365e8` (Comprender) son conceptuales, sin cálculo. `prob:6b498ea` (Analizar) parte 1 es sustitución trivial de parámetros en una fórmula ya dada, no formalizada aparte; parte 2 depende del teorema Tier D de suma de gammas.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:491786c` (Aplicar) | $\mathrm{Beta}(6,4)$: $E(X)=0.6$, $\mathrm{Var}(X)=24/1100\approx0.0218$ | A | ✅ Cierra (`prob_491786c`) |
+| `prob:0f44096` (Evaluar) | Weibull($\beta=1,\eta=10$) vs. ($\beta=2,\eta=10$): $h_A=0.1$; $h_B(5)=0.1$, $h_B(15)=0.3$ | A | ✅ Cierra (`prob_0f44096`) |
+| `prob:31a003b` (Crear) | $\mathrm{Exp}(\lambda=4)$: $E[X]=0.25\,\mathrm{h}=15\,\mathrm{min}$ | A | ✅ Cierra (`prob_31a003b`) |
+
+Ningún error matemático encontrado — todos los valores numéricos del capítulo (teoría + problemas) coinciden con el libro.
+
+### Verificación EN por diff
+
+Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos los literales numéricos (enteros y decimales) entre ES y EN da vacío en ambos.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3434/3434 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionesTipoGamma.lean` (3 teoremas) y `DistribucionesTipoGammaProblemas.lean` (3 teoremas) además de los 33 archivos previos, más `verification/scipy/distribuciones_tipo_gamma/numeric_checks.py`.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribuciones_tipo_gamma`. Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. Los tres hallazgos de `esperanza_matematica` (`exmp:2.9.1` \$30 vs \$60, `prob:f43c638` fórmula $1/\lambda^2$ vs $2/\lambda^2$, `prob:7b147c4` $n=100$ vs $n=101$) **ya fueron corregidos** en ES y EN. **Hallazgos aún pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ni `variables_discretas_ciencia_datos`, `variables_aleatorias_continuas`, `distribucion_uniforme_continua`, ni `distribucion_normal` añadieron hallazgos nuevos.
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `funcion_generadora_momentos`. Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos cuatro capítulos (`variables_discretas_ciencia_datos`, `variables_aleatorias_continuas`, `distribucion_uniforme_continua`, `distribucion_normal`, `distribuciones_tipo_gamma`) añadió hallazgos nuevos.

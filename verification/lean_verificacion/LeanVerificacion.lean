@@ -31,3 +31,5 @@ import LeanVerificacion.DistribucionUniformeContinua
 import LeanVerificacion.DistribucionUniformeContinuaProblemas
 import LeanVerificacion.DistribucionNormal
 import LeanVerificacion.DistribucionNormalProblemas
+import LeanVerificacion.DistribucionesTipoGamma
+import LeanVerificacion.DistribucionesTipoGammaProblemas
