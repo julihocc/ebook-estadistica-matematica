@@ -478,8 +478,81 @@ Nota técnica nueva de este capítulo: (1) `norm_num [Nat.choose]` (que unfoldea
 
 ---
 
+## Capítulo: `distribucion_poisson` (teoría)
+
+Capítulo largo y heterogéneo: PMF de Poisson, relación binomial-Poisson, introducción a la distribución normal, relación binomial-normal, percentiles, y una subsección "Problemas Resueltos" con varios ejemplos (z-scores, distribución normal de béisbol, etc.) que **no dan valores numéricos explícitos en el propio texto** — solo referencian scripts de Python sin mostrar el resultado inline. Esa subsección completa (más la introducción a la normal, percentiles y la relación binomial-normal) no tiene ninguna afirmación numérica propia del libro que verificar — se documenta como observación de alcance, no como Tier D (no hay una afirmación que rechazar formalizar, simplemente no hay afirmación). Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionPoisson.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `eq:2.10.7` — normalización de la PMF, $\sum_{n=0}^\infty e^{-\lambda}\lambda^n/n!=1$, $\lambda$ real general | B | ✅ Cierra (`suma_normalizada_poisson`, vía la serie de la exponencial de Mathlib `NormedSpace.expSeries_div_hasSum_exp`, mismo estilo que `ProbabilityTheory.hasSum_one_poissonMeasure` de Mathlib, que solo cubre `r:ℝ≥0`) |
+| `exmp:2.10.5` — hospital $\lambda=5$: suma finita $1+5+25/2+125/6=39\frac13$ | A | ✅ Cierra la parte exacta de racionales |
+| `exmp:2.10.5`, evaluación decimal ($P(X\le3)\approx0.265$, $P(X\ge8)\approx0.133$) | C | ✅ Confirmado numéricamente (necesita $e^{-5}$, irracional), `verification/scipy/distribucion_poisson/exmp_2_10_5.py` |
+
+**No formalizado — Tier D:** $\mu_X=\sigma_X^2=\lambda$. Requeriría además un lema de desplazamiento de `tsum` (`Summable.tsum_eq_zero_add`, identificado en Mathlib) combinado con la serie exponencial, para relacionar $\sum n\cdot f(n)$ con la serie desplazada — no se completó por tiempo en este pase; la normalización (la pieza más laboriosa, vía la serie exponencial) sí quedó resuelta y reutilizable para un intento futuro.
+
+Ningún error matemático encontrado en las afirmaciones formalizadas. (Diff EN: ver nota de alcance abajo.)
+
+## Capítulo: `distribucion_poisson` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionPoissonProblemas.lean`. `prob:06f83cc` (Recordar) es puro recordatorio, no formalizado aparte. `prob:8fd3390` (Aplicar) es idéntico a `exmp:2.10.5` de la teoría, no se repite. `prob:9dc367e` (Crear) solo restablece $E[X]=\mathrm{Var}(X)=\lambda=4$ sin cálculo adicional, trivial por definición del parámetro.
+
+**🔴 Dos hallazgos confirmados, uno de ellos sustancial:**
+- `prob:8dad711`: menor — el libro afirma $P(X=3\mid X+Y=8)\approx0.2815$; el valor exacto es $590625/2097152\approx0.28163$ (redondea a $0.2816$, no $0.2815$) — desliz de redondeo del último dígito.
+- `prob:5e9408a`: **sustancial** — el libro afirma $P(S_{100}\le220)\approx0.9862$ (Poisson exacta, $\lambda=200$) y usa esto para concluir que la aproximación Normal tiene un error considerable ($\approx0.06$) en esta cola. **El valor "exacto" del libro está mal: el valor correcto es $\approx0.9247$**, verificado con `scipy.stats.poisson.cdf`. El z-score ($1.4496$) y el valor de la aproximación Normal ($\approx0.9265$) que el libro también da son correctos. Con el valor exacto correcto, la diferencia con la aproximación Normal es solo $\approx0.0017$, no $\approx0.06$ — **esto invierte la conclusión pedagógica del libro**: la aproximación Normal es en realidad excelente aquí (como se esperaría para $\lambda=200$, grande), no deficiente. Verificado en `verification/scipy/distribucion_poisson/prob_5e9408a.py`.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:06f83cc` (Recordar) | Recordar la PMF de Poisson | — | No formalizado por separado |
+| `prob:c35cfa7` (Comprender) | $1-(1-p)^4=1-e^{-\lambda}$ con $p=1-e^{-\lambda/4}$ | B | ✅ Cierra (`prob_c35cfa7`, identidad de exponentes exacta, sin necesitar el valor numérico de $e^{-2}$) |
+| `prob:8dad711` (Analizar) | Condicional Poisson$\to$Binomial: $P(X=k\mid X+Y=n)=\binom nk\left(\frac{\lambda_1}{\lambda_1+\lambda_2}\right)^k\left(\frac{\lambda_2}{\lambda_1+\lambda_2}\right)^{n-k}$, general | B | ✅ Cierra (`prob_8dad711`, álgebra pura — los factores exponenciales se cancelan exactamente, reutiliza `Nat.choose_mul_factorial_mul_factorial`) |
+| `prob:8dad711`, evaluación numérica ($\lambda_1=3,\lambda_2=5,n=8,k=3$) | A | 🔴 Ver hallazgo arriba (menor) |
+| `prob:5e9408a` (Evaluar) | $P(S_{100}\le220)$ exacta vs aproximación Normal | C | 🔴 Ver hallazgo arriba (sustancial) |
+
+### Verificación EN por diff
+
+Etiquetas y literales numéricos del archivo de problemas coinciden exactamente entre ES y EN — sin divergencias, incluyendo que **ambos idiomas comparten los dos valores incorrectos** de esta bitácora (confirma fuente compartida). El archivo de **teoría** muestra algunas diferencias de literales numéricos, pero están todas dentro de la subsección "Problemas Resueltos"/normal/percentiles que ya se documentó como fuera de alcance (sin afirmaciones propias del libro que verificar) — no se investigaron más a fondo por no tocar ninguna afirmación formalizada.
+
+## Capítulo: `variables_discretas_ciencia_datos` (teoría)
+
+Capítulo corto: casi todo es prosa aplicada (lista de usos de cada distribución discreta en ciencia de datos, sin afirmaciones matemáticas propias — no hay `teorema`/`definicion`/`axioma` en el archivo) más un único ejemplo numérico sobre detección de sobredispersión. Formalizado en `verification/lean_verificacion/LeanVerificacion/VariablesDiscretasCienciaDatos.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:2.10.18` — $\bar x=4.2$, $s^2=8.7$: $s^2\gg\bar x$ (sobredispersión) $\Rightarrow$ Poisson inadecuada, preferir Binomial Negativa | A | ✅ Cierra (`exmp_2_10_18`, $8.7>4.2$ exacto en ℚ) |
+
+Ningún error matemático encontrado.
+
+## Capítulo: `variables_discretas_ciencia_datos` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/VariablesDiscretasCienciaDatosProblemas.lean`. `prob:9b48fd0` (Recordar) es puramente definicional ($D=s^2/\bar x$, valor de referencia $D\approx1$) — no aporta cálculo que verificar, no formalizado aparte.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:9b48fd0` (Recordar) | Definición del cociente de dispersión | — | No formalizado por separado |
+| `prob:65ac238` (Comprender) | $n=500$, $\bar x=3.2$, $s^2=12.5$: $D=s^2/\bar x=125/32\approx3.91$ | A | ✅ Cierra (`prob_65ac238`, $125/32=3.90625$, redondea a $3.91$) |
+| `prob:486b84f` (Aplicar) | $\hat\lambda=\bar x=4.2$; $D=8.7/4.2\approx2.07$ | A | ✅ Cierra (`prob_486b84f`) |
+| `prob:8fd9d7f` (Analizar) | Binomial Negativa($r,p=r/(r+\lambda)$) $\to$ Poisson($\lambda$) cuando $r\to\infty$ | D | 🟡 No formalizado — teorema límite genuino, ver razón abajo |
+| `prob:395bc31` (Evaluar) | $n=200$, $\bar x=8.5$, $s^2=9.8$: $D=9.8/8.5\approx1.15$ (parsimonia $\Rightarrow$ preferir Poisson) | A | ✅ Cierra (`prob_395bc31`) |
+| `prob:a28b8e6` (Crear) | Ejemplo propio: $n=300$, $\bar x=2.1$, $s^2=6.8$: $D=6.8/2.1\approx3.24$ | A | ✅ Cierra (`prob_a28b8e6`) |
+
+**No formalizado — Tier D:** `prob:8fd9d7f` — demostración de que la PMF de la Binomial Negativa converge a la de Poisson($\lambda$) cuando $r\to\infty$ con $p=r/(r+\lambda)$ fijo. Es un teorema límite genuino (`Filter.Tendsto`), análogo al teorema del límite de Poisson que Mathlib ya tiene para la Binomial (`ProbabilityTheory.tendsto_choose_mul_pow_of_tendsto_mul_atTop` en `Mathlib.Probability.Distributions.Poisson.PoissonLimitThm`), pero Mathlib no cubre la parametrización Binomial Negativa directamente. Un intento futuro necesitaría: (1) un análogo de `isEquivalent_choose` reindexado para $\binom{k+r-1}{k}\sim r^k/k!$; (2) `Real.tendsto_one_add_pow_exp_of_tendsto` para $(1-\lambda/r)^r\to e^{-\lambda}$; (3) combinar ambos con `Tendsto.mul`, igual que en el archivo de Mathlib citado — factible pero sustancial, no completado en este pase.
+
+Ningún error matemático encontrado en las afirmaciones formalizadas (Tier A) — los cinco cocientes de dispersión numéricos del capítulo (teoría + problemas) redondean todos correctamente a los valores que da el libro.
+
+### Verificación EN por diff
+
+Sin divergencias: `diff` de todas las etiquetas (`\label{(thm|prob|eq):...}`) y de **todos** los literales decimales entre ES y EN, en ambos archivos (teoría y problemas), da vacío — coincidencia exacta.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3085/3085 jobs, sin `sorry`, sin errores.** Incluye ahora `VariablesDiscretasCienciaDatos.lean` (1 teorema) y `VariablesDiscretasCienciaDatosProblemas.lean` (4 teoremas) además de los 23 archivos previos.
+
+Nota técnica nueva de este capítulo: `Mathlib.Data.Rat.Basic` **no existe** como archivo importable en este pin de Mathlib (`lake build` falla con "bad import"/"no such file or directory") — `Mathlib.Tactic` ya trae consigo todo lo necesario para literales y aritmética en `ℚ`; no hace falta un import adicional de `Rat` para usar `ℚ` con `norm_num`.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_poisson`. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados, aún no resueltos):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); y los dos hallazgos numéricos menores de este capítulo (`prob:7cf587b`, `prob:969b25a`).
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — `variables_discretas_ciencia_datos` cierra la Unidad 2 del temario (distribuciones discretas); próximo: `variables_aleatorias_continuas`, inicio de la Unidad 3. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados, aún no resueltos):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (el más sustancial hasta ahora después del de `distribucion_multinomial`: invierte la conclusión pedagógica del problema). `variables_discretas_ciencia_datos` no añadió hallazgos nuevos.
