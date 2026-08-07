@@ -600,8 +600,74 @@ Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos 
 
 ---
 
+## Capítulo: `esperanza_matematica` (teoría)
+
+Capítulo denso: linealidad de la esperanza, König-Huygens, varianza de combinaciones lineales, covarianza, variable estandarizada, más varios ejemplos numéricos. **Primer capítulo con una capa propia de esperanza/varianza construida directamente sobre `MeasureTheory.integral`** (`∫ ω, X ω ∂P` para `X : Ω → ℝ` en un espacio de probabilidad genérico), sin citar `ProbabilityTheory.variance` — un test de humo confirmó que el paquete de independencia (`Mathlib.Probability.Independence.Integration`, necesario para `thm:2.9.2`) dispara el mismo error de longitud de ruta de Windows que ya bloqueaba `Mathlib.Probability.Moments.Variance` en este worktree (ambos jalan transitivamente `ContinuousFunctionalCalculus.PosPart.Basic`). Formalizado en `verification/lean_verificacion/LeanVerificacion/EsperanzaMatematica.lean`.
+
+**🔴 Hallazgo confirmado — `exmp:2.9.1` (el juego del dado, ganancia esperada):** el enunciado (línea 75) dice que la cara $6$ paga \$30, pero la PMF y el cálculo de la solución (líneas 82–93) usan \$60 para la cara $6$, llegando a $E(X)=\$20$. Con los datos del propio enunciado, la esperanza correcta es $\$15$. La solución es internamente consistente ($(20+40+60)/6=20$) — el desacuerdo está entre lo dado y lo resuelto, no en la aritmética de la solución. Confirmado con `git log -p --follow` que este desacuerdo \$30/\$60 existe **desde la introducción original del ejemplo** (commit inicial del archivo) y **sobrevivió intacto** a la auditoría de 2026-07-13 (`docs/revision-notas-2026-07-13.md`), que solo eliminó un bloque `align` residual/duplicado con un error aritmético *distinto* ($120/6$ mal escrito como \$15 en vez de \$20) sin notar que el bloque que sí se mantuvo seguía usando \$60 en vez del \$30 del enunciado. Presente idéntico en `en_esperanza_matematica.tex` (mismo \$30 vs \$60) — confirma fuente compartida, no error de traducción.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:2.9.1` — enunciado vs. solución | A | 🔴 Ver hallazgo arriba (`exmp_2_9_1_hallazgo`) |
+| Ejemplo del dado — $E(X)=3.5$ | A | ✅ Cierra (`esperanza_dado`) |
+| Ejemplo del dado — $\sigma^2=17.5/6\approx2.916$ | A | ✅ Cierra (`varianza_dado`, $=35/12$ exacto); nota: el libro **trunca** a $2.916$ en vez de redondear a $2.917$ — convención, no error |
+| `exmp:2.9.2` — $E(X)=4/3$ para $f(x)=x/2$ en $(0,2)$ | B | ✅ Cierra (`exmp_2_9_2`) |
+| `exmp:2.9.3` — $E(3X^2-2X)=10/3$ | B | ✅ Cierra (`exmp_2_9_3`) |
+| `exmp:2.9.4` — $\mathrm{Var}(X)=2/9$ | B | ✅ Cierra (`exmp_2_9_4`) |
+| `thm:2.9.1` — linealidad $E(cX+dY)=cE(X)+dE(Y)$, general | B | ✅ Cierra (`linealidad`) |
+| `eq:2.9.14` — König-Huygens $\sigma^2=E(X^2)-\mu^2$, general | B | ✅ Cierra (`konig_huygens`) |
+| `eq:2.9.15` — $\mathrm{Var}(cX)=c^2\mathrm{Var}(X)$, general | B | ✅ Cierra (`var_escalar`) |
+| `thm:2.9.3` — $\sigma^2=\min_a E[(X-a)^2]$, general | B | ✅ Cierra (`varianza_es_minimo`, completando el cuadrado) |
+| `eq:2.9.24` — $\mathrm{Cov}(X,Y)=E(XY)-\mu_X\mu_Y$, general | B | ✅ Cierra (`covarianza`) |
+| `eq:2.9.25`/`eq:2.9.26` — $\mathrm{Var}(X\pm Y)=\mathrm{Var}(X)\pm2\mathrm{Cov}(X,Y)+\mathrm{Var}(Y)$, general | B | ✅ Cierra (`varianza_suma`) |
+| `eq:2.9.17`/`eq:2.9.18` — $E(X^*)=0$, variable estandarizada | B | ✅ Cierra (`estandarizada`); $\mathrm{Var}(X^*)=1$ se sigue de `var_escalar`+`konig_huygens`, no se repite |
+| `thm:2.9.2` — independencia $\Rightarrow E(XY)=E(X)E(Y)$ | D | 🟡 No formalizado — bloqueado por longitud de ruta (ver nota) |
+| `eq:2.9.16` — $\mathrm{Var}(X\pm Y)=\mathrm{Var}(X)+\mathrm{Var}(Y)$ si independientes | D | 🟡 No formalizado — depende de `thm:2.9.2` |
+| `eq:2.9.28` — $|\sigma_{XY}|\le\sigma_X\sigma_Y$ (Cauchy-Schwarz) | D | 🟡 No formalizado — necesita empaquetado de Cauchy-Schwarz $L^2$ |
+
+**Notas de alcance (Tier D):** `thm:2.9.2`/`eq:2.9.16` necesitan `Mathlib.Probability.Independence.Integration` (`ProbabilityTheory.IndepFun.integral_mul_eq_mul_integral`), cuyo import se confirmó bloqueado por el mismo problema de MAX_PATH de Windows documentado para `VariablesAleatorias.lean` — no es una limitación matemática, es específica de este worktree; un intento futuro podría usar el flujo de scratch-worktree de ruta corta ya documentado. `eq:2.9.28` necesita la desigualdad de Cauchy-Schwarz para el producto interno $L^2$ (`MeasureTheory.Lp`/Hölder con $p=q=2$) — factible pero no explorado este pase.
+
+**Observaciones sin teorema (prosa, no matemática):** `exmp:2.9.5`/`exmp:2.9.6` tienen listas de 11 estadísticos con `\sigma_Y` duplicado (ítems 7 y 9) y `\sigma_X` faltante, idéntico en ambos ejemplos — error de copiar/pegar, sin valores numéricos que verificar (ya documentado en `docs/revision-notas-2026-07-13.md` como hallazgo de baja prioridad).
+
+## Capítulo: `esperanza_matematica` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/EsperanzaMatematicaProblemas.lean`.
+
+**🟡 Dos hallazgos adicionales, ambos menores:**
+- `prob:f43c638`: la solución escribe "$E[X^2]=8=1/\lambda^2$" — pero $1/\lambda^2=4$ (con $\lambda=0.5$), no $8$; la fórmula que correctamente da $8$ es $2/\lambda^2$. Los *valores* numéricos ($E[X^2]=8$, $\mathrm{Var}(X)=4$) son correctos, solo la fórmula anotada junto a $E[X^2]$ está mal etiquetada (confundida con $\mathrm{Var}(X)$, que sí es $1/\lambda^2$).
+- `prob:7b147c4`, parte 3: la solución concluye "con $n=100$ mediciones, el error estándar es exactamente $0.01$" como si satisficiera $\sigma/\sqrt n<0.01$, pero $n=100$ da igualdad exacta ($0.1/\sqrt{100}=0.01$), no la desigualdad estricta que pide el problema — hace falta $n\geq101$. La propia frase anterior de la solución ("$\sqrt n>10$, así $n>100$") ya lo dice bien; solo la interpretación final de "$n=100$" es inconsistente con eso.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:4e01dbd` (Recordar) — $E[X]=2/3$ | A | ✅ Cierra (`prob_4e01dbd_esperanza`) |
+| `prob:4e01dbd` — $E[X^2]=1/2$, $\mathrm{Var}(X)=1/18$ | A | ✅ Cierra (`prob_4e01dbd_segundo_momento`, `prob_4e01dbd_varianza`) |
+| `prob:4e01dbd` — mediana $m=1/\sqrt2\approx0.7071>E[X]=2/3$ | B | ✅ Cierra (`prob_4e01dbd_mediana`, cota exacta vía `Real.lt_sqrt`) |
+| `prob:f43c638` (Comprender) — $E[X]=2$, $E[X^2]=8$, $\mathrm{Var}(X)=4$ | C | ✅ Confirmado numéricamente, `verification/scipy/esperanza_matematica/prob_f43c638_9d4a41b.py`; 🔴 ver hallazgo de fórmula arriba |
+| `prob:f43c638` — ausencia de memoria | D | No formalizado (esperanza condicional) |
+| `prob:7b147c4` (Aplicar) — $E[\bar X]=\mu$, $\mathrm{Var}(\bar X)=\sigma^2/n$ | B | Especialización directa de `esperanza_media_muestral`/`varianza_media_muestral` (`VariablesAleatorias.lean`), no reproducida |
+| `prob:7b147c4` — $n=100$ vs. $\sigma/\sqrt n<0.01$ estricto | A | 🔴 Ver hallazgo arriba (`prob_7b147c4_hallazgo_n100`) |
+| `prob:de8d740` (Analizar) — descomposición $\mathrm{Var}(X)=E[\mathrm{Var}(X\mid Y)]+\mathrm{Var}(E[X\mid Y])$ | D | No formalizado — esperanza condicional medida-teórica + propiedad de torre, esfuerzo de un capítulo aparte |
+| `prob:9d4a41b` (Evaluar) — asimetría/curtosis de $\mathrm{Exp}(1)$: $\gamma_1=2$, $\gamma_2=6$ | C | ✅ Confirmado numéricamente, mismo script; también verificable a mano vía $E[X^n]=n!$ |
+| `prob:5c186f2` (Crear) — portafolio $0.40(0.08)+0.35(0.05)+0.25(0.12)=0.0795$ | A | ✅ Cierra (`prob_5c186f2_portafolio`) |
+
+### Verificación EN por diff
+
+Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas **y de todos los literales numéricos (enteros y decimales, no solo decimales)** entre ES y EN da vacío en ambos — este capítulo motivó ampliar el diff a enteros porque el hallazgo de `exmp:2.9.1` (\$30 vs \$60) no lo habría detectado un diff limitado a decimales; confirma que el error está presente idéntico en EN.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3428/3428 jobs, sin `sorry`, sin errores.** Incluye ahora `EsperanzaMatematica.lean` (13 teoremas) y `EsperanzaMatematicaProblemas.lean` (8 teoremas) además de los 27 archivos previos, más `verification/scipy/esperanza_matematica/prob_f43c638_9d4a41b.py`.
+
+**Notas técnicas nuevas de este capítulo:**
+- **Gotcha de `rw` con `Integrable.add`/`.sub`/`MeasureTheory.integral_add`/`.sub` (nuevo, costoso en tiempo de depuración):** cuando se combina integrabilidad vía `.add`/`.sub` directamente dentro de una llamada a `MeasureTheory.integral_add`/`integral_sub`, el término resultante tiene tipo `Integrable (f + g) P` (con `f+g` la **suma de funciones Pi**, sin beta-reducir), que **no coincide sintácticamente** con la forma `∫ ω, expr1 + expr2 ∂P` (un solo lambda con aritmética adentro) que produce la notación `∫`, aunque son iguales por `rfl`/`Pi.add_apply`. El `rw` falla entonces con "did not find pattern" mostrando el término Pi-suma no reducido. **Corrección:** siempre materializar un `have hcombinado : Integrable (fun ω => <expresión aritmética exacta de un solo lambda>) P := <expresión con .add/.sub/.const_mul>` ANTES de usarlo en `integral_add`/`integral_sub`, dejando que la anotación de tipo del `have` fuerce la forma correcta (aceptado porque son defeq) — la misma lección que ya se documentó para `Finset.sum_range_succ'`/`tsum` en capítulos anteriores, ahora también aplica a `MeasureTheory.integral`.
+- Mismo problema con `continuous_const.mul (continuous_pow n)` sin anotar: la constante de `continuous_const` queda como metavariable no resuelta si no se fija el tipo explícitamente — usar `(continuous_pow n).const_mul c` en su lugar (constante como argumento explícito) evita el problema.
+- `intervalIntegral.integral_const_mul`/`MeasureTheory.integral_const_mul` se resuelven de forma más confiable pasando los argumentos `(r) (f)` explícitos en vez de confiar en unificación automática dentro de una cadena de `rw`.
+- Un test de humo con un archivo `.lean` desechable (`#check`+import candidato) antes de invertir esfuerzo en pruebas confirmó en ~1 minuto que `Mathlib.Probability.Independence.Integration` está bloqueado por MAX_PATH en este worktree — mismo patrón que `Mathlib.Probability.Moments.Variance`, ahora confirmado que **cualquier** import que jale `ContinuousFunctionalCalculus.PosPart.Basic` está afectado, no solo el de varianza.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — `variables_aleatorias_continuas` abre la Unidad 3 del temario (variables continuas); próximo: `esperanza_matematica`. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados, aún no resueltos):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (el más sustancial hasta ahora después del de `distribucion_multinomial`: invierte la conclusión pedagógica del problema). Ni `variables_discretas_ciencia_datos` ni `variables_aleatorias_continuas` añadieron hallazgos nuevos.
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_uniforme_continua`. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados, aún no resueltos):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica); y los tres de `esperanza_matematica` — **`exmp:2.9.1` (\$30 vs \$60, la ganancia esperada del dado) es el hallazgo más claro y de mayor prioridad de todo este capítulo**, seguido de los dos hallazgos menores de `prob:f43c638` y `prob:7b147c4`. Ni `variables_discretas_ciencia_datos` ni `variables_aleatorias_continuas` añadieron hallazgos nuevos.
