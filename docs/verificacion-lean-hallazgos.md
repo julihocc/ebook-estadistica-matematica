@@ -914,8 +914,40 @@ Etiquetas: sin divergencias. Literales numéricos: diff bruto muestra ruido por 
 
 ---
 
+## Capítulo: `distribucion_muestral_chi_cuadrada` (teoría)
+
+Definición de $\chi^2_\nu$, momentos, caso particular de Gamma, Teorema de Fisher. **`eq:5.3.2` (Teorema de Fisher: independencia de $\bar X,S^2$ + $(n-1)S^2/\sigma^2\sim\chi^2_{n-1}$) es Tier D** — necesita una transformación ortogonal del vector muestral (caso particular del teorema de Cochran), fuera de alcance. Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionMuestralChiCuadrada.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:5.3.1` — $\sigma^2=4,n=10,S^2=7.2$: estadístico $=16.2$, $9<16.2<16.92\approx\chi^2_{9,0.95}$ | A/C | ✅ Cierra (`exmp_5_3_1`); valor crítico $16.92$ confirmado, `verification/scipy/distribucion_muestral_chi_cuadrada/numeric_checks.py` |
+
+Ningún error matemático encontrado. (Nota, no matemática: línea 21 "sección 2.11" es otra instancia del mismo patrón de referencia de texto plano desactualizada ya documentado en el capítulo anterior y en `docs/revision-notas-2026-07-13.md`.)
+
+## Capítulo: `distribucion_muestral_chi_cuadrada` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionMuestralChiCuadradaProblemas.lean`. `prob:0d114e5` (Recordar), `prob:66b286b` (Comprender) y `prob:db05590` (Evaluar) son conceptuales.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:94c69e2` (Aplicar) | $\sigma_0^2=10,n=16,S^2=18.2$: estadístico $=27.3>24.996\approx\chi^2_{15,0.95}$ (rechaza) | A/C | ✅ Cierra (`prob_94c69e2`); valor crítico confirmado, mismo script |
+| `prob:b08d077` (Analizar) | Sustitución $\alpha=\nu/2,\beta=2$: $E(\chi^2_\nu)=\nu$, $\Var(\chi^2_\nu)=2\nu$, general | A | ✅ Cierra (`prob_b08d077`) |
+| `prob:501e850` (Crear) | $\sigma_0^2=0.04,n=21,S^2=0.065$: estadístico $=32.5>31.410\approx\chi^2_{20,0.95}$ (rechaza) | A/C | ✅ Cierra (`prob_501e850`); valor crítico confirmado, mismo script |
+
+Ningún error matemático encontrado.
+
+### Verificación EN por diff
+
+Etiquetas: sin divergencias. Literales numéricos: diff bruto ruidoso por subíndices `\chi^2_{\nu,\alpha}` y por hipótesis alternativas $H_a$ explícitas que el EN añade y el ES no — se verificó manualmente que todos los valores clave (24.996, 31.410, 27.3, 32.5, 18.2, 0.065, 0.04) coinciden exactamente entre ambos idiomas. Sin divergencias numéricas reales.
+
+## Estado del build (acumulado)
+
+`lake build`: **✅ éxito, 3454/3454 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionMuestralChiCuadrada.lean` (1 teorema) y `DistribucionMuestralChiCuadradaProblemas.lean` (3 teoremas) además de los 43 archivos previos, más `verification/scipy/distribucion_muestral_chi_cuadrada/numeric_checks.py`.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_muestral_chi_cuadrada`. Commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos nueve capítulos procesados desde entonces (`variables_discretas_ciencia_datos` hasta `distribuciones_muestrales_medias`) añadió hallazgos nuevos.
+Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_muestral_t`. Commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos diez capítulos procesados desde entonces (`variables_discretas_ciencia_datos` hasta `distribucion_muestral_chi_cuadrada`) añadió hallazgos nuevos.
