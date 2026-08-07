@@ -41,15 +41,16 @@ theorem prob_4e01dbd_mediana :
   rw [Real.lt_sqrt (by norm_num)]
   norm_num
 
-/-- `prob:f43c638` (Comprender) — hallazgo menor: para $X\sim\mathrm{Exp}(\lambda=0.5)$,
-la solución escribe "$\E[X^2]=8=1/\lambda^2$" pero $1/\lambda^2=4$, no $8$;
-la fórmula correcta que da $8$ es $2/\lambda^2$ (los *valores* numéricos
-$\E[X^2]=8$, $\mathrm{Var}(X)=4$ son correctos, solo la fórmula anotada
-para $\E[X^2]$ está mal etiquetada). Los momentos en sí (Tier C, requieren
-integración por partes de $\int x^n\cdot0.5e^{-0.5x}dx$) se verifican
-numéricamente en `verification/scipy/esperanza_matematica/prob_f43c638.py`. -/
-theorem prob_f43c638_hallazgo_formula :
-    (1 : ℝ) / 0.5 ^ 2 ≠ 8 ∧ (2 : ℝ) / 0.5 ^ 2 = 8 ∧ (8 : ℝ) - (1 / 0.5 : ℝ) ^ 2 = 4 := by
+/-- `prob:f43c638` (Comprender) — **hallazgo corregido.** Para
+$X\sim\mathrm{Exp}(\lambda=0.5)$, la solución escribía "$\E[X^2]=8=1/\lambda^2$"
+pero $1/\lambda^2=4$, no $8$; la fórmula correcta que da $8$ es
+$2/\lambda^2$ (los *valores* numéricos $\E[X^2]=8$, $\mathrm{Var}(X)=4$ ya
+eran correctos, solo la fórmula anotada estaba mal etiquetada). Corregido
+en ES y EN. Los momentos en sí (Tier C, requieren integración por partes
+de $\int x^n\cdot0.5e^{-0.5x}dx$) se verifican numéricamente en
+`verification/scipy/esperanza_matematica/prob_f43c638_9d4a41b.py`. -/
+theorem prob_f43c638_formula :
+    (2 : ℝ) / 0.5 ^ 2 = 8 ∧ (8 : ℝ) - (1 / 0.5 : ℝ) ^ 2 = 4 := by
   norm_num
 
 /-! `prob:7b147c4` (Aplicar), parte 1 — $\E[\bar X]=\mu$, $\mathrm{Var}(\bar
@@ -58,14 +59,13 @@ X)=\sigma^2/n$: especialización directa de `esperanza_media_muestral`/
 este worktree por el problema de longitud de ruta de Windows — ver nota
 en `EsperanzaMatematica.lean`); no se reproduce aquí, mismo resultado. -/
 
-/-- `prob:7b147c4`, parte 3 — **hallazgo menor**: la solución concluye
+/-- `prob:7b147c4`, parte 3 — **hallazgo corregido.** La solución concluía
 "con $n=100$ mediciones, el error estándar es exactamente $0.01$" como si
 satisficiera $\sigma/\sqrt n<0.01$, pero $n=100$ da igualdad exacta
 ($0.1/\sqrt{100}=0.01$), no la desigualdad estricta pedida — se necesita
-$n\geq101$. La propia frase del enunciado ("$\sqrt n>10$, así $n>100$")
-ya lo dice correctamente; solo la interpretación de "$n=100$" como
-solución es inconsistente con su propio "$n>100$". -/
-theorem prob_7b147c4_hallazgo_n100 :
+$n\geq101$. Corregido en ES y EN para concluir con $n=101$
+($\sigma/\sqrt{101}\approx0.00995<0.01$) en vez de $n=100$. -/
+theorem prob_7b147c4_n100 :
     ¬ ((0.1 : ℝ) / Real.sqrt 100 < 0.01) ∧ (0.1 : ℝ) / Real.sqrt 101 < 0.01 := by
   have h100 : Real.sqrt (100 : ℝ) = 10 := by
     rw [show (100 : ℝ) = 10 ^ 2 by norm_num, Real.sqrt_sq (by norm_num)]

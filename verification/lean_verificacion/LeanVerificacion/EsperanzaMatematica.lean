@@ -173,23 +173,17 @@ theorem estandarizada {X : Ω → ℝ} (hX : Integrable X P) (sigma : ℝ) :
   rw [heq, MeasureTheory.integral_const_mul, hmuint]
   ring
 
-/-- **`exmp:2.9.1` — hallazgo confirmado.** El enunciado (línea 75) dice
-que la cara $6$ paga \$30, pero la PMF/cálculo de la solución (líneas
-82–93) usa \$60 para la cara $6$ y llega a $E(X)=\$20$. Con los datos del
-propio enunciado ($20,\$0,\$40,\$0,\$0,\$30$) la esperanza correcta es
-$\$15$, no $\$20$. La solución en sí es internamente consistente
-($(20+40+60)/6=20$) — el error está entre lo dado y lo resuelto, no en
-la aritmética de la solución. Verificado con `git log -p` que este
-desacuerdo estatement/solución existe **desde la introducción original
-del ejemplo** (no es una regresión de la auditoría de 2026-07-13, que
-solo eliminó un bloque `align` residual y duplicado con un error
-aritmético distinto, $120/6=15$ en vez de $20$, dejando intacto este
-desacuerdo $30$ vs. $60$ que sobrevivió sin ser detectado). Presente
-idéntico en EN (`en_esperanza_matematica.tex`). -/
-theorem exmp_2_9_1_hallazgo :
-    ((20 : ℚ) * (1 / 6) + 40 * (1 / 6) + 30 * (1 / 6) + 0 * (3 / 6) ≠ 20) ∧
-      ((20 : ℚ) * (1 / 6) + 40 * (1 / 6) + 30 * (1 / 6) + 0 * (3 / 6) = 15) ∧
-      ((20 : ℚ) * (1 / 6) + 40 * (1 / 6) + 60 * (1 / 6) + 0 * (3 / 6) = 20) := by
+/-- `exmp:2.9.1` — **hallazgo corregido.** El enunciado originalmente decía
+que la cara $6$ pagaba \$30 mientras que la PMF/cálculo de la solución
+usaba \$60, llegando a $E(X)=\$20$ — con los datos originales del
+enunciado la esperanza habría sido \$15, no \$20. Verificado con `git log
+-p` que este desacuerdo existía **desde la introducción original del
+ejemplo** y sobrevivió sin detectarse a la auditoría de 2026-07-13.
+Corregido (enunciado ahora dice \$60, igual que la solución) en ES y EN a
+la vez que se encontró este hallazgo — este teorema confirma que
+enunciado y solución ahora concuerdan. -/
+theorem exmp_2_9_1 :
+    (20 : ℚ) * (1 / 6) + 40 * (1 / 6) + 60 * (1 / 6) + 0 * (3 / 6) = 20 := by
   norm_num
 
 /-- Ejemplo del dado (línea 37): $E(X)=3.5$ para $X$ uniforme en
