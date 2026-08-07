@@ -980,8 +980,46 @@ Etiquetas: sin divergencias. Confirmado manualmente (spot-check dirigido, sin di
 
 ---
 
+## Capítulo: `distribucion_muestral_f` (teoría)
+
+Definición de $F_{d_1,d_2}$, propiedades, prueba F de igualdad de varianzas, IC para $\sigma_1^2/\sigma_2^2$, ANOVA, conexión $T^2\sim F_{1,\nu}$. Definición/densidad/momentos/teoremas de ANOVA e IC son Tier D (dependen de la maquinaria ya Tier D de los capítulos $\chi^2$/$t$). Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionMuestralF.lean`.
+
+**🔴 Dos hallazgos confirmados en `exmp:3.2.6` (ANOVA, comparación de tres métodos de enseñanza), verificados con `fractions.Fraction` antes de escribir las pruebas de Lean:**
+1. El libro afirma $\mathrm{SC}_{\text{trat}}=5(86.6-86.4)^2+5(81.0-86.4)^2+5(91.6-86.4)^2=290.0$; el valor exacto es $281.2$.
+2. El libro afirma que la suma de cuadrados intra-grupo del Método C ($\{92,95,88,90,93\}$, media $91.6$, ambos correctos) es $23.2$; el valor exacto es $29.2$.
+
+Ambos errores se propagan: $\mathrm{SC}_{\text{error}}=119.2+40.0+29.2=188.4$ (el libro dice $182.4$), y el estadístico correcto es $F=(281.2/2)/(188.4/12)\approx8.955$ (el libro dice $9.54$). **La conclusión cualitativa del libro (rechazar $H_0$ al $5\%$) sobrevive por casualidad** — tanto $8.955$ como $9.54$ superan el valor crítico $F_{0.05,2,12}=3.89$ — pero dos de los tres valores intermedios reportados están mal. Presente idéntico en `en_distribucion_muestral_f.tex` (mismos $290.0$, $23.2$, $182.4$, $9.54$) — confirma fuente compartida.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| Reciprocidad: $1/F_{d_1,d_2}\sim F_{d_2,d_1}$, identidad algebraica general | A | ✅ Cierra (`reciprocidad_F`) |
+| `exmp:3.2.6` — $\mathrm{SC}_{\text{trat}}$, SS Método C | A | 🔴 Ver hallazgos arriba (`exmp_3_2_6_hallazgo`) |
+| `exmp:3.2.6` — cascada corregida y conclusión cualitativa | A | ✅ Cierra (`exmp_3_2_6_f_corregido`, $F$ corregido $\approx8.955>3.89$) |
+
+## Capítulo: `distribucion_muestral_f` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionMuestralFProblemas.lean`. `prob:20ee012` (Recordar) es conceptual. `prob:2e8078c` (Comprender) reutiliza `reciprocidad_F`. `prob:23d903e` (Analizar, $T^2\sim F_{1,\nu}$) es definicional (dado que $\chi^2_1\equiv Z^2$ por la propia definición de $\chi^2_1$), no aporta cálculo aparte.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:b47df2a` (Aplicar) | $S_1^2=45,S_2^2=20$: $F=2.25<3.62$ (no rechaza) | A | ✅ Cierra (`prob_b47df2a`) |
+| `prob:e04a795` (Evaluar) | $S_1^2=50,S_2^2=48$: $F\approx1.042<3.36$ (no rechaza) | A | ✅ Cierra (`prob_e04a795`) |
+| `prob:6277cc2` (Crear) | $S_1^2=4.2,S_2^2=1.5$: $F=2.8<4.82$ (no rechaza) | A | ✅ Cierra (`prob_6277cc2`) |
+
+Ningún error matemático encontrado en el archivo de problemas — todos los cuantiles $F$ de la tabla del capítulo (teoría + problemas) se confirmaron con scipy: $F_{2,12,0.95}\approx3.89$, $F_{12,10,0.975}\approx3.62$, $F_{14,11,0.975}\approx3.36$, $F_{9,7,0.975}\approx4.82$.
+
+### Verificación EN por diff
+
+Etiquetas: sin divergencias. Confirmado manualmente (sin diff automático por ruido de notación $F_{d_1,d_2,\alpha}$) que los cuatro problemas y el ejemplo de ANOVA coinciden exactamente entre ES y EN, incluyendo que **ambos idiomas comparten los dos valores incorrectos** de `exmp:3.2.6`.
+
+## Estado del build (acumulado)
+
+`lake build`: **✅ éxito, 3458/3458 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionMuestralF.lean` (3 teoremas) y `DistribucionMuestralFProblemas.lean` (3 teoremas) además de los 47 archivos previos, más `verification/scipy/distribucion_muestral_f/numeric_checks.py`.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_muestral_f`. Commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica); y el de `distribucion_muestral_t` (`prob:c34507c`, suma de cuadrados $0.3033$ vs. $0.3333$, con la cascada de valores derivados incorrectos que implica). Ninguno de los demás nueve capítulos procesados desde `variables_discretas_ciencia_datos` añadió hallazgos nuevos.
+Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribuciones_muestreo_ciencia_datos`. Commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica); el de `distribucion_muestral_t` (`prob:c34507c`, suma de cuadrados $0.3033$ vs. $0.3333$); y los dos de `distribucion_muestral_f` (`exmp:3.2.6`, $\mathrm{SC}_{\text{trat}}=290.0$ vs. $281.2$ y SS del Método C $=23.2$ vs. $29.2$ — el par de errores más numeroso encontrado en un solo ejemplo hasta ahora, aunque sin cambiar la conclusión cualitativa de la prueba). Ninguno de los demás nueve capítulos procesados desde `variables_discretas_ciencia_datos` añadió hallazgos nuevos.

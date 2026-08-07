@@ -45,3 +45,5 @@ import LeanVerificacion.DistribucionMuestralChiCuadrada
 import LeanVerificacion.DistribucionMuestralChiCuadradaProblemas
 import LeanVerificacion.DistribucionMuestralT
 import LeanVerificacion.DistribucionMuestralTProblemas
+import LeanVerificacion.DistribucionMuestralF
+import LeanVerificacion.DistribucionMuestralFProblemas
