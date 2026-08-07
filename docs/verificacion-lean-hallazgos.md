@@ -707,8 +707,47 @@ Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos 
 
 ---
 
+## Capítulo: `distribucion_normal` (teoría)
+
+PDF/propiedades de $N(\mu,\sigma^2)$, forma estándar, regla empírica 68-95-99.7, un ejemplo numérico. **Tier D confirmado por test de humo:** `Mathlib.Probability.Distributions.Gaussian.Real` (que tiene `gaussianPDFReal`/`integral_gaussianPDFReal_eq_one`, justo la normalización que haría falta para una demostración completa de la FGM) está bloqueado por el mismo problema de longitud de ruta de Windows que ya afectó a `VariablesAleatorias.lean` y al paquete de independencia — pero esta vez también bloqueó `Mathlib.MeasureTheory.Integral.IntervalIntegral.LebesgueDifferentiationThm`, una dependencia nueva no vista en capítulos anteriores. La integral gaussiana "cruda" (`integral_gaussian`, sin el paquete de distribuciones) sí se pudo importar, pero cerrar la FGM con ella habría necesitado además un lema de invarianza por traslación de `MeasureTheory.integral` sobre $\mathbb R$ que no se localizó en tiempo razonable — documentado como Tier D/C explícito, no una limitación matemática. Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionNormal.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `eq:2.8.4`/`eq:2.8.5` — estandarización de densidades: $\sigma f(\mu+\sigma z)=\varphi(z)$, general | B | ✅ Cierra (`estandarizacion_densidad`) |
+| `prob:dd1e027` (parte teoría) — identidad de completar-el-cuadrado del exponente de la FGM, general | B | ✅ Cierra (`mgf_exponente`) |
+| FGM completa $M_X(t)=e^{\mu t+\sigma^2t^2/2}$ | D | 🟡 No formalizada — bloqueada por longitud de ruta (ver nota) |
+| Regla empírica $68$-$95$-$99.7$ | C | ✅ Confirmado numéricamente, `verification/scipy/distribucion_normal/numeric_checks.py` |
+| `exmp:2.8.2` — $N(70,100)$: $P(60\le X\le80)\approx0.6827=\Phi(1)-\Phi(-1)=0.8413-0.1587$ | C | ✅ Confirmado numéricamente, mismo script |
+
+Ningún error matemático encontrado.
+
+## Capítulo: `distribucion_normal` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionNormalProblemas.lean`. `prob:6f58870` (Recordar), `prob:74e7285` (Comprender) y `prob:96d8f57` (Evaluar) son puramente conceptuales, sin cálculo numérico, no formalizados. `prob:dd1e027` (Analizar) reutiliza `mgf_exponente` de la teoría, no se repite.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:48f2103` (Aplicar) | $N(170,100)$: estandarización $Z=1.5,-1,1$ exacta | A | ✅ Cierra (`prob_48f2103_estandarizacion`) |
+| `prob:48f2103`, valores $\Phi$ | $P(X>185)\approx0.0668$, $P(160\le X\le180)\approx0.6827$ | C | ✅ Confirmado numéricamente, `verification/scipy/distribucion_normal/numeric_checks.py` |
+| `prob:1c4fda2` (Crear) | $N(0.150,0.0004)$: $Z=(0.100-0.150)/0.02=-2.5$ exacto | A | ✅ Cierra (`prob_1c4fda2_estandarizacion`) |
+| `prob:1c4fda2`, valor $\Phi$ | $P(X<0.100)=\Phi(-2.5)\approx0.0062$ | C | ✅ Confirmado numéricamente, mismo script |
+
+Ningún error matemático encontrado — todos los valores numéricos del capítulo coinciden con el libro.
+
+### Verificación EN por diff
+
+Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos los literales numéricos (enteros y decimales) entre ES y EN da vacío en ambos.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3432/3432 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionNormal.lean` (2 teoremas) y `DistribucionNormalProblemas.lean` (2 teoremas) además de los 31 archivos previos, más `verification/scipy/distribucion_normal/numeric_checks.py`.
+
+**Nota técnica de este capítulo:** confirma que el problema de longitud de ruta de Windows no está limitado a `Mathlib.Probability.Moments.Variance`/`Independence.Integration` — cualquier import que jale `ContinuousFunctionalCalculus.PosPart.Basic` (o, como se descubrió aquí, `IntervalIntegral.LebesgueDifferentiationThm`) está afectado en este worktree específico. El patrón de mitigación sigue siendo: (1) test de humo con `#check` antes de invertir esfuerzo en pruebas, (2) si está bloqueado, extraer las piezas algebraicas puras que no necesitan la integral en sí (aquí: la identidad de estandarización y la de completar-el-cuadrado), dejando el cierre completo de la integral como Tier D/C documentado en vez de forzarlo.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_normal`. Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. Los tres hallazgos de `esperanza_matematica` (`exmp:2.9.1` \$30 vs \$60, `prob:f43c638` fórmula $1/\lambda^2$ vs $2/\lambda^2$, `prob:7b147c4` $n=100$ vs $n=101$) **ya fueron corregidos** en ES y EN. **Hallazgos aún pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ni `variables_discretas_ciencia_datos`, `variables_aleatorias_continuas`, ni `distribucion_uniforme_continua` añadieron hallazgos nuevos.
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribuciones_tipo_gamma`. Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. Los tres hallazgos de `esperanza_matematica` (`exmp:2.9.1` \$30 vs \$60, `prob:f43c638` fórmula $1/\lambda^2$ vs $2/\lambda^2$, `prob:7b147c4` $n=100$ vs $n=101$) **ya fueron corregidos** en ES y EN. **Hallazgos aún pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ni `variables_discretas_ciencia_datos`, `variables_aleatorias_continuas`, `distribucion_uniforme_continua`, ni `distribucion_normal` añadieron hallazgos nuevos.

@@ -29,3 +29,5 @@ import LeanVerificacion.EsperanzaMatematica
 import LeanVerificacion.EsperanzaMatematicaProblemas
 import LeanVerificacion.DistribucionUniformeContinua
 import LeanVerificacion.DistribucionUniformeContinuaProblemas
+import LeanVerificacion.DistribucionNormal
+import LeanVerificacion.DistribucionNormalProblemas
