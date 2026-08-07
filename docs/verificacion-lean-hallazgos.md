@@ -850,8 +850,40 @@ Sin divergencias en ninguno de los archivos (`introduccion_estadistica_inferenci
 
 ---
 
+## Capítulo: `distribuciones_funciones_variable_aleatoria` (teoría)
+
+Fórmula general para $Y=g(X)$ no monótona (suma sobre preimágenes) y para varias variables (integral sobre superficie de nivel), con un ejemplo (suma de dos exponenciales iid → Erlang). Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionesFuncionesVariableAleatoria.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:3.2.5` — $X_1,X_2\sim\mathrm{Exp}(1)$ iid, $Y=X_1+X_2$: $f_Y(y)=y\,e^{-y}$, general en $y$ | A | ✅ Cierra (`exmp_3_2_5`) |
+
+Ningún error matemático encontrado. (Nota, no matemática: la línea "ver sección 2.11" al final de la solución de `exmp:3.2.5` es una referencia de texto plano, no `\ref{}` — consistente con el patrón ya documentado en `docs/revision-notas-2026-07-13.md` de prefijos/números de capítulo desactualizados en capítulos 3-5 tras la renumeración; no se investigó más a fondo por ser un problema de prosa, no matemático.)
+
+## Capítulo: `distribuciones_funciones_variable_aleatoria` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionesFuncionesVariableAleatoriaProblemas.lean`. `prob:0b1575d` (Recordar), `prob:a8b056e` (Comprender) y `prob:df21aa1` (Evaluar) son conceptuales, sin cálculo numérico.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:4cdd21e` (Aplicar) | $U(0,1)+U(0,1)$: convolución en $(0,1)$ da $f_Y(y)=y$ (triangular) | A | ✅ Cierra (`prob_4cdd21e`) |
+| `prob:43a7344` (Analizar) | $N(0,1)$, $Y=\lvert X\rvert$: suma de dos contribuciones simétricas $=\sqrt{2/\pi}\,e^{-y^2/2}$ (semi-normal) | B | ✅ Cierra (`prob_43a7344`) |
+| `prob:db5d952` (Crear) | $\mathrm{Exp}(2)+\mathrm{Exp}(3)$: $f_Y(y)=6e^{-2y}-6e^{-3y}$ (hipoexponencial) | B | ✅ Cierra (`prob_db5d952`) |
+
+Ningún error matemático encontrado — todas las fórmulas del capítulo coinciden con el libro.
+
+### Verificación EN por diff
+
+Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos los literales numéricos entre ES y EN da vacío en ambos.
+
+## Estado del build (acumulado)
+
+`lake build`: **✅ éxito, 3450/3450 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionesFuncionesVariableAleatoria.lean` (1 teorema) y `DistribucionesFuncionesVariableAleatoriaProblemas.lean` (3 teoremas) además de los 39 archivos previos.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribuciones_funciones_variable_aleatoria`. Commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos siete capítulos procesados desde entonces (`variables_discretas_ciencia_datos` hasta `transformacion_variables`) añadió hallazgos nuevos.
+Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribuciones_muestrales_medias`. Commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos ocho capítulos procesados desde entonces (`variables_discretas_ciencia_datos` hasta `distribuciones_funciones_variable_aleatoria`) añadió hallazgos nuevos.
