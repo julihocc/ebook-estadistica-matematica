@@ -882,8 +882,40 @@ Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos 
 
 ---
 
+## Capítulo: `distribuciones_muestrales_medias` (teoría)
+
+Resume $E(\bar X)=\mu$, $\Var(\bar X)=\sigma^2/n$, insesgadez de $S^2$, y trata el Teorema del Límite Central + Berry-Esseen. **`eq:3.2.7`/`eq:3.2.8`/`eq:3.2.9` y `eq:5.1.2` (insesgadez de $S^2$) son duplicados exactos de teoremas ya probados en el capítulo piloto** (`VariablesAleatorias.esperanza_media_muestral`/`varianza_media_muestral`/`esperanza_varianza_muestral`) — no se reproducen. El TLC (`eq:5.2.1`) y Berry-Esseen (`eq:5.2.2`) son Tier D, ya anticipados como tales en el plan original de este proyecto. Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionesMuestralesMedias.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:sample-mean-and-unbiased-variance` — muestra $\{12,15,11,18,14\}$: $\bar X=14$, $S^2=7.5$ | A | ✅ Cierra (`exmp_media_varianza_muestral`) |
+| `exmp:5.2.1` — $\mu=\sigma=4,n=64$: $\mathrm{DE}(\bar X)=0.5$, $Z=1$ | A | ✅ Cierra (`exmp_5_2_1`); $\Phi(1)\approx0.8413$ ya confirmado en `distribucion_normal` |
+
+Ningún error matemático encontrado.
+
+## Capítulo: `distribuciones_muestrales_medias` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionesMuestralesMediasProblemas.lean`. `prob:22013b6` (Recordar), `prob:f4e7b8b` (Comprender) y `prob:0555e27` (Evaluar) son conceptuales. `prob:716e9bb` (Analizar, demostración de $E(S^2)=\sigma^2$) es el mismo teorema que la teoría, ya cubierto por el capítulo piloto, no se repite.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:6815de7` (Aplicar) | $n=100,\mu=800,\sigma=300$: $E(T)=80000$, $\Var(T)=9\times10^6$, $\mathrm{DE}(T)=3000$, $Z=5/3$ | A | ✅ Cierra (`prob_6815de7`); $\Phi(5/3)\approx0.9522$ Tier C, `verification/scipy/distribuciones_muestrales_medias/numeric_checks.py` |
+| `prob:2e2f544` (Crear) | $\sigma=1.2,n=64$: $\mathrm{DE}(\bar X)=0.15$, $Z=2$ | A | ✅ Cierra (`prob_2e2f544`); $\Phi(2)\approx0.9772$ Tier C, mismo script |
+
+Ningún error matemático encontrado — todos los valores numéricos coinciden con el libro.
+
+### Verificación EN por diff
+
+Etiquetas: sin divergencias. Literales numéricos: diff bruto muestra ruido por notación de miles (ES usa `85{,}000`/`9{,}000{,}000`, tokenizado como "85"+"000" por el separador `{,}`; EN escribe `85000`/`9000000` sin separador) — se verificó manualmente que los VALORES son idénticos en ambos idiomas (85000, 80000, 9000000, etc.), solo difiere la convención tipográfica de separador de miles entre ES y EN. Sin divergencias numéricas reales.
+
+## Estado del build (acumulado)
+
+`lake build`: **✅ éxito, 3452/3452 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionesMuestralesMedias.lean` (2 teoremas) y `DistribucionesMuestralesMediasProblemas.lean` (2 teoremas) además de los 41 archivos previos, más `verification/scipy/distribuciones_muestrales_medias/numeric_checks.py`.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribuciones_muestrales_medias`. Commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos ocho capítulos procesados desde entonces (`variables_discretas_ciencia_datos` hasta `distribuciones_funciones_variable_aleatoria`) añadió hallazgos nuevos.
+Continuar capítulo por capítulo en el orden de `\input` del libro, agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_muestral_chi_cuadrada`. Commits al final de cada capítulo, sin pausar a reportar entre ellos (instrucción explícita del usuario). Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ninguno de los últimos nueve capítulos procesados desde entonces (`variables_discretas_ciencia_datos` hasta `distribuciones_muestrales_medias`) añadió hallazgos nuevos.
