@@ -436,8 +436,50 @@ Nota técnica nueva de este capítulo (primero con series infinitas, `tsum`/`Has
 
 ---
 
+## Capítulo: `distribucion_hipergeometrica` (teoría)
+
+Sin entornos `teorema`. Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionHipergeometrica.lean`. $\mu_X=nK/N$ se prueba en general — Tier B — **reutilizando directamente** `absorcion_binomial` (de `distribucion_binomial`) y `vandermonde_binomial` (de `distribucion_binomial(p)`), sin ninguna identidad nueva: es el mismo patrón absorción+Vandermonde ya construido, aplicado aquí a un producto de dos coeficientes binomiales en vez de uno solo. $\sigma^2_X$ se verifica por la ruta algebraica que el propio `prob:64e9a8d` usa (combinar $\mathrm{Var}(I_i)$ y $\mathrm{Cov}(I_i,I_j)$, dados por el libro, en la fórmula cerrada) — identidad de álgebra pura, sin necesidad de la infraestructura de covarianza Tier D que quedó pendiente en `distribucion_multinomial`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `exmp:2.10.16` — lote $N=20,K=5,n=4$: $P(X=2)=1050/4845\approx0.2167$ | A | ✅ Cierra |
+| `exmp:2.10.17` — póker $N=52,K=4,n=5$: $P(X=3)=4512/2598960\approx0.00174$ | A | ✅ Cierra |
+| $\mu_X=nK/N$ | B | ✅ Cierra (`esperanza_hipergeometrica`, vía `suma_k_hipergeometrica` + `absorcion_Nn`, ambas reutilizando lemas de `distribucion_binomial`) |
+| $\sigma^2_X=n\frac KN(1-\frac KN)\frac{N-n}{N-1}$ | B | ✅ Cierra (`varianza_hipergeometrica_algebra`, álgebra pura combinando $\mathrm{Var}(I_i)$/$\mathrm{Cov}(I_i,I_j)$ dados por el libro) |
+
+Ningún error matemático encontrado.
+
+## Capítulo: `distribucion_hipergeometrica` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionHipergeometricaProblemas.lean`.
+
+**🔴 Dos hallazgos numéricos menores confirmados** (verificados independientemente con Python `fractions.Fraction` antes de escribir las pruebas de Lean; ambos parecen transposiciones de dígitos, no errores conceptuales):
+- `prob:7cf587b`: el libro afirma $P(X=2)\approx0.189725$ para $\mathrm{Hiper}(2000,100,20)$; **el valor correcto es $\approx0.189525$** (dígitos "5"/"7" intercambiados). La aproximación binomial $P(Y=2)\approx0.188677$ que el libro también da SÍ es correcta. La conclusión cualitativa del problema (la aproximación es apropiada) no cambia.
+- `prob:969b25a`: el libro afirma $\mathrm{Var}(X)\approx1.5254$ para $N=200,K=25,n=15$; **el valor correcto es $\approx1.5252$** (dígitos "52"/"54" intercambiados) — $19425/12736=1.5252041\ldots$ exacto. El factor intermedio $1.640625$ que el libro muestra es correcto; el error está solo en el redondeo final.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:748a77d` (Recordar) | Recordar la PMF hipergeométrica | — | No formalizado por separado, ya cubierto en la teoría |
+| `prob:5e6e8bf` (Comprender) | Casos límite del FPCF: $n=1\Rightarrow1$; $n=N\Rightarrow0$ | A | ✅ Cierra |
+| `prob:1651c98` (Aplicar) | Lote $N=30,K=6,n=5$: $P(X=0)\approx0.2983$, $P(X\le1)\approx0.7457$ | A | ✅ Cierra |
+| `prob:64e9a8d` (Analizar) | Partes 1–2: pasos de derivación en prosa/símbolos. Parte 3: combinar en $\mathrm{Var}(X)$ | B | Partes 1–2 no formalizadas (sin número aislado que verificar); parte 3 = `varianza_hipergeometrica_algebra` de la teoría, no repetida |
+| `prob:7cf587b` (Evaluar) | $N=2000,K=100,n=20$: regla $n/N<0.05$; $P(X=2)$, $P(Y=2)$ | A/C | ✅ Regla y $P(Y=2)$ cierran en Lean. $P(X=2)$ exacto es **Tier C** — $\binom{2000}{20}$ agota `maxHeartbeats` en `norm_num [Nat.choose]` (no infactible, solo demasiado lento aquí) — verificado en `verification/scipy/distribucion_hipergeometrica/prob_7cf587b.py`. 🔴 Ver hallazgo arriba |
+| `prob:969b25a` (Crear) | $N=200,K=25,n=15$: $E[X]=1.875$, $\mathrm{Var}(X)\approx1.5254$ | A | ✅ $E[X]$ cierra. 🔴 Ver hallazgo arriba para $\mathrm{Var}(X)$ |
+
+### Verificación EN por diff
+
+Etiquetas y literales numéricos coinciden exactamente entre ES y EN — incluyendo que **ambos idiomas comparten los mismos dos valores incorrectos**, confirmando que son errores de la fuente compartida, no introducidos en la traducción.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3023/3023 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionHipergeometrica.lean` (6 teoremas) y `DistribucionHipergeometricaProblemas.lean` (3 teoremas) además de los 19 archivos previos, más el script `verification/scipy/distribucion_hipergeometrica/prob_7cf587b.py`.
+
+Nota técnica nueva de este capítulo: (1) `norm_num [Nat.choose]` (que unfoldea `Nat.choose` recursivamente vía simp) es tratable para argumentos hasta unos pocos cientos (`C(100,·)`, `C(200,·)` — usados en capítulos previos y en este mismo capítulo sin problema) pero **agota `maxHeartbeats` para `C(2000,20)`** incluso subiendo `maxRecDepth` — a diferencia de `Nat.factorial` (que sí escaló a $100!$ sin problema en `distribucion_multinomial`), `Nat.choose` no parece tener una ruta de evaluación tan eficiente en `norm_num`/`simp` para argumentos grandes. Ante un timeout así (no un error de lógica), la opción correcta es Tier C con un script Python de `fractions.Fraction` (aritmética racional exacta, no de punto flotante) en vez de forzar más el `set_option maxRecDepth`/`maxHeartbeats`. (2) un comentario `/-- ... -/` (doc-comment) **debe** preceder una declaración — si se elimina el teorema pero se deja el comentario como nota independiente, usar `/-! ... -/` (comentario de módulo) en su lugar, o falla el parser con "unexpected token; expected 'lemma'".
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_hipergeometrica`. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados, aún no resueltos):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico incorrecto de `prob:33bf5d2` (capítulo `distribucion_multinomial`).
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_poisson`. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados, aún no resueltos):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); y los dos hallazgos numéricos menores de este capítulo (`prob:7cf587b`, `prob:969b25a`).
