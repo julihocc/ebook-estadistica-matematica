@@ -666,8 +666,49 @@ Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas **y de todo
 
 ---
 
+## Capítulo: `distribucion_uniforme_continua` (teoría)
+
+Capítulo corto: PDF/CDF de $U(a,b)$ y sus dos momentos, más un ejemplo numérico. Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionUniformeContinua.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `eq:2.8.2` — CDF $F(x)=(x-a)/(b-a)$, general para $a<b$ | A | ✅ Cierra (`cdf_uniforme`) |
+| $\mu_X=(a+b)/2$, general | B | ✅ Cierra (`media_uniforme`) |
+| $\sigma_X^2=(b-a)^2/12$, general | B | ✅ Cierra (`varianza_uniforme`, factorizando la constante $1/(b-a)$ antes de expandir el polinomio) |
+| `exmp:2.8.1` — $X\sim U(0,15)$: $P(X<5)=1/3$ | A | ✅ Cierra (`exmp_2_8_1_probabilidad`) |
+| `exmp:2.8.1` — $E(X)=7.5$ | A | ✅ Cierra (`exmp_2_8_1_esperanza`) |
+
+Ningún error matemático encontrado.
+
+## Capítulo: `distribucion_uniforme_continua` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/DistribucionUniformeContinuaProblemas.lean`. `prob:97c4388` (Recordar) es puramente definicional, no formalizado aparte. `prob:5794e09` (Analizar) — máxima entropía vía multiplicadores de Lagrange sobre un funcional — es Tier D (cálculo de variaciones, no formalizado).
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:9f6e77c` (Comprender) | La uniforme no tiene falta de memoria: $P(X\ge15\mid X\ge10)=0\ne2/3=P(X\ge5)$ | A | ✅ Cierra (`prob_9f6e77c`) |
+| `prob:8fcc221` (Aplicar) | $P(X<5)=1/3$, $q_{0.75}=11.25$ | A | ✅ Cierra (`prob_8fcc221`) |
+| `prob:5794e09` (Analizar) | $U(a,b)$ maximiza la entropía diferencial entre soporte $[a,b]$ | D | 🟡 No formalizado — cálculo de variaciones sobre un funcional |
+| `prob:126be41` (Evaluar) | Transformada inversa: $Y=F^{-1}(U)$ tiene CDF $F$ para cualquier $F$ estrictamente monótona (no requiere forma cerrada) | B | ✅ Cierra (`prob_126be41_transformada_inversa`, equivalencia de orden general; combinada con la CDF de $U(0,1)$ ya probada arriba da el resultado completo) |
+| `prob:126be41`, caso $\mathrm{Exp}(\lambda=2)$ | $F^{-1}(u)=-\ln(1-u)/2$ es inversa de $F(y)=1-e^{-2y}$ | B | ✅ Cierra (`prob_126be41_exponencial`) |
+| `prob:c1c6ece` (Crear) | $X\sim U(-5,5)$: $\mathbb E[X]=0$, $\mathrm{Var}(X)=100/12\approx8.33$ | A | ✅ Cierra (`prob_c1c6ece`) |
+
+Ningún error matemático encontrado — todos los valores numéricos del capítulo (teoría + problemas) coinciden con el libro.
+
+### Verificación EN por diff
+
+Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos los literales numéricos (enteros y decimales) entre ES y EN da vacío en ambos.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3430/3430 jobs, sin `sorry`, sin errores.** Incluye ahora `DistribucionUniformeContinua.lean` (5 teoremas) y `DistribucionUniformeContinuaProblemas.lean` (5 teoremas) además de los 29 archivos previos.
+
+**Nota técnica de este capítulo:** para varianzas con un factor de normalización variable (aquí $1/(b-a)$, no un literal fijo como en capítulos anteriores), es más robusto **factorizar la constante fuera de la integral primero** (`intervalIntegral.integral_const_mul`) y dejar una integral polinomial pura por dentro (sin el denominador $b-a$ mezclado en cada término), en vez de expandir todo el polinomio con el factor `1/(b-a)` ya multiplicado en cada término y luego pelear con `field_simp` en una expresión más grande — mismo principio de "simplificar antes de combinar" que ya se documentó para sumas, ahora aplicado a productos por una constante no literal. También: `continuous_id.const_mul c` dejaba `Continuous fun x => c * id x` (con `id` sin beta-reducir a `x`), rompiendo el `rw` posterior con `integral_const_mul` — usar `continuous_id'` (la versión eta-expandida, `Continuous fun a => a`) evita el problema.
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_uniforme_continua`. Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. Los tres hallazgos de `esperanza_matematica` (`exmp:2.9.1` \$30 vs \$60, `prob:f43c638` fórmula $1/\lambda^2$ vs $2/\lambda^2$, `prob:7b147c4` $n=100$ vs $n=101$) **ya fueron corregidos** en ES y EN (aprobado por el usuario), con las pruebas de Lean correspondientes actualizadas para reflejar el estado corregido — ver commits posteriores a esta entrada. **Hallazgos aún pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ni `variables_discretas_ciencia_datos` ni `variables_aleatorias_continuas` añadieron hallazgos nuevos.
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — próximo: `distribucion_normal`. Los errores confirmados se reportan aquí pero, salvo aprobación explícita del usuario por hallazgo, **no se corrigen** en el mismo pase en que se encuentran. Los tres hallazgos de `esperanza_matematica` (`exmp:2.9.1` \$30 vs \$60, `prob:f43c638` fórmula $1/\lambda^2$ vs $2/\lambda^2$, `prob:7b147c4` $n=100$ vs $n=101$) **ya fueron corregidos** en ES y EN. **Hallazgos aún pendientes de decisión del usuario sobre corrección (acumulados):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (inversión de la conclusión pedagógica). Ni `variables_discretas_ciencia_datos`, `variables_aleatorias_continuas`, ni `distribucion_uniforme_continua` añadieron hallazgos nuevos.
