@@ -551,8 +551,57 @@ Nota técnica nueva de este capítulo: `Mathlib.Data.Rat.Basic` **no existe** co
 
 ---
 
+## Capítulo: `variables_aleatorias_continuas` (teoría)
+
+**Primer capítulo con cálculo integral real** (`intervalIntegral`/`MeasureTheory.integral` sobre `ℝ`, no `Finset.sum`/`tsum`). A diferencia de capítulos previos, este archivo de teoría **no tiene bloques `solucion`** — todos los `ejemplo` (`exmp:2.7.1`–`exmp:2.7.16`) son enunciados sin resolver inline (las respuestas están en figuras referenciadas o se resuelven aparte) — no hay valores numéricos propios del libro que verificar ahí. Solo se formalizaron las dos identidades generales explícitas del texto; el resto (definiciones de PDF/CDF conjunta, marginal, condicional, independencia) es aparato definicional. Formalizado en `verification/lean_verificacion/LeanVerificacion/VariablesAleatoriasContinuas.lean`.
+
+| Afirmación | Tier | Estado |
+|---|---|---|
+| `eq:2.7.3` — $P(X=a)=0$ para v.a. continua (derivado de `eq:2.7.2` con $b=a$) | A | ✅ Cierra (`punto_probabilidad_cero`, vía `intervalIntegral.integral_same`) |
+| `eq:2.7.6` — $dF/dx=f(x)$ (Teorema Fundamental del Cálculo) | B | ✅ Cierra (`ftc_densidad`, general para cualquier $f$ continua, límite inferior fijo `a` en vez de $-\infty$ — ver nota de alcance abajo) |
+
+**Nota de alcance:** `ftc_densidad` usa un límite inferior fijo `a` (no `-\infty` como en `eq:2.7.1`/`eq:2.7.6` literalmente) — Mathlib's `intervalIntegral` estándar no cubre directamente integrales impropias con `-\infty` sin maquinaria adicional; la versión con `a` fija captura el contenido matemático central (FTC) que el libro usa. Ningún error matemático encontrado.
+
+## Capítulo: `variables_aleatorias_continuas` (problemas)
+
+Formalizado en `verification/lean_verificacion/LeanVerificacion/VariablesAleatoriasContinuasProblemas.lean`. `prob:19f62fd` (Analizar) parte (a) es la definición operacional de LOTUS especializada a $g(x)=x^2$ — tautológica, no formalizada aparte.
+
+| Label (nivel Bloom) | Afirmación | Tier | Estado |
+|---|---|---|---|
+| `prob:14b3125` (Recordar) — normalización | $\int_0^\infty e^{-x}dx=1\Rightarrow c=1$ | A | ✅ Cierra (`prob_14b3125_normalizacion`, vía `integral_exp_neg_Ioi_zero`) |
+| `prob:14b3125` — $P(1\le X\le3)$ | $=e^{-1}-e^{-3}$, forma exacta | B | ✅ Cierra (`prob_14b3125_probabilidad`); evaluación decimal ($\approx0.3181$) Tier C, confirmada en `verification/scipy/variables_aleatorias_continuas/prob_14b3125_61a9dd8.py` |
+| `prob:14b3125` — CDF | $F(x)=1-e^{-x}$, $x\geq0$ | B | ✅ Cierra (`prob_14b3125_cdf`) |
+| `prob:287c45c` (Comprender) — CDF | $F(x)=x^2$, $0\le x\le1$ | A | ✅ Cierra (`prob_287c45c_cdf`) |
+| `prob:287c45c` — $P(0.3\le X\le0.7)$ | $=0.7^2-0.3^2=0.4$ | A | ✅ Cierra (`prob_287c45c_probabilidad`, exacto en ℝ) |
+| `prob:61a9dd8` (Aplicar) — $q_{0.90}$ | $q_{0.90}=5\ln10$ satisface $1-e^{-0.2q}=0.9$ exactamente | B | ✅ Cierra (`prob_61a9dd8_q90`); decimal ($\approx11.51$) Tier C |
+| `prob:61a9dd8` — $t$ (95%) | $t=-5\ln(0.05)$ satisface $1-e^{-0.2t}=0.95$ exactamente | B | ✅ Cierra (`prob_61a9dd8_t`); decimal ($\approx14.98$) Tier C |
+| `prob:61a9dd8` — $P(X\le3)$, $P(X\ge10)$ | $\approx0.4512$, $\approx0.1353$ | C | ✅ Confirmado numéricamente, mismo script |
+| `prob:19f62fd` (Analizar) — LOTUS/varianza | $\mathrm{Var}(X)=\mathbb E[X^2]-(\mathbb E[X])^2$, general | B | ✅ Cierra (`prob_19f62fd_varianza`, análogo continuo de `konig_huygens` de `variables_aleatorias_discretas`, momentos como hipótesis) |
+| `prob:8ec7e10` (Evaluar) — prueba KS | $\sqrt{50}\cdot0.18\approx1.273<1.358=K_{0.95}\Rightarrow$ no rechazar $H_0$ | A/B | ✅ Cierra (`prob_8ec7e10_ks`, cota exacta vía `Real.sqrt_lt'`, sin aproximación decimal) |
+| `prob:0d490fc` (Crear) — normalización Pareto | $\int_1^\infty x^{-2}dx=1\Rightarrow k=1$ | B | ✅ Cierra (`prob_0d490fc_normalizacion`, vía `integral_Ioi_rpow_of_lt`) |
+| `prob:0d490fc` — $P(1\le X\le2)$ | $=1/2$ exacto | A | ✅ Cierra (`prob_0d490fc_probabilidad`, vía `integral_zpow`) |
+
+Ningún error matemático encontrado — los cinco valores decimales del capítulo (los dos de `prob:14b3125`, los cuatro de `prob:61a9dd8`) coinciden todos con el libro dentro de su propio redondeo declarado.
+
+### Verificación EN por diff
+
+Sin divergencias en ninguno de los dos archivos: `diff` de etiquetas y de todos los literales decimales entre ES y EN da vacío en ambos.
+
+## Estado del build (acumulado)
+
+`lake build` en `verification/lean_verificacion/` (Lean 4.32.2, Mathlib pin `v4.32.2`): **✅ éxito, 3426/3426 jobs, sin `sorry`, sin errores.** Incluye ahora `VariablesAleatoriasContinuas.lean` (2 teoremas) y `VariablesAleatoriasContinuasProblemas.lean` (11 teoremas) además de los 25 archivos previos, más `verification/scipy/variables_aleatorias_continuas/prob_14b3125_61a9dd8.py`.
+
+**Notas técnicas nuevas de este capítulo (primero con `intervalIntegral`/`MeasureTheory.integral`):**
+- `MeasureTheory.integral_const_mul` e `intervalIntegral.integral_const_mul` comparten el mismo nombre base en namespaces distintos — si ambos namespaces están `open` a la vez, `integral_const_mul` sin calificar es **ambiguo** (error de elaboración, no de matemática) — hay que calificar explícitamente (`MeasureTheory.integral_const_mul`/`intervalIntegral.integral_const_mul`) en vez de confiar en `open`.
+- Para combinar sumas/restas de integrales con `rw [integral_add ..., integral_sub ...]`, sigue aplicando la misma lección de capítulos anteriores (`tsum`/`HasSum`): reescribir primero el integrando a la forma exacta que espera el combinador vía un `have heq : (fun x => ...) = (fun x => ...) := by funext x; ring`, no intentar `simp_rw`/`ring_nf` directo sobre la integral.
+- Mathlib tiene exactamente el paquete de lemas necesario para integrales impropias tipo Pareto/exponencial: `integral_exp_neg_Ioi`/`integral_exp_neg_Ioi_zero` (`Mathlib.Analysis.SpecialFunctions.ImproperIntegrals`) y `integral_Ioi_rpow_of_lt` (mismo archivo, **sin** namespace `Real.` — nombre raíz) para $\int_c^\infty x^a dx$ con $a<-1$, $c>0$. Para intervalos finitos, `Analysis.SpecialFunctions.Integrals.Basic` tiene `integral_pow`/`integral_zpow`/`integral_rpow`/`integral_exp`/`integral_id`.
+- `Continuous.integral_hasStrictDerivAt` (`Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus`) da el Teorema Fundamental del Cálculo "gratis" para cualquier `f` continua — no hace falta reconstruirlo desde `intervalIntegral.integral_hasDerivAt_right` a mano.
+- Al probar identidades de logaritmo/exponencial con literales decimales (ej. `-(0.2*(-5*log 0.05)) = log 0.05`), `ring` sí simplifica los coeficientes decimales correctamente — pero hay que darle la ecuación exacta que necesita el `rw` siguiente (incluyendo cualquier negación externa), no una forma parcial; un error de signo aquí produce un `ring` que falla de forma confusa (parece un error de tactic, es un error de álgebra en el enunciado del `have`).
+
+---
+
 ## Próximos pasos
 
 **Nota de cobertura — capítulos aún no procesados que preceden al piloto en el orden real de `\input` del libro:** `introduccion_estadistica_descriptiva`, `medidas_tendencia_central`, `medidas_dispersion` (1 `propiedad` detectada), `introduccion_probabilidad`, `conjuntos` — y sus 5 pares `(p)` — se saltaron deliberadamente porque el piloto se eligió por ser el capítulo más rico en axiomas, no por ser el primero del libro. Quedan pendientes de una pasada posterior; hasta entonces esta bitácora no representa cobertura completa de principio a fin, solo de los capítulos listados arriba.
 
-Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — `variables_discretas_ciencia_datos` cierra la Unidad 2 del temario (distribuciones discretas); próximo: `variables_aleatorias_continuas`, inicio de la Unidad 3. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados, aún no resueltos):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (el más sustancial hasta ahora después del de `distribucion_multinomial`: invierte la conclusión pedagógica del problema). `variables_discretas_ciencia_datos` no añadió hallazgos nuevos.
+Continuar capítulo por capítulo en el orden de `\input` del libro (archivo de teoría, luego su par `(p)`), agregando una entrada a esta misma bitácora por capítulo, sin volver a preguntar en cada nuevo lote — `variables_aleatorias_continuas` abre la Unidad 3 del temario (variables continuas); próximo: `esperanza_matematica`. Los errores confirmados se reportan aquí pero **no se corrigen** en este pase — la corrección de `.tex` es un paso posterior que requiere aprobación explícita por hallazgo. **Hallazgos pendientes de decisión del usuario sobre corrección (acumulados, aún no resueltos):** la fórmula sin factorial de `eq:2.10.8` y el valor numérico de `prob:33bf5d2` (`distribucion_multinomial`); los dos hallazgos numéricos menores de `distribucion_hipergeometrica` (`prob:7cf587b`, `prob:969b25a`); y los dos de `distribucion_poisson`, **especialmente `prob:5e9408a`** (el más sustancial hasta ahora después del de `distribucion_multinomial`: invierte la conclusión pedagógica del problema). Ni `variables_discretas_ciencia_datos` ni `variables_aleatorias_continuas` añadieron hallazgos nuevos.
